@@ -1,0 +1,43 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Contest": {
+      "Id": "",
+      "Date": {
+        "Seconds": 1608681600,
+        "Nanos": 0
+      },
+      "Description": {
+        "de": "test de",
+        "fr": "test fr",
+        "it": "test it",
+        "rm": "test rm"
+      },
+      "EndOfTestingPhase": {
+        "Seconds": 1608595200,
+        "Nanos": 0
+      },
+      "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+      "EVoting": false,
+      "EVotingFrom": null,
+      "EVotingTo": null,
+      "State": 1,
+      "PreviousContestId": ""
+    }
+  }
+}

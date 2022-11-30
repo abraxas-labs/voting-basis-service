@@ -1,0 +1,37 @@
+{
+  "ProportionalElectionUnionLists_": [
+    {
+      "OrderNumber": "1a",
+      "ShortDescription": {
+        "de": "Liste 1 de",
+        "fr": "Liste 1 fr",
+        "it": "Liste 1 it",
+        "rm": "Liste 1 rm"
+      },
+      "PoliticalBusinessNumbers": "155 321",
+      "ListCount": 2
+    },
+    {
+      "OrderNumber": "2",
+      "ShortDescription": {
+        "de": "Liste 2 de",
+        "fr": "Liste 2 fr",
+        "it": "Liste 2 it",
+        "rm": "Liste 2 rm"
+      },
+      "PoliticalBusinessNumbers": "321",
+      "ListCount": 1
+    },
+    {
+      "OrderNumber": "3a",
+      "ShortDescription": {
+        "de": "Liste 3 de",
+        "fr": "Liste 3 fr",
+        "it": "Liste 3 it",
+        "rm": "Liste 3 rm"
+      },
+      "PoliticalBusinessNumbers": "321",
+      "ListCount": 1
+    }
+  ]
+}

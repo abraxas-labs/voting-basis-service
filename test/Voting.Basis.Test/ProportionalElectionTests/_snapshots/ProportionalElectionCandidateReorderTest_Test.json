@@ -1,0 +1,38 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "ProportionalElectionListId": "9091a3b6-3785-4adc-a486-f486e686503e",
+    "CandidateOrders": {
+      "Orders": [
+        {
+          "Id": "8b4837a9-c3ba-4ec5-9e50-536a9b4347a9",
+          "Position": 2
+        },
+        {
+          "Id": "9efe090f-883b-4e86-89c2-cd132ea84cbd",
+          "Position": 1
+        },
+        {
+          "Id": "8b4837a9-c3ba-4ec5-9e50-536a9b4347a9",
+          "Position": 3
+        }
+      ]
+    },
+    "ProportionalElectionId": "fa69e964-0a02-4d16-b417-247e8987021a"
+  }
+}

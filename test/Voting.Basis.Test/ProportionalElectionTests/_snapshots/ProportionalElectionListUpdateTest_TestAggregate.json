@@ -1,0 +1,33 @@
+{
+  "Id": "afebb285-599d-415f-89ac-04ebcbc4eaeb",
+  "ProportionalElectionId": "8fd00ee5-cc68-4b33-86b0-cc9c58dc1b1f",
+  "OrderNumber": "o2",
+  "ShortDescription": {
+    "de": "Updated s.d. <script>alert(\"hi\");</script> de",
+    "fr": "Updated s.d. <script>alert(\"hi\");</script> fr",
+    "it": "Updated s.d. <script>alert(\"hi\");</script> it",
+    "rm": "Updated s.d. <script>alert(\"hi\");</script> rm"
+  },
+  "BlankRowCount": 2,
+  "Position": 1,
+  "Description": {
+    "de": "Updated list de",
+    "fr": "Updated list fr",
+    "it": "Updated list it",
+    "rm": "Updated list rm"
+  },
+  "CountOfCandidates": 0,
+  "CandidateCountOk": false,
+  "ListUnionDescription": {
+    "de": "<span><span>Liste 1 de</span>, <span>Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; de</span>, <span>Liste 2 de</span></span>",
+    "fr": "<span><span>Liste 1 fr</span>, <span>Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; fr</span>, <span>Liste 2 fr</span></span>",
+    "it": "<span><span>Liste 1 it</span>, <span>Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; it</span>, <span>Liste 2 it</span></span>",
+    "rm": "<span><span>Liste 1 rm</span>, <span>Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; rm</span>, <span>Liste 2 rm</span></span>"
+  },
+  "SubListUnionDescription": {
+    "de": "<span><span class=\"main-list\">Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; de</span>, <span>Liste 2 de</span></span>",
+    "fr": "<span><span class=\"main-list\">Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; fr</span>, <span>Liste 2 fr</span></span>",
+    "it": "<span><span class=\"main-list\">Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; it</span>, <span>Liste 2 it</span></span>",
+    "rm": "<span><span class=\"main-list\">Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; rm</span>, <span>Liste 2 rm</span></span>"
+  }
+}

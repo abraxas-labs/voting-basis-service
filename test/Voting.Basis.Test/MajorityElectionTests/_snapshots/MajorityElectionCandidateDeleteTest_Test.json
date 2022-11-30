@@ -1,0 +1,20 @@
+{
+  "EventInfo": {
+    "User": {
+      "Id": "default-user-id",
+      "Username": "default username",
+      "FirstName": "default user firstname",
+      "LastName": "default user lastname"
+    },
+    "Tenant": {
+      "Id": "000000000000000000",
+      "Name": "Default"
+    },
+    "Timestamp": {
+      "Seconds": 1578661930,
+      "Nanos": 200000000
+    }
+  },
+  "MajorityElectionCandidateId": "1228f95d-8b39-44b1-8cc3-84a93f5e3bbc",
+  "MajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e"
+}

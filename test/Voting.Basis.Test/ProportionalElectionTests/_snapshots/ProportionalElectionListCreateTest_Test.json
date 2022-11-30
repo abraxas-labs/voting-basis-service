@@ -1,0 +1,39 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "ProportionalElectionList": {
+      "Id": "",
+      "ProportionalElectionId": "06f7ecb7-e175-4c3b-9ea5-cfc138d08278",
+      "OrderNumber": "o1",
+      "ShortDescription": {
+        "de": "Juso de",
+        "fr": "Juso fr",
+        "it": "Juso it",
+        "rm": "Juso rm"
+      },
+      "BlankRowCount": 0,
+      "Position": 1,
+      "Description": {
+        "de": "Created list de",
+        "fr": "Created list fr",
+        "it": "Created list it",
+        "rm": "Created list rm"
+      }
+    }
+  }
+}

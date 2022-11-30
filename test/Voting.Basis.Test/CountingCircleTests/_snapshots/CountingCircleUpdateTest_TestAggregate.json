@@ -1,0 +1,356 @@
+{
+  "CountingCircles_": [
+    {
+      "Id": "eea024ee-7f93-4a58-9e7d-6e6b0c11b723",
+      "Name": "Bund",
+      "Bfs": "1",
+      "ResponsibleAuthority": {
+        "SecureConnectId": "random",
+        "Name": "",
+        "Street": "",
+        "Zip": "",
+        "City": "",
+        "Phone": "",
+        "Email": ""
+      },
+      "ContactPersonDuringEvent": {
+        "FirstName": "",
+        "FamilyName": "",
+        "Phone": "",
+        "MobilePhone": "",
+        "Email": ""
+      },
+      "ContactPersonSameDuringEventAsAfter": false,
+      "ContactPersonAfterEvent": {
+        "FirstName": "",
+        "FamilyName": "",
+        "Phone": "",
+        "MobilePhone": "",
+        "Email": ""
+      },
+      "State": 1,
+      "Info": {
+        "CreatedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "ModifiedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "DeletedOn": null
+      },
+      "Code": "1_code",
+      "SortNumber": 1,
+      "NameForProtocol": ""
+    },
+    {
+      "Id": "0bb8d89c-d387-40d0-83cf-84e118a8d524",
+      "Name": "Gossau",
+      "Bfs": "3443",
+      "ResponsibleAuthority": {
+        "SecureConnectId": "300300300300300300",
+        "Name": "",
+        "Street": "",
+        "Zip": "",
+        "City": "",
+        "Phone": "",
+        "Email": ""
+      },
+      "ContactPersonDuringEvent": {
+        "FirstName": "",
+        "FamilyName": "",
+        "Phone": "",
+        "MobilePhone": "",
+        "Email": ""
+      },
+      "ContactPersonSameDuringEventAsAfter": false,
+      "ContactPersonAfterEvent": {
+        "FirstName": "",
+        "FamilyName": "",
+        "Phone": "",
+        "MobilePhone": "",
+        "Email": ""
+      },
+      "State": 1,
+      "Info": {
+        "CreatedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "ModifiedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "DeletedOn": null
+      },
+      "Code": "3443c",
+      "SortNumber": 9001,
+      "NameForProtocol": "Stadt Gossau"
+    },
+    {
+      "Id": "3ec3d50c-6cb7-4ba1-bd1a-2882153834b0",
+      "Name": "Jona",
+      "Bfs": "none",
+      "ResponsibleAuthority": {
+        "SecureConnectId": "random",
+        "Name": "",
+        "Street": "",
+        "Zip": "",
+        "City": "",
+        "Phone": "",
+        "Email": ""
+      },
+      "ContactPersonDuringEvent": {
+        "FirstName": "",
+        "FamilyName": "",
+        "Phone": "",
+        "MobilePhone": "",
+        "Email": ""
+      },
+      "ContactPersonSameDuringEventAsAfter": false,
+      "ContactPersonAfterEvent": {
+        "FirstName": "Hans-sg",
+        "FamilyName": "Muster-sg",
+        "Phone": "071 123 12 21",
+        "MobilePhone": "071 123 12 31",
+        "Email": "jona@abraxas.ch"
+      },
+      "State": 1,
+      "Info": {
+        "CreatedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "ModifiedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "DeletedOn": null
+      },
+      "Code": "nonec",
+      "SortNumber": 9005,
+      "NameForProtocol": "Stadt Jona"
+    },
+    {
+      "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a4e",
+      "Name": "Kirche Uzwil",
+      "Bfs": "none",
+      "ResponsibleAuthority": {
+        "SecureConnectId": "kirche-uzwil-010000",
+        "Name": "",
+        "Street": "",
+        "Zip": "",
+        "City": "",
+        "Phone": "",
+        "Email": ""
+      },
+      "ContactPersonDuringEvent": {
+        "FirstName": "",
+        "FamilyName": "",
+        "Phone": "",
+        "MobilePhone": "",
+        "Email": ""
+      },
+      "ContactPersonSameDuringEventAsAfter": false,
+      "ContactPersonAfterEvent": {
+        "FirstName": "",
+        "FamilyName": "",
+        "Phone": "",
+        "MobilePhone": "",
+        "Email": ""
+      },
+      "State": 1,
+      "Info": {
+        "CreatedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "ModifiedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "DeletedOn": null
+      },
+      "Code": "nonec",
+      "SortNumber": 21500,
+      "NameForProtocol": "Kirche Uzwil"
+    },
+    {
+      "Id": "c375f97a-0ba2-4a93-8c76-08a0661d9962",
+      "Name": "Kirche Uzwil Andere",
+      "Bfs": "none",
+      "ResponsibleAuthority": {
+        "SecureConnectId": "kirche-uzwil-010000",
+        "Name": "",
+        "Street": "",
+        "Zip": "",
+        "City": "",
+        "Phone": "",
+        "Email": ""
+      },
+      "ContactPersonDuringEvent": {
+        "FirstName": "",
+        "FamilyName": "",
+        "Phone": "",
+        "MobilePhone": "",
+        "Email": ""
+      },
+      "ContactPersonSameDuringEventAsAfter": false,
+      "ContactPersonAfterEvent": {
+        "FirstName": "",
+        "FamilyName": "",
+        "Phone": "",
+        "MobilePhone": "",
+        "Email": ""
+      },
+      "State": 1,
+      "Info": {
+        "CreatedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "ModifiedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "DeletedOn": null
+      },
+      "Code": "none_uc",
+      "SortNumber": 21500,
+      "NameForProtocol": "Kirche Uzwil Andere"
+    },
+    {
+      "Id": "2a3a799a-2437-47da-86fe-06decf70a267",
+      "Name": "Rapperswil",
+      "Bfs": "none",
+      "ResponsibleAuthority": {
+        "SecureConnectId": "random",
+        "Name": "",
+        "Street": "",
+        "Zip": "",
+        "City": "",
+        "Phone": "",
+        "Email": ""
+      },
+      "ContactPersonDuringEvent": {
+        "FirstName": "",
+        "FamilyName": "",
+        "Phone": "",
+        "MobilePhone": "",
+        "Email": ""
+      },
+      "ContactPersonSameDuringEventAsAfter": true,
+      "ContactPersonAfterEvent": {
+        "FirstName": "Hans-sg",
+        "FamilyName": "Muster-sg",
+        "Phone": "071 123 12 21",
+        "MobilePhone": "071 123 12 31",
+        "Email": "rapperswil@abraxas.ch"
+      },
+      "State": 1,
+      "Info": {
+        "CreatedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "ModifiedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "DeletedOn": null
+      },
+      "Code": "nonec",
+      "SortNumber": 9004,
+      "NameForProtocol": "Stadt Rapperswil"
+    },
+    {
+      "Id": "1e2e062e-288d-4347-9f22-224e69b95bed",
+      "Name": "St. Gallen-2",
+      "Bfs": "55002",
+      "ResponsibleAuthority": {
+        "SecureConnectId": "123444",
+        "Name": "St. Gallen2",
+        "Street": "WerkstrasseSG",
+        "Zip": "9000",
+        "City": "MyCitysg",
+        "Phone": "072 123 12 20",
+        "Email": "sg2@abraxas.ch"
+      },
+      "ContactPersonDuringEvent": {
+        "FirstName": "Hans-sg2",
+        "FamilyName": "Muster-sg2",
+        "Phone": "072 123 12 21",
+        "MobilePhone": "072 123 12 31",
+        "Email": "sg2@abraxas.ch"
+      },
+      "ContactPersonSameDuringEventAsAfter": false,
+      "ContactPersonAfterEvent": {
+        "FirstName": "Rudolph-sg2",
+        "FamilyName": "Wichtig-sg2",
+        "Phone": "072 123 12 22",
+        "MobilePhone": "072 123 12 33",
+        "Email": "sg2@abraxas.ch"
+      },
+      "State": 1,
+      "Info": {
+        "CreatedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "ModifiedOn": {
+          "Seconds": 1594980476,
+          "Nanos": 0
+        },
+        "DeletedOn": null
+      },
+      "Code": "",
+      "SortNumber": 102,
+      "NameForProtocol": "St. Gallen updated"
+    },
+    {
+      "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e",
+      "Name": "Uzwil-2",
+      "Bfs": "1234-2",
+      "ResponsibleAuthority": {
+        "SecureConnectId": "000000000000000000",
+        "Name": "Uzwil-2",
+        "Street": "WerkstrasseX",
+        "Zip": "9200",
+        "City": "MyCityX",
+        "Phone": "072 123 12 20",
+        "Email": "uzwil-test2@abraxas.ch"
+      },
+      "ContactPersonDuringEvent": {
+        "FirstName": "Hans-2",
+        "FamilyName": "Muster-2",
+        "Phone": "072 123 12 21",
+        "MobilePhone": "072 123 12 31",
+        "Email": "uzwil-test-2@abraxas.ch"
+      },
+      "ContactPersonSameDuringEventAsAfter": false,
+      "ContactPersonAfterEvent": {
+        "FirstName": "Rudolph-2",
+        "FamilyName": "Wichtig-2",
+        "Phone": "072 123 12 22",
+        "MobilePhone": "072 123 12 33",
+        "Email": "uzwil-test22@abraxas.ch"
+      },
+      "State": 1,
+      "Info": {
+        "CreatedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "ModifiedOn": {
+          "Seconds": 1594980476,
+          "Nanos": 0
+        },
+        "DeletedOn": null
+      },
+      "Code": "Code234",
+      "SortNumber": 101,
+      "NameForProtocol": "Uzwil updated"
+    }
+  ]
+}

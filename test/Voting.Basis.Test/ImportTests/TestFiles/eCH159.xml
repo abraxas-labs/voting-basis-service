@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<eCH-0159:delivery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                   xmlns:eCH-0159="http://www.ech.ch/xmlns/eCH-0159/4"
+                   xmlns:eCH-0058="http://www.ech.ch/xmlns/eCH-0058/5"
+                   xsi:schemaLocation="http://www.ech.ch/xmlns/eCH-0159/4 http://www.ech.ch/xmlns/eCH-0159/4/eCH-0159-4-0.xsd">
+  <eCH-0159:deliveryHeader>
+    <eCH-0058:senderId>ABX-DEV</eCH-0058:senderId>
+    <eCH-0058:messageId>51141c4d7919481ab3cad6c77ff09398</eCH-0058:messageId>
+    <eCH-0058:messageType>eCH-0157</eCH-0058:messageType>
+    <eCH-0058:sendingApplication>
+      <eCH-0058:manufacturer>Abraxas Informatik AG</eCH-0058:manufacturer>
+      <eCH-0058:product>Voting.Basis</eCH-0058:product>
+      <eCH-0058:productVersion>0.0.1-dev</eCH-0058:productVersion>
+    </eCH-0058:sendingApplication>
+    <eCH-0058:messageDate>2020-04-12T00:00:00Z</eCH-0058:messageDate>
+    <eCH-0058:action>1</eCH-0058:action>
+    <eCH-0058:testDeliveryFlag>true</eCH-0058:testDeliveryFlag>
+  </eCH-0159:deliveryHeader>
+  <eCH-0159:initialDelivery>
+    <eCH-0159:contest xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+      <eCH-0155:contestIdentification>95825eb0-0f52-461a-a5f8-23fb35fa69e1</eCH-0155:contestIdentification>
+      <eCH-0155:contestDate>2020-08-31</eCH-0155:contestDate>
+      <eCH-0155:contestDescription>
+        <eCH-0155:contestDescriptionInfo>
+          <eCH-0155:language>de</eCH-0155:language>
+          <eCH-0155:contestDescription>Kantonsurnengang</eCH-0155:contestDescription>
+        </eCH-0155:contestDescriptionInfo>
+      </eCH-0155:contestDescription>
+      <eCH-0155:eVotingPeriod>
+        <eCH-0155:eVotingPeriodFrom>2020-02-20T02:00:00Z</eCH-0155:eVotingPeriodFrom>
+        <eCH-0155:eVotingPeriodTill>2020-03-01T02:00:00Z</eCH-0155:eVotingPeriodTill>
+      </eCH-0155:eVotingPeriod>
+    </eCH-0159:contest>
+    <!-- eCH vote with two ballots, which should result in two VOTING votes with a ballot each -->
+    <eCH-0159:voteInformation>
+      <eCH-0159:vote xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+        <eCH-0155:voteIdentification>f69b3543-ccee-467d-9cde-56941f6e4bad</eCH-0155:voteIdentification>
+        <eCH-0155:domainOfInfluenceIdentification>eae2cfaf-c787-48b9-a108-c975b0a580da
+        </eCH-0155:domainOfInfluenceIdentification>
+        <eCH-0155:voteDescription>
+          <eCH-0155:voteDescriptionInfo>
+            <eCH-0155:language>de</eCH-0155:language>
+            <eCH-0155:voteDescription>Abstimmung Bund</eCH-0155:voteDescription>
+          </eCH-0155:voteDescriptionInfo>
+        </eCH-0155:voteDescription>
+      </eCH-0159:vote>
+      <eCH-0159:ballot xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+        <eCH-0155:ballotIdentification>512bb3a2-97e2-4779-ac51-83abd039afc4</eCH-0155:ballotIdentification>
+        <eCH-0155:ballotPosition>1</eCH-0155:ballotPosition>
+        <eCH-0155:ballotDescription>
+          <eCH-0155:ballotDescriptionInfo>
+            <eCH-0155:language>de</eCH-0155:language>
+            <eCH-0155:ballotDescriptionLong>Abstimmung auf Bundesebene 1</eCH-0155:ballotDescriptionLong>
+            <eCH-0155:ballotDescriptionShort>Abstimmung Bund 1</eCH-0155:ballotDescriptionShort>
+          </eCH-0155:ballotDescriptionInfo>
+        </eCH-0155:ballotDescription>
+        <eCH-0155:standardBallot>
+          <eCH-0155:questionIdentification>b86d3fb0-0a01-46cd-a616-c559bb17c57b</eCH-0155:questionIdentification>
+          <eCH-0155:ballotQuestionNumber>1</eCH-0155:ballotQuestionNumber>
+          <eCH-0155:ballotQuestion>
+            <eCH-0155:ballotQuestionInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:ballotQuestion>Frage Bund1</eCH-0155:ballotQuestion>
+            </eCH-0155:ballotQuestionInfo>
+          </eCH-0155:ballotQuestion>
+        </eCH-0155:standardBallot>
+      </eCH-0159:ballot>
+      <eCH-0159:ballot xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+        <eCH-0155:ballotIdentification>81393e86-9a42-47d4-9e2d-4165d36a7df1</eCH-0155:ballotIdentification>
+        <eCH-0155:ballotPosition>2</eCH-0155:ballotPosition>
+        <eCH-0155:ballotDescription>
+          <eCH-0155:ballotDescriptionInfo>
+            <eCH-0155:language>de</eCH-0155:language>
+            <eCH-0155:ballotDescriptionLong>Abstimmung auf Bundesebene 2</eCH-0155:ballotDescriptionLong>
+            <eCH-0155:ballotDescriptionShort>Abstimmung Bund 2</eCH-0155:ballotDescriptionShort>
+          </eCH-0155:ballotDescriptionInfo>
+        </eCH-0155:ballotDescription>
+        <eCH-0155:standardBallot>
+          <eCH-0155:questionIdentification>33c70a40-b4c7-400a-93fd-50c764a7628f</eCH-0155:questionIdentification>
+          <eCH-0155:ballotQuestionNumber>1</eCH-0155:ballotQuestionNumber>
+          <eCH-0155:ballotQuestion>
+            <eCH-0155:ballotQuestionInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:ballotQuestion>Frage Bund2</eCH-0155:ballotQuestion>
+            </eCH-0155:ballotQuestionInfo>
+          </eCH-0155:ballotQuestion>
+        </eCH-0155:standardBallot>
+      </eCH-0159:ballot>
+    </eCH-0159:voteInformation>
+    <!-- Another eCH vote with one ballot (different domain of influence), which should result in a VOTING vote -->
+    <eCH-0159:voteInformation>
+      <eCH-0159:vote xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+        <eCH-0155:voteIdentification>44295018-f1a0-494a-8e00-daca89ed9bff</eCH-0155:voteIdentification>
+        <eCH-0155:domainOfInfluenceIdentification>0e9ae002-dfa1-4eb6-920b-5d837a33ff79</eCH-0155:domainOfInfluenceIdentification>
+      </eCH-0159:vote>
+      <eCH-0159:ballot xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+        <eCH-0155:ballotIdentification>2be5cdb2-8bd5-4a8a-8e36-41b093b7b798</eCH-0155:ballotIdentification>
+        <eCH-0155:ballotPosition>1</eCH-0155:ballotPosition>
+        <eCH-0155:ballotDescription>
+          <eCH-0155:ballotDescriptionInfo>
+            <eCH-0155:language>de</eCH-0155:language>
+            <eCH-0155:ballotDescriptionLong>Abstimmung auf Kantonsebene</eCH-0155:ballotDescriptionLong>
+            <eCH-0155:ballotDescriptionShort>Abstimmung Kanton</eCH-0155:ballotDescriptionShort>
+          </eCH-0155:ballotDescriptionInfo>
+        </eCH-0155:ballotDescription>
+        <eCH-0155:standardBallot>
+          <eCH-0155:questionIdentification>9e3df02d-228f-4b29-a02f-c12cafeff185</eCH-0155:questionIdentification>
+          <eCH-0155:ballotQuestionNumber>1</eCH-0155:ballotQuestionNumber>
+          <eCH-0155:ballotQuestion>
+            <eCH-0155:ballotQuestionInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:ballotQuestion>Frage Kanton</eCH-0155:ballotQuestion>
+            </eCH-0155:ballotQuestionInfo>
+          </eCH-0155:ballotQuestion>
+        </eCH-0155:standardBallot>
+      </eCH-0159:ballot>
+    </eCH-0159:voteInformation>
+  </eCH-0159:initialDelivery>
+</eCH-0159:delivery>

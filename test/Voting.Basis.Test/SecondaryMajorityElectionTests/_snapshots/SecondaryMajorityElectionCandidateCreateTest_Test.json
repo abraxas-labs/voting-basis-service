@@ -1,0 +1,58 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "SecondaryMajorityElectionCandidate": {
+      "Id": "",
+      "MajorityElectionId": "0741da26-add2-4c4c-960d-7e251b82e91b",
+      "Number": "number24",
+      "FirstName": "firstName",
+      "LastName": "lastName",
+      "PoliticalFirstName": "pol first name",
+      "PoliticalLastName": "pol last name",
+      "DateOfBirth": {
+        "Seconds": -314582400,
+        "Nanos": 0
+      },
+      "Sex": 2,
+      "Occupation": {
+        "de": "occupation de",
+        "fr": "occupation fr",
+        "it": "occupation it",
+        "rm": "occupation rm"
+      },
+      "Title": "title",
+      "OccupationTitle": {
+        "de": "occupation title de",
+        "fr": "occupation title fr",
+        "it": "occupation title it",
+        "rm": "occupation title rm"
+      },
+      "Party": {
+        "de": "DFP de",
+        "fr": "DFP fr",
+        "it": "DFP it",
+        "rm": "DFP rm"
+      },
+      "Incumbent": true,
+      "ZipCode": "zip code",
+      "Locality": "locality",
+      "Position": 3
+    },
+    "PrimaryMajorityElectionId": "b0da46f8-a721-4e1a-ac36-25284d68f34b"
+  }
+}

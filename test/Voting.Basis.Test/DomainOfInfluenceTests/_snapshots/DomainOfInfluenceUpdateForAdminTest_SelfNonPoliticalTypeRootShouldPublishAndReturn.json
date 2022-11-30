@@ -1,0 +1,35 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "DomainOfInfluence": {
+      "Id": "",
+      "Name": "Kk Neu",
+      "ShortName": "k",
+      "AuthorityName": "Uzwil",
+      "SecureConnectId": "100100100100100100",
+      "Type": 7,
+      "ParentId": "",
+      "Canton": 2,
+      "ResponsibleForVotingCards": false,
+      "Bfs": "",
+      "Code": "",
+      "SortNumber": 0,
+      "NameForProtocol": ""
+    }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "ElectionGroups_": [
+    {
+      "Id": "63bf2387-08e0-45ed-96e6-263f85500e28",
+      "PrimaryMajorityElection": {
+        "Id": "b0da46f8-a721-4e1a-ac36-25284d68f34b",
+        "PoliticalBusinessNumber": "201",
+        "OfficialDescription": {
+          "de": "Majorzwahl St. Gallen de",
+          "fr": "Majorzwahl St. Gallen fr",
+          "it": "Majorzwahl St. Gallen it",
+          "rm": "Majorzwahl St. Gallen rm"
+        },
+        "ShortDescription": {
+          "de": "Majorzwahl SG de",
+          "fr": "Majorzwahl SG fr",
+          "it": "Majorzwahl SG it",
+          "rm": "Majorzwahl SG rm"
+        },
+        "InternalDescription": "Majorzwahl St. Gallen auf Urnengang Bund",
+        "NumberOfMandates": 1,
+        "MandateAlgorithm": 2,
+        "IndividualEmptyBallotsAllowed": true,
+        "CandidateCheckDigit": false,
+        "BallotBundleSize": 25,
+        "BallotBundleSampleSize": 3,
+        "AutomaticBallotBundleNumberGeneration": true,
+        "BallotNumberGeneration": 1,
+        "AutomaticEmptyVoteCounting": false,
+        "EnforceEmptyVoteCountingForCountingCircles": true,
+        "ResultEntry": 2,
+        "EnforceResultEntryForCountingCircles": false,
+        "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
+        "Active": true,
+        "InvalidVotes": false,
+        "ReportDomainOfInfluenceLevel": 0,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": true
+      },
+      "Description": "Test Election Group",
+      "Number": 1,
+      "SecondaryElectionIds": [
+        "0741da26-add2-4c4c-960d-7e251b82e91b"
+      ],
+      "SecondaryPoliticalBusinessNumbers": [
+        "n1"
+      ]
+    },
+    {
+      "Id": "85caefc1-e01a-458a-a0ce-1aeff0b43f86",
+      "PrimaryMajorityElection": {
+        "Id": "e74b6879-9e2b-4799-a156-d0321b967dcf",
+        "PoliticalBusinessNumber": "291",
+        "OfficialDescription": {
+          "de": "Majorzwahl Gossau de",
+          "fr": "Majorzwahl Gossau fr",
+          "it": "Majorzwahl Gossau it",
+          "rm": "Majorzwahl Gossau rm"
+        },
+        "ShortDescription": {
+          "de": "Majorzwahl Gossau de",
+          "fr": "Majorzwahl Gossau fr",
+          "it": "Majorzwahl Gossau it",
+          "rm": "Majorzwahl Gossau rm"
+        },
+        "InternalDescription": "Majorzwahl Gossau",
+        "NumberOfMandates": 1,
+        "MandateAlgorithm": 2,
+        "IndividualEmptyBallotsAllowed": true,
+        "CandidateCheckDigit": false,
+        "BallotBundleSize": 25,
+        "BallotBundleSampleSize": 3,
+        "AutomaticBallotBundleNumberGeneration": true,
+        "BallotNumberGeneration": 1,
+        "AutomaticEmptyVoteCounting": false,
+        "EnforceEmptyVoteCountingForCountingCircles": true,
+        "ResultEntry": 2,
+        "EnforceResultEntryForCountingCircles": false,
+        "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
+        "Active": true,
+        "InvalidVotes": false,
+        "ReportDomainOfInfluenceLevel": 0,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": true
+      },
+      "Description": "Test Election Group",
+      "Number": 1,
+      "SecondaryElectionIds": [
+        "654455b1-85a1-44c2-ad7b-8a8e7ea29d95"
+      ],
+      "SecondaryPoliticalBusinessNumbers": [
+        "n1"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Id": "b849600e-305b-4d37-a999-214acdc88682",
+    "PoliticalBusinessNumber": "6000new",
+    "OfficialDescription": {
+      "de": "Update Proporzwahl de",
+      "fr": "Update Proporzwahl fr",
+      "it": "Update Proporzwahl it",
+      "rm": "Update Proporzwahl rm"
+    },
+    "ShortDescription": {
+      "de": "Proporzwahl de",
+      "fr": "Proporzwahl fr",
+      "it": "Proporzwahl it",
+      "rm": "Proporzwahl rm"
+    },
+    "InternalDescription": "",
+    "EnforceEmptyVoteCountingForCountingCircles": false
+  },
+  "reponse": {
+    "Id": "b849600e-305b-4d37-a999-214acdc88682",
+    "PoliticalBusinessNumber": "6000new",
+    "OfficialDescription": {
+      "de": "Update Proporzwahl de",
+      "fr": "Update Proporzwahl fr",
+      "it": "Update Proporzwahl it",
+      "rm": "Update Proporzwahl rm"
+    },
+    "ShortDescription": {
+      "de": "Proporzwahl de",
+      "fr": "Proporzwahl fr",
+      "it": "Proporzwahl it",
+      "rm": "Proporzwahl rm"
+    },
+    "InternalDescription": "",
+    "NumberOfMandates": 3,
+    "MandateAlgorithm": 1,
+    "CandidateCheckDigit": true,
+    "BallotBundleSize": 10,
+    "AutomaticBallotBundleNumberGeneration": true,
+    "BallotNumberGeneration": 1,
+    "AutomaticEmptyVoteCounting": true,
+    "EnforceEmptyVoteCountingForCountingCircles": false,
+    "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+    "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
+    "Active": true,
+    "BallotBundleSampleSize": 1,
+    "ReviewProcedure": 1,
+    "EnforceReviewProcedureForCountingCircles": true
+  }
+}

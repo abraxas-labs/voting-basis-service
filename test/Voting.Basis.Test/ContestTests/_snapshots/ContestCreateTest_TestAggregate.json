@@ -1,0 +1,164 @@
+{
+  "ContestSummaries_": [
+    {
+      "Id": "239702ef-3064-498c-beea-ebf57a55ff05",
+      "Date": {
+        "Seconds": 1598140800,
+        "Nanos": 0
+      },
+      "Description": {
+        "de": "test de",
+        "fr": "test fr",
+        "it": "test it",
+        "rm": "test rm"
+      },
+      "EndOfTestingPhase": {
+        "Seconds": 1546346700,
+        "Nanos": 0
+      },
+      "DomainOfInfluence": {
+        "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "Name": "Gossau",
+        "ShortName": "GOS",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 5,
+        "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Children": [],
+        "Canton": 0,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": true,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": {
+          "AddressLine1": "Stadtverwaltung Gossau",
+          "AddressLine2": "",
+          "Street": "Bahnhofstrasse 25",
+          "AddressAddition": "",
+          "ZipCode": "9200",
+          "City": "Gossau",
+          "Country": "Schweiz"
+        },
+        "PrintData": {
+          "ShippingAway": 2,
+          "ShippingReturn": 5,
+          "ShippingMethod": 3
+        },
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": true,
+        "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
+        "NameForProtocol": "Stadt Gossau"
+      },
+      "EVoting": false,
+      "EVotingFrom": null,
+      "EVotingTo": null,
+      "ContestEntriesDetails": [],
+      "State": 1,
+      "ArchivePer": null
+    },
+    {
+      "Id": "d1eb8d0d-0c51-4efc-b69e-c4c68816e4b2",
+      "Date": {
+        "Seconds": 1598227200,
+        "Nanos": 0
+      },
+      "Description": {
+        "de": "test de",
+        "fr": "test fr",
+        "it": "test it",
+        "rm": "test rm"
+      },
+      "EndOfTestingPhase": {
+        "Seconds": 1546383600,
+        "Nanos": 0
+      },
+      "DomainOfInfluence": {
+        "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "Name": "Gossau",
+        "ShortName": "GOS",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 5,
+        "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Children": [],
+        "Canton": 0,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": true,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": {
+          "AddressLine1": "Stadtverwaltung Gossau",
+          "AddressLine2": "",
+          "Street": "Bahnhofstrasse 25",
+          "AddressAddition": "",
+          "ZipCode": "9200",
+          "City": "Gossau",
+          "Country": "Schweiz"
+        },
+        "PrintData": {
+          "ShippingAway": 2,
+          "ShippingReturn": 5,
+          "ShippingMethod": 3
+        },
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": true,
+        "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
+        "NameForProtocol": "Stadt Gossau"
+      },
+      "EVoting": true,
+      "EVotingFrom": {
+        "Seconds": 1577883600,
+        "Nanos": 0
+      },
+      "EVotingTo": {
+        "Seconds": 1580562000,
+        "Nanos": 0
+      },
+      "ContestEntriesDetails": [],
+      "State": 1,
+      "ArchivePer": null
+    }
+  ]
+}

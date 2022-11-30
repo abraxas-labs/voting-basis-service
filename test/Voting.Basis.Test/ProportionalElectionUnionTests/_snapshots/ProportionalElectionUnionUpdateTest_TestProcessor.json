@@ -1,0 +1,66 @@
+{
+  "ProportionalElectionUnionEntries": [
+    {
+      "ProportionalElectionUnionId": "cfdc428a-2a75-4f41-972f-28cfa8a923d5",
+      "ProportionalElectionId": "fa69e964-0a02-4d16-b417-247e8987021a",
+      "ProportionalElection": null,
+      "Id": "2a8d2a36-147c-4078-92fa-bf451d78fc58"
+    },
+    {
+      "ProportionalElectionUnionId": "cfdc428a-2a75-4f41-972f-28cfa8a923d5",
+      "ProportionalElectionId": "8fd00ee5-cc68-4b33-86b0-cc9c58dc1b1f",
+      "ProportionalElection": null,
+      "Id": "d443959e-2311-4e10-a38b-76e64405d4b4"
+    }
+  ],
+  "ProportionalElectionUnionLists": [
+    {
+      "OrderNumber": "1a",
+      "ShortDescription": {
+        "de": "Liste 1 de",
+        "fr": "Liste 1 fr",
+        "it": "Liste 1 it",
+        "rm": "Liste 1 rm"
+      },
+      "ProportionalElectionUnionId": "cfdc428a-2a75-4f41-972f-28cfa8a923d5",
+      "ProportionalElectionUnionListEntries": [],
+      "ListCount": 0,
+      "PoliticalBusinessNumbers": "",
+      "Id": "2399ba4e-9bfd-4cf9-80fe-402c0e3a55d2"
+    },
+    {
+      "OrderNumber": "2",
+      "ShortDescription": {
+        "de": "Liste 2 de",
+        "fr": "Liste 2 fr",
+        "it": "Liste 2 it",
+        "rm": "Liste 2 rm"
+      },
+      "ProportionalElectionUnionId": "cfdc428a-2a75-4f41-972f-28cfa8a923d5",
+      "ProportionalElectionUnionListEntries": [],
+      "ListCount": 0,
+      "PoliticalBusinessNumbers": "",
+      "Id": "8ce79d7d-57fe-4e56-9d57-10696ff3d243"
+    },
+    {
+      "OrderNumber": "3a",
+      "ShortDescription": {
+        "de": "Liste 3 de",
+        "fr": "Liste 3 fr",
+        "it": "Liste 3 it",
+        "rm": "Liste 3 rm"
+      },
+      "ProportionalElectionUnionId": "cfdc428a-2a75-4f41-972f-28cfa8a923d5",
+      "ProportionalElectionUnionListEntries": [],
+      "ListCount": 0,
+      "PoliticalBusinessNumbers": "",
+      "Id": "6e7227d6-9b32-4eab-a1d1-85ef4521f93d"
+    }
+  ],
+  "Type": 1,
+  "Description": "edited description",
+  "SecureConnectId": "",
+  "ContestId": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
+  "Contest": null,
+  "Id": "cfdc428a-2a75-4f41-972f-28cfa8a923d5"
+}

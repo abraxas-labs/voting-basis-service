@@ -1,0 +1,39 @@
+<Project>
+    
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>10</LangVersion>
+        <Authors>Abraxas Informatik AG</Authors>
+        <Nullable>enable</Nullable>
+        <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+        
+        <!-- Overwritten during publish, only for local development -->
+        <AssemblyVersion>0.0.0.1</AssemblyVersion>
+        <FileVersion>0.0.0.1</FileVersion>
+        <Version>0.0.0.1</Version>
+
+        <VotingBasisProtoVersion>1.67.0</VotingBasisProtoVersion>
+        <VotingLibVersion>7.25.0</VotingLibVersion>
+        <EfCoreVersion>6.0.8</EfCoreVersion>
+        <MsExtensionsVersion>6.0.0</MsExtensionsVersion>
+        <GrpcAspNetCoreVersion>2.47.0</GrpcAspNetCoreVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>Voting.Basis.Test</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(MsExtensionsVersion)"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1"/>
+        <PackageReference Include="Voting.Lib.Common" Version="$(VotingLibVersion)" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>
+        <MSBuildTreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</MSBuildTreatWarningsAsErrors>
+    </PropertyGroup>
+    
+</Project>

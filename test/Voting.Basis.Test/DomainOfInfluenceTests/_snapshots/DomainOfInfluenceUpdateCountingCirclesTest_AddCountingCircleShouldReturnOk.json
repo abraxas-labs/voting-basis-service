@@ -1,0 +1,27 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "DomainOfInfluenceCountingCircleEntries": {
+      "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+      "CountingCircleIds": [
+        "1e2e062e-288d-4347-9f22-224e69b95bed",
+        "ca7be031-d4ce-4bb6-9538-b5e5d19e5a4e"
+      ]
+    }
+  }
+}

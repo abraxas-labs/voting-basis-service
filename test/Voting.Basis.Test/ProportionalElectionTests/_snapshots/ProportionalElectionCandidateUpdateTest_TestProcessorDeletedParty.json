@@ -1,0 +1,49 @@
+{
+  "Id": "9e131f21-4483-4375-b014-484c272615ee",
+  "ProportionalElectionListId": "6eedf849-0ecc-4a02-a43b-99ef4b11d795",
+  "Number": "numberNew",
+  "FirstName": "new first name",
+  "LastName": "new last name",
+  "PoliticalFirstName": "new pol first name",
+  "PoliticalLastName": "new pol last name",
+  "DateOfBirth": {
+    "Seconds": -279158400,
+    "Nanos": 0
+  },
+  "Sex": 1,
+  "Occupation": {
+    "de": "new occupation de",
+    "fr": "new occupation fr",
+    "it": "new occupation it",
+    "rm": "new occupation rm"
+  },
+  "Title": "new title",
+  "OccupationTitle": {
+    "de": "new occupation title de",
+    "fr": "new occupation title fr",
+    "it": "new occupation title it",
+    "rm": "new occupation title rm"
+  },
+  "Incumbent": false,
+  "ZipCode": "new zip code",
+  "Locality": "locality",
+  "Position": 1,
+  "Accumulated": false,
+  "AccumulatedPosition": 0,
+  "Party": {
+    "Id": "4d7f6405-37be-4a6e-8317-e9c618da007c",
+    "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+    "Name": {
+      "de": "Deleted de",
+      "fr": "Deleted fr",
+      "it": "Deleted it",
+      "rm": "Deleted rm"
+    },
+    "ShortDescription": {
+      "de": "DEL de",
+      "fr": "DEL fr",
+      "it": "DEL it",
+      "rm": "DEL rm"
+    }
+  }
+}

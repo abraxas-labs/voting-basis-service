@@ -1,0 +1,39 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "ProportionalElectionList": {
+      "Id": "",
+      "ProportionalElectionId": "8fd00ee5-cc68-4b33-86b0-cc9c58dc1b1f",
+      "OrderNumber": "upd1",
+      "ShortDescription": {
+        "de": "updated s.d. de",
+        "fr": "updated s.d. fr",
+        "it": "updated s.d. it",
+        "rm": "updated s.d. rm"
+      },
+      "BlankRowCount": 1,
+      "Position": 1,
+      "Description": {
+        "de": "Updated list de",
+        "fr": "Updated list fr",
+        "it": "Updated list it",
+        "rm": "Updated list rm"
+      }
+    }
+  }
+}

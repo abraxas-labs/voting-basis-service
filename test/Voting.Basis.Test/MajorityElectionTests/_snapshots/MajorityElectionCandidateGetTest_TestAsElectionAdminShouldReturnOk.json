@@ -1,0 +1,37 @@
+{
+  "Id": "194ff485-6eb9-4d98-8bec-855a2ec92650",
+  "MajorityElectionId": "e39a4d1c-6db4-44a7-a707-05cf2005dd4a",
+  "Number": "number1",
+  "FirstName": "firstName",
+  "LastName": "lastName",
+  "PoliticalFirstName": "pol first name",
+  "PoliticalLastName": "pol last name",
+  "DateOfBirth": {
+    "Seconds": -314582400,
+    "Nanos": 0
+  },
+  "Sex": 2,
+  "Occupation": {
+    "de": "occupation de",
+    "fr": "occupation fr",
+    "it": "occupation it",
+    "rm": "occupation rm"
+  },
+  "Title": "title",
+  "OccupationTitle": {
+    "de": "occupation title de",
+    "fr": "occupation title fr",
+    "it": "occupation title it",
+    "rm": "occupation title rm"
+  },
+  "Party": {
+    "de": "Test de",
+    "fr": "Test fr",
+    "it": "Test it",
+    "rm": "Test rm"
+  },
+  "Incumbent": true,
+  "ZipCode": "zip code",
+  "Locality": "locality",
+  "Position": 1
+}

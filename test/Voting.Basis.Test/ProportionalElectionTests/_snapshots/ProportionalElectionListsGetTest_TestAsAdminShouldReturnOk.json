@@ -1,0 +1,73 @@
+{
+  "Lists": [
+    {
+      "Id": "9091a3b6-3785-4adc-a486-f486e686503e",
+      "ProportionalElectionId": "fa69e964-0a02-4d16-b417-247e8987021a",
+      "OrderNumber": "1a",
+      "ShortDescription": {
+        "de": "Liste 1 de",
+        "fr": "Liste 1 fr",
+        "it": "Liste 1 it",
+        "rm": "Liste 1 rm"
+      },
+      "BlankRowCount": 0,
+      "Position": 1,
+      "Description": {
+        "de": "Liste 1 de",
+        "fr": "Liste 1 fr",
+        "it": "Liste 1 it",
+        "rm": "Liste 1 rm"
+      },
+      "CountOfCandidates": 0,
+      "CandidateCountOk": false,
+      "ListUnionDescription": {},
+      "SubListUnionDescription": {}
+    },
+    {
+      "Id": "bfe54c2a-6bdf-41a3-bf11-321203c380d3",
+      "ProportionalElectionId": "fa69e964-0a02-4d16-b417-247e8987021a",
+      "OrderNumber": "2",
+      "ShortDescription": {
+        "de": "Liste 2 de",
+        "fr": "Liste 2 fr",
+        "it": "Liste 2 it",
+        "rm": "Liste 2 rm"
+      },
+      "BlankRowCount": 0,
+      "Position": 2,
+      "Description": {
+        "de": "Liste 2 de",
+        "fr": "Liste 2 fr",
+        "it": "Liste 2 it",
+        "rm": "Liste 2 rm"
+      },
+      "CountOfCandidates": 0,
+      "CandidateCountOk": false,
+      "ListUnionDescription": {},
+      "SubListUnionDescription": {}
+    },
+    {
+      "Id": "afebb285-599d-415f-89ac-04ebcbc4eaeb",
+      "ProportionalElectionId": "fa69e964-0a02-4d16-b417-247e8987021a",
+      "OrderNumber": "3a",
+      "ShortDescription": {
+        "de": "Liste 3 de",
+        "fr": "Liste 3 fr",
+        "it": "Liste 3 it",
+        "rm": "Liste 3 rm"
+      },
+      "BlankRowCount": 3,
+      "Position": 3,
+      "Description": {
+        "de": "Liste 3 de",
+        "fr": "Liste 3 fr",
+        "it": "Liste 3 it",
+        "rm": "Liste 3 rm"
+      },
+      "CountOfCandidates": 0,
+      "CandidateCountOk": false,
+      "ListUnionDescription": {},
+      "SubListUnionDescription": {}
+    }
+  ]
+}

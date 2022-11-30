@@ -1,0 +1,57 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Id": "3f834c4b-eabe-4dad-97b2-03d4fc770bf5",
+    "ShortDescription": {
+      "de": "upd de",
+      "fr": "upd fr",
+      "it": "upd it",
+      "rm": "upd rm"
+    },
+    "Description": {
+      "de": "updated desc. de",
+      "fr": "updated desc. fr",
+      "it": "updated desc. it",
+      "rm": "updated desc. rm"
+    },
+    "ProportionalElectionId": "b849600e-305b-4d37-a999-214acdc88682"
+  },
+  "reponse": {
+    "Id": "3f834c4b-eabe-4dad-97b2-03d4fc770bf5",
+    "ProportionalElectionId": "b849600e-305b-4d37-a999-214acdc88682",
+    "OrderNumber": "2",
+    "ShortDescription": {
+      "de": "upd de",
+      "fr": "upd fr",
+      "it": "upd it",
+      "rm": "upd rm"
+    },
+    "BlankRowCount": 0,
+    "Position": 2,
+    "Description": {
+      "de": "updated desc. de",
+      "fr": "updated desc. fr",
+      "it": "updated desc. it",
+      "rm": "updated desc. rm"
+    },
+    "CountOfCandidates": 0,
+    "CandidateCountOk": false,
+    "ListUnionDescription": {},
+    "SubListUnionDescription": {}
+  }
+}

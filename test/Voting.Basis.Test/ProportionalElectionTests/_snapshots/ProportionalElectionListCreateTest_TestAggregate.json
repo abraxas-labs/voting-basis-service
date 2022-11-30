@@ -1,0 +1,43 @@
+{
+  "1": {
+    "Id": "430f11f8-82bf-4f39-a2b9-d76e8c9dab08",
+    "ProportionalElectionId": "06f7ecb7-e175-4c3b-9ea5-cfc138d08278",
+    "OrderNumber": "o1",
+    "ShortDescription": {
+      "de": "Short description de",
+      "fr": "Short description fr",
+      "it": "Short description it",
+      "rm": "Short description rm"
+    },
+    "BlankRowCount": 0,
+    "Position": 1,
+    "Description": {
+      "de": "Created list de",
+      "fr": "Created list fr",
+      "it": "Created list it",
+      "rm": "Created list rm"
+    },
+    "CountOfCandidates": 0,
+    "CandidateCountOk": false,
+    "ListUnionDescription": {},
+    "SubListUnionDescription": {}
+  },
+  "2": {
+    "Id": "c995e944-5b49-40f8-a75b-814a10ebc0f0",
+    "ProportionalElectionId": "06f7ecb7-e175-4c3b-9ea5-cfc138d08278",
+    "OrderNumber": "o2",
+    "ShortDescription": {},
+    "BlankRowCount": 3,
+    "Position": 2,
+    "Description": {
+      "de": "Created list 2 de",
+      "fr": "Created list 2 fr",
+      "it": "Created list 2 it",
+      "rm": "Created list 2 rm"
+    },
+    "CountOfCandidates": 0,
+    "CandidateCountOk": false,
+    "ListUnionDescription": {},
+    "SubListUnionDescription": {}
+  }
+}

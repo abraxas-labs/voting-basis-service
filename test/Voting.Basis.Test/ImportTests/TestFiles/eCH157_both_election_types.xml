@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="utf-8"?>
+<eCH-0157:delivery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                   xmlns:eCH-0157="http://www.ech.ch/xmlns/eCH-0157/4"
+                   xsi:schemaLocation="http://www.ech.ch/xmlns/eCH-0157/4 http://www.ech.ch/xmlns/eCH-0157/4/eCH-0157-4-0.xsd">
+  <eCH-0157:deliveryHeader>
+    <senderId>ABX-DEV</senderId>
+    <messageId>51141c4d7919481ab3cad6c77ff09398</messageId>
+    <messageType>eCH-0157</messageType>
+    <sendingApplication>
+      <manufacturer>Abraxas Informatik AG</manufacturer>
+      <product>Voting.Basis</product>
+      <productVersion>0.0.1-dev</productVersion>
+    </sendingApplication>
+    <messageDate>2020-04-12T00:00:00Z</messageDate>
+    <action>1</action>
+    <testDeliveryFlag>true</testDeliveryFlag>
+  </eCH-0157:deliveryHeader>
+  <eCH-0157:initialDelivery>
+    <eCH-0157:contest xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+      <eCH-0155:contestIdentification>24e3406f-e519-427f-a606-ff0136560672</eCH-0155:contestIdentification>
+      <eCH-0155:contestDate>2022-05-20</eCH-0155:contestDate>
+      <eCH-0155:contestDescription>
+        <eCH-0155:contestDescriptionInfo>
+          <eCH-0155:language>de</eCH-0155:language>
+          <eCH-0155:contestDescription>EVoting Urnengang ABX</eCH-0155:contestDescription>
+        </eCH-0155:contestDescriptionInfo>
+      </eCH-0155:contestDescription>
+      <eCH-0155:eVotingPeriod>
+        <eCH-0155:eVotingPeriodFrom>2020-04-11T22:00:00Z</eCH-0155:eVotingPeriodFrom>
+        <eCH-0155:eVotingPeriodTill>2022-04-20T04:00:00Z</eCH-0155:eVotingPeriodTill>
+      </eCH-0155:eVotingPeriod>
+    </eCH-0157:contest>
+    <eCH-0157:electionGroupBallot>
+      <eCH-0157:domainOfInfluenceIdentification>eaef3fc2-0771-49a7-87fc-1cdf07ece446
+      </eCH-0157:domainOfInfluenceIdentification>
+      <eCH-0157:electionInformation>
+        <eCH-0157:election xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:electionIdentification>be03aae1-5dc3-4cf5-9fb7-07f1a949ca7a</eCH-0155:electionIdentification>
+          <eCH-0155:typeOfElection>2</eCH-0155:typeOfElection>
+          <eCH-0155:electionPosition>0</eCH-0155:electionPosition>
+          <eCH-0155:electionDescription>
+            <eCH-0155:electionDescriptionInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:electionDescriptionShort>Majorzwahl 3</eCH-0155:electionDescriptionShort>
+              <eCH-0155:electionDescription>Offizielle Majorzwahlbezeichnung 3</eCH-0155:electionDescription>
+            </eCH-0155:electionDescriptionInfo>
+          </eCH-0155:electionDescription>
+          <eCH-0155:numberOfMandates>2</eCH-0155:numberOfMandates>
+          <eCH-0155:referencedElection>
+            <eCH-0155:referencedElection>24fdf715-6e47-4d43-888b-ac3ede39f9e2
+            </eCH-0155:referencedElection>
+            <eCH-0155:electionRelation>2</eCH-0155:electionRelation>
+          </eCH-0155:referencedElection>
+        </eCH-0157:election>
+        <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:candidateIdentification>aab0a248-0543-408e-997b-d96354d519df</eCH-0155:candidateIdentification>
+          <eCH-0155:familyName>Niederer</eCH-0155:familyName>
+          <eCH-0155:firstName>Urs</eCH-0155:firstName>
+          <eCH-0155:callName>Urs</eCH-0155:callName>
+          <eCH-0155:candidateText>
+            <eCH-0155:candidateTextInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:candidateText>Niederer Urs</eCH-0155:candidateText>
+            </eCH-0155:candidateTextInfo>
+          </eCH-0155:candidateText>
+          <eCH-0155:dateOfBirth>1993-09-11</eCH-0155:dateOfBirth>
+          <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:swiss>
+            <eCH-0155:origin>?</eCH-0155:origin>
+          </eCH-0155:swiss>
+          <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
+          <eCH-0155:candidateReference>1</eCH-0155:candidateReference>
+          <eCH-0155:partyAffiliation>
+            <eCH-0155:partyAffiliationInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:partyAffiliationShort>SP</eCH-0155:partyAffiliationShort>
+            </eCH-0155:partyAffiliationInfo>
+          </eCH-0155:partyAffiliation>
+        </eCH-0157:candidate>
+        <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:candidateIdentification>6433d2b6-0497-4a6b-b69e-e1db2b108bd1</eCH-0155:candidateIdentification>
+          <eCH-0155:familyName>Zumstein</eCH-0155:familyName>
+          <eCH-0155:firstName>Mirta</eCH-0155:firstName>
+          <eCH-0155:callName>Mirta</eCH-0155:callName>
+          <eCH-0155:candidateText>
+            <eCH-0155:candidateTextInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:candidateText>Zumstein Mirta</eCH-0155:candidateText>
+            </eCH-0155:candidateTextInfo>
+          </eCH-0155:candidateText>
+          <eCH-0155:dateOfBirth>1975-09-11</eCH-0155:dateOfBirth>
+          <eCH-0155:sex>2</eCH-0155:sex>
+          <eCH-0155:swiss>
+            <eCH-0155:origin>?</eCH-0155:origin>
+          </eCH-0155:swiss>
+          <eCH-0155:incumbentYesNo>true</eCH-0155:incumbentYesNo>
+          <eCH-0155:candidateReference>2</eCH-0155:candidateReference>
+          <eCH-0155:partyAffiliation>
+            <eCH-0155:partyAffiliationInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:partyAffiliationShort>FDP</eCH-0155:partyAffiliationShort>
+            </eCH-0155:partyAffiliationInfo>
+          </eCH-0155:partyAffiliation>
+        </eCH-0157:candidate>
+        <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:candidateIdentification>060858a7-c68d-4ad0-a626-5046e06dca7d</eCH-0155:candidateIdentification>
+          <eCH-0155:familyName>Inge</eCH-0155:familyName>
+          <eCH-0155:firstName>Kurt</eCH-0155:firstName>
+          <eCH-0155:callName>Kurt</eCH-0155:callName>
+          <eCH-0155:candidateText>
+            <eCH-0155:candidateTextInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:candidateText>Inge Kurt</eCH-0155:candidateText>
+            </eCH-0155:candidateTextInfo>
+          </eCH-0155:candidateText>
+          <eCH-0155:dateOfBirth>1981-03-11</eCH-0155:dateOfBirth>
+          <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:swiss>
+            <eCH-0155:origin>?</eCH-0155:origin>
+          </eCH-0155:swiss>
+          <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
+          <eCH-0155:candidateReference>3</eCH-0155:candidateReference>
+          <eCH-0155:partyAffiliation>
+            <eCH-0155:partyAffiliationInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:partyAffiliationShort>FDP</eCH-0155:partyAffiliationShort>
+            </eCH-0155:partyAffiliationInfo>
+          </eCH-0155:partyAffiliation>
+        </eCH-0157:candidate>
+      </eCH-0157:electionInformation>
+    </eCH-0157:electionGroupBallot>
+    <eCH-0157:electionGroupBallot>
+      <eCH-0157:domainOfInfluenceIdentification>eaef3fc2-0771-49a7-87fc-1cdf07ece446
+      </eCH-0157:domainOfInfluenceIdentification>
+      <eCH-0157:electionInformation>
+        <eCH-0157:election xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:electionIdentification>7880293b-9109-4337-9661-3f5097b22162</eCH-0155:electionIdentification>
+          <eCH-0155:typeOfElection>1</eCH-0155:typeOfElection>
+          <eCH-0155:electionPosition>0</eCH-0155:electionPosition>
+          <eCH-0155:electionDescription>
+            <eCH-0155:electionDescriptionInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:electionDescriptionShort>Proporzwahl 2</eCH-0155:electionDescriptionShort>
+              <eCH-0155:electionDescription>Offizielle Proporzbezeichnung mit 5 Sitzen</eCH-0155:electionDescription>
+            </eCH-0155:electionDescriptionInfo>
+          </eCH-0155:electionDescription>
+          <eCH-0155:numberOfMandates>5</eCH-0155:numberOfMandates>
+        </eCH-0157:election>
+        <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:candidateIdentification>ab84f038-6c8c-4d1d-a57e-d239a883577e</eCH-0155:candidateIdentification>
+          <eCH-0155:familyName>Kuster</eCH-0155:familyName>
+          <eCH-0155:firstName>Peter</eCH-0155:firstName>
+          <eCH-0155:callName>Peter</eCH-0155:callName>
+          <eCH-0155:candidateText>
+            <eCH-0155:candidateTextInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:candidateText>Kuster Peter</eCH-0155:candidateText>
+            </eCH-0155:candidateTextInfo>
+          </eCH-0155:candidateText>
+          <eCH-0155:dateOfBirth>1953-09-14</eCH-0155:dateOfBirth>
+          <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:occupationalTitle>
+            <eCH-0155:occupationalTitleInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:occupationalTitle>TB</eCH-0155:occupationalTitle>
+            </eCH-0155:occupationalTitleInfo>
+          </eCH-0155:occupationalTitle>
+          <eCH-0155:swiss>
+            <eCH-0155:origin>?</eCH-0155:origin>
+          </eCH-0155:swiss>
+          <eCH-0155:title>T</eCH-0155:title>
+          <eCH-0155:incumbentYesNo>true</eCH-0155:incumbentYesNo>
+          <eCH-0155:candidateReference>1</eCH-0155:candidateReference>
+        </eCH-0157:candidate>
+        <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:candidateIdentification>7f1eafd3-ac5b-4351-8b61-6c95776d5580</eCH-0155:candidateIdentification>
+          <eCH-0155:familyName>Hansen</eCH-0155:familyName>
+          <eCH-0155:firstName>Sabrina</eCH-0155:firstName>
+          <eCH-0155:callName>Sabrina</eCH-0155:callName>
+          <eCH-0155:candidateText>
+            <eCH-0155:candidateTextInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:candidateText>Hansen Sabrina</eCH-0155:candidateText>
+            </eCH-0155:candidateTextInfo>
+          </eCH-0155:candidateText>
+          <eCH-0155:dateOfBirth>1965-09-11</eCH-0155:dateOfBirth>
+          <eCH-0155:sex>2</eCH-0155:sex>
+          <eCH-0155:occupationalTitle>
+            <eCH-0155:occupationalTitleInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:occupationalTitle>Dr. Coiffeuse</eCH-0155:occupationalTitle>
+            </eCH-0155:occupationalTitleInfo>
+          </eCH-0155:occupationalTitle>
+          <eCH-0155:swiss>
+            <eCH-0155:origin>?</eCH-0155:origin>
+          </eCH-0155:swiss>
+          <eCH-0155:title>Dr</eCH-0155:title>
+          <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
+          <eCH-0155:candidateReference>3</eCH-0155:candidateReference>
+        </eCH-0157:candidate>
+        <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:candidateIdentification>f5f44060-f809-4e52-8fe7-00417568b81b</eCH-0155:candidateIdentification>
+          <eCH-0155:familyName>Ilge</eCH-0155:familyName>
+          <eCH-0155:firstName>Kim</eCH-0155:firstName>
+          <eCH-0155:callName>Kim</eCH-0155:callName>
+          <eCH-0155:candidateText>
+            <eCH-0155:candidateTextInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:candidateText>Ilge Kim</eCH-0155:candidateText>
+            </eCH-0155:candidateTextInfo>
+          </eCH-0155:candidateText>
+          <eCH-0155:dateOfBirth>2001-05-11</eCH-0155:dateOfBirth>
+          <eCH-0155:sex>3</eCH-0155:sex>
+          <eCH-0155:swiss>
+            <eCH-0155:origin>?</eCH-0155:origin>
+          </eCH-0155:swiss>
+          <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
+          <eCH-0155:candidateReference>1</eCH-0155:candidateReference>
+        </eCH-0157:candidate>
+        <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:candidateIdentification>d77ca47f-5cea-49ff-9028-28daebae530c</eCH-0155:candidateIdentification>
+          <eCH-0155:familyName>Brunner</eCH-0155:familyName>
+          <eCH-0155:firstName>Toni</eCH-0155:firstName>
+          <eCH-0155:callName>Toni</eCH-0155:callName>
+          <eCH-0155:candidateText>
+            <eCH-0155:candidateTextInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:candidateText>Brunner Toni</eCH-0155:candidateText>
+            </eCH-0155:candidateTextInfo>
+          </eCH-0155:candidateText>
+          <eCH-0155:dateOfBirth>1968-09-11</eCH-0155:dateOfBirth>
+          <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:swiss>
+            <eCH-0155:origin>?</eCH-0155:origin>
+          </eCH-0155:swiss>
+          <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
+          <eCH-0155:candidateReference>1</eCH-0155:candidateReference>
+        </eCH-0157:candidate>
+        <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:candidateIdentification>2b6688cb-8391-464d-bde2-0590f223ae60</eCH-0155:candidateIdentification>
+          <eCH-0155:familyName>Toska</eCH-0155:familyName>
+          <eCH-0155:firstName>Manuela</eCH-0155:firstName>
+          <eCH-0155:callName>Manuela</eCH-0155:callName>
+          <eCH-0155:candidateText>
+            <eCH-0155:candidateTextInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:candidateText>Toska Manuela</eCH-0155:candidateText>
+            </eCH-0155:candidateTextInfo>
+          </eCH-0155:candidateText>
+          <eCH-0155:dateOfBirth>1984-09-11</eCH-0155:dateOfBirth>
+          <eCH-0155:sex>2</eCH-0155:sex>
+          <eCH-0155:swiss>
+            <eCH-0155:origin>?</eCH-0155:origin>
+          </eCH-0155:swiss>
+          <eCH-0155:title>Prof</eCH-0155:title>
+          <eCH-0155:incumbentYesNo>true</eCH-0155:incumbentYesNo>
+          <eCH-0155:candidateReference>2</eCH-0155:candidateReference>
+        </eCH-0157:candidate>
+        <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:candidateIdentification>458a41bd-401b-4610-9e8f-00adc5207b97</eCH-0155:candidateIdentification>
+          <eCH-0155:familyName>Peter</eCH-0155:familyName>
+          <eCH-0155:firstName>Karl</eCH-0155:firstName>
+          <eCH-0155:callName>Karl</eCH-0155:callName>
+          <eCH-0155:candidateText>
+            <eCH-0155:candidateTextInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:candidateText>Peter Karl</eCH-0155:candidateText>
+            </eCH-0155:candidateTextInfo>
+          </eCH-0155:candidateText>
+          <eCH-0155:dateOfBirth>2001-09-11</eCH-0155:dateOfBirth>
+          <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:swiss>
+            <eCH-0155:origin>?</eCH-0155:origin>
+          </eCH-0155:swiss>
+          <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
+          <eCH-0155:candidateReference>3</eCH-0155:candidateReference>
+        </eCH-0157:candidate>
+        <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:candidateIdentification>bdf6275d-accf-4330-bf88-28dabe5435c0</eCH-0155:candidateIdentification>
+          <eCH-0155:familyName>Kuster</eCH-0155:familyName>
+          <eCH-0155:firstName>Emil</eCH-0155:firstName>
+          <eCH-0155:callName>Emil</eCH-0155:callName>
+          <eCH-0155:candidateText>
+            <eCH-0155:candidateTextInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:candidateText>Kuster Emil</eCH-0155:candidateText>
+            </eCH-0155:candidateTextInfo>
+          </eCH-0155:candidateText>
+          <eCH-0155:dateOfBirth>1999-08-01</eCH-0155:dateOfBirth>
+          <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:swiss>
+            <eCH-0155:origin>?</eCH-0155:origin>
+          </eCH-0155:swiss>
+          <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
+          <eCH-0155:candidateReference>5</eCH-0155:candidateReference>
+        </eCH-0157:candidate>
+        <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:candidateIdentification>bf1197de-f7e7-4018-a1e0-b59de97891ab</eCH-0155:candidateIdentification>
+          <eCH-0155:familyName>Urpa</eCH-0155:familyName>
+          <eCH-0155:firstName>Hansjörg</eCH-0155:firstName>
+          <eCH-0155:callName>Hansjörg</eCH-0155:callName>
+          <eCH-0155:candidateText>
+            <eCH-0155:candidateTextInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:candidateText>Urpa Hansjörg</eCH-0155:candidateText>
+            </eCH-0155:candidateTextInfo>
+          </eCH-0155:candidateText>
+          <eCH-0155:dateOfBirth>1922-09-11</eCH-0155:dateOfBirth>
+          <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:swiss>
+            <eCH-0155:origin>?</eCH-0155:origin>
+          </eCH-0155:swiss>
+          <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
+          <eCH-0155:candidateReference>1</eCH-0155:candidateReference>
+        </eCH-0157:candidate>
+        <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:candidateIdentification>0e10a5cc-76a8-4fcc-b34e-0937d1559a9f</eCH-0155:candidateIdentification>
+          <eCH-0155:familyName>Fenning</eCH-0155:familyName>
+          <eCH-0155:firstName>Tobias</eCH-0155:firstName>
+          <eCH-0155:callName>Tobias</eCH-0155:callName>
+          <eCH-0155:candidateText>
+            <eCH-0155:candidateTextInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:candidateText>Fenning Tobias</eCH-0155:candidateText>
+            </eCH-0155:candidateTextInfo>
+          </eCH-0155:candidateText>
+          <eCH-0155:dateOfBirth>1982-09-11</eCH-0155:dateOfBirth>
+          <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:swiss>
+            <eCH-0155:origin>?</eCH-0155:origin>
+          </eCH-0155:swiss>
+          <eCH-0155:incumbentYesNo>true</eCH-0155:incumbentYesNo>
+          <eCH-0155:candidateReference>1</eCH-0155:candidateReference>
+        </eCH-0157:candidate>
+        <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:candidateIdentification>ecedc6db-af7a-45b2-8cb2-e9bf2780c051</eCH-0155:candidateIdentification>
+          <eCH-0155:familyName>Jung</eCH-0155:familyName>
+          <eCH-0155:firstName>Katja</eCH-0155:firstName>
+          <eCH-0155:callName>Katja</eCH-0155:callName>
+          <eCH-0155:candidateText>
+            <eCH-0155:candidateTextInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:candidateText>Jung Katja</eCH-0155:candidateText>
+            </eCH-0155:candidateTextInfo>
+          </eCH-0155:candidateText>
+          <eCH-0155:dateOfBirth>1994-02-27</eCH-0155:dateOfBirth>
+          <eCH-0155:sex>2</eCH-0155:sex>
+          <eCH-0155:swiss>
+            <eCH-0155:origin>?</eCH-0155:origin>
+          </eCH-0155:swiss>
+          <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
+          <eCH-0155:candidateReference>2</eCH-0155:candidateReference>
+        </eCH-0157:candidate>
+        <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:candidateIdentification>6ad47c66-9196-4c93-a04e-bf52e041bf93</eCH-0155:candidateIdentification>
+          <eCH-0155:familyName>Heer</eCH-0155:familyName>
+          <eCH-0155:firstName>Roman</eCH-0155:firstName>
+          <eCH-0155:callName>Roman</eCH-0155:callName>
+          <eCH-0155:candidateText>
+            <eCH-0155:candidateTextInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:candidateText>Heer Roman</eCH-0155:candidateText>
+            </eCH-0155:candidateTextInfo>
+          </eCH-0155:candidateText>
+          <eCH-0155:dateOfBirth>1972-09-11</eCH-0155:dateOfBirth>
+          <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:swiss>
+            <eCH-0155:origin>?</eCH-0155:origin>
+          </eCH-0155:swiss>
+          <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
+          <eCH-0155:candidateReference>3</eCH-0155:candidateReference>
+        </eCH-0157:candidate>
+        <eCH-0157:list xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:listIdentification>6976a4d2-c84f-4f75-a1a2-7172c487d972</eCH-0155:listIdentification>
+          <eCH-0155:listIndentureNumber>1a</eCH-0155:listIndentureNumber>
+          <eCH-0155:listDescription>
+            <eCH-0155:listDescriptionInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:listDescriptionShort>CVP</eCH-0155:listDescriptionShort>
+              <eCH-0155:listDescription>CVP</eCH-0155:listDescription>
+            </eCH-0155:listDescriptionInfo>
+          </eCH-0155:listDescription>
+          <eCH-0155:isEmptyList>false</eCH-0155:isEmptyList>
+          <eCH-0155:listOrderOfPrecedence>1</eCH-0155:listOrderOfPrecedence>
+          <eCH-0155:totalPositionsOnList>3</eCH-0155:totalPositionsOnList>
+          <eCH-0155:candidatePosition>
+            <eCH-0155:positionOnList>1</eCH-0155:positionOnList>
+            <eCH-0155:candidateReferenceOnPosition>1</eCH-0155:candidateReferenceOnPosition>
+            <eCH-0155:candidateIdentification>ab84f038-6c8c-4d1d-a57e-d239a883577e</eCH-0155:candidateIdentification>
+            <eCH-0155:candidateTextOnPosition>
+              <eCH-0155:candidateTextInfo>
+                <eCH-0155:language>de</eCH-0155:language>
+                <eCH-0155:candidateText>Kuster Peter</eCH-0155:candidateText>
+              </eCH-0155:candidateTextInfo>
+            </eCH-0155:candidateTextOnPosition>
+          </eCH-0155:candidatePosition>
+          <eCH-0155:candidatePosition>
+            <eCH-0155:positionOnList>3</eCH-0155:positionOnList>
+            <eCH-0155:candidateReferenceOnPosition>1</eCH-0155:candidateReferenceOnPosition>
+            <eCH-0155:candidateIdentification>ab84f038-6c8c-4d1d-a57e-d239a883577e</eCH-0155:candidateIdentification>
+            <eCH-0155:candidateTextOnPosition>
+              <eCH-0155:candidateTextInfo>
+                <eCH-0155:language>de</eCH-0155:language>
+                <eCH-0155:candidateText>Kuster Peter</eCH-0155:candidateText>
+              </eCH-0155:candidateTextInfo>
+            </eCH-0155:candidateTextOnPosition>
+          </eCH-0155:candidatePosition>
+          <eCH-0155:candidatePosition>
+            <eCH-0155:positionOnList>2</eCH-0155:positionOnList>
+            <eCH-0155:candidateReferenceOnPosition>3</eCH-0155:candidateReferenceOnPosition>
+            <eCH-0155:candidateIdentification>7f1eafd3-ac5b-4351-8b61-6c95776d5580</eCH-0155:candidateIdentification>
+            <eCH-0155:candidateTextOnPosition>
+              <eCH-0155:candidateTextInfo>
+                <eCH-0155:language>de</eCH-0155:language>
+                <eCH-0155:candidateText>Hansen Sabrina</eCH-0155:candidateText>
+              </eCH-0155:candidateTextInfo>
+            </eCH-0155:candidateTextOnPosition>
+          </eCH-0155:candidatePosition>
+          <eCH-0155:emptyListPositions>2</eCH-0155:emptyListPositions>
+        </eCH-0157:list>
+        <eCH-0157:list xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:listIdentification>8af771de-d5ea-4ac4-87a6-37db7de36405</eCH-0155:listIdentification>
+          <eCH-0155:listIndentureNumber>1b</eCH-0155:listIndentureNumber>
+          <eCH-0155:listDescription>
+            <eCH-0155:listDescriptionInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:listDescriptionShort>CVP Senioren</eCH-0155:listDescriptionShort>
+              <eCH-0155:listDescription>CVP Senioren</eCH-0155:listDescription>
+            </eCH-0155:listDescriptionInfo>
+          </eCH-0155:listDescription>
+          <eCH-0155:isEmptyList>false</eCH-0155:isEmptyList>
+          <eCH-0155:listOrderOfPrecedence>2</eCH-0155:listOrderOfPrecedence>
+          <eCH-0155:totalPositionsOnList>1</eCH-0155:totalPositionsOnList>
+          <eCH-0155:candidatePosition>
+            <eCH-0155:positionOnList>1</eCH-0155:positionOnList>
+            <eCH-0155:candidateReferenceOnPosition>1</eCH-0155:candidateReferenceOnPosition>
+            <eCH-0155:candidateIdentification>bf1197de-f7e7-4018-a1e0-b59de97891ab</eCH-0155:candidateIdentification>
+            <eCH-0155:candidateTextOnPosition>
+              <eCH-0155:candidateTextInfo>
+                <eCH-0155:language>de</eCH-0155:language>
+                <eCH-0155:candidateText>Urpa Hansjörg</eCH-0155:candidateText>
+              </eCH-0155:candidateTextInfo>
+            </eCH-0155:candidateTextOnPosition>
+          </eCH-0155:candidatePosition>
+          <eCH-0155:emptyListPositions>4</eCH-0155:emptyListPositions>
+        </eCH-0157:list>
+        <eCH-0157:list xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:listIdentification>7951225b-3df3-4823-adf8-fdb5bc74007b</eCH-0155:listIdentification>
+          <eCH-0155:listIndentureNumber>1c</eCH-0155:listIndentureNumber>
+          <eCH-0155:listDescription>
+            <eCH-0155:listDescriptionInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:listDescriptionShort>CVP Junioren</eCH-0155:listDescriptionShort>
+              <eCH-0155:listDescription>CVP Junioren</eCH-0155:listDescription>
+            </eCH-0155:listDescriptionInfo>
+          </eCH-0155:listDescription>
+          <eCH-0155:isEmptyList>false</eCH-0155:isEmptyList>
+          <eCH-0155:listOrderOfPrecedence>3</eCH-0155:listOrderOfPrecedence>
+          <eCH-0155:totalPositionsOnList>2</eCH-0155:totalPositionsOnList>
+          <eCH-0155:candidatePosition>
+            <eCH-0155:positionOnList>1</eCH-0155:positionOnList>
+            <eCH-0155:candidateReferenceOnPosition>1</eCH-0155:candidateReferenceOnPosition>
+            <eCH-0155:candidateIdentification>f5f44060-f809-4e52-8fe7-00417568b81b</eCH-0155:candidateIdentification>
+            <eCH-0155:candidateTextOnPosition>
+              <eCH-0155:candidateTextInfo>
+                <eCH-0155:language>de</eCH-0155:language>
+                <eCH-0155:candidateText>Ilge Kim</eCH-0155:candidateText>
+              </eCH-0155:candidateTextInfo>
+            </eCH-0155:candidateTextOnPosition>
+          </eCH-0155:candidatePosition>
+          <eCH-0155:candidatePosition>
+            <eCH-0155:positionOnList>2</eCH-0155:positionOnList>
+            <eCH-0155:candidateReferenceOnPosition>1</eCH-0155:candidateReferenceOnPosition>
+            <eCH-0155:candidateIdentification>f5f44060-f809-4e52-8fe7-00417568b81b</eCH-0155:candidateIdentification>
+            <eCH-0155:candidateTextOnPosition>
+              <eCH-0155:candidateTextInfo>
+                <eCH-0155:language>de</eCH-0155:language>
+                <eCH-0155:candidateText>Ilge Kim</eCH-0155:candidateText>
+              </eCH-0155:candidateTextInfo>
+            </eCH-0155:candidateTextOnPosition>
+          </eCH-0155:candidatePosition>
+          <eCH-0155:emptyListPositions>3</eCH-0155:emptyListPositions>
+        </eCH-0157:list>
+        <eCH-0157:list xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:listIdentification>95658234-049e-45b2-9afc-7383663f7cb0</eCH-0155:listIdentification>
+          <eCH-0155:listIndentureNumber>2</eCH-0155:listIndentureNumber>
+          <eCH-0155:listDescription>
+            <eCH-0155:listDescriptionInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:listDescriptionShort>SP</eCH-0155:listDescriptionShort>
+              <eCH-0155:listDescription>SP</eCH-0155:listDescription>
+            </eCH-0155:listDescriptionInfo>
+          </eCH-0155:listDescription>
+          <eCH-0155:isEmptyList>false</eCH-0155:isEmptyList>
+          <eCH-0155:listOrderOfPrecedence>4</eCH-0155:listOrderOfPrecedence>
+          <eCH-0155:totalPositionsOnList>3</eCH-0155:totalPositionsOnList>
+          <eCH-0155:candidatePosition>
+            <eCH-0155:positionOnList>1</eCH-0155:positionOnList>
+            <eCH-0155:candidateReferenceOnPosition>1</eCH-0155:candidateReferenceOnPosition>
+            <eCH-0155:candidateIdentification>0e10a5cc-76a8-4fcc-b34e-0937d1559a9f</eCH-0155:candidateIdentification>
+            <eCH-0155:candidateTextOnPosition>
+              <eCH-0155:candidateTextInfo>
+                <eCH-0155:language>de</eCH-0155:language>
+                <eCH-0155:candidateText>Fenning Tobias</eCH-0155:candidateText>
+              </eCH-0155:candidateTextInfo>
+            </eCH-0155:candidateTextOnPosition>
+          </eCH-0155:candidatePosition>
+          <eCH-0155:candidatePosition>
+            <eCH-0155:positionOnList>2</eCH-0155:positionOnList>
+            <eCH-0155:candidateReferenceOnPosition>2</eCH-0155:candidateReferenceOnPosition>
+            <eCH-0155:candidateIdentification>ecedc6db-af7a-45b2-8cb2-e9bf2780c051</eCH-0155:candidateIdentification>
+            <eCH-0155:candidateTextOnPosition>
+              <eCH-0155:candidateTextInfo>
+                <eCH-0155:language>de</eCH-0155:language>
+                <eCH-0155:candidateText>Jung Katja</eCH-0155:candidateText>
+              </eCH-0155:candidateTextInfo>
+            </eCH-0155:candidateTextOnPosition>
+          </eCH-0155:candidatePosition>
+          <eCH-0155:candidatePosition>
+            <eCH-0155:positionOnList>3</eCH-0155:positionOnList>
+            <eCH-0155:candidateReferenceOnPosition>3</eCH-0155:candidateReferenceOnPosition>
+            <eCH-0155:candidateIdentification>6ad47c66-9196-4c93-a04e-bf52e041bf93</eCH-0155:candidateIdentification>
+            <eCH-0155:candidateTextOnPosition>
+              <eCH-0155:candidateTextInfo>
+                <eCH-0155:language>de</eCH-0155:language>
+                <eCH-0155:candidateText>Heer Roman</eCH-0155:candidateText>
+              </eCH-0155:candidateTextInfo>
+            </eCH-0155:candidateTextOnPosition>
+          </eCH-0155:candidatePosition>
+          <eCH-0155:emptyListPositions>2</eCH-0155:emptyListPositions>
+        </eCH-0157:list>
+        <eCH-0157:list xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:listIdentification>800d9bee-7dd1-49a9-a4ab-b210465dddea</eCH-0155:listIdentification>
+          <eCH-0155:listIndentureNumber>3</eCH-0155:listIndentureNumber>
+          <eCH-0155:listDescription>
+            <eCH-0155:listDescriptionInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:listDescriptionShort>SVP</eCH-0155:listDescriptionShort>
+              <eCH-0155:listDescription>SVP</eCH-0155:listDescription>
+            </eCH-0155:listDescriptionInfo>
+          </eCH-0155:listDescription>
+          <eCH-0155:isEmptyList>false</eCH-0155:isEmptyList>
+          <eCH-0155:listOrderOfPrecedence>5</eCH-0155:listOrderOfPrecedence>
+          <eCH-0155:totalPositionsOnList>5</eCH-0155:totalPositionsOnList>
+          <eCH-0155:candidatePosition>
+            <eCH-0155:positionOnList>1</eCH-0155:positionOnList>
+            <eCH-0155:candidateReferenceOnPosition>1</eCH-0155:candidateReferenceOnPosition>
+            <eCH-0155:candidateIdentification>d77ca47f-5cea-49ff-9028-28daebae530c</eCH-0155:candidateIdentification>
+            <eCH-0155:candidateTextOnPosition>
+              <eCH-0155:candidateTextInfo>
+                <eCH-0155:language>de</eCH-0155:language>
+                <eCH-0155:candidateText>Brunner Toni</eCH-0155:candidateText>
+              </eCH-0155:candidateTextInfo>
+            </eCH-0155:candidateTextOnPosition>
+          </eCH-0155:candidatePosition>
+          <eCH-0155:candidatePosition>
+            <eCH-0155:positionOnList>2</eCH-0155:positionOnList>
+            <eCH-0155:candidateReferenceOnPosition>2</eCH-0155:candidateReferenceOnPosition>
+            <eCH-0155:candidateIdentification>2b6688cb-8391-464d-bde2-0590f223ae60</eCH-0155:candidateIdentification>
+            <eCH-0155:candidateTextOnPosition>
+              <eCH-0155:candidateTextInfo>
+                <eCH-0155:language>de</eCH-0155:language>
+                <eCH-0155:candidateText>Toska Manuela</eCH-0155:candidateText>
+              </eCH-0155:candidateTextInfo>
+            </eCH-0155:candidateTextOnPosition>
+          </eCH-0155:candidatePosition>
+          <eCH-0155:candidatePosition>
+            <eCH-0155:positionOnList>3</eCH-0155:positionOnList>
+            <eCH-0155:candidateReferenceOnPosition>2</eCH-0155:candidateReferenceOnPosition>
+            <eCH-0155:candidateIdentification>2b6688cb-8391-464d-bde2-0590f223ae60</eCH-0155:candidateIdentification>
+            <eCH-0155:candidateTextOnPosition>
+              <eCH-0155:candidateTextInfo>
+                <eCH-0155:language>de</eCH-0155:language>
+                <eCH-0155:candidateText>Toska Manuela</eCH-0155:candidateText>
+              </eCH-0155:candidateTextInfo>
+            </eCH-0155:candidateTextOnPosition>
+          </eCH-0155:candidatePosition>
+          <eCH-0155:candidatePosition>
+            <eCH-0155:positionOnList>4</eCH-0155:positionOnList>
+            <eCH-0155:candidateReferenceOnPosition>3</eCH-0155:candidateReferenceOnPosition>
+            <eCH-0155:candidateIdentification>458a41bd-401b-4610-9e8f-00adc5207b97</eCH-0155:candidateIdentification>
+            <eCH-0155:candidateTextOnPosition>
+              <eCH-0155:candidateTextInfo>
+                <eCH-0155:language>de</eCH-0155:language>
+                <eCH-0155:candidateText>Peter Karl</eCH-0155:candidateText>
+              </eCH-0155:candidateTextInfo>
+            </eCH-0155:candidateTextOnPosition>
+          </eCH-0155:candidatePosition>
+          <eCH-0155:candidatePosition>
+            <eCH-0155:positionOnList>5</eCH-0155:positionOnList>
+            <eCH-0155:candidateReferenceOnPosition>5</eCH-0155:candidateReferenceOnPosition>
+            <eCH-0155:candidateIdentification>bdf6275d-accf-4330-bf88-28dabe5435c0</eCH-0155:candidateIdentification>
+            <eCH-0155:candidateTextOnPosition>
+              <eCH-0155:candidateTextInfo>
+                <eCH-0155:language>de</eCH-0155:language>
+                <eCH-0155:candidateText>Kuster Emil</eCH-0155:candidateText>
+              </eCH-0155:candidateTextInfo>
+            </eCH-0155:candidateTextOnPosition>
+          </eCH-0155:candidatePosition>
+          <eCH-0155:emptyListPositions>0</eCH-0155:emptyListPositions>
+        </eCH-0157:list>
+        <eCH-0157:listUnion xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:listUnionIdentification>321d9bee-7dd1-49a9-a4ab-b210465dd0a8</eCH-0155:listUnionIdentification>
+          <eCH-0155:listUnionDescription>
+            <eCH-0155:listUnionDescriptionInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:listUnionDescription>List union desc</eCH-0155:listUnionDescription>
+            </eCH-0155:listUnionDescriptionInfo>
+          </eCH-0155:listUnionDescription>
+          <eCH-0155:listUnionType>1</eCH-0155:listUnionType>
+          <eCH-0155:referencedList>800d9bee-7dd1-49a9-a4ab-b210465dddea</eCH-0155:referencedList>
+          <eCH-0155:referencedList>8af771de-d5ea-4ac4-87a6-37db7de36405</eCH-0155:referencedList>
+        </eCH-0157:listUnion>
+      </eCH-0157:electionInformation>
+    </eCH-0157:electionGroupBallot>
+  </eCH-0157:initialDelivery>
+</eCH-0157:delivery>

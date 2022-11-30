@@ -1,0 +1,52 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "CountingCircle": {
+      "Id": "",
+      "Name": "Uzwil",
+      "Bfs": "1234",
+      "ResponsibleAuthority": {
+        "SecureConnectId": "100100100100100100",
+        "Name": "Uzwil",
+        "Street": "WerkstrasseUZ",
+        "Zip": "9200",
+        "City": "MyCityUZ",
+        "Phone": "071 123 12 20",
+        "Email": "uzwil-test@abraxas.ch"
+      },
+      "ContactPersonDuringEvent": {
+        "FirstName": "Hans",
+        "FamilyName": "Muster",
+        "Phone": "071 123 12 21",
+        "MobilePhone": "071 123 12 31",
+        "Email": "uzwil-test@abraxas.ch"
+      },
+      "ContactPersonSameDuringEventAsAfter": false,
+      "ContactPersonAfterEvent": {
+        "FirstName": "Rudolph",
+        "FamilyName": "Wichtig",
+        "Phone": "071 123 12 22",
+        "MobilePhone": "071 123 12 33",
+        "Email": "uzwil-test2@abraxas.ch"
+      },
+      "Code": "",
+      "SortNumber": 210,
+      "NameForProtocol": "Stadt Uzwil"
+    }
+  }
+}

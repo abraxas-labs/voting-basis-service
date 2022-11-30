@@ -1,0 +1,138 @@
+{
+  "PoliticalBusinesses_": [
+    {
+      "Id": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
+      "PoliticalBusinessNumber": "155",
+      "OfficialDescription": {
+        "de": "Proporzwahl St.Gallen de",
+        "fr": "Proporzwahl St.Gallen fr",
+        "it": "Proporzwahl St.Gallen it",
+        "rm": "Proporzwahl St.Gallen rm"
+      },
+      "ShortDescription": {
+        "de": "Proporzwahl St.Gallen de",
+        "fr": "Proporzwahl St.Gallen fr",
+        "it": "Proporzwahl St.Gallen it",
+        "rm": "Proporzwahl St.Gallen rm"
+      },
+      "InternalDescription": "Proporzwahl St.Gallen auf Urnengang St.Gallen",
+      "DomainOfInfluence": {
+        "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Name": "St. Gallen",
+        "ShortName": "SG",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 2,
+        "ParentId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Children": [],
+        "Canton": 0,
+        "ContactPerson": {
+          "FirstName": "Hans",
+          "FamilyName": "Muster",
+          "Phone": "071 123 12 12",
+          "MobilePhone": "079 123 12 12",
+          "Email": "hans@muster.com"
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": "Kanton St. Gallen"
+      },
+      "PoliticalBusinessType": 2,
+      "Active": true
+    },
+    {
+      "Id": "50415df8-6ee9-4eb4-9e31-68c0d3021e76",
+      "PoliticalBusinessNumber": "321",
+      "OfficialDescription": {
+        "de": "Proporzwahl Gossau de",
+        "fr": "Proporzwahl Gossau fr",
+        "it": "Proporzwahl Gossau it",
+        "rm": "Proporzwahl Gossau rm"
+      },
+      "ShortDescription": {
+        "de": "Proporzwahl Gossau de",
+        "fr": "Proporzwahl Gossau fr",
+        "it": "Proporzwahl Gossau it",
+        "rm": "Proporzwahl Gossau rm"
+      },
+      "InternalDescription": "Proporzwahl Gossau auf Urnengang St.Gallen",
+      "DomainOfInfluence": {
+        "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "Name": "Gossau",
+        "ShortName": "GOS",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 5,
+        "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Children": [],
+        "Canton": 0,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": true,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": {
+          "AddressLine1": "Stadtverwaltung Gossau",
+          "AddressLine2": "",
+          "Street": "Bahnhofstrasse 25",
+          "AddressAddition": "",
+          "ZipCode": "9200",
+          "City": "Gossau",
+          "Country": "Schweiz"
+        },
+        "PrintData": {
+          "ShippingAway": 2,
+          "ShippingReturn": 5,
+          "ShippingMethod": 3
+        },
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": true,
+        "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
+        "NameForProtocol": "Stadt Gossau"
+      },
+      "PoliticalBusinessType": 2,
+      "Active": true
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "event": {
+    "Id": "8fd00ee5-cc68-4b33-86b0-cc9c58dc1b1f",
+    "PoliticalBusinessNumber": "6000",
+    "OfficialDescription": {
+      "de": "Update Proporzwahl de",
+      "fr": "Update Proporzwahl fr",
+      "it": "Update Proporzwahl it",
+      "rm": "Update Proporzwahl rm"
+    },
+    "ShortDescription": {
+      "de": "Proporzwahl de",
+      "fr": "Proporzwahl fr",
+      "it": "Proporzwahl it",
+      "rm": "Proporzwahl rm"
+    },
+    "InternalDescription": "",
+    "NumberOfMandates": 2,
+    "MandateAlgorithm": 1,
+    "CandidateCheckDigit": false,
+    "BallotBundleSize": 25,
+    "AutomaticBallotBundleNumberGeneration": true,
+    "BallotNumberGeneration": 1,
+    "AutomaticEmptyVoteCounting": false,
+    "EnforceEmptyVoteCountingForCountingCircles": true,
+    "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+    "ContestId": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
+    "Active": false,
+    "BallotBundleSampleSize": 0,
+    "ReviewProcedure": 1,
+    "EnforceReviewProcedureForCountingCircles": true
+  }
+}

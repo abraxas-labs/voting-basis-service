@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+      <UserSecretsId>287c848e-4af5-45af-834b-9e79bd625946</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Grpc.AspNetCore" Version="$(GrpcAspNetCoreVersion)" />
+      <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="$(GrpcAspNetCoreVersion)" />
+      <PackageReference Include="Grpc.AspNetCore.Web" Version="$(GrpcAspNetCoreVersion)" />
+      <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="6.0.8" />
+      <PackageReference Include="prometheus-net.AspNetCore" Version="6.0.0" />
+      <PackageReference Include="prometheus-net.AspNetCore.Grpc" Version="6.0.0" />
+      <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" Version="6.0.0" />
+      <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
+      <PackageReference Include="Serilog.Expressions" Version="3.4.0" />
+      <PackageReference Include="Voting.Lib.Grpc" Version="$(VotingLibVersion)" />
+      <PackageReference Include="Voting.Lib.Rest" Version="$(VotingLibVersion)" />
+      <PackageReference Include="Voting.Lib.Prometheus" Version="$(VotingLibVersion)" />
+      <PackageReference Include="Voting.Basis.Service.Proto" Version="$(VotingBasisProtoVersion)" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Voting.Basis.Core\Voting.Basis.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\pkcs11\**">
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
+
+</Project>

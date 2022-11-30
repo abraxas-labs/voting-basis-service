@@ -1,0 +1,74 @@
+{
+  "1": {
+    "Id": "561592e7-b7dc-44d9-ac32-c1d11620c291",
+    "PoliticalBusinessNumber": "8000",
+    "OfficialDescription": {
+      "de": "Neue Majorzwahl 1 de",
+      "fr": "Neue Majorzwahl 1 fr",
+      "it": "Neue Majorzwahl 1 it",
+      "rm": "Neue Majorzwahl 1 rm"
+    },
+    "ShortDescription": {
+      "de": "Neue Majorzwahl 1 de",
+      "fr": "Neue Majorzwahl 1 fr",
+      "it": "Neue Majorzwahl 1 it",
+      "rm": "Neue Majorzwahl 1 rm"
+    },
+    "InternalDescription": "",
+    "NumberOfMandates": 6,
+    "MandateAlgorithm": 1,
+    "IndividualEmptyBallotsAllowed": false,
+    "CandidateCheckDigit": false,
+    "BallotBundleSize": 0,
+    "BallotBundleSampleSize": 0,
+    "AutomaticBallotBundleNumberGeneration": false,
+    "BallotNumberGeneration": 0,
+    "AutomaticEmptyVoteCounting": false,
+    "EnforceEmptyVoteCountingForCountingCircles": false,
+    "ResultEntry": 1,
+    "EnforceResultEntryForCountingCircles": false,
+    "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+    "ContestId": "bfd88d88-77f2-4172-a73d-56b1ca5442b3",
+    "Active": false,
+    "InvalidVotes": true,
+    "ReportDomainOfInfluenceLevel": 0,
+    "ReviewProcedure": 1,
+    "EnforceReviewProcedureForCountingCircles": true
+  },
+  "2": {
+    "Id": "a60c5616-c576-47d4-8ef4-4aa9b347ee60",
+    "PoliticalBusinessNumber": "8001",
+    "OfficialDescription": {
+      "de": "Neue Majorzwahl 2 de",
+      "fr": "Neue Majorzwahl 2 fr",
+      "it": "Neue Majorzwahl 2 it",
+      "rm": "Neue Majorzwahl 2 rm"
+    },
+    "ShortDescription": {
+      "de": "Neue Majorzwahl 2 de",
+      "fr": "Neue Majorzwahl 2 fr",
+      "it": "Neue Majorzwahl 2 it",
+      "rm": "Neue Majorzwahl 2 rm"
+    },
+    "InternalDescription": "",
+    "NumberOfMandates": 3,
+    "MandateAlgorithm": 2,
+    "IndividualEmptyBallotsAllowed": false,
+    "CandidateCheckDigit": false,
+    "BallotBundleSize": 0,
+    "BallotBundleSampleSize": 0,
+    "AutomaticBallotBundleNumberGeneration": false,
+    "BallotNumberGeneration": 0,
+    "AutomaticEmptyVoteCounting": false,
+    "EnforceEmptyVoteCountingForCountingCircles": false,
+    "ResultEntry": 2,
+    "EnforceResultEntryForCountingCircles": false,
+    "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+    "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
+    "Active": false,
+    "InvalidVotes": false,
+    "ReportDomainOfInfluenceLevel": 0,
+    "ReviewProcedure": 2,
+    "EnforceReviewProcedureForCountingCircles": false
+  }
+}

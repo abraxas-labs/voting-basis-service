@@ -1,0 +1,38 @@
+{
+  "data": {
+    "Id": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
+    "PoliticalBusinessNumber": "8164",
+    "OfficialDescription": {
+      "de": "Update Majorzwahl de",
+      "fr": "Update Majorzwahl fr",
+      "it": "Update Majorzwahl it",
+      "rm": "Update Majorzwahl rm"
+    },
+    "ShortDescription": {
+      "de": "Update Majorzwahl de",
+      "fr": "Update Majorzwahl fr",
+      "it": "Update Majorzwahl it",
+      "rm": "Update Majorzwahl rm"
+    },
+    "InternalDescription": "",
+    "NumberOfMandates": 2,
+    "MandateAlgorithm": 2,
+    "IndividualEmptyBallotsAllowed": false,
+    "CandidateCheckDigit": false,
+    "BallotBundleSize": 25,
+    "BallotBundleSampleSize": 8,
+    "AutomaticBallotBundleNumberGeneration": true,
+    "BallotNumberGeneration": 1,
+    "AutomaticEmptyVoteCounting": false,
+    "EnforceEmptyVoteCountingForCountingCircles": true,
+    "ResultEntry": 1,
+    "EnforceResultEntryForCountingCircles": false,
+    "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+    "ContestId": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
+    "Active": false,
+    "InvalidVotes": false,
+    "ReportDomainOfInfluenceLevel": 2,
+    "ReviewProcedure": 1,
+    "EnforceReviewProcedureForCountingCircles": true
+  }
+}

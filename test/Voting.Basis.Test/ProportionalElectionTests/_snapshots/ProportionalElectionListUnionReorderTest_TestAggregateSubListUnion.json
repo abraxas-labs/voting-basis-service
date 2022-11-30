@@ -1,0 +1,129 @@
+{
+  "ProportionalElectionListUnions_": [
+    {
+      "Id": "16892ba3-9b8c-42c7-914e-4b4692d170f4",
+      "ProportionalElectionId": "fa69e964-0a02-4d16-b417-247e8987021a",
+      "Description": {
+        "de": "Listenverbindung 1 de",
+        "fr": "Listenverbindung 1 fr",
+        "it": "Listenverbindung 1 it",
+        "rm": "Listenverbindung 1 rm"
+      },
+      "Position": 1,
+      "ProportionalElectionRootListUnionId": "",
+      "ProportionalElectionSubListUnions": [
+        {
+          "Id": "5f53066c-1922-497d-a48b-cfd69579d892",
+          "ProportionalElectionId": "fa69e964-0a02-4d16-b417-247e8987021a",
+          "Description": {
+            "de": "Unterlistenverbindung 1.1 de",
+            "fr": "Unterlistenverbindung 1.1 fr",
+            "it": "Unterlistenverbindung 1.1 it",
+            "rm": "Unterlistenverbindung 1.1 rm"
+          },
+          "Position": 1,
+          "ProportionalElectionRootListUnionId": "16892ba3-9b8c-42c7-914e-4b4692d170f4",
+          "ProportionalElectionSubListUnions": [],
+          "ProportionalElectionListIds": [
+            "9091a3b6-3785-4adc-a486-f486e686503e",
+            "bfe54c2a-6bdf-41a3-bf11-321203c380d3"
+          ],
+          "ProportionalElectionMainListId": "9091a3b6-3785-4adc-a486-f486e686503e"
+        },
+        {
+          "Id": "7fd14367-ff96-4ddc-89bc-47fb658527df",
+          "ProportionalElectionId": "fa69e964-0a02-4d16-b417-247e8987021a",
+          "Description": {
+            "de": "Unterlistenverbindung 1.2 de",
+            "fr": "Unterlistenverbindung 1.2 fr",
+            "it": "Unterlistenverbindung 1.2 it",
+            "rm": "Unterlistenverbindung 1.2 rm"
+          },
+          "Position": 2,
+          "ProportionalElectionRootListUnionId": "16892ba3-9b8c-42c7-914e-4b4692d170f4",
+          "ProportionalElectionSubListUnions": [],
+          "ProportionalElectionListIds": [
+            "bfe54c2a-6bdf-41a3-bf11-321203c380d3"
+          ],
+          "ProportionalElectionMainListId": "bfe54c2a-6bdf-41a3-bf11-321203c380d3"
+        }
+      ],
+      "ProportionalElectionListIds": [
+        "9091a3b6-3785-4adc-a486-f486e686503e",
+        "bfe54c2a-6bdf-41a3-bf11-321203c380d3"
+      ],
+      "ProportionalElectionMainListId": ""
+    },
+    {
+      "Id": "6a8913a3-bd03-4cb3-a0f9-317db5de8959",
+      "ProportionalElectionId": "fa69e964-0a02-4d16-b417-247e8987021a",
+      "Description": {
+        "de": "Listenverbindung 2 de",
+        "fr": "Listenverbindung 2 fr",
+        "it": "Listenverbindung 2 it",
+        "rm": "Listenverbindung 2 rm"
+      },
+      "Position": 2,
+      "ProportionalElectionRootListUnionId": "",
+      "ProportionalElectionSubListUnions": [
+        {
+          "Id": "6a839c1a-c94a-4b5a-b59b-4c0edea82307",
+          "ProportionalElectionId": "fa69e964-0a02-4d16-b417-247e8987021a",
+          "Description": {
+            "de": "Unterlistenverbindung 2.2 de",
+            "fr": "Unterlistenverbindung 2.2 fr",
+            "it": "Unterlistenverbindung 2.2 it",
+            "rm": "Unterlistenverbindung 2.2 rm"
+          },
+          "Position": 1,
+          "ProportionalElectionRootListUnionId": "6a8913a3-bd03-4cb3-a0f9-317db5de8959",
+          "ProportionalElectionSubListUnions": [],
+          "ProportionalElectionListIds": [
+            "afebb285-599d-415f-89ac-04ebcbc4eaeb",
+            "bfe54c2a-6bdf-41a3-bf11-321203c380d3"
+          ],
+          "ProportionalElectionMainListId": "afebb285-599d-415f-89ac-04ebcbc4eaeb"
+        },
+        {
+          "Id": "49715fbf-5399-4981-bee5-01705469ec8c",
+          "ProportionalElectionId": "fa69e964-0a02-4d16-b417-247e8987021a",
+          "Description": {
+            "de": "Unterlistenverbindung 2.1 de",
+            "fr": "Unterlistenverbindung 2.1 fr",
+            "it": "Unterlistenverbindung 2.1 it",
+            "rm": "Unterlistenverbindung 2.1 rm"
+          },
+          "Position": 2,
+          "ProportionalElectionRootListUnionId": "6a8913a3-bd03-4cb3-a0f9-317db5de8959",
+          "ProportionalElectionSubListUnions": [],
+          "ProportionalElectionListIds": [
+            "9091a3b6-3785-4adc-a486-f486e686503e",
+            "bfe54c2a-6bdf-41a3-bf11-321203c380d3"
+          ],
+          "ProportionalElectionMainListId": "9091a3b6-3785-4adc-a486-f486e686503e"
+        }
+      ],
+      "ProportionalElectionListIds": [
+        "9091a3b6-3785-4adc-a486-f486e686503e",
+        "afebb285-599d-415f-89ac-04ebcbc4eaeb",
+        "bfe54c2a-6bdf-41a3-bf11-321203c380d3"
+      ],
+      "ProportionalElectionMainListId": ""
+    },
+    {
+      "Id": "687970fd-aeae-48d0-b291-7b6333912907",
+      "ProportionalElectionId": "fa69e964-0a02-4d16-b417-247e8987021a",
+      "Description": {
+        "de": "Listenverbindung 3 de",
+        "fr": "Listenverbindung 3 fr",
+        "it": "Listenverbindung 3 it",
+        "rm": "Listenverbindung 3 rm"
+      },
+      "Position": 3,
+      "ProportionalElectionRootListUnionId": "",
+      "ProportionalElectionSubListUnions": [],
+      "ProportionalElectionListIds": [],
+      "ProportionalElectionMainListId": ""
+    }
+  ]
+}

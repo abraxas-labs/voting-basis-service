@@ -1,0 +1,33 @@
+{
+  "Item1": {
+    "EventInfo": {
+      "User": {
+        "Id": "386095419505026491",
+        "Username": "",
+        "FirstName": "",
+        "LastName": ""
+      },
+      "Tenant": {
+        "Id": "380590188826699143",
+        "Name": ""
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "SignatureVersion": 1,
+    "ContestId": "be5eaf43-9f4e-4749-8a3f-c90b692d8ebc",
+    "HostId": "Test-Machine",
+    "KeyId": "",
+    "SignedEventCount": 0,
+    "DeletedAt": {
+      "Seconds": 1578661930,
+      "Nanos": 200000000
+    },
+    "AuthenticationTag": []
+  },
+  "Item2": {
+    "HsmSignature": []
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "merger": {
+    "Merged": false,
+    "ActiveFrom": "2020-01-20T13:12:10.2Z",
+    "CopyFromCountingCircleId": "2a3a799a-2437-47da-86fe-06decf70a267",
+    "MergedCountingCircles": [],
+    "NewCountingCircle": null,
+    "Id": "9dd859aa-2274-4a6a-bf19-6311e18644b2"
+  },
+  "newCc": {
+    "ResponsibleAuthority": {
+      "CountingCircle": null,
+      "CountingCircleId": "00000000-0000-0000-0000-000000000000",
+      "SecureConnectId": "",
+      "Name": "",
+      "Phone": "",
+      "Email": "",
+      "Street": "",
+      "Zip": "",
+      "City": "",
+      "Id": "00000000-0000-0000-0000-000000000000"
+    },
+    "ContactPersonDuringEvent": {
+      "CountingCircleDuringEvent": null,
+      "CountingCircleDuringEventId": null,
+      "CountingCircleAfterEvent": null,
+      "CountingCircleAfterEventId": null,
+      "FirstName": "",
+      "FamilyName": "",
+      "Phone": "",
+      "MobilePhone": "",
+      "Email": "",
+      "Id": "00000000-0000-0000-0000-000000000000"
+    },
+    "ContactPersonAfterEvent": null,
+    "DomainOfInfluences": [],
+    "ModifiedOn": "2020-07-17T10:07:56Z",
+    "ContestOptions": [],
+    "MergeTarget": null,
+    "MergeTargetId": null,
+    "MergeOrigin": null,
+    "MergeOriginId": "9dd859aa-2274-4a6a-bf19-6311e18644b2",
+    "Name": "RapperswilJona",
+    "Bfs": "bfs",
+    "ContactPersonSameDuringEventAsAfter": false,
+    "State": 4,
+    "Code": "code",
+    "SortNumber": 200,
+    "NameForProtocol": "Stadt Rapperswil-Jona updated",
+    "CreatedOn": "2020-07-17T10:07:56Z",
+    "Id": "102defb7-9fe7-426a-ad87-9127a650b79f"
+  }
+}

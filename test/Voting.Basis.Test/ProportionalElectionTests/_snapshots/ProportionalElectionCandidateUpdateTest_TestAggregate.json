@@ -1,0 +1,49 @@
+{
+  "Id": "9e131f21-4483-4375-b014-484c272615ee",
+  "ProportionalElectionListId": "6eedf849-0ecc-4a02-a43b-99ef4b11d795",
+  "Number": "numberNew",
+  "FirstName": "new first name",
+  "LastName": "new last name",
+  "PoliticalFirstName": "new pol first name",
+  "PoliticalLastName": "new pol last name",
+  "DateOfBirth": {
+    "Seconds": -279158400,
+    "Nanos": 0
+  },
+  "Sex": 1,
+  "Occupation": {
+    "de": "new occupation de",
+    "fr": "new occupation fr",
+    "it": "new occupation it",
+    "rm": "new occupation rm"
+  },
+  "Title": "new title",
+  "OccupationTitle": {
+    "de": "new occupation title de",
+    "fr": "new occupation title fr",
+    "it": "new occupation title it",
+    "rm": "new occupation title rm"
+  },
+  "Incumbent": false,
+  "ZipCode": "new zip code",
+  "Locality": "locality",
+  "Position": 1,
+  "Accumulated": false,
+  "AccumulatedPosition": 0,
+  "Party": {
+    "Id": "d42d9fb1-4e68-4c4a-8d1f-7cf846c8304f",
+    "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+    "Name": {
+      "de": "Sozialdemokratische Partei de",
+      "fr": "Sozialdemokratische Partei fr",
+      "it": "Sozialdemokratische Partei it",
+      "rm": "Sozialdemokratische Partei rm"
+    },
+    "ShortDescription": {
+      "de": "SP de",
+      "fr": "SP fr",
+      "it": "SP it",
+      "rm": "SP rm"
+    }
+  }
+}

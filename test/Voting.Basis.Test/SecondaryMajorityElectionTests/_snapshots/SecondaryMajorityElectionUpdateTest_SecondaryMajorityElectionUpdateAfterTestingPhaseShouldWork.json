@@ -1,0 +1,57 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Id": "654455b1-85a1-44c2-ad7b-8a8e7ea29d95",
+    "OfficialDescription": {
+      "de": "Nebenwahl Update de",
+      "fr": "Nebenwahl Update fr",
+      "it": "Nebenwahl Update it",
+      "rm": "Nebenwahl Update rm"
+    },
+    "ShortDescription": {
+      "de": "Nebenwahl Update de",
+      "fr": "Nebenwahl Update fr",
+      "it": "Nebenwahl Update it",
+      "rm": "Nebenwahl Update rm"
+    },
+    "InternalDescription": "",
+    "PrimaryMajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
+    "PoliticalBusinessNumber": "n1new"
+  },
+  "reponse": {
+    "Id": "654455b1-85a1-44c2-ad7b-8a8e7ea29d95",
+    "PoliticalBusinessNumber": "n1new",
+    "OfficialDescription": {
+      "de": "Nebenwahl Update de",
+      "fr": "Nebenwahl Update fr",
+      "it": "Nebenwahl Update it",
+      "rm": "Nebenwahl Update rm"
+    },
+    "ShortDescription": {
+      "de": "Nebenwahl Update de",
+      "fr": "Nebenwahl Update fr",
+      "it": "Nebenwahl Update it",
+      "rm": "Nebenwahl Update rm"
+    },
+    "InternalDescription": "",
+    "NumberOfMandates": 3,
+    "AllowedCandidates": 2,
+    "PrimaryMajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
+    "Active": false
+  }
+}

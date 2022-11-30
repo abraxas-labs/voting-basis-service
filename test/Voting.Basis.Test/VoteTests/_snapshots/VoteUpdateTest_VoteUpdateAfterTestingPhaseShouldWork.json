@@ -1,0 +1,107 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Id": "76d9b4bd-52e6-462e-9613-f344f7b860df",
+    "PoliticalBusinessNumber": "1661new",
+    "OfficialDescription": {
+      "de": "Update Abstimmung de",
+      "fr": "Update Abstimmung fr",
+      "it": "Update Abstimmung it",
+      "rm": "Update Abstimmung rm"
+    },
+    "ShortDescription": {
+      "de": "Upd Abstimmung de",
+      "fr": "Upd Abstimmung fr",
+      "it": "Upd Abstimmung it",
+      "rm": "Upd Abstimmung rm"
+    },
+    "InternalDescription": "",
+    "ReportDomainOfInfluenceLevel": 0
+  },
+  "reponse": {
+    "Id": "76d9b4bd-52e6-462e-9613-f344f7b860df",
+    "PoliticalBusinessNumber": "1661new",
+    "OfficialDescription": {
+      "de": "Update Abstimmung de",
+      "fr": "Update Abstimmung fr",
+      "it": "Update Abstimmung it",
+      "rm": "Update Abstimmung rm"
+    },
+    "ShortDescription": {
+      "de": "Upd Abstimmung de",
+      "fr": "Upd Abstimmung fr",
+      "it": "Upd Abstimmung it",
+      "rm": "Upd Abstimmung rm"
+    },
+    "InternalDescription": "",
+    "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+    "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
+    "Active": true,
+    "Ballots": [
+      {
+        "Id": "690c36d8-dd09-4464-91ce-73c48df176a1",
+        "Position": 1,
+        "BallotType": 2,
+        "Description": {},
+        "BallotQuestions": [
+          {
+            "Number": 1,
+            "Question": {
+              "de": "Frage 1 Gossau de",
+              "fr": "Frage 1 Gossau fr",
+              "it": "Frage 1 Gossau it",
+              "rm": "Frage 1 Gossau rm"
+            }
+          },
+          {
+            "Number": 2,
+            "Question": {
+              "de": "Frage 2 Gossau de",
+              "fr": "Frage 2 Gossau fr",
+              "it": "Frage 2 Gossau it",
+              "rm": "Frage 2 Gossau rm"
+            }
+          }
+        ],
+        "VoteId": "76d9b4bd-52e6-462e-9613-f344f7b860df",
+        "HasTieBreakQuestions": true,
+        "TieBreakQuestions": [
+          {
+            "Number": 1,
+            "Question": {
+              "de": "Stichfrage 1 Gossau (Frage 1 vs Frage 2) de",
+              "fr": "Stichfrage 1 Gossau (Frage 1 vs Frage 2) fr",
+              "it": "Stichfrage 1 Gossau (Frage 1 vs Frage 2) it",
+              "rm": "Stichfrage 1 Gossau (Frage 1 vs Frage 2) rm"
+            },
+            "Question1Number": 1,
+            "Question2Number": 2
+          }
+        ]
+      }
+    ],
+    "ReportDomainOfInfluenceLevel": 0,
+    "ResultAlgorithm": 1,
+    "ResultEntry": 2,
+    "BallotBundleSampleSizePercent": 0,
+    "AutomaticBallotBundleNumberGeneration": true,
+    "EnforceResultEntryForCountingCircles": true,
+    "ReviewProcedure": 1,
+    "EnforceReviewProcedureForCountingCircles": true
+  }
+}

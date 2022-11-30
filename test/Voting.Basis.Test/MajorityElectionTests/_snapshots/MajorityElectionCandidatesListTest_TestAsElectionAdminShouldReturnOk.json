@@ -1,0 +1,78 @@
+{
+  "Candidates": [
+    {
+      "Id": "77ce6bf0-b27c-4d9d-926f-ced7863aff2f",
+      "MajorityElectionId": "50415df8-6ee9-4eb4-9e31-68c0d3021e76",
+      "Number": "number1",
+      "FirstName": "firstName",
+      "LastName": "lastName",
+      "PoliticalFirstName": "pol first name",
+      "PoliticalLastName": "pol last name",
+      "DateOfBirth": {
+        "Seconds": -314582400,
+        "Nanos": 0
+      },
+      "Sex": 2,
+      "Occupation": {
+        "de": "occupation de",
+        "fr": "occupation fr",
+        "it": "occupation it",
+        "rm": "occupation rm"
+      },
+      "Title": "title",
+      "OccupationTitle": {
+        "de": "occupation title de",
+        "fr": "occupation title fr",
+        "it": "occupation title it",
+        "rm": "occupation title rm"
+      },
+      "Party": {
+        "de": "CVP de",
+        "fr": "CVP fr",
+        "it": "CVP it",
+        "rm": "CVP rm"
+      },
+      "Incumbent": true,
+      "ZipCode": "zip code",
+      "Locality": "locality",
+      "Position": 1
+    },
+    {
+      "Id": "4a44cb35-05a7-41f9-aa1e-034bedd320ec",
+      "MajorityElectionId": "50415df8-6ee9-4eb4-9e31-68c0d3021e76",
+      "Number": "number2",
+      "FirstName": "candidate",
+      "LastName": "number 2",
+      "PoliticalFirstName": "pol first name 2",
+      "PoliticalLastName": "pol last name 2",
+      "DateOfBirth": {
+        "Seconds": -945734400,
+        "Nanos": 0
+      },
+      "Sex": 3,
+      "Occupation": {
+        "de": "occupation 2 de",
+        "fr": "occupation 2 fr",
+        "it": "occupation 2 it",
+        "rm": "occupation 2 rm"
+      },
+      "Title": "title 2",
+      "OccupationTitle": {
+        "de": "occupation title 2 de",
+        "fr": "occupation title 2 fr",
+        "it": "occupation title 2 it",
+        "rm": "occupation title 2 rm"
+      },
+      "Party": {
+        "de": "CVP de",
+        "fr": "CVP fr",
+        "it": "CVP it",
+        "rm": "CVP rm"
+      },
+      "Incumbent": false,
+      "ZipCode": "",
+      "Locality": "locality 2",
+      "Position": 2
+    }
+  ]
+}

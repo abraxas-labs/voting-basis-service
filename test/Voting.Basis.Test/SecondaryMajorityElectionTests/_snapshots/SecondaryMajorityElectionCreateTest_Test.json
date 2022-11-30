@@ -1,0 +1,41 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "SecondaryMajorityElection": {
+      "Id": "",
+      "PoliticalBusinessNumber": "10246",
+      "OfficialDescription": {
+        "de": "Neue Neben-Majorzwahl de",
+        "fr": "Neue Neben-Majorzwahl fr",
+        "it": "Neue Neben-Majorzwahl it",
+        "rm": "Neue Neben-Majorzwahl rm"
+      },
+      "ShortDescription": {
+        "de": "Neue Neben-Majorzwahl de",
+        "fr": "Neue Neben-Majorzwahl fr",
+        "it": "Neue Neben-Majorzwahl it",
+        "rm": "Neue Neben-Majorzwahl rm"
+      },
+      "InternalDescription": "",
+      "NumberOfMandates": 5,
+      "AllowedCandidates": 2,
+      "PrimaryMajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
+      "Active": true
+    }
+  }
+}

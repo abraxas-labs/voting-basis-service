@@ -1,0 +1,48 @@
+{
+  "ComparisonValidVotingCardsWithAccountedBallotsThresholdPercent": 1.25,
+  "ComparisonVoterParticipationConfigurations": [
+    {
+      "MainLevel": 1,
+      "ComparisonLevel": 1,
+      "ThresholdPercent": 4.5
+    }
+  ],
+  "ComparisonVotingChannelConfigurations": [
+    {
+      "VotingChannel": 1,
+      "ThresholdPercent": 29.1
+    },
+    {
+      "VotingChannel": 2,
+      "ThresholdPercent": null
+    },
+    {
+      "VotingChannel": 3,
+      "ThresholdPercent": 1.25
+    },
+    {
+      "VotingChannel": 4,
+      "ThresholdPercent": 7.5
+    }
+  ],
+  "ComparisonCountOfVotersConfigurations": [
+    {
+      "Category": 1,
+      "ThresholdPercent": 29.1
+    },
+    {
+      "Category": 2,
+      "ThresholdPercent": null
+    },
+    {
+      "Category": 3,
+      "ThresholdPercent": 1.25
+    }
+  ],
+  "ComparisonCountOfVotersCountingCircleEntries": [
+    {
+      "Category": 2,
+      "CountingCircleId": "0bb8d89c-d387-40d0-83cf-84e118a8d524"
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Id": "7c13d762-4166-41f6-b3a5-2c5f21c9dc43",
+    "FirstName": "update first name",
+    "LastName": "updated last name",
+    "PoliticalFirstName": "updated p. first name",
+    "PoliticalLastName": "updated p. last name",
+    "DateOfBirth": {
+      "Seconds": 639301503,
+      "Nanos": 0
+    },
+    "Sex": 1,
+    "Occupation": {
+      "de": "occupation updated de",
+      "fr": "occupation updated fr",
+      "it": "occupation updated it",
+      "rm": "occupation updated rm"
+    },
+    "Title": "",
+    "OccupationTitle": {},
+    "Incumbent": false,
+    "ZipCode": "",
+    "Locality": "locality updated",
+    "ProportionalElectionId": "b849600e-305b-4d37-a999-214acdc88682",
+    "ProportionalElectionListId": "afab6f5d-4b4b-4e7c-87c4-6eb32b85163b"
+  },
+  "reponse": {
+    "Id": "7c13d762-4166-41f6-b3a5-2c5f21c9dc43",
+    "ProportionalElectionListId": "afab6f5d-4b4b-4e7c-87c4-6eb32b85163b",
+    "Number": "number1",
+    "FirstName": "update first name",
+    "LastName": "updated last name",
+    "PoliticalFirstName": "updated p. first name",
+    "PoliticalLastName": "updated p. last name",
+    "DateOfBirth": {
+      "Seconds": 639273600,
+      "Nanos": 0
+    },
+    "Sex": 1,
+    "Occupation": {
+      "de": "occupation updated de",
+      "fr": "occupation updated fr",
+      "it": "occupation updated it",
+      "rm": "occupation updated rm"
+    },
+    "Title": "",
+    "OccupationTitle": {},
+    "Incumbent": false,
+    "ZipCode": "",
+    "Locality": "locality updated",
+    "Position": 1,
+    "Accumulated": true,
+    "AccumulatedPosition": 2,
+    "Party": {
+      "Id": "6fe8af5a-9f98-4457-90e7-49657a3df14f",
+      "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+      "Name": {
+        "de": "Andere de",
+        "fr": "Andere fr",
+        "it": "Andere it",
+        "rm": "Andere rm"
+      },
+      "ShortDescription": {
+        "de": "AN de",
+        "fr": "AN fr",
+        "it": "AN it",
+        "rm": "AN rm"
+      }
+    }
+  }
+}

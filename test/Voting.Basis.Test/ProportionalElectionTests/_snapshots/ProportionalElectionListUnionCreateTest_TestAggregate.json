@@ -1,0 +1,32 @@
+{
+  "1": {
+    "Id": "430f11f8-82bf-4f39-a2b9-d76e8c9dab08",
+    "ProportionalElectionId": "06f7ecb7-e175-4c3b-9ea5-cfc138d08278",
+    "Description": {
+      "de": "Created list union de",
+      "fr": "Created list union fr",
+      "it": "Created list union it",
+      "rm": "Created list union rm"
+    },
+    "Position": 1,
+    "ProportionalElectionRootListUnionId": "",
+    "ProportionalElectionSubListUnions": [],
+    "ProportionalElectionListIds": [],
+    "ProportionalElectionMainListId": ""
+  },
+  "2": {
+    "Id": "c995e944-5b49-40f8-a75b-814a10ebc0f0",
+    "ProportionalElectionId": "06f7ecb7-e175-4c3b-9ea5-cfc138d08278",
+    "Description": {
+      "de": "Created list union 2 de",
+      "fr": "Created list union 2 fr",
+      "it": "Created list union 2 it",
+      "rm": "Created list union 2 rm"
+    },
+    "Position": 2,
+    "ProportionalElectionRootListUnionId": "",
+    "ProportionalElectionSubListUnions": [],
+    "ProportionalElectionListIds": [],
+    "ProportionalElectionMainListId": ""
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "Id": "84a0c2dd-9c18-4a64-a08f-d2478c0d3a5b",
+  "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
+  "OrderNumber": "1a",
+  "ShortDescription": {
+    "de": "Liste 1 de",
+    "fr": "Liste 1 fr",
+    "it": "Liste 1 it",
+    "rm": "Liste 1 rm"
+  },
+  "BlankRowCount": 0,
+  "Position": 1,
+  "Description": {
+    "de": "Liste 1 de",
+    "fr": "Liste 1 fr",
+    "it": "Liste 1 it",
+    "rm": "Liste 1 rm"
+  },
+  "CountOfCandidates": 0,
+  "CandidateCountOk": false,
+  "ListUnionDescription": {},
+  "SubListUnionDescription": {}
+}

@@ -1,0 +1,11 @@
+{
+  "DomainOfInfluence": null,
+  "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+  "Description": "my-test",
+  "EaiMessageType": "001",
+  "ExportKeys": [
+    "vote_ech_0110",
+    "proportional_election_candidate_results_with_vote_sources"
+  ],
+  "Id": "a4079ec3-315c-4a41-b034-b86ff42b6063"
+}

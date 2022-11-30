@@ -1,0 +1,60 @@
+{
+  "1": {
+    "Id": "5483076b-e596-44d3-b34e-6e9220eed84c",
+    "PoliticalBusinessNumber": "2000",
+    "OfficialDescription": {
+      "de": "Neue Abstimmung 1 de",
+      "fr": "Neue Abstimmung 1 fr",
+      "it": "Neue Abstimmung 1 it",
+      "rm": "Neue Abstimmung 1 rm"
+    },
+    "ShortDescription": {
+      "de": "Neue 1 de",
+      "fr": "Neue 1 fr",
+      "it": "Neue 1 it",
+      "rm": "Neue 1 rm"
+    },
+    "InternalDescription": "",
+    "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+    "ContestId": "bfd88d88-77f2-4172-a73d-56b1ca5442b3",
+    "Active": false,
+    "Ballots": [],
+    "ReportDomainOfInfluenceLevel": 0,
+    "ResultAlgorithm": 0,
+    "ResultEntry": 2,
+    "BallotBundleSampleSizePercent": 10,
+    "AutomaticBallotBundleNumberGeneration": true,
+    "EnforceResultEntryForCountingCircles": true,
+    "ReviewProcedure": 2,
+    "EnforceReviewProcedureForCountingCircles": true
+  },
+  "2": {
+    "Id": "051c2a1a-9df6-4c9c-98a2-d7f3d720c62e",
+    "PoliticalBusinessNumber": "2001",
+    "OfficialDescription": {
+      "de": "Neue Abstimmung 2 de",
+      "fr": "Neue Abstimmung 2 fr",
+      "it": "Neue Abstimmung 2 it",
+      "rm": "Neue Abstimmung 2 rm"
+    },
+    "ShortDescription": {
+      "de": "Neue 2 de",
+      "fr": "Neue 2 fr",
+      "it": "Neue 2 it",
+      "rm": "Neue 2 rm"
+    },
+    "InternalDescription": "",
+    "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+    "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
+    "Active": false,
+    "Ballots": [],
+    "ReportDomainOfInfluenceLevel": 0,
+    "ResultAlgorithm": 2,
+    "ResultEntry": 1,
+    "BallotBundleSampleSizePercent": 0,
+    "AutomaticBallotBundleNumberGeneration": false,
+    "EnforceResultEntryForCountingCircles": false,
+    "ReviewProcedure": 1,
+    "EnforceReviewProcedureForCountingCircles": false
+  }
+}

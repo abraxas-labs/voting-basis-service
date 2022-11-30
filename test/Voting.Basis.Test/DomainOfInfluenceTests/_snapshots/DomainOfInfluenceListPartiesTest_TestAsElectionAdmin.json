@@ -1,0 +1,68 @@
+{
+  "Parties": [
+    {
+      "Id": "6fe8af5a-9f98-4457-90e7-49657a3df14f",
+      "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+      "Name": {
+        "de": "Andere de",
+        "fr": "Andere fr",
+        "it": "Andere it",
+        "rm": "Andere rm"
+      },
+      "ShortDescription": {
+        "de": "AN de",
+        "fr": "AN fr",
+        "it": "AN it",
+        "rm": "AN rm"
+      }
+    },
+    {
+      "Id": "171a2f0a-f037-4d73-8887-a31a3f5fb541",
+      "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+      "Name": {
+        "de": "Freie Liste Gossau de",
+        "fr": "Freie Liste Gossau fr",
+        "it": "Freie Liste Gossau it",
+        "rm": "Freie Liste Gossau rm"
+      },
+      "ShortDescription": {
+        "de": "FLiG de",
+        "fr": "FLiG fr",
+        "it": "FLiG it",
+        "rm": "FLiG rm"
+      }
+    },
+    {
+      "Id": "e6697ba9-9c7a-4dba-8640-9575dfcc3e09",
+      "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+      "Name": {
+        "de": "Schweizerische Volkspartei de",
+        "fr": "Schweizerische Volkspartei fr",
+        "it": "Schweizerische Volkspartei it",
+        "rm": "Schweizerische Volkspartei rm"
+      },
+      "ShortDescription": {
+        "de": "SVP de",
+        "fr": "SVP fr",
+        "it": "SVP it",
+        "rm": "SVP rm"
+      }
+    },
+    {
+      "Id": "d42d9fb1-4e68-4c4a-8d1f-7cf846c8304f",
+      "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+      "Name": {
+        "de": "Sozialdemokratische Partei de",
+        "fr": "Sozialdemokratische Partei fr",
+        "it": "Sozialdemokratische Partei it",
+        "rm": "Sozialdemokratische Partei rm"
+      },
+      "ShortDescription": {
+        "de": "SP de",
+        "fr": "SP fr",
+        "it": "SP it",
+        "rm": "SP rm"
+      }
+    }
+  ]
+}

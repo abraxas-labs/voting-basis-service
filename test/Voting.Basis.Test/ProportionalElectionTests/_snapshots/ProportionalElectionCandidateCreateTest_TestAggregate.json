@@ -1,0 +1,100 @@
+{
+  "1": {
+    "Id": "420f11f8-82bf-4f39-a2b9-d76e8c9dab08",
+    "ProportionalElectionListId": "6eedf849-0ecc-4a02-a43b-99ef4b11d795",
+    "Number": "number1",
+    "FirstName": "firstName",
+    "LastName": "lastName",
+    "PoliticalFirstName": "pol first name",
+    "PoliticalLastName": "pol last name",
+    "DateOfBirth": {
+      "Seconds": -314582400,
+      "Nanos": 0
+    },
+    "Sex": 2,
+    "Occupation": {
+      "de": "occupation de",
+      "fr": "occupation fr",
+      "it": "occupation it",
+      "rm": "occupation rm"
+    },
+    "Title": "title",
+    "OccupationTitle": {
+      "de": "occupation title de",
+      "fr": "occupation title fr",
+      "it": "occupation title it",
+      "rm": "occupation title rm"
+    },
+    "Incumbent": true,
+    "ZipCode": "zip code",
+    "Locality": "locality",
+    "Position": 2,
+    "Accumulated": false,
+    "AccumulatedPosition": 0,
+    "Party": {
+      "Id": "6fe8af5a-9f98-4457-90e7-49657a3df14f",
+      "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+      "Name": {
+        "de": "Andere de",
+        "fr": "Andere fr",
+        "it": "Andere it",
+        "rm": "Andere rm"
+      },
+      "ShortDescription": {
+        "de": "AN de",
+        "fr": "AN fr",
+        "it": "AN it",
+        "rm": "AN rm"
+      }
+    }
+  },
+  "2": {
+    "Id": "c885e944-5b49-40f8-a75b-814a10ebc0f0",
+    "ProportionalElectionListId": "6eedf849-0ecc-4a02-a43b-99ef4b11d795",
+    "Number": "number1",
+    "FirstName": "firstName",
+    "LastName": "lastName",
+    "PoliticalFirstName": "pol first name",
+    "PoliticalLastName": "pol last name",
+    "DateOfBirth": {
+      "Seconds": -314582400,
+      "Nanos": 0
+    },
+    "Sex": 2,
+    "Occupation": {
+      "de": "occupation de",
+      "fr": "occupation fr",
+      "it": "occupation it",
+      "rm": "occupation rm"
+    },
+    "Title": "title",
+    "OccupationTitle": {
+      "de": "occupation title de",
+      "fr": "occupation title fr",
+      "it": "occupation title it",
+      "rm": "occupation title rm"
+    },
+    "Incumbent": true,
+    "ZipCode": "zip code",
+    "Locality": "locality",
+    "Position": 2,
+    "Accumulated": false,
+    "AccumulatedPosition": 0,
+    "Party": {
+      "Id": "6fe8af5a-9f98-4457-90e7-49657a3df14f",
+      "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+      "Name": {
+        "de": "Andere de",
+        "fr": "Andere fr",
+        "it": "Andere it",
+        "rm": "Andere rm"
+      },
+      "ShortDescription": {
+        "de": "AN de",
+        "fr": "AN fr",
+        "it": "AN it",
+        "rm": "AN rm"
+      }
+    }
+  }
+}

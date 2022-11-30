@@ -1,0 +1,16 @@
+{
+  "returnAddress": {
+    "AddressLine1": "Updated Zeile 1",
+    "AddressLine2": "Updated Zeile 2",
+    "Street": "Updated Street",
+    "AddressAddition": "Updated Addition",
+    "ZipCode": "1000",
+    "City": "Updated City",
+    "Country": "Updated Schweiz"
+  },
+  "printData": {
+    "ShippingAway": 3,
+    "ShippingReturn": 5,
+    "ShippingMethod": 3
+  }
+}

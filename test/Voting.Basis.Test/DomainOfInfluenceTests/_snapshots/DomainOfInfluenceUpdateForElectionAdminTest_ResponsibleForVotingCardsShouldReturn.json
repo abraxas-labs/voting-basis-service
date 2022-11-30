@@ -1,0 +1,37 @@
+{
+  "votingCardDataUpdated": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+    "ReturnAddress": {
+      "AddressLine1": "Zeile 1",
+      "AddressLine2": "Zeile 2",
+      "Street": "Street",
+      "AddressAddition": "Addition",
+      "ZipCode": "1000",
+      "City": "City",
+      "Country": "Schweiz"
+    },
+    "PrintData": {
+      "ShippingAway": 3,
+      "ShippingReturn": 5,
+      "ShippingMethod": 3
+    },
+    "ExternalPrintingCenter": true,
+    "ExternalPrintingCenterEaiMessageType": "1234567"
+  }
+}

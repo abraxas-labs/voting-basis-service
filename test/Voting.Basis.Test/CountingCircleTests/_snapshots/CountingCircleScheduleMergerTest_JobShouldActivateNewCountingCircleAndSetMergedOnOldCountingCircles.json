@@ -1,0 +1,212 @@
+{
+  "mergeActivated": {
+    "Subject": [
+      {
+        "EventInfo": {
+          "User": {
+            "Id": "386095419505026491",
+            "Username": "",
+            "FirstName": "",
+            "LastName": ""
+          },
+          "Tenant": {
+            "Id": "380590188826699143",
+            "Name": ""
+          },
+          "Timestamp": {
+            "Seconds": 1578661930,
+            "Nanos": 200000000
+          }
+        },
+        "Merger": {
+          "Id": "9dd859aa-2274-4a6a-bf19-6311e18644b2",
+          "NewCountingCircle": {
+            "Id": "102defb7-9fe7-426a-ad87-9127a650b79f",
+            "Name": "RapperswilJona",
+            "Bfs": "none",
+            "ResponsibleAuthority": {
+              "SecureConnectId": "000000000000000000",
+              "Name": "",
+              "Street": "",
+              "Zip": "",
+              "City": "",
+              "Phone": "",
+              "Email": ""
+            },
+            "ContactPersonDuringEvent": {
+              "FirstName": "Hans",
+              "FamilyName": "Muster",
+              "Phone": "071 123 12 21",
+              "MobilePhone": "071 123 12 31",
+              "Email": "uzwil-test@abraxas.ch"
+            },
+            "ContactPersonSameDuringEventAsAfter": false,
+            "ContactPersonAfterEvent": {
+              "FirstName": "Rudolph",
+              "FamilyName": "Wichtig",
+              "Phone": "071 123 12 22",
+              "MobilePhone": "071 123 12 33",
+              "Email": "uzwil-test2@abraxas.ch"
+            },
+            "Code": "",
+            "SortNumber": 22,
+            "NameForProtocol": "RapperswilJona"
+          },
+          "MergedCountingCircleIds": [
+            "2a3a799a-2437-47da-86fe-06decf70a267",
+            "3ec3d50c-6cb7-4ba1-bd1a-2882153834b0"
+          ],
+          "CopyFromCountingCircleId": "2a3a799a-2437-47da-86fe-06decf70a267",
+          "ActiveFrom": {
+            "Seconds": 1578614400,
+            "Nanos": 0
+          }
+        }
+      }
+    ]
+  },
+  "merged": {
+    "Subject": [
+      {
+        "EventInfo": {
+          "User": {
+            "Id": "386095419505026491",
+            "Username": "",
+            "FirstName": "",
+            "LastName": ""
+          },
+          "Tenant": {
+            "Id": "380590188826699143",
+            "Name": ""
+          },
+          "Timestamp": {
+            "Seconds": 1578661930,
+            "Nanos": 200000000
+          }
+        },
+        "CountingCircleId": "2a3a799a-2437-47da-86fe-06decf70a267"
+      },
+      {
+        "EventInfo": {
+          "User": {
+            "Id": "386095419505026491",
+            "Username": "",
+            "FirstName": "",
+            "LastName": ""
+          },
+          "Tenant": {
+            "Id": "380590188826699143",
+            "Name": ""
+          },
+          "Timestamp": {
+            "Seconds": 1578661930,
+            "Nanos": 200000000
+          }
+        },
+        "CountingCircleId": "3ec3d50c-6cb7-4ba1-bd1a-2882153834b0"
+      }
+    ]
+  },
+  "rapperswil-jona": {
+    "Subject": {
+      "Id": "102defb7-9fe7-426a-ad87-9127a650b79f",
+      "Name": "RapperswilJona",
+      "Bfs": "none",
+      "ResponsibleAuthority": {
+        "SecureConnectId": "000000000000000000",
+        "Name": "",
+        "Street": "",
+        "Zip": "",
+        "City": "",
+        "Phone": "",
+        "Email": ""
+      },
+      "ContactPersonDuringEvent": {
+        "FirstName": "Hans",
+        "FamilyName": "Muster",
+        "Phone": "071 123 12 21",
+        "MobilePhone": "071 123 12 31",
+        "Email": "uzwil-test@abraxas.ch"
+      },
+      "ContactPersonSameDuringEventAsAfter": false,
+      "ContactPersonAfterEvent": {
+        "FirstName": "Rudolph",
+        "FamilyName": "Wichtig",
+        "Phone": "071 123 12 22",
+        "MobilePhone": "071 123 12 33",
+        "Email": "uzwil-test2@abraxas.ch"
+      },
+      "State": 1,
+      "Info": {
+        "CreatedOn": {
+          "Seconds": 1594980476,
+          "Nanos": 0
+        },
+        "ModifiedOn": {
+          "Seconds": 1578661930,
+          "Nanos": 200000000
+        },
+        "DeletedOn": null
+      },
+      "Code": "",
+      "SortNumber": 22,
+      "NameForProtocol": "RapperswilJona"
+    }
+  },
+  "assignedDoiIds": {
+    "Subject": [
+      "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+      "eae2cfaf-c787-48b9-a108-c975b0a580da"
+    ]
+  },
+  "updateAfterActivatedMerge": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "CountingCircle": {
+      "Id": "102defb7-9fe7-426a-ad87-9127a650b79f",
+      "Name": "rapperswil jona",
+      "Bfs": "bfs",
+      "ResponsibleAuthority": {
+        "SecureConnectId": "000000000000000000",
+        "Name": "Default",
+        "Street": "WerkstrasseX",
+        "Zip": "8640",
+        "City": "Rapperswil",
+        "Phone": "072 123 12 20",
+        "Email": "rapperswil@abraxas.ch"
+      },
+      "ContactPersonDuringEvent": {
+        "FirstName": "Hans-2",
+        "FamilyName": "Muster-2",
+        "Phone": "072 123 12 21",
+        "MobilePhone": "072 123 12 31",
+        "Email": "rapperswil@abraxas.ch"
+      },
+      "ContactPersonSameDuringEventAsAfter": false,
+      "ContactPersonAfterEvent": {
+        "FirstName": "Rudolph-2",
+        "FamilyName": "Wichtig-2",
+        "Phone": "072 123 12 21",
+        "MobilePhone": "072 123 12 33",
+        "Email": "rapperswil@abraxas.ch"
+      },
+      "Code": "code",
+      "SortNumber": 40,
+      "NameForProtocol": "Stadt Rapperswil-Jona"
+    }
+  }
+}

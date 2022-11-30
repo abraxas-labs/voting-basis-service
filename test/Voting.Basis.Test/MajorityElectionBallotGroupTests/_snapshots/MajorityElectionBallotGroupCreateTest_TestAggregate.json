@@ -1,0 +1,21 @@
+{
+  "BallotGroups": [
+    {
+      "Id": "5b2f0f6b-dd7c-4a8e-8887-7f13917e700f",
+      "MajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
+      "ShortDescription": "short desc",
+      "Description": "test",
+      "Position": 1,
+      "Entries": [
+        {
+          "Id": "323b8aa8-d73b-4b9d-8926-d332bd8f62d2",
+          "ElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
+          "BlankRowCount": 1,
+          "IndividualCandidatesVoteCount": 0,
+          "CountOfCandidates": 0,
+          "CandidateCountOk": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+<eCH-0159:delivery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.ech.ch/xmlns/eCH-0159/4 http://www.ech.ch/xmlns/eCH-0159/4/eCH-0159-4-0.xsd" xmlns:eCH-0159="http://www.ech.ch/xmlns/eCH-0159/4">
+  <eCH-0159:deliveryHeader xmlns:eCH-0058="http://www.ech.ch/xmlns/eCH-0058/5">
+    <eCH-0058:senderId>ABX-VOTING</eCH-0058:senderId>
+    <eCH-0058:messageId>mock-id</eCH-0058:messageId>
+    <eCH-0058:messageType>1710967</eCH-0058:messageType>
+    <eCH-0058:sendingApplication>
+      <eCH-0058:manufacturer>Abraxas Informatik AG</eCH-0058:manufacturer>
+      <eCH-0058:product>Voting.Basis</eCH-0058:product>
+      <eCH-0058:productVersion>0.0.0.1</eCH-0058:productVersion>
+    </eCH-0058:sendingApplication>
+    <eCH-0058:messageDate>2020-01-10T13:12:10.200</eCH-0058:messageDate>
+    <eCH-0058:action>1</eCH-0058:action>
+    <eCH-0058:testDeliveryFlag>true</eCH-0058:testDeliveryFlag>
+  </eCH-0159:deliveryHeader>
+  <eCH-0159:initialDelivery>
+    <eCH-0159:contest xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+      <eCH-0155:contestIdentification>bfd88d88-77f2-4172-a73d-56b1ca5442b3</eCH-0155:contestIdentification>
+      <eCH-0155:contestDate>2020-02-29</eCH-0155:contestDate>
+      <eCH-0155:contestDescription>
+        <eCH-0155:contestDescriptionInfo>
+          <eCH-0155:language>de</eCH-0155:language>
+          <eCH-0155:contestDescription>Gossau Urnengang de</eCH-0155:contestDescription>
+        </eCH-0155:contestDescriptionInfo>
+        <eCH-0155:contestDescriptionInfo>
+          <eCH-0155:language>fr</eCH-0155:language>
+          <eCH-0155:contestDescription>Gossau Urnengang fr</eCH-0155:contestDescription>
+        </eCH-0155:contestDescriptionInfo>
+        <eCH-0155:contestDescriptionInfo>
+          <eCH-0155:language>it</eCH-0155:language>
+          <eCH-0155:contestDescription>Gossau Urnengang it</eCH-0155:contestDescription>
+        </eCH-0155:contestDescriptionInfo>
+        <eCH-0155:contestDescriptionInfo>
+          <eCH-0155:language>rm</eCH-0155:language>
+          <eCH-0155:contestDescription>Gossau Urnengang rm</eCH-0155:contestDescription>
+        </eCH-0155:contestDescriptionInfo>
+      </eCH-0155:contestDescription>
+    </eCH-0159:contest>
+    <eCH-0159:voteInformation>
+      <eCH-0159:vote xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+        <eCH-0155:voteIdentification>8fbba43a-cd73-407a-b490-df13c41cc5ee</eCH-0155:voteIdentification>
+        <eCH-0155:domainOfInfluenceIdentification>a18b1c6a-6b66-43e4-a7d2-a440a7025dbd</eCH-0155:domainOfInfluenceIdentification>
+        <eCH-0155:voteDescription>
+          <eCH-0155:voteDescriptionInfo>
+            <eCH-0155:language>de</eCH-0155:language>
+            <eCH-0155:voteDescription>Gemeinde-Volksabstimmung vom 29.02.2020</eCH-0155:voteDescription>
+          </eCH-0155:voteDescriptionInfo>
+          <eCH-0155:voteDescriptionInfo>
+            <eCH-0155:language>fr</eCH-0155:language>
+            <eCH-0155:voteDescription>Gemeinde-Volksabstimmung vom 29.02.2020</eCH-0155:voteDescription>
+          </eCH-0155:voteDescriptionInfo>
+          <eCH-0155:voteDescriptionInfo>
+            <eCH-0155:language>it</eCH-0155:language>
+            <eCH-0155:voteDescription>Gemeinde-Volksabstimmung vom 29.02.2020</eCH-0155:voteDescription>
+          </eCH-0155:voteDescriptionInfo>
+          <eCH-0155:voteDescriptionInfo>
+            <eCH-0155:language>rm</eCH-0155:language>
+            <eCH-0155:voteDescription>Gemeinde-Volksabstimmung vom 29.02.2020</eCH-0155:voteDescription>
+          </eCH-0155:voteDescriptionInfo>
+        </eCH-0155:voteDescription>
+      </eCH-0159:vote>
+      <eCH-0159:ballot xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+        <eCH-0155:ballotIdentification>a2aa6f61-752b-446f-94b4-002a95111c7a</eCH-0155:ballotIdentification>
+        <eCH-0155:ballotPosition>1</eCH-0155:ballotPosition>
+        <eCH-0155:ballotDescription>
+          <eCH-0155:ballotDescriptionInfo>
+            <eCH-0155:language>de</eCH-0155:language>
+            <eCH-0155:ballotDescriptionLong>Abstimmung Gossau de</eCH-0155:ballotDescriptionLong>
+            <eCH-0155:ballotDescriptionShort>Abstimmung Gossau de</eCH-0155:ballotDescriptionShort>
+          </eCH-0155:ballotDescriptionInfo>
+          <eCH-0155:ballotDescriptionInfo>
+            <eCH-0155:language>fr</eCH-0155:language>
+            <eCH-0155:ballotDescriptionLong>Abstimmung Gossau fr</eCH-0155:ballotDescriptionLong>
+            <eCH-0155:ballotDescriptionShort>Abstimmung Gossau fr</eCH-0155:ballotDescriptionShort>
+          </eCH-0155:ballotDescriptionInfo>
+          <eCH-0155:ballotDescriptionInfo>
+            <eCH-0155:language>it</eCH-0155:language>
+            <eCH-0155:ballotDescriptionLong>Abstimmung Gossau it</eCH-0155:ballotDescriptionLong>
+            <eCH-0155:ballotDescriptionShort>Abstimmung Gossau it</eCH-0155:ballotDescriptionShort>
+          </eCH-0155:ballotDescriptionInfo>
+          <eCH-0155:ballotDescriptionInfo>
+            <eCH-0155:language>rm</eCH-0155:language>
+            <eCH-0155:ballotDescriptionLong>Abstimmung Gossau rm</eCH-0155:ballotDescriptionLong>
+            <eCH-0155:ballotDescriptionShort>Abstimmung Gossau rm</eCH-0155:ballotDescriptionShort>
+          </eCH-0155:ballotDescriptionInfo>
+        </eCH-0155:ballotDescription>
+        <eCH-0155:standardBallot>
+          <eCH-0155:questionIdentification>f1344734-0ac3-4c1b-aafe-c39bfb2f277b</eCH-0155:questionIdentification>
+          <eCH-0155:ballotQuestionNumber>1</eCH-0155:ballotQuestionNumber>
+          <eCH-0155:answerInformation>
+            <eCH-0155:answerType>2</eCH-0155:answerType>
+          </eCH-0155:answerInformation>
+          <eCH-0155:ballotQuestion>
+            <eCH-0155:ballotQuestionInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:ballotQuestion>Frage 1 Gossau de</eCH-0155:ballotQuestion>
+            </eCH-0155:ballotQuestionInfo>
+            <eCH-0155:ballotQuestionInfo>
+              <eCH-0155:language>fr</eCH-0155:language>
+              <eCH-0155:ballotQuestion>Frage 1 Gossau fr</eCH-0155:ballotQuestion>
+            </eCH-0155:ballotQuestionInfo>
+            <eCH-0155:ballotQuestionInfo>
+              <eCH-0155:language>it</eCH-0155:language>
+              <eCH-0155:ballotQuestion>Frage 1 Gossau it</eCH-0155:ballotQuestion>
+            </eCH-0155:ballotQuestionInfo>
+            <eCH-0155:ballotQuestionInfo>
+              <eCH-0155:language>rm</eCH-0155:language>
+              <eCH-0155:ballotQuestion>Frage 1 Gossau rm</eCH-0155:ballotQuestion>
+            </eCH-0155:ballotQuestionInfo>
+          </eCH-0155:ballotQuestion>
+        </eCH-0155:standardBallot>
+      </eCH-0159:ballot>
+    </eCH-0159:voteInformation>
+  </eCH-0159:initialDelivery>
+</eCH-0159:delivery>

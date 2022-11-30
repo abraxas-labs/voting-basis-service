@@ -1,0 +1,51 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "BallotGroup": {
+      "Id": "",
+      "MajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
+      "ShortDescription": "short",
+      "Description": "test",
+      "Position": 1,
+      "Entries": [
+        {
+          "Id": "",
+          "ElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
+          "BlankRowCount": 0
+        }
+      ]
+    }
+  },
+  "response": {
+    "Id": "",
+    "MajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
+    "ShortDescription": "short",
+    "Description": "test",
+    "Position": 1,
+    "Entries": [
+      {
+        "Id": "",
+        "ElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
+        "BlankRowCount": 0,
+        "IndividualCandidatesVoteCount": 0,
+        "CountOfCandidates": 0,
+        "CandidateCountOk": false
+      }
+    ]
+  }
+}

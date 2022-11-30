@@ -1,0 +1,20 @@
+{
+  "EventInfo": {
+    "User": {
+      "Id": "default-user-id",
+      "Username": "default username",
+      "FirstName": "default user firstname",
+      "LastName": "default user lastname"
+    },
+    "Tenant": {
+      "Id": "000000000000000000",
+      "Name": "Default"
+    },
+    "Timestamp": {
+      "Seconds": 1578661930,
+      "Nanos": 200000000
+    }
+  },
+  "BallotId": "0ed26aad-e169-4d55-b9a9-90475ba81a02",
+  "VoteId": "96d8275f-f1f8-4933-a097-5c0c19f54567"
+}

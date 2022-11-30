@@ -1,0 +1,618 @@
+{
+  "Contest": {
+    "Id": "",
+    "Date": {
+      "Seconds": 1653004800,
+      "Nanos": 0
+    },
+    "Description": {
+      "de": "EVoting Urnengang ABX",
+      "fr": "EVoting Urnengang ABX",
+      "it": "EVoting Urnengang ABX",
+      "rm": "EVoting Urnengang ABX"
+    },
+    "EndOfTestingPhase": {
+      "Seconds": 0,
+      "Nanos": 0
+    },
+    "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+    "DomainOfInfluence": null,
+    "EVoting": true,
+    "EVotingFrom": {
+      "Seconds": 1586642400,
+      "Nanos": 0
+    },
+    "EVotingTo": {
+      "Seconds": 1650427200,
+      "Nanos": 0
+    },
+    "PoliticalBusinesses": [],
+    "PoliticalBusinessUnions": [],
+    "State": 1,
+    "PreviousContestId": ""
+  },
+  "MajorityElections": [
+    {
+      "Election": {
+        "Id": "",
+        "PoliticalBusinessNumber": "0",
+        "OfficialDescription": {
+          "de": "Offizielle Majorzwahlbezeichnung 3",
+          "fr": "Offizielle Majorzwahlbezeichnung 3",
+          "it": "Offizielle Majorzwahlbezeichnung 3",
+          "rm": "Offizielle Majorzwahlbezeichnung 3"
+        },
+        "ShortDescription": {
+          "de": "Majorzwahl 3",
+          "fr": "Majorzwahl 3",
+          "it": "Majorzwahl 3",
+          "rm": "Majorzwahl 3"
+        },
+        "InternalDescription": "",
+        "NumberOfMandates": 2,
+        "MandateAlgorithm": 1,
+        "IndividualEmptyBallotsAllowed": false,
+        "CandidateCheckDigit": false,
+        "BallotBundleSize": 0,
+        "BallotBundleSampleSize": 0,
+        "AutomaticBallotBundleNumberGeneration": false,
+        "BallotNumberGeneration": 1,
+        "AutomaticEmptyVoteCounting": false,
+        "EnforceEmptyVoteCountingForCountingCircles": false,
+        "ResultEntry": 2,
+        "EnforceResultEntryForCountingCircles": false,
+        "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+        "ContestId": "00000000-0000-0000-0000-000000000000",
+        "Active": false,
+        "InvalidVotes": false,
+        "ReportDomainOfInfluenceLevel": 0,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": false
+      },
+      "Candidates": [
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "1",
+          "FirstName": "Urs",
+          "LastName": "Niederer",
+          "PoliticalFirstName": "Urs",
+          "PoliticalLastName": "Niederer",
+          "DateOfBirth": {
+            "Seconds": 747705600,
+            "Nanos": 0
+          },
+          "Sex": 1,
+          "Occupation": {},
+          "Title": "",
+          "OccupationTitle": {},
+          "Party": {
+            "de": "SP",
+            "fr": "SP",
+            "it": "SP",
+            "rm": "SP"
+          },
+          "Incumbent": false,
+          "ZipCode": "?",
+          "Locality": "?",
+          "Position": 1
+        },
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "2",
+          "FirstName": "Mirta",
+          "LastName": "Zumstein",
+          "PoliticalFirstName": "Mirta",
+          "PoliticalLastName": "Zumstein",
+          "DateOfBirth": {
+            "Seconds": 179625600,
+            "Nanos": 0
+          },
+          "Sex": 2,
+          "Occupation": {},
+          "Title": "",
+          "OccupationTitle": {},
+          "Party": {
+            "de": "FDP",
+            "fr": "FDP",
+            "it": "FDP",
+            "rm": "FDP"
+          },
+          "Incumbent": true,
+          "ZipCode": "?",
+          "Locality": "?",
+          "Position": 2
+        },
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "3",
+          "FirstName": "Kurt",
+          "LastName": "Inge",
+          "PoliticalFirstName": "Kurt",
+          "PoliticalLastName": "Inge",
+          "DateOfBirth": {
+            "Seconds": 353116800,
+            "Nanos": 0
+          },
+          "Sex": 1,
+          "Occupation": {},
+          "Title": "",
+          "OccupationTitle": {},
+          "Party": {
+            "de": "FDP",
+            "fr": "FDP",
+            "it": "FDP",
+            "rm": "FDP"
+          },
+          "Incumbent": false,
+          "ZipCode": "?",
+          "Locality": "?",
+          "Position": 3
+        }
+      ]
+    }
+  ],
+  "ProportionalElections": [
+    {
+      "Election": {
+        "Id": "",
+        "PoliticalBusinessNumber": "0",
+        "OfficialDescription": {
+          "de": "Offizielle Proporzbezeichnung mit 5 Sitzen",
+          "fr": "Offizielle Proporzbezeichnung mit 5 Sitzen",
+          "it": "Offizielle Proporzbezeichnung mit 5 Sitzen",
+          "rm": "Offizielle Proporzbezeichnung mit 5 Sitzen"
+        },
+        "ShortDescription": {
+          "de": "Proporzwahl 2",
+          "fr": "Proporzwahl 2",
+          "it": "Proporzwahl 2",
+          "rm": "Proporzwahl 2"
+        },
+        "InternalDescription": "",
+        "NumberOfMandates": 5,
+        "MandateAlgorithm": 1,
+        "CandidateCheckDigit": false,
+        "BallotBundleSize": 0,
+        "AutomaticBallotBundleNumberGeneration": false,
+        "BallotNumberGeneration": 1,
+        "AutomaticEmptyVoteCounting": false,
+        "EnforceEmptyVoteCountingForCountingCircles": false,
+        "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+        "ContestId": "00000000-0000-0000-0000-000000000000",
+        "Active": false,
+        "BallotBundleSampleSize": 0,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": false
+      },
+      "Lists": [
+        {
+          "List": {
+            "Id": "",
+            "ProportionalElectionId": "",
+            "OrderNumber": "1a",
+            "ShortDescription": {
+              "de": "CVP",
+              "fr": "CVP",
+              "it": "CVP",
+              "rm": "CVP"
+            },
+            "BlankRowCount": 2,
+            "Position": 1,
+            "Description": {
+              "de": "CVP",
+              "fr": "CVP",
+              "it": "CVP",
+              "rm": "CVP"
+            },
+            "CountOfCandidates": 0,
+            "CandidateCountOk": false,
+            "ListUnionDescription": {},
+            "SubListUnionDescription": {}
+          },
+          "Candidates": [
+            {
+              "Id": "",
+              "ProportionalElectionListId": "",
+              "Number": "1",
+              "FirstName": "Peter",
+              "LastName": "Kuster",
+              "PoliticalFirstName": "Peter",
+              "PoliticalLastName": "Kuster",
+              "DateOfBirth": {
+                "Seconds": -514339200,
+                "Nanos": 0
+              },
+              "Sex": 1,
+              "Occupation": {
+                "de": "TB"
+              },
+              "Title": "T",
+              "OccupationTitle": {},
+              "Incumbent": true,
+              "ZipCode": "?",
+              "Locality": "?",
+              "Position": 1,
+              "Accumulated": true,
+              "AccumulatedPosition": 3,
+              "Party": null
+            },
+            {
+              "Id": "",
+              "ProportionalElectionListId": "",
+              "Number": "3",
+              "FirstName": "Sabrina",
+              "LastName": "Hansen",
+              "PoliticalFirstName": "Sabrina",
+              "PoliticalLastName": "Hansen",
+              "DateOfBirth": {
+                "Seconds": -135907200,
+                "Nanos": 0
+              },
+              "Sex": 2,
+              "Occupation": {
+                "de": "Dr. Coiffeuse"
+              },
+              "Title": "Dr",
+              "OccupationTitle": {},
+              "Incumbent": false,
+              "ZipCode": "?",
+              "Locality": "?",
+              "Position": 2,
+              "Accumulated": false,
+              "AccumulatedPosition": 0,
+              "Party": null
+            }
+          ]
+        },
+        {
+          "List": {
+            "Id": "",
+            "ProportionalElectionId": "",
+            "OrderNumber": "1b",
+            "ShortDescription": {
+              "de": "CVP Senioren",
+              "fr": "CVP Senioren",
+              "it": "CVP Senioren",
+              "rm": "CVP Senioren"
+            },
+            "BlankRowCount": 4,
+            "Position": 2,
+            "Description": {
+              "de": "CVP Senioren",
+              "fr": "CVP Senioren",
+              "it": "CVP Senioren",
+              "rm": "CVP Senioren"
+            },
+            "CountOfCandidates": 0,
+            "CandidateCountOk": false,
+            "ListUnionDescription": {},
+            "SubListUnionDescription": {}
+          },
+          "Candidates": [
+            {
+              "Id": "",
+              "ProportionalElectionListId": "",
+              "Number": "1",
+              "FirstName": "Hansjörg",
+              "LastName": "Urpa",
+              "PoliticalFirstName": "Hansjörg",
+              "PoliticalLastName": "Urpa",
+              "DateOfBirth": {
+                "Seconds": -1492905600,
+                "Nanos": 0
+              },
+              "Sex": 1,
+              "Occupation": {},
+              "Title": "",
+              "OccupationTitle": {},
+              "Incumbent": false,
+              "ZipCode": "?",
+              "Locality": "?",
+              "Position": 1,
+              "Accumulated": false,
+              "AccumulatedPosition": 0,
+              "Party": null
+            }
+          ]
+        },
+        {
+          "List": {
+            "Id": "",
+            "ProportionalElectionId": "",
+            "OrderNumber": "1c",
+            "ShortDescription": {
+              "de": "CVP Junioren",
+              "fr": "CVP Junioren",
+              "it": "CVP Junioren",
+              "rm": "CVP Junioren"
+            },
+            "BlankRowCount": 3,
+            "Position": 3,
+            "Description": {
+              "de": "CVP Junioren",
+              "fr": "CVP Junioren",
+              "it": "CVP Junioren",
+              "rm": "CVP Junioren"
+            },
+            "CountOfCandidates": 0,
+            "CandidateCountOk": false,
+            "ListUnionDescription": {},
+            "SubListUnionDescription": {}
+          },
+          "Candidates": [
+            {
+              "Id": "",
+              "ProportionalElectionListId": "",
+              "Number": "1",
+              "FirstName": "Kim",
+              "LastName": "Ilge",
+              "PoliticalFirstName": "Kim",
+              "PoliticalLastName": "Ilge",
+              "DateOfBirth": {
+                "Seconds": 989539200,
+                "Nanos": 0
+              },
+              "Sex": 3,
+              "Occupation": {},
+              "Title": "",
+              "OccupationTitle": {},
+              "Incumbent": false,
+              "ZipCode": "?",
+              "Locality": "?",
+              "Position": 1,
+              "Accumulated": true,
+              "AccumulatedPosition": 2,
+              "Party": null
+            }
+          ]
+        },
+        {
+          "List": {
+            "Id": "",
+            "ProportionalElectionId": "",
+            "OrderNumber": "2",
+            "ShortDescription": {
+              "de": "SP",
+              "fr": "SP",
+              "it": "SP",
+              "rm": "SP"
+            },
+            "BlankRowCount": 2,
+            "Position": 4,
+            "Description": {
+              "de": "SP",
+              "fr": "SP",
+              "it": "SP",
+              "rm": "SP"
+            },
+            "CountOfCandidates": 0,
+            "CandidateCountOk": false,
+            "ListUnionDescription": {},
+            "SubListUnionDescription": {}
+          },
+          "Candidates": [
+            {
+              "Id": "",
+              "ProportionalElectionListId": "",
+              "Number": "1",
+              "FirstName": "Tobias",
+              "LastName": "Fenning",
+              "PoliticalFirstName": "Tobias",
+              "PoliticalLastName": "Fenning",
+              "DateOfBirth": {
+                "Seconds": 400550400,
+                "Nanos": 0
+              },
+              "Sex": 1,
+              "Occupation": {},
+              "Title": "",
+              "OccupationTitle": {},
+              "Incumbent": true,
+              "ZipCode": "?",
+              "Locality": "?",
+              "Position": 1,
+              "Accumulated": false,
+              "AccumulatedPosition": 0,
+              "Party": null
+            },
+            {
+              "Id": "",
+              "ProportionalElectionListId": "",
+              "Number": "2",
+              "FirstName": "Katja",
+              "LastName": "Jung",
+              "PoliticalFirstName": "Katja",
+              "PoliticalLastName": "Jung",
+              "DateOfBirth": {
+                "Seconds": 762307200,
+                "Nanos": 0
+              },
+              "Sex": 2,
+              "Occupation": {},
+              "Title": "",
+              "OccupationTitle": {},
+              "Incumbent": false,
+              "ZipCode": "?",
+              "Locality": "?",
+              "Position": 2,
+              "Accumulated": false,
+              "AccumulatedPosition": 0,
+              "Party": null
+            },
+            {
+              "Id": "",
+              "ProportionalElectionListId": "",
+              "Number": "3",
+              "FirstName": "Roman",
+              "LastName": "Heer",
+              "PoliticalFirstName": "Roman",
+              "PoliticalLastName": "Heer",
+              "DateOfBirth": {
+                "Seconds": 85017600,
+                "Nanos": 0
+              },
+              "Sex": 1,
+              "Occupation": {},
+              "Title": "",
+              "OccupationTitle": {},
+              "Incumbent": false,
+              "ZipCode": "?",
+              "Locality": "?",
+              "Position": 3,
+              "Accumulated": false,
+              "AccumulatedPosition": 0,
+              "Party": null
+            }
+          ]
+        },
+        {
+          "List": {
+            "Id": "",
+            "ProportionalElectionId": "",
+            "OrderNumber": "3",
+            "ShortDescription": {
+              "de": "SVP",
+              "fr": "SVP",
+              "it": "SVP",
+              "rm": "SVP"
+            },
+            "BlankRowCount": 0,
+            "Position": 5,
+            "Description": {
+              "de": "SVP",
+              "fr": "SVP",
+              "it": "SVP",
+              "rm": "SVP"
+            },
+            "CountOfCandidates": 0,
+            "CandidateCountOk": false,
+            "ListUnionDescription": {},
+            "SubListUnionDescription": {}
+          },
+          "Candidates": [
+            {
+              "Id": "",
+              "ProportionalElectionListId": "",
+              "Number": "1",
+              "FirstName": "Toni",
+              "LastName": "Brunner",
+              "PoliticalFirstName": "Toni",
+              "PoliticalLastName": "Brunner",
+              "DateOfBirth": {
+                "Seconds": -41212800,
+                "Nanos": 0
+              },
+              "Sex": 1,
+              "Occupation": {},
+              "Title": "",
+              "OccupationTitle": {},
+              "Incumbent": false,
+              "ZipCode": "?",
+              "Locality": "?",
+              "Position": 1,
+              "Accumulated": false,
+              "AccumulatedPosition": 0,
+              "Party": null
+            },
+            {
+              "Id": "",
+              "ProportionalElectionListId": "",
+              "Number": "2",
+              "FirstName": "Manuela",
+              "LastName": "Toska",
+              "PoliticalFirstName": "Manuela",
+              "PoliticalLastName": "Toska",
+              "DateOfBirth": {
+                "Seconds": 463708800,
+                "Nanos": 0
+              },
+              "Sex": 2,
+              "Occupation": {},
+              "Title": "Prof",
+              "OccupationTitle": {},
+              "Incumbent": true,
+              "ZipCode": "?",
+              "Locality": "?",
+              "Position": 2,
+              "Accumulated": true,
+              "AccumulatedPosition": 3,
+              "Party": null
+            },
+            {
+              "Id": "",
+              "ProportionalElectionListId": "",
+              "Number": "3",
+              "FirstName": "Karl",
+              "LastName": "Peter",
+              "PoliticalFirstName": "Karl",
+              "PoliticalLastName": "Peter",
+              "DateOfBirth": {
+                "Seconds": 1000166400,
+                "Nanos": 0
+              },
+              "Sex": 1,
+              "Occupation": {},
+              "Title": "",
+              "OccupationTitle": {},
+              "Incumbent": false,
+              "ZipCode": "?",
+              "Locality": "?",
+              "Position": 4,
+              "Accumulated": false,
+              "AccumulatedPosition": 0,
+              "Party": null
+            },
+            {
+              "Id": "",
+              "ProportionalElectionListId": "",
+              "Number": "5",
+              "FirstName": "Emil",
+              "LastName": "Kuster",
+              "PoliticalFirstName": "Emil",
+              "PoliticalLastName": "Kuster",
+              "DateOfBirth": {
+                "Seconds": 933465600,
+                "Nanos": 0
+              },
+              "Sex": 1,
+              "Occupation": {},
+              "Title": "",
+              "OccupationTitle": {},
+              "Incumbent": false,
+              "ZipCode": "?",
+              "Locality": "?",
+              "Position": 5,
+              "Accumulated": false,
+              "AccumulatedPosition": 0,
+              "Party": null
+            }
+          ]
+        }
+      ],
+      "ListUnions": [
+        {
+          "Id": "",
+          "ProportionalElectionId": "",
+          "Description": {
+            "de": "List union desc",
+            "fr": "List union desc",
+            "it": "List union desc",
+            "rm": "List union desc"
+          },
+          "Position": 1,
+          "ProportionalElectionRootListUnionId": "",
+          "ProportionalElectionSubListUnions": [],
+          "ProportionalElectionListIds": [
+            "",
+            ""
+          ],
+          "ProportionalElectionMainListId": ""
+        }
+      ]
+    }
+  ],
+  "Votes": []
+}

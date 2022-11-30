@@ -1,0 +1,10 @@
+{
+  "Canton": 1,
+  "ProportionalElectionMandateAlgorithms": [
+    1
+  ],
+  "MajorityElectionInvalidVotes": false,
+  "EnabledPoliticalBusinessUnionTypes": [
+    1
+  ]
+}

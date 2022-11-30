@@ -1,0 +1,35 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "DomainOfInfluence": {
+      "Id": "",
+      "Name": "Bezirk Uzwil",
+      "ShortName": "BZ Uz",
+      "AuthorityName": "Uzwil",
+      "SecureConnectId": "100100100100100100",
+      "Type": 3,
+      "ParentId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+      "Canton": 0,
+      "ResponsibleForVotingCards": false,
+      "Bfs": "",
+      "Code": "",
+      "SortNumber": 0,
+      "NameForProtocol": "Uzwil"
+    }
+  }
+}

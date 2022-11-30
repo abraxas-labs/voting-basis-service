@@ -1,0 +1,62 @@
+{
+  "EventInfo": {
+    "User": {
+      "Id": "default-user-id",
+      "Username": "default username",
+      "FirstName": "default user firstname",
+      "LastName": "default user lastname"
+    },
+    "Tenant": {
+      "Id": "000000000000000000",
+      "Name": "Default"
+    },
+    "Timestamp": {
+      "Seconds": 1578661930,
+      "Nanos": 200000000
+    }
+  },
+  "Merger": {
+    "Id": "",
+    "NewCountingCircle": {
+      "Id": "",
+      "Name": "RapperswilJona",
+      "Bfs": "bfs",
+      "ResponsibleAuthority": {
+        "SecureConnectId": "000000000000000000",
+        "Name": "Default",
+        "Street": "",
+        "Zip": "",
+        "City": "",
+        "Phone": "",
+        "Email": ""
+      },
+      "ContactPersonDuringEvent": {
+        "FirstName": "",
+        "FamilyName": "",
+        "Phone": "",
+        "MobilePhone": "",
+        "Email": ""
+      },
+      "ContactPersonSameDuringEventAsAfter": true,
+      "ContactPersonAfterEvent": {
+        "FirstName": "Hans-sg",
+        "FamilyName": "Muster-sg",
+        "Phone": "071 123 12 21",
+        "MobilePhone": "071 123 12 31",
+        "Email": "rapperswil@abraxas.ch"
+      },
+      "Code": "code",
+      "SortNumber": 40,
+      "NameForProtocol": "Stadt Rapperswil-Jona"
+    },
+    "MergedCountingCircleIds": [
+      "2a3a799a-2437-47da-86fe-06decf70a267",
+      "3ec3d50c-6cb7-4ba1-bd1a-2882153834b0"
+    ],
+    "CopyFromCountingCircleId": "2a3a799a-2437-47da-86fe-06decf70a267",
+    "ActiveFrom": {
+      "Seconds": 1578614400,
+      "Nanos": 0
+    }
+  }
+}

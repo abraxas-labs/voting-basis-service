@@ -1,0 +1,76 @@
+{
+  "1": {
+    "Id": "8da8dac5-b4ad-492d-8d7e-0168518103d2",
+    "MajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
+    "Number": "number1",
+    "FirstName": "firstName",
+    "LastName": "lastName",
+    "PoliticalFirstName": "pol first name",
+    "PoliticalLastName": "pol last name",
+    "DateOfBirth": {
+      "Seconds": -314582400,
+      "Nanos": 0
+    },
+    "Sex": 2,
+    "Occupation": {
+      "de": "occupation de",
+      "fr": "occupation fr",
+      "it": "occupation it",
+      "rm": "occupation rm"
+    },
+    "Title": "title",
+    "OccupationTitle": {
+      "de": "occupation title de",
+      "fr": "occupation title fr",
+      "it": "occupation title it",
+      "rm": "occupation title rm"
+    },
+    "Party": {
+      "de": "Grüne de",
+      "fr": "Grüne fr",
+      "it": "Grüne it",
+      "rm": "Grüne rm"
+    },
+    "Incumbent": true,
+    "ZipCode": "zip code",
+    "Locality": "locality",
+    "Position": 2
+  },
+  "2": {
+    "Id": "b21835b0-6c81-4e30-9daa-fc82f3f69f30",
+    "MajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
+    "Number": "number1",
+    "FirstName": "firstName",
+    "LastName": "lastName",
+    "PoliticalFirstName": "pol first name",
+    "PoliticalLastName": "pol last name",
+    "DateOfBirth": {
+      "Seconds": -314582400,
+      "Nanos": 0
+    },
+    "Sex": 2,
+    "Occupation": {
+      "de": "occupation de",
+      "fr": "occupation fr",
+      "it": "occupation it",
+      "rm": "occupation rm"
+    },
+    "Title": "title",
+    "OccupationTitle": {
+      "de": "occupation title de",
+      "fr": "occupation title fr",
+      "it": "occupation title it",
+      "rm": "occupation title rm"
+    },
+    "Party": {
+      "de": "BDP de",
+      "fr": "BDP fr",
+      "it": "BDP it",
+      "rm": "BDP rm"
+    },
+    "Incumbent": true,
+    "ZipCode": "zip code",
+    "Locality": "locality",
+    "Position": 3
+  }
+}

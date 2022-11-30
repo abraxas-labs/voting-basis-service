@@ -1,0 +1,63 @@
+{
+  "plausiConfigUpdated": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "100100100100100100",
+        "Name": "Uzwil"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "DomainOfInfluenceId": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
+    "PlausibilisationConfiguration": {
+      "ComparisonValidVotingCardsWithAccountedBallotsThresholdPercent": 1.25,
+      "ComparisonVoterParticipationConfigurations": [],
+      "ComparisonVotingChannelConfigurations": [
+        {
+          "VotingChannel": 1,
+          "ThresholdPercent": 42.0
+        },
+        {
+          "VotingChannel": 2,
+          "ThresholdPercent": null
+        },
+        {
+          "VotingChannel": 3,
+          "ThresholdPercent": 1.25
+        },
+        {
+          "VotingChannel": 4,
+          "ThresholdPercent": 7.5
+        }
+      ],
+      "ComparisonCountOfVotersConfigurations": [
+        {
+          "Category": 1,
+          "ThresholdPercent": 20.8
+        },
+        {
+          "Category": 2,
+          "ThresholdPercent": null
+        },
+        {
+          "Category": 3,
+          "ThresholdPercent": 1.25
+        }
+      ],
+      "ComparisonCountOfVotersCountingCircleEntries": [
+        {
+          "Category": 3,
+          "CountingCircleId": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e"
+        }
+      ]
+    }
+  }
+}

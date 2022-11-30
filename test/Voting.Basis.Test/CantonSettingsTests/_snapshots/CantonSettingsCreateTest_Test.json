@@ -1,0 +1,55 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "CantonSettings": {
+      "Id": "",
+      "Canton": 2,
+      "AuthorityName": "Default",
+      "SecureConnectId": "000000000000000000",
+      "ProportionalElectionMandateAlgorithms": [
+        1
+      ],
+      "MajorityElectionAbsoluteMajorityAlgorithm": 1,
+      "MajorityElectionInvalidVotes": true,
+      "SwissAbroadVotingRight": 2,
+      "SwissAbroadVotingRightDomainOfInfluenceTypes": [
+        1
+      ],
+      "EnabledPoliticalBusinessUnionTypes": [
+        1
+      ],
+      "EnabledVotingCardChannels": [
+        {
+          "Valid": true,
+          "VotingChannel": 4
+        },
+        {
+          "Valid": true,
+          "VotingChannel": 1
+        },
+        {
+          "Valid": true,
+          "VotingChannel": 2
+        }
+      ],
+      "VotingDocumentsEVotingEaiMessageType": "1234567",
+      "ProtocolDomainOfInfluenceSortType": 2,
+      "ProtocolCountingCircleSortType": 2
+    }
+  }
+}

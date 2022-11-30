@@ -1,0 +1,194 @@
+{
+  "Contest": {
+    "Id": "",
+    "Date": {
+      "Seconds": 1598832000,
+      "Nanos": 0
+    },
+    "Description": {
+      "de": "Kantonsurnengang",
+      "fr": "Kantonsurnengang",
+      "it": "Kantonsurnengang",
+      "rm": "Kantonsurnengang"
+    },
+    "EndOfTestingPhase": {
+      "Seconds": 0,
+      "Nanos": 0
+    },
+    "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+    "DomainOfInfluence": null,
+    "EVoting": true,
+    "EVotingFrom": {
+      "Seconds": 1582164000,
+      "Nanos": 0
+    },
+    "EVotingTo": {
+      "Seconds": 1583028000,
+      "Nanos": 0
+    },
+    "PoliticalBusinesses": [],
+    "PoliticalBusinessUnions": [],
+    "State": 1,
+    "PreviousContestId": ""
+  },
+  "MajorityElections": [],
+  "ProportionalElections": [],
+  "Votes": [
+    {
+      "Vote": {
+        "Id": "",
+        "PoliticalBusinessNumber": "",
+        "OfficialDescription": {
+          "de": "Abstimmung auf Bundesebene 1",
+          "fr": "Abstimmung auf Bundesebene 1",
+          "it": "Abstimmung auf Bundesebene 1",
+          "rm": "Abstimmung auf Bundesebene 1"
+        },
+        "ShortDescription": {
+          "de": "Abstimmung Bund 1",
+          "fr": "Abstimmung Bund 1",
+          "it": "Abstimmung Bund 1",
+          "rm": "Abstimmung Bund 1"
+        },
+        "InternalDescription": "",
+        "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+        "ContestId": "00000000-0000-0000-0000-000000000000",
+        "Active": false,
+        "Ballots": [
+          {
+            "Id": "",
+            "Position": 1,
+            "BallotType": 1,
+            "Description": {},
+            "BallotQuestions": [
+              {
+                "Number": 1,
+                "Question": {
+                  "de": "Frage Bund1",
+                  "fr": "Frage Bund1",
+                  "it": "Frage Bund1",
+                  "rm": "Frage Bund1"
+                }
+              }
+            ],
+            "VoteId": "",
+            "HasTieBreakQuestions": false,
+            "TieBreakQuestions": []
+          }
+        ],
+        "ReportDomainOfInfluenceLevel": 0,
+        "ResultAlgorithm": 1,
+        "ResultEntry": 1,
+        "BallotBundleSampleSizePercent": 0,
+        "AutomaticBallotBundleNumberGeneration": false,
+        "EnforceResultEntryForCountingCircles": true,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": false
+      }
+    },
+    {
+      "Vote": {
+        "Id": "",
+        "PoliticalBusinessNumber": "",
+        "OfficialDescription": {
+          "de": "Abstimmung auf Bundesebene 2",
+          "fr": "Abstimmung auf Bundesebene 2",
+          "it": "Abstimmung auf Bundesebene 2",
+          "rm": "Abstimmung auf Bundesebene 2"
+        },
+        "ShortDescription": {
+          "de": "Abstimmung Bund 2",
+          "fr": "Abstimmung Bund 2",
+          "it": "Abstimmung Bund 2",
+          "rm": "Abstimmung Bund 2"
+        },
+        "InternalDescription": "",
+        "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+        "ContestId": "00000000-0000-0000-0000-000000000000",
+        "Active": false,
+        "Ballots": [
+          {
+            "Id": "",
+            "Position": 1,
+            "BallotType": 1,
+            "Description": {},
+            "BallotQuestions": [
+              {
+                "Number": 1,
+                "Question": {
+                  "de": "Frage Bund2",
+                  "fr": "Frage Bund2",
+                  "it": "Frage Bund2",
+                  "rm": "Frage Bund2"
+                }
+              }
+            ],
+            "VoteId": "",
+            "HasTieBreakQuestions": false,
+            "TieBreakQuestions": []
+          }
+        ],
+        "ReportDomainOfInfluenceLevel": 0,
+        "ResultAlgorithm": 1,
+        "ResultEntry": 1,
+        "BallotBundleSampleSizePercent": 0,
+        "AutomaticBallotBundleNumberGeneration": false,
+        "EnforceResultEntryForCountingCircles": true,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": false
+      }
+    },
+    {
+      "Vote": {
+        "Id": "",
+        "PoliticalBusinessNumber": "",
+        "OfficialDescription": {
+          "de": "Abstimmung auf Kantonsebene",
+          "fr": "Abstimmung auf Kantonsebene",
+          "it": "Abstimmung auf Kantonsebene",
+          "rm": "Abstimmung auf Kantonsebene"
+        },
+        "ShortDescription": {
+          "de": "Abstimmung Kanton",
+          "fr": "Abstimmung Kanton",
+          "it": "Abstimmung Kanton",
+          "rm": "Abstimmung Kanton"
+        },
+        "InternalDescription": "",
+        "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+        "ContestId": "00000000-0000-0000-0000-000000000000",
+        "Active": false,
+        "Ballots": [
+          {
+            "Id": "",
+            "Position": 1,
+            "BallotType": 1,
+            "Description": {},
+            "BallotQuestions": [
+              {
+                "Number": 1,
+                "Question": {
+                  "de": "Frage Kanton",
+                  "fr": "Frage Kanton",
+                  "it": "Frage Kanton",
+                  "rm": "Frage Kanton"
+                }
+              }
+            ],
+            "VoteId": "",
+            "HasTieBreakQuestions": false,
+            "TieBreakQuestions": []
+          }
+        ],
+        "ReportDomainOfInfluenceLevel": 0,
+        "ResultAlgorithm": 1,
+        "ResultEntry": 1,
+        "BallotBundleSampleSizePercent": 0,
+        "AutomaticBallotBundleNumberGeneration": false,
+        "EnforceResultEntryForCountingCircles": true,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": false
+      }
+    }
+  ]
+}

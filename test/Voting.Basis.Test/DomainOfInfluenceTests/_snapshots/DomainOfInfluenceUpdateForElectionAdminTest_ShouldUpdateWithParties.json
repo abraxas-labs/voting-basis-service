@@ -1,0 +1,56 @@
+{
+  "partyCreated": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "random",
+        "Name": ""
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Party": {
+      "Id": "",
+      "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+      "Name": {
+        "de": "Neue Partei de",
+        "fr": "Neue Partei fr",
+        "it": "Neue Partei it",
+        "rm": "Neue Partei rm"
+      },
+      "ShortDescription": {
+        "de": "NP de",
+        "fr": "NP fr",
+        "it": "NP it",
+        "rm": "NP rm"
+      }
+    }
+  },
+  "partyDeleted": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "random",
+        "Name": ""
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Id": "6fe8af5a-9f98-4457-90e7-49657a3df14f",
+    "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da"
+  }
+}

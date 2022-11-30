@@ -1,0 +1,44 @@
+{
+  "1": {
+    "Id": "f0735502-3b24-40f2-9869-19023b67c6b8",
+    "PoliticalBusinessNumber": "10226",
+    "OfficialDescription": {
+      "de": "Neue Neben-Majorzwahl de",
+      "fr": "Neue Neben-Majorzwahl fr",
+      "it": "Neue Neben-Majorzwahl it",
+      "rm": "Neue Neben-Majorzwahl rm"
+    },
+    "ShortDescription": {
+      "de": "Neue Neben-Majorzwahl de",
+      "fr": "Neue Neben-Majorzwahl fr",
+      "it": "Neue Neben-Majorzwahl it",
+      "rm": "Neue Neben-Majorzwahl rm"
+    },
+    "InternalDescription": "",
+    "NumberOfMandates": 2,
+    "AllowedCandidates": 1,
+    "PrimaryMajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
+    "Active": true
+  },
+  "2": {
+    "Id": "348f2f1a-063d-49ce-955a-81b464fcc256",
+    "PoliticalBusinessNumber": "10286",
+    "OfficialDescription": {
+      "de": "Neue Neben-Majorzwahl 2 de",
+      "fr": "Neue Neben-Majorzwahl 2 fr",
+      "it": "Neue Neben-Majorzwahl 2 it",
+      "rm": "Neue Neben-Majorzwahl 2 rm"
+    },
+    "ShortDescription": {
+      "de": "Neue Neben-Majorzwahl 2 de",
+      "fr": "Neue Neben-Majorzwahl 2 fr",
+      "it": "Neue Neben-Majorzwahl 2 it",
+      "rm": "Neue Neben-Majorzwahl 2 rm"
+    },
+    "InternalDescription": "",
+    "NumberOfMandates": 4,
+    "AllowedCandidates": 3,
+    "PrimaryMajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
+    "Active": false
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "PreconfiguredContestDates_": [
+    {
+      "Date": {
+        "Seconds": 1581206400,
+        "Nanos": 0
+      }
+    },
+    {
+      "Date": {
+        "Seconds": 1589673600,
+        "Nanos": 0
+      }
+    },
+    {
+      "Date": {
+        "Seconds": 1601164800,
+        "Nanos": 0
+      }
+    },
+    {
+      "Date": {
+        "Seconds": 1606608000,
+        "Nanos": 0
+      }
+    },
+    {
+      "Date": {
+        "Seconds": 1615075200,
+        "Nanos": 0
+      }
+    }
+  ]
+}

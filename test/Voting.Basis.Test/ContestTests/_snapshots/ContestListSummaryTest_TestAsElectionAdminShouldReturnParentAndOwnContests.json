@@ -1,0 +1,603 @@
+{
+  "ContestSummaries_": [
+    {
+      "Id": "4c3adb88-2de9-4042-bf38-3fda1cb8b29a",
+      "Date": {
+        "Seconds": 1538438400,
+        "Nanos": 0
+      },
+      "Description": {
+        "de": "Urnengang der Vergangenheit de",
+        "fr": "Urnengang der Vergangenheit fr",
+        "it": "Urnengang der Vergangenheit it",
+        "rm": "Urnengang der Vergangenheit rm"
+      },
+      "EndOfTestingPhase": {
+        "Seconds": 1538409600,
+        "Nanos": 0
+      },
+      "DomainOfInfluence": {
+        "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "Name": "Gossau",
+        "ShortName": "GOS",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 5,
+        "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Children": [],
+        "Canton": 0,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": true,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": {
+          "AddressLine1": "Stadtverwaltung Gossau",
+          "AddressLine2": "",
+          "Street": "Bahnhofstrasse 25",
+          "AddressAddition": "",
+          "ZipCode": "9200",
+          "City": "Gossau",
+          "Country": "Schweiz"
+        },
+        "PrintData": {
+          "ShippingAway": 2,
+          "ShippingReturn": 5,
+          "ShippingMethod": 3
+        },
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": true,
+        "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
+        "NameForProtocol": "Stadt Gossau"
+      },
+      "EVoting": false,
+      "EVotingFrom": null,
+      "EVotingTo": null,
+      "ContestEntriesDetails": [],
+      "State": 3,
+      "ArchivePer": null
+    },
+    {
+      "Id": "2504a611-08a7-49ed-bab8-666b3add94b9",
+      "Date": {
+        "Seconds": 1543017600,
+        "Nanos": 0
+      },
+      "Description": {
+        "de": "Nationalratswahlen in der Verangenheit (archiviert) de",
+        "fr": "Nationalratswahlen in der Verangenheit (archiviert) fr",
+        "it": "Nationalratswahlen in der Verangenheit (archiviert) it",
+        "rm": "Nationalratswahlen in der Verangenheit (archiviert) rm"
+      },
+      "EndOfTestingPhase": {
+        "Seconds": 1542672000,
+        "Nanos": 0
+      },
+      "DomainOfInfluence": {
+        "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Name": "Bund",
+        "ShortName": "Bund",
+        "AuthorityName": "",
+        "SecureConnectId": "random",
+        "Type": 1,
+        "ParentId": "",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": ""
+      },
+      "EVoting": true,
+      "EVotingFrom": {
+        "Seconds": 1540375200,
+        "Nanos": 0
+      },
+      "EVotingTo": {
+        "Seconds": 1540720800,
+        "Nanos": 0
+      },
+      "ContestEntriesDetails": [],
+      "State": 5,
+      "ArchivePer": null
+    },
+    {
+      "Id": "16528771-d8b7-46f6-b7ed-e16c36ea3197",
+      "Date": {
+        "Seconds": 1574553600,
+        "Nanos": 0
+      },
+      "Description": {
+        "de": "Entsperrte Nationalratswahlen in der Verangenheit de",
+        "fr": "Entsperrte Nationalratswahlen in der Verangenheit fr",
+        "it": "Entsperrte Nationalratswahlen in der Verangenheit it",
+        "rm": "Entsperrte Nationalratswahlen in der Verangenheit rm"
+      },
+      "EndOfTestingPhase": {
+        "Seconds": 1574503200,
+        "Nanos": 0
+      },
+      "DomainOfInfluence": {
+        "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Name": "Bund",
+        "ShortName": "Bund",
+        "AuthorityName": "",
+        "SecureConnectId": "random",
+        "Type": 1,
+        "ParentId": "",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": ""
+      },
+      "EVoting": true,
+      "EVotingFrom": {
+        "Seconds": 1571911200,
+        "Nanos": 0
+      },
+      "EVotingTo": {
+        "Seconds": 1572256800,
+        "Nanos": 0
+      },
+      "ContestEntriesDetails": [],
+      "State": 4,
+      "ArchivePer": null
+    },
+    {
+      "Id": "4b1513ce-89fd-4ce8-bf71-7b55a50b8943",
+      "Date": {
+        "Seconds": 1574553600,
+        "Nanos": 0
+      },
+      "Description": {
+        "de": "Nationalratswahlen in der Verangenheit de",
+        "fr": "Nationalratswahlen in der Verangenheit fr",
+        "it": "Nationalratswahlen in der Verangenheit it",
+        "rm": "Nationalratswahlen in der Verangenheit rm"
+      },
+      "EndOfTestingPhase": {
+        "Seconds": 1574503200,
+        "Nanos": 0
+      },
+      "DomainOfInfluence": {
+        "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Name": "Bund",
+        "ShortName": "Bund",
+        "AuthorityName": "",
+        "SecureConnectId": "random",
+        "Type": 1,
+        "ParentId": "",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": ""
+      },
+      "EVoting": true,
+      "EVotingFrom": {
+        "Seconds": 1571911200,
+        "Nanos": 0
+      },
+      "EVotingTo": {
+        "Seconds": 1572256800,
+        "Nanos": 0
+      },
+      "ContestEntriesDetails": [],
+      "State": 3,
+      "ArchivePer": null
+    },
+    {
+      "Id": "bfd88d88-77f2-4172-a73d-56b1ca5442b3",
+      "Date": {
+        "Seconds": 1582934400,
+        "Nanos": 0
+      },
+      "Description": {
+        "de": "Gossau Urnengang de",
+        "fr": "Gossau Urnengang fr",
+        "it": "Gossau Urnengang it",
+        "rm": "Gossau Urnengang rm"
+      },
+      "EndOfTestingPhase": {
+        "Seconds": 1582821000,
+        "Nanos": 0
+      },
+      "DomainOfInfluence": {
+        "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "Name": "Gossau",
+        "ShortName": "GOS",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 5,
+        "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Children": [],
+        "Canton": 0,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": true,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": {
+          "AddressLine1": "Stadtverwaltung Gossau",
+          "AddressLine2": "",
+          "Street": "Bahnhofstrasse 25",
+          "AddressAddition": "",
+          "ZipCode": "9200",
+          "City": "Gossau",
+          "Country": "Schweiz"
+        },
+        "PrintData": {
+          "ShippingAway": 2,
+          "ShippingReturn": 5,
+          "ShippingMethod": 3
+        },
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": true,
+        "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
+        "NameForProtocol": "Stadt Gossau"
+      },
+      "EVoting": false,
+      "EVotingFrom": null,
+      "EVotingTo": null,
+      "ContestEntriesDetails": [
+        {
+          "DomainOfInfluenceType": 5,
+          "ContestEntriesCount": 3
+        }
+      ],
+      "State": 1,
+      "ArchivePer": null
+    },
+    {
+      "Id": "dc0f4940-10c2-4a33-b752-3e5d761c0009",
+      "Date": {
+        "Seconds": 1582934400,
+        "Nanos": 0
+      },
+      "Description": {
+        "de": "Thurgau-Urnengang de",
+        "fr": "Thurgau-Urnengang fr",
+        "it": "Thurgau-Urnengang it",
+        "rm": "Thurgau-Urnengang rm"
+      },
+      "EndOfTestingPhase": {
+        "Seconds": 1582848000,
+        "Nanos": 0
+      },
+      "DomainOfInfluence": {
+        "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
+        "Name": "Thurgau",
+        "ShortName": "TG",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 2,
+        "ParentId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Children": [],
+        "Canton": 0,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": "Kanton Thurgau"
+      },
+      "EVoting": false,
+      "EVotingFrom": null,
+      "EVotingTo": null,
+      "ContestEntriesDetails": [],
+      "State": 1,
+      "ArchivePer": null
+    },
+    {
+      "Id": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
+      "Date": {
+        "Seconds": 1598832000,
+        "Nanos": 0
+      },
+      "Description": {
+        "de": "Kantonsurnengang de",
+        "fr": "Kantonsurnengang fr",
+        "it": "Kantonsurnengang it",
+        "rm": "Kantonsurnengang rm"
+      },
+      "EndOfTestingPhase": {
+        "Seconds": 1598587140,
+        "Nanos": 0
+      },
+      "DomainOfInfluence": {
+        "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Name": "St. Gallen",
+        "ShortName": "SG",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 2,
+        "ParentId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Children": [],
+        "Canton": 0,
+        "ContactPerson": {
+          "FirstName": "Hans",
+          "FamilyName": "Muster",
+          "Phone": "071 123 12 12",
+          "MobilePhone": "079 123 12 12",
+          "Email": "hans@muster.com"
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": "Kanton St. Gallen"
+      },
+      "EVoting": true,
+      "EVotingFrom": {
+        "Seconds": 1582156800,
+        "Nanos": 0
+      },
+      "EVotingTo": {
+        "Seconds": 1583020800,
+        "Nanos": 0
+      },
+      "ContestEntriesDetails": [
+        {
+          "DomainOfInfluenceType": 1,
+          "ContestEntriesCount": 3
+        },
+        {
+          "DomainOfInfluenceType": 2,
+          "ContestEntriesCount": 6
+        },
+        {
+          "DomainOfInfluenceType": 5,
+          "ContestEntriesCount": 6
+        }
+      ],
+      "State": 1,
+      "ArchivePer": null
+    },
+    {
+      "Id": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
+      "Date": {
+        "Seconds": 1865548800,
+        "Nanos": 0
+      },
+      "Description": {
+        "de": "Nationalratswahlen in der Zukunft de",
+        "fr": "Nationalratswahlen in der Zukunft fr",
+        "it": "Nationalratswahlen in der Zukunft it",
+        "rm": "Nationalratswahlen in der Zukunft rm"
+      },
+      "EndOfTestingPhase": {
+        "Seconds": 1865332860,
+        "Nanos": 0
+      },
+      "DomainOfInfluence": {
+        "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Name": "Bund",
+        "ShortName": "Bund",
+        "AuthorityName": "",
+        "SecureConnectId": "random",
+        "Type": 1,
+        "ParentId": "",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": ""
+      },
+      "EVoting": false,
+      "EVotingFrom": null,
+      "EVotingTo": null,
+      "ContestEntriesDetails": [
+        {
+          "DomainOfInfluenceType": 1,
+          "ContestEntriesCount": 3
+        },
+        {
+          "DomainOfInfluenceType": 2,
+          "ContestEntriesCount": 2
+        },
+        {
+          "DomainOfInfluenceType": 5,
+          "ContestEntriesCount": 6
+        }
+      ],
+      "State": 1,
+      "ArchivePer": null
+    }
+  ]
+}

@@ -1,0 +1,544 @@
+{
+  "Date": "2020-08-31T00:00:00Z",
+  "Description": {
+    "de": "Kantonsurnengang de",
+    "fr": "Kantonsurnengang fr",
+    "it": "Kantonsurnengang it",
+    "rm": "Kantonsurnengang rm"
+  },
+  "EndOfTestingPhase": "0001-01-01T00:00:00",
+  "ArchivePer": null,
+  "PastLockPer": "0001-01-01T00:00:00",
+  "State": 1,
+  "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+  "DomainOfInfluence": null,
+  "EVoting": true,
+  "EVotingFrom": "2020-02-20T00:00:00Z",
+  "EVotingTo": "2020-03-01T00:00:00Z",
+  "Votes": [
+    {
+      "Ballots": [
+        {
+          "Position": 1,
+          "BallotType": 1,
+          "Description": {},
+          "HasTieBreakQuestions": false,
+          "VoteId": "00000000-0000-0000-0000-000000000000",
+          "Vote": null,
+          "BallotQuestions": [
+            {
+              "Number": 1,
+              "Question": {
+                "de": "Frage 1 St.Gallen de",
+                "fr": "Frage 1 St.Gallen fr",
+                "it": "Frage 1 St.Gallen it",
+                "rm": "Frage 1 St.Gallen rm"
+              },
+              "BallotId": "00000000-0000-0000-0000-000000000000",
+              "Ballot": null,
+              "Id": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "TieBreakQuestions": [],
+          "Id": "00000000-0000-0000-0000-000000000000"
+        }
+      ],
+      "ReportDomainOfInfluenceLevel": 0,
+      "PoliticalBusinessType": 1,
+      "ResultAlgorithm": 1,
+      "BallotBundleSampleSizePercent": 0,
+      "AutomaticBallotBundleNumberGeneration": false,
+      "EnforceResultEntryForCountingCircles": true,
+      "ResultEntry": 1,
+      "ReviewProcedure": 1,
+      "EnforceReviewProcedureForCountingCircles": false,
+      "PoliticalBusinessNumber": "",
+      "OfficialDescription": {
+        "de": "Abstimmung St.Gallen de",
+        "fr": "Abstimmung St.Gallen fr",
+        "it": "Abstimmung St.Gallen it",
+        "rm": "Abstimmung St.Gallen rm"
+      },
+      "ShortDescription": {
+        "de": "Abstimmung St.Gallen de",
+        "fr": "Abstimmung St.Gallen fr",
+        "it": "Abstimmung St.Gallen it",
+        "rm": "Abstimmung St.Gallen rm"
+      },
+      "InternalDescription": "",
+      "Active": false,
+      "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+      "DomainOfInfluence": null,
+      "ContestId": "00000000-0000-0000-0000-000000000000",
+      "Contest": null,
+      "Id": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "Ballots": [
+        {
+          "Position": 1,
+          "BallotType": 2,
+          "Description": {},
+          "HasTieBreakQuestions": true,
+          "VoteId": "00000000-0000-0000-0000-000000000000",
+          "Vote": null,
+          "BallotQuestions": [
+            {
+              "Number": 1,
+              "Question": {
+                "de": "Frage 1 Gossau de",
+                "fr": "Frage 1 Gossau fr",
+                "it": "Frage 1 Gossau it",
+                "rm": "Frage 1 Gossau rm"
+              },
+              "BallotId": "00000000-0000-0000-0000-000000000000",
+              "Ballot": null,
+              "Id": "00000000-0000-0000-0000-000000000000"
+            },
+            {
+              "Number": 2,
+              "Question": {
+                "de": "Frage 2 Gossau de",
+                "fr": "Frage 2 Gossau fr",
+                "it": "Frage 2 Gossau it",
+                "rm": "Frage 2 Gossau rm"
+              },
+              "BallotId": "00000000-0000-0000-0000-000000000000",
+              "Ballot": null,
+              "Id": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "TieBreakQuestions": [
+            {
+              "Number": 1,
+              "Question": {
+                "de": "Stichfrage 1 Gossau (Frage 1 vs Frage 2) de",
+                "fr": "Stichfrage 1 Gossau (Frage 1 vs Frage 2) fr",
+                "it": "Stichfrage 1 Gossau (Frage 1 vs Frage 2) it",
+                "rm": "Stichfrage 1 Gossau (Frage 1 vs Frage 2) rm"
+              },
+              "Question1Number": 1,
+              "Question2Number": 2,
+              "Ballot": null,
+              "BallotId": "00000000-0000-0000-0000-000000000000",
+              "Id": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "Id": "00000000-0000-0000-0000-000000000000"
+        }
+      ],
+      "ReportDomainOfInfluenceLevel": 0,
+      "PoliticalBusinessType": 1,
+      "ResultAlgorithm": 1,
+      "BallotBundleSampleSizePercent": 0,
+      "AutomaticBallotBundleNumberGeneration": false,
+      "EnforceResultEntryForCountingCircles": false,
+      "ResultEntry": 1,
+      "ReviewProcedure": 1,
+      "EnforceReviewProcedureForCountingCircles": false,
+      "PoliticalBusinessNumber": "",
+      "OfficialDescription": {
+        "de": "Abstimmung Gossau de",
+        "fr": "Abstimmung Gossau fr",
+        "it": "Abstimmung Gossau it",
+        "rm": "Abstimmung Gossau rm"
+      },
+      "ShortDescription": {
+        "de": "Abstimmung Gossau de",
+        "fr": "Abstimmung Gossau fr",
+        "it": "Abstimmung Gossau it",
+        "rm": "Abstimmung Gossau rm"
+      },
+      "InternalDescription": "",
+      "Active": false,
+      "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+      "DomainOfInfluence": null,
+      "ContestId": "00000000-0000-0000-0000-000000000000",
+      "Contest": null,
+      "Id": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "Ballots": [
+        {
+          "Position": 1,
+          "BallotType": 1,
+          "Description": {},
+          "HasTieBreakQuestions": false,
+          "VoteId": "00000000-0000-0000-0000-000000000000",
+          "Vote": null,
+          "BallotQuestions": [
+            {
+              "Number": 1,
+              "Question": {
+                "de": "Frage 1 Uzwil de",
+                "fr": "Frage 1 Uzwil fr",
+                "it": "Frage 1 Uzwil it",
+                "rm": "Frage 1 Uzwil rm"
+              },
+              "BallotId": "00000000-0000-0000-0000-000000000000",
+              "Ballot": null,
+              "Id": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "TieBreakQuestions": [],
+          "Id": "00000000-0000-0000-0000-000000000000"
+        }
+      ],
+      "ReportDomainOfInfluenceLevel": 0,
+      "PoliticalBusinessType": 1,
+      "ResultAlgorithm": 1,
+      "BallotBundleSampleSizePercent": 0,
+      "AutomaticBallotBundleNumberGeneration": false,
+      "EnforceResultEntryForCountingCircles": true,
+      "ResultEntry": 1,
+      "ReviewProcedure": 1,
+      "EnforceReviewProcedureForCountingCircles": false,
+      "PoliticalBusinessNumber": "",
+      "OfficialDescription": {
+        "de": "Abstimmung Uzwil de",
+        "fr": "Abstimmung Uzwil fr",
+        "it": "Abstimmung Uzwil it",
+        "rm": "Abstimmung Uzwil rm"
+      },
+      "ShortDescription": {
+        "de": "Abstimmung Uzwil de",
+        "fr": "Abstimmung Uzwil fr",
+        "it": "Abstimmung Uzwil it",
+        "rm": "Abstimmung Uzwil rm"
+      },
+      "InternalDescription": "",
+      "Active": false,
+      "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+      "DomainOfInfluence": null,
+      "ContestId": "00000000-0000-0000-0000-000000000000",
+      "Contest": null,
+      "Id": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "Ballots": [
+        {
+          "Position": 1,
+          "BallotType": 1,
+          "Description": {},
+          "HasTieBreakQuestions": false,
+          "VoteId": "00000000-0000-0000-0000-000000000000",
+          "Vote": null,
+          "BallotQuestions": [
+            {
+              "Number": 1,
+              "Question": {
+                "de": "Frage 1 St.Gallen de",
+                "fr": "Frage 1 St.Gallen fr",
+                "it": "Frage 1 St.Gallen it",
+                "rm": "Frage 1 St.Gallen rm"
+              },
+              "BallotId": "00000000-0000-0000-0000-000000000000",
+              "Ballot": null,
+              "Id": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "TieBreakQuestions": [],
+          "Id": "00000000-0000-0000-0000-000000000000"
+        }
+      ],
+      "ReportDomainOfInfluenceLevel": 0,
+      "PoliticalBusinessType": 1,
+      "ResultAlgorithm": 1,
+      "BallotBundleSampleSizePercent": 0,
+      "AutomaticBallotBundleNumberGeneration": false,
+      "EnforceResultEntryForCountingCircles": true,
+      "ResultEntry": 1,
+      "ReviewProcedure": 1,
+      "EnforceReviewProcedureForCountingCircles": false,
+      "PoliticalBusinessNumber": "",
+      "OfficialDescription": {
+        "de": "Abstimmung Bund de",
+        "fr": "Abstimmung Bund fr",
+        "it": "Abstimmung Bund it",
+        "rm": "Abstimmung Bund rm"
+      },
+      "ShortDescription": {
+        "de": "Abstimmung Bund de",
+        "fr": "Abstimmung Bund fr",
+        "it": "Abstimmung Bund it",
+        "rm": "Abstimmung Bund rm"
+      },
+      "InternalDescription": "",
+      "Active": false,
+      "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+      "DomainOfInfluence": null,
+      "ContestId": "00000000-0000-0000-0000-000000000000",
+      "Contest": null,
+      "Id": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "ProportionalElections": [],
+  "MajorityElections": [],
+  "ProportionalElectionUnions": [],
+  "MajorityElectionUnions": [],
+  "CountingCircleOptions": [],
+  "SimplePoliticalBusinesses": [],
+  "PreviousContestId": null,
+  "PreviousContest": null,
+  "PreviousContestOwners": [],
+  "PoliticalBusinesses": [
+    {
+      "Ballots": [
+        {
+          "Position": 1,
+          "BallotType": 1,
+          "Description": {},
+          "HasTieBreakQuestions": false,
+          "VoteId": "00000000-0000-0000-0000-000000000000",
+          "Vote": null,
+          "BallotQuestions": [
+            {
+              "Number": 1,
+              "Question": {
+                "de": "Frage 1 St.Gallen de",
+                "fr": "Frage 1 St.Gallen fr",
+                "it": "Frage 1 St.Gallen it",
+                "rm": "Frage 1 St.Gallen rm"
+              },
+              "BallotId": "00000000-0000-0000-0000-000000000000",
+              "Ballot": null,
+              "Id": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "TieBreakQuestions": [],
+          "Id": "00000000-0000-0000-0000-000000000000"
+        }
+      ],
+      "ReportDomainOfInfluenceLevel": 0,
+      "PoliticalBusinessType": 1,
+      "ResultAlgorithm": 1,
+      "BallotBundleSampleSizePercent": 0,
+      "AutomaticBallotBundleNumberGeneration": false,
+      "EnforceResultEntryForCountingCircles": true,
+      "ResultEntry": 1,
+      "ReviewProcedure": 1,
+      "EnforceReviewProcedureForCountingCircles": false,
+      "PoliticalBusinessNumber": "",
+      "OfficialDescription": {
+        "de": "Abstimmung St.Gallen de",
+        "fr": "Abstimmung St.Gallen fr",
+        "it": "Abstimmung St.Gallen it",
+        "rm": "Abstimmung St.Gallen rm"
+      },
+      "ShortDescription": {
+        "de": "Abstimmung St.Gallen de",
+        "fr": "Abstimmung St.Gallen fr",
+        "it": "Abstimmung St.Gallen it",
+        "rm": "Abstimmung St.Gallen rm"
+      },
+      "InternalDescription": "",
+      "Active": false,
+      "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+      "DomainOfInfluence": null,
+      "ContestId": "00000000-0000-0000-0000-000000000000",
+      "Contest": null,
+      "Id": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "Ballots": [
+        {
+          "Position": 1,
+          "BallotType": 2,
+          "Description": {},
+          "HasTieBreakQuestions": true,
+          "VoteId": "00000000-0000-0000-0000-000000000000",
+          "Vote": null,
+          "BallotQuestions": [
+            {
+              "Number": 1,
+              "Question": {
+                "de": "Frage 1 Gossau de",
+                "fr": "Frage 1 Gossau fr",
+                "it": "Frage 1 Gossau it",
+                "rm": "Frage 1 Gossau rm"
+              },
+              "BallotId": "00000000-0000-0000-0000-000000000000",
+              "Ballot": null,
+              "Id": "00000000-0000-0000-0000-000000000000"
+            },
+            {
+              "Number": 2,
+              "Question": {
+                "de": "Frage 2 Gossau de",
+                "fr": "Frage 2 Gossau fr",
+                "it": "Frage 2 Gossau it",
+                "rm": "Frage 2 Gossau rm"
+              },
+              "BallotId": "00000000-0000-0000-0000-000000000000",
+              "Ballot": null,
+              "Id": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "TieBreakQuestions": [
+            {
+              "Number": 1,
+              "Question": {
+                "de": "Stichfrage 1 Gossau (Frage 1 vs Frage 2) de",
+                "fr": "Stichfrage 1 Gossau (Frage 1 vs Frage 2) fr",
+                "it": "Stichfrage 1 Gossau (Frage 1 vs Frage 2) it",
+                "rm": "Stichfrage 1 Gossau (Frage 1 vs Frage 2) rm"
+              },
+              "Question1Number": 1,
+              "Question2Number": 2,
+              "Ballot": null,
+              "BallotId": "00000000-0000-0000-0000-000000000000",
+              "Id": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "Id": "00000000-0000-0000-0000-000000000000"
+        }
+      ],
+      "ReportDomainOfInfluenceLevel": 0,
+      "PoliticalBusinessType": 1,
+      "ResultAlgorithm": 1,
+      "BallotBundleSampleSizePercent": 0,
+      "AutomaticBallotBundleNumberGeneration": false,
+      "EnforceResultEntryForCountingCircles": false,
+      "ResultEntry": 1,
+      "ReviewProcedure": 1,
+      "EnforceReviewProcedureForCountingCircles": false,
+      "PoliticalBusinessNumber": "",
+      "OfficialDescription": {
+        "de": "Abstimmung Gossau de",
+        "fr": "Abstimmung Gossau fr",
+        "it": "Abstimmung Gossau it",
+        "rm": "Abstimmung Gossau rm"
+      },
+      "ShortDescription": {
+        "de": "Abstimmung Gossau de",
+        "fr": "Abstimmung Gossau fr",
+        "it": "Abstimmung Gossau it",
+        "rm": "Abstimmung Gossau rm"
+      },
+      "InternalDescription": "",
+      "Active": false,
+      "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+      "DomainOfInfluence": null,
+      "ContestId": "00000000-0000-0000-0000-000000000000",
+      "Contest": null,
+      "Id": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "Ballots": [
+        {
+          "Position": 1,
+          "BallotType": 1,
+          "Description": {},
+          "HasTieBreakQuestions": false,
+          "VoteId": "00000000-0000-0000-0000-000000000000",
+          "Vote": null,
+          "BallotQuestions": [
+            {
+              "Number": 1,
+              "Question": {
+                "de": "Frage 1 Uzwil de",
+                "fr": "Frage 1 Uzwil fr",
+                "it": "Frage 1 Uzwil it",
+                "rm": "Frage 1 Uzwil rm"
+              },
+              "BallotId": "00000000-0000-0000-0000-000000000000",
+              "Ballot": null,
+              "Id": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "TieBreakQuestions": [],
+          "Id": "00000000-0000-0000-0000-000000000000"
+        }
+      ],
+      "ReportDomainOfInfluenceLevel": 0,
+      "PoliticalBusinessType": 1,
+      "ResultAlgorithm": 1,
+      "BallotBundleSampleSizePercent": 0,
+      "AutomaticBallotBundleNumberGeneration": false,
+      "EnforceResultEntryForCountingCircles": true,
+      "ResultEntry": 1,
+      "ReviewProcedure": 1,
+      "EnforceReviewProcedureForCountingCircles": false,
+      "PoliticalBusinessNumber": "",
+      "OfficialDescription": {
+        "de": "Abstimmung Uzwil de",
+        "fr": "Abstimmung Uzwil fr",
+        "it": "Abstimmung Uzwil it",
+        "rm": "Abstimmung Uzwil rm"
+      },
+      "ShortDescription": {
+        "de": "Abstimmung Uzwil de",
+        "fr": "Abstimmung Uzwil fr",
+        "it": "Abstimmung Uzwil it",
+        "rm": "Abstimmung Uzwil rm"
+      },
+      "InternalDescription": "",
+      "Active": false,
+      "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+      "DomainOfInfluence": null,
+      "ContestId": "00000000-0000-0000-0000-000000000000",
+      "Contest": null,
+      "Id": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "Ballots": [
+        {
+          "Position": 1,
+          "BallotType": 1,
+          "Description": {},
+          "HasTieBreakQuestions": false,
+          "VoteId": "00000000-0000-0000-0000-000000000000",
+          "Vote": null,
+          "BallotQuestions": [
+            {
+              "Number": 1,
+              "Question": {
+                "de": "Frage 1 St.Gallen de",
+                "fr": "Frage 1 St.Gallen fr",
+                "it": "Frage 1 St.Gallen it",
+                "rm": "Frage 1 St.Gallen rm"
+              },
+              "BallotId": "00000000-0000-0000-0000-000000000000",
+              "Ballot": null,
+              "Id": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "TieBreakQuestions": [],
+          "Id": "00000000-0000-0000-0000-000000000000"
+        }
+      ],
+      "ReportDomainOfInfluenceLevel": 0,
+      "PoliticalBusinessType": 1,
+      "ResultAlgorithm": 1,
+      "BallotBundleSampleSizePercent": 0,
+      "AutomaticBallotBundleNumberGeneration": false,
+      "EnforceResultEntryForCountingCircles": true,
+      "ResultEntry": 1,
+      "ReviewProcedure": 1,
+      "EnforceReviewProcedureForCountingCircles": false,
+      "PoliticalBusinessNumber": "",
+      "OfficialDescription": {
+        "de": "Abstimmung Bund de",
+        "fr": "Abstimmung Bund fr",
+        "it": "Abstimmung Bund it",
+        "rm": "Abstimmung Bund rm"
+      },
+      "ShortDescription": {
+        "de": "Abstimmung Bund de",
+        "fr": "Abstimmung Bund fr",
+        "it": "Abstimmung Bund it",
+        "rm": "Abstimmung Bund rm"
+      },
+      "InternalDescription": "",
+      "Active": false,
+      "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+      "DomainOfInfluence": null,
+      "ContestId": "00000000-0000-0000-0000-000000000000",
+      "Contest": null,
+      "Id": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "PoliticalBusinessUnions": [],
+  "TestingPhaseEnded": false,
+  "Id": "00000000-0000-0000-0000-000000000000"
+}

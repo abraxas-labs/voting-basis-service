@@ -1,0 +1,91 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "DomainOfInfluence": {
+      "Id": "",
+      "Name": "Bund Neu",
+      "ShortName": "BundN",
+      "AuthorityName": "Default",
+      "SecureConnectId": "000000000000000000",
+      "Type": 1,
+      "ParentId": "",
+      "Canton": 2,
+      "ResponsibleForVotingCards": false,
+      "Bfs": "",
+      "Code": "",
+      "SortNumber": 0,
+      "NameForProtocol": ""
+    }
+  },
+  "exportConfigCreated": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Configuration": {
+      "Id": "",
+      "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+      "Description": "Intf100-BUND",
+      "EaiMessageType": "1234567",
+      "ExportKeys": [
+        "vote_ech_0110",
+        "proportional_election_candidate_results_with_vote_sources"
+      ]
+    }
+  },
+  "exportConfigUpdated": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Configuration": {
+      "Id": "a4079ec3-315c-4a41-b034-b86ff42b6063",
+      "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+      "Description": "Intf001-BUND-Updated",
+      "EaiMessageType": "1234567",
+      "ExportKeys": [
+        "vote_ech_0110",
+        "proportional_election_candidate_results_with_vote_sources"
+      ]
+    }
+  }
+}

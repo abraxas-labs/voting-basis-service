@@ -1,0 +1,27 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "ProportionalElectionUnionEntries": {
+      "ProportionalElectionUnionId": "cfdc428a-2a75-4f41-972f-28cfa8a923d5",
+      "ProportionalElectionIds": [
+        "fa69e964-0a02-4d16-b417-247e8987021a",
+        "8fd00ee5-cc68-4b33-86b0-cc9c58dc1b1f"
+      ]
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "Id": "8fbba43a-cd73-407a-b490-df13c41cc5ee",
+  "PoliticalBusinessNumber": "324",
+  "OfficialDescription": {
+    "de": "Abstimmung Gossau de",
+    "fr": "Abstimmung Gossau fr",
+    "it": "Abstimmung Gossau it",
+    "rm": "Abstimmung Gossau rm"
+  },
+  "ShortDescription": {
+    "de": "Abstimmung Gossau de",
+    "fr": "Abstimmung Gossau fr",
+    "it": "Abstimmung Gossau it",
+    "rm": "Abstimmung Gossau rm"
+  },
+  "InternalDescription": "Abstimmung Gossau auf Urnengang Gossau mit E-Voting",
+  "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+  "ContestId": "bfd88d88-77f2-4172-a73d-56b1ca5442b3",
+  "Active": true,
+  "Ballots": [
+    {
+      "Id": "a2aa6f61-752b-446f-94b4-002a95111c7a",
+      "Position": 0,
+      "BallotType": 2,
+      "Description": {
+        "de": "updated description de",
+        "fr": "updated description fr",
+        "it": "updated description it",
+        "rm": "updated description rm"
+      },
+      "BallotQuestions": [
+        {
+          "Number": 1,
+          "Question": {
+            "de": "Frage 1 update de",
+            "fr": "Frage 1 update fr",
+            "it": "Frage 1 update it",
+            "rm": "Frage 1 update rm"
+          }
+        },
+        {
+          "Number": 2,
+          "Question": {
+            "de": "Frage 2 update de",
+            "fr": "Frage 2 update fr",
+            "it": "Frage 2 update it",
+            "rm": "Frage 2 update rm"
+          }
+        }
+      ],
+      "VoteId": "8fbba43a-cd73-407a-b490-df13c41cc5ee",
+      "HasTieBreakQuestions": true,
+      "TieBreakQuestions": [
+        {
+          "Number": 1,
+          "Question": {
+            "de": "TieBreak 1 Updated de",
+            "fr": "TieBreak 1 Updated fr",
+            "it": "TieBreak 1 Updated it",
+            "rm": "TieBreak 1 Updated rm"
+          },
+          "Question1Number": 1,
+          "Question2Number": 2
+        }
+      ]
+    }
+  ],
+  "ReportDomainOfInfluenceLevel": 0,
+  "ResultAlgorithm": 1,
+  "ResultEntry": 1,
+  "BallotBundleSampleSizePercent": 100,
+  "AutomaticBallotBundleNumberGeneration": false,
+  "EnforceResultEntryForCountingCircles": true,
+  "ReviewProcedure": 1,
+  "EnforceReviewProcedureForCountingCircles": true
+}

@@ -1,0 +1,64 @@
+{
+  "ElectionCandidates_": [
+    {
+      "Id": "1228f95d-8b39-44b1-8cc3-84a93f5e3bbc",
+      "Number": "number1",
+      "FirstName": "firstName",
+      "LastName": "lastName",
+      "DateOfBirth": {
+        "Seconds": -314582400,
+        "Nanos": 0
+      },
+      "Sex": 2,
+      "Title": "title",
+      "Incumbent": true,
+      "ZipCode": "zip code",
+      "Locality": "locality"
+    },
+    {
+      "Id": "77ce6bf0-b27c-4d9d-926f-ced7863aff2f",
+      "Number": "number1",
+      "FirstName": "firstName",
+      "LastName": "lastName",
+      "DateOfBirth": {
+        "Seconds": -314582400,
+        "Nanos": 0
+      },
+      "Sex": 2,
+      "Title": "title",
+      "Incumbent": true,
+      "ZipCode": "zip code",
+      "Locality": "locality"
+    },
+    {
+      "Id": "4a44cb35-05a7-41f9-aa1e-034bedd320ec",
+      "Number": "number2",
+      "FirstName": "candidate",
+      "LastName": "number 2",
+      "DateOfBirth": {
+        "Seconds": -945734400,
+        "Nanos": 0
+      },
+      "Sex": 3,
+      "Title": "title 2",
+      "Incumbent": false,
+      "ZipCode": "",
+      "Locality": "locality 2"
+    },
+    {
+      "Id": "a4d71ea8-0968-4684-bf5a-cb6834233dbe",
+      "Number": "number2",
+      "FirstName": "secondaryElection Peter",
+      "LastName": "secondaryElection Lustig",
+      "DateOfBirth": {
+        "Seconds": 410140800,
+        "Nanos": 0
+      },
+      "Sex": 1,
+      "Title": "title",
+      "Incumbent": false,
+      "ZipCode": "zip code",
+      "Locality": "locality"
+    }
+  ]
+}

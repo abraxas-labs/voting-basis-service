@@ -1,0 +1,52 @@
+{
+  "event": {
+    "Id": "96d8275f-f1f8-4933-a097-5c0c19f54567",
+    "PoliticalBusinessNumber": "4000",
+    "OfficialDescription": {
+      "de": "Update Abstimmung de",
+      "fr": "Update Abstimmung fr",
+      "it": "Update Abstimmung it",
+      "rm": "Update Abstimmung rm"
+    },
+    "ShortDescription": {
+      "de": "Upd Abstimmung de",
+      "fr": "Upd Abstimmung fr",
+      "it": "Upd Abstimmung it",
+      "rm": "Upd Abstimmung rm"
+    },
+    "InternalDescription": "",
+    "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+    "ContestId": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
+    "Active": false,
+    "Ballots": [
+      {
+        "Id": "0ed26aad-e169-4d55-b9a9-90475ba81a02",
+        "Position": 1,
+        "BallotType": 1,
+        "Description": {},
+        "BallotQuestions": [
+          {
+            "Number": 1,
+            "Question": {
+              "de": "Frage 1 St.Gallen de",
+              "fr": "Frage 1 St.Gallen fr",
+              "it": "Frage 1 St.Gallen it",
+              "rm": "Frage 1 St.Gallen rm"
+            }
+          }
+        ],
+        "VoteId": "96d8275f-f1f8-4933-a097-5c0c19f54567",
+        "HasTieBreakQuestions": false,
+        "TieBreakQuestions": []
+      }
+    ],
+    "ReportDomainOfInfluenceLevel": 0,
+    "ResultAlgorithm": 0,
+    "ResultEntry": 2,
+    "BallotBundleSampleSizePercent": 20,
+    "AutomaticBallotBundleNumberGeneration": false,
+    "EnforceResultEntryForCountingCircles": true,
+    "ReviewProcedure": 1,
+    "EnforceReviewProcedureForCountingCircles": true
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Vote": {
+      "Id": "",
+      "PoliticalBusinessNumber": "1661",
+      "OfficialDescription": {
+        "de": "Update Abstimmung de",
+        "fr": "Update Abstimmung fr",
+        "it": "Update Abstimmung it",
+        "rm": "Update Abstimmung rm"
+      },
+      "ShortDescription": {
+        "de": "Upd Abstimmung de",
+        "fr": "Upd Abstimmung fr",
+        "it": "Upd Abstimmung it",
+        "rm": "Upd Abstimmung rm"
+      },
+      "InternalDescription": "",
+      "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+      "ContestId": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
+      "Active": false,
+      "ReportDomainOfInfluenceLevel": 1,
+      "ResultAlgorithm": 3,
+      "ResultEntry": 1,
+      "BallotBundleSampleSizePercent": 20,
+      "AutomaticBallotBundleNumberGeneration": true,
+      "EnforceResultEntryForCountingCircles": true,
+      "ReviewProcedure": 1,
+      "EnforceReviewProcedureForCountingCircles": true
+    }
+  }
+}

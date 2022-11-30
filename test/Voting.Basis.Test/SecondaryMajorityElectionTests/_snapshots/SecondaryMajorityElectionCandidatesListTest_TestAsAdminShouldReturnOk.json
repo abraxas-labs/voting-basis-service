@@ -1,0 +1,86 @@
+{
+  "Candidates": [
+    {
+      "Candidate": {
+        "Id": "9d1e4ef4-81c0-4905-a2c6-e1b937b80ddf",
+        "MajorityElectionId": "0741da26-add2-4c4c-960d-7e251b82e91b",
+        "Number": "number1",
+        "FirstName": "firstName",
+        "LastName": "lastName",
+        "PoliticalFirstName": "pol first name",
+        "PoliticalLastName": "pol last name",
+        "DateOfBirth": {
+          "Seconds": -314582400,
+          "Nanos": 0
+        },
+        "Sex": 2,
+        "Occupation": {
+          "de": "occupation de",
+          "fr": "occupation fr",
+          "it": "occupation it",
+          "rm": "occupation rm"
+        },
+        "Title": "title",
+        "OccupationTitle": {
+          "de": "occupation title de",
+          "fr": "occupation title fr",
+          "it": "occupation title it",
+          "rm": "occupation title rm"
+        },
+        "Party": {
+          "de": "Test de",
+          "fr": "Test fr",
+          "it": "Test it",
+          "rm": "Test rm"
+        },
+        "Incumbent": true,
+        "ZipCode": "zip code",
+        "Locality": "locality",
+        "Position": 1
+      },
+      "IsReferenced": true,
+      "ReferencedCandidateId": "81a11b8e-51b8-40c5-aa94-b7a854e2c726"
+    },
+    {
+      "Candidate": {
+        "Id": "f70ffba1-1cfd-402b-b6ea-f2c9f802886a",
+        "MajorityElectionId": "0741da26-add2-4c4c-960d-7e251b82e91b",
+        "Number": "number2",
+        "FirstName": "Peter",
+        "LastName": "Lustig",
+        "PoliticalFirstName": "Pete",
+        "PoliticalLastName": "L",
+        "DateOfBirth": {
+          "Seconds": 410140800,
+          "Nanos": 0
+        },
+        "Sex": 1,
+        "Occupation": {
+          "de": "Beruf de",
+          "fr": "Beruf fr",
+          "it": "Beruf it",
+          "rm": "Beruf rm"
+        },
+        "Title": "title",
+        "OccupationTitle": {
+          "de": "occupation title de",
+          "fr": "occupation title fr",
+          "it": "occupation title it",
+          "rm": "occupation title rm"
+        },
+        "Party": {
+          "de": "CVP de",
+          "fr": "CVP fr",
+          "it": "CVP it",
+          "rm": "CVP rm"
+        },
+        "Incumbent": false,
+        "ZipCode": "zip code",
+        "Locality": "locality",
+        "Position": 2
+      },
+      "IsReferenced": false,
+      "ReferencedCandidateId": ""
+    }
+  ]
+}

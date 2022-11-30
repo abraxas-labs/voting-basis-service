@@ -1,0 +1,142 @@
+{
+  "Id": "607a9dbc-250a-4bbf-ab31-73c81f6556ba",
+  "PoliticalBusinessNumber": "500",
+  "OfficialDescription": {
+    "de": "Abstimmung St.Gallen 2 de",
+    "fr": "Abstimmung St.Gallen 2 fr",
+    "it": "Abstimmung St.Gallen 2 it",
+    "rm": "Abstimmung St.Gallen 2 rm"
+  },
+  "ShortDescription": {
+    "de": "Abstimmung St.Gallen 2 de",
+    "fr": "Abstimmung St.Gallen 2 fr",
+    "it": "Abstimmung St.Gallen 2 it",
+    "rm": "Abstimmung St.Gallen 2 rm"
+  },
+  "InternalDescription": "Abstimmung St.Gallen auf Urnengang St.Gallen ohne Vorlage und Optionen",
+  "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+  "ContestId": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
+  "Active": false,
+  "Ballots": [
+    {
+      "Id": "239702ef-3064-498c-beea-ebf57a55ff05",
+      "Position": 1,
+      "BallotType": 1,
+      "Description": {},
+      "BallotQuestions": [
+        {
+          "Number": 1,
+          "Question": {
+            "de": "Frage 1 neu de",
+            "fr": "Frage 1 neu fr",
+            "it": "Frage 1 neu it",
+            "rm": "Frage 1 neu rm"
+          }
+        }
+      ],
+      "VoteId": "607a9dbc-250a-4bbf-ab31-73c81f6556ba",
+      "HasTieBreakQuestions": false,
+      "TieBreakQuestions": []
+    },
+    {
+      "Id": "259902ef-3064-498c-beea-ebf57a55ecab",
+      "Position": 2,
+      "BallotType": 1,
+      "Description": {},
+      "BallotQuestions": [
+        {
+          "Number": 1,
+          "Question": {
+            "de": "Frage 2 neu de",
+            "fr": "Frage 2 neu fr",
+            "it": "Frage 2 neu it",
+            "rm": "Frage 2 neu rm"
+          }
+        }
+      ],
+      "VoteId": "607a9dbc-250a-4bbf-ab31-73c81f6556ba",
+      "HasTieBreakQuestions": false,
+      "TieBreakQuestions": []
+    },
+    {
+      "Id": "0afc89f8-fc84-4a86-ace6-2cedfb5f8033",
+      "Position": 3,
+      "BallotType": 2,
+      "Description": {},
+      "BallotQuestions": [
+        {
+          "Number": 1,
+          "Question": {
+            "de": "Variante 1 neu de",
+            "fr": "Variante 1 neu fr",
+            "it": "Variante 1 neu it",
+            "rm": "Variante 1 neu rm"
+          }
+        },
+        {
+          "Number": 2,
+          "Question": {
+            "de": "Variante 2 neu de",
+            "fr": "Variante 2 neu fr",
+            "it": "Variante 2 neu it",
+            "rm": "Variante 2 neu rm"
+          }
+        },
+        {
+          "Number": 3,
+          "Question": {
+            "de": "Variante 3 neu de",
+            "fr": "Variante 3 neu fr",
+            "it": "Variante 3 neu it",
+            "rm": "Variante 3 neu rm"
+          }
+        }
+      ],
+      "VoteId": "607a9dbc-250a-4bbf-ab31-73c81f6556ba",
+      "HasTieBreakQuestions": true,
+      "TieBreakQuestions": [
+        {
+          "Number": 1,
+          "Question": {
+            "de": "TieBreak V1/V2 de",
+            "fr": "TieBreak V1/V2 fr",
+            "it": "TieBreak V1/V2 it",
+            "rm": "TieBreak V1/V2 rm"
+          },
+          "Question1Number": 1,
+          "Question2Number": 2
+        },
+        {
+          "Number": 2,
+          "Question": {
+            "de": "TieBreak V1/V3 de",
+            "fr": "TieBreak V1/V3 fr",
+            "it": "TieBreak V1/V3 it",
+            "rm": "TieBreak V1/V3 rm"
+          },
+          "Question1Number": 1,
+          "Question2Number": 3
+        },
+        {
+          "Number": 3,
+          "Question": {
+            "de": "TieBreak V2/V3 de",
+            "fr": "TieBreak V2/V3 fr",
+            "it": "TieBreak V2/V3 it",
+            "rm": "TieBreak V2/V3 rm"
+          },
+          "Question1Number": 2,
+          "Question2Number": 3
+        }
+      ]
+    }
+  ],
+  "ReportDomainOfInfluenceLevel": 0,
+  "ResultAlgorithm": 1,
+  "ResultEntry": 1,
+  "BallotBundleSampleSizePercent": 10,
+  "AutomaticBallotBundleNumberGeneration": false,
+  "EnforceResultEntryForCountingCircles": true,
+  "ReviewProcedure": 1,
+  "EnforceReviewProcedureForCountingCircles": true
+}

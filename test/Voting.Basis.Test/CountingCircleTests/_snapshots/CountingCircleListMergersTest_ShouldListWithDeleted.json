@@ -1,0 +1,129 @@
+{
+  "Mergers": [
+    {
+      "Id": "",
+      "NewCountingCircle": {
+        "Id": "",
+        "Name": "rappi-jona",
+        "Bfs": "BFS M0",
+        "ResponsibleAuthority": {
+          "SecureConnectId": "000000000000000000",
+          "Name": "Default",
+          "Street": "",
+          "Zip": "",
+          "City": "",
+          "Phone": "",
+          "Email": ""
+        },
+        "ContactPersonDuringEvent": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "ContactPersonSameDuringEventAsAfter": true,
+        "ContactPersonAfterEvent": null,
+        "State": 2,
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1578661930,
+            "Nanos": 200000000
+          },
+          "ModifiedOn": {
+            "Seconds": 1594980476,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "Code": "CODE M0",
+        "SortNumber": 0,
+        "NameForProtocol": ""
+      },
+      "MergedCountingCircles": [
+        {
+          "Id": "3ec3d50c-6cb7-4ba1-bd1a-2882153834b0",
+          "Name": "Jona",
+          "Bfs": "none",
+          "ResponsibleAuthority": {
+            "SecureConnectId": "",
+            "Name": "",
+            "Street": "",
+            "Zip": "",
+            "City": "",
+            "Phone": "",
+            "Email": ""
+          },
+          "ContactPersonDuringEvent": {
+            "FirstName": "",
+            "FamilyName": "",
+            "Phone": "",
+            "MobilePhone": "",
+            "Email": ""
+          },
+          "ContactPersonSameDuringEventAsAfter": false,
+          "ContactPersonAfterEvent": null,
+          "State": 3,
+          "Info": {
+            "CreatedOn": {
+              "Seconds": 1514764800,
+              "Nanos": 0
+            },
+            "ModifiedOn": {
+              "Seconds": 1578661930,
+              "Nanos": 200000000
+            },
+            "DeletedOn": null
+          },
+          "Code": "nonec",
+          "SortNumber": 9005,
+          "NameForProtocol": "Stadt Jona"
+        },
+        {
+          "Id": "2a3a799a-2437-47da-86fe-06decf70a267",
+          "Name": "Rapperswil",
+          "Bfs": "none",
+          "ResponsibleAuthority": {
+            "SecureConnectId": "",
+            "Name": "",
+            "Street": "",
+            "Zip": "",
+            "City": "",
+            "Phone": "",
+            "Email": ""
+          },
+          "ContactPersonDuringEvent": {
+            "FirstName": "",
+            "FamilyName": "",
+            "Phone": "",
+            "MobilePhone": "",
+            "Email": ""
+          },
+          "ContactPersonSameDuringEventAsAfter": true,
+          "ContactPersonAfterEvent": null,
+          "State": 3,
+          "Info": {
+            "CreatedOn": {
+              "Seconds": 1514764800,
+              "Nanos": 0
+            },
+            "ModifiedOn": {
+              "Seconds": 1578661930,
+              "Nanos": 200000000
+            },
+            "DeletedOn": null
+          },
+          "Code": "nonec",
+          "SortNumber": 9004,
+          "NameForProtocol": "Stadt Rapperswil"
+        }
+      ],
+      "CopyFromCountingCircleId": "2a3a799a-2437-47da-86fe-06decf70a267",
+      "ActiveFrom": {
+        "Seconds": 1578614400,
+        "Nanos": 0
+      },
+      "Merged": true
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "PoliticalDomainOfInfluences": [
+    {
+      "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+      "ParentId": "",
+      "Children": [
+        {
+          "Id": "ade30989-5e28-40c7-918c-2c9408f853ba",
+          "ParentId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+          "Children": [],
+          "Name": "Genf",
+          "Bfs": "",
+          "TenantName": "",
+          "TenantId": "random",
+          "Type": 2,
+          "Canton": 0
+        },
+        {
+          "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+          "ParentId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+          "Children": [
+            {
+              "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+              "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+              "Children": [],
+              "Name": "Gossau",
+              "Bfs": "",
+              "TenantName": "",
+              "TenantId": "000000000000000000",
+              "Type": 5,
+              "Canton": 0
+            },
+            {
+              "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
+              "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+              "Children": [],
+              "Name": "Uzwil",
+              "Bfs": "",
+              "TenantName": "",
+              "TenantId": "100100100100100100",
+              "Type": 5,
+              "Canton": 0
+            }
+          ],
+          "Name": "St. Gallen",
+          "Bfs": "",
+          "TenantName": "",
+          "TenantId": "000000000000000000",
+          "Type": 2,
+          "Canton": 0
+        },
+        {
+          "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
+          "ParentId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+          "Children": [],
+          "Name": "Thurgau",
+          "Bfs": "",
+          "TenantName": "",
+          "TenantId": "000000000000000000",
+          "Type": 2,
+          "Canton": 0
+        }
+      ],
+      "Name": "Bund",
+      "Bfs": "",
+      "TenantName": "",
+      "TenantId": "random",
+      "Type": 1,
+      "Canton": 1
+    },
+    {
+      "Id": "22949a1e-fb09-47ec-9e9f-d26675676565",
+      "ParentId": "",
+      "Children": [
+        {
+          "Id": "692be088-00e2-490c-b1fd-828adc38571d",
+          "ParentId": "22949a1e-fb09-47ec-9e9f-d26675676565",
+          "Children": [],
+          "Name": "Oberuzwil Kirche andere",
+          "Bfs": "",
+          "TenantName": "",
+          "TenantId": "100100100100100100",
+          "Type": 10,
+          "Canton": 0
+        }
+      ],
+      "Name": "Kirchgemeinde Oberuzwil",
+      "Bfs": "",
+      "TenantName": "",
+      "TenantId": "100100100100100100",
+      "Type": 7,
+      "Canton": 1
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Ballot": {
+      "Id": "",
+      "Position": 1,
+      "BallotType": 2,
+      "Description": {},
+      "BallotQuestions": [
+        {
+          "Number": 1,
+          "Question": {
+            "de": "Frage 1 de",
+            "fr": "Frage 1 fr",
+            "it": "Frage 1 it",
+            "rm": "Frage 1 rm"
+          }
+        },
+        {
+          "Number": 2,
+          "Question": {
+            "de": "Frage 2 de",
+            "fr": "Frage 2 fr",
+            "it": "Frage 2 it",
+            "rm": "Frage 2 rm"
+          }
+        }
+      ],
+      "VoteId": "607a9dbc-250a-4bbf-ab31-73c81f6556ba",
+      "HasTieBreakQuestions": false,
+      "TieBreakQuestions": []
+    }
+  }
+}

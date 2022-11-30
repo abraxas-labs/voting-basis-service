@@ -1,0 +1,56 @@
+{
+  "Contests_": [
+    {
+      "Id": "4c3adb88-2de9-4042-bf38-3fda1cb8b29a",
+      "Date": {
+        "Seconds": 1538438400,
+        "Nanos": 0
+      },
+      "Description": {
+        "de": "Urnengang der Vergangenheit de",
+        "fr": "Urnengang der Vergangenheit fr",
+        "it": "Urnengang der Vergangenheit it",
+        "rm": "Urnengang der Vergangenheit rm"
+      },
+      "EndOfTestingPhase": {
+        "Seconds": 1538409600,
+        "Nanos": 0
+      },
+      "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+      "DomainOfInfluence": null,
+      "EVoting": false,
+      "EVotingFrom": null,
+      "EVotingTo": null,
+      "PoliticalBusinesses": [],
+      "PoliticalBusinessUnions": [],
+      "State": 3,
+      "PreviousContestId": ""
+    },
+    {
+      "Id": "bfd88d88-77f2-4172-a73d-56b1ca5442b3",
+      "Date": {
+        "Seconds": 1582934400,
+        "Nanos": 0
+      },
+      "Description": {
+        "de": "Gossau Urnengang de",
+        "fr": "Gossau Urnengang fr",
+        "it": "Gossau Urnengang it",
+        "rm": "Gossau Urnengang rm"
+      },
+      "EndOfTestingPhase": {
+        "Seconds": 1582821000,
+        "Nanos": 0
+      },
+      "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+      "DomainOfInfluence": null,
+      "EVoting": false,
+      "EVotingFrom": null,
+      "EVotingTo": null,
+      "PoliticalBusinesses": [],
+      "PoliticalBusinessUnions": [],
+      "State": 1,
+      "PreviousContestId": ""
+    }
+  ]
+}

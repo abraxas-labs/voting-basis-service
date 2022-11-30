@@ -1,0 +1,64 @@
+{
+  "1": {
+    "Id": "f6ebc06e-a252-4cf4-9aa7-9ad46dd517f3",
+    "PoliticalBusinessNumber": "6000",
+    "OfficialDescription": {
+      "de": "Neue Proporzwahl 1 de",
+      "fr": "Neue Proporzwahl 1 fr",
+      "it": "Neue Proporzwahl 1 it",
+      "rm": "Neue Proporzwahl 1 rm"
+    },
+    "ShortDescription": {
+      "de": "Proporzwahl 1 de",
+      "fr": "Proporzwahl 1 fr",
+      "it": "Proporzwahl 1 it",
+      "rm": "Proporzwahl 1 rm"
+    },
+    "InternalDescription": "",
+    "NumberOfMandates": 6,
+    "MandateAlgorithm": 1,
+    "CandidateCheckDigit": false,
+    "BallotBundleSize": 0,
+    "AutomaticBallotBundleNumberGeneration": false,
+    "BallotNumberGeneration": 1,
+    "AutomaticEmptyVoteCounting": false,
+    "EnforceEmptyVoteCountingForCountingCircles": false,
+    "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+    "ContestId": "bfd88d88-77f2-4172-a73d-56b1ca5442b3",
+    "Active": false,
+    "BallotBundleSampleSize": 0,
+    "ReviewProcedure": 1,
+    "EnforceReviewProcedureForCountingCircles": true
+  },
+  "2": {
+    "Id": "53235b83-3dc3-4b72-a94d-871044168062",
+    "PoliticalBusinessNumber": "6001",
+    "OfficialDescription": {
+      "de": "Neue Proporzwahl 2 de",
+      "fr": "Neue Proporzwahl 2 fr",
+      "it": "Neue Proporzwahl 2 it",
+      "rm": "Neue Proporzwahl 2 rm"
+    },
+    "ShortDescription": {
+      "de": "Proporzwahl 2 de",
+      "fr": "Proporzwahl 2 fr",
+      "it": "Proporzwahl 2 it",
+      "rm": "Proporzwahl 2 rm"
+    },
+    "InternalDescription": "",
+    "NumberOfMandates": 3,
+    "MandateAlgorithm": 2,
+    "CandidateCheckDigit": false,
+    "BallotBundleSize": 0,
+    "AutomaticBallotBundleNumberGeneration": false,
+    "BallotNumberGeneration": 1,
+    "AutomaticEmptyVoteCounting": false,
+    "EnforceEmptyVoteCountingForCountingCircles": false,
+    "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+    "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
+    "Active": false,
+    "BallotBundleSampleSize": 0,
+    "ReviewProcedure": 2,
+    "EnforceReviewProcedureForCountingCircles": false
+  }
+}
