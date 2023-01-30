@@ -22,17 +22,20 @@ public class MajorityElectionCandidatesImportService
     private readonly IAggregateRepository _aggregateRepository;
     private readonly ContestReader _contestReader;
     private readonly PermissionService _permissionService;
+    private readonly DomainOfInfluenceReader _domainOfInfluenceReader;
 
     public MajorityElectionCandidatesImportService(
         IAuth auth,
         IAggregateRepository aggregateRepository,
         ContestReader contestReader,
-        PermissionService permissionService)
+        PermissionService permissionService,
+        DomainOfInfluenceReader domainOfInfluenceReader)
     {
         _auth = auth;
         _aggregateRepository = aggregateRepository;
         _contestReader = contestReader;
         _permissionService = permissionService;
+        _domainOfInfluenceReader = domainOfInfluenceReader;
     }
 
     public async Task Import(
@@ -44,6 +47,7 @@ public class MajorityElectionCandidatesImportService
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(majorityElectionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(majorityElection.DomainOfInfluenceId);
 
+        var doi = await _domainOfInfluenceReader.Get(majorityElection.DomainOfInfluenceId);
         var contest = await _contestReader.Get(majorityElection.ContestId);
         if (contest.TestingPhaseEnded)
         {
@@ -61,7 +65,7 @@ public class MajorityElectionCandidatesImportService
             {
                 candidate.Position = ++currentCandidatePosition;
                 candidate.MajorityElectionId = majorityElectionId;
-                majorityElection.CreateCandidateFrom(candidate);
+                majorityElection.CreateCandidateFrom(candidate, doi.Type);
             }
         }
 

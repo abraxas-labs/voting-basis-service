@@ -494,6 +494,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
                             AusmittlungCsvProportionalElectionTemplates.CandidateCountingCircleResultsWithVoteSources.Key,
                         },
                         EaiMessageType = "1234657",
+                        Provider = SharedProto.ExportProvider.Seantis,
                     },
                 },
             PlausibilisationConfiguration = DomainOfInfluenceMockedData.BuildPlausibilisationConfiguration(x =>
@@ -554,6 +555,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
                             AusmittlungCsvProportionalElectionTemplates.CandidateCountingCircleResultsWithVoteSources.Key,
                         },
                         EaiMessageType = "1234567",
+                        Provider = SharedProto.ExportProvider.Standard,
                     },
                 },
             PlausibilisationConfiguration = DomainOfInfluenceMockedData.BuildPlausibilisationConfiguration(),

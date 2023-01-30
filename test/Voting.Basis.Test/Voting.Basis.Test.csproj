@@ -14,12 +14,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ImportTests\TestFiles\eCH157_both_election_types.xml">
+    <None Update="ImportTests\TestFiles\eCH0157_both_election_types.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="ImportTests\TestFiles\eCH159.xml">
+    <None Update="ImportTests\TestFiles\eCH0159.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="ImportTests\TestFiles\eCH0159_invalid.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="EchTests\_snapshots\Ech159DeserializerTest_TestSerializeDeserialize.json" />
   </ItemGroup>
   
 </Project>

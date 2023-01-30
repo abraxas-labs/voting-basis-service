@@ -32,8 +32,6 @@ public class SecondaryMajorityElection
 
     public Dictionary<string, string> ShortDescription { get; private set; }
 
-    public string? InternalDescription { get; private set; }
-
     public int NumberOfMandates { get; private set; }
 
     public bool Active { get; internal set; }

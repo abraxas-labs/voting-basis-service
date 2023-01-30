@@ -14,7 +14,6 @@
       "it": "Proporzwahl 1 it",
       "rm": "Proporzwahl 1 rm"
     },
-    "InternalDescription": "",
     "NumberOfMandates": 6,
     "MandateAlgorithm": 1,
     "CandidateCheckDigit": false,
@@ -45,7 +44,6 @@
       "it": "Proporzwahl 2 it",
       "rm": "Proporzwahl 2 rm"
     },
-    "InternalDescription": "",
     "NumberOfMandates": 3,
     "MandateAlgorithm": 2,
     "CandidateCheckDigit": false,

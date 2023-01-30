@@ -236,7 +236,6 @@ public class SecondaryMajorityElectionUpdateTest : BaseGrpcTest<MajorityElection
             AllowedCandidates = SharedProto.SecondaryMajorityElectionAllowedCandidates.MayExistInPrimaryElection,
             PrimaryMajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund,
             Active = true,
-            InternalDescription = "test",
         };
 
         customizer?.Invoke(request);
@@ -258,7 +257,6 @@ public class SecondaryMajorityElectionUpdateTest : BaseGrpcTest<MajorityElection
                 AllowedCandidates = SharedProto.SecondaryMajorityElectionAllowedCandidates.MayExistInPrimaryElection,
                 PrimaryMajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund,
                 Active = true,
-                InternalDescription = "test",
             },
         };
 

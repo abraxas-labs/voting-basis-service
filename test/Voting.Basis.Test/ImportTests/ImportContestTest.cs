@@ -97,12 +97,12 @@ public class ImportContestTest : BaseImportTest
         var contest1 = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
         {
             ImportType = SharedProto.ImportType.Ech157,
-            FileContent = await GetTestEch157File(),
+            FileContent = await GetTestEch0157File(),
         });
         var contest2 = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
         {
             ImportType = SharedProto.ImportType.Ech159,
-            FileContent = await GetTestEch159File(),
+            FileContent = await GetTestEch0159File(),
         });
 
         contest1.MajorityElections.AddRange(contest2.MajorityElections);

@@ -22,8 +22,6 @@ public class UpdateProportionalElectionRequestTest : ProtoValidatorBaseTest<Upda
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.OfficialDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexMultiLineText(700)));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(100)));
-        yield return NewValidRequest(x => x.InternalDescription = string.Empty);
-        yield return NewValidRequest(x => x.InternalDescription = RandomStringUtil.GenerateSimpleSingleLineText(100));
         yield return NewValidRequest(x => x.NumberOfMandates = 1);
         yield return NewValidRequest(x => x.NumberOfMandates = 100);
         yield return NewValidRequest(x => x.CandidateCheckDigit = false);
@@ -55,8 +53,6 @@ public class UpdateProportionalElectionRequestTest : ProtoValidatorBaseTest<Upda
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(3), "test"));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, "de", string.Empty));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, "de", RandomStringUtil.GenerateComplexSingleLineText(101)));
-        yield return NewValidRequest(x => x.InternalDescription = RandomStringUtil.GenerateSimpleSingleLineText(101));
-        yield return NewValidRequest(x => x.InternalDescription = "Proporz\nwahl");
         yield return NewValidRequest(x => x.NumberOfMandates = 0);
         yield return NewValidRequest(x => x.NumberOfMandates = 101);
         yield return NewValidRequest(x => x.MandateAlgorithm = ProportionalElectionMandateAlgorithm.Unspecified);
@@ -83,7 +79,6 @@ public class UpdateProportionalElectionRequestTest : ProtoValidatorBaseTest<Upda
             PoliticalBusinessNumber = "4687",
             OfficialDescription = { LanguageUtil.MockAllLanguages("Neue Proporzwahl") },
             ShortDescription = { LanguageUtil.MockAllLanguages("Proporzwahl") },
-            InternalDescription = "Proporzwahl",
             NumberOfMandates = 5,
             MandateAlgorithm = ProportionalElectionMandateAlgorithm.HagenbachBischoff,
             CandidateCheckDigit = true,

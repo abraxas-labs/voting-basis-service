@@ -1,0 +1,83 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Id": "50eae8b0-53a0-44d1-a8c0-bdc28405a9c2",
+    "FirstName": "update first name",
+    "LastName": "updated last name",
+    "PoliticalFirstName": "updated p. first name",
+    "PoliticalLastName": "updated p. last name",
+    "DateOfBirth": {
+      "Seconds": 639301503,
+      "Nanos": 0
+    },
+    "Sex": 1,
+    "Occupation": {
+      "de": "occupation updated de",
+      "fr": "occupation updated fr",
+      "it": "occupation updated it",
+      "rm": "occupation updated rm"
+    },
+    "Title": "",
+    "OccupationTitle": {},
+    "Party": {
+      "de": "PU de",
+      "fr": "PU fr",
+      "it": "PU it",
+      "rm": "PU rm"
+    },
+    "Incumbent": true,
+    "ZipCode": "",
+    "Locality": "locality updated",
+    "SecondaryMajorityElectionId": "654455b1-85a1-44c2-ad7b-8a8e7ea29d95",
+    "PrimaryMajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
+    "Origin": ""
+  },
+  "response": {
+    "Id": "50eae8b0-53a0-44d1-a8c0-bdc28405a9c2",
+    "MajorityElectionId": "654455b1-85a1-44c2-ad7b-8a8e7ea29d95",
+    "Number": "number2",
+    "FirstName": "update first name",
+    "LastName": "updated last name",
+    "PoliticalFirstName": "updated p. first name",
+    "PoliticalLastName": "updated p. last name",
+    "DateOfBirth": {
+      "Seconds": 639273600,
+      "Nanos": 0
+    },
+    "Sex": 1,
+    "Occupation": {
+      "de": "occupation updated de",
+      "fr": "occupation updated fr",
+      "it": "occupation updated it",
+      "rm": "occupation updated rm"
+    },
+    "Title": "",
+    "OccupationTitle": {},
+    "Party": {
+      "de": "PU de",
+      "fr": "PU fr",
+      "it": "PU it",
+      "rm": "PU rm"
+    },
+    "Incumbent": true,
+    "ZipCode": "",
+    "Locality": "locality updated",
+    "Position": 2,
+    "Origin": ""
+  }
+}

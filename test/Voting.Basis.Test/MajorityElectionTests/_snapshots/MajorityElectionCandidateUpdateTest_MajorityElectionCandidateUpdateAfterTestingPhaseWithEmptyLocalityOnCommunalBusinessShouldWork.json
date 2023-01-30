@@ -1,0 +1,82 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Id": "f5d75dbd-8a22-4fa8-b580-f0c1ed965303",
+    "FirstName": "update first name",
+    "LastName": "updated last name",
+    "PoliticalFirstName": "updated p. first name",
+    "PoliticalLastName": "updated p. last name",
+    "DateOfBirth": {
+      "Seconds": 639301503,
+      "Nanos": 0
+    },
+    "Sex": 1,
+    "Occupation": {
+      "de": "occupation updated de",
+      "fr": "occupation updated fr",
+      "it": "occupation updated it",
+      "rm": "occupation updated rm"
+    },
+    "Title": "",
+    "OccupationTitle": {},
+    "Party": {
+      "de": "PU de",
+      "fr": "PU fr",
+      "it": "PU it",
+      "rm": "PU rm"
+    },
+    "Incumbent": false,
+    "ZipCode": "",
+    "Locality": "",
+    "MajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
+    "Origin": "origin"
+  },
+  "response": {
+    "Id": "f5d75dbd-8a22-4fa8-b580-f0c1ed965303",
+    "MajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
+    "Number": "number1",
+    "FirstName": "update first name",
+    "LastName": "updated last name",
+    "PoliticalFirstName": "updated p. first name",
+    "PoliticalLastName": "updated p. last name",
+    "DateOfBirth": {
+      "Seconds": 639273600,
+      "Nanos": 0
+    },
+    "Sex": 1,
+    "Occupation": {
+      "de": "occupation updated de",
+      "fr": "occupation updated fr",
+      "it": "occupation updated it",
+      "rm": "occupation updated rm"
+    },
+    "Title": "",
+    "OccupationTitle": {},
+    "Party": {
+      "de": "PU de",
+      "fr": "PU fr",
+      "it": "PU it",
+      "rm": "PU rm"
+    },
+    "Incumbent": false,
+    "ZipCode": "",
+    "Locality": "",
+    "Position": 1,
+    "Origin": "origin"
+  }
+}

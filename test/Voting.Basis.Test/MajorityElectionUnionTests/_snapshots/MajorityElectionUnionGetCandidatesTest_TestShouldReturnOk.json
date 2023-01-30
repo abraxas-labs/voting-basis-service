@@ -13,7 +13,8 @@
       "Title": "title",
       "Incumbent": true,
       "ZipCode": "zip code",
-      "Locality": "locality"
+      "Locality": "locality",
+      "Origin": "origin"
     },
     {
       "Id": "77ce6bf0-b27c-4d9d-926f-ced7863aff2f",
@@ -28,7 +29,8 @@
       "Title": "title",
       "Incumbent": true,
       "ZipCode": "zip code",
-      "Locality": "locality"
+      "Locality": "locality",
+      "Origin": "origin"
     },
     {
       "Id": "4a44cb35-05a7-41f9-aa1e-034bedd320ec",
@@ -43,7 +45,8 @@
       "Title": "title 2",
       "Incumbent": false,
       "ZipCode": "",
-      "Locality": "locality 2"
+      "Locality": "locality 2",
+      "Origin": "origin 2"
     },
     {
       "Id": "a4d71ea8-0968-4684-bf5a-cb6834233dbe",
@@ -58,7 +61,8 @@
       "Title": "title",
       "Incumbent": false,
       "ZipCode": "zip code",
-      "Locality": "locality"
+      "Locality": "locality",
+      "Origin": "origin"
     }
   ]
 }

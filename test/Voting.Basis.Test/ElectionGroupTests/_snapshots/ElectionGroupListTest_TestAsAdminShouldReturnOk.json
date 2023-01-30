@@ -17,10 +17,8 @@
           "it": "Majorzwahl SG it",
           "rm": "Majorzwahl SG rm"
         },
-        "InternalDescription": "Majorzwahl St. Gallen auf Urnengang Bund",
         "NumberOfMandates": 1,
         "MandateAlgorithm": 2,
-        "IndividualEmptyBallotsAllowed": true,
         "CandidateCheckDigit": false,
         "BallotBundleSize": 25,
         "BallotBundleSampleSize": 3,
@@ -33,7 +31,6 @@
         "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
         "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
         "Active": true,
-        "InvalidVotes": false,
         "ReportDomainOfInfluenceLevel": 0,
         "ReviewProcedure": 1,
         "EnforceReviewProcedureForCountingCircles": true
@@ -64,10 +61,8 @@
           "it": "Majorzwahl Gossau it",
           "rm": "Majorzwahl Gossau rm"
         },
-        "InternalDescription": "Majorzwahl Gossau",
         "NumberOfMandates": 1,
         "MandateAlgorithm": 2,
-        "IndividualEmptyBallotsAllowed": true,
         "CandidateCheckDigit": false,
         "BallotBundleSize": 25,
         "BallotBundleSampleSize": 3,
@@ -80,7 +75,6 @@
         "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
         "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
         "Active": true,
-        "InvalidVotes": false,
         "ReportDomainOfInfluenceLevel": 0,
         "ReviewProcedure": 1,
         "EnforceReviewProcedureForCountingCircles": true

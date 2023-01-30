@@ -12,12 +12,15 @@ using FluentValidation;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Voting.Basis.Core.Exceptions;
+using Voting.Basis.Core.Extensions;
 using Voting.Basis.Core.Utils;
 using Voting.Lib.Common;
 using BallotNumberGeneration = Voting.Basis.Data.Models.BallotNumberGeneration;
+using DomainOfInfluenceType = Voting.Basis.Data.Models.DomainOfInfluenceType;
 using MajorityElectionMandateAlgorithm = Voting.Basis.Data.Models.MajorityElectionMandateAlgorithm;
 using MajorityElectionResultEntry = Voting.Basis.Data.Models.MajorityElectionResultEntry;
 using MajorityElectionReviewProcedure = Voting.Basis.Data.Models.MajorityElectionReviewProcedure;
+using SexType = Abraxas.Voting.Basis.Shared.V1.SexType;
 
 namespace Voting.Basis.Core.Domain.Aggregate;
 
@@ -67,13 +70,9 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
     public Dictionary<string, string> ShortDescription { get; private set; }
 
-    public string? InternalDescription { get; private set; }
-
     public int NumberOfMandates { get; private set; }
 
     public MajorityElectionMandateAlgorithm MandateAlgorithm { get; private set; }
-
-    public bool IndividualEmptyBallotsAllowed { get; private set; }
 
     public bool CandidateCheckDigit { get; private set; }
 
@@ -96,8 +95,6 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public Guid DomainOfInfluenceId { get; private set; }
 
     public bool Active { get; private set; }
-
-    public bool InvalidVotes { get; private set; }
 
     public ElectionGroup? ElectionGroup { get; set; }
 
@@ -154,7 +151,6 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
         ValidationUtils.EnsureNotModified(NumberOfMandates, majorityElection.NumberOfMandates);
         ValidationUtils.EnsureNotModified(MandateAlgorithm, majorityElection.MandateAlgorithm);
-        ValidationUtils.EnsureNotModified(IndividualEmptyBallotsAllowed, majorityElection.IndividualEmptyBallotsAllowed);
         ValidationUtils.EnsureNotModified(CandidateCheckDigit, majorityElection.CandidateCheckDigit);
         ValidationUtils.EnsureNotModified(BallotBundleSize, majorityElection.BallotBundleSize);
         ValidationUtils.EnsureNotModified(AutomaticBallotBundleNumberGeneration, majorityElection.AutomaticBallotBundleNumberGeneration);
@@ -164,7 +160,6 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         ValidationUtils.EnsureNotModified(ContestId, majorityElection.ContestId);
         ValidationUtils.EnsureNotModified(BallotBundleSampleSize, majorityElection.BallotBundleSampleSize);
         ValidationUtils.EnsureNotModified(ResultEntry, majorityElection.ResultEntry);
-        ValidationUtils.EnsureNotModified(InvalidVotes, majorityElection.InvalidVotes);
         ValidationUtils.EnsureNotModified(ReviewProcedure, majorityElection.ReviewProcedure);
         ValidationUtils.EnsureNotModified(EnforceReviewProcedureForCountingCircles, majorityElection.EnforceReviewProcedureForCountingCircles);
 
@@ -175,7 +170,6 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             PoliticalBusinessNumber = majorityElection.PoliticalBusinessNumber,
             OfficialDescription = { majorityElection.OfficialDescription },
             ShortDescription = { majorityElection.ShortDescription },
-            InternalDescription = majorityElection.InternalDescription,
             EnforceEmptyVoteCountingForCountingCircles = majorityElection.EnforceEmptyVoteCountingForCountingCircles,
             EnforceResultEntryForCountingCircles = majorityElection.EnforceResultEntryForCountingCircles,
             ReportDomainOfInfluenceLevel = majorityElection.ReportDomainOfInfluenceLevel,
@@ -215,7 +209,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void CreateCandidateFrom(MajorityElectionCandidate candidate)
+    public void CreateCandidateFrom(MajorityElectionCandidate candidate, DomainOfInfluenceType doiType)
     {
         EnsureNotDeleted();
         if (candidate.Id == default)
@@ -227,9 +221,10 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
         if (candidate.Position != Candidates.Count + 1)
         {
-            throw new ValidationException("Candidate position should be continous");
+            throw new ValidationException("Candidate position should be continuous");
         }
 
+        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, doiType);
         EnsureUniqueCandidatePosition(candidate);
         EnsureUniqueCandidateNumber(candidate);
 
@@ -242,7 +237,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateCandidateFrom(MajorityElectionCandidate candidate)
+    public void UpdateCandidateFrom(MajorityElectionCandidate candidate, DomainOfInfluenceType doiType)
     {
         EnsureNotDeleted();
         _candidateValidator.ValidateAndThrow(candidate);
@@ -253,6 +248,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             throw new ValidationException("Cannot change the candidate position via an update");
         }
 
+        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, doiType);
         EnsureUniqueCandidatePosition(candidate);
         EnsureUniqueCandidateNumber(candidate);
 
@@ -265,10 +261,12 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateCandidateAfterTestingPhaseEnded(MajorityElectionCandidate candidate)
+    public void UpdateCandidateAfterTestingPhaseEnded(MajorityElectionCandidate candidate, DomainOfInfluenceType doiType)
     {
         EnsureNotDeleted();
         _candidateValidator.ValidateAndThrow(candidate);
+
+        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, doiType);
 
         var existingCandidate = FindCandidate(candidate.Id)
             ?? throw new ValidationException($"Candidate {candidate.Id} does not exist");
@@ -294,6 +292,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             ZipCode = candidate.ZipCode,
             Locality = candidate.Locality,
             Party = { candidate.Party },
+            Origin = candidate.Origin,
         };
 
         RaiseEvent(ev);
@@ -424,7 +423,6 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             PrimaryMajorityElectionId = Id.ToString(),
             OfficialDescription = { data.OfficialDescription },
             ShortDescription = { data.ShortDescription },
-            InternalDescription = data.InternalDescription,
             PoliticalBusinessNumber = data.PoliticalBusinessNumber,
         };
 
@@ -462,7 +460,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void CreateSecondaryMajorityElectionCandidateFrom(MajorityElectionCandidate data)
+    public void CreateSecondaryMajorityElectionCandidateFrom(MajorityElectionCandidate data, DomainOfInfluenceType doiType)
     {
         EnsureNotDeleted();
 
@@ -472,6 +470,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         }
 
         _candidateValidator.ValidateAndThrow(data);
+        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(data, doiType);
+
         var sme = GetSecondaryMajorityElection(data.MajorityElectionId);
 
         if (sme.AllowedCandidates == SecondaryMajorityElectionAllowedCandidates.MustExistInPrimaryElection)
@@ -499,10 +499,11 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateSecondaryMajorityElectionCandidateFrom(MajorityElectionCandidate data)
+    public void UpdateSecondaryMajorityElectionCandidateFrom(MajorityElectionCandidate data, DomainOfInfluenceType doiType)
     {
         EnsureNotDeleted();
         _candidateValidator.ValidateAndThrow(data);
+        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(data, doiType);
 
         var sme = GetSecondaryMajorityElection(data.MajorityElectionId);
 
@@ -522,10 +523,12 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateSecondaryMajorityElectionCandidateAfterTestingPhaseEnded(MajorityElectionCandidate data)
+    public void UpdateSecondaryMajorityElectionCandidateAfterTestingPhaseEnded(MajorityElectionCandidate data, DomainOfInfluenceType doiType)
     {
         EnsureNotDeleted();
         _candidateValidator.ValidateAndThrow(data);
+
+        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(data, doiType);
 
         var sme = GetSecondaryMajorityElection(data.MajorityElectionId);
         var existingCandidate = sme.GetCandidate(data.Id);
@@ -552,6 +555,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             ZipCode = data.ZipCode,
             Locality = data.Locality,
             Party = { data.Party },
+            Origin = data.Origin,
         };
 
         RaiseEvent(ev);
@@ -714,7 +718,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
         if (data.Position > BallotGroups.Count + 1)
         {
-            throw new ValidationException($"The ballot group position {data.Position} is invalid, is non-continous.");
+            throw new ValidationException($"The ballot group position {data.Position} is invalid, is non-continuous.");
         }
 
         var ev = new MajorityElectionBallotGroupCreated
@@ -1316,5 +1320,18 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         }
 
         throw new ValidationException("The candidate count for this ballot group is correct, modifications aren't allowed anymore.");
+    }
+
+    private void EnsureLocalityAndOriginIsSetForNonCommunalDoiType(MajorityElectionCandidate candidate, DomainOfInfluenceType doiType)
+    {
+        if (string.IsNullOrEmpty(candidate.Locality) && !doiType.IsCommunal())
+        {
+            throw new ValidationException("Candidate locality is required for non communal political businesses");
+        }
+
+        if (string.IsNullOrEmpty(candidate.Origin) && !doiType.IsCommunal())
+        {
+            throw new ValidationException("Candidate origin is required for non communal political businesses");
+        }
     }
 }

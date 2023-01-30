@@ -21,10 +21,8 @@ public class MajorityElectionTest : ProtoValidatorBaseTest<ProtoModels.MajorityE
             PoliticalBusinessNumber = "9468",
             OfficialDescription = { LanguageUtil.MockAllLanguages("Neue Majorzwahl") },
             ShortDescription = { LanguageUtil.MockAllLanguages("Neue Majorzwahl") },
-            InternalDescription = "Neue Majorzwahl",
             NumberOfMandates = 5,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
-            IndividualEmptyBallotsAllowed = true,
             CandidateCheckDigit = true,
             BallotBundleSize = 13,
             BallotBundleSampleSize = 1,
@@ -37,7 +35,6 @@ public class MajorityElectionTest : ProtoValidatorBaseTest<ProtoModels.MajorityE
             DomainOfInfluenceId = "da36912c-7eaf-43fe-86d4-70c816f17c5a",
             ContestId = "da36912c-7eaf-43fe-86d4-70c816f17c5a",
             Active = true,
-            InvalidVotes = true,
             ReportDomainOfInfluenceLevel = 1,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
@@ -56,11 +53,8 @@ public class MajorityElectionTest : ProtoValidatorBaseTest<ProtoModels.MajorityE
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.OfficialDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexMultiLineText(700)));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(100)));
-        yield return NewValid(x => x.InternalDescription = string.Empty);
-        yield return NewValid(x => x.InternalDescription = RandomStringUtil.GenerateSimpleSingleLineText(100));
         yield return NewValid(x => x.NumberOfMandates = 1);
         yield return NewValid(x => x.NumberOfMandates = 100);
-        yield return NewValid(x => x.IndividualEmptyBallotsAllowed = false);
         yield return NewValid(x => x.CandidateCheckDigit = false);
         yield return NewValid(x => x.BallotBundleSize = 0);
         yield return NewValid(x => x.BallotBundleSize = 500);
@@ -71,7 +65,6 @@ public class MajorityElectionTest : ProtoValidatorBaseTest<ProtoModels.MajorityE
         yield return NewValid(x => x.EnforceEmptyVoteCountingForCountingCircles = false);
         yield return NewValid(x => x.EnforceResultEntryForCountingCircles = false);
         yield return NewValid(x => x.Active = false);
-        yield return NewValid(x => x.InvalidVotes = false);
         yield return NewValid(x => x.ReportDomainOfInfluenceLevel = 0);
         yield return NewValid(x => x.ReportDomainOfInfluenceLevel = 10);
         yield return NewValid(x => x.EnforceReviewProcedureForCountingCircles = false);
@@ -94,8 +87,6 @@ public class MajorityElectionTest : ProtoValidatorBaseTest<ProtoModels.MajorityE
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(3), "test"));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, "de", string.Empty));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, "de", RandomStringUtil.GenerateComplexSingleLineText(101)));
-        yield return NewValid(x => x.InternalDescription = RandomStringUtil.GenerateSimpleSingleLineText(101));
-        yield return NewValid(x => x.InternalDescription = "Neue Majorz\nwahl");
         yield return NewValid(x => x.NumberOfMandates = 0);
         yield return NewValid(x => x.NumberOfMandates = 101);
         yield return NewValid(x => x.MandateAlgorithm = MajorityElectionMandateAlgorithm.Unspecified);

@@ -11,11 +11,7 @@ public class MajorityElection : PoliticalBusiness
 
     public MajorityElectionMandateAlgorithm MandateAlgorithm { get; set; }
 
-    public bool IndividualEmptyBallotsAllowed { get; set; }
-
     public bool CandidateCheckDigit { get; set; }
-
-    public bool InvalidVotes { get; set; }
 
     public int BallotBundleSize { get; set; }
 

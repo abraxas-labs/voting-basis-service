@@ -33,5 +33,6 @@
   "Incumbent": false,
   "ZipCode": "new zip code",
   "Locality": "locality",
-  "Position": 1
+  "Position": 1,
+  "Origin": "origin"
 }

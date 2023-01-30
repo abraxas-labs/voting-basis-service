@@ -31,14 +31,14 @@ internal static class ContestMapping
             ?.ContestDescriptionInfo;
         var description = descriptionInfos.ToLanguageDictionary(x => x.Language, x => x.ContestDescription, contest.ContestIdentification);
 
-        var contestDate = DateTime.SpecifyKind(contest.ContestDate, DateTimeKind.Utc);
+        var contestDate = contest.ContestDate.MapToUtcDateTime();
         return new Contest
         {
             Id = idLookup.GuidForId(contest.ContestIdentification),
             Date = contestDate,
             EVoting = contest.EvotingPeriod != null,
-            EVotingFrom = contest.EvotingPeriod?.EvotingPeriodFrom,
-            EVotingTo = contest.EvotingPeriod?.EvotingPeriodTill,
+            EVotingFrom = contest.EvotingPeriod?.EvotingPeriodFrom.MapToUtcDateTime(),
+            EVotingTo = contest.EvotingPeriod?.EvotingPeriodTill.MapToUtcDateTime(),
             Description = description,
             EndOfTestingPhase = DateTime.UtcNow, // required, otherwise we have error because the DateTime is not in UTC
         };

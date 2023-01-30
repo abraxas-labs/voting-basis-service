@@ -21,7 +21,6 @@ public class PoliticalBusinessTest : ProtoValidatorBaseTest<PoliticalBusiness>
             PoliticalBusinessNumber = "1338",
             OfficialDescription = { LanguageUtil.MockAllLanguages("Neue Abstimmung") },
             ShortDescription = { LanguageUtil.MockAllLanguages("Neue Abst") },
-            InternalDescription = "Neue Abstimmung",
             DomainOfInfluence = DomainOfInfluenceTest.NewValid(),
             PoliticalBusinessType = PoliticalBusinessType.Vote,
             Active = true,
@@ -40,8 +39,6 @@ public class PoliticalBusinessTest : ProtoValidatorBaseTest<PoliticalBusiness>
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.OfficialDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexMultiLineText(700)));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(100)));
-        yield return NewValid(x => x.InternalDescription = string.Empty);
-        yield return NewValid(x => x.InternalDescription = RandomStringUtil.GenerateSimpleSingleLineText(100));
         yield return NewValid(x => x.Active = false);
     }
 
@@ -62,8 +59,6 @@ public class PoliticalBusinessTest : ProtoValidatorBaseTest<PoliticalBusiness>
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(3), "test"));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, "de", string.Empty));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, "de", RandomStringUtil.GenerateComplexSingleLineText(101)));
-        yield return NewValid(x => x.InternalDescription = RandomStringUtil.GenerateSimpleSingleLineText(101));
-        yield return NewValid(x => x.InternalDescription = "Neue \nAbstimmung");
         yield return NewValid(x => x.DomainOfInfluence = null);
         yield return NewValid(x => x.PoliticalBusinessType = PoliticalBusinessType.Unspecified);
         yield return NewValid(x => x.PoliticalBusinessType = (PoliticalBusinessType)10);

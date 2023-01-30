@@ -22,17 +22,20 @@ public class ProportionalElectionListsAndCandidatesImportService
     private readonly IAggregateRepository _aggregateRepository;
     private readonly ContestReader _contestReader;
     private readonly PermissionService _permissionService;
+    private readonly DomainOfInfluenceReader _domainOfInfluenceReader;
 
     public ProportionalElectionListsAndCandidatesImportService(
         IAuth auth,
         IAggregateRepository aggregateRepository,
         ContestReader contestReader,
-        PermissionService permissionService)
+        PermissionService permissionService,
+        DomainOfInfluenceReader domainOfInfluenceReader)
     {
         _auth = auth;
         _aggregateRepository = aggregateRepository;
         _contestReader = contestReader;
         _permissionService = permissionService;
+        _domainOfInfluenceReader = domainOfInfluenceReader;
     }
 
     public async Task Import(
@@ -63,13 +66,13 @@ public class ProportionalElectionListsAndCandidatesImportService
             .Where(x => x.Item != null)
             .ToDictionary(x => x.Id, x => x.Item!);
 
-        ImportLists(listImports, proportionalElection, existingListByIncomingListId);
+        await ImportLists(listImports, proportionalElection, existingListByIncomingListId);
         ImportListUnions(listUnions, proportionalElection, existingListByIncomingListId, existingListUnionByIncomingListUnionId);
 
         await _aggregateRepository.Save(proportionalElection);
     }
 
-    private void ImportLists(
+    private async Task ImportLists(
         IEnumerable<ProportionalElectionListImport> listImports,
         ProportionalElectionAggregate proportionalElection,
         IReadOnlyDictionary<Guid, ProportionalElectionList> existingListByIncomingListId)
@@ -90,17 +93,18 @@ public class ProportionalElectionListsAndCandidatesImportService
             var listId = existingList?.Id ?? list.Id;
             var existingCandidates = existingList?.Candidates ?? new List<ProportionalElectionCandidate>();
 
-            ImportCandidates(listImport.Candidates, existingCandidates, proportionalElection, listId);
+            await ImportCandidates(listImport.Candidates, existingCandidates, proportionalElection, listId);
         }
     }
 
-    private void ImportCandidates(
+    private async Task ImportCandidates(
         IReadOnlyCollection<ProportionalElectionCandidate> candidates,
         IReadOnlyCollection<ProportionalElectionCandidate> existingCandidates,
         ProportionalElectionAggregate proportionalElection,
         Guid listId)
     {
         var currentCandidatePosition = existingCandidates.MaxOrDefault(c => c.Position);
+        var doi = await _domainOfInfluenceReader.Get(proportionalElection.DomainOfInfluenceId);
 
         foreach (var candidate in candidates)
         {
@@ -119,7 +123,7 @@ public class ProportionalElectionListsAndCandidatesImportService
                     candidate.AccumulatedPosition = ++currentCandidatePosition;
                 }
 
-                proportionalElection.CreateCandidateFrom(candidate);
+                proportionalElection.CreateCandidateFrom(candidate, doi.Type);
             }
         }
     }

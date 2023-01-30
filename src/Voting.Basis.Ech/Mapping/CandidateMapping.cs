@@ -13,12 +13,12 @@ namespace Voting.Basis.Ech.Mapping;
 
 internal static class CandidateMapping
 {
-    private const string UnknownValue = "?";
+    private const string UnknownValue = "-";
     private const int SwissCountryId = 8100;
     private const string SwissCountryIso = "CH";
     private const string SwissCountryNameShort = "Schweiz";
 
-    internal static CandidateType ToEchCandidateType(this DataModels.ElectionCandidate candidate)
+    internal static CandidateType ToEchCandidateType(this DataModels.ElectionCandidate candidate, Dictionary<string, string>? party)
     {
         var text = candidate.ToEchCandidateText();
 
@@ -29,6 +29,10 @@ internal static class CandidateMapping
         var occupation = occupationInfos.Count > 0
             ? OccupationalTitleInformation.Create(occupationInfos)
             : null;
+
+        var partyInfos = party?
+            .Select(x => PartyAffiliationInfo.Create(x.Key, x.Value))
+            .ToList();
 
         var zipCodeIsSwiss = int.TryParse(candidate.ZipCode, out var zipCode) && zipCode is > 1000 and <= 9999;
         return CandidateType.Create(
@@ -50,15 +54,15 @@ internal static class CandidateMapping
             {
                 SwissZipCode = zipCodeIsSwiss ? zipCode : null,
                 ForeignZipCode = zipCodeIsSwiss ? null : candidate.ZipCode,
-                Town = candidate.Locality,
+                Town = candidate.Locality != string.Empty ? candidate.Locality : UnknownValue,
                 Country = CountryType.Create(SwissCountryId, SwissCountryIso, SwissCountryNameShort),
             },
-            Swiss.Create(UnknownValue),
+            Swiss.Create(candidate.Origin != string.Empty ? candidate.Origin : UnknownValue),
             candidate.Sex.ToEchMrMrsType(),
             Languages.German,
             candidate.Incumbent,
             null,
-            null);
+            partyInfos?.Count > 0 ? PartyAffiliationInformation.Create(partyInfos) : null);
     }
 
     internal static T ToBasisCandidate<T>(this CandidateType candidate, IdLookup idLookup)
@@ -83,10 +87,10 @@ internal static class CandidateMapping
             Incumbent = candidate.IncumbentYesNo ?? false,
             Sex = candidate.Sex.ToBasisSexType(),
             Occupation = occupation,
-            Locality = candidate.DwellingAddress?.Locality ?? UnknownValue,
+            Locality = MapUnknownValue(candidate.DwellingAddress?.Town),
             ZipCode = candidate.DwellingAddress?.SwissZipCode?.ToString()
-                ?? candidate.DwellingAddress?.ForeignZipCode
-                ?? UnknownValue,
+                      ?? candidate.DwellingAddress?.ForeignZipCode ?? string.Empty,
+            Origin = candidate.SwissForeignChoice is Swiss swiss ? MapUnknownValue(swiss.Origin) : string.Empty,
         };
     }
 
@@ -106,5 +110,10 @@ internal static class CandidateMapping
         }
 
         return CandidateTextInformation.Create(textInfos);
+    }
+
+    private static string MapUnknownValue(string? value)
+    {
+        return value is null or UnknownValue ? string.Empty : value;
     }
 }

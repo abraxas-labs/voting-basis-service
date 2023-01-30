@@ -34,7 +34,7 @@
       "InternalDescription": "",
       "NumberOfMandates": 5,
       "MandateAlgorithm": 1,
-      "IndividualEmptyBallotsAllowed": true,
+      "IndividualEmptyBallotsAllowed": false,
       "CandidateCheckDigit": true,
       "BallotBundleSize": 13,
       "BallotBundleSampleSize": 1,

@@ -75,13 +75,6 @@ public class MajorityElectionWriter
             data.DomainOfInfluenceId);
         await _politicalBusinessValidationService.EnsureValidReportDomainOfInfluenceLevel(data.DomainOfInfluenceId, data.ReportDomainOfInfluenceLevel);
         await _contestValidationService.EnsureInTestingPhase(data.ContestId);
-        var doi = await _domainOfInfluenceRepo.GetByKey(data.DomainOfInfluenceId)
-            ?? throw new EntityNotFoundException(nameof(DomainOfInfluence), data.DomainOfInfluenceId);
-
-        if (data.InvalidVotes && !doi.CantonDefaults.MajorityElectionInvalidVotes)
-        {
-            throw new ValidationException("Cannot enable invalid votes if invalid votes are not enabled in the cantonal settings");
-        }
 
         var majorityElection = _aggregateFactory.New<MajorityElectionAggregate>();
 
@@ -106,11 +99,6 @@ public class MajorityElectionWriter
         if (existingMajorityElection.ContestId != data.ContestId)
         {
             throw new ValidationException($"{nameof(existingMajorityElection.ContestId)} is immutable.");
-        }
-
-        if (data.InvalidVotes && !existingMajorityElection.DomainOfInfluence!.CantonDefaults.MajorityElectionInvalidVotes)
-        {
-            throw new ValidationException("Cannot enable invalid votes if invalid votes are not enabled in the cantonal settings");
         }
 
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(data.Id);
@@ -155,7 +143,9 @@ public class MajorityElectionWriter
         await _permissionService.EnsureCanModifyPoliticalBusiness(majorityElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
 
-        majorityElection.CreateCandidateFrom(data);
+        var doi = await _domainOfInfluenceRepo.GetByKey(majorityElection.DomainOfInfluenceId)
+                  ?? throw new EntityNotFoundException(majorityElection.DomainOfInfluenceId);
+        majorityElection.CreateCandidateFrom(data, doi.Type);
         await _aggregateRepository.Save(majorityElection);
     }
 
@@ -165,13 +155,16 @@ public class MajorityElectionWriter
         await _permissionService.EnsureCanModifyPoliticalBusiness(majorityElection.DomainOfInfluenceId);
         var contestState = await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
 
+        var doi = await _domainOfInfluenceRepo.GetByKey(majorityElection.DomainOfInfluenceId)
+                  ?? throw new EntityNotFoundException(majorityElection.DomainOfInfluenceId);
+
         if (contestState.TestingPhaseEnded())
         {
-            majorityElection.UpdateCandidateAfterTestingPhaseEnded(data);
+            majorityElection.UpdateCandidateAfterTestingPhaseEnded(data, doi.Type);
         }
         else
         {
-            majorityElection.UpdateCandidateFrom(data);
+            majorityElection.UpdateCandidateFrom(data, doi.Type);
         }
 
         await _aggregateRepository.Save(majorityElection);
@@ -267,8 +260,10 @@ public class MajorityElectionWriter
         var majorityElection = await GetAggregateFromSecondaryMajorityElection(data.MajorityElectionId);
         await _permissionService.EnsureCanModifyPoliticalBusiness(majorityElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
+        var doi = await _domainOfInfluenceRepo.GetByKey(majorityElection.DomainOfInfluenceId)
+                  ?? throw new EntityNotFoundException(majorityElection.DomainOfInfluenceId);
 
-        majorityElection.CreateSecondaryMajorityElectionCandidateFrom(data);
+        majorityElection.CreateSecondaryMajorityElectionCandidateFrom(data, doi.Type);
         await _aggregateRepository.Save(majorityElection);
     }
 
@@ -277,14 +272,16 @@ public class MajorityElectionWriter
         var majorityElection = await GetAggregateFromSecondaryMajorityElection(data.MajorityElectionId);
         await _permissionService.EnsureCanModifyPoliticalBusiness(majorityElection.DomainOfInfluenceId);
         var contestState = await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
+        var doi = await _domainOfInfluenceRepo.GetByKey(majorityElection.DomainOfInfluenceId)
+                  ?? throw new EntityNotFoundException(majorityElection.DomainOfInfluenceId);
 
         if (contestState.TestingPhaseEnded())
         {
-            majorityElection.UpdateSecondaryMajorityElectionCandidateAfterTestingPhaseEnded(data);
+            majorityElection.UpdateSecondaryMajorityElectionCandidateAfterTestingPhaseEnded(data, doi.Type);
         }
         else
         {
-            majorityElection.UpdateSecondaryMajorityElectionCandidateFrom(data);
+            majorityElection.UpdateSecondaryMajorityElectionCandidateFrom(data, doi.Type);
         }
 
         await _aggregateRepository.Save(majorityElection);

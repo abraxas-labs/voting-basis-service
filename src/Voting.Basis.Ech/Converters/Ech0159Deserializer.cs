@@ -5,17 +5,25 @@ using System.Linq;
 using eCH_0159_4_0;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Mapping;
+using Voting.Basis.Ech.Schemas;
 
 namespace Voting.Basis.Ech.Converters;
 
-public class Ech159Deserializer
+public static class Ech0159Deserializer
 {
     /// <summary>
     /// Deserialize from eCH-0159.
     /// </summary>
-    /// <param name="delivery">The serialized data.</param>
+    /// <param name="xml">The serialized XML data.</param>
     /// <returns>The deserialized eCH-0159 contest.</returns>
-    public Contest FromEventInitialDelivery(Delivery delivery)
+    public static Contest DeserializeXml(string xml)
+    {
+        var schemaSet = Ech0159SchemaLoader.LoadEch0159Schemas();
+        var delivery = EchDeserializer.DeserializeXml<Delivery>(xml, schemaSet);
+        return FromEventInitialDelivery(delivery);
+    }
+
+    private static Contest FromEventInitialDelivery(Delivery delivery)
     {
         var idLookup = new IdLookup();
 

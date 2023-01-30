@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<eCH-0159:delivery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                   xmlns:eCH-0159="http://www.ech.ch/xmlns/eCH-0159/4"
+                   xmlns:eCH-0058="http://www.ech.ch/xmlns/eCH-0058/5"
+                   xsi:schemaLocation="http://www.ech.ch/xmlns/eCH-0159/4 http://www.ech.ch/xmlns/eCH-0159/4/eCH-0159-4-0.xsd">
+  <eCH-0159:deliveryHeader>
+    <eCH-0058:senderId>ABX-DEV</eCH-0058:senderId>
+    <eCH-0058:messageId>51141c4d7919481ab3cad6c77ff09398</eCH-0058:messageId>
+    <eCH-0058:messageType>eCH-0157</eCH-0058:messageType>
+    <eCH-0058:sendingApplication>
+      <eCH-0058:manufacturer>Abraxas Informatik AG</eCH-0058:manufacturer>
+      <eCH-0058:product>Voting.Basis</eCH-0058:product>
+      <eCH-0058:productVersion>0.0.1-dev</eCH-0058:productVersion>
+    </eCH-0058:sendingApplication>
+    <eCH-0058:messageDate>2020-04-12T00:00:00Z</eCH-0058:messageDate>
+    <eCH-0058:action>1</eCH-0058:action>
+    <eCH-0058:testDeliveryFlag>true</eCH-0058:testDeliveryFlag>
+  </eCH-0159:deliveryHeader>
+  <eCH-0159:initialDelivery>
+  </eCH-0159:initialDelivery>
+</eCH-0159:delivery>

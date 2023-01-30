@@ -51,7 +51,8 @@
       "Incumbent": true,
       "ZipCode": "zip code",
       "Locality": "locality",
-      "Position": 2
+      "Position": 2,
+      "Origin": "origin"
     }
   }
 }

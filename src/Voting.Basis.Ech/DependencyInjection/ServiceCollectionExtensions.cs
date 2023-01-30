@@ -12,9 +12,7 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddVotingLibEch(config)
-            .AddSingleton<Ech157Serializer>()
-            .AddSingleton<Ech157Deserializer>()
-            .AddSingleton<Ech159Serializer>()
-            .AddSingleton<Ech159Deserializer>();
+            .AddSingleton<Ech0157Serializer>()
+            .AddSingleton<Ech0159Serializer>();
     }
 }

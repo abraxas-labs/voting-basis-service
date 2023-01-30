@@ -87,6 +87,7 @@ public static class DomainOfInfluenceMockedData
                             AusmittlungCsvProportionalElectionTemplates.CandidateCountingCircleResultsWithVoteSources.Key,
                         },
                         EaiMessageType = "001",
+                        Provider = ExportProvider.Standard,
                     },
                     new ExportConfiguration
                     {
@@ -98,6 +99,7 @@ public static class DomainOfInfluenceMockedData
                             AusmittlungCsvProportionalElectionTemplates.CandidatesNumerical.Key,
                         },
                         EaiMessageType = "002",
+                        Provider = ExportProvider.Seantis,
                     },
             },
             PlausibilisationConfiguration = BuildDataPlausibilisationConfiguration(x =>
@@ -185,6 +187,7 @@ public static class DomainOfInfluenceMockedData
                             AusmittlungCsvProportionalElectionTemplates.CandidateCountingCircleResultsWithVoteSources.Key,
                         },
                         EaiMessageType = "001",
+                        Provider = ExportProvider.Standard,
                     },
                     new ExportConfiguration
                     {
@@ -196,6 +199,7 @@ public static class DomainOfInfluenceMockedData
                             AusmittlungCsvProportionalElectionTemplates.CandidatesNumerical.Key,
                         },
                         EaiMessageType = "002",
+                        Provider = ExportProvider.Seantis,
                     },
             },
             PlausibilisationConfiguration = BuildDataPlausibilisationConfiguration(),
@@ -223,6 +227,7 @@ public static class DomainOfInfluenceMockedData
                             AusmittlungCsvProportionalElectionTemplates.CandidateCountingCircleResultsWithVoteSources.Key,
                         },
                         EaiMessageType = "001",
+                        Provider = ExportProvider.Seantis,
                     },
                     new ExportConfiguration
                     {
@@ -234,6 +239,7 @@ public static class DomainOfInfluenceMockedData
                             AusmittlungCsvProportionalElectionTemplates.CandidatesNumerical.Key,
                         },
                         EaiMessageType = "002",
+                        Provider = ExportProvider.Standard,
                     },
             },
             ResponsibleForVotingCards = true,

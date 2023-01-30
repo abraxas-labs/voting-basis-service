@@ -22,16 +22,16 @@ namespace Voting.Basis.Core.Export.Generators;
 public class MajorityElectionEchExportGenerator : IExportGenerator
 {
     private readonly IDbRepository<DataContext, MajorityElection> _electionRepo;
-    private readonly Ech157Serializer _ech157Serializer;
+    private readonly Ech0157Serializer _ech0157Serializer;
     private readonly PermissionService _permissionService;
 
     public MajorityElectionEchExportGenerator(
         IDbRepository<DataContext, MajorityElection> electionRepo,
-        Ech157Serializer ech157Serializer,
+        Ech0157Serializer ech0157Serializer,
         PermissionService permissionService)
     {
         _electionRepo = electionRepo;
-        _ech157Serializer = ech157Serializer;
+        _ech0157Serializer = ech0157Serializer;
         _permissionService = permissionService;
     }
 
@@ -55,8 +55,8 @@ public class MajorityElectionEchExportGenerator : IExportGenerator
             throw new ForbiddenException();
         }
 
-        var ech157 = _ech157Serializer.ToDelivery(majorityElection.Contest, majorityElection);
-        var xmlBytes = EchSerializer.ToXml(ech157);
+        var ech0157 = _ech0157Serializer.ToDelivery(majorityElection.Contest, majorityElection);
+        var xmlBytes = EchSerializer.ToXml(ech0157);
         var electionDescription = LanguageUtil.GetInCurrentLanguage(majorityElection.ShortDescription);
         return new ExportFile(xmlBytes, electionDescription + FileExtensions.Xml, MediaTypeNames.Application.Xml);
     }

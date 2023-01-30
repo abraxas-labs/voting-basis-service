@@ -81,6 +81,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : BaseGrpcTest<Majorit
                     Title = "title",
                     ZipCode = "zip code",
                     Party = { LanguageUtil.MockAllLanguages("SP") },
+                    Origin = "origin",
                 },
             },
             new SecondaryMajorityElectionCandidateCreated
@@ -104,6 +105,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : BaseGrpcTest<Majorit
                     Title = "title",
                     ZipCode = "zip code",
                     Party = { LanguageUtil.MockAllLanguages("CVP") },
+                    Origin = "origin",
                 },
             });
 
@@ -166,7 +168,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : BaseGrpcTest<Majorit
         await AssertStatus(
             async () => await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o =>
             {
-                // this secondary majority eection already has candidates, so the position can't be 1
+                // this secondary majority election already has candidates, so the position can't be 1
                 o.Position = 1;
             })),
             StatusCode.InvalidArgument);
@@ -180,6 +182,44 @@ public class SecondaryMajorityElectionCandidateCreateTest : BaseGrpcTest<Majorit
             x.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateCreated>();
         eventData.MatchSnapshot("event", d => d.SecondaryMajorityElectionCandidate.Id);
+    }
+
+    [Fact]
+    public async Task EmptyLocalityShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Locality = string.Empty)),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task EmptyOriginShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Origin = string.Empty)),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task EmptyLocalityOnCommunalBusinessShouldWork()
+    {
+        var response = await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o =>
+        {
+            o.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund;
+            o.Locality = string.Empty;
+        }));
+        response.Id.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task EmptyOriginOnCommunalBusinessShouldWork()
+    {
+        var response = await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o =>
+        {
+            o.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund;
+            o.Origin = string.Empty;
+        }));
+        response.Id.Should().NotBeNull();
     }
 
     protected override IEnumerable<string> UnauthorizedRoles()
@@ -212,6 +252,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : BaseGrpcTest<Majorit
             Title = "title",
             ZipCode = "zip code",
             Party = { LanguageUtil.MockAllLanguages("DFP") },
+            Origin = "origin",
         };
 
         customizer?.Invoke(request);

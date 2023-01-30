@@ -44,9 +44,10 @@
     "ZipCode": "",
     "Locality": "locality updated",
     "SecondaryMajorityElectionId": "654455b1-85a1-44c2-ad7b-8a8e7ea29d95",
-    "PrimaryMajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf"
+    "PrimaryMajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
+    "Origin": "origin"
   },
-  "reponse": {
+  "response": {
     "Id": "50eae8b0-53a0-44d1-a8c0-bdc28405a9c2",
     "MajorityElectionId": "654455b1-85a1-44c2-ad7b-8a8e7ea29d95",
     "Number": "number2",
@@ -76,6 +77,7 @@
     "Incumbent": true,
     "ZipCode": "",
     "Locality": "locality updated",
-    "Position": 2
+    "Position": 2,
+    "Origin": "origin"
   }
 }

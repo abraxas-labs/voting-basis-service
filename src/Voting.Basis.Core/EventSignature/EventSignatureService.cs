@@ -131,6 +131,34 @@ public class EventSignatureService
         }
     }
 
+    internal async Task EnsureActiveSignature(Guid contestId, DateTime eventTimestamp)
+    {
+        var contest = _contestCache.Get(contestId);
+
+        if (contest == null)
+        {
+            contest = new ContestCacheEntry
+            {
+                Id = contestId,
+            };
+            _contestCache.Add(contest);
+        }
+
+        if (contest.KeyData == null)
+        {
+            contest.KeyData = await StartSignature(contestId, eventTimestamp);
+            return;
+        }
+
+        // if the key expired but the scheduler did not stop the signature yet, it should be explicitly stopped and restarted here.
+        if (contest.KeyData.ValidTo < eventTimestamp)
+        {
+            await StopSignature(contestId, contest.KeyData);
+            contest.KeyData.Key.Dispose();
+            contest.KeyData = await StartSignature(contestId, eventTimestamp);
+        }
+    }
+
     private async Task<ContestCacheEntryKeyData> StartSignature(Guid contestId, DateTime timestamp)
     {
         EcdsaPrivateKey? key = null;
@@ -174,35 +202,6 @@ public class EventSignatureService
             key?.Dispose();
             _logger.LogError(ex, "Start signature for contest {ContestId} failed", contestId);
             throw;
-        }
-    }
-
-    private async Task EnsureActiveSignature(Guid contestId, DateTime eventTimestamp)
-    {
-        var contest = _contestCache.Get(contestId);
-
-        if (contest == null)
-        {
-            contest = new ContestCacheEntry
-            {
-                Id = contestId,
-            };
-            _contestCache.Add(contest);
-        }
-
-        if (contest.KeyData == null)
-        {
-            contest.KeyData = await StartSignature(contestId, eventTimestamp);
-            return;
-        }
-
-        // if the key expired but the scheduler did not stop the signature yet, it should be explicitly stopped and restarted here.
-        if (contest.KeyData.ValidTo < eventTimestamp)
-        {
-            await StopSignature(contestId, contest.KeyData);
-            contest.KeyData.Key.Dispose();
-            contest.KeyData = await StartSignature(contestId, eventTimestamp);
-            return;
         }
     }
 

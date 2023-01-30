@@ -94,7 +94,7 @@ public class MajorityElectionBallotGroupUpdateTest : BaseGrpcTest<MajorityElecti
     }
 
     [Fact]
-    public async Task NonContinousPositionShouldThrow()
+    public async Task NonContinuousPositionShouldThrow()
     {
         await AssertStatus(
             async () => await AdminClient.UpdateBallotGroupAsync(NewValidRequest(o => o.Position = 18)),

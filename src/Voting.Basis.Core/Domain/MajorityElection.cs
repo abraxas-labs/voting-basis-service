@@ -13,19 +13,12 @@ public class MajorityElection : Election
 {
     public MajorityElectionMandateAlgorithm MandateAlgorithm { get; set; }
 
-    public bool IndividualEmptyBallotsAllowed { get; set; }
-
     /// <summary>
     /// Gets or sets a value indicating whether check digits must be used when entering candidate results.
     /// </summary>
     public bool CandidateCheckDigit { get; set; }
 
     public MajorityElectionResultEntry ResultEntry { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether invalid votes are supported.
-    /// </summary>
-    public bool InvalidVotes { get; set; }
 
     public List<MajorityElectionCandidate> Candidates { get; private set; } = new();
 

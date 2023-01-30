@@ -21,6 +21,7 @@ public class ProportionalElectionCandidate
         OccupationTitle = new Dictionary<string, string>();
         ZipCode = string.Empty;
         Locality = string.Empty;
+        Origin = string.Empty;
     }
 
     public Guid Id { get; internal set; }
@@ -70,4 +71,6 @@ public class ProportionalElectionCandidate
     public Guid? PartyId { get; private set; }
 
     public Guid ProportionalElectionListId { get; set; }
+
+    public string Origin { get; private set; }
 }

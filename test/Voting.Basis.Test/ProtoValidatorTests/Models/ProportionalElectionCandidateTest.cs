@@ -37,6 +37,7 @@ public class ProportionalElectionCandidateTest : ProtoValidatorBaseTest<ProtoMod
             Accumulated = true,
             AccumulatedPosition = 2,
             Party = DomainOfInfluencePartyTest.NewValid(),
+            Origin = "origin",
         };
 
         action?.Invoke(proportionalElectionCandidate);
@@ -69,12 +70,16 @@ public class ProportionalElectionCandidateTest : ProtoValidatorBaseTest<ProtoMod
         yield return NewValid(x => x.ZipCode = string.Empty);
         yield return NewValid(x => x.ZipCode = RandomStringUtil.GenerateComplexSingleLineText(1));
         yield return NewValid(x => x.ZipCode = RandomStringUtil.GenerateComplexSingleLineText(15));
+        yield return NewValid(x => x.Locality = string.Empty);
         yield return NewValid(x => x.Locality = RandomStringUtil.GenerateComplexSingleLineText(1));
         yield return NewValid(x => x.Locality = RandomStringUtil.GenerateComplexSingleLineText(50));
         yield return NewValid(x => x.Position = 1);
         yield return NewValid(x => x.Position = 100);
         yield return NewValid(x => x.Accumulated = false);
         yield return NewValid(x => x.Party = null);
+        yield return NewValid(x => x.Origin = string.Empty);
+        yield return NewValid(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(1));
+        yield return NewValid(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(80));
     }
 
     protected override IEnumerable<ProtoModels.ProportionalElectionCandidate> NotOkMessages()
@@ -112,9 +117,9 @@ public class ProportionalElectionCandidateTest : ProtoValidatorBaseTest<ProtoMod
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.OccupationTitle, "de", RandomStringUtil.GenerateComplexSingleLineText(251)));
         yield return NewValid(x => x.ZipCode = RandomStringUtil.GenerateComplexSingleLineText(16));
         yield return NewValid(x => x.ZipCode = "9000\n12");
-        yield return NewValid(x => x.Locality = string.Empty);
         yield return NewValid(x => x.Locality = RandomStringUtil.GenerateComplexSingleLineText(51));
         yield return NewValid(x => x.Position = 0);
         yield return NewValid(x => x.Position = 101);
+        yield return NewValid(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(81));
     }
 }

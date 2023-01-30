@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using eCH_0155_4_0;
@@ -28,7 +29,7 @@ internal static class ProportionalElectionMapping
 
     internal static DataModels.ProportionalElection ToBasisProportionalElection(this ElectionInformationType election, IdLookup idLookup)
     {
-        string electionIdentification = election.Election.ElectionIdentification;
+        var electionIdentification = election.Election.ElectionIdentification;
         var id = idLookup.GuidForId(electionIdentification);
 
         var shortDescriptionInfos = election
@@ -50,13 +51,9 @@ internal static class ProportionalElectionMapping
             ?? new List<DataModels.ProportionalElectionList>();
 
         var listUnions = election.ListUnion
-            ?.Select(lu => lu.ToBasisListUnion(id, idLookup))
+            ?.Select((lu, i) => lu.ToBasisListUnion(id, idLookup, i + 1))
             ?.ToList()
             ?? new List<DataModels.ProportionalElectionListUnion>();
-        for (var i = 0; i < listUnions.Count; i++)
-        {
-            listUnions[i].Position = i + 1;
-        }
 
         return new DataModels.ProportionalElection
         {
@@ -198,10 +195,17 @@ internal static class ProportionalElectionMapping
             .OrderBy(e => e.ProportionalElectionListId)
             .Select(e => e.ProportionalElectionListId.ToString())
             .ToList();
-        return ListUnionTypeType.Create(listUnion.Id.ToString(), description, relation, listIds);
+
+        var echListUnion = ListUnionTypeType.Create(listUnion.Id.ToString(), description, relation, listIds);
+        echListUnion.ReferencedListUnion = listUnion.ProportionalElectionRootListUnionId?.ToString();
+        return echListUnion;
     }
 
-    private static DataModels.ProportionalElectionListUnion ToBasisListUnion(this ListUnionTypeType listUnion, Guid electionId, IdLookup idLookup)
+    private static DataModels.ProportionalElectionListUnion ToBasisListUnion(
+        this ListUnionTypeType listUnion,
+        Guid electionId,
+        IdLookup idLookup,
+        int position)
     {
         var listUnionId = idLookup.GuidForId(listUnion.ListUnionIdentification);
         var descriptionInfos = listUnion
@@ -209,16 +213,23 @@ internal static class ProportionalElectionMapping
             ?.ListUnionDescriptionInfo;
         var description = descriptionInfos.ToLanguageDictionary(x => x.Language, x => x.ListUnionDescription, listUnion.ListUnionIdentification);
 
-        Guid? listElectionRootId = listUnion.ListUnionType == ListRelationType.SubListUnion
-            ? idLookup.GuidForId(listUnion.ReferencedList[0])
-            : (Guid?)null;
+        Guid? rootListUnionId = null;
+        if (listUnion.ListUnionType == ListRelationType.SubListUnion)
+        {
+            if (string.IsNullOrEmpty(listUnion.ReferencedListUnion))
+            {
+                throw new ValidationException("Sub list union does not contain a referencedListUnion");
+            }
+
+            rootListUnionId = idLookup.GuidForId(listUnion.ReferencedListUnion);
+        }
 
         return new DataModels.ProportionalElectionListUnion
         {
             Id = listUnionId,
             ProportionalElectionId = electionId,
             Description = description,
-            ProportionalElectionRootListUnionId = listElectionRootId,
+            ProportionalElectionRootListUnionId = rootListUnionId,
             ProportionalElectionListUnionEntries = listUnion.ReferencedList
                 .Select(listId => new DataModels.ProportionalElectionListUnionEntry
                 {
@@ -226,12 +237,13 @@ internal static class ProportionalElectionMapping
                     ProportionalElectionListId = idLookup.GuidForId(listId),
                 })
                 .ToList(),
+            Position = position,
         };
     }
 
     private static CandidateType ToEchProportionalCandidateType(this DataModels.ProportionalElectionCandidate candidate)
     {
-        var candidateType = candidate.ToEchCandidateType();
+        var candidateType = candidate.ToEchCandidateType(candidate.Party?.ShortDescription);
         candidateType.CandidateReference = GenerateCandidateReference(candidate);
         return candidateType;
     }

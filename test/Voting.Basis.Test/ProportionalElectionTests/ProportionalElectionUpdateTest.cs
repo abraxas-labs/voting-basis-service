@@ -165,7 +165,6 @@ public class ProportionalElectionUpdateTest : BaseGrpcTest<ProportionalElectionS
             async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
             {
                 o.ContestId = ContestMockedData.IdBundContest;
-                o.InternalDescription = "test";
             })),
             StatusCode.InvalidArgument,
             "ContestId");
@@ -180,7 +179,7 @@ public class ProportionalElectionUpdateTest : BaseGrpcTest<ProportionalElectionS
     }
 
     [Fact]
-    public async Task ContinousBallotNumberGenerationWithoutAutomaticGenerationShouldThrow()
+    public async Task ContinuousBallotNumberGenerationWithoutAutomaticGenerationShouldThrow()
     {
         await AssertStatus(
             async () => await AdminClient.UpdateAsync(NewValidRequest(o =>

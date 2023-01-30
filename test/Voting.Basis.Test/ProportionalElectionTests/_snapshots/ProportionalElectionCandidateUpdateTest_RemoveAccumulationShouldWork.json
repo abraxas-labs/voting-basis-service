@@ -49,7 +49,8 @@
       "Accumulated": false,
       "AccumulatedPosition": 2,
       "PartyId": "d42d9fb1-4e68-4c4a-8d1f-7cf846c8304f",
-      "ProportionalElectionId": "8fd00ee5-cc68-4b33-86b0-cc9c58dc1b1f"
+      "ProportionalElectionId": "8fd00ee5-cc68-4b33-86b0-cc9c58dc1b1f",
+      "Origin": "origin"
     }
   }
 }

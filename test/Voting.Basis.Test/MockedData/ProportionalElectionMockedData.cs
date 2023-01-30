@@ -92,7 +92,6 @@ public static class ProportionalElectionMockedData
             PoliticalBusinessNumber = "100",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Bund"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Bund"),
-            InternalDescription = "Proporzwahl Bund auf Urnengang Bund",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidBund,
             ContestId = ContestMockedData.BundContest.Id,
             Active = true,
@@ -139,6 +138,7 @@ public static class ProportionalElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
+                                Origin = "origin",
                             },
                         },
                     },
@@ -152,7 +152,6 @@ public static class ProportionalElectionMockedData
             PoliticalBusinessNumber = "201",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl St. Gallen"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl SG"),
-            InternalDescription = "Proporzwahl St. Gallen auf Urnengang Bund",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidStGallen,
             ContestId = ContestMockedData.BundContest.Id,
             Active = true,
@@ -199,6 +198,7 @@ public static class ProportionalElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyStGallenSP,
+                                Origin = "origin",
                             },
                         },
                     },
@@ -230,7 +230,6 @@ public static class ProportionalElectionMockedData
             PoliticalBusinessNumber = "100",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Bund"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Bund"),
-            InternalDescription = "Proporzwahl Bund auf Urnengang St.Gallen",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidBund,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
@@ -276,6 +275,7 @@ public static class ProportionalElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
+                                Origin = "origin",
                             },
                             new ProportionalElectionCandidate
                             {
@@ -295,6 +295,7 @@ public static class ProportionalElectionMockedData
                                 Title = "title2",
                                 ZipCode = "zip code2",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
+                                Origin = "origin 2",
                             },
                         },
                     },
@@ -324,7 +325,6 @@ public static class ProportionalElectionMockedData
             PoliticalBusinessNumber = "166",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Uzwil"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Uzwil"),
-            InternalDescription = "Proporzwahl Uzwil auf Urnengang St.Gallen",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidUzwil,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
@@ -371,6 +371,7 @@ public static class ProportionalElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyStGallenSVP,
+                                Origin = "origin",
                             },
                         },
                     },
@@ -393,7 +394,6 @@ public static class ProportionalElectionMockedData
             PoliticalBusinessNumber = "155",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl St.Gallen"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl St.Gallen"),
-            InternalDescription = "Proporzwahl St.Gallen auf Urnengang St.Gallen",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidStGallen,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
@@ -440,6 +440,7 @@ public static class ProportionalElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
+                                Origin = "origin",
                             },
                         },
                     },
@@ -453,7 +454,6 @@ public static class ProportionalElectionMockedData
             PoliticalBusinessNumber = "321",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Gossau"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Gossau"),
-            InternalDescription = "Proporzwahl Gossau auf Urnengang St.Gallen",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
@@ -500,6 +500,7 @@ public static class ProportionalElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyGossauFLiG,
+                                Origin = "origin",
                             },
                             new ProportionalElectionCandidate
                             {
@@ -519,6 +520,7 @@ public static class ProportionalElectionMockedData
                                 Sex = SexType.Undefined,
                                 Title = "title 2",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyGossauDeleted,
+                                Origin = "origin 2",
                             },
                         },
                     },
@@ -669,7 +671,6 @@ public static class ProportionalElectionMockedData
             PoliticalBusinessNumber = "645",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Gossau"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Gossau"),
-            InternalDescription = "Proporzwahl Gossau",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
             ContestId = ContestMockedData.BundContest.Id,
             Active = true,
@@ -716,6 +717,7 @@ public static class ProportionalElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
+                                Origin = "origin",
                             },
                             new ProportionalElectionCandidate
                             {
@@ -735,6 +737,7 @@ public static class ProportionalElectionMockedData
                                 Sex = SexType.Undefined,
                                 Title = "title 2",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyStGallenSVP,
+                                Origin = "origin 2",
                             },
                         },
                     },
@@ -796,7 +799,6 @@ public static class ProportionalElectionMockedData
             PoliticalBusinessNumber = "500",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl St.Gallen 2"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl St.Gallen 2"),
-            InternalDescription = "Proporzwahl St.Gallen auf Urnengang St.Gallen ohne Listen",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidStGallen,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = false,
@@ -820,7 +822,6 @@ public static class ProportionalElectionMockedData
             PoliticalBusinessNumber = "324",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Gossau"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Gossau"),
-            InternalDescription = "Proporzwahl Gossau auf Urnengang Gossau mit E-Voting",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
             ContestId = ContestMockedData.GossauContest.Id,
             Active = true,
@@ -867,6 +868,7 @@ public static class ProportionalElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
+                                Origin = "origin",
                             },
                         },
                     },
@@ -889,7 +891,6 @@ public static class ProportionalElectionMockedData
             PoliticalBusinessNumber = "412",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Uzwil"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Uzwil"),
-            InternalDescription = "Proporzwahl Uzwil auf Urnengang Uzwil",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidUzwil,
             ContestId = ContestMockedData.UzwilEvotingContest.Id,
             Active = true,
@@ -936,6 +937,7 @@ public static class ProportionalElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
+                                Origin = "origin",
                             },
                         },
                     },
@@ -949,7 +951,6 @@ public static class ProportionalElectionMockedData
             PoliticalBusinessNumber = "714",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Uzwil"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Uzwil"),
-            InternalDescription = "Proporzwahl Uzwil auf Urnengang Bund",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidUzwil,
             Active = false,
             ContestId = ContestMockedData.BundContest.Id,
@@ -972,7 +973,6 @@ public static class ProportionalElectionMockedData
             PoliticalBusinessNumber = "714a",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Genf"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Genf"),
-            InternalDescription = "Proporzwahl Genf auf Urnengang Bund",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGenf,
             ContestId = ContestMockedData.BundContest.Id,
             Active = false,
@@ -995,7 +995,6 @@ public static class ProportionalElectionMockedData
             PoliticalBusinessNumber = "aaa",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Kirche"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Kirche"),
-            InternalDescription = "Proporzwahl Kirche auf Urnengang Kirche",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidKirchgemeinde,
             ContestId = ContestMockedData.KirchenContest.Id,
             Active = false,
@@ -1041,6 +1040,7 @@ public static class ProportionalElectionMockedData
                                 Sex = SexType.Male,
                                 Title = "title",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyKirchgemeindeEVP,
+                                Origin = "origin",
                             },
                         },
                     },
@@ -1063,7 +1063,6 @@ public static class ProportionalElectionMockedData
             PoliticalBusinessNumber = "aaa",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Kirche ohne Listen"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Kirche ohne Listen"),
-            InternalDescription = "Proporzwahl Kirche auf Urnengang Kirche ohne Listen",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidKirchgemeinde,
             ContestId = ContestMockedData.KirchenContest.Id,
             Active = false,
@@ -1151,6 +1150,7 @@ public static class ProportionalElectionMockedData
     {
         var aggregate = aggregateFactory.New<ProportionalElectionAggregate>();
         var election = mapper.Map<Core.Domain.ProportionalElection>(proportionalElection);
+        var doi = DomainOfInfluenceMockedData.All.First(x => x.Id == proportionalElection.DomainOfInfluenceId);
 
         aggregate.CreateFrom(election);
 
@@ -1164,7 +1164,7 @@ public static class ProportionalElectionMockedData
             {
                 var protoCandidate = mapper.Map<Core.Domain.ProportionalElectionCandidate>(candidate);
                 protoCandidate.ProportionalElectionListId = protoList.Id;
-                aggregate.CreateCandidateFrom(protoCandidate);
+                aggregate.CreateCandidateFrom(protoCandidate, doi.Type);
             }
         }
 

@@ -126,7 +126,7 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportTest
         var contest = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
         {
             ImportType = SharedProto.ImportType.Ech157,
-            FileContent = await GetTestEch157File(),
+            FileContent = await GetTestEch0157File(),
         });
 
         var proportionalElectionImport = contest.ProportionalElections[0];

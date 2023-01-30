@@ -37,7 +37,7 @@ public class ProportionalElectionCandidateUpdateTest : BaseGrpcTest<Proportional
     [Fact]
     public async Task Test()
     {
-        var response = await AdminClient.UpdateCandidateAsync(NewValidRequest());
+        await AdminClient.UpdateCandidateAsync(NewValidRequest());
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionCandidateUpdated, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event", d => d.ProportionalElectionCandidate.Id);
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
@@ -79,6 +79,7 @@ public class ProportionalElectionCandidateUpdateTest : BaseGrpcTest<Proportional
                     Title = "new title",
                     ZipCode = "new zip code",
                     PartyId = DomainOfInfluenceMockedData.PartyIdStGallenSP,
+                    Origin = "origin",
                 },
             });
 
@@ -115,6 +116,7 @@ public class ProportionalElectionCandidateUpdateTest : BaseGrpcTest<Proportional
                     Title = "new title",
                     ZipCode = "new zip code",
                     PartyId = DomainOfInfluenceMockedData.PartyIdGossauDeleted,
+                    Origin = "origin",
                 },
             });
 
@@ -198,10 +200,7 @@ public class ProportionalElectionCandidateUpdateTest : BaseGrpcTest<Proportional
     [Fact]
     public async Task RemoveAccumulationShouldWork()
     {
-        await AdminClient.UpdateCandidateAsync(NewValidRequest(o =>
-        {
-            o.Accumulated = false;
-        }));
+        await AdminClient.UpdateCandidateAsync(NewValidRequest(o => o.Accumulated = false));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionCandidateUpdated>();
         eventData.MatchSnapshot("event");
     }
@@ -210,10 +209,7 @@ public class ProportionalElectionCandidateUpdateTest : BaseGrpcTest<Proportional
     public async Task NonContinuousPositionShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateCandidateAsync(NewValidRequest(o =>
-            {
-                o.Position = 2;
-            })),
+            async () => await AdminClient.UpdateCandidateAsync(NewValidRequest(o => o.Position = 2)),
             StatusCode.InvalidArgument);
     }
 
@@ -229,26 +225,8 @@ public class ProportionalElectionCandidateUpdateTest : BaseGrpcTest<Proportional
     public async Task ProportionalElectionCandidateUpdateAfterTestingPhaseShouldWork()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
-        var id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionInContestBund;
 
-        await AdminClient.UpdateCandidateAsync(new UpdateProportionalElectionCandidateRequest
-        {
-            Id = id,
-            ProportionalElectionListId = ProportionalElectionMockedData.ListId1GossauProportionalElectionInContestBund,
-            Number = "number1",
-            FirstName = "update first name",
-            LastName = "updated last name",
-            PoliticalFirstName = "updated p. first name",
-            PoliticalLastName = "updated p. last name",
-            Position = 1,
-            DateOfBirth = new DateTime(1990, 4, 5, 7, 45, 3, DateTimeKind.Utc).ToTimestamp(),
-            Locality = "locality updated",
-            Sex = SharedProto.SexType.Male,
-            Occupation = { LanguageUtil.MockAllLanguages("occupation updated") },
-            Accumulated = true,
-            AccumulatedPosition = 2,
-            PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
-        });
+        await AdminClient.UpdateCandidateAsync(NewValidRequestAfterTestingPhase());
 
         var ev = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionCandidateAfterTestingPhaseUpdated>();
         ev.MatchSnapshot("event");
@@ -256,9 +234,71 @@ public class ProportionalElectionCandidateUpdateTest : BaseGrpcTest<Proportional
         await TestEventPublisher.Publish(ev);
         var election = await AdminClient.GetCandidateAsync(new GetProportionalElectionCandidateRequest
         {
-            Id = id,
+            Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionInContestBund,
         });
-        election.MatchSnapshot("reponse");
+        election.MatchSnapshot("response");
+    }
+
+    [Fact]
+    public async Task ProportionalElectionCandidateUpdateAfterTestingPhaseWithEmptyLocalityShouldThrow()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await AssertStatus(
+            async () => await AdminClient.UpdateCandidateAsync(NewValidRequestAfterTestingPhase(x =>
+            {
+                x.Id = ProportionalElectionMockedData.CandidateIdStGallenProportionalElectionInContestStGallen;
+                x.ProportionalElectionListId = ProportionalElectionMockedData.ListIdStGallenProportionalElectionInContestStGallen;
+                x.Locality = string.Empty;
+            })),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task ProportionalElectionCandidateUpdateAfterTestingPhaseWithEmptyOriginShouldThrow()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await AssertStatus(
+            async () => await AdminClient.UpdateCandidateAsync(NewValidRequestAfterTestingPhase(x =>
+            {
+                x.Id = ProportionalElectionMockedData.CandidateIdStGallenProportionalElectionInContestStGallen;
+                x.ProportionalElectionListId = ProportionalElectionMockedData.ListIdStGallenProportionalElectionInContestStGallen;
+                x.Origin = string.Empty;
+            })),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task ProportionalElectionCandidateUpdateAfterTestingPhaseWithEmptyLocalityOnCommunalBusinessShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await AdminClient.UpdateCandidateAsync(NewValidRequestAfterTestingPhase(x => x.Locality = string.Empty));
+
+        var ev = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionCandidateAfterTestingPhaseUpdated>();
+        ev.MatchSnapshot("event");
+
+        await TestEventPublisher.Publish(ev);
+        var election = await AdminClient.GetCandidateAsync(new GetProportionalElectionCandidateRequest
+        {
+            Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionInContestBund,
+        });
+        election.MatchSnapshot("response");
+    }
+
+    [Fact]
+    public async Task ProportionalElectionCandidateUpdateAfterTestingPhaseWithEmptyOriginOnCommunalBusinessShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await AdminClient.UpdateCandidateAsync(NewValidRequestAfterTestingPhase(x => x.Origin = string.Empty));
+
+        var ev = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionCandidateAfterTestingPhaseUpdated>();
+        ev.MatchSnapshot("event");
+
+        await TestEventPublisher.Publish(ev);
+        var election = await AdminClient.GetCandidateAsync(new GetProportionalElectionCandidateRequest
+        {
+            Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionInContestBund,
+        });
+        election.MatchSnapshot("response");
     }
 
     [Fact]
@@ -288,6 +328,52 @@ public class ProportionalElectionCandidateUpdateTest : BaseGrpcTest<Proportional
             })),
             StatusCode.FailedPrecondition,
             "Contest is past locked or archived");
+    }
+
+    [Fact]
+    public async Task EmptyLocalityShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.UpdateCandidateAsync(NewValidRequest(o => o.Locality = string.Empty)),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task EmptyOriginShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.UpdateCandidateAsync(NewValidRequest(o => o.Origin = string.Empty)),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task EmptyLocalityOnCommunalBusinessShouldWork()
+    {
+        var request = NewValidRequest(o =>
+        {
+            o.Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionInContestBund;
+            o.ProportionalElectionListId = ProportionalElectionMockedData.ListId1GossauProportionalElectionInContestBund;
+            o.Locality = string.Empty;
+        });
+        await AdminClient.UpdateCandidateAsync(request);
+        var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionCandidateUpdated, EventSignatureBusinessMetadata>();
+        eventData.MatchSnapshot("event", d => d.ProportionalElectionCandidate.Id);
+        eventMetadata!.ContestId.Should().Be(ContestMockedData.IdBundContest);
+    }
+
+    [Fact]
+    public async Task EmptyOriginOnCommunalBusinessShouldWork()
+    {
+        var request = NewValidRequest(o =>
+        {
+            o.Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionInContestBund;
+            o.ProportionalElectionListId = ProportionalElectionMockedData.ListId1GossauProportionalElectionInContestBund;
+            o.Origin = string.Empty;
+        });
+        await AdminClient.UpdateCandidateAsync(request);
+        var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionCandidateUpdated, EventSignatureBusinessMetadata>();
+        eventData.MatchSnapshot("event", d => d.ProportionalElectionCandidate.Id);
+        eventMetadata!.ContestId.Should().Be(ContestMockedData.IdBundContest);
     }
 
     protected override IEnumerable<string> UnauthorizedRoles()
@@ -323,6 +409,34 @@ public class ProportionalElectionCandidateUpdateTest : BaseGrpcTest<Proportional
             Title = "title",
             ZipCode = "zip code",
             PartyId = DomainOfInfluenceMockedData.PartyIdStGallenSP,
+            Origin = "origin",
+        };
+
+        customizer?.Invoke(request);
+        return request;
+    }
+
+    private UpdateProportionalElectionCandidateRequest NewValidRequestAfterTestingPhase(
+        Action<UpdateProportionalElectionCandidateRequest>? customizer = null)
+    {
+        var request = new UpdateProportionalElectionCandidateRequest
+        {
+            Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionInContestBund,
+            ProportionalElectionListId = ProportionalElectionMockedData.ListId1GossauProportionalElectionInContestBund,
+            Number = "number1",
+            FirstName = "update first name",
+            LastName = "updated last name",
+            PoliticalFirstName = "updated p. first name",
+            PoliticalLastName = "updated p. last name",
+            Position = 1,
+            DateOfBirth = new DateTime(1990, 4, 5, 7, 45, 3, DateTimeKind.Utc).ToTimestamp(),
+            Locality = "locality updated",
+            Sex = SharedProto.SexType.Male,
+            Occupation = { LanguageUtil.MockAllLanguages("occupation updated") },
+            Accumulated = true,
+            AccumulatedPosition = 2,
+            PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
+            Origin = "origin",
         };
 
         customizer?.Invoke(request);

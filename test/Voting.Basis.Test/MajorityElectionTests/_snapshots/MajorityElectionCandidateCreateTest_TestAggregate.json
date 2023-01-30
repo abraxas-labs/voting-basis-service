@@ -34,7 +34,8 @@
     "Incumbent": true,
     "ZipCode": "zip code",
     "Locality": "locality",
-    "Position": 2
+    "Position": 2,
+    "Origin": "origin"
   },
   "2": {
     "Id": "b21835b0-6c81-4e30-9daa-fc82f3f69f30",
@@ -71,6 +72,7 @@
     "Incumbent": true,
     "ZipCode": "zip code",
     "Locality": "locality",
-    "Position": 3
+    "Position": 3,
+    "Origin": "origin"
   }
 }

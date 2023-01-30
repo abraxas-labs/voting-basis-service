@@ -17,10 +17,8 @@
           "it": "Proporzwahl Gossau it",
           "rm": "Proporzwahl Gossau rm"
         },
-        "InternalDescription": "Proporzwahl Gossau auf Urnengang St.Gallen",
         "NumberOfMandates": 3,
         "MandateAlgorithm": 1,
-        "IndividualEmptyBallotsAllowed": false,
         "CandidateCheckDigit": true,
         "BallotBundleSize": 10,
         "BallotBundleSampleSize": 0,
@@ -33,7 +31,6 @@
         "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
         "ContestId": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
         "Active": true,
-        "InvalidVotes": false,
         "ReportDomainOfInfluenceLevel": 0,
         "ReviewProcedure": 1,
         "EnforceReviewProcedureForCountingCircles": true
@@ -64,10 +61,8 @@
           "it": "Proporzwahl Uzwil it",
           "rm": "Proporzwahl Uzwil rm"
         },
-        "InternalDescription": "Proporzwahl Uzwil auf Urnengang St.Gallen",
         "NumberOfMandates": 5,
         "MandateAlgorithm": 2,
-        "IndividualEmptyBallotsAllowed": true,
         "CandidateCheckDigit": true,
         "BallotBundleSize": 25,
         "BallotBundleSampleSize": 5,
@@ -80,7 +75,6 @@
         "DomainOfInfluenceId": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
         "ContestId": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
         "Active": true,
-        "InvalidVotes": false,
         "ReportDomainOfInfluenceLevel": 0,
         "ReviewProcedure": 1,
         "EnforceReviewProcedureForCountingCircles": true

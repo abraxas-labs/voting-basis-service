@@ -22,8 +22,6 @@ public class UpdateSecondaryMajorityElectionRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.OfficialDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexMultiLineText(700)));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(100)));
-        yield return NewValidRequest(x => x.InternalDescription = string.Empty);
-        yield return NewValidRequest(x => x.InternalDescription = RandomStringUtil.GenerateSimpleSingleLineText(100));
         yield return NewValidRequest(x => x.NumberOfMandates = 1);
         yield return NewValidRequest(x => x.NumberOfMandates = 100);
         yield return NewValidRequest(x => x.Active = false);
@@ -45,8 +43,6 @@ public class UpdateSecondaryMajorityElectionRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(3), "test"));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, "de", string.Empty));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, "de", RandomStringUtil.GenerateComplexSingleLineText(101)));
-        yield return NewValidRequest(x => x.InternalDescription = RandomStringUtil.GenerateSimpleSingleLineText(101));
-        yield return NewValidRequest(x => x.InternalDescription = "Neue Neben-\nMajorzwahl");
         yield return NewValidRequest(x => x.NumberOfMandates = 0);
         yield return NewValidRequest(x => x.NumberOfMandates = 101);
         yield return NewValidRequest(x => x.AllowedCandidates = SecondaryMajorityElectionAllowedCandidates.Unspecified);
@@ -63,7 +59,6 @@ public class UpdateSecondaryMajorityElectionRequestTest : ProtoValidatorBaseTest
             PoliticalBusinessNumber = "10246",
             OfficialDescription = { LanguageUtil.MockAllLanguages("Neue Neben-Majorzwahl") },
             ShortDescription = { LanguageUtil.MockAllLanguages("Neue Neben-Majorzwahl") },
-            InternalDescription = "Neue Neben-Majorzwahl",
             NumberOfMandates = 5,
             AllowedCandidates = SecondaryMajorityElectionAllowedCandidates.MayExistInPrimaryElection,
             PrimaryMajorityElectionId = "da36912c-7eaf-43fe-86d4-70c816f17c5a",

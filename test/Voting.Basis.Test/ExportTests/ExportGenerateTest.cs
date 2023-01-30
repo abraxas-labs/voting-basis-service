@@ -10,13 +10,12 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using eCH_0157_4_0;
-using eCH_0159_4_0;
+using System.Xml.Schema;
 using FluentAssertions;
-using Snapper;
 using Voting.Basis.Controllers.Models;
-using Voting.Basis.Ech.Converters;
+using Voting.Basis.Ech.Schemas;
 using Voting.Basis.Test.MockedData;
+using Voting.Lib.Testing.Utils;
 using Voting.Lib.VotingExports.Repository.Basis;
 using Xunit;
 
@@ -51,11 +50,7 @@ public class ExportGenerateTest : BaseRestTest
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Zip);
 
-        var exportEntries = await DeserializeZipEntries(response);
-        foreach (var (name, deserialized) in exportEntries)
-        {
-            deserialized.ShouldMatchChildSnapshot(name);
-        }
+        await ZipEntriesShouldMatchSnapshot(response, nameof(TestAsAdminShouldReturnOk));
     }
 
     [Fact]
@@ -70,15 +65,11 @@ public class ExportGenerateTest : BaseRestTest
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Zip);
 
-        var exportEntries = await DeserializeZipEntries(response);
-        foreach (var (name, deserialized) in exportEntries)
-        {
-            deserialized.ShouldMatchChildSnapshot(name);
-        }
+        await ZipEntriesShouldMatchSnapshot(response, nameof(TestAsElectionAdminShouldReturnOk));
     }
 
     [Fact]
-    public async Task TestVoteEch159Xml()
+    public async Task TestVoteEch0159()
     {
         var response = await AssertStatus(
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
@@ -90,11 +81,11 @@ public class ExportGenerateTest : BaseRestTest
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
 
         var xml = await response.Content.ReadAsStringAsync();
-        MatchXmlSnapshot(xml, "TestVoteEch159");
+        VerifyXml(xml, nameof(TestVoteEch0159), Ech0159SchemaLoader.LoadEch0159Schemas());
     }
 
     [Fact]
-    public async Task TestMajorityElectionEch157Xml()
+    public async Task TestMajorityElectionEch0157()
     {
         var response = await AssertStatus(
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
@@ -106,11 +97,11 @@ public class ExportGenerateTest : BaseRestTest
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
 
         var xml = await response.Content.ReadAsStringAsync();
-        MatchXmlSnapshot(xml, "TestMajorityElectionEch157");
+        VerifyXml(xml, nameof(TestMajorityElectionEch0157), Ech0157SchemaLoader.LoadEch0157Schemas());
     }
 
     [Fact]
-    public async Task TestProportionalElectionEch157Xml()
+    public async Task TestProportionalElectionEch0157()
     {
         var response = await AssertStatus(
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
@@ -122,7 +113,7 @@ public class ExportGenerateTest : BaseRestTest
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
 
         var xml = await response.Content.ReadAsStringAsync();
-        MatchXmlSnapshot(xml, "TestProportionalElectionEch157");
+        VerifyXml(xml, nameof(TestProportionalElectionEch0157), Ech0157SchemaLoader.LoadEch0157Schemas());
     }
 
     [Fact]
@@ -250,13 +241,12 @@ public class ExportGenerateTest : BaseRestTest
         yield return NoRole;
     }
 
-    private async Task<List<(string Name, object Deserialized)>> DeserializeZipEntries(HttpResponseMessage response)
+    private async Task ZipEntriesShouldMatchSnapshot(HttpResponseMessage response, string testName)
     {
         await using var zipStream = await response.Content.ReadAsStreamAsync();
         using var zipArchive = new ZipArchive(zipStream);
 
         zipArchive.Entries.Count.Should().Be(3);
-        var deserializedEntries = new List<(string Name, object Deserialized)>();
 
         foreach (var entry in zipArchive.Entries)
         {
@@ -265,27 +255,27 @@ public class ExportGenerateTest : BaseRestTest
 
             if (entry.Name.StartsWith("votes"))
             {
-                deserializedEntries.Add(("votes", EchDeserializer.FromXml<Delivery>(content)));
+                VerifyXml(content, $"{testName}_votes", Ech0159SchemaLoader.LoadEch0159Schemas());
             }
             else if (entry.Name.StartsWith("proportional_elections"))
             {
-                deserializedEntries.Add(("proportional_elections", EchDeserializer.FromXml<DeliveryType>(content)));
+                VerifyXml(content, $"{testName}_proportional_elections", Ech0157SchemaLoader.LoadEch0157Schemas());
             }
             else if (entry.Name.StartsWith("majority_elections"))
             {
-                deserializedEntries.Add(("majority_elections", EchDeserializer.FromXml<DeliveryType>(content)));
+                VerifyXml(content, $"{testName}_majority_elections", Ech0157SchemaLoader.LoadEch0157Schemas());
             }
             else
             {
                 throw new InvalidOperationException($"Unknown export entry {entry.Name}");
             }
         }
-
-        return deserializedEntries;
     }
 
-    private void MatchXmlSnapshot(string xml, string fileName)
+    private void VerifyXml(string xml, string fileName, XmlSchemaSet schemaSet)
     {
-        xml.MatchXmlSnapshot("ExportTests", "_snapshots", fileName + ".xml");
+        XmlUtil.ValidateSchema(xml, schemaSet);
+        xml = XmlUtil.FormatTestXml(xml);
+        xml.MatchRawTextSnapshot("ExportTests", "_snapshots", fileName + ".xml");
     }
 }

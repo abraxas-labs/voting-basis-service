@@ -1,4 +1,4 @@
-# ✨ Changelog (`v1.42.2`)
+# ✨ Changelog (`v1.45.6`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,81 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v1.42.2
-Previous version ---- v1.27.15
+This version -------- v1.45.6
+Previous version ---- v1.42.2
 Initial version ----- v1.27.15
-Total commits ------- 260
+Total commits ------- 11
 ```
+
+## [v1.45.6] - 2023-01-24
+
+### 🔄 Changed
+
+- map eCH dates correctly to UTC
+
+## [v1.45.5] - 2023-01-19
+
+### 🔄 Changed
+
+- election candidate locality and origin is allowed to be empty for communal political businesses
+
+## [v1.45.4] - 2023-01-18
+
+### 🔄 Changed
+
+- correct eCH-0157 export
+
+## [v1.45.3] - 2023-01-11
+
+### 🔄 Changed
+
+- export and import eCH list unions correctly
+
+## [v1.45.2] - 2023-01-09
+
+### 🔄 Changed
+
+- fix eCH import event signature timing issue and validate eCH imports
+
+## [v1.45.1] - 2023-01-04
+
+### ❌ Removed
+
+- remove internal description, invalid votes and individual empty ballots allowed from elections
+
+## [v1.45.0] - 2022-12-22
+
+### 🔄 Changed
+
+- add export provider
+
+## [v1.44.2] - 2022-12-16
+
+### 🆕 Added
+
+- add domain of influence canton
+
+## [v1.44.1] - 2022-12-14
+
+### 🔄 Changed
+
+- update library to extend complex text input validation rules with dash sign
+
+## [v1.44.0] - 2022-12-05
+
+### 🆕 Added
+
+- add candidate origin
+
+## [v1.43.0] - 2022-12-02
+
+### 🆕 Added
+
+- add request recorder tooling for load testing playbook
+
+### 🔄 Changed
+
+- disable proxy in launch settings for local development
 
 ## [v1.42.2] - 2022-11-30
 
@@ -235,6 +305,42 @@ Total commits ------- 260
 
 - CORS configuration support
 
+### 🆕 Added
+
+- added voting documents e-voting message type to canton settings
+
+### 🔄 Changed
+
+- upgraded underlying dotnet image to sdk 6.0.301 after gituhb issue [#24269](https://github.com/dotnet/sdk/issues/24269) has been fixed
+
+### 🔄 Changed
+
+- added OpenAPI description
+
+### 🔄 Changed
+
+- Restrict counting circle updates for users in role ElectionAdmin to the authorised tenant
+- Restrict domain of influence updates for users in role ElectionAdmin to the authorised tenant
+
+### 🔒 Security
+
+- Restrict counting circle updates for users in role ElectionAdmin to the authorised tenant
+- Restrict domain of influence updates for users in role ElectionAdmin to the authorised tenant
+
+### 🔒 Security
+
+- Fixed authorization check for importing majority election candidates and proportional election lists
+
+### 🆕 Added
+
+- add query split behavior where needed
+
+### 🔄 Changed
+
+- extend evoting date with time
+
+The readmodel needs to be recreated after this MR.
+
 ## [v1.30.0] - 2022-07-06
 
 ### 🆕 Added
@@ -303,7 +409,9 @@ Total commits ------- 260
 
 ## [v1.27.17] - 2022-05-23
 
-The readmodel needs to be recreated after this MR.
+### 🔄 Changed
+
+- lib version
 
 ## [v1.27.16] - 2022-05-23
 

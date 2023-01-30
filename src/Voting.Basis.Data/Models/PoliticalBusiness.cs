@@ -15,8 +15,6 @@ public abstract class PoliticalBusiness : BaseEntity
 
     public Dictionary<string, string> ShortDescription { get; set; } = new Dictionary<string, string>();
 
-    public string InternalDescription { get; set; } = string.Empty;
-
     public virtual bool Active { get; set; }
 
     public virtual Guid DomainOfInfluenceId { get; set; }

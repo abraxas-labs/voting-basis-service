@@ -21,7 +21,6 @@ public class ProportionalElectionTest : ProtoValidatorBaseTest<ProtoModels.Propo
             PoliticalBusinessNumber = "4687",
             OfficialDescription = { LanguageUtil.MockAllLanguages("Neue Proporzwahl") },
             ShortDescription = { LanguageUtil.MockAllLanguages("Proporzwahl") },
-            InternalDescription = "Proporzwahl",
             NumberOfMandates = 5,
             MandateAlgorithm = ProportionalElectionMandateAlgorithm.HagenbachBischoff,
             CandidateCheckDigit = true,
@@ -51,8 +50,6 @@ public class ProportionalElectionTest : ProtoValidatorBaseTest<ProtoModels.Propo
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.OfficialDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexMultiLineText(700)));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(100)));
-        yield return NewValid(x => x.InternalDescription = string.Empty);
-        yield return NewValid(x => x.InternalDescription = RandomStringUtil.GenerateSimpleSingleLineText(100));
         yield return NewValid(x => x.NumberOfMandates = 1);
         yield return NewValid(x => x.NumberOfMandates = 100);
         yield return NewValid(x => x.CandidateCheckDigit = false);
@@ -84,8 +81,6 @@ public class ProportionalElectionTest : ProtoValidatorBaseTest<ProtoModels.Propo
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(3), "test"));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, "de", string.Empty));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, "de", RandomStringUtil.GenerateComplexSingleLineText(101)));
-        yield return NewValid(x => x.InternalDescription = RandomStringUtil.GenerateSimpleSingleLineText(101));
-        yield return NewValid(x => x.InternalDescription = "Proporz\nwahl");
         yield return NewValid(x => x.NumberOfMandates = 0);
         yield return NewValid(x => x.NumberOfMandates = 101);
         yield return NewValid(x => x.MandateAlgorithm = ProportionalElectionMandateAlgorithm.Unspecified);

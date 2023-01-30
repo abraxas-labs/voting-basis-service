@@ -35,6 +35,7 @@ public class MajorityElectionCandidateTest : ProtoValidatorBaseTest<ProtoModels.
             ZipCode = "1234",
             Locality = "locality",
             Position = 2,
+            Origin = "origin",
         };
 
         action?.Invoke(majorityElection);
@@ -69,10 +70,14 @@ public class MajorityElectionCandidateTest : ProtoValidatorBaseTest<ProtoModels.
         yield return NewValid(x => x.ZipCode = string.Empty);
         yield return NewValid(x => x.ZipCode = RandomStringUtil.GenerateComplexSingleLineText(1));
         yield return NewValid(x => x.ZipCode = RandomStringUtil.GenerateComplexSingleLineText(15));
+        yield return NewValid(x => x.Locality = string.Empty);
         yield return NewValid(x => x.Locality = RandomStringUtil.GenerateComplexSingleLineText(1));
         yield return NewValid(x => x.Locality = RandomStringUtil.GenerateComplexSingleLineText(50));
         yield return NewValid(x => x.Position = 1);
         yield return NewValid(x => x.Position = 100);
+        yield return NewValid(x => x.Origin = string.Empty);
+        yield return NewValid(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(1));
+        yield return NewValid(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(80));
     }
 
     protected override IEnumerable<ProtoModels.MajorityElectionCandidate> NotOkMessages()
@@ -115,9 +120,9 @@ public class MajorityElectionCandidateTest : ProtoValidatorBaseTest<ProtoModels.
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.Party, "de", RandomStringUtil.GenerateComplexSingleLineText(13)));
         yield return NewValid(x => x.ZipCode = RandomStringUtil.GenerateComplexSingleLineText(16));
         yield return NewValid(x => x.ZipCode = "9000\n12");
-        yield return NewValid(x => x.Locality = string.Empty);
         yield return NewValid(x => x.Locality = RandomStringUtil.GenerateComplexSingleLineText(51));
         yield return NewValid(x => x.Position = 0);
         yield return NewValid(x => x.Position = 101);
+        yield return NewValid(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(81));
     }
 }

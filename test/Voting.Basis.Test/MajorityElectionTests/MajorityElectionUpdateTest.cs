@@ -198,31 +198,6 @@ public class MajorityElectionUpdateTest : BaseGrpcTest<MajorityElectionService.M
     }
 
     [Fact]
-    public async Task InvalidVotesWhenEnabledInCantonalSettingsShouldWork()
-    {
-        await RunOnDb(async db =>
-        {
-            var doi = await db.DomainOfInfluences.AsTracking().FirstAsync(x => x.Id == DomainOfInfluenceMockedData.GuidStGallen);
-            doi.CantonDefaults.MajorityElectionInvalidVotes = true;
-            await db.SaveChangesAsync();
-        });
-
-        await AdminClient.UpdateAsync(NewValidRequest(x => x.InvalidVotes = true));
-
-        var eventData = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionUpdated>();
-        eventData.MajorityElection.InvalidVotes.Should().BeTrue();
-    }
-
-    [Fact]
-    public async Task InvalidVotesWhenDisabledInCantonalSettingsShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(x => x.InvalidVotes = true)),
-            StatusCode.InvalidArgument,
-            "Cannot enable invalid votes if invalid votes are not enabled in the cantonal settings");
-    }
-
-    [Fact]
     public async Task GreaterSampleSizeThanBallotSizeShouldThrow()
     {
         await AssertStatus(
@@ -231,7 +206,7 @@ public class MajorityElectionUpdateTest : BaseGrpcTest<MajorityElectionService.M
     }
 
     [Fact]
-    public async Task ContinousBallotNumberGenerationWithoutAutomaticGenerationShouldThrow()
+    public async Task ContinuousBallotNumberGenerationWithoutAutomaticGenerationShouldThrow()
     {
         await AssertStatus(
             async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
@@ -270,7 +245,6 @@ public class MajorityElectionUpdateTest : BaseGrpcTest<MajorityElectionService.M
             BallotBundleSize = MajorityElectionMockedData.GossauMajorityElectionInContestBund.BallotBundleSize,
             BallotBundleSampleSize = MajorityElectionMockedData.GossauMajorityElectionInContestBund.BallotBundleSampleSize,
             BallotNumberGeneration = SharedProto.BallotNumberGeneration.RestartForEachBundle,
-            IndividualEmptyBallotsAllowed = MajorityElectionMockedData.GossauMajorityElectionInContestBund.IndividualEmptyBallotsAllowed,
             MandateAlgorithm = SharedProto.MajorityElectionMandateAlgorithm.RelativeMajority,
             ResultEntry = SharedProto.MajorityElectionResultEntry.Detailed,
             NumberOfMandates = MajorityElectionMockedData.GossauMajorityElectionInContestBund.NumberOfMandates,
@@ -350,12 +324,10 @@ public class MajorityElectionUpdateTest : BaseGrpcTest<MajorityElectionService.M
             BallotNumberGeneration = SharedProto.BallotNumberGeneration.RestartForEachBundle,
             CandidateCheckDigit = false,
             EnforceEmptyVoteCountingForCountingCircles = true,
-            IndividualEmptyBallotsAllowed = false,
             MandateAlgorithm = SharedProto.MajorityElectionMandateAlgorithm.RelativeMajority,
             ResultEntry = SharedProto.MajorityElectionResultEntry.FinalResults,
             EnforceResultEntryForCountingCircles = false,
             NumberOfMandates = 2,
-            InvalidVotes = false,
             ReviewProcedure = SharedProto.MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
         };
@@ -384,7 +356,6 @@ public class MajorityElectionUpdateTest : BaseGrpcTest<MajorityElectionService.M
                 BallotNumberGeneration = SharedProto.BallotNumberGeneration.RestartForEachBundle,
                 CandidateCheckDigit = false,
                 EnforceEmptyVoteCountingForCountingCircles = true,
-                IndividualEmptyBallotsAllowed = false,
                 MandateAlgorithm = SharedProto.MajorityElectionMandateAlgorithm.RelativeMajority,
                 ResultEntry = SharedProto.MajorityElectionResultEntry.FinalResults,
                 EnforceResultEntryForCountingCircles = false,

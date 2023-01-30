@@ -7,16 +7,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Shared.V1;
 using AutoMapper;
-using eCH_0157_4_0;
-using eCH_0159_4_0;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Domain;
 using Voting.Basis.Core.Domain.Aggregate;
+using Voting.Basis.Core.EventSignature;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Write;
 using Voting.Basis.Ech.Converters;
+using Voting.Lib.Common;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
 using Voting.Lib.Iam.Store;
@@ -27,37 +27,40 @@ public class ImportService
 {
     private readonly IMapper _mapper;
     private readonly IAuth _auth;
-    private readonly Ech159Deserializer _ech159Deserializer;
-    private readonly Ech157Deserializer _ech157Deserializer;
     private readonly PermissionService _permissionService;
     private readonly ContestReader _contestReader;
     private readonly ContestWriter _contestWriter;
     private readonly IAggregateFactory _aggregateFactory;
     private readonly IAggregateRepository _aggregateRepository;
     private readonly ProportionalElectionWriter _proportionalElectionWriter;
+    private readonly EventSignatureService _eventSignatureService;
+    private readonly IClock _clock;
+    private readonly DomainOfInfluenceReader _domainOfInfluenceReader;
 
     public ImportService(
         IMapper mapper,
         IAuth auth,
-        Ech159Deserializer ech159Deserializer,
-        Ech157Deserializer ech157Deserializer,
         PermissionService permissionService,
         ContestReader contestReader,
         ContestWriter contestWriter,
         IAggregateFactory aggregateFactory,
         IAggregateRepository aggregateRepository,
-        ProportionalElectionWriter proportionalElectionWriter)
+        ProportionalElectionWriter proportionalElectionWriter,
+        EventSignatureService eventSignatureService,
+        IClock clock,
+        DomainOfInfluenceReader domainOfInfluenceReader)
     {
         _mapper = mapper;
         _auth = auth;
-        _ech159Deserializer = ech159Deserializer;
-        _ech157Deserializer = ech157Deserializer;
         _permissionService = permissionService;
         _contestReader = contestReader;
         _contestWriter = contestWriter;
         _aggregateFactory = aggregateFactory;
         _aggregateRepository = aggregateRepository;
         _proportionalElectionWriter = proportionalElectionWriter;
+        _eventSignatureService = eventSignatureService;
+        _clock = clock;
+        _domainOfInfluenceReader = domainOfInfluenceReader;
     }
 
     public async Task Import(ContestImport contestImport)
@@ -65,6 +68,8 @@ public class ImportService
         _auth.EnsureAdminOrElectionAdmin();
 
         contestImport.Contest.Id = Guid.NewGuid();
+        await EnsureActiveEventSignature(contestImport.Contest.Id);
+
         var aggregateImport = await CreateValidatedAggregates(
             contestImport.Contest.Id,
             contestImport.Contest.DomainOfInfluenceId,
@@ -92,6 +97,7 @@ public class ImportService
             throw new ContestTestingPhaseEndedException();
         }
 
+        await EnsureActiveEventSignature(contestId);
         var aggregateImport = await CreateValidatedAggregates(contestId, contest.DomainOfInfluenceId, majorityElections, proportionalElections, votes);
         await _contestWriter.StartPoliticalBusinessImport(contest.Id);
         await Import(aggregateImport);
@@ -122,7 +128,7 @@ public class ImportService
         foreach (var majorityElection in majorityElections)
         {
             majorityElection.Election.ContestId = contestId;
-            var aggregate = CreateMajorityElectionAggregate(majorityElection);
+            var aggregate = await CreateMajorityElectionAggregate(majorityElection);
             result.MajorityElectionAggregates.Add(aggregate);
             politicalBusinessDomainOfInfluenceIds.Add(majorityElection.Election.DomainOfInfluenceId);
         }
@@ -135,7 +141,7 @@ public class ImportService
                 proportionalElection.Election.DomainOfInfluenceId);
 
             proportionalElection.Election.ContestId = contestId;
-            var aggregate = CreateProportionalElectionAggregate(proportionalElection);
+            var aggregate = await CreateProportionalElectionAggregate(proportionalElection);
             result.ProportionalElectionAggregates.Add(aggregate);
             politicalBusinessDomainOfInfluenceIds.Add(proportionalElection.Election.DomainOfInfluenceId);
         }
@@ -175,28 +181,30 @@ public class ImportService
         }
     }
 
-    private MajorityElectionAggregate CreateMajorityElectionAggregate(MajorityElectionImport electionImport)
+    private async Task<MajorityElectionAggregate> CreateMajorityElectionAggregate(MajorityElectionImport electionImport)
     {
         var majorityElection = _aggregateFactory.New<MajorityElectionAggregate>();
         majorityElection.CreateFrom(electionImport.Election);
 
         var electionId = electionImport.Election.Id;
+        var doi = await _domainOfInfluenceReader.Get(majorityElection.DomainOfInfluenceId);
 
         foreach (var candidate in electionImport.Candidates)
         {
             candidate.MajorityElectionId = electionId;
-            majorityElection.CreateCandidateFrom(candidate);
+            majorityElection.CreateCandidateFrom(candidate, doi.Type);
         }
 
         return majorityElection;
     }
 
-    private ProportionalElectionAggregate CreateProportionalElectionAggregate(ProportionalElectionImport electionImport)
+    private async Task<ProportionalElectionAggregate> CreateProportionalElectionAggregate(ProportionalElectionImport electionImport)
     {
         var proportionalElection = _aggregateFactory.New<ProportionalElectionAggregate>();
         proportionalElection.CreateFrom(electionImport.Election);
 
         var electionId = electionImport.Election.Id;
+        var doi = await _domainOfInfluenceReader.Get(proportionalElection.DomainOfInfluenceId);
 
         foreach (var list in electionImport.Lists)
         {
@@ -208,7 +216,7 @@ public class ImportService
             foreach (var candidate in list.Candidates)
             {
                 candidate.ProportionalElectionListId = listId;
-                proportionalElection.CreateCandidateFrom(candidate);
+                proportionalElection.CreateCandidateFrom(candidate, doi.Type);
             }
         }
 
@@ -265,15 +273,28 @@ public class ImportService
 
     private ContestImport DeserializeEch157(string content)
     {
-        var ech157 = EchDeserializer.FromXml<DeliveryType>(content);
-        var contest = _ech157Deserializer.FromEventInitialDelivery(ech157);
+        var contest = Ech0157Deserializer.DeserializeXml(content);
         return _mapper.Map<ContestImport>(contest);
     }
 
     private ContestImport DeserializeEch159(string content)
     {
-        var ech159 = EchDeserializer.FromXml<Delivery>(content);
-        var contest = _ech159Deserializer.FromEventInitialDelivery(ech159);
+        var contest = Ech0159Deserializer.DeserializeXml(content);
         return _mapper.Map<ContestImport>(contest);
+    }
+
+    private async Task EnsureActiveEventSignature(Guid contestId)
+    {
+        // In some cases, ensuring an active event signature must be done early.
+        // Usually, the event signature is started with ValidFrom equal to the first saved event.
+        // However, in some cases the workflow looks like this:
+        // 1. Create uncommitted events on aggregate A1 (timestamps of events will be set here, on event creation).
+        // 2. Create uncommitted events on aggregate A2.
+        // 3. Save aggregate A2.
+        // 4. Save aggregate A1.
+        // If there is no active event signature in step 3, a new event signature will be created.
+        // The ValidFrom value of the event signature will be equal to the event timestamp of the first uncommitted event of A2.
+        // Saving A1 will now lead to an exception because the timestamps of the A1 events are earlier than the ValidFrom of the signature.
+        await _eventSignatureService.EnsureActiveSignature(contestId, _clock.UtcNow);
     }
 }

@@ -100,7 +100,6 @@ public static class MajorityElectionMockedData
             PoliticalBusinessNumber = "100",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Bund"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Bund"),
-            InternalDescription = "Proporzwahl Bund auf Urnengang Bund",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidBund,
             ContestId = ContestMockedData.BundContest.Id,
             Active = true,
@@ -113,7 +112,6 @@ public static class MajorityElectionMockedData
             ResultEntry = MajorityElectionResultEntry.Detailed,
             EnforceResultEntryForCountingCircles = true,
             CandidateCheckDigit = true,
-            IndividualEmptyBallotsAllowed = true,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
@@ -138,6 +136,7 @@ public static class MajorityElectionMockedData
                         Sex = SexType.Female,
                         Title = "title",
                         ZipCode = "zip code",
+                        Origin = "origin",
                     },
             },
         };
@@ -149,7 +148,6 @@ public static class MajorityElectionMockedData
             PoliticalBusinessNumber = "201",
             OfficialDescription = LanguageUtil.MockAllLanguages("Majorzwahl St. Gallen"),
             ShortDescription = LanguageUtil.MockAllLanguages("Majorzwahl SG"),
-            InternalDescription = "Majorzwahl St. Gallen auf Urnengang Bund",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidStGallen,
             ContestId = ContestMockedData.BundContest.Id,
             Active = true,
@@ -162,7 +160,6 @@ public static class MajorityElectionMockedData
             ResultEntry = MajorityElectionResultEntry.Detailed,
             EnforceResultEntryForCountingCircles = false,
             CandidateCheckDigit = false,
-            IndividualEmptyBallotsAllowed = true,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.RelativeMajority,
             NumberOfMandates = 1,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
@@ -187,6 +184,7 @@ public static class MajorityElectionMockedData
                         Sex = SexType.Female,
                         Title = "title",
                         ZipCode = "zip code",
+                        Origin = "origin",
                     },
                     new MajorityElectionCandidate
                     {
@@ -206,6 +204,7 @@ public static class MajorityElectionMockedData
                         Sex = SexType.Male,
                         Title = "title",
                         ZipCode = "zip code",
+                        Origin = "origin",
                     },
             },
             SecondaryMajorityElections = new List<SecondaryMajorityElection>
@@ -213,7 +212,6 @@ public static class MajorityElectionMockedData
                     new SecondaryMajorityElection
                     {
                         Id = Guid.Parse(SecondaryElectionIdStGallenMajorityElectionInContestBund),
-                        InternalDescription = "internal",
                         OfficialDescription = LanguageUtil.MockAllLanguages("Nebenwahl St. Gallen"),
                         ShortDescription = LanguageUtil.MockAllLanguages("Nebenwahl SG"),
                         NumberOfMandates = 3,
@@ -242,6 +240,7 @@ public static class MajorityElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 CandidateReferenceId = Guid.Parse(CandidateId1StGallenMajorityElectionInContestBund),
+                                Origin = "origin",
                             },
                             new SecondaryMajorityElectionCandidate
                             {
@@ -261,6 +260,7 @@ public static class MajorityElectionMockedData
                                 Sex = SexType.Male,
                                 Title = "title",
                                 ZipCode = "zip code",
+                                Origin = "origin",
                             },
                         },
                     },
@@ -321,7 +321,6 @@ public static class MajorityElectionMockedData
             PoliticalBusinessNumber = "100",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Bund"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Bund"),
-            InternalDescription = "Proporzwahl Bund auf Urnengang St.Gallen",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidBund,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
@@ -334,7 +333,6 @@ public static class MajorityElectionMockedData
             ResultEntry = MajorityElectionResultEntry.FinalResults,
             EnforceResultEntryForCountingCircles = true,
             CandidateCheckDigit = true,
-            IndividualEmptyBallotsAllowed = false,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
@@ -359,6 +357,7 @@ public static class MajorityElectionMockedData
                         Sex = SexType.Female,
                         Title = "title",
                         ZipCode = "zip code",
+                        Origin = "origin",
                     },
                     new MajorityElectionCandidate
                     {
@@ -378,6 +377,7 @@ public static class MajorityElectionMockedData
                         Sex = SexType.Undefined,
                         Title = "title2",
                         ZipCode = "zip code2",
+                        Origin = "origin 2",
                     },
             },
         };
@@ -389,7 +389,6 @@ public static class MajorityElectionMockedData
             PoliticalBusinessNumber = "166",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Uzwil"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Uzwil"),
-            InternalDescription = "Proporzwahl Uzwil auf Urnengang St.Gallen",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidUzwil,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
@@ -402,7 +401,6 @@ public static class MajorityElectionMockedData
             ResultEntry = MajorityElectionResultEntry.FinalResults,
             EnforceResultEntryForCountingCircles = true,
             CandidateCheckDigit = true,
-            IndividualEmptyBallotsAllowed = true,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.RelativeMajority,
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
@@ -427,6 +425,7 @@ public static class MajorityElectionMockedData
                         Sex = SexType.Female,
                         Title = "title",
                         ZipCode = "zip code",
+                        Origin = "origin",
                     },
             },
             SecondaryMajorityElections = new List<SecondaryMajorityElection>
@@ -434,7 +433,6 @@ public static class MajorityElectionMockedData
                     new SecondaryMajorityElection
                     {
                         Id = Guid.Parse(SecondaryElectionIdUzwilMajorityElectionInContestStGallen),
-                        InternalDescription = "internal",
                         ShortDescription = LanguageUtil.MockAllLanguages("short"),
                         OfficialDescription = LanguageUtil.MockAllLanguages("official"),
                         NumberOfMandates = 2,
@@ -463,6 +461,7 @@ public static class MajorityElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 CandidateReferenceId = Guid.Parse(CandidateIdUzwilMajorityElectionInContestStGallen),
+                                Origin = "origin",
                             },
                         },
                     },
@@ -525,7 +524,6 @@ public static class MajorityElectionMockedData
             PoliticalBusinessNumber = "155",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl St.Gallen"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl St.Gallen"),
-            InternalDescription = "Proporzwahl St.Gallen auf Urnengang St.Gallen",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidStGallen,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
@@ -538,7 +536,6 @@ public static class MajorityElectionMockedData
             ResultEntry = MajorityElectionResultEntry.FinalResults,
             EnforceResultEntryForCountingCircles = true,
             CandidateCheckDigit = false,
-            IndividualEmptyBallotsAllowed = true,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.RelativeMajority,
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
@@ -563,6 +560,7 @@ public static class MajorityElectionMockedData
                         Sex = SexType.Female,
                         Title = "title",
                         ZipCode = "zip code",
+                        Origin = "origin",
                     },
             },
         };
@@ -574,7 +572,6 @@ public static class MajorityElectionMockedData
             PoliticalBusinessNumber = "321",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Gossau"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Gossau"),
-            InternalDescription = "Proporzwahl Gossau auf Urnengang St.Gallen",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
@@ -586,7 +583,6 @@ public static class MajorityElectionMockedData
             ResultEntry = MajorityElectionResultEntry.FinalResults,
             EnforceResultEntryForCountingCircles = false,
             CandidateCheckDigit = true,
-            IndividualEmptyBallotsAllowed = false,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
             NumberOfMandates = 3,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
@@ -611,6 +607,7 @@ public static class MajorityElectionMockedData
                         Sex = SexType.Female,
                         Title = "title",
                         ZipCode = "zip code",
+                        Origin = "origin",
                     },
                     new MajorityElectionCandidate
                     {
@@ -629,6 +626,7 @@ public static class MajorityElectionMockedData
                         Number = "number2",
                         Sex = SexType.Undefined,
                         Title = "title 2",
+                        Origin = "origin 2",
                     },
             },
             SecondaryMajorityElections = new List<SecondaryMajorityElection>
@@ -636,7 +634,6 @@ public static class MajorityElectionMockedData
                     new SecondaryMajorityElection
                     {
                         Id = Guid.Parse(SecondaryElectionIdGossauMajorityElectionInContestStGallen),
-                        InternalDescription = "internal",
                         ShortDescription = LanguageUtil.MockAllLanguages("short"),
                         OfficialDescription = LanguageUtil.MockAllLanguages("official"),
                         NumberOfMandates = 3,
@@ -665,6 +662,7 @@ public static class MajorityElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 CandidateReferenceId = Guid.Parse(CandidateId1GossauMajorityElectionInContestStGallen),
+                                Origin = "origin",
                             },
                             new SecondaryMajorityElectionCandidate
                             {
@@ -684,6 +682,7 @@ public static class MajorityElectionMockedData
                                 Sex = SexType.Male,
                                 Title = "title",
                                 ZipCode = "zip code",
+                                Origin = "origin",
                             },
                         },
                     },
@@ -703,7 +702,6 @@ public static class MajorityElectionMockedData
             PoliticalBusinessNumber = "291",
             OfficialDescription = LanguageUtil.MockAllLanguages("Majorzwahl Gossau"),
             ShortDescription = LanguageUtil.MockAllLanguages("Majorzwahl Gossau"),
-            InternalDescription = "Majorzwahl Gossau",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
             ContestId = ContestMockedData.BundContest.Id,
             Active = true,
@@ -716,7 +714,6 @@ public static class MajorityElectionMockedData
             ResultEntry = MajorityElectionResultEntry.Detailed,
             EnforceResultEntryForCountingCircles = false,
             CandidateCheckDigit = false,
-            IndividualEmptyBallotsAllowed = true,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.RelativeMajority,
             NumberOfMandates = 1,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
@@ -741,6 +738,7 @@ public static class MajorityElectionMockedData
                         Sex = SexType.Female,
                         Title = "title",
                         ZipCode = "zip code",
+                        Origin = "origin",
                     },
                     new MajorityElectionCandidate
                     {
@@ -760,6 +758,7 @@ public static class MajorityElectionMockedData
                         Sex = SexType.Male,
                         Title = "title",
                         ZipCode = "zip code",
+                        Origin = "origin",
                     },
             },
             SecondaryMajorityElections = new List<SecondaryMajorityElection>
@@ -767,7 +766,6 @@ public static class MajorityElectionMockedData
                     new SecondaryMajorityElection
                     {
                         Id = Guid.Parse(SecondaryElectionIdGossauMajorityElectionInContestBund),
-                        InternalDescription = "internal",
                         ShortDescription = LanguageUtil.MockAllLanguages("short"),
                         OfficialDescription = LanguageUtil.MockAllLanguages("official"),
                         NumberOfMandates = 3,
@@ -796,6 +794,7 @@ public static class MajorityElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 CandidateReferenceId = Guid.Parse(CandidateId1GossauMajorityElectionInContestBund),
+                                Origin = "origin",
                             },
                             new SecondaryMajorityElectionCandidate
                             {
@@ -815,6 +814,7 @@ public static class MajorityElectionMockedData
                                 Sex = SexType.Male,
                                 Title = "title",
                                 ZipCode = "zip code",
+                                Origin = "origin",
                             },
                         },
                     },
@@ -914,7 +914,6 @@ public static class MajorityElectionMockedData
             PoliticalBusinessNumber = "500",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl St.Gallen 2"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl St.Gallen 2"),
-            InternalDescription = "Proporzwahl St.Gallen auf Urnengang St.Gallen ohne Listen",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidStGallen,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = false,
@@ -926,7 +925,6 @@ public static class MajorityElectionMockedData
             ResultEntry = MajorityElectionResultEntry.Detailed,
             EnforceResultEntryForCountingCircles = true,
             CandidateCheckDigit = true,
-            IndividualEmptyBallotsAllowed = true,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
@@ -940,7 +938,6 @@ public static class MajorityElectionMockedData
             PoliticalBusinessNumber = "324",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Gossau"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Gossau"),
-            InternalDescription = "Proporzwahl Gossau auf Urnengang Gossau mit E-Voting",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
             ContestId = ContestMockedData.GossauContest.Id,
             Active = true,
@@ -953,7 +950,6 @@ public static class MajorityElectionMockedData
             ResultEntry = MajorityElectionResultEntry.FinalResults,
             EnforceResultEntryForCountingCircles = false,
             CandidateCheckDigit = true,
-            IndividualEmptyBallotsAllowed = true,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
@@ -978,6 +974,7 @@ public static class MajorityElectionMockedData
                         Sex = SexType.Female,
                         Title = "title",
                         ZipCode = "zip code",
+                        Origin = "origin",
                     },
             },
         };
@@ -989,7 +986,6 @@ public static class MajorityElectionMockedData
             PoliticalBusinessNumber = "412",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Uzwil"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Uzwil"),
-            InternalDescription = "Proporzwahl Uzwil auf Urnengang Uzwil",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidUzwil,
             ContestId = ContestMockedData.UzwilEvotingContest.Id,
             Active = true,
@@ -1002,7 +998,6 @@ public static class MajorityElectionMockedData
             ResultEntry = MajorityElectionResultEntry.Detailed,
             EnforceResultEntryForCountingCircles = false,
             CandidateCheckDigit = true,
-            IndividualEmptyBallotsAllowed = true,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
@@ -1027,6 +1022,7 @@ public static class MajorityElectionMockedData
                         Sex = SexType.Female,
                         Title = "title",
                         ZipCode = "zip code",
+                        Origin = "origin",
                     },
             },
         };
@@ -1038,7 +1034,6 @@ public static class MajorityElectionMockedData
             PoliticalBusinessNumber = "714",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Uzwil"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Uzwil"),
-            InternalDescription = "Proporzwahl Uzwil auf Urnengang Bund",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidUzwil,
             Active = false,
             ContestId = ContestMockedData.BundContest.Id,
@@ -1051,7 +1046,6 @@ public static class MajorityElectionMockedData
             ResultEntry = MajorityElectionResultEntry.FinalResults,
             EnforceResultEntryForCountingCircles = false,
             CandidateCheckDigit = true,
-            IndividualEmptyBallotsAllowed = true,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
@@ -1065,7 +1059,6 @@ public static class MajorityElectionMockedData
             PoliticalBusinessNumber = "714a",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Genf"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Genf"),
-            InternalDescription = "Proporzwahl Genf auf Urnengang Bund",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGenf,
             ContestId = ContestMockedData.BundContest.Id,
             Active = false,
@@ -1078,7 +1071,6 @@ public static class MajorityElectionMockedData
             ResultEntry = MajorityElectionResultEntry.Detailed,
             EnforceResultEntryForCountingCircles = true,
             CandidateCheckDigit = true,
-            IndividualEmptyBallotsAllowed = true,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
@@ -1092,7 +1084,6 @@ public static class MajorityElectionMockedData
             PoliticalBusinessNumber = "aaa",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Kirche"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Kirche"),
-            InternalDescription = "Proporzwahl Kirche auf Urnengang Kirche",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidKirchgemeinde,
             ContestId = ContestMockedData.KirchenContest.Id,
             Active = false,
@@ -1104,7 +1095,6 @@ public static class MajorityElectionMockedData
             ResultEntry = MajorityElectionResultEntry.Detailed,
             EnforceResultEntryForCountingCircles = false,
             CandidateCheckDigit = true,
-            IndividualEmptyBallotsAllowed = true,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
@@ -1128,6 +1118,7 @@ public static class MajorityElectionMockedData
                         Number = "number1",
                         Sex = SexType.Male,
                         Title = "title",
+                        Origin = "origin",
                     },
             },
             SecondaryMajorityElections = new List<SecondaryMajorityElection>
@@ -1135,7 +1126,6 @@ public static class MajorityElectionMockedData
                     new SecondaryMajorityElection
                     {
                         Id = Guid.Parse(SecondaryElectionIdKircheMajorityElectionInContestKirche),
-                        InternalDescription = "internal",
                         ShortDescription = LanguageUtil.MockAllLanguages("short"),
                         OfficialDescription = LanguageUtil.MockAllLanguages("official"),
                         NumberOfMandates = 2,
@@ -1163,6 +1153,7 @@ public static class MajorityElectionMockedData
                                 Sex = SexType.Male,
                                 Title = "title",
                                 ZipCode = "zip code",
+                                Origin = "origin",
                             },
                         },
                     },
@@ -1223,7 +1214,6 @@ public static class MajorityElectionMockedData
             PoliticalBusinessNumber = "aaa",
             OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Kirche ohne Listen"),
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Kirche ohne Listen"),
-            InternalDescription = "Proporzwahl Kirche auf Urnengang Kirche ohne Listen",
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidKirchgemeinde,
             ContestId = ContestMockedData.KirchenContest.Id,
             Active = false,
@@ -1236,7 +1226,6 @@ public static class MajorityElectionMockedData
             ResultEntry = MajorityElectionResultEntry.FinalResults,
             EnforceResultEntryForCountingCircles = false,
             CandidateCheckDigit = true,
-            IndividualEmptyBallotsAllowed = true,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Physically,
@@ -1321,6 +1310,7 @@ public static class MajorityElectionMockedData
     {
         var aggregate = aggregateFactory.New<MajorityElectionAggregate>();
         var domainElection = mapper.Map<Core.Domain.MajorityElection>(majorityElection);
+        var doi = DomainOfInfluenceMockedData.All.First(x => x.Id == domainElection.DomainOfInfluenceId);
 
         aggregate.CreateFrom(domainElection);
 
@@ -1328,7 +1318,7 @@ public static class MajorityElectionMockedData
         {
             candidate.MajorityElectionId = aggregate.Id;
             var domainCandidate = mapper.Map<Core.Domain.MajorityElectionCandidate>(candidate);
-            aggregate.CreateCandidateFrom(domainCandidate);
+            aggregate.CreateCandidateFrom(domainCandidate, doi.Type);
         }
 
         if (majorityElection.ElectionGroup != null)
@@ -1362,7 +1352,7 @@ public static class MajorityElectionMockedData
                 {
                     var domainCandidate = mapper.Map<Core.Domain.MajorityElectionCandidate>(candidate);
                     domainCandidate.MajorityElectionId = domainSecondaryElection.Id;
-                    aggregate.CreateSecondaryMajorityElectionCandidateFrom(domainCandidate);
+                    aggregate.CreateSecondaryMajorityElectionCandidateFrom(domainCandidate, doi.Type);
                 }
             }
         }

@@ -571,6 +571,7 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
                                 AusmittlungCsvProportionalElectionTemplates.CandidateCountingCircleResultsWithVoteSources.Key,
                             },
                             EaiMessageType = "1234567",
+                            Provider = SharedProto.ExportProvider.Seantis,
                         },
                         new ProtoModels.ExportConfiguration
                         {
@@ -581,6 +582,7 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
                                 AusmittlungCsvProportionalElectionTemplates.CandidateCountingCircleResultsWithVoteSources.Key,
                             },
                             EaiMessageType = "1234567",
+                            Provider = SharedProto.ExportProvider.Standard,
                         },
                     },
                 PlausibilisationConfiguration = DomainOfInfluenceMockedData.BuildPlausibilisationConfiguration(),

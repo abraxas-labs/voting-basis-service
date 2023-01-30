@@ -42,10 +42,14 @@ public class UpdateMajorityElectionCandidateRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => x.ZipCode = string.Empty);
         yield return NewValidRequest(x => x.ZipCode = RandomStringUtil.GenerateComplexSingleLineText(1));
         yield return NewValidRequest(x => x.ZipCode = RandomStringUtil.GenerateComplexSingleLineText(15));
+        yield return NewValidRequest(x => x.Locality = string.Empty);
         yield return NewValidRequest(x => x.Locality = RandomStringUtil.GenerateComplexSingleLineText(1));
         yield return NewValidRequest(x => x.Locality = RandomStringUtil.GenerateComplexSingleLineText(50));
         yield return NewValidRequest(x => x.Position = 1);
         yield return NewValidRequest(x => x.Position = 100);
+        yield return NewValidRequest(x => x.Origin = string.Empty);
+        yield return NewValidRequest(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(1));
+        yield return NewValidRequest(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(50));
     }
 
     protected override IEnumerable<UpdateMajorityElectionCandidateRequest> NotOkMessages()
@@ -88,10 +92,10 @@ public class UpdateMajorityElectionCandidateRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Party, "de", RandomStringUtil.GenerateComplexSingleLineText(13)));
         yield return NewValidRequest(x => x.ZipCode = RandomStringUtil.GenerateComplexSingleLineText(16));
         yield return NewValidRequest(x => x.ZipCode = "9000\n12");
-        yield return NewValidRequest(x => x.Locality = string.Empty);
         yield return NewValidRequest(x => x.Locality = RandomStringUtil.GenerateComplexSingleLineText(51));
         yield return NewValidRequest(x => x.Position = 0);
         yield return NewValidRequest(x => x.Position = 101);
+        yield return NewValidRequest(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(81));
     }
 
     private UpdateMajorityElectionCandidateRequest NewValidRequest(Action<UpdateMajorityElectionCandidateRequest>? action = null)
@@ -115,6 +119,7 @@ public class UpdateMajorityElectionCandidateRequestTest : ProtoValidatorBaseTest
             ZipCode = "1234",
             Locality = "locality",
             Position = 2,
+            Origin = "origin",
         };
 
         action?.Invoke(request);

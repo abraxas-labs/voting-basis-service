@@ -2,19 +2,20 @@
 <eCH-0157:delivery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                    xmlns:eCH-0157="http://www.ech.ch/xmlns/eCH-0157/4"
+                   xmlns:eCH-0058="http://www.ech.ch/xmlns/eCH-0058/5"
                    xsi:schemaLocation="http://www.ech.ch/xmlns/eCH-0157/4 http://www.ech.ch/xmlns/eCH-0157/4/eCH-0157-4-0.xsd">
   <eCH-0157:deliveryHeader>
-    <senderId>ABX-DEV</senderId>
-    <messageId>51141c4d7919481ab3cad6c77ff09398</messageId>
-    <messageType>eCH-0157</messageType>
-    <sendingApplication>
-      <manufacturer>Abraxas Informatik AG</manufacturer>
-      <product>Voting.Basis</product>
-      <productVersion>0.0.1-dev</productVersion>
-    </sendingApplication>
-    <messageDate>2020-04-12T00:00:00Z</messageDate>
-    <action>1</action>
-    <testDeliveryFlag>true</testDeliveryFlag>
+      <eCH-0058:senderId>ABX-DEV</eCH-0058:senderId>
+      <eCH-0058:messageId>51141c4d7919481ab3cad6c77ff09398</eCH-0058:messageId>
+      <eCH-0058:messageType>eCH-0157</eCH-0058:messageType>
+      <eCH-0058:sendingApplication>
+          <eCH-0058:manufacturer>Abraxas Informatik AG</eCH-0058:manufacturer>
+          <eCH-0058:product>Voting.Basis</eCH-0058:product>
+          <eCH-0058:productVersion>0.0.1-dev</eCH-0058:productVersion>
+      </eCH-0058:sendingApplication>
+      <eCH-0058:messageDate>2020-04-12T00:00:00Z</eCH-0058:messageDate>
+      <eCH-0058:action>1</eCH-0058:action>
+      <eCH-0058:testDeliveryFlag>true</eCH-0058:testDeliveryFlag>
   </eCH-0157:deliveryHeader>
   <eCH-0157:initialDelivery>
     <eCH-0157:contest xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
@@ -28,7 +29,7 @@
       </eCH-0155:contestDescription>
       <eCH-0155:eVotingPeriod>
         <eCH-0155:eVotingPeriodFrom>2020-04-11T22:00:00Z</eCH-0155:eVotingPeriodFrom>
-        <eCH-0155:eVotingPeriodTill>2022-04-20T04:00:00Z</eCH-0155:eVotingPeriodTill>
+        <eCH-0155:eVotingPeriodTill>2022-04-20T04:00:00</eCH-0155:eVotingPeriodTill> <!-- does not contain a timezone on purpose -->
       </eCH-0155:eVotingPeriod>
     </eCH-0157:contest>
     <eCH-0157:electionGroupBallot>
@@ -66,8 +67,17 @@
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1993-09-11</eCH-0155:dateOfBirth>
           <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:dwellingAddress xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/6">
+            <eCH-0010:town>locality</eCH-0010:town>
+            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:country>
+              <eCH-0010:countryId>8100</eCH-0010:countryId>
+              <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
+              <eCH-0010:countryNameShort>Schweiz</eCH-0010:countryNameShort>
+            </eCH-0010:country>
+          </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>Heimatort</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>1</eCH-0155:candidateReference>
@@ -91,8 +101,17 @@
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1975-09-11</eCH-0155:dateOfBirth>
           <eCH-0155:sex>2</eCH-0155:sex>
+          <eCH-0155:dwellingAddress xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/6">
+            <eCH-0010:town>locality</eCH-0010:town>
+            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:country>
+              <eCH-0010:countryId>8100</eCH-0010:countryId>
+              <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
+              <eCH-0010:countryNameShort>Schweiz</eCH-0010:countryNameShort>
+            </eCH-0010:country>
+          </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>Heimatort</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:incumbentYesNo>true</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>2</eCH-0155:candidateReference>
@@ -116,8 +135,17 @@
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1981-03-11</eCH-0155:dateOfBirth>
           <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:dwellingAddress xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/6">
+            <eCH-0010:town>locality</eCH-0010:town>
+            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:country>
+              <eCH-0010:countryId>8100</eCH-0010:countryId>
+              <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
+              <eCH-0010:countryNameShort>Schweiz</eCH-0010:countryNameShort>
+            </eCH-0010:country>
+          </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>Heimatort</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>3</eCH-0155:candidateReference>
@@ -166,8 +194,17 @@
               <eCH-0155:occupationalTitle>TB</eCH-0155:occupationalTitle>
             </eCH-0155:occupationalTitleInfo>
           </eCH-0155:occupationalTitle>
+          <eCH-0155:dwellingAddress xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/6">
+            <eCH-0010:town>locality</eCH-0010:town>
+            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:country>
+              <eCH-0010:countryId>8100</eCH-0010:countryId>
+              <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
+              <eCH-0010:countryNameShort>Schweiz</eCH-0010:countryNameShort>
+            </eCH-0010:country>
+          </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>Heimatort</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:title>T</eCH-0155:title>
           <eCH-0155:incumbentYesNo>true</eCH-0155:incumbentYesNo>
@@ -192,8 +229,17 @@
               <eCH-0155:occupationalTitle>Dr. Coiffeuse</eCH-0155:occupationalTitle>
             </eCH-0155:occupationalTitleInfo>
           </eCH-0155:occupationalTitle>
+          <eCH-0155:dwellingAddress xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/6">
+            <eCH-0010:town>locality</eCH-0010:town>
+            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:country>
+              <eCH-0010:countryId>8100</eCH-0010:countryId>
+              <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
+              <eCH-0010:countryNameShort>Schweiz</eCH-0010:countryNameShort>
+            </eCH-0010:country>
+          </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>Heimatort</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:title>Dr</eCH-0155:title>
           <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
@@ -212,8 +258,17 @@
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>2001-05-11</eCH-0155:dateOfBirth>
           <eCH-0155:sex>3</eCH-0155:sex>
+          <eCH-0155:dwellingAddress xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/6">
+            <eCH-0010:town>locality</eCH-0010:town>
+            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:country>
+              <eCH-0010:countryId>8100</eCH-0010:countryId>
+              <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
+              <eCH-0010:countryNameShort>Schweiz</eCH-0010:countryNameShort>
+            </eCH-0010:country>
+          </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>Heimatort</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>1</eCH-0155:candidateReference>
@@ -231,8 +286,17 @@
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1968-09-11</eCH-0155:dateOfBirth>
           <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:dwellingAddress xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/6">
+            <eCH-0010:town>locality</eCH-0010:town>
+            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:country>
+              <eCH-0010:countryId>8100</eCH-0010:countryId>
+              <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
+              <eCH-0010:countryNameShort>Schweiz</eCH-0010:countryNameShort>
+            </eCH-0010:country>
+          </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>Heimatort</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>1</eCH-0155:candidateReference>
@@ -250,8 +314,17 @@
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1984-09-11</eCH-0155:dateOfBirth>
           <eCH-0155:sex>2</eCH-0155:sex>
+          <eCH-0155:dwellingAddress xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/6">
+            <eCH-0010:town>locality</eCH-0010:town>
+            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:country>
+              <eCH-0010:countryId>8100</eCH-0010:countryId>
+              <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
+              <eCH-0010:countryNameShort>Schweiz</eCH-0010:countryNameShort>
+            </eCH-0010:country>
+          </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>Heimatort</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:title>Prof</eCH-0155:title>
           <eCH-0155:incumbentYesNo>true</eCH-0155:incumbentYesNo>
@@ -270,8 +343,17 @@
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>2001-09-11</eCH-0155:dateOfBirth>
           <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:dwellingAddress xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/6">
+            <eCH-0010:town>locality</eCH-0010:town>
+            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:country>
+              <eCH-0010:countryId>8100</eCH-0010:countryId>
+              <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
+              <eCH-0010:countryNameShort>Schweiz</eCH-0010:countryNameShort>
+            </eCH-0010:country>
+          </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>Heimatort</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>3</eCH-0155:candidateReference>
@@ -289,8 +371,17 @@
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1999-08-01</eCH-0155:dateOfBirth>
           <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:dwellingAddress xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/6">
+            <eCH-0010:town>locality</eCH-0010:town>
+            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:country>
+              <eCH-0010:countryId>8100</eCH-0010:countryId>
+              <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
+              <eCH-0010:countryNameShort>Schweiz</eCH-0010:countryNameShort>
+            </eCH-0010:country>
+          </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>Heimatort</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>5</eCH-0155:candidateReference>
@@ -308,8 +399,17 @@
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1922-09-11</eCH-0155:dateOfBirth>
           <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:dwellingAddress xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/6">
+            <eCH-0010:town>locality</eCH-0010:town>
+            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:country>
+              <eCH-0010:countryId>8100</eCH-0010:countryId>
+              <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
+              <eCH-0010:countryNameShort>Schweiz</eCH-0010:countryNameShort>
+            </eCH-0010:country>
+          </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>Heimatort</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>1</eCH-0155:candidateReference>
@@ -327,8 +427,17 @@
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1982-09-11</eCH-0155:dateOfBirth>
           <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:dwellingAddress xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/6">
+            <eCH-0010:town>locality</eCH-0010:town>
+            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:country>
+              <eCH-0010:countryId>8100</eCH-0010:countryId>
+              <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
+              <eCH-0010:countryNameShort>Schweiz</eCH-0010:countryNameShort>
+            </eCH-0010:country>
+          </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>Heimatort</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:incumbentYesNo>true</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>1</eCH-0155:candidateReference>
@@ -346,8 +455,17 @@
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1994-02-27</eCH-0155:dateOfBirth>
           <eCH-0155:sex>2</eCH-0155:sex>
+          <eCH-0155:dwellingAddress xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/6">
+            <eCH-0010:town>locality</eCH-0010:town>
+            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:country>
+              <eCH-0010:countryId>8100</eCH-0010:countryId>
+              <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
+              <eCH-0010:countryNameShort>Schweiz</eCH-0010:countryNameShort>
+            </eCH-0010:country>
+          </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>Heimatort</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>2</eCH-0155:candidateReference>
@@ -365,8 +483,17 @@
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1972-09-11</eCH-0155:dateOfBirth>
           <eCH-0155:sex>1</eCH-0155:sex>
+          <eCH-0155:dwellingAddress xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/6">
+            <eCH-0010:town>locality</eCH-0010:town>
+            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:country>
+              <eCH-0010:countryId>8100</eCH-0010:countryId>
+              <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
+              <eCH-0010:countryNameShort>Schweiz</eCH-0010:countryNameShort>
+            </eCH-0010:country>
+          </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>Heimatort</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>3</eCH-0155:candidateReference>
@@ -611,6 +738,19 @@
           <eCH-0155:listUnionType>1</eCH-0155:listUnionType>
           <eCH-0155:referencedList>800d9bee-7dd1-49a9-a4ab-b210465dddea</eCH-0155:referencedList>
           <eCH-0155:referencedList>8af771de-d5ea-4ac4-87a6-37db7de36405</eCH-0155:referencedList>
+        </eCH-0157:listUnion>
+        <eCH-0157:listUnion xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:listUnionIdentification>c7b9ac60-1352-4d15-8782-7fe26b1fd339</eCH-0155:listUnionIdentification>
+          <eCH-0155:listUnionDescription>
+            <eCH-0155:listUnionDescriptionInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:listUnionDescription>List sub union desc</eCH-0155:listUnionDescription>
+            </eCH-0155:listUnionDescriptionInfo>
+          </eCH-0155:listUnionDescription>
+          <eCH-0155:listUnionType>2</eCH-0155:listUnionType>
+          <eCH-0155:referencedList>800d9bee-7dd1-49a9-a4ab-b210465dddea</eCH-0155:referencedList>
+          <eCH-0155:referencedList>8af771de-d5ea-4ac4-87a6-37db7de36405</eCH-0155:referencedList>
+          <eCH-0155:referencedListUnion>321d9bee-7dd1-49a9-a4ab-b210465dd0a8</eCH-0155:referencedListUnion>
         </eCH-0157:listUnion>
       </eCH-0157:electionInformation>
     </eCH-0157:electionGroupBallot>

@@ -56,7 +56,7 @@ public abstract class PoliticalBusinessReader<TPoliticalBusiness>
         return await Repo.Query()
             .Where(pb => pb.ContestId == contestId && pb.DomainOfInfluence!.SecureConnectId == tenantId)
             .Include(pb => pb.DomainOfInfluence)
-            .OrderBy(pb => pb.InternalDescription)
+            .OrderBy(pb => pb.PoliticalBusinessNumber)
             .ToListAsync();
     }
 

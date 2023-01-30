@@ -22,6 +22,7 @@ public class MajorityElectionCandidate
         ZipCode = string.Empty;
         Locality = string.Empty;
         Party = new Dictionary<string, string>();
+        Origin = string.Empty;
     }
 
     public Guid Id { get; internal set; }
@@ -60,4 +61,6 @@ public class MajorityElectionCandidate
     public int Position { get; internal set; }
 
     public Guid MajorityElectionId { get; set; }
+
+    public string Origin { get; private set; }
 }

@@ -81,6 +81,7 @@ public class MajorityElectionCandidateCreateTest : BaseGrpcTest<MajorityElection
                     Sex = SharedProto.SexType.Female,
                     Title = "title",
                     ZipCode = "zip code",
+                    Origin = "origin",
                 },
             },
             new MajorityElectionCandidateCreated
@@ -104,6 +105,7 @@ public class MajorityElectionCandidateCreateTest : BaseGrpcTest<MajorityElection
                     Sex = SharedProto.SexType.Female,
                     Title = "title",
                     ZipCode = "zip code",
+                    Origin = "origin",
                 },
             });
 
@@ -178,6 +180,44 @@ public class MajorityElectionCandidateCreateTest : BaseGrpcTest<MajorityElection
     }
 
     [Fact]
+    public async Task EmptyLocalityShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.CreateCandidateAsync(NewValidRequest(o => o.Locality = string.Empty)),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task EmptyOriginShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.CreateCandidateAsync(NewValidRequest(o => o.Origin = string.Empty)),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task EmptyLocalityOnCommunalBusinessShouldWork()
+    {
+        var response = await AdminClient.CreateCandidateAsync(NewValidRequest(o =>
+        {
+            o.MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestGossau;
+            o.Locality = string.Empty;
+        }));
+        response.Id.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task EmptyOriginOnCommunalBusinessShouldWork()
+    {
+        var response = await AdminClient.CreateCandidateAsync(NewValidRequest(o =>
+        {
+            o.MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestGossau;
+            o.Origin = string.Empty;
+        }));
+        response.Id.Should().NotBeNull();
+    }
+
+    [Fact]
     public async Task CreateCandidateInContestWithTestingPhaseEndedShouldWork()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
@@ -220,6 +260,7 @@ public class MajorityElectionCandidateCreateTest : BaseGrpcTest<MajorityElection
             Party = { LanguageUtil.MockAllLanguages("SP") },
             Title = "title",
             ZipCode = "zip code",
+            Origin = "origin",
         };
 
         customizer?.Invoke(request);

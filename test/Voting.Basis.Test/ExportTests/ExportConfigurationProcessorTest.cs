@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
+using Abraxas.Voting.Basis.Shared.V1;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Snapper;
@@ -45,6 +46,7 @@ public class ExportConfigurationProcessorTest : BaseTest
                         AusmittlungCsvProportionalElectionTemplates.CandidateCountingCircleResultsWithVoteSources.Key,
                     },
                 EaiMessageType = "001",
+                Provider = ExportProvider.Seantis,
             },
             EventInfo = TestEventPublisherAdapter.GetMockedEventInfo(),
         });
@@ -70,6 +72,7 @@ public class ExportConfigurationProcessorTest : BaseTest
                         AusmittlungCsvProportionalElectionTemplates.CandidateCountingCircleResultsWithVoteSources.Key,
                     },
                 EaiMessageType = "001",
+                Provider = ExportProvider.Unspecified, // should get converted to Standard
             },
             EventInfo = TestEventPublisherAdapter.GetMockedEventInfo(),
         });

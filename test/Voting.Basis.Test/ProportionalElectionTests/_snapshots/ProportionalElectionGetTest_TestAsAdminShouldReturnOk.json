@@ -13,7 +13,6 @@
     "it": "Proporzwahl Gossau it",
     "rm": "Proporzwahl Gossau rm"
   },
-  "InternalDescription": "Proporzwahl Gossau auf Urnengang St.Gallen",
   "NumberOfMandates": 3,
   "MandateAlgorithm": 2,
   "CandidateCheckDigit": true,

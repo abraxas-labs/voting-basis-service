@@ -55,6 +55,7 @@
             "ZipCode": "zip code",
             "Locality": "locality",
             "Position": 1,
+            "Origin": "origin",
             "Id": "00000000-0000-0000-0000-000000000000"
           }
         ],
@@ -106,9 +107,10 @@
             "Title": "T",
             "OccupationTitle": {},
             "Incumbent": true,
-            "ZipCode": "?",
-            "Locality": "?",
+            "ZipCode": "zip code",
+            "Locality": "locality",
             "Position": 1,
+            "Origin": "Heimatort",
             "Id": "00000000-0000-0000-0000-000000000000"
           },
           {
@@ -131,9 +133,10 @@
             "Title": "Dr",
             "OccupationTitle": {},
             "Incumbent": false,
-            "ZipCode": "?",
-            "Locality": "?",
+            "ZipCode": "zip code",
+            "Locality": "locality",
             "Position": 3,
+            "Origin": "Heimatort",
             "Id": "00000000-0000-0000-0000-000000000000"
           }
         ],
@@ -167,10 +170,10 @@
           "rm": "<span><span>CVP Senioren</span>, <span>SVP</span></span>"
         },
         "SubListUnionDescription": {
-          "de": "<span></span>",
-          "fr": "<span></span>",
-          "it": "<span></span>",
-          "rm": "<span></span>"
+          "de": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
+          "fr": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
+          "it": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
+          "rm": "<span><span>CVP Senioren</span>, <span>SVP</span></span>"
         },
         "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
         "ProportionalElection": null,
@@ -193,9 +196,10 @@
             "Title": "",
             "OccupationTitle": {},
             "Incumbent": false,
-            "ZipCode": "?",
-            "Locality": "?",
+            "ZipCode": "zip code",
+            "Locality": "locality",
             "Position": 1,
+            "Origin": "Heimatort",
             "Id": "00000000-0000-0000-0000-000000000000"
           }
         ],
@@ -245,9 +249,10 @@
             "Title": "",
             "OccupationTitle": {},
             "Incumbent": false,
-            "ZipCode": "?",
-            "Locality": "?",
+            "ZipCode": "zip code",
+            "Locality": "locality",
             "Position": 1,
+            "Origin": "Heimatort",
             "Id": "00000000-0000-0000-0000-000000000000"
           }
         ],
@@ -297,9 +302,10 @@
             "Title": "",
             "OccupationTitle": {},
             "Incumbent": true,
-            "ZipCode": "?",
-            "Locality": "?",
+            "ZipCode": "zip code",
+            "Locality": "locality",
             "Position": 1,
+            "Origin": "Heimatort",
             "Id": "00000000-0000-0000-0000-000000000000"
           },
           {
@@ -320,9 +326,10 @@
             "Title": "",
             "OccupationTitle": {},
             "Incumbent": false,
-            "ZipCode": "?",
-            "Locality": "?",
+            "ZipCode": "zip code",
+            "Locality": "locality",
             "Position": 2,
+            "Origin": "Heimatort",
             "Id": "00000000-0000-0000-0000-000000000000"
           },
           {
@@ -343,9 +350,10 @@
             "Title": "",
             "OccupationTitle": {},
             "Incumbent": false,
-            "ZipCode": "?",
-            "Locality": "?",
+            "ZipCode": "zip code",
+            "Locality": "locality",
             "Position": 3,
+            "Origin": "Heimatort",
             "Id": "00000000-0000-0000-0000-000000000000"
           }
         ],
@@ -379,10 +387,10 @@
           "rm": "<span><span>CVP Senioren</span>, <span>SVP</span></span>"
         },
         "SubListUnionDescription": {
-          "de": "<span></span>",
-          "fr": "<span></span>",
-          "it": "<span></span>",
-          "rm": "<span></span>"
+          "de": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
+          "fr": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
+          "it": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
+          "rm": "<span><span>CVP Senioren</span>, <span>SVP</span></span>"
         },
         "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
         "ProportionalElection": null,
@@ -405,9 +413,10 @@
             "Title": "",
             "OccupationTitle": {},
             "Incumbent": false,
-            "ZipCode": "?",
-            "Locality": "?",
+            "ZipCode": "zip code",
+            "Locality": "locality",
             "Position": 1,
+            "Origin": "Heimatort",
             "Id": "00000000-0000-0000-0000-000000000000"
           },
           {
@@ -428,9 +437,10 @@
             "Title": "Prof",
             "OccupationTitle": {},
             "Incumbent": true,
-            "ZipCode": "?",
-            "Locality": "?",
+            "ZipCode": "zip code",
+            "Locality": "locality",
             "Position": 2,
+            "Origin": "Heimatort",
             "Id": "00000000-0000-0000-0000-000000000000"
           },
           {
@@ -451,9 +461,10 @@
             "Title": "",
             "OccupationTitle": {},
             "Incumbent": false,
-            "ZipCode": "?",
-            "Locality": "?",
+            "ZipCode": "zip code",
+            "Locality": "locality",
             "Position": 4,
+            "Origin": "Heimatort",
             "Id": "00000000-0000-0000-0000-000000000000"
           },
           {
@@ -474,9 +485,10 @@
             "Title": "",
             "OccupationTitle": {},
             "Incumbent": false,
-            "ZipCode": "?",
-            "Locality": "?",
+            "ZipCode": "zip code",
+            "Locality": "locality",
             "Position": 5,
+            "Origin": "Heimatort",
             "Id": "00000000-0000-0000-0000-000000000000"
           }
         ],
@@ -516,6 +528,25 @@
           "rm": "List union desc"
         },
         "Position": 2,
+        "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
+        "ProportionalElection": null,
+        "ProportionalElectionRootListUnionId": null,
+        "ProportionalElectionRootListUnion": null,
+        "ProportionalElectionMainListId": null,
+        "ProportionalElectionMainList": null,
+        "ProportionalElectionSubListUnions": [],
+        "ProportionalElectionListUnionEntries": [],
+        "IsSubListUnion": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "Description": {
+          "de": "List sub union desc",
+          "fr": "List sub union desc",
+          "it": "List sub union desc",
+          "rm": "List sub union desc"
+        },
+        "Position": 3,
         "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
         "ProportionalElection": null,
         "ProportionalElectionRootListUnionId": null,

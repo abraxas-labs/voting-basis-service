@@ -22,16 +22,16 @@ namespace Voting.Basis.Core.Export.Generators;
 public class ProportionalElectionEchExportGenerator : IExportGenerator
 {
     private readonly IDbRepository<DataContext, ProportionalElection> _electionRepo;
-    private readonly Ech157Serializer _ech157Serializer;
+    private readonly Ech0157Serializer _ech0157Serializer;
     private readonly PermissionService _permissionService;
 
     public ProportionalElectionEchExportGenerator(
         IDbRepository<DataContext, ProportionalElection> electionRepo,
-        Ech157Serializer ech157Serializer,
+        Ech0157Serializer ech0157Serializer,
         PermissionService permissionService)
     {
         _electionRepo = electionRepo;
-        _ech157Serializer = ech157Serializer;
+        _ech0157Serializer = ech0157Serializer;
         _permissionService = permissionService;
     }
 
@@ -44,7 +44,9 @@ public class ProportionalElectionEchExportGenerator : IExportGenerator
             .Include(pe => pe.Contest)
             .Include(pe => pe.ProportionalElectionLists)
                 .ThenInclude(l => l.ProportionalElectionCandidates)
+                    .ThenInclude(c => c.Party)
             .Include(pe => pe.ProportionalElectionListUnions)
+                .ThenInclude(lu => lu.ProportionalElectionListUnionEntries)
             .Where(pe => pe.Id == electionId)
             .FirstOrDefaultAsync()
             ?? throw new EntityNotFoundException(electionId);
@@ -55,8 +57,8 @@ public class ProportionalElectionEchExportGenerator : IExportGenerator
             throw new ForbiddenException();
         }
 
-        var ech157 = _ech157Serializer.ToDelivery(proportionalElection.Contest, proportionalElection);
-        var xmlBytes = EchSerializer.ToXml(ech157);
+        var ech0157 = _ech0157Serializer.ToDelivery(proportionalElection.Contest, proportionalElection);
+        var xmlBytes = EchSerializer.ToXml(ech0157);
         var electionDescription = LanguageUtil.GetInCurrentLanguage(proportionalElection.ShortDescription);
         return new ExportFile(xmlBytes, electionDescription + FileExtensions.Xml, MediaTypeNames.Application.Xml);
     }

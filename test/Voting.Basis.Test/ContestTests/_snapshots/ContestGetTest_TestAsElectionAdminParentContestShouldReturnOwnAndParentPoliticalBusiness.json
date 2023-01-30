@@ -76,7 +76,6 @@
         "it": "Proporzwahl Bund it",
         "rm": "Proporzwahl Bund rm"
       },
-      "InternalDescription": "Proporzwahl Bund auf Urnengang Bund",
       "DomainOfInfluence": {
         "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da",
         "Name": "Bund",
@@ -137,7 +136,6 @@
         "it": "Proporzwahl Bund it",
         "rm": "Proporzwahl Bund rm"
       },
-      "InternalDescription": "Proporzwahl Bund auf Urnengang Bund",
       "DomainOfInfluence": {
         "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da",
         "Name": "Bund",
@@ -198,7 +196,6 @@
         "it": "Abstimmung Bund it",
         "rm": "Abstimmung Bund rm"
       },
-      "InternalDescription": "Abstimmung Bund auf Urnengang Bund",
       "DomainOfInfluence": {
         "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da",
         "Name": "Bund",
@@ -259,7 +256,6 @@
         "it": "Majorzwahl SG it",
         "rm": "Majorzwahl SG rm"
       },
-      "InternalDescription": "Majorzwahl St. Gallen auf Urnengang Bund",
       "DomainOfInfluence": {
         "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
         "Name": "St. Gallen",
@@ -320,7 +316,6 @@
         "it": "Proporzwahl SG it",
         "rm": "Proporzwahl SG rm"
       },
-      "InternalDescription": "Proporzwahl St. Gallen auf Urnengang Bund",
       "DomainOfInfluence": {
         "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
         "Name": "St. Gallen",
@@ -381,7 +376,6 @@
         "it": "Nebenwahl SG it",
         "rm": "Nebenwahl SG rm"
       },
-      "InternalDescription": "internal",
       "DomainOfInfluence": {
         "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
         "Name": "St. Gallen",
@@ -442,7 +436,6 @@
         "it": "Majorzwahl Gossau it",
         "rm": "Majorzwahl Gossau rm"
       },
-      "InternalDescription": "Majorzwahl Gossau",
       "DomainOfInfluence": {
         "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
         "Name": "Gossau",
@@ -515,7 +508,6 @@
         "it": "Abstimmung Gossau it",
         "rm": "Abstimmung Gossau rm"
       },
-      "InternalDescription": "Abstimmung Gossau",
       "DomainOfInfluence": {
         "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
         "Name": "Gossau",
@@ -588,7 +580,6 @@
         "it": "Proporzwahl Gossau it",
         "rm": "Proporzwahl Gossau rm"
       },
-      "InternalDescription": "Proporzwahl Gossau",
       "DomainOfInfluence": {
         "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
         "Name": "Gossau",
@@ -661,7 +652,6 @@
         "it": "Abstimmung Uzwil it",
         "rm": "Abstimmung Uzwil rm"
       },
-      "InternalDescription": "Abstimmung Uzwil auf Urnengang Bund",
       "DomainOfInfluence": {
         "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
         "Name": "Uzwil",
@@ -722,7 +712,6 @@
         "it": "Proporzwahl Uzwil it",
         "rm": "Proporzwahl Uzwil rm"
       },
-      "InternalDescription": "Proporzwahl Uzwil auf Urnengang Bund",
       "DomainOfInfluence": {
         "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
         "Name": "Uzwil",
@@ -783,7 +772,6 @@
         "it": "Proporzwahl Uzwil it",
         "rm": "Proporzwahl Uzwil rm"
       },
-      "InternalDescription": "Proporzwahl Uzwil auf Urnengang Bund",
       "DomainOfInfluence": {
         "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
         "Name": "Uzwil",
@@ -844,7 +832,6 @@
         "it": "short it",
         "rm": "short rm"
       },
-      "InternalDescription": "internal",
       "DomainOfInfluence": {
         "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
         "Name": "Gossau",

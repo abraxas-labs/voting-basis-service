@@ -15,6 +15,7 @@ using Voting.Basis.Data.Models;
 using Voting.Lib.Common;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.VotingExports.Repository;
+using ExportProvider = Abraxas.Voting.Basis.Shared.V1.ExportProvider;
 
 namespace Voting.Basis.Core.Domain.Aggregate;
 
@@ -432,12 +433,24 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
 
     private void Apply(ExportConfigurationCreated ev)
     {
+        // Adjust "old" events that were created before the event provider was implemented
+        if (ev.Configuration.Provider == ExportProvider.Unspecified)
+        {
+            ev.Configuration.Provider = ExportProvider.Standard;
+        }
+
         var config = _mapper.Map<ExportConfiguration>(ev.Configuration);
         _exportConfigurations.Add(config);
     }
 
     private void Apply(ExportConfigurationUpdated ev)
     {
+        // Adjust "old" events that were created before the event provider was implemented
+        if (ev.Configuration.Provider == ExportProvider.Unspecified)
+        {
+            ev.Configuration.Provider = ExportProvider.Standard;
+        }
+
         var config = _mapper.Map<ExportConfiguration>(ev.Configuration);
         _exportConfigurations.RemoveAll(x => x.Id == config.Id);
         _exportConfigurations.Add(config);

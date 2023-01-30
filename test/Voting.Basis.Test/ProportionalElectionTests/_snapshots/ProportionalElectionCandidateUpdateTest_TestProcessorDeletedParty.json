@@ -45,5 +45,6 @@
       "it": "DEL it",
       "rm": "DEL rm"
     }
-  }
+  },
+  "Origin": "origin"
 }

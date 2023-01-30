@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Core.Domain;
 
@@ -18,6 +19,8 @@ public sealed class ExportConfiguration
     public IReadOnlyCollection<string> ExportKeys { get; set; } = Array.Empty<string>();
 
     public Guid DomainOfInfluenceId { get; set; }
+
+    public ExportProvider Provider { get; set; }
 
     public override bool Equals(object? obj)
     {
@@ -45,14 +48,16 @@ public sealed class ExportConfiguration
             Id,
             Description,
             EaiMessageType,
-            ExportKeys.GetSequenceHashCode());
+            ExportKeys.GetSequenceHashCode(),
+            Provider);
     }
 
     private bool Equals(ExportConfiguration other)
     {
         return Id.Equals(other.Id)
-               && Description.Equals(other.Description, StringComparison.Ordinal)
-               && EaiMessageType == other.EaiMessageType
-               && ExportKeys.SequenceEqual(other.ExportKeys);
+           && Description.Equals(other.Description, StringComparison.Ordinal)
+           && EaiMessageType == other.EaiMessageType
+           && ExportKeys.SequenceEqual(other.ExportKeys)
+           && Provider == other.Provider;
     }
 }

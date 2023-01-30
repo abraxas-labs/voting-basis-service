@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
+using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -22,9 +23,9 @@ public class ResolveImportFileTest : BaseImportTest
     }
 
     [Fact]
-    public async Task TestEch157ReturnOk()
+    public async Task TestEch0157ReturnOk()
     {
-        var xml = await GetTestEch157File();
+        var xml = await GetTestEch0157File();
 
         var response = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
         {
@@ -37,9 +38,9 @@ public class ResolveImportFileTest : BaseImportTest
     }
 
     [Fact]
-    public async Task TestEch159ReturnOk()
+    public async Task TestEch0159ReturnOk()
     {
-        var xml = await GetTestEch159File();
+        var xml = await GetTestEch0159File();
 
         var response = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
         {
@@ -49,6 +50,20 @@ public class ResolveImportFileTest : BaseImportTest
 
         IgnoreGeneratedFields(response);
         response.MatchSnapshot(x => x.Contest.Id, x => x.Contest.EndOfTestingPhase);
+    }
+
+    [Fact]
+    public async Task TestInvalidEch0159ShouldThrow()
+    {
+        var xml = await GetTestInvalidEch0159File();
+
+        await AssertStatus(
+            async () => await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
+            {
+                ImportType = SharedProto.ImportType.Ech159,
+                FileContent = xml,
+            }),
+            StatusCode.InvalidArgument);
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
@@ -101,6 +116,7 @@ public class ResolveImportFileTest : BaseImportTest
                 var referencedListCount = listUnion.ProportionalElectionListIds.Count;
                 listUnion.ProportionalElectionListIds.Clear();
                 listUnion.ProportionalElectionListIds.AddRange(Enumerable.Range(0, referencedListCount).Select(_ => string.Empty));
+                listUnion.ProportionalElectionRootListUnionId = string.Empty;
             }
         }
 

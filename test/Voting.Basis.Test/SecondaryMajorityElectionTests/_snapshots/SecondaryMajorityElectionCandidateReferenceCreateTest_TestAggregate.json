@@ -36,7 +36,8 @@
         "Incumbent": true,
         "ZipCode": "zip code",
         "Locality": "locality",
-        "Position": 1
+        "Position": 1,
+        "Origin": "origin"
       },
       "IsReferenced": true,
       "ReferencedCandidateId": "81a11b8e-51b8-40c5-aa94-b7a854e2c726"
@@ -77,7 +78,8 @@
         "Incumbent": false,
         "ZipCode": "zip code",
         "Locality": "locality",
-        "Position": 2
+        "Position": 2,
+        "Origin": "origin"
       },
       "IsReferenced": false,
       "ReferencedCandidateId": ""
@@ -118,7 +120,8 @@
         "Incumbent": false,
         "ZipCode": "zip code",
         "Locality": "locality",
-        "Position": 3
+        "Position": 3,
+        "Origin": "origin"
       },
       "IsReferenced": true,
       "ReferencedCandidateId": "efdbb5e3-16bf-4a53-95c3-a35ed6371819"

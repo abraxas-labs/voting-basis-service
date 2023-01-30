@@ -16,4 +16,12 @@ public static class DomainOfInfluenceExtensions
     /// <returns>Whether the domain of influence type is political.</returns>
     public static bool IsPolitical(this DomainOfInfluenceType type)
         => type is >= DomainOfInfluenceType.Ch and <= DomainOfInfluenceType.Sk;
+
+    /// <summary>
+    /// Checks whether a domain of influence type is a communal type.
+    /// </summary>
+    /// <param name="type">The domain of influence type to check.</param>
+    /// <returns>Whether the domain of influence type is communal.</returns>
+    public static bool IsCommunal(this DomainOfInfluenceType type)
+        => type is >= DomainOfInfluenceType.Mu;
 }

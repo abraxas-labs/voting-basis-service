@@ -82,6 +82,7 @@ public class ProportionalElectionCandidateCreateTest : BaseGrpcTest<Proportional
                     Title = "title",
                     ZipCode = "zip code",
                     PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
+                    Origin = "origin",
                 },
             },
             new ProportionalElectionCandidateCreated
@@ -106,6 +107,7 @@ public class ProportionalElectionCandidateCreateTest : BaseGrpcTest<Proportional
                     Title = "title",
                     ZipCode = "zip code",
                     PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
+                    Origin = "origin",
                 },
             });
 
@@ -239,6 +241,44 @@ public class ProportionalElectionCandidateCreateTest : BaseGrpcTest<Proportional
             StatusCode.NotFound);
     }
 
+    [Fact]
+    public async Task EmptyLocalityShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.CreateCandidateAsync(NewValidRequest(o => o.Locality = string.Empty)),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task EmptyOriginShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.CreateCandidateAsync(NewValidRequest(o => o.Origin = string.Empty)),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task EmptyLocalityOnCommunalBusinessShouldWork()
+    {
+        var response = await AdminClient.CreateCandidateAsync(NewValidRequest(o =>
+        {
+            o.ProportionalElectionListId = ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestBund;
+            o.Locality = string.Empty;
+        }));
+        response.Id.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task EmptyOriginOnCommunalBusinessShouldWork()
+    {
+        var response = await AdminClient.CreateCandidateAsync(NewValidRequest(o =>
+        {
+            o.ProportionalElectionListId = ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestBund;
+            o.Origin = string.Empty;
+        }));
+        response.Id.Should().NotBeNull();
+    }
+
     protected override IEnumerable<string> UnauthorizedRoles()
     {
         yield return NoRole;
@@ -270,6 +310,7 @@ public class ProportionalElectionCandidateCreateTest : BaseGrpcTest<Proportional
             Title = "title",
             ZipCode = "zip code",
             PartyId = DomainOfInfluenceMockedData.PartyIdStGallenSVP,
+            Origin = "origin",
         };
 
         customizer?.Invoke(request);

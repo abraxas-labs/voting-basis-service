@@ -26,4 +26,6 @@ public class Vote : PoliticalBusiness
     public VoteReviewProcedure ReviewProcedure { get; set; }
 
     public bool EnforceReviewProcedureForCountingCircles { get; set; }
+
+    public string InternalDescription { get; set; } = string.Empty;
 }

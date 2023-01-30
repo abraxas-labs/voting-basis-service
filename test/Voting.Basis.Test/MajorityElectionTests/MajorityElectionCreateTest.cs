@@ -12,7 +12,6 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
-using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -74,7 +73,6 @@ public class MajorityElectionCreateTest : BaseGrpcTest<MajorityElectionService.M
                     DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau,
                     ContestId = ContestMockedData.IdGossau,
                     NumberOfMandates = 6,
-                    InvalidVotes = true,
                     MandateAlgorithm = SharedProto.MajorityElectionMandateAlgorithm.AbsoluteMajority,
                     ResultEntry = SharedProto.MajorityElectionResultEntry.FinalResults,
                     ReviewProcedure = SharedProto.MajorityElectionReviewProcedure.Electronically,
@@ -168,33 +166,6 @@ public class MajorityElectionCreateTest : BaseGrpcTest<MajorityElectionService.M
     }
 
     [Fact]
-    public async Task InvalidVotesWhenEnabledInCantonalSettingsShouldWork()
-    {
-        await RunOnDb(async db =>
-        {
-            var doi = await db.DomainOfInfluences.AsTracking().FirstAsync(x => x.Id == DomainOfInfluenceMockedData.GuidStGallen);
-            doi.CantonDefaults.MajorityElectionInvalidVotes = true;
-            await db.SaveChangesAsync();
-        });
-
-        var response = await AdminClient.CreateAsync(NewValidRequest(x => x.InvalidVotes = true));
-
-        var eventData = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionCreated>();
-
-        eventData.MajorityElection.Id.Should().Be(response.Id);
-        eventData.MajorityElection.InvalidVotes.Should().BeTrue();
-    }
-
-    [Fact]
-    public async Task InvalidVotesWhenDisabledInCantonalSettingsShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(x => x.InvalidVotes = true)),
-            StatusCode.InvalidArgument,
-            "Cannot enable invalid votes if invalid votes are not enabled in the cantonal settings");
-    }
-
-    [Fact]
     public async Task GreaterSampleSizeThanBallotSizeShouldThrow()
     {
         await AssertStatus(
@@ -203,7 +174,7 @@ public class MajorityElectionCreateTest : BaseGrpcTest<MajorityElectionService.M
     }
 
     [Fact]
-    public async Task ContinousBallotNumberGenerationWithoutAutomaticGenerationShouldThrow()
+    public async Task ContinuousBallotNumberGenerationWithoutAutomaticGenerationShouldThrow()
     {
         await AssertStatus(
             async () => await AdminClient.CreateAsync(NewValidRequest(o =>
@@ -264,7 +235,6 @@ public class MajorityElectionCreateTest : BaseGrpcTest<MajorityElectionService.M
             BallotNumberGeneration = SharedProto.BallotNumberGeneration.ContinuousForAllBundles,
             CandidateCheckDigit = true,
             EnforceEmptyVoteCountingForCountingCircles = true,
-            IndividualEmptyBallotsAllowed = true,
             MandateAlgorithm = SharedProto.MajorityElectionMandateAlgorithm.AbsoluteMajority,
             ResultEntry = SharedProto.MajorityElectionResultEntry.Detailed,
             EnforceResultEntryForCountingCircles = true,

@@ -119,7 +119,7 @@
             </eCH-0010:country>
           </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>origin</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:mrMrs>1</eCH-0155:mrMrs>
           <eCH-0155:title>title</eCH-0155:title>

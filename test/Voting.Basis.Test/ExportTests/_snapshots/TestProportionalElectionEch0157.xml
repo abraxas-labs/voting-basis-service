@@ -119,12 +119,30 @@
             </eCH-0010:country>
           </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>origin</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:mrMrs>1</eCH-0155:mrMrs>
           <eCH-0155:title>title</eCH-0155:title>
           <eCH-0155:incumbentYesNo>true</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>1a.number1</eCH-0155:candidateReference>
+          <eCH-0155:partyAffiliation>
+            <eCH-0155:partyAffiliationInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:partyAffiliationShort>AN de</eCH-0155:partyAffiliationShort>
+            </eCH-0155:partyAffiliationInfo>
+            <eCH-0155:partyAffiliationInfo>
+              <eCH-0155:language>fr</eCH-0155:language>
+              <eCH-0155:partyAffiliationShort>AN fr</eCH-0155:partyAffiliationShort>
+            </eCH-0155:partyAffiliationInfo>
+            <eCH-0155:partyAffiliationInfo>
+              <eCH-0155:language>it</eCH-0155:language>
+              <eCH-0155:partyAffiliationShort>AN it</eCH-0155:partyAffiliationShort>
+            </eCH-0155:partyAffiliationInfo>
+            <eCH-0155:partyAffiliationInfo>
+              <eCH-0155:language>rm</eCH-0155:language>
+              <eCH-0155:partyAffiliationShort>AN rm</eCH-0155:partyAffiliationShort>
+            </eCH-0155:partyAffiliationInfo>
+          </eCH-0155:partyAffiliation>
         </eCH-0157:candidate>
         <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
           <eCH-0155:candidateIdentification>21f29d48-349d-48e4-862f-723f5929db52</eCH-0155:candidateIdentification>
@@ -178,12 +196,30 @@
             </eCH-0010:country>
           </eCH-0155:dwellingAddress>
           <eCH-0155:swiss>
-            <eCH-0155:origin>?</eCH-0155:origin>
+            <eCH-0155:origin>origin 2</eCH-0155:origin>
           </eCH-0155:swiss>
           <eCH-0155:mrMrs>1</eCH-0155:mrMrs>
           <eCH-0155:title>title 2</eCH-0155:title>
           <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>1a.number2</eCH-0155:candidateReference>
+          <eCH-0155:partyAffiliation>
+            <eCH-0155:partyAffiliationInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:partyAffiliationShort>SVP de</eCH-0155:partyAffiliationShort>
+            </eCH-0155:partyAffiliationInfo>
+            <eCH-0155:partyAffiliationInfo>
+              <eCH-0155:language>fr</eCH-0155:language>
+              <eCH-0155:partyAffiliationShort>SVP fr</eCH-0155:partyAffiliationShort>
+            </eCH-0155:partyAffiliationInfo>
+            <eCH-0155:partyAffiliationInfo>
+              <eCH-0155:language>it</eCH-0155:language>
+              <eCH-0155:partyAffiliationShort>SVP it</eCH-0155:partyAffiliationShort>
+            </eCH-0155:partyAffiliationInfo>
+            <eCH-0155:partyAffiliationInfo>
+              <eCH-0155:language>rm</eCH-0155:language>
+              <eCH-0155:partyAffiliationShort>SVP rm</eCH-0155:partyAffiliationShort>
+            </eCH-0155:partyAffiliationInfo>
+          </eCH-0155:partyAffiliation>
         </eCH-0157:candidate>
         <eCH-0157:list xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
           <eCH-0155:listIdentification>afab6f5d-4b4b-4e7c-87c4-6eb32b85163b</eCH-0155:listIdentification>
@@ -344,6 +380,55 @@
           <eCH-0155:totalPositionsOnList>0</eCH-0155:totalPositionsOnList>
           <eCH-0155:emptyListPositions>3</eCH-0155:emptyListPositions>
         </eCH-0157:list>
+        <eCH-0157:listUnion xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:listUnionIdentification>93cd8201-f82e-4142-b57d-980e4b80d1a9</eCH-0155:listUnionIdentification>
+          <eCH-0155:listUnionDescription>
+            <eCH-0155:listUnionDescriptionInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:listUnionDescription>Unterlistenverbindung 1.1 de</eCH-0155:listUnionDescription>
+            </eCH-0155:listUnionDescriptionInfo>
+            <eCH-0155:listUnionDescriptionInfo>
+              <eCH-0155:language>fr</eCH-0155:language>
+              <eCH-0155:listUnionDescription>Unterlistenverbindung 1.1 fr</eCH-0155:listUnionDescription>
+            </eCH-0155:listUnionDescriptionInfo>
+            <eCH-0155:listUnionDescriptionInfo>
+              <eCH-0155:language>it</eCH-0155:language>
+              <eCH-0155:listUnionDescription>Unterlistenverbindung 1.1 it</eCH-0155:listUnionDescription>
+            </eCH-0155:listUnionDescriptionInfo>
+            <eCH-0155:listUnionDescriptionInfo>
+              <eCH-0155:language>rm</eCH-0155:language>
+              <eCH-0155:listUnionDescription>Unterlistenverbindung 1.1 rm</eCH-0155:listUnionDescription>
+            </eCH-0155:listUnionDescriptionInfo>
+          </eCH-0155:listUnionDescription>
+          <eCH-0155:listUnionType>2</eCH-0155:listUnionType>
+          <eCH-0155:referencedList>3f834c4b-eabe-4dad-97b2-03d4fc770bf5</eCH-0155:referencedList>
+          <eCH-0155:referencedList>afab6f5d-4b4b-4e7c-87c4-6eb32b85163b</eCH-0155:referencedList>
+          <eCH-0155:referencedListUnion>9a71d553-343c-4b90-8fa7-924f662929d6</eCH-0155:referencedListUnion>
+        </eCH-0157:listUnion>
+        <eCH-0157:listUnion xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
+          <eCH-0155:listUnionIdentification>9a71d553-343c-4b90-8fa7-924f662929d6</eCH-0155:listUnionIdentification>
+          <eCH-0155:listUnionDescription>
+            <eCH-0155:listUnionDescriptionInfo>
+              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:listUnionDescription>Listenverbindung 1 de</eCH-0155:listUnionDescription>
+            </eCH-0155:listUnionDescriptionInfo>
+            <eCH-0155:listUnionDescriptionInfo>
+              <eCH-0155:language>fr</eCH-0155:language>
+              <eCH-0155:listUnionDescription>Listenverbindung 1 fr</eCH-0155:listUnionDescription>
+            </eCH-0155:listUnionDescriptionInfo>
+            <eCH-0155:listUnionDescriptionInfo>
+              <eCH-0155:language>it</eCH-0155:language>
+              <eCH-0155:listUnionDescription>Listenverbindung 1 it</eCH-0155:listUnionDescription>
+            </eCH-0155:listUnionDescriptionInfo>
+            <eCH-0155:listUnionDescriptionInfo>
+              <eCH-0155:language>rm</eCH-0155:language>
+              <eCH-0155:listUnionDescription>Listenverbindung 1 rm</eCH-0155:listUnionDescription>
+            </eCH-0155:listUnionDescriptionInfo>
+          </eCH-0155:listUnionDescription>
+          <eCH-0155:listUnionType>1</eCH-0155:listUnionType>
+          <eCH-0155:referencedList>3f834c4b-eabe-4dad-97b2-03d4fc770bf5</eCH-0155:referencedList>
+          <eCH-0155:referencedList>afab6f5d-4b4b-4e7c-87c4-6eb32b85163b</eCH-0155:referencedList>
+        </eCH-0157:listUnion>
       </eCH-0157:electionInformation>
     </eCH-0157:electionGroupBallot>
   </eCH-0157:initialDelivery>

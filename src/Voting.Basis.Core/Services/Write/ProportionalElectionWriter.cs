@@ -244,9 +244,12 @@ public class ProportionalElectionWriter
         var proportionalElection = await GetAggregateFromListId(data.ProportionalElectionListId);
         await _permissionService.EnsureCanModifyPoliticalBusiness(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
+        var doi = await _doiRepo.GetByKey(proportionalElection.DomainOfInfluenceId)
+                  ?? throw new EntityNotFoundException(proportionalElection.DomainOfInfluenceId);
+
         await EnsureValidParty(data, proportionalElection.DomainOfInfluenceId);
 
-        proportionalElection.CreateCandidateFrom(data);
+        proportionalElection.CreateCandidateFrom(data, doi.Type);
         await _aggregateRepository.Save(proportionalElection);
     }
 
@@ -255,6 +258,8 @@ public class ProportionalElectionWriter
         var proportionalElection = await GetAggregateFromListId(data.ProportionalElectionListId);
         await _permissionService.EnsureCanModifyPoliticalBusiness(proportionalElection.DomainOfInfluenceId);
         var contestState = await _contestValidationService.EnsureNotLocked(proportionalElection.ContestId);
+        var doi = await _doiRepo.GetByKey(proportionalElection.DomainOfInfluenceId)
+            ?? throw new EntityNotFoundException(proportionalElection.DomainOfInfluenceId);
 
         await EnsureValidParty(
             data,
@@ -263,11 +268,11 @@ public class ProportionalElectionWriter
 
         if (contestState.TestingPhaseEnded())
         {
-            proportionalElection.UpdateCandidateAfterTestingPhaseEnded(data);
+            proportionalElection.UpdateCandidateAfterTestingPhaseEnded(data, doi.Type);
         }
         else
         {
-            proportionalElection.UpdateCandidateFrom(data);
+            proportionalElection.UpdateCandidateFrom(data, doi.Type);
         }
 
         await _aggregateRepository.Save(proportionalElection);

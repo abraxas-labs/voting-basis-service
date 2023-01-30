@@ -173,7 +173,7 @@ public class ProportionalElectionCreateTest : BaseGrpcTest<ProportionalElectionS
     }
 
     [Fact]
-    public async Task ContinousBallotNumberGenerationWithoutAutomaticGenerationShouldThrow()
+    public async Task ContinuousBallotNumberGenerationWithoutAutomaticGenerationShouldThrow()
     {
         await AssertStatus(
             async () => await AdminClient.CreateAsync(NewValidRequest(o =>

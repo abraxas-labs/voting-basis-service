@@ -22,11 +22,8 @@ public class CreateMajorityElectionRequestTest : ProtoValidatorBaseTest<CreateMa
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.OfficialDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexMultiLineText(700)));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(100)));
-        yield return NewValidRequest(x => x.InternalDescription = string.Empty);
-        yield return NewValidRequest(x => x.InternalDescription = RandomStringUtil.GenerateSimpleSingleLineText(100));
         yield return NewValidRequest(x => x.NumberOfMandates = 1);
         yield return NewValidRequest(x => x.NumberOfMandates = 100);
-        yield return NewValidRequest(x => x.IndividualEmptyBallotsAllowed = false);
         yield return NewValidRequest(x => x.CandidateCheckDigit = false);
         yield return NewValidRequest(x => x.BallotBundleSize = 0);
         yield return NewValidRequest(x => x.BallotBundleSize = 500);
@@ -37,7 +34,6 @@ public class CreateMajorityElectionRequestTest : ProtoValidatorBaseTest<CreateMa
         yield return NewValidRequest(x => x.EnforceEmptyVoteCountingForCountingCircles = false);
         yield return NewValidRequest(x => x.EnforceResultEntryForCountingCircles = false);
         yield return NewValidRequest(x => x.Active = false);
-        yield return NewValidRequest(x => x.InvalidVotes = false);
         yield return NewValidRequest(x => x.ReportDomainOfInfluenceLevel = 0);
         yield return NewValidRequest(x => x.ReportDomainOfInfluenceLevel = 10);
         yield return NewValidRequest(x => x.EnforceReviewProcedureForCountingCircles = false);
@@ -58,8 +54,6 @@ public class CreateMajorityElectionRequestTest : ProtoValidatorBaseTest<CreateMa
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(3), "test"));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, "de", string.Empty));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, "de", RandomStringUtil.GenerateComplexSingleLineText(101)));
-        yield return NewValidRequest(x => x.InternalDescription = RandomStringUtil.GenerateSimpleSingleLineText(101));
-        yield return NewValidRequest(x => x.InternalDescription = "Neue Majorz\nwahl");
         yield return NewValidRequest(x => x.NumberOfMandates = 0);
         yield return NewValidRequest(x => x.NumberOfMandates = 101);
         yield return NewValidRequest(x => x.MandateAlgorithm = MajorityElectionMandateAlgorithm.Unspecified);
@@ -89,10 +83,8 @@ public class CreateMajorityElectionRequestTest : ProtoValidatorBaseTest<CreateMa
             PoliticalBusinessNumber = "9468",
             OfficialDescription = { LanguageUtil.MockAllLanguages("Neue Majorzwahl") },
             ShortDescription = { LanguageUtil.MockAllLanguages("Neue Majorzwahl") },
-            InternalDescription = "Neue Majorzwahl",
             NumberOfMandates = 5,
             MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
-            IndividualEmptyBallotsAllowed = true,
             CandidateCheckDigit = true,
             BallotBundleSize = 13,
             BallotBundleSampleSize = 1,
@@ -105,7 +97,6 @@ public class CreateMajorityElectionRequestTest : ProtoValidatorBaseTest<CreateMa
             DomainOfInfluenceId = "da36912c-7eaf-43fe-86d4-70c816f17c5a",
             ContestId = "da36912c-7eaf-43fe-86d4-70c816f17c5a",
             Active = true,
-            InvalidVotes = true,
             ReportDomainOfInfluenceLevel = 1,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,

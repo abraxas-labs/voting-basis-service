@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Abraxas.Voting.Basis.Services.V1.Models;
+using Abraxas.Voting.Basis.Shared.V1;
 using Voting.Basis.Test.ProtoValidatorTests.Utils;
 using Voting.Lib.Testing.Validation;
 
@@ -20,6 +21,7 @@ public class ExportConfigurationTest : ProtoValidatorBaseTest<ExportConfiguratio
             Description = "Schnittstelle 5",
             EaiMessageType = "1234567",
             ExportKeys = { "vote_ech_0110", "proportional_election_candidate_results_with_vote_sources" },
+            Provider = ExportProvider.Standard,
         };
 
         action?.Invoke(exportConfiguration);

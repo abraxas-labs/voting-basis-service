@@ -18,7 +18,6 @@
               "it": "Abstimmung Bund it",
               "rm": "Abstimmung Bund rm"
             },
-            "InternalDescription": "Abstimmung Bund auf Urnengang Bund",
             "DomainOfInfluence": {
               "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da",
               "Name": "Bund",
@@ -86,7 +85,6 @@
               "it": "Abstimmung Bund it",
               "rm": "Abstimmung Bund rm"
             },
-            "InternalDescription": "Abstimmung Bund auf Urnengang Bund",
             "DomainOfInfluence": {
               "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da",
               "Name": "Bund",
@@ -144,7 +142,6 @@
             "PoliticalBusinessNumber": "",
             "OfficialDescription": {},
             "ShortDescription": {},
-            "InternalDescription": "",
             "DomainOfInfluence": {
               "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da",
               "Name": "",
@@ -266,10 +263,8 @@
                 "it": "Majorzwahl SG it",
                 "rm": "Majorzwahl SG rm"
               },
-              "InternalDescription": "Majorzwahl St. Gallen auf Urnengang Bund",
               "NumberOfMandates": 1,
               "MandateAlgorithm": 2,
-              "IndividualEmptyBallotsAllowed": true,
               "CandidateCheckDigit": false,
               "BallotBundleSize": 25,
               "BallotBundleSampleSize": 3,
@@ -282,7 +277,6 @@
               "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
               "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
               "Active": true,
-              "InvalidVotes": false,
               "ReportDomainOfInfluenceLevel": 0,
               "ReviewProcedure": 1,
               "EnforceReviewProcedureForCountingCircles": true
@@ -320,10 +314,8 @@
                 "it": "Majorzwahl SG it",
                 "rm": "Majorzwahl SG rm"
               },
-              "InternalDescription": "Majorzwahl St. Gallen auf Urnengang Bund",
               "NumberOfMandates": 1,
               "MandateAlgorithm": 2,
-              "IndividualEmptyBallotsAllowed": true,
               "CandidateCheckDigit": false,
               "BallotBundleSize": 25,
               "BallotBundleSampleSize": 3,
@@ -336,7 +328,6 @@
               "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
               "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
               "Active": true,
-              "InvalidVotes": false,
               "ReportDomainOfInfluenceLevel": 0,
               "ReviewProcedure": 1,
               "EnforceReviewProcedureForCountingCircles": true
@@ -364,10 +355,8 @@
               "PoliticalBusinessNumber": "",
               "OfficialDescription": {},
               "ShortDescription": {},
-              "InternalDescription": "",
               "NumberOfMandates": 0,
               "MandateAlgorithm": 0,
-              "IndividualEmptyBallotsAllowed": false,
               "CandidateCheckDigit": false,
               "BallotBundleSize": 0,
               "BallotBundleSampleSize": 0,
@@ -380,7 +369,6 @@
               "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
               "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
               "Active": false,
-              "InvalidVotes": false,
               "ReportDomainOfInfluenceLevel": 0,
               "ReviewProcedure": 0,
               "EnforceReviewProcedureForCountingCircles": false

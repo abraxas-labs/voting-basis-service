@@ -21,9 +21,11 @@ public abstract class BaseImportTest : BaseGrpcTest<ImportService.ImportServiceC
         await DomainOfInfluenceMockedData.Seed(RunScoped);
     }
 
-    protected Task<string> GetTestEch157File() => ReadTestFile("eCH157_both_election_types.xml");
+    protected Task<string> GetTestEch0157File() => ReadTestFile("eCH0157_both_election_types.xml");
 
-    protected Task<string> GetTestEch159File() => ReadTestFile("eCH159.xml");
+    protected Task<string> GetTestEch0159File() => ReadTestFile("eCH0159.xml");
+
+    protected Task<string> GetTestInvalidEch0159File() => ReadTestFile("eCH0159_invalid.xml");
 
     private async Task<string> ReadTestFile(string fileName)
     {

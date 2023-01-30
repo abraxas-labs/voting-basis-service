@@ -36,6 +36,7 @@
         "ZipCode": "zip code",
         "Locality": "locality",
         "Position": 1,
+        "Origin": "origin",
         "Id": "00000000-0000-0000-0000-000000000000"
       },
       {
@@ -60,9 +61,10 @@
         "Title": "",
         "OccupationTitle": {},
         "Incumbent": false,
-        "ZipCode": "?",
-        "Locality": "?",
+        "ZipCode": "zip code",
+        "Locality": "locality",
         "Position": 2,
+        "Origin": "Heimatort",
         "Id": "00000000-0000-0000-0000-000000000000"
       },
       {
@@ -87,9 +89,10 @@
         "Title": "",
         "OccupationTitle": {},
         "Incumbent": true,
-        "ZipCode": "?",
-        "Locality": "?",
+        "ZipCode": "zip code",
+        "Locality": "locality",
         "Position": 3,
+        "Origin": "Heimatort",
         "Id": "00000000-0000-0000-0000-000000000000"
       },
       {
@@ -114,9 +117,10 @@
         "Title": "",
         "OccupationTitle": {},
         "Incumbent": false,
-        "ZipCode": "?",
-        "Locality": "?",
+        "ZipCode": "zip code",
+        "Locality": "locality",
         "Position": 4,
+        "Origin": "Heimatort",
         "Id": "00000000-0000-0000-0000-000000000000"
       }
     ]

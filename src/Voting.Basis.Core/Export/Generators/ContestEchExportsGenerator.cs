@@ -25,21 +25,21 @@ public class ContestEchExportsGenerator : IExportsGenerator
 {
     private readonly IAuth _auth;
     private readonly IDbRepository<DataContext, Contest> _contestRepo;
-    private readonly Ech159Serializer _ech159Serializer;
-    private readonly Ech157Serializer _ech157Serializer;
+    private readonly Ech0159Serializer _ech0159Serializer;
+    private readonly Ech0157Serializer _ech0157Serializer;
     private readonly PermissionService _permissionService;
 
     public ContestEchExportsGenerator(
         IAuth auth,
         IDbRepository<DataContext, Contest> contestRepo,
-        Ech159Serializer ech159Serializer,
-        Ech157Serializer ech157Serializer,
+        Ech0159Serializer ech0159Serializer,
+        Ech0157Serializer ech0157Serializer,
         PermissionService permissionService)
     {
         _auth = auth;
         _contestRepo = contestRepo;
-        _ech159Serializer = ech159Serializer;
-        _ech157Serializer = ech157Serializer;
+        _ech0159Serializer = ech0159Serializer;
+        _ech0157Serializer = ech0157Serializer;
         _permissionService = permissionService;
     }
 
@@ -60,6 +60,7 @@ public class ContestEchExportsGenerator : IExportsGenerator
             .Include(c => c.ProportionalElections)
                 .ThenInclude(pe => pe.ProportionalElectionLists)
                     .ThenInclude(l => l.ProportionalElectionCandidates)
+                        .ThenInclude(c => c.Party)
             .Include(c => c.ProportionalElections)
                 .ThenInclude(pe => pe.ProportionalElectionListUnions)
             .Include(c => c.MajorityElections)
@@ -90,22 +91,22 @@ public class ContestEchExportsGenerator : IExportsGenerator
         var contestDesc = LanguageUtil.GetInCurrentLanguage(contest.Description);
         if (contest.Votes.Count > 0)
         {
-            var ech159 = _ech159Serializer.ToEventInitialDelivery(contest, contest.Votes);
-            var xmlBytes = EchSerializer.ToXml(ech159);
+            var ech0159 = _ech0159Serializer.ToEventInitialDelivery(contest, contest.Votes);
+            var xmlBytes = EchSerializer.ToXml(ech0159);
             yield return new ExportFile(xmlBytes, $"votes_{contestDesc}{FileExtensions.Xml}", MediaTypeNames.Application.Xml);
         }
 
         if (contest.ProportionalElections.Count > 0)
         {
-            var ech157 = _ech157Serializer.ToDelivery(contest, contest.ProportionalElections);
-            var xmlBytes = EchSerializer.ToXml(ech157);
+            var ech0157 = _ech0157Serializer.ToDelivery(contest, contest.ProportionalElections);
+            var xmlBytes = EchSerializer.ToXml(ech0157);
             yield return new ExportFile(xmlBytes, $"proportional_elections_{contestDesc}{FileExtensions.Xml}", MediaTypeNames.Application.Xml);
         }
 
         if (contest.MajorityElections.Count > 0)
         {
-            var ech157 = _ech157Serializer.ToDelivery(contest, contest.MajorityElections);
-            var xmlBytes = EchSerializer.ToXml(ech157);
+            var ech0157 = _ech0157Serializer.ToDelivery(contest, contest.MajorityElections);
+            var xmlBytes = EchSerializer.ToXml(ech0157);
             yield return new ExportFile(xmlBytes, $"majority_elections_{contestDesc}{FileExtensions.Xml}", MediaTypeNames.Application.Xml);
         }
     }

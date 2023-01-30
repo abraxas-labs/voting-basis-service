@@ -17,10 +17,8 @@
           "it": "Proporzwahl Kirche it",
           "rm": "Proporzwahl Kirche rm"
         },
-        "InternalDescription": "Proporzwahl Kirche auf Urnengang Kirche",
         "NumberOfMandates": 5,
         "MandateAlgorithm": 1,
-        "IndividualEmptyBallotsAllowed": true,
         "CandidateCheckDigit": true,
         "BallotBundleSize": 25,
         "BallotBundleSampleSize": 0,
@@ -33,7 +31,6 @@
         "DomainOfInfluenceId": "22949a1e-fb09-47ec-9e9f-d26675676565",
         "ContestId": "a091a5cc-735b-4bf4-a30d-f4c907c9fc10",
         "Active": false,
-        "InvalidVotes": false,
         "ReportDomainOfInfluenceLevel": 0,
         "ReviewProcedure": 1,
         "EnforceReviewProcedureForCountingCircles": true

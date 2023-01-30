@@ -37,4 +37,6 @@ public class Vote : PoliticalBusiness
     /// Gets or sets a value indicating whether counting circles can override the <see cref="ReviewProcedure"/> setting.
     /// </summary>
     public bool EnforceReviewProcedureForCountingCircles { get; set; }
+
+    public string InternalDescription { get; set; } = string.Empty;
 }

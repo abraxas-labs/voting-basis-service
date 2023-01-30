@@ -1,25 +1,33 @@
 ﻿// (c) Copyright 2022 by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
+using Voting.Lib.Common;
 
 namespace Voting.Basis.Ech.Converters;
 
-public static class EchDeserializer
+internal static class EchDeserializer
 {
-    public static T FromXml<T>(string xml)
+    internal static T DeserializeXml<T>(string xml, XmlSchemaSet schemaSet)
     {
-        using var stringReader = new StringReader(xml);
-        return Deserialize<T>(stringReader);
-    }
+        using var sr = new StringReader(xml);
+        using var reader = XmlUtil.CreateReaderWithSchemaValidation(sr, schemaSet);
 
-    private static T Deserialize<T>(TextReader textReader)
-    {
-        var serializer = new XmlSerializer(typeof(T));
-        using var xmlReader = XmlReader.Create(textReader);
-        return (T?)serializer.Deserialize(xmlReader) ?? throw new ValidationException($"{nameof(EchDeserializer)}: Deserialization with given input returned null");
+        try
+        {
+            var serializer = new XmlSerializer(typeof(T));
+            return (T?)serializer.Deserialize(reader)
+                ?? throw new ValidationException("Deserialization returned null");
+        }
+        catch (InvalidOperationException ex) when (ex.InnerException != null)
+        {
+            // The XmlSerializer wraps all exceptions into an InvalidOperationException.
+            // Unwrap it to surface the "correct" exception type.
+            throw ex.InnerException;
+        }
     }
 }

@@ -14,7 +14,6 @@
       "it": "Neue Neben-Majorzwahl it",
       "rm": "Neue Neben-Majorzwahl rm"
     },
-    "InternalDescription": "",
     "NumberOfMandates": 2,
     "AllowedCandidates": 1,
     "PrimaryMajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
@@ -35,7 +34,6 @@
       "it": "Neue Neben-Majorzwahl 2 it",
       "rm": "Neue Neben-Majorzwahl 2 rm"
     },
-    "InternalDescription": "",
     "NumberOfMandates": 4,
     "AllowedCandidates": 3,
     "PrimaryMajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",

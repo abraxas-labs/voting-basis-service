@@ -257,6 +257,7 @@ public class MajorityElectionProcessor :
             candidateReference.Sex = candidate.Sex;
             candidateReference.Title = candidate.Title;
             candidateReference.ZipCode = candidate.ZipCode;
+            candidateReference.Origin = candidate.Origin;
         }
 
         await _secondaryMajorityCandidateRepo.UpdateRange(candidateReferences);

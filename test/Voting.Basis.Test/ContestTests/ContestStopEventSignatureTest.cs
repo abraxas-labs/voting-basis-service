@@ -37,6 +37,12 @@ public class ContestStopEventSignatureTest : BaseTest
         return ContestMockedData.Seed(RunScoped);
     }
 
+    public override Task DisposeAsync()
+    {
+        AdjustableMockedClock.OverrideUtcNow = null;
+        return Task.CompletedTask;
+    }
+
     [Fact]
     public async Task ShouldStopSignatureWhenKeyExpired()
     {

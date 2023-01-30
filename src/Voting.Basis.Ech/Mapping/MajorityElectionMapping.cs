@@ -41,7 +41,7 @@ internal static class MajorityElectionMapping
 
         var candidates = majorityElection.MajorityElectionCandidates
             .OrderBy(c => c.Number)
-            .Select(ToEchCandidateTypeWithParty)
+            .Select(c => c.ToEchCandidateType(c.Party))
             .ToArray();
 
         return ElectionInformationType.Create(electionType, candidates);
@@ -102,22 +102,10 @@ internal static class MajorityElectionMapping
 
         var candidates = secondaryElection.Candidates
             .OrderBy(c => c.Number)
-            .Select(ToEchCandidateTypeWithParty)
+            .Select(c => c.ToEchCandidateType(c.Party))
             .ToArray();
 
         return ElectionInformationType.Create(electionType, candidates);
-    }
-
-    private static CandidateType ToEchCandidateTypeWithParty(this DataModels.MajorityElectionCandidateBase candidate)
-    {
-        var candidateType = candidate.ToEchCandidateType();
-
-        var partyInfos = candidate.Party
-            .Select(x => PartyAffiliationInfo.Create(x.Key, x.Value))
-            .ToList();
-        candidateType.PartyAffiliation = PartyAffiliationInformation.Create(partyInfos);
-
-        return candidateType;
     }
 
     private static ReferencedElection ToEchReferenceElection(this DataModels.SecondaryMajorityElection secondaryElection)

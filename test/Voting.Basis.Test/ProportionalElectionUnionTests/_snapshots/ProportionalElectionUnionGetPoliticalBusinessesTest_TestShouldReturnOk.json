@@ -15,7 +15,6 @@
         "it": "Proporzwahl St.Gallen it",
         "rm": "Proporzwahl St.Gallen rm"
       },
-      "InternalDescription": "Proporzwahl St.Gallen auf Urnengang St.Gallen",
       "DomainOfInfluence": {
         "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
         "Name": "St. Gallen",
@@ -76,7 +75,6 @@
         "it": "Proporzwahl Gossau it",
         "rm": "Proporzwahl Gossau rm"
       },
-      "InternalDescription": "Proporzwahl Gossau auf Urnengang St.Gallen",
       "DomainOfInfluence": {
         "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
         "Name": "Gossau",

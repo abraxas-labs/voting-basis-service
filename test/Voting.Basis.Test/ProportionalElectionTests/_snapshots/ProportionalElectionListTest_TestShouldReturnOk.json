@@ -1,37 +1,6 @@
 {
   "ProportionalElections_": [
     {
-      "Id": "fa69e964-0a02-4d16-b417-247e8987021a",
-      "PoliticalBusinessNumber": "321",
-      "OfficialDescription": {
-        "de": "Proporzwahl Gossau de",
-        "fr": "Proporzwahl Gossau fr",
-        "it": "Proporzwahl Gossau it",
-        "rm": "Proporzwahl Gossau rm"
-      },
-      "ShortDescription": {
-        "de": "Proporzwahl Gossau de",
-        "fr": "Proporzwahl Gossau fr",
-        "it": "Proporzwahl Gossau it",
-        "rm": "Proporzwahl Gossau rm"
-      },
-      "InternalDescription": "Proporzwahl Gossau auf Urnengang St.Gallen",
-      "NumberOfMandates": 3,
-      "MandateAlgorithm": 2,
-      "CandidateCheckDigit": true,
-      "BallotBundleSize": 10,
-      "AutomaticBallotBundleNumberGeneration": true,
-      "BallotNumberGeneration": 1,
-      "AutomaticEmptyVoteCounting": true,
-      "EnforceEmptyVoteCountingForCountingCircles": true,
-      "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
-      "ContestId": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
-      "Active": true,
-      "BallotBundleSampleSize": 1,
-      "ReviewProcedure": 1,
-      "EnforceReviewProcedureForCountingCircles": true
-    },
-    {
       "Id": "8fd00ee5-cc68-4b33-86b0-cc9c58dc1b1f",
       "PoliticalBusinessNumber": "155",
       "OfficialDescription": {
@@ -46,7 +15,6 @@
         "it": "Proporzwahl St.Gallen it",
         "rm": "Proporzwahl St.Gallen rm"
       },
-      "InternalDescription": "Proporzwahl St.Gallen auf Urnengang St.Gallen",
       "NumberOfMandates": 5,
       "MandateAlgorithm": 3,
       "CandidateCheckDigit": false,
@@ -56,6 +24,36 @@
       "AutomaticEmptyVoteCounting": false,
       "EnforceEmptyVoteCountingForCountingCircles": false,
       "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+      "ContestId": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
+      "Active": true,
+      "BallotBundleSampleSize": 1,
+      "ReviewProcedure": 1,
+      "EnforceReviewProcedureForCountingCircles": true
+    },
+    {
+      "Id": "fa69e964-0a02-4d16-b417-247e8987021a",
+      "PoliticalBusinessNumber": "321",
+      "OfficialDescription": {
+        "de": "Proporzwahl Gossau de",
+        "fr": "Proporzwahl Gossau fr",
+        "it": "Proporzwahl Gossau it",
+        "rm": "Proporzwahl Gossau rm"
+      },
+      "ShortDescription": {
+        "de": "Proporzwahl Gossau de",
+        "fr": "Proporzwahl Gossau fr",
+        "it": "Proporzwahl Gossau it",
+        "rm": "Proporzwahl Gossau rm"
+      },
+      "NumberOfMandates": 3,
+      "MandateAlgorithm": 2,
+      "CandidateCheckDigit": true,
+      "BallotBundleSize": 10,
+      "AutomaticBallotBundleNumberGeneration": true,
+      "BallotNumberGeneration": 1,
+      "AutomaticEmptyVoteCounting": true,
+      "EnforceEmptyVoteCountingForCountingCircles": true,
+      "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
       "ContestId": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
       "Active": true,
       "BallotBundleSampleSize": 1,
@@ -77,7 +75,6 @@
         "it": "Proporzwahl St.Gallen 2 it",
         "rm": "Proporzwahl St.Gallen 2 rm"
       },
-      "InternalDescription": "Proporzwahl St.Gallen auf Urnengang St.Gallen ohne Listen",
       "NumberOfMandates": 5,
       "MandateAlgorithm": 2,
       "CandidateCheckDigit": true,

@@ -821,6 +821,9 @@ namespace Voting.Basis.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text[]");
 
+                    b.Property<int>("Provider")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DomainOfInfluenceId");
@@ -868,16 +871,6 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<bool>("EnforceReviewProcedureForCountingCircles")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IndividualEmptyBallotsAllowed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("InternalDescription")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("InvalidVotes")
                         .HasColumnType("boolean");
 
                     b.Property<int>("MandateAlgorithm")
@@ -1046,6 +1039,10 @@ namespace Voting.Basis.Data.Migrations
                         .IsRequired()
                         .HasColumnType("jsonb");
 
+                    b.Property<string>("Origin")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Party")
                         .IsRequired()
                         .HasColumnType("jsonb");
@@ -1194,10 +1191,6 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("EnforceReviewProcedureForCountingCircles")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("InternalDescription")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<int>("MandateAlgorithm")
                         .HasColumnType("integer");
 
@@ -1269,6 +1262,10 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<string>("OccupationTitle")
                         .IsRequired()
                         .HasColumnType("jsonb");
+
+                    b.Property<string>("Origin")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("PartyId")
                         .HasColumnType("uuid");
@@ -1513,10 +1510,6 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<Guid>("ElectionGroupId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("InternalDescription")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<int>("NumberOfMandates")
                         .HasColumnType("integer");
 
@@ -1583,6 +1576,10 @@ namespace Voting.Basis.Data.Migrations
                         .IsRequired()
                         .HasColumnType("jsonb");
 
+                    b.Property<string>("Origin")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Party")
                         .IsRequired()
                         .HasColumnType("jsonb");
@@ -1638,10 +1635,6 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<Guid>("DomainOfInfluenceId")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("InternalDescription")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("OfficialDescription")
                         .IsRequired()

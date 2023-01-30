@@ -10,21 +10,21 @@ using Voting.Lib.Ech;
 
 namespace Voting.Basis.Ech.Converters;
 
-public class Ech159Serializer
+public class Ech0159Serializer
 {
     private readonly DeliveryHeaderProvider _deliveryHeaderProvider;
 
-    public Ech159Serializer(DeliveryHeaderProvider deliveryHeaderProvider)
+    public Ech0159Serializer(DeliveryHeaderProvider deliveryHeaderProvider)
     {
         _deliveryHeaderProvider = deliveryHeaderProvider;
     }
 
     /// <summary>
-    /// Serialize to ECH-159.
+    /// Serialize to eCH-0159.
     /// </summary>
     /// <param name="contest">The contest to serialize.</param>
     /// <param name="vote">The vote to serialize. It should contain the ballots, questions and tie break questions.</param>
-    /// <returns>The serialized ECH-159 data.</returns>
+    /// <returns>The serialized eCH-0159 data.</returns>
     public Delivery ToEventInitialDelivery(Contest contest, Vote vote)
         => ToEventInitialDelivery(contest, new[] { vote });
 
@@ -33,7 +33,7 @@ public class Ech159Serializer
     /// </summary>
     /// <param name="contest">The contest to serialize.</param>
     /// <param name="votes">The votes to serialize. They should contain the ballots, questions and tie break questions.</param>
-    /// <returns>The serialized ECH-159 data.</returns>
+    /// <returns>The serialized eCH-0159 data.</returns>
     public Delivery ToEventInitialDelivery(Contest contest, IEnumerable<Vote> votes)
     {
         var contestType = contest.ToEchContestType();

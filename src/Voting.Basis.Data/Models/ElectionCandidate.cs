@@ -36,4 +36,6 @@ public abstract class ElectionCandidate : BaseEntity
     public string Locality { get; set; } = string.Empty;
 
     public int Position { get; set; }
+
+    public string Origin { get; set; } = string.Empty;
 }

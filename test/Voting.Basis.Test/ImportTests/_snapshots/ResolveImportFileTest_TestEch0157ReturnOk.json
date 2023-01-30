@@ -48,10 +48,8 @@
           "it": "Majorzwahl 3",
           "rm": "Majorzwahl 3"
         },
-        "InternalDescription": "",
         "NumberOfMandates": 2,
         "MandateAlgorithm": 1,
-        "IndividualEmptyBallotsAllowed": false,
         "CandidateCheckDigit": false,
         "BallotBundleSize": 0,
         "BallotBundleSampleSize": 0,
@@ -64,7 +62,6 @@
         "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
         "ContestId": "00000000-0000-0000-0000-000000000000",
         "Active": false,
-        "InvalidVotes": false,
         "ReportDomainOfInfluenceLevel": 0,
         "ReviewProcedure": 1,
         "EnforceReviewProcedureForCountingCircles": false
@@ -93,9 +90,10 @@
             "rm": "SP"
           },
           "Incumbent": false,
-          "ZipCode": "?",
-          "Locality": "?",
-          "Position": 1
+          "ZipCode": "zip code",
+          "Locality": "locality",
+          "Position": 1,
+          "Origin": "Heimatort"
         },
         {
           "Id": "",
@@ -120,9 +118,10 @@
             "rm": "FDP"
           },
           "Incumbent": true,
-          "ZipCode": "?",
-          "Locality": "?",
-          "Position": 2
+          "ZipCode": "zip code",
+          "Locality": "locality",
+          "Position": 2,
+          "Origin": "Heimatort"
         },
         {
           "Id": "",
@@ -147,9 +146,10 @@
             "rm": "FDP"
           },
           "Incumbent": false,
-          "ZipCode": "?",
-          "Locality": "?",
-          "Position": 3
+          "ZipCode": "zip code",
+          "Locality": "locality",
+          "Position": 3,
+          "Origin": "Heimatort"
         }
       ]
     }
@@ -171,7 +171,6 @@
           "it": "Proporzwahl 2",
           "rm": "Proporzwahl 2"
         },
-        "InternalDescription": "",
         "NumberOfMandates": 5,
         "MandateAlgorithm": 1,
         "CandidateCheckDigit": false,
@@ -232,12 +231,13 @@
               "Title": "T",
               "OccupationTitle": {},
               "Incumbent": true,
-              "ZipCode": "?",
-              "Locality": "?",
+              "ZipCode": "zip code",
+              "Locality": "locality",
               "Position": 1,
               "Accumulated": true,
               "AccumulatedPosition": 3,
-              "Party": null
+              "Party": null,
+              "Origin": "Heimatort"
             },
             {
               "Id": "",
@@ -258,12 +258,13 @@
               "Title": "Dr",
               "OccupationTitle": {},
               "Incumbent": false,
-              "ZipCode": "?",
-              "Locality": "?",
+              "ZipCode": "zip code",
+              "Locality": "locality",
               "Position": 2,
               "Accumulated": false,
               "AccumulatedPosition": 0,
-              "Party": null
+              "Party": null,
+              "Origin": "Heimatort"
             }
           ]
         },
@@ -309,12 +310,13 @@
               "Title": "",
               "OccupationTitle": {},
               "Incumbent": false,
-              "ZipCode": "?",
-              "Locality": "?",
+              "ZipCode": "zip code",
+              "Locality": "locality",
               "Position": 1,
               "Accumulated": false,
               "AccumulatedPosition": 0,
-              "Party": null
+              "Party": null,
+              "Origin": "Heimatort"
             }
           ]
         },
@@ -360,12 +362,13 @@
               "Title": "",
               "OccupationTitle": {},
               "Incumbent": false,
-              "ZipCode": "?",
-              "Locality": "?",
+              "ZipCode": "zip code",
+              "Locality": "locality",
               "Position": 1,
               "Accumulated": true,
               "AccumulatedPosition": 2,
-              "Party": null
+              "Party": null,
+              "Origin": "Heimatort"
             }
           ]
         },
@@ -411,12 +414,13 @@
               "Title": "",
               "OccupationTitle": {},
               "Incumbent": true,
-              "ZipCode": "?",
-              "Locality": "?",
+              "ZipCode": "zip code",
+              "Locality": "locality",
               "Position": 1,
               "Accumulated": false,
               "AccumulatedPosition": 0,
-              "Party": null
+              "Party": null,
+              "Origin": "Heimatort"
             },
             {
               "Id": "",
@@ -435,12 +439,13 @@
               "Title": "",
               "OccupationTitle": {},
               "Incumbent": false,
-              "ZipCode": "?",
-              "Locality": "?",
+              "ZipCode": "zip code",
+              "Locality": "locality",
               "Position": 2,
               "Accumulated": false,
               "AccumulatedPosition": 0,
-              "Party": null
+              "Party": null,
+              "Origin": "Heimatort"
             },
             {
               "Id": "",
@@ -459,12 +464,13 @@
               "Title": "",
               "OccupationTitle": {},
               "Incumbent": false,
-              "ZipCode": "?",
-              "Locality": "?",
+              "ZipCode": "zip code",
+              "Locality": "locality",
               "Position": 3,
               "Accumulated": false,
               "AccumulatedPosition": 0,
-              "Party": null
+              "Party": null,
+              "Origin": "Heimatort"
             }
           ]
         },
@@ -510,12 +516,13 @@
               "Title": "",
               "OccupationTitle": {},
               "Incumbent": false,
-              "ZipCode": "?",
-              "Locality": "?",
+              "ZipCode": "zip code",
+              "Locality": "locality",
               "Position": 1,
               "Accumulated": false,
               "AccumulatedPosition": 0,
-              "Party": null
+              "Party": null,
+              "Origin": "Heimatort"
             },
             {
               "Id": "",
@@ -534,12 +541,13 @@
               "Title": "Prof",
               "OccupationTitle": {},
               "Incumbent": true,
-              "ZipCode": "?",
-              "Locality": "?",
+              "ZipCode": "zip code",
+              "Locality": "locality",
               "Position": 2,
               "Accumulated": true,
               "AccumulatedPosition": 3,
-              "Party": null
+              "Party": null,
+              "Origin": "Heimatort"
             },
             {
               "Id": "",
@@ -558,12 +566,13 @@
               "Title": "",
               "OccupationTitle": {},
               "Incumbent": false,
-              "ZipCode": "?",
-              "Locality": "?",
+              "ZipCode": "zip code",
+              "Locality": "locality",
               "Position": 4,
               "Accumulated": false,
               "AccumulatedPosition": 0,
-              "Party": null
+              "Party": null,
+              "Origin": "Heimatort"
             },
             {
               "Id": "",
@@ -582,12 +591,13 @@
               "Title": "",
               "OccupationTitle": {},
               "Incumbent": false,
-              "ZipCode": "?",
-              "Locality": "?",
+              "ZipCode": "zip code",
+              "Locality": "locality",
               "Position": 5,
               "Accumulated": false,
               "AccumulatedPosition": 0,
-              "Party": null
+              "Party": null,
+              "Origin": "Heimatort"
             }
           ]
         }
@@ -603,6 +613,24 @@
             "rm": "List union desc"
           },
           "Position": 1,
+          "ProportionalElectionRootListUnionId": "",
+          "ProportionalElectionSubListUnions": [],
+          "ProportionalElectionListIds": [
+            "",
+            ""
+          ],
+          "ProportionalElectionMainListId": ""
+        },
+        {
+          "Id": "",
+          "ProportionalElectionId": "",
+          "Description": {
+            "de": "List sub union desc",
+            "fr": "List sub union desc",
+            "it": "List sub union desc",
+            "rm": "List sub union desc"
+          },
+          "Position": 2,
           "ProportionalElectionRootListUnionId": "",
           "ProportionalElectionSubListUnions": [],
           "ProportionalElectionListIds": [

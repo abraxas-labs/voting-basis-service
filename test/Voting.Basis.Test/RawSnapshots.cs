@@ -8,9 +8,8 @@ namespace Voting.Basis.Test;
 
 public static class RawSnapshots
 {
-    public static void MatchXmlSnapshot(this string xml, params string[] pathSegments)
+    public static void MatchRawTextSnapshot(this string content, params string[] pathSegments)
     {
-        xml = XmlUtil.FormatTestXml(xml);
         var path = Path.Join(TestSourcePaths.TestProjectSourceDirectory, Path.Join(pathSegments));
 
 #if UPDATE_SNAPSHOTS
@@ -18,6 +17,6 @@ public static class RawSnapshots
 #else
         var updateSnapshot = false;
 #endif
-        xml.MatchRawSnapshot(path, updateSnapshot);
+        content.MatchRawSnapshot(path, updateSnapshot);
     }
 }
