@@ -42,6 +42,7 @@ public class ProportionalElectionEchExportGenerator : IExportGenerator
         var proportionalElection = await _electionRepo.Query()
             .AsSplitQuery()
             .Include(pe => pe.Contest)
+                .ThenInclude(c => c.DomainOfInfluence)
             .Include(pe => pe.ProportionalElectionLists)
                 .ThenInclude(l => l.ProportionalElectionCandidates)
                     .ThenInclude(c => c.Party)

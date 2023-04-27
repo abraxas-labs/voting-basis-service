@@ -13,7 +13,7 @@
         <Version>0.0.0.1</Version>
 
         <VotingBasisProtoVersion>1.69.3</VotingBasisProtoVersion>
-        <VotingLibVersion>7.26.2</VotingLibVersion>
+        <VotingLibVersion>10.12.3</VotingLibVersion>
         <EfCoreVersion>6.0.8</EfCoreVersion>
         <MsExtensionsVersion>6.0.0</MsExtensionsVersion>
         <GrpcAspNetCoreVersion>2.47.0</GrpcAspNetCoreVersion>

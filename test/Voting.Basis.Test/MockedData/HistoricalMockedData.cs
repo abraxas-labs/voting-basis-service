@@ -218,6 +218,7 @@ public static class HistoricalMockedData
         return new DomainOfInfluenceEventData
         {
             Id = DoiRapperswilJonaId,
+            Canton = SharedProto.DomainOfInfluenceCanton.Sg,
             Name = "Rapperswil",
             ShortName = "RW",
             SecureConnectId = "rnd",

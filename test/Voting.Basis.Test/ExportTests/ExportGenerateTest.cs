@@ -12,7 +12,9 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using System.Xml.Schema;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Controllers.Models;
+using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Schemas;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -87,6 +89,13 @@ public class ExportGenerateTest : BaseRestTest
     [Fact]
     public async Task TestMajorityElectionEch0157()
     {
+        await RunOnDb(async db =>
+        {
+            var doi = await db.DomainOfInfluences.AsTracking().SingleAsync(c => c.Id == DomainOfInfluenceMockedData.GuidGossau);
+            doi.CantonDefaults.Canton = DomainOfInfluenceCanton.Tg;
+            await db.SaveChangesAsync();
+        });
+
         var response = await AssertStatus(
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {

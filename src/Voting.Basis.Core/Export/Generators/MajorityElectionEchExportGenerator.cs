@@ -42,6 +42,7 @@ public class MajorityElectionEchExportGenerator : IExportGenerator
         var majorityElection = await _electionRepo.Query()
             .AsSplitQuery()
             .Include(me => me.Contest)
+                .ThenInclude(c => c.DomainOfInfluence)
             .Include(me => me.MajorityElectionCandidates)
             .Include(me => me.SecondaryMajorityElections)
                 .ThenInclude(se => se.Candidates)

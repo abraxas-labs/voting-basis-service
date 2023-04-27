@@ -12,7 +12,7 @@
     "ExportConfigurations": [],
     "ModifiedOn": "2020-07-17T10:07:56Z",
     "CantonDefaults": {
-      "Canton": 0,
+      "Canton": 2,
       "ProportionalElectionMandateAlgorithms": [],
       "MajorityElectionAbsoluteMajorityAlgorithm": 0,
       "MajorityElectionInvalidVotes": false,
@@ -28,7 +28,7 @@
     "SecureConnectId": "100100100100100100",
     "AuthorityName": "",
     "Type": 2,
-    "Canton": 0,
+    "Canton": 2,
     "ResponsibleForVotingCards": false,
     "ExternalPrintingCenter": false,
     "ExternalPrintingCenterEaiMessageType": "",
@@ -68,7 +68,7 @@
             "Type": 2,
             "ParentId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
             "Children": [],
-            "Canton": 0,
+            "Canton": 2,
             "ContactPerson": {
               "FirstName": "",
               "FamilyName": "",
@@ -119,7 +119,7 @@
                 "Type": 5,
                 "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
                 "Children": [],
-                "Canton": 0,
+                "Canton": 2,
                 "ContactPerson": {
                   "FirstName": "",
                   "FamilyName": "",
@@ -139,7 +139,7 @@
                   "DeletedOn": null
                 },
                 "ResponsibleForVotingCards": true,
-                "Bfs": "",
+                "Bfs": "3443",
                 "Code": "",
                 "SortNumber": 0,
                 "ExportConfigurations": [],
@@ -173,7 +173,7 @@
                 "Type": 5,
                 "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
                 "Children": [],
-                "Canton": 0,
+                "Canton": 2,
                 "ContactPerson": {
                   "FirstName": "",
                   "FamilyName": "",
@@ -193,7 +193,7 @@
                   "DeletedOn": null
                 },
                 "ResponsibleForVotingCards": false,
-                "Bfs": "",
+                "Bfs": "3408",
                 "Code": "",
                 "SortNumber": 0,
                 "ExportConfigurations": [],
@@ -207,7 +207,7 @@
                 "NameForProtocol": "Stadt Uzwil"
               }
             ],
-            "Canton": 0,
+            "Canton": 2,
             "ContactPerson": {
               "FirstName": "Hans",
               "FamilyName": "Muster",
@@ -249,7 +249,7 @@
             "Type": 2,
             "ParentId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
             "Children": [],
-            "Canton": 0,
+            "Canton": 2,
             "ContactPerson": {
               "FirstName": "",
               "FamilyName": "",
@@ -334,7 +334,7 @@
             "Type": 10,
             "ParentId": "22949a1e-fb09-47ec-9e9f-d26675676565",
             "Children": [],
-            "Canton": 0,
+            "Canton": 1,
             "ContactPerson": {
               "FirstName": "",
               "FamilyName": "",

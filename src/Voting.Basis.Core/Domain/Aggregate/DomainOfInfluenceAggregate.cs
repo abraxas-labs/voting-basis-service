@@ -501,9 +501,12 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
             throw new ValidationException("A Root DomainOfInfluence must have a Canton");
         }
 
-        if (!isRoot && doi.Canton != DomainOfInfluenceCanton.Unspecified)
+        if (!isRoot)
         {
-            throw new ValidationException("A Child DomainOfInfluence must not have a Canton");
+            // canton is implicitly set on all dois since it is inherited by the root doi,
+            // therefore it may also be included in create/update calls,
+            // but is only taken into account if the doi is a root doi.
+            doi.Canton = DomainOfInfluenceCanton.Unspecified;
         }
     }
 

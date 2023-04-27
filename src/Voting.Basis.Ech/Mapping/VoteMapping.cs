@@ -8,6 +8,7 @@ using System.Linq;
 using eCH_0155_4_0;
 using eCH_0159_4_0;
 using Voting.Lib.Common;
+using Voting.Lib.Ech.Utils;
 using DataModels = Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Ech.Mapping;
@@ -119,7 +120,7 @@ internal static class VoteMapping
         questionNumber++;
 
         return StandardBallotType.Create(
-            question.Id.ToString(),
+            BallotQuestionIdConverter.ToEchBallotQuestionId(ballot.Id, false, question.Number),
             questionNumberAsString,
             AnswerInformationType.Create(AnswerType.YesNoEmpty),
             questionType);
@@ -129,6 +130,7 @@ internal static class VoteMapping
     {
         var questionInformations = new List<QuestionInformationType>();
 
+        var questionIdsByNumber = new Dictionary<int, string>();
         foreach (var question in ballot.BallotQuestions.OrderBy(q => q.Number))
         {
             var questionInfos = question.Question
@@ -136,8 +138,11 @@ internal static class VoteMapping
                 .ToList();
             var questionType = BallotQuestion.Create(questionInfos);
 
+            var questionId = BallotQuestionIdConverter.ToEchBallotQuestionId(ballot.Id, false, question.Number);
+            questionIdsByNumber[question.Number] = questionId;
+
             var questionInformation = QuestionInformationType.Create(
-                question.Id.ToString(),
+                questionId,
                 questionNumber.ToString(CultureInfo.InvariantCulture),
                 (uint?)questionNumber,
                 AnswerType.YesNoEmpty,
@@ -157,12 +162,12 @@ internal static class VoteMapping
 
             var tieBreakQuestionInformation = TieBreakInformationType.Create(
                 AnswerType.InitiativeCounterdraft,
-                tieBreakQuestion.Id.ToString(),
+                BallotQuestionIdConverter.ToEchBallotQuestionId(ballot.Id, true, tieBreakQuestion.Number),
                 questionNumber.ToString(CultureInfo.InvariantCulture),
                 (uint?)questionNumber,
                 tieBreakQuestionType,
-                ballot.BallotQuestions.First(q => q.Number == tieBreakQuestion.Question1Number).Id.ToString(),
-                ballot.BallotQuestions.First(q => q.Number == tieBreakQuestion.Question2Number).Id.ToString());
+                questionIdsByNumber[tieBreakQuestion.Question1Number],
+                questionIdsByNumber[tieBreakQuestion.Question2Number]);
             tieBreakQuestionInformations.Add(tieBreakQuestionInformation);
 
             questionNumber++;

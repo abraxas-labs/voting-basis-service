@@ -282,15 +282,6 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
     }
 
     [Fact]
-    public async Task CantonOnChildShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(x => x.Canton = SharedProto.DomainOfInfluenceCanton.Sg)),
-            StatusCode.InvalidArgument,
-            "Canton");
-    }
-
-    [Fact]
     public async Task NoCantonOnRootShouldThrow()
     {
         await AssertStatus(
@@ -332,6 +323,36 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
             async () => await AdminClient.UpdateAsync(NewValidResponsibleForVotingCardsRequest(o => o.ExternalPrintingCenterEaiMessageType = string.Empty)),
             StatusCode.InvalidArgument,
             "ExternalPrintingCenterEaiMessageType");
+
+    [Fact]
+    public async Task NoBfsForMunicipalityShouldTrow()
+    {
+        var req = NewValidRequest(x =>
+        {
+            x.Type = SharedProto.DomainOfInfluenceType.Mu;
+            x.Bfs = string.Empty;
+        });
+
+        await AssertStatus(
+            async () => await AdminClient.UpdateAsync(req),
+            StatusCode.InvalidArgument,
+            "Bfs");
+    }
+
+    [Fact]
+    public async Task DuplicatedBfsForMunicipalityShouldTrow()
+    {
+        var req = NewValidRequest(x =>
+        {
+            x.Type = SharedProto.DomainOfInfluenceType.Mu;
+            x.Bfs = DomainOfInfluenceMockedData.Gossau.Bfs;
+        });
+
+        await AssertStatus(
+            async () => await AdminClient.UpdateAsync(req),
+            StatusCode.AlreadyExists,
+            "The bfs 3443 is already taken");
+    }
 
     [Fact]
     public Task ShouldThrowNoPlausibilisationConfiguration()
@@ -467,9 +488,11 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
                 Name = "Uzwil Neu",
                 NameForProtocol = "Bezirk Uzwil",
                 ShortName = "UzNeu",
+                Canton = SharedProto.DomainOfInfluenceCanton.Sg, // Should be ignored unless root
                 AuthorityName = "Gemeinde Uzwil",
                 SecureConnectId = SecureConnectTestDefaults.MockedTenantUzwil.Id,
                 Type = SharedProto.DomainOfInfluenceType.Sk,
+                Bfs = "3408",
                 ResponsibleForVotingCards = false,
                 ContactPerson = new ProtoModels.ContactPerson
                 {

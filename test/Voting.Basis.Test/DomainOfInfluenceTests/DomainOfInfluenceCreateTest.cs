@@ -276,21 +276,42 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     }
 
     [Fact]
-    public async Task CantonOnChildShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRootDoiRequest(o => o.ParentId = DomainOfInfluenceMockedData.IdBund)),
-            StatusCode.InvalidArgument,
-            "Canton");
-    }
-
-    [Fact]
     public async Task NoCantonOnRootShouldThrow()
     {
         await AssertStatus(
             async () => await AdminClient.CreateAsync(NewValidRootDoiRequest(o => o.Canton = SharedProto.DomainOfInfluenceCanton.Unspecified)),
             StatusCode.InvalidArgument,
             "Canton");
+    }
+
+    [Fact]
+    public async Task NoBfsForMunicipalityShouldThrow()
+    {
+        var req = NewValidRequest(o =>
+        {
+            o.Type = SharedProto.DomainOfInfluenceType.Mu;
+            o.Bfs = string.Empty;
+        });
+
+        await AssertStatus(
+            async () => await AdminClient.CreateAsync(req),
+            StatusCode.InvalidArgument,
+            "Bfs");
+    }
+
+    [Fact]
+    public async Task DuplicatedBfsForMunicipalityShouldThrow()
+    {
+        var req = NewValidRequest(o =>
+        {
+            o.Type = SharedProto.DomainOfInfluenceType.Mu;
+            o.Bfs = DomainOfInfluenceMockedData.Uzwil.Bfs;
+        });
+
+        await AssertStatus(
+            async () => await AdminClient.CreateAsync(req),
+            StatusCode.AlreadyExists,
+            "The bfs 3408 is already taken");
     }
 
     [Fact]
@@ -471,6 +492,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
             NameForProtocol = "Uzwil",
             ShortName = "BZ Uz",
             AuthorityName = "Gemeinde Uzwil",
+            Bfs = "3408",
             SecureConnectId = SecureConnectTestDefaults.MockedTenantUzwil.Id,
             Type = SharedProto.DomainOfInfluenceType.Bz,
             ParentId = DomainOfInfluenceMockedData.IdStGallen,
@@ -517,6 +539,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
             SecureConnectId = SecureConnectTestDefaults.MockedTenantUzwil.Id,
             Type = SharedProto.DomainOfInfluenceType.Bz,
             ParentId = DomainOfInfluenceMockedData.IdStGallen,
+            Canton = SharedProto.DomainOfInfluenceCanton.Sg, // Should be ignored unless root
             ResponsibleForVotingCards = true,
             ExternalPrintingCenter = true,
             ExternalPrintingCenterEaiMessageType = "1234567",

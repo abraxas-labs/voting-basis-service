@@ -19,6 +19,7 @@ using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Extensions;
 using Voting.Basis.Core.ObjectStorage;
 using Voting.Basis.Data;
+using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Eventing.Domain;
@@ -30,6 +31,7 @@ using CountingCircle = Voting.Basis.Data.Models.CountingCircle;
 using DomainOfInfluence = Voting.Basis.Data.Models.DomainOfInfluence;
 using DomainOfInfluenceCountingCircle = Voting.Basis.Data.Models.DomainOfInfluenceCountingCircle;
 using DomainOfInfluenceParty = Voting.Basis.Data.Models.DomainOfInfluenceParty;
+using PlausibilisationConfiguration = Voting.Basis.Core.Domain.PlausibilisationConfiguration;
 
 namespace Voting.Basis.Core.Services.Write;
 
@@ -79,6 +81,7 @@ public class DomainOfInfluenceWriter
     {
         _auth.EnsureAdmin();
         await ValidateHierarchy(data);
+        await ValidateUniqueBfs(data);
         await SetAuthorityTenant(data);
         await ValidatePlausibilisationConfig(null, data.PlausibilisationConfiguration);
         await ValidateParties(null, data.Parties);
@@ -93,6 +96,7 @@ public class DomainOfInfluenceWriter
     {
         _auth.EnsureAdmin();
         await ValidateHierarchy(data);
+        await ValidateUniqueBfs(data);
         await SetAuthorityTenant(data);
 
         await ValidatePlausibilisationConfig(data.Id, data.PlausibilisationConfiguration);
@@ -108,6 +112,7 @@ public class DomainOfInfluenceWriter
     {
         _auth.EnsureAdminOrElectionAdmin();
 
+        await ValidateUniqueBfs(data);
         await ValidatePlausibilisationConfig(data.Id, data.PlausibilisationConfiguration);
         await ValidateParties(data.Id, data.Parties);
 
@@ -232,6 +237,29 @@ public class DomainOfInfluenceWriter
         if (selfIsPolitical && data.Type - parent.Type < 0)
         {
             throw new ValidationException("Violate political hierarchical order");
+        }
+    }
+
+    private async Task ValidateUniqueBfs(Domain.DomainOfInfluence data)
+    {
+        // only mu's are validated
+        if (data.Type != DomainOfInfluenceType.Mu)
+        {
+            return;
+        }
+
+        data.Bfs = data.Bfs.Trim();
+        if (data.Bfs.Length == 0)
+        {
+            throw new ValidationException("Bfs is required for Mu domain of influences");
+        }
+
+        var anotherExists = await _repo
+            .Query()
+            .AnyAsync(x => x.Bfs == data.Bfs && x.Id != data.Id);
+        if (anotherExists)
+        {
+            throw new DuplicatedBfsException(data.Bfs);
         }
     }
 

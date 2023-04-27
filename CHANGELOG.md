@@ -1,4 +1,4 @@
-# ✨ Changelog (`v1.45.6`)
+# ✨ Changelog (`v1.49.5`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,79 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v1.45.6
-Previous version ---- v1.42.2
+This version -------- v1.49.5
+Previous version ---- v1.45.6
 Initial version ----- v1.27.15
-Total commits ------- 11
+Total commits ------- 15
 ```
+
+## [v1.49.5] - 2023-04-17
+
+### 🔄 Changed
+
+- set canton on doi's after update correctly
+
+## [v1.49.4] - 2023-04-05
+
+### 🆕 Added
+
+- add party and incumbent to candidate text
+
+## [v1.49.3] - 2023-04-03
+
+### ❌ Removed
+
+- remove incumbentYesNo field for eCH election export
+
+## [v1.49.2] - 2023-03-27
+
+### 🔄 Changed
+
+- always unset canton for non-root doi's
+
+## [v1.49.1] - 2023-03-24
+
+### 🔄 Changed
+
+- Use latest CI templates
+
+## [v1.49.0] - 2023-03-13
+
+### 🔄 Changed
+
+- Store Canton in Domain Of Influence Read Model
+
+## [v1.48.1] - 2023-03-10
+
+### 🔄 Changed
+
+- update lib to fix eCH issues
+- export eCH ballot question ID correctly
+
+## [v1.48.0] - 2023-02-24
+
+### 🔄 Changed
+
+- raise voting lib version including an update to allow additional characters "«»;& for complex text input validation
+- implement new mocked clock member
+
+## [v1.47.0] - 2023-02-20
+
+### 🔄 Changed
+
+- add wabstic wmwahlergebnis report
+
+## [v1.46.0] - 2023-02-01
+
+### 🔄 Changed
+
+- set bfs required and unique for doi's of type MU
+
+## [v1.45.7] - 2023-01-27
+
+### 🔄 Changed
+
+- ensure valid language on eCH import
 
 ## [v1.45.6] - 2023-01-24
 
@@ -221,6 +289,97 @@ Total commits ------- 11
 
 - exchanged custom health check with ef core default one
 
+### 🔄 Changed
+
+- Restrict end of testing phase with a max timespan before the contest date
+
+### 🔄 Changed
+
+- Allow modification of political business number of secondary majority election after testing phase has ended
+
+### 🔄 Changed
+
+- exchanged ef core default health check with custom one
+
+### 🔄 Changed
+
+- Updated dependencies
+
+### 🔄 Changed
+
+- Restricted modification of code property of counting circles to admins
+
+### 🔒 Security
+
+- Restricted modification of code property of counting circles to the admin role
+
+### 🆕 Added
+
+- Events to notify political businesses and political business unions about a contest merge
+
+### 🔄 Changed
+
+- logo url can be loaded with doi read permissions
+
+### 🔄 Changed
+
+- rewrite comments & validations
+- updated lib version
+
+### 🔄 Changed
+
+- Restrict read permission of political businesses and dependencies (eg. candidates or ballot groups) to the responsible tenant
+- Restrict export permissions of political businesses to the responsible tenant and tenants higher up in the hierarchy
+
+### 🔒 Security
+
+- Restrict read permission of political businesses and dependencies (eg. candidates or ballot groups) to the responsible tenant
+- Restrict export permissions of political businesses to the responsible tenant and tenants higher up in the hierarchy
+
+### 🆕 Added
+
+- add domain of influence external printing center eai message type
+
+### 🆕 Added
+
+- CORS configuration support
+
+### 🆕 Added
+
+- added voting documents e-voting message type to canton settings
+
+### 🔄 Changed
+
+- upgraded underlying dotnet image to sdk 6.0.301 after gituhb issue [#24269](https://github.com/dotnet/sdk/issues/24269) has been fixed
+
+### 🔄 Changed
+
+- added OpenAPI description
+
+### 🔄 Changed
+
+- Restrict counting circle updates for users in role ElectionAdmin to the authorised tenant
+- Restrict domain of influence updates for users in role ElectionAdmin to the authorised tenant
+
+### 🔒 Security
+
+- Restrict counting circle updates for users in role ElectionAdmin to the authorised tenant
+- Restrict domain of influence updates for users in role ElectionAdmin to the authorised tenant
+
+### 🔒 Security
+
+- Fixed authorization check for importing majority election candidates and proportional election lists
+
+### 🆕 Added
+
+- add query split behavior where needed
+
+### 🔄 Changed
+
+- extend evoting date with time
+
+The readmodel needs to be recreated after this MR.
+
 ## [v1.32.10] - 2022-08-31
 
 ### 🔄 Changed
@@ -304,42 +463,6 @@ Total commits ------- 11
 ### 🆕 Added
 
 - CORS configuration support
-
-### 🆕 Added
-
-- added voting documents e-voting message type to canton settings
-
-### 🔄 Changed
-
-- upgraded underlying dotnet image to sdk 6.0.301 after gituhb issue [#24269](https://github.com/dotnet/sdk/issues/24269) has been fixed
-
-### 🔄 Changed
-
-- added OpenAPI description
-
-### 🔄 Changed
-
-- Restrict counting circle updates for users in role ElectionAdmin to the authorised tenant
-- Restrict domain of influence updates for users in role ElectionAdmin to the authorised tenant
-
-### 🔒 Security
-
-- Restrict counting circle updates for users in role ElectionAdmin to the authorised tenant
-- Restrict domain of influence updates for users in role ElectionAdmin to the authorised tenant
-
-### 🔒 Security
-
-- Fixed authorization check for importing majority election candidates and proportional election lists
-
-### 🆕 Added
-
-- add query split behavior where needed
-
-### 🔄 Changed
-
-- extend evoting date with time
-
-The readmodel needs to be recreated after this MR.
 
 ## [v1.30.0] - 2022-07-06
 

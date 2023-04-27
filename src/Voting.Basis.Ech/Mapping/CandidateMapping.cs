@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using eCH_0010_6_0;
 using eCH_0155_4_0;
+using Voting.Basis.Ech.Resources;
 using Voting.Lib.Common;
 using DataModels = Voting.Basis.Data.Models;
 
@@ -18,9 +19,9 @@ internal static class CandidateMapping
     private const string SwissCountryIso = "CH";
     private const string SwissCountryNameShort = "Schweiz";
 
-    internal static CandidateType ToEchCandidateType(this DataModels.ElectionCandidate candidate, Dictionary<string, string>? party)
+    internal static CandidateType ToEchCandidateType(this DataModels.ElectionCandidate candidate, Dictionary<string, string>? party, DataModels.DomainOfInfluenceCanton canton)
     {
-        var text = candidate.ToEchCandidateText();
+        var text = candidate.ToEchCandidateText(party, canton);
 
         var occupationInfos = candidate.Occupation
             .Where(x => !string.IsNullOrEmpty(x.Value))
@@ -60,7 +61,7 @@ internal static class CandidateMapping
             Swiss.Create(candidate.Origin != string.Empty ? candidate.Origin : UnknownValue),
             candidate.Sex.ToEchMrMrsType(),
             Languages.German,
-            candidate.Incumbent,
+            null,
             null,
             partyInfos?.Count > 0 ? PartyAffiliationInformation.Create(partyInfos) : null);
     }
@@ -71,7 +72,7 @@ internal static class CandidateMapping
         var occupation = candidate
             .OccupationalTitle
             ?.OccupationalTitleInfo
-            ?.ToDictionary(x => x.Language, x => x.OccupationalTitle)
+            ?.ToOptionalLanguageDictionary(x => x.Language, x => x.OccupationalTitle)
             ?? new Dictionary<string, string>();
 
         return new T
@@ -94,9 +95,11 @@ internal static class CandidateMapping
         };
     }
 
-    internal static CandidateTextInformation ToEchCandidateText(this DataModels.ElectionCandidate candidate)
+    internal static CandidateTextInformation ToEchCandidateText(this DataModels.ElectionCandidate candidate, Dictionary<string, string>? party, DataModels.DomainOfInfluenceCanton canton)
     {
-        var candidateTextBase = $"{candidate.DateOfBirth:dd.MM.yyyy}, {{0}}{candidate.Locality}";
+        var dateOfBirthText =
+            DomainOfInfluenceCantonDataTransformer.EchCandidateDateOfBirthText(canton, candidate.DateOfBirth);
+        var candidateTextBase = $"{dateOfBirthText}, {{0}}{candidate.Locality}{{1}}{{2}}";
         var textInfos = new List<CandidateTextInfo>();
         foreach (var language in Languages.All)
         {
@@ -106,7 +109,23 @@ internal static class CandidateMapping
                 occupationTitleText = $"{occupationTitle}, ";
             }
 
-            textInfos.Add(CandidateTextInfo.Create(language, string.Format(candidateTextBase, occupationTitleText)));
+            var partyText = string.Empty;
+            if (party != null && party.TryGetValue(language, out var partyShortDescription))
+            {
+                partyText = $", {partyShortDescription}";
+            }
+
+            var incumbentText = string.Empty;
+            if (candidate.Incumbent)
+            {
+                var incumbentTranslatedText = Strings.ResourceManager.GetString($"ElectionCandidate.Incumbent.{language}");
+                if (incumbentTranslatedText != null)
+                {
+                    incumbentText = $", {incumbentTranslatedText}";
+                }
+            }
+
+            textInfos.Add(CandidateTextInfo.Create(language, string.Format(candidateTextBase, occupationTitleText, partyText, incumbentText)));
         }
 
         return CandidateTextInformation.Create(textInfos);

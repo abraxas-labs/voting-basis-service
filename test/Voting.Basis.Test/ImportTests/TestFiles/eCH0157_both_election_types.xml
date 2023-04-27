@@ -743,7 +743,7 @@
           <eCH-0155:listUnionIdentification>c7b9ac60-1352-4d15-8782-7fe26b1fd339</eCH-0155:listUnionIdentification>
           <eCH-0155:listUnionDescription>
             <eCH-0155:listUnionDescriptionInfo>
-              <eCH-0155:language>de</eCH-0155:language>
+              <eCH-0155:language>DE</eCH-0155:language> <!-- uppercase language on purpose -->
               <eCH-0155:listUnionDescription>List sub union desc</eCH-0155:listUnionDescription>
             </eCH-0155:listUnionDescriptionInfo>
           </eCH-0155:listUnionDescription>

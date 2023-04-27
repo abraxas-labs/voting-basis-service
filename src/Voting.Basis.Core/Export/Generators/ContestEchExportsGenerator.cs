@@ -68,6 +68,7 @@ public class ContestEchExportsGenerator : IExportsGenerator
             .Include(c => c.MajorityElections)
                 .ThenInclude(me => me.SecondaryMajorityElections)
                     .ThenInclude(se => se.Candidates)
+            .Include(c => c.DomainOfInfluence)
             .Where(c => c.Id == contestId)
             .FirstOrDefaultAsync()
             ?? throw new EntityNotFoundException(contestId);

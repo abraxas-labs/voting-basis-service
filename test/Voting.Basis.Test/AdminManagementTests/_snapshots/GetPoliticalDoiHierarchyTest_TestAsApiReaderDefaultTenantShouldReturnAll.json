@@ -13,7 +13,7 @@
           "TenantName": "",
           "TenantId": "random",
           "Type": 2,
-          "Canton": 0
+          "Canton": 1
         },
         {
           "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
@@ -24,22 +24,22 @@
               "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
               "Children": [],
               "Name": "Gossau",
-              "Bfs": "",
+              "Bfs": "3443",
               "TenantName": "",
               "TenantId": "000000000000000000",
               "Type": 5,
-              "Canton": 0
+              "Canton": 1
             },
             {
               "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
               "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
               "Children": [],
               "Name": "Uzwil",
-              "Bfs": "",
+              "Bfs": "3408",
               "TenantName": "",
               "TenantId": "100100100100100100",
               "Type": 5,
-              "Canton": 0
+              "Canton": 1
             }
           ],
           "Name": "St. Gallen",
@@ -47,7 +47,7 @@
           "TenantName": "",
           "TenantId": "000000000000000000",
           "Type": 2,
-          "Canton": 0
+          "Canton": 1
         },
         {
           "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
@@ -58,7 +58,7 @@
           "TenantName": "",
           "TenantId": "000000000000000000",
           "Type": 2,
-          "Canton": 0
+          "Canton": 1
         }
       ],
       "Name": "Bund",
@@ -81,7 +81,7 @@
           "TenantName": "",
           "TenantId": "100100100100100100",
           "Type": 10,
-          "Canton": 0
+          "Canton": 1
         }
       ],
       "Name": "Kirchgemeinde Oberuzwil",

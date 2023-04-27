@@ -11,6 +11,26 @@ namespace Voting.Basis.Ech.Mapping;
 internal static class LanguageMapping
 {
     /// <summary>
+    /// Transforms a list into a language dictionary.
+    /// </summary>
+    /// <typeparam name="T">Type of the list.</typeparam>
+    /// <param name="src">The source list.</param>
+    /// <param name="keySelector">Language key selector.</param>
+    /// <param name="valueSelector">Translation value selector.</param>
+    /// <returns>The complete translation dictionary.</returns>
+    internal static Dictionary<string, string> ToOptionalLanguageDictionary<T>(
+        this IEnumerable<T>? src,
+        Func<T, string> keySelector,
+        Func<T, string> valueSelector)
+    {
+        return src
+            ?.Select(x => (Language: keySelector(x).ToLower(), Value: valueSelector(x)))
+            .Where(x => Languages.All.Contains(x.Language))
+            .ToDictionary(x => x.Language, x => x.Value)
+            ?? new Dictionary<string, string>();
+    }
+
+    /// <summary>
     /// Transforms a list into a complete language dictionary. Missing languages will be filled with either an existing non-empty translation value
     /// or the fallback value.
     /// </summary>
@@ -26,7 +46,7 @@ internal static class LanguageMapping
         Func<T, string> valueSelector,
         string fallbackValue)
     {
-        var translations = src?.ToDictionary(keySelector, valueSelector);
+        var translations = src.ToOptionalLanguageDictionary(keySelector, valueSelector);
         return FillAllLanguages(translations, fallbackValue);
     }
 
@@ -36,9 +56,9 @@ internal static class LanguageMapping
     /// <param name="translations">The translations to fill.</param>
     /// <param name="fallbackValue">The fallback value to use, in case no translation entry exists.</param>
     /// <returns>The filled translations.</returns>
-    private static Dictionary<string, string> FillAllLanguages(Dictionary<string, string>? translations, string fallbackValue)
+    private static Dictionary<string, string> FillAllLanguages(Dictionary<string, string> translations, string fallbackValue)
     {
-        if (translations == null || translations.Count == 0)
+        if (translations.Count == 0)
         {
             return Languages.All.ToDictionary(x => x, _ => fallbackValue);
         }

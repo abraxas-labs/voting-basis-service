@@ -41,7 +41,7 @@ internal static class MajorityElectionMapping
 
         var candidates = majorityElection.MajorityElectionCandidates
             .OrderBy(c => c.Number)
-            .Select(c => c.ToEchCandidateType(c.Party))
+            .Select(c => c.ToEchCandidateType(c.Party, majorityElection.Contest.DomainOfInfluence.CantonDefaults.Canton))
             .ToArray();
 
         return ElectionInformationType.Create(electionType, candidates);
@@ -102,7 +102,7 @@ internal static class MajorityElectionMapping
 
         var candidates = secondaryElection.Candidates
             .OrderBy(c => c.Number)
-            .Select(c => c.ToEchCandidateType(c.Party))
+            .Select(c => c.ToEchCandidateType(c.Party, secondaryElection.Contest.DomainOfInfluence.CantonDefaults.Canton))
             .ToArray();
 
         return ElectionInformationType.Create(electionType, candidates);

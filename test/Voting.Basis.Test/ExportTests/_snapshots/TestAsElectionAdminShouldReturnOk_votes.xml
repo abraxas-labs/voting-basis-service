@@ -85,7 +85,7 @@
         </eCH-0155:ballotDescription>
         <eCH-0155:variantBallot>
           <eCH-0155:questionInformation>
-            <eCH-0155:questionIdentification>abf6327a-53ec-4901-9a59-de642b20e67c</eCH-0155:questionIdentification>
+            <eCH-0155:questionIdentification>690c36d8-dd09-4464-91ce-73c48df176a1_n_1</eCH-0155:questionIdentification>
             <eCH-0155:ballotQuestionNumber>1</eCH-0155:ballotQuestionNumber>
             <eCH-0155:questionPosition>1</eCH-0155:questionPosition>
             <eCH-0155:answerInformation>
@@ -111,7 +111,7 @@
             </eCH-0155:ballotQuestion>
           </eCH-0155:questionInformation>
           <eCH-0155:questionInformation>
-            <eCH-0155:questionIdentification>fb0e5418-be49-4ea1-b777-b9ad3a2999d2</eCH-0155:questionIdentification>
+            <eCH-0155:questionIdentification>690c36d8-dd09-4464-91ce-73c48df176a1_n_2</eCH-0155:questionIdentification>
             <eCH-0155:ballotQuestionNumber>2</eCH-0155:ballotQuestionNumber>
             <eCH-0155:questionPosition>2</eCH-0155:questionPosition>
             <eCH-0155:answerInformation>
@@ -140,7 +140,7 @@
             <eCH-0155:answerInformation>
               <eCH-0155:answerType>4</eCH-0155:answerType>
             </eCH-0155:answerInformation>
-            <eCH-0155:questionIdentification>ccaeffeb-653b-46c1-8e5e-8eeb45dddcab</eCH-0155:questionIdentification>
+            <eCH-0155:questionIdentification>690c36d8-dd09-4464-91ce-73c48df176a1_t_1</eCH-0155:questionIdentification>
             <eCH-0155:tieBreakQuestionNumber>3</eCH-0155:tieBreakQuestionNumber>
             <eCH-0155:questionPosition>3</eCH-0155:questionPosition>
             <eCH-0155:tieBreakQuestion>
@@ -161,8 +161,8 @@
                 <eCH-0155:tieBreakQuestion>Stichfrage 1 Gossau (Frage 1 vs Frage 2) rm</eCH-0155:tieBreakQuestion>
               </eCH-0155:tieBreakQuestionInfo>
             </eCH-0155:tieBreakQuestion>
-            <eCH-0155:referencedQuestion1>abf6327a-53ec-4901-9a59-de642b20e67c</eCH-0155:referencedQuestion1>
-            <eCH-0155:referencedQuestion2>fb0e5418-be49-4ea1-b777-b9ad3a2999d2</eCH-0155:referencedQuestion2>
+            <eCH-0155:referencedQuestion1>690c36d8-dd09-4464-91ce-73c48df176a1_n_1</eCH-0155:referencedQuestion1>
+            <eCH-0155:referencedQuestion2>690c36d8-dd09-4464-91ce-73c48df176a1_n_2</eCH-0155:referencedQuestion2>
           </eCH-0155:tieBreakInformation>
         </eCH-0155:variantBallot>
       </eCH-0159:ballot>

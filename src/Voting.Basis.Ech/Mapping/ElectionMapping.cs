@@ -1,9 +1,9 @@
 ﻿// (c) Copyright 2022 by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System;
 using System.Collections.Generic;
 using eCH_0155_4_0;
-using Voting.Basis.Ech.Extensions;
 using DataModels = Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Ech.Mapping;

@@ -31,6 +31,7 @@ public class ExceptionMappingTest
             new CountingCirclesInScheduledMergeException(),
             new CountingCircleMergerAlreadyActiveException(),
             new ContestSetAsPreviousContestException(),
+            new DuplicatedBfsException("BFS"),
             new ContestInMergeSetAsPreviousContestException(),
         };
 

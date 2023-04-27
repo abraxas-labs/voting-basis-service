@@ -7,7 +7,7 @@
   "Type": 5,
   "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
   "Children": [],
-  "Canton": 0,
+  "Canton": 1,
   "ContactPerson": {
     "FirstName": "",
     "FamilyName": "",
@@ -27,7 +27,7 @@
     "DeletedOn": null
   },
   "ResponsibleForVotingCards": false,
-  "Bfs": "",
+  "Bfs": "3408",
   "Code": "",
   "SortNumber": 0,
   "ExportConfigurations": [

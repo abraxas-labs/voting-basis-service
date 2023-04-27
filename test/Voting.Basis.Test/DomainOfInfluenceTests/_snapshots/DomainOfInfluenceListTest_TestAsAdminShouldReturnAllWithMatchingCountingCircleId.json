@@ -51,7 +51,7 @@
       "Type": 2,
       "ParentId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
       "Children": [],
-      "Canton": 0,
+      "Canton": 1,
       "ContactPerson": {
         "FirstName": "Hans",
         "FamilyName": "Muster",

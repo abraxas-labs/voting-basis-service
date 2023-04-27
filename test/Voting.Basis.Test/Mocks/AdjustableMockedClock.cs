@@ -12,4 +12,8 @@ public class AdjustableMockedClock : IClock
     public static DateTime? OverrideUtcNow { get; set; }
 
     public DateTime UtcNow => OverrideUtcNow ?? MockedClock.UtcNowDate;
+
+    public DateOnly Today => OverrideUtcNow == null
+        ? MockedClock.NowDateOnly
+        : DateOnly.FromDateTime(OverrideUtcNow.Value);
 }

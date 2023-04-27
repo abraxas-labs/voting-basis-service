@@ -77,9 +77,9 @@ public class DomainOfInfluenceProcessor :
     public async Task Process(DomainOfInfluenceCreated eventData)
     {
         var model = _mapper.Map<DomainOfInfluence>(eventData.DomainOfInfluence);
+        await _domainOfInfluenceCantonDefaultsBuilder.BuildForDomainOfInfluence(model);
         await _repo.Create(model, eventData.EventInfo.Timestamp.ToDateTime());
 
-        await _domainOfInfluenceCantonDefaultsBuilder.BuildForDomainOfInfluence(model);
         var allDois = await _repo.Query().ToListAsync();
         await _permissionBuilder.RebuildPermissionTree(allDois);
         await _hierarchyBuilder.RebuildHierarchy(allDois);
@@ -100,7 +100,17 @@ public class DomainOfInfluenceProcessor :
 
         var rebuildForRootDoiCantonUpdate = model.ParentId == null && existing.Canton != model.Canton;
 
+        var oldCanton = existing.Canton;
         _mapper.Map(eventData.DomainOfInfluence, existing);
+
+        // do not unset the canton for non-root doi
+        // all events for non-root doi's have the canton unspecified
+        // as it is inherited from the root doi
+        if (existing.Canton == DomainOfInfluenceCanton.Unspecified)
+        {
+            existing.Canton = oldCanton;
+        }
+
         await _repo.Update(existing, eventData.EventInfo.Timestamp.ToDateTime());
 
         var allDois = await _repo.Query().ToListAsync();

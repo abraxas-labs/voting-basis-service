@@ -69,6 +69,7 @@ public static class EventLogMockedData
         return new ProtoModels.DomainOfInfluence
         {
             Id = DoiId,
+            Canton = SharedProto.DomainOfInfluenceCanton.Sg,
             Name = "Bezirk Uzwil",
             ShortName = "BZ Uz",
             SecureConnectId = SecureConnectTestDefaults.MockedTenantUzwil.Id,

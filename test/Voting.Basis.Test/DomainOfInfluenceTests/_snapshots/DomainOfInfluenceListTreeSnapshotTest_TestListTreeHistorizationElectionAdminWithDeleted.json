@@ -25,7 +25,7 @@
             "Type": 2,
             "ParentId": "8e54ec7b-7e0d-43cb-8cbf-0531efae804a",
             "Children": [],
-            "Canton": 0,
+            "Canton": 1,
             "ContactPerson": {
               "FirstName": "",
               "FamilyName": "",
@@ -114,7 +114,7 @@
             "Type": 2,
             "ParentId": "8e54ec7b-7e0d-43cb-8cbf-0531efae804a",
             "Children": [],
-            "Canton": 0,
+            "Canton": 1,
             "ContactPerson": {
               "FirstName": "",
               "FamilyName": "",
@@ -203,7 +203,7 @@
             "Type": 2,
             "ParentId": "8e54ec7b-7e0d-43cb-8cbf-0531efae804a",
             "Children": [],
-            "Canton": 0,
+            "Canton": 1,
             "ContactPerson": {
               "FirstName": "",
               "FamilyName": "",
@@ -295,7 +295,7 @@
             "Type": 2,
             "ParentId": "8e54ec7b-7e0d-43cb-8cbf-0531efae804a",
             "Children": [],
-            "Canton": 0,
+            "Canton": 1,
             "ContactPerson": {
               "FirstName": "",
               "FamilyName": "",

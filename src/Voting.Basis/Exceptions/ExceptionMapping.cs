@@ -52,6 +52,7 @@ internal readonly struct ExceptionMapping
             AggregateDeletedException => new(StatusCode.NotFound, StatusCodes.Status404NotFound),
             AlreadyExistsException => new(StatusCode.AlreadyExists, StatusCodes.Status424FailedDependency),
             NonUniqueCandidateNumberException => new(StatusCode.AlreadyExists, StatusCodes.Status424FailedDependency, true),
+            DuplicatedBfsException => new(StatusCode.AlreadyExists, StatusCodes.Status424FailedDependency, true),
             MajorityElectionWithExistingSecondaryElectionsException => new(StatusCode.FailedPrecondition, StatusCodes.Status424FailedDependency, true),
             ContestTestingPhaseEndedException => new(StatusCode.FailedPrecondition, StatusCodes.Status424FailedDependency),
             ModificationNotAllowedException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed),

@@ -2,7 +2,9 @@
 // For license information see LICENSE file
 
 using FluentValidation;
-using Voting.Basis.Core.Domain;
+using DomainOfInfluence = Voting.Basis.Core.Domain.DomainOfInfluence;
+using DomainOfInfluenceVotingCardPrintData = Voting.Basis.Core.Domain.DomainOfInfluenceVotingCardPrintData;
+using PlausibilisationConfiguration = Voting.Basis.Core.Domain.PlausibilisationConfiguration;
 
 namespace Voting.Basis.Core.Validation;
 

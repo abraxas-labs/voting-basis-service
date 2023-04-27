@@ -78,19 +78,19 @@
           <eCH-0155:candidateText>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title de, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title de, locality, Test de, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title fr, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title fr, locality, Test fr, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title it, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title it, locality, Test it, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title rm, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title rm, locality, Test rm, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1960-01-13</eCH-0155:dateOfBirth>
@@ -127,7 +127,6 @@
           </eCH-0155:swiss>
           <eCH-0155:mrMrs>1</eCH-0155:mrMrs>
           <eCH-0155:title>title</eCH-0155:title>
-          <eCH-0155:incumbentYesNo>true</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>number1</eCH-0155:candidateReference>
           <eCH-0155:partyAffiliation>
             <eCH-0155:partyAffiliationInfo>
@@ -156,19 +155,19 @@
           <eCH-0155:candidateText>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:candidateText>31.12.1982, occupation title de, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1982, occupation title de, locality, CVP de</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:candidateText>31.12.1982, occupation title fr, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1982, occupation title fr, locality, CVP fr</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:candidateText>31.12.1982, occupation title it, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1982, occupation title it, locality, CVP it</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:candidateText>31.12.1982, occupation title rm, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1982, occupation title rm, locality, CVP rm</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1982-12-31</eCH-0155:dateOfBirth>
@@ -205,7 +204,6 @@
           </eCH-0155:swiss>
           <eCH-0155:mrMrs>2</eCH-0155:mrMrs>
           <eCH-0155:title>title</eCH-0155:title>
-          <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>number2</eCH-0155:candidateReference>
           <eCH-0155:partyAffiliation>
             <eCH-0155:partyAffiliationInfo>
@@ -268,19 +266,19 @@
           <eCH-0155:candidateText>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title de, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title de, locality, Test de, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title fr, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title fr, locality, Test fr, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title it, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title it, locality, Test it, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title rm, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title rm, locality, Test rm, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1960-01-13</eCH-0155:dateOfBirth>
@@ -317,7 +315,6 @@
           </eCH-0155:swiss>
           <eCH-0155:mrMrs>1</eCH-0155:mrMrs>
           <eCH-0155:title>title</eCH-0155:title>
-          <eCH-0155:incumbentYesNo>true</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>number1</eCH-0155:candidateReference>
           <eCH-0155:partyAffiliation>
             <eCH-0155:partyAffiliationInfo>
@@ -346,19 +343,19 @@
           <eCH-0155:candidateText>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title2 de, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title2 de, locality, Test de</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title2 fr, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title2 fr, locality, Test fr</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title2 it, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title2 it, locality, Test it</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title2 rm, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title2 rm, locality, Test rm</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1960-01-13</eCH-0155:dateOfBirth>
@@ -395,7 +392,6 @@
           </eCH-0155:swiss>
           <eCH-0155:mrMrs>2</eCH-0155:mrMrs>
           <eCH-0155:title>title</eCH-0155:title>
-          <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>number5</eCH-0155:candidateReference>
           <eCH-0155:partyAffiliation>
             <eCH-0155:partyAffiliationInfo>
@@ -461,19 +457,19 @@
           <eCH-0155:candidateText>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title de, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title de, locality, Test de, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title fr, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title fr, locality, Test fr, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title it, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title it, locality, Test it, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title rm, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title rm, locality, Test rm, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1960-01-13</eCH-0155:dateOfBirth>
@@ -510,7 +506,6 @@
           </eCH-0155:swiss>
           <eCH-0155:mrMrs>1</eCH-0155:mrMrs>
           <eCH-0155:title>title</eCH-0155:title>
-          <eCH-0155:incumbentYesNo>true</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>number1</eCH-0155:candidateReference>
           <eCH-0155:partyAffiliation>
             <eCH-0155:partyAffiliationInfo>
@@ -539,19 +534,19 @@
           <eCH-0155:candidateText>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:candidateText>31.12.1982, occupation title de, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1982, occupation title de, locality, CVP de</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:candidateText>31.12.1982, occupation title fr, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1982, occupation title fr, locality, CVP fr</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:candidateText>31.12.1982, occupation title it, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1982, occupation title it, locality, CVP it</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:candidateText>31.12.1982, occupation title rm, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1982, occupation title rm, locality, CVP rm</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1982-12-31</eCH-0155:dateOfBirth>
@@ -588,7 +583,6 @@
           </eCH-0155:swiss>
           <eCH-0155:mrMrs>2</eCH-0155:mrMrs>
           <eCH-0155:title>title</eCH-0155:title>
-          <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>number2</eCH-0155:candidateReference>
           <eCH-0155:partyAffiliation>
             <eCH-0155:partyAffiliationInfo>
@@ -651,19 +645,19 @@
           <eCH-0155:candidateText>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title de, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title de, locality, Test de, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title fr, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title fr, locality, Test fr, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title it, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title it, locality, Test it, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title rm, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title rm, locality, Test rm, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1960-01-13</eCH-0155:dateOfBirth>
@@ -700,7 +694,6 @@
           </eCH-0155:swiss>
           <eCH-0155:mrMrs>1</eCH-0155:mrMrs>
           <eCH-0155:title>title</eCH-0155:title>
-          <eCH-0155:incumbentYesNo>true</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>number1</eCH-0155:candidateReference>
           <eCH-0155:partyAffiliation>
             <eCH-0155:partyAffiliationInfo>
@@ -729,19 +722,19 @@
           <eCH-0155:candidateText>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title2 de, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title2 de, locality, Test de</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title2 fr, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title2 fr, locality, Test fr</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title2 it, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title2 it, locality, Test it</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title2 rm, locality</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title2 rm, locality, Test rm</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1960-01-13</eCH-0155:dateOfBirth>
@@ -778,7 +771,6 @@
           </eCH-0155:swiss>
           <eCH-0155:mrMrs>2</eCH-0155:mrMrs>
           <eCH-0155:title>title</eCH-0155:title>
-          <eCH-0155:incumbentYesNo>false</eCH-0155:incumbentYesNo>
           <eCH-0155:candidateReference>number5</eCH-0155:candidateReference>
           <eCH-0155:partyAffiliation>
             <eCH-0155:partyAffiliationInfo>

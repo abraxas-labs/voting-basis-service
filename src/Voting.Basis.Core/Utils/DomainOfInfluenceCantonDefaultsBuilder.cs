@@ -30,7 +30,9 @@ public class DomainOfInfluenceCantonDefaultsBuilder
 
     public async Task BuildForDomainOfInfluence(DomainOfInfluence domainOfInfluence)
     {
-        var cantonSettings = await LoadCantonSettings(domainOfInfluence.Id);
+        var cantonSettings = domainOfInfluence.Canton != DomainOfInfluenceCanton.Unspecified
+            ? await LoadCantonSettings(domainOfInfluence.Canton)
+            : await LoadCantonSettings(domainOfInfluence.ParentId ?? throw new InvalidOperationException("Can only build canton settings for non root doi's or root dois with a canton set"));
         BuildCantonDefaultsOnDomainOfInfluence(cantonSettings, domainOfInfluence);
     }
 
@@ -75,6 +77,7 @@ public class DomainOfInfluenceCantonDefaultsBuilder
 
     private void BuildCantonDefaultsOnDomainOfInfluence(CantonSettings cantonSettings, DomainOfInfluence domainOfInfluence)
     {
+        domainOfInfluence.Canton = cantonSettings.Canton;
         domainOfInfluence.CantonDefaults = new DomainOfInfluenceCantonDefaults
         {
             Canton = cantonSettings.Canton,
@@ -96,7 +99,10 @@ public class DomainOfInfluenceCantonDefaultsBuilder
     private async Task<CantonSettings> LoadCantonSettings(Guid domainOfInfluenceId)
     {
         var canton = await _doiRepo.GetRootCanton(domainOfInfluenceId);
-        return await _cantonSettingsRepo.GetByDomainOfInfluenceCanton(canton)
-            ?? new CantonSettings();
+        return await LoadCantonSettings(canton);
     }
+
+    private async Task<CantonSettings> LoadCantonSettings(DomainOfInfluenceCanton canton)
+        => await _cantonSettingsRepo.GetByDomainOfInfluenceCanton(canton)
+            ?? new CantonSettings { Canton = canton };
 }

@@ -81,16 +81,18 @@ internal static class ProportionalElectionMapping
             proportionalElection.NumberOfMandates,
             null);
 
+        var canton = proportionalElection.Contest.DomainOfInfluence.CantonDefaults.Canton;
+
         var lists = proportionalElection.ProportionalElectionLists
             .OrderBy(l => l.Position)
-            .Select(ToEchListType)
+            .Select(l => l.ToEchListType(canton))
             .Append(CreateEmptyListType(proportionalElection))
             .ToArray();
         var candidates = proportionalElection.ProportionalElectionLists
             .SelectMany(l => l.ProportionalElectionCandidates)
             .OrderBy(c => c.ProportionalElectionListId)
             .ThenBy(c => c.Number)
-            .Select(c => c.ToEchProportionalCandidateType())
+            .Select(c => c.ToEchProportionalCandidateType(canton))
             .ToArray();
 
         var listUnions = proportionalElection.ProportionalElectionListUnions
@@ -102,7 +104,7 @@ internal static class ProportionalElectionMapping
         return ElectionInformationType.Create(electionType, candidates, lists, listUnions);
     }
 
-    private static ListType ToEchListType(this DataModels.ProportionalElectionList list)
+    private static ListType ToEchListType(this DataModels.ProportionalElectionList list, DataModels.DomainOfInfluenceCanton canton)
     {
         var descriptionInfos = new List<ListDescriptionInfo>();
 
@@ -117,10 +119,10 @@ internal static class ProportionalElectionMapping
         var candidatePositions = new List<CandidatePositionInformation>();
         foreach (var candidate in list.ProportionalElectionCandidates.OrderBy(c => c.Position))
         {
-            candidatePositions.Add(candidate.ToEchCandidatePosition(false));
+            candidatePositions.Add(candidate.ToEchCandidatePosition(false, canton));
             if (candidate.Accumulated)
             {
-                candidatePositions.Add(candidate.ToEchCandidatePosition(true));
+                candidatePositions.Add(candidate.ToEchCandidatePosition(true, canton));
             }
         }
 
@@ -241,16 +243,16 @@ internal static class ProportionalElectionMapping
         };
     }
 
-    private static CandidateType ToEchProportionalCandidateType(this DataModels.ProportionalElectionCandidate candidate)
+    private static CandidateType ToEchProportionalCandidateType(this DataModels.ProportionalElectionCandidate candidate, DataModels.DomainOfInfluenceCanton canton)
     {
-        var candidateType = candidate.ToEchCandidateType(candidate.Party?.ShortDescription);
+        var candidateType = candidate.ToEchCandidateType(candidate.Party?.ShortDescription, canton);
         candidateType.CandidateReference = GenerateCandidateReference(candidate);
         return candidateType;
     }
 
-    private static CandidatePositionInformation ToEchCandidatePosition(this DataModels.ProportionalElectionCandidate candidate, bool accumulatedPosition)
+    private static CandidatePositionInformation ToEchCandidatePosition(this DataModels.ProportionalElectionCandidate candidate, bool accumulatedPosition, DataModels.DomainOfInfluenceCanton canton)
     {
-        var text = candidate.ToEchCandidateText();
+        var text = candidate.ToEchCandidateText(candidate.Party?.ShortDescription, canton);
         var position = accumulatedPosition ? candidate.AccumulatedPosition : candidate.Position;
         return CandidatePositionInformation.Create(position, GenerateCandidateReference(candidate), candidate.Id.ToString(), text);
     }
