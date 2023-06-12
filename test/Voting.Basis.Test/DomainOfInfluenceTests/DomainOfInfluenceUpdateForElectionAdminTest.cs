@@ -360,6 +360,7 @@ public class DomainOfInfluenceUpdateForElectionAdminTest : BaseGrpcTest<DomainOf
                 },
                 ExternalPrintingCenter = true,
                 ExternalPrintingCenterEaiMessageType = "1234567",
+                SapCustomerOrderNumber = "55431",
                 PlausibilisationConfiguration = DomainOfInfluenceMockedData.BuildPlausibilisationConfiguration(),
             },
         };

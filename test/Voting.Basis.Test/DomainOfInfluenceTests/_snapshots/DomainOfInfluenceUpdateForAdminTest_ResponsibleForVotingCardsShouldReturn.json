@@ -32,6 +32,7 @@
       "ShippingMethod": 3
     },
     "ExternalPrintingCenter": true,
-    "ExternalPrintingCenterEaiMessageType": "1234567"
+    "ExternalPrintingCenterEaiMessageType": "1234567",
+    "SapCustomerOrderNumber": "55431"
   }
 }

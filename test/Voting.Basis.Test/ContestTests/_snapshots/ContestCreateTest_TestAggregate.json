@@ -68,7 +68,8 @@
         "Parties": [],
         "ExternalPrintingCenter": true,
         "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
-        "NameForProtocol": "Stadt Gossau"
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492"
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -145,7 +146,8 @@
         "Parties": [],
         "ExternalPrintingCenter": true,
         "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
-        "NameForProtocol": "Stadt Gossau"
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492"
       },
       "EVoting": true,
       "EVotingFrom": {

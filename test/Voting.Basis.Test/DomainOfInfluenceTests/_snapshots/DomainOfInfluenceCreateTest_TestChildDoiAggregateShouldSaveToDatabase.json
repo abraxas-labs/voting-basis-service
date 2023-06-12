@@ -50,7 +50,8 @@
             "Parties": [],
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
-            "NameForProtocol": "Kanton Genf"
+            "NameForProtocol": "Kanton Genf",
+            "SapCustomerOrderNumber": ""
           },
           {
             "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
@@ -113,7 +114,8 @@
                 "Parties": [],
                 "ExternalPrintingCenter": true,
                 "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
-                "NameForProtocol": "Stadt Gossau"
+                "NameForProtocol": "Stadt Gossau",
+                "SapCustomerOrderNumber": "0005400492"
               },
               {
                 "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
@@ -164,7 +166,8 @@
                     "Parties": [],
                     "ExternalPrintingCenter": false,
                     "ExternalPrintingCenterEaiMessageType": "",
-                    "NameForProtocol": ""
+                    "NameForProtocol": "",
+                    "SapCustomerOrderNumber": ""
                   }
                 ],
                 "Canton": 1,
@@ -198,7 +201,8 @@
                 "Parties": [],
                 "ExternalPrintingCenter": false,
                 "ExternalPrintingCenterEaiMessageType": "",
-                "NameForProtocol": "Stadt Uzwil"
+                "NameForProtocol": "Stadt Uzwil",
+                "SapCustomerOrderNumber": ""
               }
             ],
             "Canton": 1,
@@ -232,7 +236,8 @@
             "Parties": [],
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
-            "NameForProtocol": "Kanton St. Gallen"
+            "NameForProtocol": "Kanton St. Gallen",
+            "SapCustomerOrderNumber": ""
           },
           {
             "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
@@ -274,7 +279,8 @@
             "Parties": [],
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
-            "NameForProtocol": "Kanton Thurgau"
+            "NameForProtocol": "Kanton Thurgau",
+            "SapCustomerOrderNumber": ""
           }
         ],
         "Canton": 1,
@@ -308,7 +314,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       },
       {
         "Id": "22949a1e-fb09-47ec-9e9f-d26675676565",
@@ -359,7 +366,8 @@
             "Parties": [],
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
-            "NameForProtocol": "Oberuzwil Kirche andere"
+            "NameForProtocol": "Oberuzwil Kirche andere",
+            "SapCustomerOrderNumber": ""
           }
         ],
         "Canton": 1,
@@ -393,7 +401,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       }
     ]
   },

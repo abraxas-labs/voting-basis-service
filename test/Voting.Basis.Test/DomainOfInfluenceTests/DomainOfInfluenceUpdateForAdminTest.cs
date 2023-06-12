@@ -529,6 +529,7 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
                 ResponsibleForVotingCards = true,
                 ExternalPrintingCenter = true,
                 ExternalPrintingCenterEaiMessageType = "1234567",
+                SapCustomerOrderNumber = "55431",
                 ContactPerson = new ProtoModels.ContactPerson
                 {
                     Email = "hans@muster.com",

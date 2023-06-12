@@ -50,7 +50,8 @@
             "Parties": [],
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
-            "NameForProtocol": ""
+            "NameForProtocol": "",
+            "SapCustomerOrderNumber": ""
           }
         ],
         "Canton": 1,
@@ -84,7 +85,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       }
     ]
   },

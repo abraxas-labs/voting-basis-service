@@ -9,6 +9,7 @@ using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
+using Google.Protobuf;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
@@ -57,32 +58,47 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportTest
         var request = await CreateValidRequest();
 
         await AdminClient.ImportProportionalElectionListsAndCandidatesAsync(request);
+        var deleteListUnionEvents1 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListUnionDeleted>().ToList();
+        var deleteListEvents1 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListDeleted>().ToList();
         var createListEvents1 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListCreated>().ToList();
         var createCandidateEvents1 = EventPublisherMock.GetPublishedEvents<ProportionalElectionCandidateCreated>().ToList();
         var createListUnionEvents1 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListUnionCreated>().ToList();
         var updateListUnionEntriesEvents1 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListUnionEntriesUpdated>().ToList();
 
-        await TestEventPublisher.Publish(createListEvents1.ToArray());
-        await TestEventPublisher.Publish(5, createCandidateEvents1.ToArray());
-        await TestEventPublisher.Publish(16, createListUnionEvents1.ToArray());
-        await TestEventPublisher.Publish(17, updateListUnionEntriesEvents1.ToArray());
+        var nrOfEvents1 = await Publish(0, deleteListUnionEvents1);
+        nrOfEvents1 = await Publish(nrOfEvents1, deleteListEvents1);
+        nrOfEvents1 = await Publish(nrOfEvents1, createListEvents1);
+        nrOfEvents1 = await Publish(nrOfEvents1, createCandidateEvents1);
+        nrOfEvents1 = await Publish(nrOfEvents1, createListUnionEvents1);
+        await Publish(nrOfEvents1, updateListUnionEntriesEvents1);
         EventPublisherMock.Clear();
 
         await AdminClient.ImportProportionalElectionListsAndCandidatesAsync(request);
+        var deleteListUnionEvents2 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListUnionDeleted>().ToList();
+        var deleteListEvents2 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListDeleted>().ToList();
         var createListEvents2 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListCreated>().ToList();
         var createCandidateEvents2 = EventPublisherMock.GetPublishedEvents<ProportionalElectionCandidateCreated>().ToList();
         var createListUnionEvents2 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListUnionCreated>().ToList();
         var updateListUnionEntriesEvents2 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListUnionEntriesUpdated>().ToList();
 
         createListEvents1.Should().HaveCountGreaterThan(0);
+        deleteListEvents1.Should().HaveCountGreaterThan(0);
         createCandidateEvents1.Should().HaveCountGreaterThan(0);
         createListUnionEvents1.Should().HaveCountGreaterThan(0);
         updateListUnionEntriesEvents1.Should().HaveCountGreaterThan(0);
 
-        createListEvents2.Should().HaveCount(0);
-        createCandidateEvents2.Should().HaveCount(0);
-        createListUnionEvents2.Should().HaveCount(0);
-        updateListUnionEntriesEvents2.Should().HaveCount(0);
+        createListEvents2.Should().HaveCount(createListEvents1.Count);
+        deleteListEvents2.Should().HaveCount(request.Lists.Count);
+        createCandidateEvents2.Should().HaveCount(createCandidateEvents1.Count);
+        createListUnionEvents2.Should().HaveCount(createListUnionEvents1.Count);
+        updateListUnionEntriesEvents2.Should().HaveCount(updateListUnionEntriesEvents1.Count);
+
+        var nrOfEvents2 = await Publish(0, deleteListUnionEvents2);
+        nrOfEvents2 = await Publish(nrOfEvents2, deleteListEvents2);
+        nrOfEvents2 = await Publish(nrOfEvents2, createListEvents2);
+        nrOfEvents2 = await Publish(nrOfEvents2, createCandidateEvents2);
+        nrOfEvents2 = await Publish(nrOfEvents2, createListUnionEvents2);
+        await Publish(nrOfEvents2, updateListUnionEntriesEvents2);
 
         var lists = await RunOnDb(db => db.ProportionalElectionLists
             .Where(l => l.ProportionalElectionId == Guid.Parse(ProportionalElectionMockedData.IdGossauProportionalElectionInContestGossau))
@@ -137,5 +153,12 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportTest
             Lists = { proportionalElectionImport.Lists },
             ListUnions = { proportionalElectionImport.ListUnions },
         };
+    }
+
+    private async Task<long> Publish<TEvent>(long nrOfEvents, ICollection<TEvent> events)
+        where TEvent : IMessage<TEvent>
+    {
+        await TestEventPublisher.Publish(nrOfEvents, events.ToArray());
+        return nrOfEvents + events.Count;
     }
 }

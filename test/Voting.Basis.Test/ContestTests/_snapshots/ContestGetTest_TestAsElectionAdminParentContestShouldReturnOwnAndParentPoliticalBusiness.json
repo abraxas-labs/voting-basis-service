@@ -55,7 +55,8 @@
     "Parties": [],
     "ExternalPrintingCenter": false,
     "ExternalPrintingCenterEaiMessageType": "",
-    "NameForProtocol": ""
+    "NameForProtocol": "",
+    "SapCustomerOrderNumber": ""
   },
   "EVoting": false,
   "EVotingFrom": null,
@@ -116,7 +117,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       },
       "PoliticalBusinessType": 2,
       "Active": true
@@ -176,7 +178,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       },
       "PoliticalBusinessType": 3,
       "Active": true
@@ -236,7 +239,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       },
       "PoliticalBusinessType": 1,
       "Active": true
@@ -296,7 +300,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": "Kanton St. Gallen"
+        "NameForProtocol": "Kanton St. Gallen",
+        "SapCustomerOrderNumber": ""
       },
       "PoliticalBusinessType": 2,
       "Active": true
@@ -356,7 +361,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": "Kanton St. Gallen"
+        "NameForProtocol": "Kanton St. Gallen",
+        "SapCustomerOrderNumber": ""
       },
       "PoliticalBusinessType": 3,
       "Active": true
@@ -416,7 +422,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": "Kanton St. Gallen"
+        "NameForProtocol": "Kanton St. Gallen",
+        "SapCustomerOrderNumber": ""
       },
       "PoliticalBusinessType": 4,
       "Active": false
@@ -488,7 +495,8 @@
         "Parties": [],
         "ExternalPrintingCenter": true,
         "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
-        "NameForProtocol": "Stadt Gossau"
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492"
       },
       "PoliticalBusinessType": 2,
       "Active": true
@@ -560,7 +568,8 @@
         "Parties": [],
         "ExternalPrintingCenter": true,
         "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
-        "NameForProtocol": "Stadt Gossau"
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492"
       },
       "PoliticalBusinessType": 1,
       "Active": true
@@ -632,7 +641,8 @@
         "Parties": [],
         "ExternalPrintingCenter": true,
         "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
-        "NameForProtocol": "Stadt Gossau"
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492"
       },
       "PoliticalBusinessType": 3,
       "Active": true
@@ -692,7 +702,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": "Stadt Uzwil"
+        "NameForProtocol": "Stadt Uzwil",
+        "SapCustomerOrderNumber": ""
       },
       "PoliticalBusinessType": 1,
       "Active": false
@@ -752,7 +763,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": "Stadt Uzwil"
+        "NameForProtocol": "Stadt Uzwil",
+        "SapCustomerOrderNumber": ""
       },
       "PoliticalBusinessType": 2,
       "Active": false
@@ -812,7 +824,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": "Stadt Uzwil"
+        "NameForProtocol": "Stadt Uzwil",
+        "SapCustomerOrderNumber": ""
       },
       "PoliticalBusinessType": 3,
       "Active": false
@@ -884,7 +897,8 @@
         "Parties": [],
         "ExternalPrintingCenter": true,
         "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
-        "NameForProtocol": "Stadt Gossau"
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492"
       },
       "PoliticalBusinessType": 4,
       "Active": false

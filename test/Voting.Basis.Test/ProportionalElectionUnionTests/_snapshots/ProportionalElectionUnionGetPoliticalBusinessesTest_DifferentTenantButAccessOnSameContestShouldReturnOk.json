@@ -55,7 +55,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": "Stadt Uzwil"
+        "NameForProtocol": "Stadt Uzwil",
+        "SapCustomerOrderNumber": ""
       },
       "PoliticalBusinessType": 3,
       "Active": false

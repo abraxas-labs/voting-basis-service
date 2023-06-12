@@ -36,5 +36,6 @@
   ],
   "VotingDocumentsEVotingEaiMessageType": "1234567",
   "ProtocolDomainOfInfluenceSortType": 2,
-  "ProtocolCountingCircleSortType": 2
+  "ProtocolCountingCircleSortType": 2,
+  "ElectoralRegistrationEnabled": false
 }

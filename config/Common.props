@@ -12,7 +12,7 @@
         <FileVersion>0.0.0.1</FileVersion>
         <Version>0.0.0.1</Version>
 
-        <VotingBasisProtoVersion>1.69.3</VotingBasisProtoVersion>
+        <VotingBasisProtoVersion>1.70.0</VotingBasisProtoVersion>
         <VotingLibVersion>10.12.3</VotingLibVersion>
         <EfCoreVersion>6.0.8</EfCoreVersion>
         <MsExtensionsVersion>6.0.0</MsExtensionsVersion>

@@ -47,6 +47,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         SecureConnectId = string.Empty;
         AuthorityName = string.Empty;
         ExternalPrintingCenterEaiMessageType = string.Empty;
+        SapCustomerOrderNumber = string.Empty;
         NameForProtocol = string.Empty;
         ContactPerson = new ContactPerson();
         PlausibilisationConfiguration = new PlausibilisationConfiguration();
@@ -92,6 +93,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
     public bool ExternalPrintingCenter { get; private set; }
 
     public string ExternalPrintingCenterEaiMessageType { get; private set; }
+
+    public string SapCustomerOrderNumber { get; private set; }
 
     public string? LogoRef { get; private set; }
 
@@ -185,7 +188,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         DomainOfInfluenceVotingCardReturnAddress returnAddress,
         DomainOfInfluenceVotingCardPrintData printData,
         bool externalPrintingCenter,
-        string externalPrintingCenterEaiMessageType)
+        string externalPrintingCenterEaiMessageType,
+        string sapCustomerOrderNumber)
     {
         EnsureNotDeleted();
 
@@ -209,6 +213,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
             PrintData = _mapper.Map<DomainOfInfluenceVotingCardPrintDataEventData>(printData),
             ExternalPrintingCenter = externalPrintingCenter,
             ExternalPrintingCenterEaiMessageType = externalPrintingCenterEaiMessageType,
+            SapCustomerOrderNumber = sapCustomerOrderNumber,
         };
 
         RaiseEvent(ev);
@@ -523,7 +528,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
                 domainOfInfluence.ReturnAddress ?? throw new ValidationException(nameof(domainOfInfluence.ReturnAddress) + " must be set"),
                 domainOfInfluence.PrintData ?? throw new ValidationException(nameof(domainOfInfluence.PrintData) + " must be set"),
                 domainOfInfluence.ExternalPrintingCenter,
-                domainOfInfluence.ExternalPrintingCenterEaiMessageType);
+                domainOfInfluence.ExternalPrintingCenterEaiMessageType,
+                domainOfInfluence.SapCustomerOrderNumber);
         }
     }
 }

@@ -37,7 +37,8 @@
       ],
       "VotingDocumentsEVotingEaiMessageType": "1234567",
       "ProtocolDomainOfInfluenceSortType": 1,
-      "ProtocolCountingCircleSortType": 1
+      "ProtocolCountingCircleSortType": 1,
+      "ElectoralRegistrationEnabled": true
     },
     {
       "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -77,7 +78,8 @@
       ],
       "VotingDocumentsEVotingEaiMessageType": "1234567",
       "ProtocolDomainOfInfluenceSortType": 2,
-      "ProtocolCountingCircleSortType": 2
+      "ProtocolCountingCircleSortType": 2,
+      "ElectoralRegistrationEnabled": false
     }
   ]
 }

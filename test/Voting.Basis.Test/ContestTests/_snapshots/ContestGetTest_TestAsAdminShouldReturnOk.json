@@ -67,7 +67,8 @@
     "Parties": [],
     "ExternalPrintingCenter": true,
     "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
-    "NameForProtocol": "Stadt Gossau"
+    "NameForProtocol": "Stadt Gossau",
+    "SapCustomerOrderNumber": "0005400492"
   },
   "EVoting": false,
   "EVotingFrom": null,
@@ -140,7 +141,8 @@
         "Parties": [],
         "ExternalPrintingCenter": true,
         "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
-        "NameForProtocol": "Stadt Gossau"
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492"
       },
       "PoliticalBusinessType": 1,
       "Active": true
@@ -212,7 +214,8 @@
         "Parties": [],
         "ExternalPrintingCenter": true,
         "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
-        "NameForProtocol": "Stadt Gossau"
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492"
       },
       "PoliticalBusinessType": 2,
       "Active": true
@@ -284,7 +287,8 @@
         "Parties": [],
         "ExternalPrintingCenter": true,
         "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
-        "NameForProtocol": "Stadt Gossau"
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492"
       },
       "PoliticalBusinessType": 3,
       "Active": true

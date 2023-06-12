@@ -58,7 +58,8 @@
               "Parties": [],
               "ExternalPrintingCenter": false,
               "ExternalPrintingCenterEaiMessageType": "",
-              "NameForProtocol": ""
+              "NameForProtocol": "",
+              "SapCustomerOrderNumber": ""
             },
             "PoliticalBusinessType": 1,
             "Active": true
@@ -125,7 +126,8 @@
               "Parties": [],
               "ExternalPrintingCenter": false,
               "ExternalPrintingCenterEaiMessageType": "",
-              "NameForProtocol": "Kanton Genf"
+              "NameForProtocol": "Kanton Genf",
+              "SapCustomerOrderNumber": ""
             },
             "PoliticalBusinessType": 1,
             "Active": false
@@ -192,7 +194,8 @@
               "Parties": [],
               "ExternalPrintingCenter": false,
               "ExternalPrintingCenterEaiMessageType": "",
-              "NameForProtocol": ""
+              "NameForProtocol": "",
+              "SapCustomerOrderNumber": ""
             },
             "PoliticalBusinessType": 1,
             "Active": true
@@ -249,7 +252,8 @@
               "Parties": [],
               "ExternalPrintingCenter": false,
               "ExternalPrintingCenterEaiMessageType": "",
-              "NameForProtocol": ""
+              "NameForProtocol": "",
+              "SapCustomerOrderNumber": ""
             },
             "PoliticalBusinessType": 1,
             "Active": false

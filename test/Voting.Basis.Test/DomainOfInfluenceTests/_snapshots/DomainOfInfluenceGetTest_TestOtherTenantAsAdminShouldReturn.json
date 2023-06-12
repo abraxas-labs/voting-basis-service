@@ -146,5 +146,6 @@
   ],
   "ExternalPrintingCenter": false,
   "ExternalPrintingCenterEaiMessageType": "",
-  "NameForProtocol": "Stadt Uzwil"
+  "NameForProtocol": "Stadt Uzwil",
+  "SapCustomerOrderNumber": ""
 }

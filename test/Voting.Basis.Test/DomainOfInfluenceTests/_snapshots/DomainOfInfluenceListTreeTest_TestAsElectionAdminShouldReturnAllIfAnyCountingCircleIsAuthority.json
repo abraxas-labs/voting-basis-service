@@ -49,7 +49,8 @@
           "Parties": [],
           "ExternalPrintingCenter": false,
           "ExternalPrintingCenterEaiMessageType": "",
-          "NameForProtocol": "Oberuzwil Kirche andere"
+          "NameForProtocol": "Oberuzwil Kirche andere",
+          "SapCustomerOrderNumber": ""
         }
       ],
       "Canton": 1,
@@ -83,7 +84,8 @@
       "Parties": [],
       "ExternalPrintingCenter": false,
       "ExternalPrintingCenterEaiMessageType": "",
-      "NameForProtocol": ""
+      "NameForProtocol": "",
+      "SapCustomerOrderNumber": ""
     }
   ]
 }

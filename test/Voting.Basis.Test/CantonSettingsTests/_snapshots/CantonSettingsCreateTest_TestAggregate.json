@@ -38,7 +38,8 @@
         ],
         "VotingDocumentsEVotingEaiMessageType": "1234567",
         "ProtocolDomainOfInfluenceSortType": 1,
-        "ProtocolCountingCircleSortType": 1
+        "ProtocolCountingCircleSortType": 1,
+        "ElectoralRegistrationEnabled": true
       },
       {
         "Id": "2d203a3c-40ba-4b53-a57e-38909d71390c",
@@ -74,7 +75,8 @@
         ],
         "VotingDocumentsEVotingEaiMessageType": "1234567",
         "ProtocolDomainOfInfluenceSortType": 2,
-        "ProtocolCountingCircleSortType": 2
+        "ProtocolCountingCircleSortType": 2,
+        "ElectoralRegistrationEnabled": false
       },
       {
         "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -114,7 +116,8 @@
         ],
         "VotingDocumentsEVotingEaiMessageType": "1234567",
         "ProtocolDomainOfInfluenceSortType": 2,
-        "ProtocolCountingCircleSortType": 2
+        "ProtocolCountingCircleSortType": 2,
+        "ElectoralRegistrationEnabled": false
       }
     ]
   },
@@ -157,6 +160,7 @@
         "ResponsibleForVotingCards": false,
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
+        "SapCustomerOrderNumber": "",
         "Bfs": "",
         "Code": "",
         "SortNumber": 0,

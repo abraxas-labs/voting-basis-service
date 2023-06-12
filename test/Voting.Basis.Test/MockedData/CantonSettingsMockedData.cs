@@ -33,6 +33,7 @@ public static class CantonSettingsMockedData
             Id = GuidStGallen,
             Canton = DomainOfInfluenceCanton.Sg,
             AuthorityName = "St.Gallen",
+            ElectoralRegistrationEnabled = true,
             SecureConnectId = SecureConnectTestDefaults.MockedTenantStGallen.Id,
             ProportionalElectionMandateAlgorithms = new List<ProportionalElectionMandateAlgorithm>
             {

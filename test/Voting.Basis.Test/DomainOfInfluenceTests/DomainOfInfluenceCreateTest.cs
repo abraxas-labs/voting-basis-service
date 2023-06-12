@@ -543,6 +543,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
             ResponsibleForVotingCards = true,
             ExternalPrintingCenter = true,
             ExternalPrintingCenterEaiMessageType = "1234567",
+            SapCustomerOrderNumber = "55431",
             ReturnAddress = new ProtoModels.DomainOfInfluenceVotingCardReturnAddress
             {
                 AddressLine1 = "Zeile 1",

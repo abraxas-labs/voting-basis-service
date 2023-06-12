@@ -26,6 +26,8 @@ public abstract class BaseDomainOfInfluence : BaseEntity
 
     public string ExternalPrintingCenterEaiMessageType { get; set; } = string.Empty;
 
+    public string SapCustomerOrderNumber { get; set; } = string.Empty;
+
     public string Bfs { get; set; } = string.Empty;
 
     public string Code { get; set; } = string.Empty;

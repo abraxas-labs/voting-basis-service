@@ -164,6 +164,7 @@ public class CantonSettingsCreateTest : BaseGrpcTest<CantonSettingsService.Canto
             Canton = SharedProto.DomainOfInfluenceCanton.Tg,
             SecureConnectId = SecureConnectTestDefaults.MockedTenantDefault.Id,
             AuthorityName = "Thurgau",
+            ElectoralRegistrationEnabled = true,
             ProportionalElectionMandateAlgorithms =
                 {
                     SharedProto.ProportionalElectionMandateAlgorithm.HagenbachBischoff,

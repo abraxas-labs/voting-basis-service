@@ -1,4 +1,4 @@
-# ✨ Changelog (`v1.49.5`)
+# ✨ Changelog (`v1.51.0`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v1.49.5
-Previous version ---- v1.45.6
+This version -------- v1.51.0
+Previous version ---- 
 Initial version ----- v1.27.15
-Total commits ------- 15
+Total commits ------- 4
 ```
+
+## [v1.51.0] - 2023-05-25
+
+### 🔄 Changed
+
+- overwrite existing lists on eCH-0157 list import
+
+## [v1.50.1] - 2023-05-02
+
+### 🔄 Changed
+
+- update cd-templates to resolve blocking deploy-trigger
+
+## [v1.50.0] - 2023-05-01
+
+### 🔄 Changed
+
+- add domain of influence sap customer order number
+
+## [v1.49.6] - 2023-05-01
+
+### 🆕 Added
+
+- add domain of influence sap customer order number
 
 ## [v1.49.5] - 2023-04-17
 
@@ -271,19 +295,13 @@ Total commits ------- 15
 
 - added review procedure and enforce for counting circle property for vote, majority election and proportional election
 
-## [v1.34.0] - 2022-09-06
-
 ### 🆕 Added
 
 - add Serilog.Expressions to exclude status endpoints from serilog request logging on success only
 
-## [v1.33.0] - 2022-09-05
-
 ### 🆕 Added
 
 - add application builder extension which is adding the serilog request logging middleware enriching the log context with tracability properties
-
-## [v1.32.11] - 2022-09-05
 
 ### 🔄 Changed
 
@@ -379,6 +397,24 @@ Total commits ------- 15
 - extend evoting date with time
 
 The readmodel needs to be recreated after this MR.
+
+## [v1.34.0] - 2022-09-06
+
+### 🆕 Added
+
+- add Serilog.Expressions to exclude status endpoints from serilog request logging on success only
+
+## [v1.33.0] - 2022-09-05
+
+### 🆕 Added
+
+- add application builder extension which is adding the serilog request logging middleware enriching the log context with tracability properties
+
+## [v1.32.11] - 2022-09-05
+
+### 🔄 Changed
+
+- exchanged custom health check with ef core default one
 
 ## [v1.32.10] - 2022-08-31
 

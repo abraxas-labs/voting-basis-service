@@ -44,7 +44,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -86,7 +87,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       }
     ]
   },
@@ -132,7 +134,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       },
       {
         "Id": "ec1e23a1-bfba-4f1b-b75f-ca31ac53a80f",
@@ -174,7 +177,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       }
     ]
   },
@@ -220,7 +224,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -262,7 +267,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       }
     ]
   },
@@ -311,7 +317,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -353,7 +360,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       }
     ]
   },

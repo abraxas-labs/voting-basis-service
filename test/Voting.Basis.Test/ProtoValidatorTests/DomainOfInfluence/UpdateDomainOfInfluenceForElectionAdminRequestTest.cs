@@ -21,6 +21,8 @@ public class UpdateDomainOfInfluenceForElectionAdminRequestTest : ProtoValidator
         yield return NewValidRequest(x => x.ExternalPrintingCenter = false);
         yield return NewValidRequest(x => x.ExternalPrintingCenterEaiMessageType = string.Empty);
         yield return NewValidRequest(x => x.ExternalPrintingCenterEaiMessageType = RandomStringUtil.GenerateNumeric(7));
+        yield return NewValidRequest(x => x.SapCustomerOrderNumber = string.Empty);
+        yield return NewValidRequest(x => x.SapCustomerOrderNumber = RandomStringUtil.GenerateNumeric(20));
     }
 
     protected override IEnumerable<UpdateDomainOfInfluenceForElectionAdminRequest> NotOkMessages()
@@ -32,6 +34,8 @@ public class UpdateDomainOfInfluenceForElectionAdminRequestTest : ProtoValidator
         yield return NewValidRequest(x => x.ExternalPrintingCenterEaiMessageType = RandomStringUtil.GenerateNumeric(6));
         yield return NewValidRequest(x => x.ExternalPrintingCenterEaiMessageType = RandomStringUtil.GenerateNumeric(8));
         yield return NewValidRequest(x => x.ExternalPrintingCenterEaiMessageType = RandomStringUtil.GenerateAlphabetic(7));
+        yield return NewValidRequest(x => x.SapCustomerOrderNumber = RandomStringUtil.GenerateNumeric(21));
+        yield return NewValidRequest(x => x.SapCustomerOrderNumber = RandomStringUtil.GenerateAlphabetic(20));
     }
 
     private UpdateDomainOfInfluenceForElectionAdminRequest NewValidRequest(Action<UpdateDomainOfInfluenceForElectionAdminRequest>? action = null)

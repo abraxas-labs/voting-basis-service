@@ -69,4 +69,6 @@ public class DomainOfInfluence
     public bool ExternalPrintingCenter { get; set; }
 
     public string ExternalPrintingCenterEaiMessageType { get; set; } = string.Empty;
+
+    public string SapCustomerOrderNumber { get; set; } = string.Empty;
 }

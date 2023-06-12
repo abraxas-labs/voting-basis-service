@@ -59,7 +59,8 @@
             "Parties": [],
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
-            "NameForProtocol": ""
+            "NameForProtocol": "",
+            "SapCustomerOrderNumber": ""
           },
           "EVoting": false,
           "EVotingFrom": null,
@@ -131,7 +132,8 @@
             "Parties": [],
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
-            "NameForProtocol": "Stadt Uzwil"
+            "NameForProtocol": "Stadt Uzwil",
+            "SapCustomerOrderNumber": ""
           },
           "EVoting": true,
           "EVotingFrom": {
@@ -209,7 +211,8 @@
             "Parties": [],
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
-            "NameForProtocol": ""
+            "NameForProtocol": "",
+            "SapCustomerOrderNumber": ""
           },
           "EVoting": false,
           "EVotingFrom": null,
@@ -276,7 +279,8 @@
             "Parties": [],
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
-            "NameForProtocol": ""
+            "NameForProtocol": "",
+            "SapCustomerOrderNumber": ""
           },
           "EVoting": false,
           "EVotingFrom": null,

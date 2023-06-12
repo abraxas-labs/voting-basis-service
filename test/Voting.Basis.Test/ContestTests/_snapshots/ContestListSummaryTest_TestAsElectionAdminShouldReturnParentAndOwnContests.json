@@ -68,7 +68,8 @@
         "Parties": [],
         "ExternalPrintingCenter": true,
         "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
-        "NameForProtocol": "Stadt Gossau"
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492"
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -133,7 +134,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -204,7 +206,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -275,7 +278,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -358,7 +362,8 @@
         "Parties": [],
         "ExternalPrintingCenter": true,
         "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
-        "NameForProtocol": "Stadt Gossau"
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492"
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -428,7 +433,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": "Kanton Thurgau"
+        "NameForProtocol": "Kanton Thurgau",
+        "SapCustomerOrderNumber": ""
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -493,7 +499,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": "Kanton St. Gallen"
+        "NameForProtocol": "Kanton St. Gallen",
+        "SapCustomerOrderNumber": ""
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -577,7 +584,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": ""
       },
       "EVoting": false,
       "EVotingFrom": null,

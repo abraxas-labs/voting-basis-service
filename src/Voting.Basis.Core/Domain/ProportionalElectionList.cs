@@ -18,6 +18,9 @@ public class ProportionalElectionList
 
     public Guid Id { get; internal set; }
 
+    /// <summary>
+    /// Gets the order number ("Listennummer").
+    /// </summary>
     public string OrderNumber { get; private set; }
 
     public Dictionary<string, string> Description { get; private set; }

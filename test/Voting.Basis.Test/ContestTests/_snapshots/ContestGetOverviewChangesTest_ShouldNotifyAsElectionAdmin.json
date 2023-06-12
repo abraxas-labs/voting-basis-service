@@ -59,7 +59,8 @@
             "Parties": [],
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
-            "NameForProtocol": ""
+            "NameForProtocol": "",
+            "SapCustomerOrderNumber": ""
           },
           "EVoting": false,
           "EVotingFrom": null,
@@ -131,7 +132,8 @@
             "Parties": [],
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
-            "NameForProtocol": ""
+            "NameForProtocol": "",
+            "SapCustomerOrderNumber": ""
           },
           "EVoting": false,
           "EVotingFrom": null,
@@ -198,7 +200,8 @@
             "Parties": [],
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
-            "NameForProtocol": ""
+            "NameForProtocol": "",
+            "SapCustomerOrderNumber": ""
           },
           "EVoting": false,
           "EVotingFrom": null,

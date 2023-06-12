@@ -55,7 +55,8 @@
         "Parties": [],
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
-        "NameForProtocol": "Kanton St. Gallen"
+        "NameForProtocol": "Kanton St. Gallen",
+        "SapCustomerOrderNumber": ""
       },
       "PoliticalBusinessType": 2,
       "Active": true
@@ -127,7 +128,8 @@
         "Parties": [],
         "ExternalPrintingCenter": true,
         "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
-        "NameForProtocol": "Stadt Gossau"
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492"
       },
       "PoliticalBusinessType": 2,
       "Active": true

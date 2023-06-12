@@ -53,6 +53,7 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
             },
             ExternalPrintingCenter = true,
             ExternalPrintingCenterEaiMessageType = "GOSSAU-Updated",
+            SapCustomerOrderNumber = "915421",
             EventInfo = GetMockedEventInfo(),
         });
 
@@ -62,5 +63,6 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
         protoDoi.PrintData.MatchSnapshot("printData");
         protoDoi.ExternalPrintingCenter.Should().BeTrue();
         protoDoi.ExternalPrintingCenterEaiMessageType.Should().Be("GOSSAU-Updated");
+        protoDoi.SapCustomerOrderNumber.Should().Be("915421");
     }
 }

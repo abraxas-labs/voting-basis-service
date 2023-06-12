@@ -40,7 +40,8 @@
       "Parties": [],
       "ExternalPrintingCenter": false,
       "ExternalPrintingCenterEaiMessageType": "",
-      "NameForProtocol": "Kanton St. Gallen"
+      "NameForProtocol": "Kanton St. Gallen",
+      "SapCustomerOrderNumber": ""
     }
   ]
 }

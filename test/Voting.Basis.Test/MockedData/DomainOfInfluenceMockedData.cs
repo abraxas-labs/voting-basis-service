@@ -261,6 +261,7 @@ public static class DomainOfInfluenceMockedData
             },
             ExternalPrintingCenter = true,
             ExternalPrintingCenterEaiMessageType = "EAI-Gossau",
+            SapCustomerOrderNumber = "0005400492",
             PlausibilisationConfiguration = BuildDataPlausibilisationConfiguration(),
             Parties = new List<DomainOfInfluenceParty>
             {

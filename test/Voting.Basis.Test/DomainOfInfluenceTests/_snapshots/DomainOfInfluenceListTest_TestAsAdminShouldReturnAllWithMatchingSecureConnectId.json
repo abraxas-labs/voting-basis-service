@@ -40,7 +40,8 @@
       "Parties": [],
       "ExternalPrintingCenter": false,
       "ExternalPrintingCenterEaiMessageType": "",
-      "NameForProtocol": "Kanton St. Gallen"
+      "NameForProtocol": "Kanton St. Gallen",
+      "SapCustomerOrderNumber": ""
     },
     {
       "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
@@ -82,7 +83,8 @@
       "Parties": [],
       "ExternalPrintingCenter": false,
       "ExternalPrintingCenterEaiMessageType": "",
-      "NameForProtocol": "Kanton Thurgau"
+      "NameForProtocol": "Kanton Thurgau",
+      "SapCustomerOrderNumber": ""
     },
     {
       "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
@@ -136,7 +138,8 @@
       "Parties": [],
       "ExternalPrintingCenter": true,
       "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
-      "NameForProtocol": "Stadt Gossau"
+      "NameForProtocol": "Stadt Gossau",
+      "SapCustomerOrderNumber": "0005400492"
     }
   ]
 }

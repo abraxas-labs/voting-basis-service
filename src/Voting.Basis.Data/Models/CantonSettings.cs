@@ -37,4 +37,9 @@ public class CantonSettings : BaseEntity
     public ProtocolDomainOfInfluenceSortType ProtocolDomainOfInfluenceSortType { get; set; }
 
     public ProtocolCountingCircleSortType ProtocolCountingCircleSortType { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether VOTING Stimmregister is enabled.
+    /// </summary>
+    public bool ElectoralRegistrationEnabled { get; set; }
 }

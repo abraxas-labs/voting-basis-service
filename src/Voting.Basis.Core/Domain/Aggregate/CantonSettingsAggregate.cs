@@ -63,6 +63,11 @@ public class CantonSettingsAggregate : BaseEventSourcingAggregate
 
     public ProtocolCountingCircleSortType ProtocolCountingCircleSortType { get; private set; }
 
+    /// <summary>
+    /// Gets a value indicating whether vOTING Stimmregister is enabled.
+    /// </summary>
+    public bool ElectoralRegistrationEnabled { get; private set; }
+
     public void CreateFrom(CantonSettings cantonSettings)
     {
         cantonSettings.Id = BasisUuidV5.BuildCantonSettings(cantonSettings.Canton);

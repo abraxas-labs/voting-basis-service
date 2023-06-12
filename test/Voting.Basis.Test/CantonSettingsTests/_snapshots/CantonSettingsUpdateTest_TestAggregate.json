@@ -39,7 +39,8 @@
         ],
         "VotingDocumentsEVotingEaiMessageType": "1234567",
         "ProtocolDomainOfInfluenceSortType": 2,
-        "ProtocolCountingCircleSortType": 1
+        "ProtocolCountingCircleSortType": 1,
+        "ElectoralRegistrationEnabled": false
       },
       {
         "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -79,7 +80,8 @@
         ],
         "VotingDocumentsEVotingEaiMessageType": "1234567",
         "ProtocolDomainOfInfluenceSortType": 2,
-        "ProtocolCountingCircleSortType": 2
+        "ProtocolCountingCircleSortType": 2,
+        "ElectoralRegistrationEnabled": false
       }
     ]
   },
@@ -123,6 +125,7 @@
         "ResponsibleForVotingCards": false,
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
+        "SapCustomerOrderNumber": "",
         "Bfs": "",
         "Code": "",
         "SortNumber": 0,
@@ -177,6 +180,7 @@
         "ResponsibleForVotingCards": false,
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
+        "SapCustomerOrderNumber": "",
         "Bfs": "",
         "Code": "",
         "SortNumber": 0,
@@ -231,6 +235,7 @@
         "ResponsibleForVotingCards": false,
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
+        "SapCustomerOrderNumber": "",
         "Bfs": "",
         "Code": "",
         "SortNumber": 0,
@@ -285,6 +290,7 @@
         "ResponsibleForVotingCards": false,
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
+        "SapCustomerOrderNumber": "",
         "Bfs": "",
         "Code": "",
         "SortNumber": 0,
@@ -339,6 +345,7 @@
         "ResponsibleForVotingCards": true,
         "ExternalPrintingCenter": true,
         "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
+        "SapCustomerOrderNumber": "0005400492",
         "Bfs": "3443",
         "Code": "",
         "SortNumber": 0,
@@ -405,6 +412,7 @@
         "ResponsibleForVotingCards": false,
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
+        "SapCustomerOrderNumber": "",
         "Bfs": "",
         "Code": "",
         "SortNumber": 0,
@@ -459,6 +467,7 @@
         "ResponsibleForVotingCards": false,
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
+        "SapCustomerOrderNumber": "",
         "Bfs": "3408",
         "Code": "",
         "SortNumber": 0,
@@ -513,6 +522,7 @@
         "ResponsibleForVotingCards": false,
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
+        "SapCustomerOrderNumber": "",
         "Bfs": "",
         "Code": "",
         "SortNumber": 0,

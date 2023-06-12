@@ -144,7 +144,8 @@ public class DomainOfInfluenceWriter
                 data.ReturnAddress ?? throw new ValidationException(nameof(data.ReturnAddress) + " must be set"),
                 data.PrintData ?? throw new ValidationException(nameof(data.PrintData) + " must be set"),
                 data.ExternalPrintingCenter,
-                data.ExternalPrintingCenterEaiMessageType);
+                data.ExternalPrintingCenterEaiMessageType,
+                data.SapCustomerOrderNumber);
         }
 
         await _aggregateRepository.Save(domainOfInfluence);
