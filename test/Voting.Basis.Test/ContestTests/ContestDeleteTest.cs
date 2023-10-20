@@ -14,11 +14,13 @@ using Google.Protobuf;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.EventSignature;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.EventSignature;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Cryptography.Asymmetric;
 using Voting.Lib.Eventing.Testing.Mocks;
+using Voting.Lib.Testing.Mocks;
 using Voting.Lib.Testing.Utils;
 using Xunit;
 
@@ -187,14 +189,20 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
     public async Task TestTransientCatchUpInLiveProcessingWithExistingKey()
     {
         var testEventPublisher = GetService<TestEventPublisher>();
+
+        // Make sure that no existing/expired keys are present, which interfere with this test
         var contestCache = GetService<ContestCache>();
-        var asymmetricAlgorithmAdapter = GetService<IAsymmetricAlgorithmAdapter<EcdsaPublicKey, EcdsaPrivateKey>>();
+        contestCache.Clear();
 
-        var key = asymmetricAlgorithmAdapter.CreateRandomPrivateKey();
-
+        // Make sure that an active key exists. This also ensures that the correct aggregate exists
         var contestId = Guid.Parse(ContestMockedData.IdGossau);
+        var signatureService = GetService<EventSignatureService>();
+        await signatureService.EnsureActiveSignature(contestId, MockedClock.UtcNowDate);
 
-        // should emit the key deleted event even if the key is expired.
+        // Overwrite the key with an expired key, since that should also be removed when a contest is deleted
+        // We cannot do this directly with EnsureActiveSignature(), since it would emit the stop event by itself
+        var asymmetricAlgorithmAdapter = GetService<IAsymmetricAlgorithmAdapter<EcdsaPublicKey, EcdsaPrivateKey>>();
+        var key = asymmetricAlgorithmAdapter.CreateRandomPrivateKey();
         contestCache.Get(contestId)!.KeyData = new ContestCacheEntryKeyData(key, DateTime.MinValue, DateTime.MinValue);
 
         await testEventPublisher.Publish(
@@ -206,7 +214,6 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
             });
 
         contestCache.Get(contestId).Should().BeNull();
-        EventPublisherMock.GetPublishedEvents<EventSignaturePublicKeyCreated>().Should().BeEmpty();
 
         var ev = EventPublisherMock.GetSinglePublishedEvent<EventSignaturePublicKeyDeleted, EventSignaturePublicKeyMetadata>();
         ev.Data.KeyId.Should().Be(key.Id);

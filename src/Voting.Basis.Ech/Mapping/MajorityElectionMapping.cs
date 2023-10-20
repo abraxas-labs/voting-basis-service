@@ -7,6 +7,8 @@ using System.Globalization;
 using System.Linq;
 using eCH_0155_4_0;
 using eCH_0157_4_0;
+using Voting.Basis.Data.Models;
+using Voting.Lib.Ech.Ech0157.Models;
 using DataModels = Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Ech.Mapping;
@@ -41,7 +43,7 @@ internal static class MajorityElectionMapping
 
         var candidates = majorityElection.MajorityElectionCandidates
             .OrderBy(c => c.Number)
-            .Select(c => c.ToEchCandidateType(c.Party, majorityElection.Contest.DomainOfInfluence.CantonDefaults.Canton))
+            .Select(c => c.ToEchCandidateType(c.Party, majorityElection.Contest.DomainOfInfluence.CantonDefaults.Canton, PoliticalBusinessType.MajorityElection))
             .ToArray();
 
         return ElectionInformationType.Create(electionType, candidates);
@@ -64,9 +66,15 @@ internal static class MajorityElectionMapping
             ?.ElectionDescriptionInfo;
         var shortDescriptions = shortDescriptionInfos.ToLanguageDictionary(x => x.Language, x => x.ElectionDescriptionShort ?? electionIdentification, electionIdentification);
 
+        var electionInformationExtension = ElectionMapping.GetExtension(election.Extension?.Extension);
+
         var candidates = election.Candidate
-            .Select(c => c.ToBasisMajorityCandidate(electionId, idLookup))
+            .Select(c => c.ToBasisMajorityCandidate(
+                electionId,
+                idLookup,
+                electionInformationExtension?.Candidates?.FirstOrDefault(e => e.CandidateIdentification == c.CandidateIdentification)))
             .ToList();
+
         for (var i = 0; i < candidates.Count; i++)
         {
             candidates[i].Position = i + 1;
@@ -102,7 +110,7 @@ internal static class MajorityElectionMapping
 
         var candidates = secondaryElection.Candidates
             .OrderBy(c => c.Number)
-            .Select(c => c.ToEchCandidateType(c.Party, secondaryElection.Contest.DomainOfInfluence.CantonDefaults.Canton))
+            .Select(c => c.ToEchCandidateType(c.Party, secondaryElection.Contest.DomainOfInfluence.CantonDefaults.Canton, PoliticalBusinessType.SecondaryMajorityElection))
             .ToArray();
 
         return ElectionInformationType.Create(electionType, candidates);
@@ -118,9 +126,9 @@ internal static class MajorityElectionMapping
         return ReferencedElection.Create(election.Id.ToString(), ElectionRelationType.Major);
     }
 
-    private static DataModels.MajorityElectionCandidate ToBasisMajorityCandidate(this CandidateType candidate, Guid electionId, IdLookup idLookup)
+    private static DataModels.MajorityElectionCandidate ToBasisMajorityCandidate(this CandidateType candidate, Guid electionId, IdLookup idLookup, ElectionInformationExtensionCandidate? candidateExtension)
     {
-        var basisCandidate = candidate.ToBasisCandidate<DataModels.MajorityElectionCandidate>(idLookup);
+        var basisCandidate = candidate.ToBasisCandidate<DataModels.MajorityElectionCandidate>(idLookup, candidateExtension);
 
         basisCandidate.MajorityElectionId = electionId;
         var partyInfos = candidate

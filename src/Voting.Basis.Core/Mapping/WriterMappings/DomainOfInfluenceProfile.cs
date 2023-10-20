@@ -18,6 +18,7 @@ public class DomainOfInfluenceProfile : Profile
         CreateMap<Domain.DomainOfInfluenceCountingCircleEntries, DomainOfInfluenceCountingCircleEntriesEventData>();
         CreateMap<Domain.DomainOfInfluenceVotingCardReturnAddress, DomainOfInfluenceVotingCardReturnAddressEventData>().ReverseMap();
         CreateMap<Domain.DomainOfInfluenceVotingCardPrintData, DomainOfInfluenceVotingCardPrintDataEventData>().ReverseMap();
+        CreateMap<Domain.DomainOfInfluenceVotingCardSwissPostData, DomainOfInfluenceVotingCardSwissPostDataEventData>().ReverseMap();
         CreateMap<Domain.DomainOfInfluenceParty, DomainOfInfluencePartyEventData>().ReverseMap();
     }
 }

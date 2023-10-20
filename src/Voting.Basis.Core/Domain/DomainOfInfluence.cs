@@ -58,6 +58,8 @@ public class DomainOfInfluence
 
     public DomainOfInfluenceVotingCardPrintData? PrintData { get; set; }
 
+    public DomainOfInfluenceVotingCardSwissPostData? SwissPostData { get; set; }
+
     public PlausibilisationConfiguration? PlausibilisationConfiguration { get; set; }
 
     public IReadOnlyCollection<DomainOfInfluenceParty> Parties { get; set; } = Array.Empty<DomainOfInfluenceParty>();

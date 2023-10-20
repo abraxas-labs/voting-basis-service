@@ -1281,7 +1281,7 @@ public static class MajorityElectionMockedData
 
             // needed to create aggregates, since they access user/tenant information
             var authStore = sp.GetRequiredService<IAuthStore>();
-            authStore.SetValues("test", "test", Enumerable.Empty<string>());
+            authStore.SetValues(string.Empty, "test", "test", Enumerable.Empty<string>());
 
             var aggregateRepository = sp.GetRequiredService<IAggregateRepository>();
             var aggregateFactory = sp.GetRequiredService<IAggregateFactory>();

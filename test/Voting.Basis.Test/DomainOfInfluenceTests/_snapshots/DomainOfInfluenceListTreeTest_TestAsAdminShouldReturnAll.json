@@ -50,7 +50,8 @@
           "ExternalPrintingCenter": false,
           "ExternalPrintingCenterEaiMessageType": "",
           "NameForProtocol": "Kanton Genf",
-          "SapCustomerOrderNumber": ""
+          "SapCustomerOrderNumber": "",
+          "SwissPostData": null
         },
         {
           "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
@@ -106,7 +107,8 @@
               "PrintData": {
                 "ShippingAway": 2,
                 "ShippingReturn": 5,
-                "ShippingMethod": 3
+                "ShippingMethod": 3,
+                "ShippingVotingCardsToDeliveryAddress": true
               },
               "HasLogo": false,
               "PlausibilisationConfiguration": null,
@@ -114,7 +116,11 @@
               "ExternalPrintingCenter": true,
               "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
               "NameForProtocol": "Stadt Gossau",
-              "SapCustomerOrderNumber": "0005400492"
+              "SapCustomerOrderNumber": "0005400492",
+              "SwissPostData": {
+                "InvoiceReferenceNumber": "958473825",
+                "FrankingLicenceReturnNumber": "562984257"
+              }
             },
             {
               "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
@@ -157,7 +163,8 @@
               "ExternalPrintingCenter": false,
               "ExternalPrintingCenterEaiMessageType": "",
               "NameForProtocol": "Stadt Uzwil",
-              "SapCustomerOrderNumber": ""
+              "SapCustomerOrderNumber": "",
+              "SwissPostData": null
             }
           ],
           "Canton": 1,
@@ -192,7 +199,8 @@
           "ExternalPrintingCenter": false,
           "ExternalPrintingCenterEaiMessageType": "",
           "NameForProtocol": "Kanton St. Gallen",
-          "SapCustomerOrderNumber": ""
+          "SapCustomerOrderNumber": "",
+          "SwissPostData": null
         },
         {
           "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
@@ -235,7 +243,8 @@
           "ExternalPrintingCenter": false,
           "ExternalPrintingCenterEaiMessageType": "",
           "NameForProtocol": "Kanton Thurgau",
-          "SapCustomerOrderNumber": ""
+          "SapCustomerOrderNumber": "",
+          "SwissPostData": null
         }
       ],
       "Canton": 1,
@@ -270,7 +279,8 @@
       "ExternalPrintingCenter": false,
       "ExternalPrintingCenterEaiMessageType": "",
       "NameForProtocol": "",
-      "SapCustomerOrderNumber": ""
+      "SapCustomerOrderNumber": "",
+      "SwissPostData": null
     },
     {
       "Id": "22949a1e-fb09-47ec-9e9f-d26675676565",
@@ -322,7 +332,8 @@
           "ExternalPrintingCenter": false,
           "ExternalPrintingCenterEaiMessageType": "",
           "NameForProtocol": "Oberuzwil Kirche andere",
-          "SapCustomerOrderNumber": ""
+          "SapCustomerOrderNumber": "",
+          "SwissPostData": null
         }
       ],
       "Canton": 1,
@@ -357,7 +368,8 @@
       "ExternalPrintingCenter": false,
       "ExternalPrintingCenterEaiMessageType": "",
       "NameForProtocol": "",
-      "SapCustomerOrderNumber": ""
+      "SapCustomerOrderNumber": "",
+      "SwissPostData": null
     }
   ]
 }

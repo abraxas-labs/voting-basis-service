@@ -29,10 +29,15 @@
     "PrintData": {
       "ShippingAway": 1,
       "ShippingReturn": 4,
-      "ShippingMethod": 1
+      "ShippingMethod": 1,
+      "ShippingVotingCardsToDeliveryAddress": true
     },
     "ExternalPrintingCenter": true,
     "ExternalPrintingCenterEaiMessageType": "1234567",
-    "SapCustomerOrderNumber": "55431"
+    "SapCustomerOrderNumber": "55431",
+    "SwissPostData": {
+      "InvoiceReferenceNumber": "505964478",
+      "FrankingLicenceReturnNumber": "965333145"
+    }
   }
 }

@@ -15,6 +15,7 @@ using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Core.Models;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Data;
+using Voting.Basis.Data.Extensions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
 using Voting.Lib.Common;
@@ -119,7 +120,7 @@ public class ContestReader
 
         return await query
             .Include(c => c.DomainOfInfluence)
-            .OrderBy(x => x.Date)
+            .Order(states)
             .Select(c => new ContestSummary
             {
                 Contest = c,

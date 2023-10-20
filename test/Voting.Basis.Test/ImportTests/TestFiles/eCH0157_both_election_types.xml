@@ -156,6 +156,20 @@
             </eCH-0155:partyAffiliationInfo>
           </eCH-0155:partyAffiliation>
         </eCH-0157:candidate>
+        <eCH-0157:extension>
+          <extension xsi:type="ElectionInformationExtension" xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <candidates xmlns="">
+              <candidate>
+                <candidateIdentification>6433d2b6-0497-4a6b-b69e-e1db2b108bd1</candidateIdentification>
+                <titleAndOccupation>Director Librarian</titleAndOccupation>
+              </candidate>
+              <candidate>
+                <candidateIdentification>060858a7-c68d-4ad0-a626-5046e06dca7d</candidateIdentification>
+                <titleAndOccupation>Chief Executive Officer Accountant</titleAndOccupation>
+              </candidate>
+            </candidates>
+          </extension>
+        </eCH-0157:extension>
       </eCH-0157:electionInformation>
     </eCH-0157:electionGroupBallot>
     <eCH-0157:electionGroupBallot>
@@ -583,7 +597,6 @@
             </eCH-0155:listDescriptionInfo>
           </eCH-0155:listDescription>
           <eCH-0155:isEmptyList>false</eCH-0155:isEmptyList>
-          <eCH-0155:listOrderOfPrecedence>3</eCH-0155:listOrderOfPrecedence>
           <eCH-0155:totalPositionsOnList>2</eCH-0155:totalPositionsOnList>
           <eCH-0155:candidatePosition>
             <eCH-0155:positionOnList>1</eCH-0155:positionOnList>
@@ -620,7 +633,7 @@
             </eCH-0155:listDescriptionInfo>
           </eCH-0155:listDescription>
           <eCH-0155:isEmptyList>false</eCH-0155:isEmptyList>
-          <eCH-0155:listOrderOfPrecedence>4</eCH-0155:listOrderOfPrecedence>
+          <eCH-0155:listOrderOfPrecedence>3</eCH-0155:listOrderOfPrecedence>
           <eCH-0155:totalPositionsOnList>3</eCH-0155:totalPositionsOnList>
           <eCH-0155:candidatePosition>
             <eCH-0155:positionOnList>1</eCH-0155:positionOnList>

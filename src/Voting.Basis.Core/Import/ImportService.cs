@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Shared.V1;
 using AutoMapper;
@@ -20,6 +21,7 @@ using Voting.Lib.Common;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
 using Voting.Lib.Iam.Store;
+using Voting.Lib.MalwareScanner.Services;
 
 namespace Voting.Basis.Core.Import;
 
@@ -36,6 +38,7 @@ public class ImportService
     private readonly EventSignatureService _eventSignatureService;
     private readonly IClock _clock;
     private readonly DomainOfInfluenceReader _domainOfInfluenceReader;
+    private readonly IMalwareScannerService _malwareScannerService;
 
     public ImportService(
         IMapper mapper,
@@ -48,7 +51,8 @@ public class ImportService
         ProportionalElectionWriter proportionalElectionWriter,
         EventSignatureService eventSignatureService,
         IClock clock,
-        DomainOfInfluenceReader domainOfInfluenceReader)
+        DomainOfInfluenceReader domainOfInfluenceReader,
+        IMalwareScannerService malwareScannerService)
     {
         _mapper = mapper;
         _auth = auth;
@@ -61,6 +65,7 @@ public class ImportService
         _eventSignatureService = eventSignatureService;
         _clock = clock;
         _domainOfInfluenceReader = domainOfInfluenceReader;
+        _malwareScannerService = malwareScannerService;
     }
 
     public async Task Import(ContestImport contestImport)
@@ -103,8 +108,9 @@ public class ImportService
         await Import(aggregateImport);
     }
 
-    public ContestImport DeserializeImport(ImportType importType, string content)
+    public ContestImport DeserializeImport(ImportType importType, string content, CancellationToken ct)
     {
+        _malwareScannerService.EnsureFileIsClean(content, ct);
         _auth.EnsureAdminOrElectionAdmin();
 
         return importType switch
@@ -220,7 +226,10 @@ public class ImportService
             }
         }
 
-        foreach (var listUnion in electionImport.ListUnions)
+        // first import all root list unions
+        var sortedListUnions = electionImport.ListUnions.OrderBy(x => x.ProportionalElectionRootListUnionId.HasValue);
+
+        foreach (var listUnion in sortedListUnions)
         {
             var listUnionProto = new ProportionalElectionListUnion
             {

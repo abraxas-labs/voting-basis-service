@@ -187,7 +187,7 @@ public class PermissionService
     {
         if (!_auth.IsAuthenticated)
         {
-            _authStore.SetValues(new() { Loginid = _config.SecureConnect.ServiceUserId }, new() { Id = _config.SecureConnect.AbraxasTenantId }, Enumerable.Empty<string>());
+            _authStore.SetValues(string.Empty, new() { Loginid = _config.SecureConnect.ServiceUserId }, new() { Id = _config.SecureConnect.AbraxasTenantId }, Enumerable.Empty<string>());
         }
     }
 

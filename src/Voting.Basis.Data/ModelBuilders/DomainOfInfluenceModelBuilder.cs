@@ -46,6 +46,8 @@ public class DomainOfInfluenceModelBuilder :
         builder.OwnsOne(doi => doi.ReturnAddress);
 
         builder.OwnsOne(doi => doi.PrintData);
+
+        builder.OwnsOne(doi => doi.SwissPostData);
     }
 
     public void Configure(EntityTypeBuilder<DomainOfInfluenceCountingCircle> builder)

@@ -15,7 +15,13 @@ public class ProportionalElectionListImportTest : ProtoValidatorBaseTest<Proport
         var proportionalElectionListImport = new ProportionalElectionListImport
         {
             List = ProportionalElectionListTest.NewValid(),
-            Candidates = { ProportionalElectionCandidateTest.NewValid() },
+            Candidates =
+            {
+                new ProportionalElectionImportCandidate
+                {
+                    Candidate = ProportionalElectionCandidateTest.NewValid(),
+                },
+            },
         };
 
         action?.Invoke(proportionalElectionListImport);

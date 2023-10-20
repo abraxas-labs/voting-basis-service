@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <PackageReference Include="eCH-0157-4-0" Version="2.0.17" />
-    <PackageReference Include="eCH-0159-4-0" Version="2.0.18" />
+    <PackageReference Include="eCH-0157-4-0" Version="$(EaiEchLibVersion)" />
+    <PackageReference Include="eCH-0159-4-0" Version="$(EaiEchLibVersion)" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Voting.Basis.Data\Voting.Basis.Data.csproj" />
     <PackageReference Include="Voting.Lib.Ech" Version="$(VotingLibVersion)" />
+    <PackageReference Include="Voting.Lib.Ech.Ech0157" Version="$(VotingLibVersion)" />
   </ItemGroup>
 
   <ItemGroup>

@@ -250,6 +250,7 @@ public static class DomainOfInfluenceMockedData
                 ShippingAway = VotingCardShippingFranking.B2,
                 ShippingReturn = VotingCardShippingFranking.GasB,
                 ShippingMethod = VotingCardShippingMethod.OnlyPrintingPackagingToMunicipality,
+                ShippingVotingCardsToDeliveryAddress = true,
             },
             ReturnAddress = new DomainOfInfluenceVotingCardReturnAddress
             {
@@ -267,6 +268,11 @@ public static class DomainOfInfluenceMockedData
             {
                     PartyGossauFLiG,
                     PartyGossauDeleted,
+            },
+            SwissPostData = new DomainOfInfluenceVotingCardSwissPostData
+            {
+                InvoiceReferenceNumber = "958473825",
+                FrankingLicenceReturnNumber = "562984257",
             },
         };
 
@@ -508,7 +514,7 @@ public static class DomainOfInfluenceMockedData
 
             // needed to create aggregates, since they access user/tenant information
             var authStore = sp.GetRequiredService<IAuthStore>();
-            authStore.SetValues("test", "test", Enumerable.Empty<string>());
+            authStore.SetValues(string.Empty, "test", "test", Enumerable.Empty<string>());
 
             var aggregateRepository = sp.GetRequiredService<IAggregateRepository>();
             var aggregateFactory = sp.GetRequiredService<IAggregateFactory>();

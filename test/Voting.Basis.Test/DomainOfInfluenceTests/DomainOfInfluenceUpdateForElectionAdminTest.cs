@@ -357,6 +357,7 @@ public class DomainOfInfluenceUpdateForElectionAdminTest : BaseGrpcTest<DomainOf
                     ShippingAway = SharedProto.VotingCardShippingFranking.A,
                     ShippingReturn = SharedProto.VotingCardShippingFranking.GasB,
                     ShippingMethod = SharedProto.VotingCardShippingMethod.OnlyPrintingPackagingToMunicipality,
+                    ShippingVotingCardsToDeliveryAddress = true,
                 },
                 ExternalPrintingCenter = true,
                 ExternalPrintingCenterEaiMessageType = "1234567",

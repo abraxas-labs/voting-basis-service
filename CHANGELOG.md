@@ -1,4 +1,4 @@
-# ✨ Changelog (`v1.51.0`)
+# ✨ Changelog (`v1.57.1`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,163 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v1.51.0
-Previous version ---- 
+This version -------- v1.57.1
+Previous version ---- v1.51.0
 Initial version ----- v1.27.15
-Total commits ------- 4
+Total commits ------- 27
 ```
+
+## [v1.57.1] - 2023-10-05
+
+### 🔄 Changed
+
+- Update lib dependency
+
+## [v1.57.0] - 2023-09-01
+
+### 🔄 Changed
+
+- political first name of candidate from simple text to complex text
+
+## [v1.56.3] - 2023-08-29
+
+### 🔄 Changed
+
+- remove list unions when a main list is removed
+
+## [v1.56.2] - 2023-08-29
+
+### 🔄 Changed
+
+- remove empty list unions when a list is removed
+
+## [v1.56.1] - 2023-08-29
+
+### 🔄 Changed
+
+- remove party from candidate text for proportional election
+
+## [v1.56.0] - 2023-08-28
+
+### 🆕 Added
+
+- add health check for cert pinned authorities
+
+## [v1.55.2] - 2023-08-28
+
+### 🔄 Changed
+
+- extend ech-0157 import to map all languages for occupation.
+
+## [v1.55.1] - 2023-08-28
+
+### 🔄 Changed
+
+- extend eCH-0157 import to add multi-language support for `occupationTitle` candidate attribute
+- extend eCH-0157 export to add multi-language support for empty list description `WoP`
+- extend candidate text transformer to differentiate between custom templates
+
+## [v1.55.0] - 2023-08-22
+
+### 🔄 Changed
+
+- Update eai and lib dependency to deterministic version
+
+## [v1.54.3] - 2023-08-18
+
+### ❌ Removed
+
+- remove swiss post order number
+
+## [v1.54.2] - 2023-08-16
+
+### 🔄 Changed
+
+- list import delete list only on same order number
+
+## [v1.54.1] - 2023-08-10
+
+### 🔄 Changed
+
+- map ballot title occupation from candidate lookup extension during eCH-0157 import
+
+## [v1.54.0] - 2023-08-10
+
+### 🔄 Changed
+
+- import party for proportional election candidates
+
+## [v1.53.0] - 2023-07-26
+
+### 🆕 Added
+
+- add swiss post data
+
+## [v1.52.2] - 2023-07-26
+
+### 🔄 Changed
+
+- Migrate optional owned domain of influence print data correctly
+
+## [v1.52.1] - 2023-07-18
+
+### 🆕 Added
+
+- Add domain of influence voting card shipping choice
+
+## [v1.52.0] - 2023-07-12
+
+### 🆕 Added
+
+- integrate malware scanner to check logo and ech-files import
+
+## [v1.51.8] - 2023-06-26
+
+### 🔄 Changed
+
+- export vote sorting by domain of influence type
+
+## [v1.51.7] - 2023-06-23
+
+### 🔄 Changed
+
+- first import all root list unions
+
+## [v1.51.6] - 2023-06-23
+
+### 🔄 Changed
+
+- Sort contests depending on states
+
+## [v1.51.5] - 2023-06-21
+
+### 🆕 Added
+
+- add export vote description for all languages
+
+## [v1.51.4] - 2023-06-20
+
+### 🔄 Changed
+
+- change candidate text for proportional election
+
+## [v1.51.3] - 2023-06-20
+
+### 🔄 Changed
+
+- list order of precendence optional for import
+
+## [v1.51.2] - 2023-06-20
+
+### 🔄 Changed
+
+- correctly import proportional elections from eCH-0157
+
+## [v1.51.1] - 2023-06-13
+
+### 🔄 Changed
+
+- extend complex input validation rule
 
 ## [v1.51.0] - 2023-05-25
 
@@ -116,7 +268,193 @@ Total commits ------- 4
 
 ### 🔄 Changed
 
-- election candidate locality and origin is allowed to be empty for communal political businesses
+- fix eCH import event signature timing issue and validate eCH imports
+
+### ❌ Removed
+
+- remove internal description, invalid votes and individual empty ballots allowed from elections
+
+### 🆕 Added
+
+- add domain of influence canton
+
+### 🔄 Changed
+
+- update library to extend complex text input validation rules with dash sign
+
+### 🆕 Added
+
+- add candidate origin
+
+### 🆕 Added
+
+- add request recorder tooling for load testing playbook
+
+### 🔄 Changed
+
+- disable proxy in launch settings for local development
+
+### 🔄 Changed
+
+- update voting lib to add transient subscription health check
+
+### 🔄 Changed
+
+- Moved PKCS11 device health check to the publisher
+
+### 🔒 Security
+
+- Set the valid to on the event signature public key correctly
+
+### 🔒 Security
+
+- Added event signature
+
+### 🔄 Changed
+
+- move default object storage initialization to specific appsettings
+
+### 🆕 Added
+
+- input validation
+
+### 🆕 Added
+
+- add log messages for debugging within the updated voting lib
+
+### 🔄 Changed
+
+- use unique identifier for messaging consumer endpoints so each horizontally scaled instance consumes change notifications
+- update rabbitmq image for local development
+
+### 🆕 Added
+
+- Name for protocol for domain of influence and counting circle
+- Sortnumber for counting circle
+- Protocol sort types for domain of influence and counting circle
+
+### 🔄 Changed
+
+- serialize VOTING votes as eCH ballots and vice versa for deserialization
+
+### 🔄 Changed
+
+- Don't store domain of influence name in logo storage, as it may contain non-ASCII characters
+
+### 🆕 Added
+
+- Add eCH message type to eCH-exports
+
+### 🔄 Changed
+
+- set default value of review procedure
+
+### 🆕 Added
+
+- added review procedure and enforce for counting circle property for vote, majority election and proportional election
+
+### 🆕 Added
+
+- add Serilog.Expressions to exclude status endpoints from serilog request logging on success only
+
+### 🆕 Added
+
+- add application builder extension which is adding the serilog request logging middleware enriching the log context with tracability properties
+
+### 🔄 Changed
+
+- exchanged custom health check with ef core default one
+
+### 🔄 Changed
+
+- Restrict end of testing phase with a max timespan before the contest date
+
+### 🔄 Changed
+
+- Allow modification of political business number of secondary majority election after testing phase has ended
+
+### 🔄 Changed
+
+- exchanged ef core default health check with custom one
+
+### 🔄 Changed
+
+- Updated dependencies
+
+### 🔄 Changed
+
+- Restricted modification of code property of counting circles to admins
+
+### 🔒 Security
+
+- Restricted modification of code property of counting circles to the admin role
+
+### 🆕 Added
+
+- Events to notify political businesses and political business unions about a contest merge
+
+### 🔄 Changed
+
+- logo url can be loaded with doi read permissions
+
+### 🔄 Changed
+
+- rewrite comments & validations
+- updated lib version
+
+### 🔄 Changed
+
+- Restrict read permission of political businesses and dependencies (eg. candidates or ballot groups) to the responsible tenant
+- Restrict export permissions of political businesses to the responsible tenant and tenants higher up in the hierarchy
+
+### 🔒 Security
+
+- Restrict read permission of political businesses and dependencies (eg. candidates or ballot groups) to the responsible tenant
+- Restrict export permissions of political businesses to the responsible tenant and tenants higher up in the hierarchy
+
+### 🆕 Added
+
+- add domain of influence external printing center eai message type
+
+### 🆕 Added
+
+- CORS configuration support
+
+### 🆕 Added
+
+- added voting documents e-voting message type to canton settings
+
+### 🔄 Changed
+
+- upgraded underlying dotnet image to sdk 6.0.301 after gituhb issue [#24269](https://github.com/dotnet/sdk/issues/24269) has been fixed
+
+### 🔄 Changed
+
+- added OpenAPI description
+
+### 🔄 Changed
+
+- Restrict counting circle updates for users in role ElectionAdmin to the authorised tenant
+- Restrict domain of influence updates for users in role ElectionAdmin to the authorised tenant
+
+### 🔒 Security
+
+- Restrict counting circle updates for users in role ElectionAdmin to the authorised tenant
+- Restrict domain of influence updates for users in role ElectionAdmin to the authorised tenant
+
+### 🔒 Security
+
+- Fixed authorization check for importing majority election candidates and proportional election lists
+
+### 🆕 Added
+
+- add query split behavior where needed
+
+### 🔄 Changed
+
+- extend evoting date with time
+
+The readmodel needs to be recreated after this MR.
 
 ## [v1.45.4] - 2023-01-18
 
@@ -294,109 +632,6 @@ Total commits ------- 4
 ### 🆕 Added
 
 - added review procedure and enforce for counting circle property for vote, majority election and proportional election
-
-### 🆕 Added
-
-- add Serilog.Expressions to exclude status endpoints from serilog request logging on success only
-
-### 🆕 Added
-
-- add application builder extension which is adding the serilog request logging middleware enriching the log context with tracability properties
-
-### 🔄 Changed
-
-- exchanged custom health check with ef core default one
-
-### 🔄 Changed
-
-- Restrict end of testing phase with a max timespan before the contest date
-
-### 🔄 Changed
-
-- Allow modification of political business number of secondary majority election after testing phase has ended
-
-### 🔄 Changed
-
-- exchanged ef core default health check with custom one
-
-### 🔄 Changed
-
-- Updated dependencies
-
-### 🔄 Changed
-
-- Restricted modification of code property of counting circles to admins
-
-### 🔒 Security
-
-- Restricted modification of code property of counting circles to the admin role
-
-### 🆕 Added
-
-- Events to notify political businesses and political business unions about a contest merge
-
-### 🔄 Changed
-
-- logo url can be loaded with doi read permissions
-
-### 🔄 Changed
-
-- rewrite comments & validations
-- updated lib version
-
-### 🔄 Changed
-
-- Restrict read permission of political businesses and dependencies (eg. candidates or ballot groups) to the responsible tenant
-- Restrict export permissions of political businesses to the responsible tenant and tenants higher up in the hierarchy
-
-### 🔒 Security
-
-- Restrict read permission of political businesses and dependencies (eg. candidates or ballot groups) to the responsible tenant
-- Restrict export permissions of political businesses to the responsible tenant and tenants higher up in the hierarchy
-
-### 🆕 Added
-
-- add domain of influence external printing center eai message type
-
-### 🆕 Added
-
-- CORS configuration support
-
-### 🆕 Added
-
-- added voting documents e-voting message type to canton settings
-
-### 🔄 Changed
-
-- upgraded underlying dotnet image to sdk 6.0.301 after gituhb issue [#24269](https://github.com/dotnet/sdk/issues/24269) has been fixed
-
-### 🔄 Changed
-
-- added OpenAPI description
-
-### 🔄 Changed
-
-- Restrict counting circle updates for users in role ElectionAdmin to the authorised tenant
-- Restrict domain of influence updates for users in role ElectionAdmin to the authorised tenant
-
-### 🔒 Security
-
-- Restrict counting circle updates for users in role ElectionAdmin to the authorised tenant
-- Restrict domain of influence updates for users in role ElectionAdmin to the authorised tenant
-
-### 🔒 Security
-
-- Fixed authorization check for importing majority election candidates and proportional election lists
-
-### 🆕 Added
-
-- add query split behavior where needed
-
-### 🔄 Changed
-
-- extend evoting date with time
-
-The readmodel needs to be recreated after this MR.
 
 ## [v1.34.0] - 2022-09-06
 

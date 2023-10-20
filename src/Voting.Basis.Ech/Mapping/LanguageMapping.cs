@@ -21,12 +21,12 @@ internal static class LanguageMapping
     internal static Dictionary<string, string> ToOptionalLanguageDictionary<T>(
         this IEnumerable<T>? src,
         Func<T, string> keySelector,
-        Func<T, string> valueSelector)
+        Func<T, string?> valueSelector)
     {
         return src
             ?.Select(x => (Language: keySelector(x).ToLower(), Value: valueSelector(x)))
-            .Where(x => Languages.All.Contains(x.Language))
-            .ToDictionary(x => x.Language, x => x.Value)
+            .Where(x => !string.IsNullOrEmpty(x.Value) && Languages.All.Contains(x.Language))
+            .ToDictionary(x => x.Language, x => x.Value!)
             ?? new Dictionary<string, string>();
     }
 
@@ -39,15 +39,17 @@ internal static class LanguageMapping
     /// <param name="keySelector">Language key selector.</param>
     /// <param name="valueSelector">Translation value selector.</param>
     /// <param name="fallbackValue">The fallback value to use, in case no translation entry exists.</param>
+    /// <param name="skipIfNoTranslationExists">Skip filling languages with the fallback value if no translation is available.</param>
     /// <returns>The complete translation dictionary.</returns>
     internal static Dictionary<string, string> ToLanguageDictionary<T>(
         this IEnumerable<T>? src,
         Func<T, string> keySelector,
         Func<T, string> valueSelector,
-        string fallbackValue)
+        string fallbackValue,
+        bool skipIfNoTranslationExists = false)
     {
         var translations = src.ToOptionalLanguageDictionary(keySelector, valueSelector);
-        return FillAllLanguages(translations, fallbackValue);
+        return translations.Count == 0 && skipIfNoTranslationExists ? translations : FillAllLanguages(translations, fallbackValue);
     }
 
     /// <summary>
@@ -56,7 +58,7 @@ internal static class LanguageMapping
     /// <param name="translations">The translations to fill.</param>
     /// <param name="fallbackValue">The fallback value to use, in case no translation entry exists.</param>
     /// <returns>The filled translations.</returns>
-    private static Dictionary<string, string> FillAllLanguages(Dictionary<string, string> translations, string fallbackValue)
+    internal static Dictionary<string, string> FillAllLanguages(Dictionary<string, string> translations, string fallbackValue)
     {
         if (translations.Count == 0)
         {

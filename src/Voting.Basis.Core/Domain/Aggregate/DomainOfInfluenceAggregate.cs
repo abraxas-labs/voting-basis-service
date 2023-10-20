@@ -86,6 +86,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
 
     public DomainOfInfluenceVotingCardPrintData? PrintData { get; private set; }
 
+    public DomainOfInfluenceVotingCardSwissPostData? SwissPostData { get; private set; }
+
     public PlausibilisationConfiguration PlausibilisationConfiguration { get; private set; }
 
     public Guid? ParentId { get; private set; }
@@ -189,7 +191,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         DomainOfInfluenceVotingCardPrintData printData,
         bool externalPrintingCenter,
         string externalPrintingCenterEaiMessageType,
-        string sapCustomerOrderNumber)
+        string sapCustomerOrderNumber,
+        DomainOfInfluenceVotingCardSwissPostData? swissPostData)
     {
         EnsureNotDeleted();
 
@@ -211,6 +214,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
             EventInfo = _eventInfoProvider.NewEventInfo(),
             ReturnAddress = _mapper.Map<DomainOfInfluenceVotingCardReturnAddressEventData>(returnAddress),
             PrintData = _mapper.Map<DomainOfInfluenceVotingCardPrintDataEventData>(printData),
+            SwissPostData = _mapper.Map<DomainOfInfluenceVotingCardSwissPostDataEventData>(swissPostData ?? SwissPostData),
             ExternalPrintingCenter = externalPrintingCenter,
             ExternalPrintingCenterEaiMessageType = externalPrintingCenterEaiMessageType,
             SapCustomerOrderNumber = sapCustomerOrderNumber,
@@ -529,7 +533,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
                 domainOfInfluence.PrintData ?? throw new ValidationException(nameof(domainOfInfluence.PrintData) + " must be set"),
                 domainOfInfluence.ExternalPrintingCenter,
                 domainOfInfluence.ExternalPrintingCenterEaiMessageType,
-                domainOfInfluence.SapCustomerOrderNumber);
+                domainOfInfluence.SapCustomerOrderNumber,
+                domainOfInfluence.SwissPostData ?? throw new ValidationException(nameof(domainOfInfluence.SwissPostData) + " must be set"));
         }
     }
 }

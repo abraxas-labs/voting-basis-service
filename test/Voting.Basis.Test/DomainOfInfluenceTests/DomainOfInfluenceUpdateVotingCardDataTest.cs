@@ -50,10 +50,16 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
                 ShippingAway = SharedProto.VotingCardShippingFranking.A,
                 ShippingReturn = SharedProto.VotingCardShippingFranking.GasB,
                 ShippingMethod = SharedProto.VotingCardShippingMethod.OnlyPrintingPackagingToMunicipality,
+                ShippingVotingCardsToDeliveryAddress = true,
             },
             ExternalPrintingCenter = true,
             ExternalPrintingCenterEaiMessageType = "GOSSAU-Updated",
             SapCustomerOrderNumber = "915421",
+            SwissPostData = new DomainOfInfluenceVotingCardSwissPostDataEventData
+            {
+                InvoiceReferenceNumber = "505964478",
+                FrankingLicenceReturnNumber = "965333145",
+            },
             EventInfo = GetMockedEventInfo(),
         });
 
@@ -61,6 +67,7 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
         var protoDoi = RunScoped<TestMapper, ProtoModels.DomainOfInfluence>(mapper => mapper.Map<ProtoModels.DomainOfInfluence>(doi));
         protoDoi.ReturnAddress.MatchSnapshot("returnAddress");
         protoDoi.PrintData.MatchSnapshot("printData");
+        protoDoi.SwissPostData.MatchSnapshot("swissPostData");
         protoDoi.ExternalPrintingCenter.Should().BeTrue();
         protoDoi.ExternalPrintingCenterEaiMessageType.Should().Be("GOSSAU-Updated");
         protoDoi.SapCustomerOrderNumber.Should().Be("915421");

@@ -19,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Snapper;
 using Voting.Basis.Core.Domain.Aggregate;
+using Voting.Basis.Core.EventSignature;
 using Voting.Basis.Core.Extensions;
 using Voting.Basis.Core.Jobs;
 using Voting.Basis.Data.Models;
@@ -26,7 +27,6 @@ using Voting.Basis.EventSignature;
 using Voting.Basis.Test.MockedData;
 using Voting.Basis.Test.MockedData.Mapping;
 using Voting.Basis.Test.Mocks;
-using Voting.Lib.Cryptography.Asymmetric;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
 using Voting.Lib.Eventing.Testing.Mocks;
@@ -260,12 +260,14 @@ public class ContestArchiveTest : BaseGrpcTest<ContestService.ContestServiceClie
 
         var testEventPublisher = GetService<TestEventPublisher>();
         var contestCache = GetService<ContestCache>();
-        var asymmetricAlgorithmAdapter = GetService<IAsymmetricAlgorithmAdapter<EcdsaPublicKey, EcdsaPrivateKey>>();
 
-        var key = asymmetricAlgorithmAdapter.CreateRandomPrivateKey();
+        // Make sure that an active key exists. This also ensures that the correct aggregate exists
+        var signatureService = GetService<EventSignatureService>();
+        await signatureService.EnsureActiveSignature(contestId, MockedClock.UtcNowDate);
 
-        // should emit the key deleted event even if the key is expired.
-        contestCache.Add(new() { Id = contestId, KeyData = new ContestCacheEntryKeyData(key, DateTime.MinValue, DateTime.MinValue) });
+        var cacheEntry = contestCache.Get(contestId);
+        cacheEntry.Should().NotBeNull();
+        var keyId = cacheEntry!.KeyData!.Key.Id;
 
         await testEventPublisher.Publish(
             false,
@@ -276,10 +278,8 @@ public class ContestArchiveTest : BaseGrpcTest<ContestService.ContestServiceClie
             });
 
         contestCache.Get(contestId).Should().BeNull();
-        EventPublisherMock.GetPublishedEvents<EventSignaturePublicKeyCreated>().Should().BeEmpty();
-
         var ev = EventPublisherMock.GetSinglePublishedEvent<EventSignaturePublicKeyDeleted, EventSignaturePublicKeyMetadata>();
-        ev.Data.KeyId.Should().Be(key.Id);
+        ev.Data.KeyId.Should().Be(keyId);
         ev.Data.AuthenticationTag.Should().NotBeEmpty();
         ev.Metadata!.HsmSignature.Should().NotBeEmpty();
 
@@ -325,7 +325,7 @@ public class ContestArchiveTest : BaseGrpcTest<ContestService.ContestServiceClie
         var services = scope.ServiceProvider;
         var mapper = services.GetRequiredService<TestMapper>();
         services.GetRequiredService<IAuthStore>()
-            .SetValues("test", "test", Enumerable.Empty<string>());
+            .SetValues(string.Empty, "test", "test", Enumerable.Empty<string>());
 
         var contestProto = new ProtoModels.Contest
         {

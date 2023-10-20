@@ -37,7 +37,7 @@ public class ImportService : ServiceBase
 
     public override Task<ContestImport> ResolveImportFile(ResolveImportFileRequest request, ServerCallContext context)
     {
-        var contestImport = _importService.DeserializeImport(request.ImportType, request.FileContent);
+        var contestImport = _importService.DeserializeImport(request.ImportType, request.FileContent, context.CancellationToken);
         return Task.FromResult(_mapper.Map<ContestImport>(contestImport));
     }
 

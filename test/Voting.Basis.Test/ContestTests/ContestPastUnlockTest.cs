@@ -168,7 +168,7 @@ public class ContestPastUnlockTest : BaseGrpcTest<ContestService.ContestServiceC
         var services = scope.ServiceProvider;
         var mapper = services.GetRequiredService<TestMapper>();
         services.GetRequiredService<IAuthStore>()
-            .SetValues("test", "test", Enumerable.Empty<string>());
+            .SetValues(string.Empty, "test", "test", Enumerable.Empty<string>());
 
         var contestProto = new ProtoModels.Contest
         {

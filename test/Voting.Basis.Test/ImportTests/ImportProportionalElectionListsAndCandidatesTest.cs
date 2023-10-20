@@ -38,6 +38,61 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportTest
     {
         var request = await CreateValidRequest();
         await AdminClient.ImportProportionalElectionListsAndCandidatesAsync(request);
+
+        var listEvents = EventPublisherMock.GetPublishedEvents<ProportionalElectionListCreated>().ToList();
+
+        foreach (var listEvent in listEvents)
+        {
+            listEvent.ProportionalElectionList.Id = string.Empty;
+        }
+
+        listEvents.MatchSnapshot("lists");
+
+        var candidateCreatedEvents = EventPublisherMock.GetPublishedEvents<ProportionalElectionCandidateCreated>().ToList();
+
+        foreach (var candCreatedEvent in candidateCreatedEvents)
+        {
+            candCreatedEvent.ProportionalElectionCandidate.Id = string.Empty;
+            candCreatedEvent.ProportionalElectionCandidate.ProportionalElectionListId = string.Empty;
+        }
+
+        candidateCreatedEvents.MatchSnapshot("candidates");
+    }
+
+    [Fact]
+    public async Task TestWithPartyShouldWork()
+    {
+        var request = await CreateValidRequest();
+        request.Lists[0].Candidates[0].Candidate.Party.Id = DomainOfInfluenceMockedData.PartyIdGossauFLiG;
+        await AdminClient.ImportProportionalElectionListsAndCandidatesAsync(request);
+
+        var candidateCreatedEvents = EventPublisherMock.GetPublishedEvents<ProportionalElectionCandidateCreated>();
+        candidateCreatedEvents
+            .Count(x => x.ProportionalElectionCandidate.PartyId == DomainOfInfluenceMockedData.PartyIdGossauFLiG)
+            .Should()
+            .Be(1);
+    }
+
+    [Fact]
+    public async Task TestWithUnknownPartyShouldThrow()
+    {
+        var request = await CreateValidRequest();
+        request.Lists[0].Candidates[0].Candidate.Party.Id = "e8418b54-dd0f-4d89-9e47-68b57abf99e8";
+        await AssertStatus(
+            async () => await AdminClient.ImportProportionalElectionListsAndCandidatesAsync(request),
+            StatusCode.InvalidArgument,
+            "Party with id e8418b54-dd0f-4d89-9e47-68b57abf99e8 referenced by candidate 1a/1 not found");
+    }
+
+    [Fact]
+    public async Task TestWithPartyOfUnrelatedDoiShouldThrow()
+    {
+        var request = await CreateValidRequest();
+        request.Lists[0].Candidates[0].Candidate.Party.Id = DomainOfInfluenceMockedData.PartyIdKirchgemeindeEVP;
+        await AssertStatus(
+            async () => await AdminClient.ImportProportionalElectionListsAndCandidatesAsync(request),
+            StatusCode.InvalidArgument,
+            $"Party with id {DomainOfInfluenceMockedData.PartyIdKirchgemeindeEVP} referenced by candidate 1a/1 not found");
     }
 
     [Fact]

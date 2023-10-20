@@ -22,6 +22,7 @@ using Voting.Basis.Services;
 using Voting.Lib.Common.DependencyInjection;
 using Voting.Lib.Grpc.DependencyInjection;
 using Voting.Lib.Grpc.Interceptors;
+using Voting.Lib.MalwareScanner.DependencyInjection;
 using Voting.Lib.Rest.Middleware;
 using Voting.Lib.Rest.Swagger.DependencyInjection;
 using ExceptionHandler = Voting.Basis.Middlewares.ExceptionHandler;
@@ -54,6 +55,8 @@ public class Startup
         services.AddCore(_appConfig);
         services.AddData(_appConfig.Database, ConfigureDatabase);
         services.AddVotingLibPrometheusAdapter(new() { Interval = _appConfig.PrometheusAdapterInterval });
+
+        services.AddMalwareScanner(_appConfig.MalwareScanner);
 
         ConfigureAuthentication(services.AddVotingLibIam(new() { BaseUrl = _appConfig.SecureConnectApi }));
 
@@ -162,6 +165,7 @@ public class Startup
     private void ConfigureHealthChecks(IHealthChecksBuilder checks)
     {
         checks
+            .AddHttpProbesHealthCheck(_appConfig.HttpProbeHealthCheck, _appConfig.CertificatePinning)
             .AddDbContextCheck<DataContext>()
             .AddEventStore()
             .ForwardToPrometheus();

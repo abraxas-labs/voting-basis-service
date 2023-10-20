@@ -44,7 +44,9 @@ public class Ech0159Serializer
             .Where(v => v.Ballots.Count > 0) // The standard requires at least one ballot
             .GroupBy(v => v.DomainOfInfluenceId)
             .Select(x => x.ToEchVoteInformation())
-            .OrderBy(x => x.Vote.DomainOfInfluenceIdentification)
+            .OrderBy(x => x.DoiType)
+            .ThenBy(x => x.VoteInformation.Vote.DomainOfInfluenceIdentification)
+            .Select(x => x.VoteInformation)
             .ToArray();
 
         return Delivery.Create(_deliveryHeaderProvider.BuildHeader(), EventInitialDelivery.Create(contestType, voteTypes));

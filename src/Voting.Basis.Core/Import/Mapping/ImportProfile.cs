@@ -26,11 +26,11 @@ public class ImportProfile : Profile
         CreateMap<ProportionalElection, Domain.ProportionalElection>();
         CreateMap<ProportionalElectionList, ProportionalElectionListImport>()
             .ForMember(dst => dst.List, opts => opts.MapFrom(x => x))
-            .ForMember(dst => dst.Candidates, opts => opts.MapFrom(x => x.ProportionalElectionCandidates));
+            .ForMember(dst => dst.Candidates, opts => opts.MapFrom(x => x.ProportionalElectionCandidates.Cast<Ech.Models.ProportionalElectionImportCandidate>()));
         CreateMap<ProportionalElectionList, Domain.ProportionalElectionList>();
         CreateMap<ProportionalElectionListUnion, Domain.ProportionalElectionListUnion>()
             .ForMember(dst => dst.ProportionalElectionListIds, opts => opts.MapFrom(src => src.ProportionalElectionListUnionEntries.Select(x => x.ProportionalElectionListId)));
-        CreateMap<ProportionalElectionCandidate, Domain.ProportionalElectionCandidate>();
+        CreateMap<Ech.Models.ProportionalElectionImportCandidate, ProportionalElectionImportCandidate>();
         CreateMap<Vote, VoteImport>()
             .ForMember(dst => dst.Vote, opts => opts.MapFrom(x => x));
         CreateMap<Vote, Domain.Vote>();

@@ -11,5 +11,5 @@ public class ProportionalElectionListImport
 {
     public ProportionalElectionList List { get; set; } = new();
 
-    public IReadOnlyCollection<ProportionalElectionCandidate> Candidates { get; set; } = Array.Empty<ProportionalElectionCandidate>();
+    public IReadOnlyCollection<ProportionalElectionImportCandidate> Candidates { get; set; } = Array.Empty<ProportionalElectionImportCandidate>();
 }

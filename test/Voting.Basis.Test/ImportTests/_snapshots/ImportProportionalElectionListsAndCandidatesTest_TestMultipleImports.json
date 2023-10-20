@@ -26,7 +26,7 @@
         "ProportionalElectionCandidates": [
           {
             "Accumulated": true,
-            "AccumulatedPosition": 2,
+            "AccumulatedPosition": 3,
             "ProportionalElectionListId": "00000000-0000-0000-0000-000000000000",
             "ProportionalElectionList": null,
             "PartyId": null,
@@ -39,7 +39,10 @@
             "DateOfBirth": "1953-09-14T00:00:00Z",
             "Sex": 1,
             "Occupation": {
-              "de": "TB"
+              "de": "TB",
+              "fr": "TB",
+              "it": "TB",
+              "rm": "TB"
             },
             "Title": "T",
             "OccupationTitle": {},
@@ -65,14 +68,17 @@
             "DateOfBirth": "1965-09-11T00:00:00Z",
             "Sex": 2,
             "Occupation": {
-              "de": "Dr. Coiffeuse"
+              "de": "Dr. Coiffeuse",
+              "fr": "Dr. Coiffeuse",
+              "it": "Dr. Coiffeuse",
+              "rm": "Dr. Coiffeuse"
             },
             "Title": "Dr",
             "OccupationTitle": {},
             "Incumbent": false,
             "ZipCode": "zip code",
             "Locality": "locality",
-            "Position": 3,
+            "Position": 2,
             "Origin": "Heimatort",
             "Id": "00000000-0000-0000-0000-000000000000"
           }
@@ -146,59 +152,6 @@
         "Id": "00000000-0000-0000-0000-000000000000"
       },
       {
-        "OrderNumber": "1c",
-        "Description": {
-          "de": "CVP Junioren",
-          "fr": "CVP Junioren",
-          "it": "CVP Junioren",
-          "rm": "CVP Junioren"
-        },
-        "ShortDescription": {
-          "de": "CVP Junioren",
-          "fr": "CVP Junioren",
-          "it": "CVP Junioren",
-          "rm": "CVP Junioren"
-        },
-        "BlankRowCount": 3,
-        "Position": 3,
-        "CountOfCandidates": 2,
-        "CandidateCountOk": true,
-        "ListUnionDescription": {},
-        "SubListUnionDescription": {},
-        "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
-        "ProportionalElection": null,
-        "ProportionalElectionCandidates": [
-          {
-            "Accumulated": true,
-            "AccumulatedPosition": 2,
-            "ProportionalElectionListId": "00000000-0000-0000-0000-000000000000",
-            "ProportionalElectionList": null,
-            "PartyId": null,
-            "Party": null,
-            "Number": "1",
-            "FirstName": "Kim",
-            "LastName": "Ilge",
-            "PoliticalFirstName": "Kim",
-            "PoliticalLastName": "Ilge",
-            "DateOfBirth": "2001-05-11T00:00:00Z",
-            "Sex": 3,
-            "Occupation": {},
-            "Title": "",
-            "OccupationTitle": {},
-            "Incumbent": false,
-            "ZipCode": "zip code",
-            "Locality": "locality",
-            "Position": 1,
-            "Origin": "Heimatort",
-            "Id": "00000000-0000-0000-0000-000000000000"
-          }
-        ],
-        "ProportionalElectionListUnionEntries": [],
-        "ProportionalElectionMainListUnions": [],
-        "ProportionalElectionUnionListEntries": [],
-        "Id": "00000000-0000-0000-0000-000000000000"
-      },
-      {
         "OrderNumber": "2",
         "Description": {
           "de": "SP",
@@ -213,7 +166,7 @@
           "rm": "SP"
         },
         "BlankRowCount": 2,
-        "Position": 4,
+        "Position": 3,
         "CountOfCandidates": 3,
         "CandidateCountOk": true,
         "ListUnionDescription": {},
@@ -290,6 +243,59 @@
             "ZipCode": "zip code",
             "Locality": "locality",
             "Position": 3,
+            "Origin": "Heimatort",
+            "Id": "00000000-0000-0000-0000-000000000000"
+          }
+        ],
+        "ProportionalElectionListUnionEntries": [],
+        "ProportionalElectionMainListUnions": [],
+        "ProportionalElectionUnionListEntries": [],
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "OrderNumber": "1c",
+        "Description": {
+          "de": "CVP Junioren",
+          "fr": "CVP Junioren",
+          "it": "CVP Junioren",
+          "rm": "CVP Junioren"
+        },
+        "ShortDescription": {
+          "de": "CVP Junioren",
+          "fr": "CVP Junioren",
+          "it": "CVP Junioren",
+          "rm": "CVP Junioren"
+        },
+        "BlankRowCount": 3,
+        "Position": 4,
+        "CountOfCandidates": 2,
+        "CandidateCountOk": true,
+        "ListUnionDescription": {},
+        "SubListUnionDescription": {},
+        "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
+        "ProportionalElection": null,
+        "ProportionalElectionCandidates": [
+          {
+            "Accumulated": true,
+            "AccumulatedPosition": 2,
+            "ProportionalElectionListId": "00000000-0000-0000-0000-000000000000",
+            "ProportionalElectionList": null,
+            "PartyId": null,
+            "Party": null,
+            "Number": "1",
+            "FirstName": "Kim",
+            "LastName": "Ilge",
+            "PoliticalFirstName": "Kim",
+            "PoliticalLastName": "Ilge",
+            "DateOfBirth": "2001-05-11T00:00:00Z",
+            "Sex": 3,
+            "Occupation": {},
+            "Title": "",
+            "OccupationTitle": {},
+            "Incumbent": false,
+            "ZipCode": "zip code",
+            "Locality": "locality",
+            "Position": 1,
             "Origin": "Heimatort",
             "Id": "00000000-0000-0000-0000-000000000000"
           }

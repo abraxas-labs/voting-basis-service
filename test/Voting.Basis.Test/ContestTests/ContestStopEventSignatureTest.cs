@@ -8,6 +8,7 @@ using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Metadata;
 using FluentAssertions;
 using Google.Protobuf;
+using Voting.Basis.Core.EventSignature;
 using Voting.Basis.Core.Jobs;
 using Voting.Basis.EventSignature;
 using Voting.Basis.Test.MockedData;
@@ -47,7 +48,7 @@ public class ContestStopEventSignatureTest : BaseTest
     public async Task ShouldStopSignatureWhenKeyExpired()
     {
         var key = _asymmetricAlgorithmAdapter.CreateRandomPrivateKey();
-        var entry = _contestCache.Get(ContestId)!;
+        var entry = await StartSignature();
 
         AdjustableMockedClock.OverrideUtcNow = MockedClock.GetDate(-10);
         entry.KeyData = new ContestCacheEntryKeyData(key, MockedClock.GetDate(-10, -9), MockedClock.GetDate(-10, -1));
@@ -71,7 +72,7 @@ public class ContestStopEventSignatureTest : BaseTest
     public async Task ShouldNotStopSignatureWhenKeyNotExpired()
     {
         var key = _asymmetricAlgorithmAdapter.CreateRandomPrivateKey();
-        var entry = _contestCache.Get(ContestId)!;
+        var entry = await StartSignature();
 
         AdjustableMockedClock.OverrideUtcNow = MockedClock.GetDate(-10);
         entry.KeyData = new ContestCacheEntryKeyData(key, MockedClock.GetDate(-10, -9), MockedClock.GetDate(-10));
@@ -80,5 +81,16 @@ public class ContestStopEventSignatureTest : BaseTest
         await stopContestEventSignatureJob.Run(CancellationToken.None);
 
         EventPublisherMock.GetPublishedEvents<EventSignaturePublicKeyDeleted>().Should().BeEmpty();
+    }
+
+    private async Task<ContestCacheEntry> StartSignature()
+    {
+        // Remove any active/expired keys to make sure nothing interferes with this test
+        var signatureService = GetService<EventSignatureService>();
+        _contestCache.Clear();
+
+        // Create an active key. This also makes sure that the correct aggregate exists
+        await signatureService.EnsureActiveSignature(ContestId, MockedClock.UtcNowDate);
+        return _contestCache.Get(ContestId)!;
     }
 }

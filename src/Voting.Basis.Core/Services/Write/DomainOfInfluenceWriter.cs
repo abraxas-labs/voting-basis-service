@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -27,6 +28,7 @@ using Voting.Lib.Eventing.Persistence;
 using Voting.Lib.Iam.Exceptions;
 using Voting.Lib.Iam.Services;
 using Voting.Lib.Iam.Store;
+using Voting.Lib.MalwareScanner.Services;
 using CountingCircle = Voting.Basis.Data.Models.CountingCircle;
 using DomainOfInfluence = Voting.Basis.Data.Models.DomainOfInfluence;
 using DomainOfInfluenceCountingCircle = Voting.Basis.Data.Models.DomainOfInfluenceCountingCircle;
@@ -50,6 +52,7 @@ public class DomainOfInfluenceWriter
     private readonly ITenantService _tenantService;
     private readonly DomainOfInfluenceLogoStorage _logoStorage;
     private readonly AppConfig _appConfig;
+    private readonly IMalwareScannerService _malwareScannerService;
 
     public DomainOfInfluenceWriter(
         IAggregateRepository aggregateRepository,
@@ -62,7 +65,8 @@ public class DomainOfInfluenceWriter
         IAuth auth,
         ITenantService tenantService,
         DomainOfInfluenceLogoStorage logoStorage,
-        AppConfig appConfig)
+        AppConfig appConfig,
+        IMalwareScannerService malwareScannerService)
     {
         _aggregateRepository = aggregateRepository;
         _aggregateFactory = aggregateFactory;
@@ -75,6 +79,7 @@ public class DomainOfInfluenceWriter
         _tenantService = tenantService;
         _logoStorage = logoStorage;
         _appConfig = appConfig;
+        _malwareScannerService = malwareScannerService;
     }
 
     public async Task Create(Domain.DomainOfInfluence data)
@@ -145,7 +150,8 @@ public class DomainOfInfluenceWriter
                 data.PrintData ?? throw new ValidationException(nameof(data.PrintData) + " must be set"),
                 data.ExternalPrintingCenter,
                 data.ExternalPrintingCenterEaiMessageType,
-                data.SapCustomerOrderNumber);
+                data.SapCustomerOrderNumber,
+                null);
         }
 
         await _aggregateRepository.Save(domainOfInfluence);
@@ -182,10 +188,11 @@ public class DomainOfInfluenceWriter
 
         // We cannot be sure that the logo stream supports seeking, so we copy the content (should not be large)
         using var logoContentStream = new MemoryStream();
+
         await logo.CopyToAsync(logoContentStream, ct);
         logoContentStream.Seek(0, SeekOrigin.Begin);
 
-        EnsureValidLogoContent(logoContentStream, contentType, fileName);
+        await EnsureValidLogoContent(logoContentStream, contentType, fileName, ct);
         logoContentStream.Seek(0, SeekOrigin.Begin);
 
         domainOfInfluence.UpdateLogo();
@@ -384,19 +391,20 @@ public class DomainOfInfluenceWriter
         }
     }
 
-    private void EnsureValidLogoContent(Stream contentStream, [NotNull] string? mimeType, [NotNull] string? fileName)
+    private async Task EnsureValidLogoContent(Stream contentStream, [NotNull] string? mimeType, [NotNull] string? fileName, CancellationToken ct)
     {
         if (string.IsNullOrEmpty(mimeType) || string.IsNullOrEmpty(fileName))
         {
             throw new FluentValidation.ValidationException("Both the MIME type (content type) and the file name must be provided");
         }
 
+        await _malwareScannerService.EnsureFileIsClean(contentStream, ct);
         var extensionFromFileName = Path.GetExtension(fileName)
             .TrimStart(LeadingFileExtensionChar)
             .ToLowerInvariant();
 
         var extensionFromReceivedMimeType = MimeTypesMap.GetExtension(mimeType.Split(ContentTypeCharsetSeparator)[0]);
-
+        contentStream.Seek(0, SeekOrigin.Begin);
         var guessedMimeType = MimeGuesser.GuessMimeType(contentStream);
         var extensionFromGuessedMimeType = MimeTypesMap.GetExtension(guessedMimeType);
 

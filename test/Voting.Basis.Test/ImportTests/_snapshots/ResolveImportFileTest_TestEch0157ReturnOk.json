@@ -110,7 +110,12 @@
           "Sex": 2,
           "Occupation": {},
           "Title": "",
-          "OccupationTitle": {},
+          "OccupationTitle": {
+            "de": "Director Librarian",
+            "fr": "Director Librarian",
+            "it": "Director Librarian",
+            "rm": "Director Librarian"
+          },
           "Party": {
             "de": "FDP",
             "fr": "FDP",
@@ -138,7 +143,12 @@
           "Sex": 1,
           "Occupation": {},
           "Title": "",
-          "OccupationTitle": {},
+          "OccupationTitle": {
+            "de": "Chief Executive Officer Accountant",
+            "fr": "Chief Executive Officer Accountant",
+            "it": "Chief Executive Officer Accountant",
+            "rm": "Chief Executive Officer Accountant"
+          },
           "Party": {
             "de": "FDP",
             "fr": "FDP",
@@ -213,58 +223,82 @@
           },
           "Candidates": [
             {
-              "Id": "",
-              "ProportionalElectionListId": "",
-              "Number": "1",
-              "FirstName": "Peter",
-              "LastName": "Kuster",
-              "PoliticalFirstName": "Peter",
-              "PoliticalLastName": "Kuster",
-              "DateOfBirth": {
-                "Seconds": -514339200,
-                "Nanos": 0
+              "Candidate": {
+                "Id": "",
+                "ProportionalElectionListId": "",
+                "Number": "1",
+                "FirstName": "Peter",
+                "LastName": "Kuster",
+                "PoliticalFirstName": "Peter",
+                "PoliticalLastName": "Kuster",
+                "DateOfBirth": {
+                  "Seconds": -514339200,
+                  "Nanos": 0
+                },
+                "Sex": 1,
+                "Occupation": {
+                  "de": "TB",
+                  "fr": "TB",
+                  "it": "TB",
+                  "rm": "TB"
+                },
+                "Title": "T",
+                "OccupationTitle": {},
+                "Incumbent": true,
+                "ZipCode": "zip code",
+                "Locality": "locality",
+                "Position": 1,
+                "Accumulated": true,
+                "AccumulatedPosition": 3,
+                "Party": {
+                  "Id": "",
+                  "DomainOfInfluenceId": "",
+                  "Name": {},
+                  "ShortDescription": {}
+                },
+                "Origin": "Heimatort"
               },
-              "Sex": 1,
-              "Occupation": {
-                "de": "TB"
-              },
-              "Title": "T",
-              "OccupationTitle": {},
-              "Incumbent": true,
-              "ZipCode": "zip code",
-              "Locality": "locality",
-              "Position": 1,
-              "Accumulated": true,
-              "AccumulatedPosition": 3,
-              "Party": null,
-              "Origin": "Heimatort"
+              "SourcePartyShort": {},
+              "SourceParty": {}
             },
             {
-              "Id": "",
-              "ProportionalElectionListId": "",
-              "Number": "3",
-              "FirstName": "Sabrina",
-              "LastName": "Hansen",
-              "PoliticalFirstName": "Sabrina",
-              "PoliticalLastName": "Hansen",
-              "DateOfBirth": {
-                "Seconds": -135907200,
-                "Nanos": 0
+              "Candidate": {
+                "Id": "",
+                "ProportionalElectionListId": "",
+                "Number": "3",
+                "FirstName": "Sabrina",
+                "LastName": "Hansen",
+                "PoliticalFirstName": "Sabrina",
+                "PoliticalLastName": "Hansen",
+                "DateOfBirth": {
+                  "Seconds": -135907200,
+                  "Nanos": 0
+                },
+                "Sex": 2,
+                "Occupation": {
+                  "de": "Dr. Coiffeuse",
+                  "fr": "Dr. Coiffeuse",
+                  "it": "Dr. Coiffeuse",
+                  "rm": "Dr. Coiffeuse"
+                },
+                "Title": "Dr",
+                "OccupationTitle": {},
+                "Incumbent": false,
+                "ZipCode": "zip code",
+                "Locality": "locality",
+                "Position": 2,
+                "Accumulated": false,
+                "AccumulatedPosition": 0,
+                "Party": {
+                  "Id": "",
+                  "DomainOfInfluenceId": "",
+                  "Name": {},
+                  "ShortDescription": {}
+                },
+                "Origin": "Heimatort"
               },
-              "Sex": 2,
-              "Occupation": {
-                "de": "Dr. Coiffeuse"
-              },
-              "Title": "Dr",
-              "OccupationTitle": {},
-              "Incumbent": false,
-              "ZipCode": "zip code",
-              "Locality": "locality",
-              "Position": 2,
-              "Accumulated": false,
-              "AccumulatedPosition": 0,
-              "Party": null,
-              "Origin": "Heimatort"
+              "SourcePartyShort": {},
+              "SourceParty": {}
             }
           ]
         },
@@ -294,81 +328,38 @@
           },
           "Candidates": [
             {
-              "Id": "",
-              "ProportionalElectionListId": "",
-              "Number": "1",
-              "FirstName": "Hansjörg",
-              "LastName": "Urpa",
-              "PoliticalFirstName": "Hansjörg",
-              "PoliticalLastName": "Urpa",
-              "DateOfBirth": {
-                "Seconds": -1492905600,
-                "Nanos": 0
+              "Candidate": {
+                "Id": "",
+                "ProportionalElectionListId": "",
+                "Number": "1",
+                "FirstName": "Hansjörg",
+                "LastName": "Urpa",
+                "PoliticalFirstName": "Hansjörg",
+                "PoliticalLastName": "Urpa",
+                "DateOfBirth": {
+                  "Seconds": -1492905600,
+                  "Nanos": 0
+                },
+                "Sex": 1,
+                "Occupation": {},
+                "Title": "",
+                "OccupationTitle": {},
+                "Incumbent": false,
+                "ZipCode": "zip code",
+                "Locality": "locality",
+                "Position": 1,
+                "Accumulated": false,
+                "AccumulatedPosition": 0,
+                "Party": {
+                  "Id": "",
+                  "DomainOfInfluenceId": "",
+                  "Name": {},
+                  "ShortDescription": {}
+                },
+                "Origin": "Heimatort"
               },
-              "Sex": 1,
-              "Occupation": {},
-              "Title": "",
-              "OccupationTitle": {},
-              "Incumbent": false,
-              "ZipCode": "zip code",
-              "Locality": "locality",
-              "Position": 1,
-              "Accumulated": false,
-              "AccumulatedPosition": 0,
-              "Party": null,
-              "Origin": "Heimatort"
-            }
-          ]
-        },
-        {
-          "List": {
-            "Id": "",
-            "ProportionalElectionId": "",
-            "OrderNumber": "1c",
-            "ShortDescription": {
-              "de": "CVP Junioren",
-              "fr": "CVP Junioren",
-              "it": "CVP Junioren",
-              "rm": "CVP Junioren"
-            },
-            "BlankRowCount": 3,
-            "Position": 3,
-            "Description": {
-              "de": "CVP Junioren",
-              "fr": "CVP Junioren",
-              "it": "CVP Junioren",
-              "rm": "CVP Junioren"
-            },
-            "CountOfCandidates": 0,
-            "CandidateCountOk": false,
-            "ListUnionDescription": {},
-            "SubListUnionDescription": {}
-          },
-          "Candidates": [
-            {
-              "Id": "",
-              "ProportionalElectionListId": "",
-              "Number": "1",
-              "FirstName": "Kim",
-              "LastName": "Ilge",
-              "PoliticalFirstName": "Kim",
-              "PoliticalLastName": "Ilge",
-              "DateOfBirth": {
-                "Seconds": 989539200,
-                "Nanos": 0
-              },
-              "Sex": 3,
-              "Occupation": {},
-              "Title": "",
-              "OccupationTitle": {},
-              "Incumbent": false,
-              "ZipCode": "zip code",
-              "Locality": "locality",
-              "Position": 1,
-              "Accumulated": true,
-              "AccumulatedPosition": 2,
-              "Party": null,
-              "Origin": "Heimatort"
+              "SourcePartyShort": {},
+              "SourceParty": {}
             }
           ]
         },
@@ -384,7 +375,7 @@
               "rm": "SP"
             },
             "BlankRowCount": 2,
-            "Position": 4,
+            "Position": 3,
             "Description": {
               "de": "SP",
               "fr": "SP",
@@ -398,79 +389,167 @@
           },
           "Candidates": [
             {
-              "Id": "",
-              "ProportionalElectionListId": "",
-              "Number": "1",
-              "FirstName": "Tobias",
-              "LastName": "Fenning",
-              "PoliticalFirstName": "Tobias",
-              "PoliticalLastName": "Fenning",
-              "DateOfBirth": {
-                "Seconds": 400550400,
-                "Nanos": 0
+              "Candidate": {
+                "Id": "",
+                "ProportionalElectionListId": "",
+                "Number": "1",
+                "FirstName": "Tobias",
+                "LastName": "Fenning",
+                "PoliticalFirstName": "Tobias",
+                "PoliticalLastName": "Fenning",
+                "DateOfBirth": {
+                  "Seconds": 400550400,
+                  "Nanos": 0
+                },
+                "Sex": 1,
+                "Occupation": {},
+                "Title": "",
+                "OccupationTitle": {},
+                "Incumbent": true,
+                "ZipCode": "zip code",
+                "Locality": "locality",
+                "Position": 1,
+                "Accumulated": false,
+                "AccumulatedPosition": 0,
+                "Party": {
+                  "Id": "",
+                  "DomainOfInfluenceId": "",
+                  "Name": {},
+                  "ShortDescription": {}
+                },
+                "Origin": "Heimatort"
               },
-              "Sex": 1,
-              "Occupation": {},
-              "Title": "",
-              "OccupationTitle": {},
-              "Incumbent": true,
-              "ZipCode": "zip code",
-              "Locality": "locality",
-              "Position": 1,
-              "Accumulated": false,
-              "AccumulatedPosition": 0,
-              "Party": null,
-              "Origin": "Heimatort"
+              "SourcePartyShort": {},
+              "SourceParty": {}
             },
             {
-              "Id": "",
-              "ProportionalElectionListId": "",
-              "Number": "2",
-              "FirstName": "Katja",
-              "LastName": "Jung",
-              "PoliticalFirstName": "Katja",
-              "PoliticalLastName": "Jung",
-              "DateOfBirth": {
-                "Seconds": 762307200,
-                "Nanos": 0
+              "Candidate": {
+                "Id": "",
+                "ProportionalElectionListId": "",
+                "Number": "2",
+                "FirstName": "Katja",
+                "LastName": "Jung",
+                "PoliticalFirstName": "Katja",
+                "PoliticalLastName": "Jung",
+                "DateOfBirth": {
+                  "Seconds": 762307200,
+                  "Nanos": 0
+                },
+                "Sex": 2,
+                "Occupation": {},
+                "Title": "",
+                "OccupationTitle": {},
+                "Incumbent": false,
+                "ZipCode": "zip code",
+                "Locality": "locality",
+                "Position": 2,
+                "Accumulated": false,
+                "AccumulatedPosition": 0,
+                "Party": {
+                  "Id": "",
+                  "DomainOfInfluenceId": "",
+                  "Name": {},
+                  "ShortDescription": {}
+                },
+                "Origin": "Heimatort"
               },
-              "Sex": 2,
-              "Occupation": {},
-              "Title": "",
-              "OccupationTitle": {},
-              "Incumbent": false,
-              "ZipCode": "zip code",
-              "Locality": "locality",
-              "Position": 2,
-              "Accumulated": false,
-              "AccumulatedPosition": 0,
-              "Party": null,
-              "Origin": "Heimatort"
+              "SourcePartyShort": {},
+              "SourceParty": {}
             },
             {
-              "Id": "",
-              "ProportionalElectionListId": "",
-              "Number": "3",
-              "FirstName": "Roman",
-              "LastName": "Heer",
-              "PoliticalFirstName": "Roman",
-              "PoliticalLastName": "Heer",
-              "DateOfBirth": {
-                "Seconds": 85017600,
-                "Nanos": 0
+              "Candidate": {
+                "Id": "",
+                "ProportionalElectionListId": "",
+                "Number": "3",
+                "FirstName": "Roman",
+                "LastName": "Heer",
+                "PoliticalFirstName": "Roman",
+                "PoliticalLastName": "Heer",
+                "DateOfBirth": {
+                  "Seconds": 85017600,
+                  "Nanos": 0
+                },
+                "Sex": 1,
+                "Occupation": {},
+                "Title": "",
+                "OccupationTitle": {},
+                "Incumbent": false,
+                "ZipCode": "zip code",
+                "Locality": "locality",
+                "Position": 3,
+                "Accumulated": false,
+                "AccumulatedPosition": 0,
+                "Party": {
+                  "Id": "",
+                  "DomainOfInfluenceId": "",
+                  "Name": {},
+                  "ShortDescription": {}
+                },
+                "Origin": "Heimatort"
               },
-              "Sex": 1,
-              "Occupation": {},
-              "Title": "",
-              "OccupationTitle": {},
-              "Incumbent": false,
-              "ZipCode": "zip code",
-              "Locality": "locality",
-              "Position": 3,
-              "Accumulated": false,
-              "AccumulatedPosition": 0,
-              "Party": null,
-              "Origin": "Heimatort"
+              "SourcePartyShort": {},
+              "SourceParty": {}
+            }
+          ]
+        },
+        {
+          "List": {
+            "Id": "",
+            "ProportionalElectionId": "",
+            "OrderNumber": "1c",
+            "ShortDescription": {
+              "de": "CVP Junioren",
+              "fr": "CVP Junioren",
+              "it": "CVP Junioren",
+              "rm": "CVP Junioren"
+            },
+            "BlankRowCount": 3,
+            "Position": 4,
+            "Description": {
+              "de": "CVP Junioren",
+              "fr": "CVP Junioren",
+              "it": "CVP Junioren",
+              "rm": "CVP Junioren"
+            },
+            "CountOfCandidates": 0,
+            "CandidateCountOk": false,
+            "ListUnionDescription": {},
+            "SubListUnionDescription": {}
+          },
+          "Candidates": [
+            {
+              "Candidate": {
+                "Id": "",
+                "ProportionalElectionListId": "",
+                "Number": "1",
+                "FirstName": "Kim",
+                "LastName": "Ilge",
+                "PoliticalFirstName": "Kim",
+                "PoliticalLastName": "Ilge",
+                "DateOfBirth": {
+                  "Seconds": 989539200,
+                  "Nanos": 0
+                },
+                "Sex": 3,
+                "Occupation": {},
+                "Title": "",
+                "OccupationTitle": {},
+                "Incumbent": false,
+                "ZipCode": "zip code",
+                "Locality": "locality",
+                "Position": 1,
+                "Accumulated": true,
+                "AccumulatedPosition": 2,
+                "Party": {
+                  "Id": "",
+                  "DomainOfInfluenceId": "",
+                  "Name": {},
+                  "ShortDescription": {}
+                },
+                "Origin": "Heimatort"
+              },
+              "SourcePartyShort": {},
+              "SourceParty": {}
             }
           ]
         },
@@ -500,104 +579,140 @@
           },
           "Candidates": [
             {
-              "Id": "",
-              "ProportionalElectionListId": "",
-              "Number": "1",
-              "FirstName": "Toni",
-              "LastName": "Brunner",
-              "PoliticalFirstName": "Toni",
-              "PoliticalLastName": "Brunner",
-              "DateOfBirth": {
-                "Seconds": -41212800,
-                "Nanos": 0
+              "Candidate": {
+                "Id": "",
+                "ProportionalElectionListId": "",
+                "Number": "1",
+                "FirstName": "Toni",
+                "LastName": "Brunner",
+                "PoliticalFirstName": "Toni",
+                "PoliticalLastName": "Brunner",
+                "DateOfBirth": {
+                  "Seconds": -41212800,
+                  "Nanos": 0
+                },
+                "Sex": 1,
+                "Occupation": {},
+                "Title": "",
+                "OccupationTitle": {},
+                "Incumbent": false,
+                "ZipCode": "zip code",
+                "Locality": "locality",
+                "Position": 1,
+                "Accumulated": false,
+                "AccumulatedPosition": 0,
+                "Party": {
+                  "Id": "",
+                  "DomainOfInfluenceId": "",
+                  "Name": {},
+                  "ShortDescription": {}
+                },
+                "Origin": "Heimatort"
               },
-              "Sex": 1,
-              "Occupation": {},
-              "Title": "",
-              "OccupationTitle": {},
-              "Incumbent": false,
-              "ZipCode": "zip code",
-              "Locality": "locality",
-              "Position": 1,
-              "Accumulated": false,
-              "AccumulatedPosition": 0,
-              "Party": null,
-              "Origin": "Heimatort"
+              "SourcePartyShort": {},
+              "SourceParty": {}
             },
             {
-              "Id": "",
-              "ProportionalElectionListId": "",
-              "Number": "2",
-              "FirstName": "Manuela",
-              "LastName": "Toska",
-              "PoliticalFirstName": "Manuela",
-              "PoliticalLastName": "Toska",
-              "DateOfBirth": {
-                "Seconds": 463708800,
-                "Nanos": 0
+              "Candidate": {
+                "Id": "",
+                "ProportionalElectionListId": "",
+                "Number": "2",
+                "FirstName": "Manuela",
+                "LastName": "Toska",
+                "PoliticalFirstName": "Manuela",
+                "PoliticalLastName": "Toska",
+                "DateOfBirth": {
+                  "Seconds": 463708800,
+                  "Nanos": 0
+                },
+                "Sex": 2,
+                "Occupation": {},
+                "Title": "Prof",
+                "OccupationTitle": {},
+                "Incumbent": true,
+                "ZipCode": "zip code",
+                "Locality": "locality",
+                "Position": 2,
+                "Accumulated": true,
+                "AccumulatedPosition": 3,
+                "Party": {
+                  "Id": "",
+                  "DomainOfInfluenceId": "",
+                  "Name": {},
+                  "ShortDescription": {}
+                },
+                "Origin": "Heimatort"
               },
-              "Sex": 2,
-              "Occupation": {},
-              "Title": "Prof",
-              "OccupationTitle": {},
-              "Incumbent": true,
-              "ZipCode": "zip code",
-              "Locality": "locality",
-              "Position": 2,
-              "Accumulated": true,
-              "AccumulatedPosition": 3,
-              "Party": null,
-              "Origin": "Heimatort"
+              "SourcePartyShort": {},
+              "SourceParty": {}
             },
             {
-              "Id": "",
-              "ProportionalElectionListId": "",
-              "Number": "3",
-              "FirstName": "Karl",
-              "LastName": "Peter",
-              "PoliticalFirstName": "Karl",
-              "PoliticalLastName": "Peter",
-              "DateOfBirth": {
-                "Seconds": 1000166400,
-                "Nanos": 0
+              "Candidate": {
+                "Id": "",
+                "ProportionalElectionListId": "",
+                "Number": "3",
+                "FirstName": "Karl",
+                "LastName": "Peter",
+                "PoliticalFirstName": "Karl",
+                "PoliticalLastName": "Peter",
+                "DateOfBirth": {
+                  "Seconds": 1000166400,
+                  "Nanos": 0
+                },
+                "Sex": 1,
+                "Occupation": {},
+                "Title": "",
+                "OccupationTitle": {},
+                "Incumbent": false,
+                "ZipCode": "zip code",
+                "Locality": "locality",
+                "Position": 4,
+                "Accumulated": false,
+                "AccumulatedPosition": 0,
+                "Party": {
+                  "Id": "",
+                  "DomainOfInfluenceId": "",
+                  "Name": {},
+                  "ShortDescription": {}
+                },
+                "Origin": "Heimatort"
               },
-              "Sex": 1,
-              "Occupation": {},
-              "Title": "",
-              "OccupationTitle": {},
-              "Incumbent": false,
-              "ZipCode": "zip code",
-              "Locality": "locality",
-              "Position": 4,
-              "Accumulated": false,
-              "AccumulatedPosition": 0,
-              "Party": null,
-              "Origin": "Heimatort"
+              "SourcePartyShort": {},
+              "SourceParty": {}
             },
             {
-              "Id": "",
-              "ProportionalElectionListId": "",
-              "Number": "5",
-              "FirstName": "Emil",
-              "LastName": "Kuster",
-              "PoliticalFirstName": "Emil",
-              "PoliticalLastName": "Kuster",
-              "DateOfBirth": {
-                "Seconds": 933465600,
-                "Nanos": 0
+              "Candidate": {
+                "Id": "",
+                "ProportionalElectionListId": "",
+                "Number": "5",
+                "FirstName": "Emil",
+                "LastName": "Kuster",
+                "PoliticalFirstName": "Emil",
+                "PoliticalLastName": "Kuster",
+                "DateOfBirth": {
+                  "Seconds": 933465600,
+                  "Nanos": 0
+                },
+                "Sex": 1,
+                "Occupation": {},
+                "Title": "",
+                "OccupationTitle": {},
+                "Incumbent": false,
+                "ZipCode": "zip code",
+                "Locality": "locality",
+                "Position": 5,
+                "Accumulated": false,
+                "AccumulatedPosition": 0,
+                "Party": {
+                  "Id": "",
+                  "DomainOfInfluenceId": "",
+                  "Name": {},
+                  "ShortDescription": {}
+                },
+                "Origin": "Heimatort"
               },
-              "Sex": 1,
-              "Occupation": {},
-              "Title": "",
-              "OccupationTitle": {},
-              "Incumbent": false,
-              "ZipCode": "zip code",
-              "Locality": "locality",
-              "Position": 5,
-              "Accumulated": false,
-              "AccumulatedPosition": 0,
-              "Party": null,
-              "Origin": "Heimatort"
+              "SourcePartyShort": {},
+              "SourceParty": {}
             }
           ]
         }

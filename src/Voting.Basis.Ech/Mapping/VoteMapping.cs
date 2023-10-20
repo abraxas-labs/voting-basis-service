@@ -17,25 +17,30 @@ internal static class VoteMapping
 {
     private const string DefaultVoteDescription = "Volksabstimmung vom {0}";
     private const string VoteDescriptionDateFormat = "dd.MM.yyyy";
-    private static readonly Dictionary<DataModels.DomainOfInfluenceType, string> VoteDescriptionMapping = new()
+    private static readonly Dictionary<DataModels.DomainOfInfluenceType, Dictionary<string, string>> VoteDescriptionMapping = new()
     {
-        [DataModels.DomainOfInfluenceType.Ch] = "Eidgenössische Volksabstimmung vom {0}",
-        [DataModels.DomainOfInfluenceType.Ct] = "Kantonale Volksabstimmung vom {0}",
-        [DataModels.DomainOfInfluenceType.Bz] = "Bezirks-Volksabstimmung vom {0}",
-        [DataModels.DomainOfInfluenceType.Mu] = "Gemeinde-Volksabstimmung vom {0}",
-        [DataModels.DomainOfInfluenceType.Sk] = "Gemeinde-Volksabstimmung vom {0}",
+        [DataModels.DomainOfInfluenceType.Ch] = new()
+        {
+            [Languages.German] = "Eidgenössische Volksabstimmung vom {0}",
+            [Languages.French] = "Votation populaire fédérale du {0}",
+            [Languages.Italian] = "Votazione popolare federale del {0}",
+            [Languages.Romansh] = "Votaziun federala dal pievel dals {0}",
+        },
+        [DataModels.DomainOfInfluenceType.Ct] = Languages.All.ToDictionary(x => x, _ => "Kantonale Volksabstimmung vom {0}"),
+        [DataModels.DomainOfInfluenceType.Bz] = Languages.All.ToDictionary(x => x, _ => "Bezirks-Volksabstimmung vom {0}"),
+        [DataModels.DomainOfInfluenceType.Mu] = Languages.All.ToDictionary(x => x, _ => "Gemeinde-Volksabstimmung vom {0}"),
+        [DataModels.DomainOfInfluenceType.Sk] = Languages.All.ToDictionary(x => x, _ => "Gemeinde-Volksabstimmung vom {0}"),
     };
 
-    internal static VoteInformation ToEchVoteInformation(this IEnumerable<DataModels.Vote> votes)
+    internal static (VoteInformation VoteInformation, DataModels.DomainOfInfluenceType DoiType) ToEchVoteInformation(this IEnumerable<DataModels.Vote> votes)
     {
         // Ensure consistent ordering
         var orderedVotes = votes.OrderBy(x => x.PoliticalBusinessNumber).ToList();
         var firstVote = orderedVotes[0];
 
-        var voteDescriptionFormat = VoteDescriptionMapping.GetValueOrDefault(firstVote.DomainOfInfluence!.Type, DefaultVoteDescription);
-        var voteDescription = string.Format(voteDescriptionFormat, firstVote.Contest.Date.ToString(VoteDescriptionDateFormat));
-        var voteDescriptions = Languages.All
-            .Select(x => VoteDescriptionInfoType.Create(x, voteDescription))
+        var voteDescriptionFormats = VoteDescriptionMapping.GetValueOrDefault(firstVote.DomainOfInfluence!.Type, Languages.All.ToDictionary(x => x, _ => DefaultVoteDescription));
+        var voteDescriptions = voteDescriptionFormats
+            .Select(x => VoteDescriptionInfoType.Create(x.Key, string.Format(x.Value, firstVote.Contest.Date.ToString(VoteDescriptionDateFormat))))
             .ToList();
 
         // Since we do not have a corresponding vote type in our system, just use the first "VOTING vote" ID as the eCH-vote ID
@@ -49,7 +54,7 @@ internal static class VoteMapping
             .SelectMany(v => v.Ballots.OrderBy(b => b.Position))
             .Select((b, i) => b.ToEchBallot(i, ref questionNumber))
             .ToArray();
-        return VoteInformation.Create(voteType, ballotTypes);
+        return (VoteInformation.Create(voteType, ballotTypes), firstVote.DomainOfInfluence!.Type);
     }
 
     internal static IEnumerable<DataModels.Vote> ToBasisVotes(this VoteInformation vote, IdLookup idLookup)

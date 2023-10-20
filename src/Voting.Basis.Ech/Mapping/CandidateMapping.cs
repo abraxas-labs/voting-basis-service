@@ -6,22 +6,23 @@ using System.Collections.Generic;
 using System.Linq;
 using eCH_0010_6_0;
 using eCH_0155_4_0;
+using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Resources;
 using Voting.Lib.Common;
+using Voting.Lib.Ech.Ech0157.Models;
 using DataModels = Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Ech.Mapping;
 
 internal static class CandidateMapping
 {
-    private const string UnknownValue = "-";
     private const int SwissCountryId = 8100;
     private const string SwissCountryIso = "CH";
     private const string SwissCountryNameShort = "Schweiz";
 
-    internal static CandidateType ToEchCandidateType(this DataModels.ElectionCandidate candidate, Dictionary<string, string>? party, DataModels.DomainOfInfluenceCanton canton)
+    internal static CandidateType ToEchCandidateType(this DataModels.ElectionCandidate candidate, Dictionary<string, string>? party, DataModels.DomainOfInfluenceCanton canton, PoliticalBusinessType politicalBusinessType)
     {
-        var text = candidate.ToEchCandidateText(party, canton);
+        var text = candidate.ToEchCandidateText(canton, politicalBusinessType, party);
 
         var occupationInfos = candidate.Occupation
             .Where(x => !string.IsNullOrEmpty(x.Value))
@@ -55,10 +56,10 @@ internal static class CandidateMapping
             {
                 SwissZipCode = zipCodeIsSwiss ? zipCode : null,
                 ForeignZipCode = zipCodeIsSwiss ? null : candidate.ZipCode,
-                Town = candidate.Locality != string.Empty ? candidate.Locality : UnknownValue,
+                Town = candidate.Locality != string.Empty ? candidate.Locality : UnknownMapping.UnknownValue,
                 Country = CountryType.Create(SwissCountryId, SwissCountryIso, SwissCountryNameShort),
             },
-            Swiss.Create(candidate.Origin != string.Empty ? candidate.Origin : UnknownValue),
+            Swiss.Create(candidate.Origin != string.Empty ? candidate.Origin : UnknownMapping.UnknownValue),
             candidate.Sex.ToEchMrMrsType(),
             Languages.German,
             null,
@@ -66,14 +67,21 @@ internal static class CandidateMapping
             partyInfos?.Count > 0 ? PartyAffiliationInformation.Create(partyInfos) : null);
     }
 
-    internal static T ToBasisCandidate<T>(this CandidateType candidate, IdLookup idLookup)
+    internal static T ToBasisCandidate<T>(this CandidateType candidate, IdLookup idLookup, ElectionInformationExtensionCandidate? candidateExtension)
         where T : DataModels.ElectionCandidate, new()
     {
         var occupation = candidate
             .OccupationalTitle
             ?.OccupationalTitleInfo
-            ?.ToOptionalLanguageDictionary(x => x.Language, x => x.OccupationalTitle)
+            ?.ToLanguageDictionary(x => x.Language, x => x.OccupationalTitle, string.Empty, true)
             ?? new Dictionary<string, string>();
+
+        Dictionary<string, string> titleAndOccupation = new();
+        if (!string.IsNullOrEmpty(candidateExtension?.TitleAndOccupation))
+        {
+            titleAndOccupation.Add(Languages.German, candidateExtension.TitleAndOccupation);
+            LanguageMapping.FillAllLanguages(titleAndOccupation, candidateExtension.TitleAndOccupation);
+        }
 
         return new T
         {
@@ -88,17 +96,17 @@ internal static class CandidateMapping
             Incumbent = candidate.IncumbentYesNo ?? false,
             Sex = candidate.Sex.ToBasisSexType(),
             Occupation = occupation,
-            Locality = MapUnknownValue(candidate.DwellingAddress?.Town),
+            OccupationTitle = titleAndOccupation,
+            Locality = UnknownMapping.MapUnknownValue(candidate.DwellingAddress?.Town),
             ZipCode = candidate.DwellingAddress?.SwissZipCode?.ToString()
                       ?? candidate.DwellingAddress?.ForeignZipCode ?? string.Empty,
-            Origin = candidate.SwissForeignChoice is Swiss swiss ? MapUnknownValue(swiss.Origin) : string.Empty,
+            Origin = candidate.SwissForeignChoice is Swiss swiss ? UnknownMapping.MapUnknownValue(swiss.Origin) : string.Empty,
         };
     }
 
-    internal static CandidateTextInformation ToEchCandidateText(this DataModels.ElectionCandidate candidate, Dictionary<string, string>? party, DataModels.DomainOfInfluenceCanton canton)
+    internal static CandidateTextInformation ToEchCandidateText(this DataModels.ElectionCandidate candidate, DataModels.DomainOfInfluenceCanton canton, PoliticalBusinessType politicalBusinessType, Dictionary<string, string>? party = null)
     {
-        var dateOfBirthText =
-            DomainOfInfluenceCantonDataTransformer.EchCandidateDateOfBirthText(canton, candidate.DateOfBirth);
+        var dateOfBirthText = DomainOfInfluenceCantonDataTransformer.EchCandidateDateOfBirthText(canton, candidate.DateOfBirth);
         var candidateTextBase = $"{dateOfBirthText}, {{0}}{candidate.Locality}{{1}}{{2}}";
         var textInfos = new List<CandidateTextInfo>();
         foreach (var language in Languages.All)
@@ -110,9 +118,10 @@ internal static class CandidateMapping
             }
 
             var partyText = string.Empty;
-            if (party != null && party.TryGetValue(language, out var partyShortDescription))
+            if (party?.TryGetValue(language, out string? partyTranslatedText) != null)
             {
-                partyText = $", {partyShortDescription}";
+                partyTranslatedText = DomainOfInfluenceCantonDataTransformer.EchCandidatePartyText(canton, politicalBusinessType, partyTranslatedText);
+                partyText = !string.IsNullOrEmpty(partyTranslatedText) ? $", {partyTranslatedText}" : null;
             }
 
             var incumbentText = string.Empty;
@@ -129,10 +138,5 @@ internal static class CandidateMapping
         }
 
         return CandidateTextInformation.Create(textInfos);
-    }
-
-    private static string MapUnknownValue(string? value)
-    {
-        return value is null or UnknownValue ? string.Empty : value;
     }
 }

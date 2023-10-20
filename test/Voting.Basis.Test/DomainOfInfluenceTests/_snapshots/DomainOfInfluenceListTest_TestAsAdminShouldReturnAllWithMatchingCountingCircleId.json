@@ -41,7 +41,8 @@
       "ExternalPrintingCenter": false,
       "ExternalPrintingCenterEaiMessageType": "",
       "NameForProtocol": "",
-      "SapCustomerOrderNumber": ""
+      "SapCustomerOrderNumber": "",
+      "SwissPostData": null
     },
     {
       "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
@@ -84,7 +85,8 @@
       "ExternalPrintingCenter": false,
       "ExternalPrintingCenterEaiMessageType": "",
       "NameForProtocol": "Kanton St. Gallen",
-      "SapCustomerOrderNumber": ""
+      "SapCustomerOrderNumber": "",
+      "SwissPostData": null
     }
   ]
 }

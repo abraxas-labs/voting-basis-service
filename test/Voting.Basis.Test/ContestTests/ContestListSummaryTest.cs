@@ -61,6 +61,40 @@ public class ContestListSummaryTest : BaseGrpcTest<ContestService.ContestService
         response.ContestSummaries_.Should().HaveCount(7);
     }
 
+    [Fact]
+    public async Task TestShouldOrderAscendingWithUpcomingContests()
+    {
+        var response = await AdminClient.ListSummariesAsync(new ListContestSummariesRequest
+        {
+            States =
+            {
+                SharedProto.ContestState.TestingPhase,
+                SharedProto.ContestState.Active,
+            },
+        });
+
+        var ascendingOrderedContests = response.ContestSummaries_.OrderBy(c => c.Date).ToList();
+        ascendingOrderedContests.Any().Should().BeTrue();
+        ascendingOrderedContests.SequenceEqual(response.ContestSummaries_).Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task TestShouldOrderDescendingWithoutUpcomingContests()
+    {
+        var response = await AdminClient.ListSummariesAsync(new ListContestSummariesRequest
+        {
+            States =
+            {
+                SharedProto.ContestState.PastUnlocked,
+                SharedProto.ContestState.PastLocked,
+                SharedProto.ContestState.Archived,
+            },
+        });
+        var descendingOrderedContests = response.ContestSummaries_.OrderByDescending(c => c.Date).ToList();
+        descendingOrderedContests.Any().Should().BeTrue();
+        descendingOrderedContests.SequenceEqual(response.ContestSummaries_).Should().BeTrue();
+    }
+
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
         await new ContestService.ContestServiceClient(channel)

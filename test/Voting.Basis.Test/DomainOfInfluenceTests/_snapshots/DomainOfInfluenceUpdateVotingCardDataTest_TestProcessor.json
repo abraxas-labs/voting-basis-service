@@ -11,6 +11,11 @@
   "printData": {
     "ShippingAway": 3,
     "ShippingReturn": 5,
-    "ShippingMethod": 3
+    "ShippingMethod": 3,
+    "ShippingVotingCardsToDeliveryAddress": true
+  },
+  "swissPostData": {
+    "InvoiceReferenceNumber": "505964478",
+    "FrankingLicenceReturnNumber": "965333145"
   }
 }

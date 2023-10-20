@@ -42,5 +42,7 @@ public abstract class BaseDomainOfInfluence : BaseEntity
 
     public DomainOfInfluenceVotingCardPrintData? PrintData { get; set; }
 
+    public DomainOfInfluenceVotingCardSwissPostData? SwissPostData { get; set; }
+
     public DateTime CreatedOn { get; set; } = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
 }

@@ -60,7 +60,8 @@
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "",
-            "SapCustomerOrderNumber": ""
+            "SapCustomerOrderNumber": "",
+            "SwissPostData": null
           },
           "EVoting": false,
           "EVotingFrom": null,
@@ -133,7 +134,8 @@
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "Stadt Uzwil",
-            "SapCustomerOrderNumber": ""
+            "SapCustomerOrderNumber": "",
+            "SwissPostData": null
           },
           "EVoting": true,
           "EVotingFrom": {
@@ -212,7 +214,8 @@
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "",
-            "SapCustomerOrderNumber": ""
+            "SapCustomerOrderNumber": "",
+            "SwissPostData": null
           },
           "EVoting": false,
           "EVotingFrom": null,
@@ -280,7 +283,8 @@
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "",
-            "SapCustomerOrderNumber": ""
+            "SapCustomerOrderNumber": "",
+            "SwissPostData": null
           },
           "EVoting": false,
           "EVotingFrom": null,

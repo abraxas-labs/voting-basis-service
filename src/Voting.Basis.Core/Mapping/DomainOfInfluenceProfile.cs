@@ -18,5 +18,7 @@ public sealed class DomainOfInfluenceProfile : Profile
         CreateMap<DomainOfInfluenceVotingCardPrintDataEventData, DomainOfInfluenceVotingCardPrintData>();
         CreateMap<DomainOfInfluenceVotingCardReturnAddressEventData, DomainOfInfluenceVotingCardReturnAddress>();
         CreateMap<DomainOfInfluenceVotingCardDataUpdated, DomainOfInfluence>();
+        CreateMap<DomainOfInfluenceVotingCardSwissPostDataEventData, Domain.DomainOfInfluenceVotingCardSwissPostData>();
+        CreateMap<DomainOfInfluenceVotingCardSwissPostDataEventData, DomainOfInfluenceVotingCardSwissPostData>();
     }
 }

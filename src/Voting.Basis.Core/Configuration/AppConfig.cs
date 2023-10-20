@@ -4,8 +4,10 @@
 using System;
 using System.Collections.Generic;
 using Voting.Basis.Data.Configuration;
+using Voting.Lib.Common.Configuration;
 using Voting.Lib.Common.Net;
 using Voting.Lib.Eventing.Configuration;
+using Voting.Lib.MalwareScanner.Configuration;
 using Voting.Lib.Messaging.Configuration;
 
 namespace Voting.Basis.Core.Configuration;
@@ -28,6 +30,11 @@ public class AppConfig
     /// </summary>
     public CorsConfig Cors { get; set; } = new();
 
+    /// <summary>
+    /// Gets or sets the health check configuration for http probes to 3rd party APIs.
+    /// </summary>
+    public HttpProbesHealthCheckConfig HttpProbeHealthCheck { get; set; } = new();
+
     public TimeSpan PrometheusAdapterInterval { get; set; } = TimeSpan.FromSeconds(1);
 
     public RabbitMqConfig RabbitMq { get; set; } = new();
@@ -47,7 +54,8 @@ public class AppConfig
     /// </summary>
     public HashSet<string> LowPriorityHealthCheckNames { get; set; } = new()
     {
-        "masstransit-bus", // live updates are not mission critical
+        "masstransit-bus",  // live updates are not mission critical
+        "HttpProbes",       // if 3rd party api's are unreachable the service should still be alive
     };
 
     public bool PublisherModeEnabled
@@ -55,4 +63,6 @@ public class AppConfig
 
     public bool EventProcessorModeEnabled
         => (ServiceMode & ServiceMode.EventProcessor) != 0;
+
+    public MalwareScannerConfig MalwareScanner { get; set; } = new();
 }

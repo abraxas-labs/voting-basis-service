@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Voting.Basis.Core.Auth;
@@ -15,6 +16,7 @@ using Voting.Basis.Data.Models;
 using Voting.Lib.Eventing.Persistence;
 using Voting.Lib.Iam.Store;
 using ProportionalElectionCandidate = Voting.Basis.Core.Domain.ProportionalElectionCandidate;
+using ProportionalElectionList = Voting.Basis.Core.Domain.ProportionalElectionList;
 using ProportionalElectionListUnion = Voting.Basis.Core.Domain.ProportionalElectionListUnion;
 
 namespace Voting.Basis.Core.Import;
@@ -53,15 +55,16 @@ public class ProportionalElectionListsAndCandidatesImportService
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
+        var partyIds = await _domainOfInfluenceReader.GetPartyIds(proportionalElection.DomainOfInfluenceId);
+
         var listIdsToDelete = proportionalElection.Lists
-            .Where(l =>
-                listImports.Any(i => l.OrderNumber == i.List.OrderNumber || HasSameTranslations(l.ShortDescription, i.List.ShortDescription)))
+            .Where(l => listImports.Any(i => l.OrderNumber == i.List.OrderNumber))
             .Select(l => l.Id)
             .ToHashSet();
         DeleteListUnions(proportionalElection, listIdsToDelete);
         DeleteLists(proportionalElection, listIdsToDelete);
 
-        await ImportLists(listImports, proportionalElection);
+        await ImportLists(listImports, proportionalElection, partyIds);
         ImportListUnions(listUnions, proportionalElection);
 
         await _aggregateRepository.Save(proportionalElection);
@@ -90,7 +93,8 @@ public class ProportionalElectionListsAndCandidatesImportService
 
     private async Task ImportLists(
         IEnumerable<ProportionalElectionListImport> listImports,
-        ProportionalElectionAggregate proportionalElection)
+        ProportionalElectionAggregate proportionalElection,
+        IReadOnlySet<Guid> partyIds)
     {
         var doi = await _domainOfInfluenceReader.Get(proportionalElection.DomainOfInfluenceId);
         var currentListPosition = proportionalElection.Lists.MaxOrDefault(l => l.Position);
@@ -102,28 +106,25 @@ public class ProportionalElectionListsAndCandidatesImportService
             list.Position = ++currentListPosition;
 
             proportionalElection.CreateListFrom(list);
-            ImportCandidates(listImport.Candidates, proportionalElection, list.Id, doi.Type);
+            ImportCandidates(listImport.Candidates, proportionalElection, list, doi.Type, partyIds);
         }
     }
 
     private void ImportCandidates(
         IReadOnlyCollection<ProportionalElectionCandidate> candidates,
         ProportionalElectionAggregate proportionalElection,
-        Guid listId,
-        DomainOfInfluenceType doiType)
+        ProportionalElectionList list,
+        DomainOfInfluenceType doiType,
+        IReadOnlySet<Guid> partyIds)
     {
-        var currentCandidatePosition = 0;
-
         foreach (var candidate in candidates)
         {
-            candidate.ProportionalElectionListId = listId;
-            candidate.Position = ++currentCandidatePosition;
-
-            if (candidate.Accumulated)
+            if (candidate.PartyId.HasValue && !partyIds.Contains(candidate.PartyId.Value))
             {
-                candidate.AccumulatedPosition = ++currentCandidatePosition;
+                throw new ValidationException($"Party with id {candidate.PartyId} referenced by candidate {list.OrderNumber}/{candidate.Number} not found");
             }
 
+            candidate.ProportionalElectionListId = list.Id;
             proportionalElection.CreateCandidateFrom(candidate, doiType);
         }
     }
@@ -153,20 +154,5 @@ public class ProportionalElectionListsAndCandidatesImportService
             entries.ProportionalElectionListIds.AddRange(listUnion.ProportionalElectionListIds);
             proportionalElection.UpdateListUnionEntriesFrom(entries);
         }
-    }
-
-    private bool HasSameTranslations(IDictionary<string, string> dict1, IDictionary<string, string> dict2)
-    {
-        foreach (var (lang, translation1) in dict1)
-        {
-            if (dict2.TryGetValue(lang, out var translation2)
-                && !string.IsNullOrEmpty(translation2)
-                && translation1 == translation2)
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

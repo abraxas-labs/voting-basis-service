@@ -18,6 +18,7 @@
     <PackageReference Include="Voting.Basis.Eventing.Proto" Version="$(VotingBasisProtoVersion)" />
     <PackageReference Include="Voting.Lib.Eventing" Version="$(VotingLibVersion)" />
     <PackageReference Include="Voting.Lib.Iam" Version="$(VotingLibVersion)" />
+    <PackageReference Include="Voting.Lib.MalwareScanner" Version="$(VotingLibVersion)" />
     <PackageReference Include="Voting.Lib.Scheduler" Version="$(VotingLibVersion)" />
     <PackageReference Include="Voting.Lib.VotingExports" Version="$(VotingLibVersion)" />
     <PackageReference Include="Voting.Lib.ObjectStorage" Version="$(VotingLibVersion)" />

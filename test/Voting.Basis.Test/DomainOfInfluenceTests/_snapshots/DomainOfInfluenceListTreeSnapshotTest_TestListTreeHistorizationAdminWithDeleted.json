@@ -45,7 +45,8 @@
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
-        "SapCustomerOrderNumber": ""
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null
       }
     ]
   },
@@ -101,7 +102,8 @@
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "",
-            "SapCustomerOrderNumber": ""
+            "SapCustomerOrderNumber": "",
+            "SwissPostData": null
           }
         ],
         "Canton": 1,
@@ -136,7 +138,8 @@
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
-        "SapCustomerOrderNumber": ""
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null
       }
     ]
   },
@@ -192,7 +195,8 @@
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "",
-            "SapCustomerOrderNumber": ""
+            "SapCustomerOrderNumber": "",
+            "SwissPostData": null
           },
           {
             "Id": "ec1e23a1-bfba-4f1b-b75f-ca31ac53a80f",
@@ -235,7 +239,8 @@
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "",
-            "SapCustomerOrderNumber": ""
+            "SapCustomerOrderNumber": "",
+            "SwissPostData": null
           }
         ],
         "Canton": 1,
@@ -270,7 +275,8 @@
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
-        "SapCustomerOrderNumber": ""
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null
       }
     ]
   },
@@ -329,7 +335,8 @@
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "",
-            "SapCustomerOrderNumber": ""
+            "SapCustomerOrderNumber": "",
+            "SwissPostData": null
           },
           {
             "Id": "ec1e23a1-bfba-4f1b-b75f-ca31ac53a80f",
@@ -372,7 +379,8 @@
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "",
-            "SapCustomerOrderNumber": ""
+            "SapCustomerOrderNumber": "",
+            "SwissPostData": null
           }
         ],
         "Canton": 1,
@@ -407,7 +415,8 @@
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
-        "SapCustomerOrderNumber": ""
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null
       }
     ]
   },
@@ -466,7 +475,8 @@
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "",
-            "SapCustomerOrderNumber": ""
+            "SapCustomerOrderNumber": "",
+            "SwissPostData": null
           },
           {
             "Id": "ec1e23a1-bfba-4f1b-b75f-ca31ac53a80f",
@@ -512,7 +522,8 @@
             "ExternalPrintingCenter": false,
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "",
-            "SapCustomerOrderNumber": ""
+            "SapCustomerOrderNumber": "",
+            "SwissPostData": null
           }
         ],
         "Canton": 1,
@@ -550,7 +561,8 @@
         "ExternalPrintingCenter": false,
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
-        "SapCustomerOrderNumber": ""
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null
       }
     ]
   }

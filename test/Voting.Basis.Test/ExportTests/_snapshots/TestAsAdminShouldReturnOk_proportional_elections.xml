@@ -74,19 +74,19 @@
           <eCH-0155:candidateText>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:candidateText>1960, occupation title de, locality, AN de, bisher</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title de, locality, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:candidateText>1960, occupation title fr, locality, AN fr, bisher</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title fr, locality, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:candidateText>1960, occupation title it, locality, AN it, bisher</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title it, locality, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:candidateText>1960, occupation title rm, locality, AN rm, bisher</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title rm, locality, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1960-01-13</eCH-0155:dateOfBirth>
@@ -178,19 +178,19 @@
             <eCH-0155:candidateTextOnPosition>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>de</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title de, locality, AN de, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title de, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>fr</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title fr, locality, AN fr, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title fr, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>it</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title it, locality, AN it, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title it, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>rm</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title rm, locality, AN rm, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title rm, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
             </eCH-0155:candidateTextOnPosition>
           </eCH-0155:candidatePosition>
@@ -201,19 +201,19 @@
             <eCH-0155:candidateTextOnPosition>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>de</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title de, locality, AN de, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title de, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>fr</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title fr, locality, AN fr, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title fr, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>it</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title it, locality, AN it, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title it, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>rm</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title rm, locality, AN rm, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title rm, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
             </eCH-0155:candidateTextOnPosition>
           </eCH-0155:candidatePosition>
@@ -231,17 +231,17 @@
             <eCH-0155:listDescriptionInfo>
               <eCH-0155:language>fr</eCH-0155:language>
               <eCH-0155:listDescriptionShort>WoP</eCH-0155:listDescriptionShort>
-              <eCH-0155:listDescription>Wahlzettel ohne Parteibezeichnung</eCH-0155:listDescription>
+              <eCH-0155:listDescription>Bulletin de vote sans désignation de parti</eCH-0155:listDescription>
             </eCH-0155:listDescriptionInfo>
             <eCH-0155:listDescriptionInfo>
               <eCH-0155:language>it</eCH-0155:language>
               <eCH-0155:listDescriptionShort>WoP</eCH-0155:listDescriptionShort>
-              <eCH-0155:listDescription>Wahlzettel ohne Parteibezeichnung</eCH-0155:listDescription>
+              <eCH-0155:listDescription>Scheda elettorale senza indicazione del partito</eCH-0155:listDescription>
             </eCH-0155:listDescriptionInfo>
             <eCH-0155:listDescriptionInfo>
               <eCH-0155:language>rm</eCH-0155:language>
               <eCH-0155:listDescriptionShort>WoP</eCH-0155:listDescriptionShort>
-              <eCH-0155:listDescription>Wahlzettel ohne Parteibezeichnung</eCH-0155:listDescription>
+              <eCH-0155:listDescription>Cedel electoral senza indicaziun da la partida</eCH-0155:listDescription>
             </eCH-0155:listDescriptionInfo>
           </eCH-0155:listDescription>
           <eCH-0155:isEmptyList>true</eCH-0155:isEmptyList>
@@ -290,19 +290,19 @@
           <eCH-0155:candidateText>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:candidateText>1960, occupation title de, locality, SP de, bisher</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title de, locality, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:candidateText>1960, occupation title fr, locality, SP fr, bisher</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title fr, locality, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:candidateText>1960, occupation title it, locality, SP it, bisher</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title it, locality, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:candidateText>1960, occupation title rm, locality, SP rm, bisher</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title rm, locality, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1960-01-13</eCH-0155:dateOfBirth>
@@ -394,19 +394,19 @@
             <eCH-0155:candidateTextOnPosition>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>de</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title de, locality, SP de, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title de, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>fr</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title fr, locality, SP fr, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title fr, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>it</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title it, locality, SP it, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title it, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>rm</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title rm, locality, SP rm, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title rm, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
             </eCH-0155:candidateTextOnPosition>
           </eCH-0155:candidatePosition>
@@ -417,19 +417,19 @@
             <eCH-0155:candidateTextOnPosition>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>de</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title de, locality, SP de, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title de, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>fr</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title fr, locality, SP fr, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title fr, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>it</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title it, locality, SP it, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title it, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>rm</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title rm, locality, SP rm, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title rm, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
             </eCH-0155:candidateTextOnPosition>
           </eCH-0155:candidatePosition>
@@ -477,17 +477,17 @@
             <eCH-0155:listDescriptionInfo>
               <eCH-0155:language>fr</eCH-0155:language>
               <eCH-0155:listDescriptionShort>WoP</eCH-0155:listDescriptionShort>
-              <eCH-0155:listDescription>Wahlzettel ohne Parteibezeichnung</eCH-0155:listDescription>
+              <eCH-0155:listDescription>Bulletin de vote sans désignation de parti</eCH-0155:listDescription>
             </eCH-0155:listDescriptionInfo>
             <eCH-0155:listDescriptionInfo>
               <eCH-0155:language>it</eCH-0155:language>
               <eCH-0155:listDescriptionShort>WoP</eCH-0155:listDescriptionShort>
-              <eCH-0155:listDescription>Wahlzettel ohne Parteibezeichnung</eCH-0155:listDescription>
+              <eCH-0155:listDescription>Scheda elettorale senza indicazione del partito</eCH-0155:listDescription>
             </eCH-0155:listDescriptionInfo>
             <eCH-0155:listDescriptionInfo>
               <eCH-0155:language>rm</eCH-0155:language>
               <eCH-0155:listDescriptionShort>WoP</eCH-0155:listDescriptionShort>
-              <eCH-0155:listDescription>Wahlzettel ohne Parteibezeichnung</eCH-0155:listDescription>
+              <eCH-0155:listDescription>Cedel electoral senza indicaziun da la partida</eCH-0155:listDescription>
             </eCH-0155:listDescriptionInfo>
           </eCH-0155:listDescription>
           <eCH-0155:isEmptyList>true</eCH-0155:isEmptyList>
@@ -536,19 +536,19 @@
           <eCH-0155:candidateText>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:candidateText>1960, occupation title de, locality, AN de, bisher</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title de, locality, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:candidateText>1960, occupation title fr, locality, AN fr, bisher</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title fr, locality, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:candidateText>1960, occupation title it, locality, AN it, bisher</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title it, locality, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:candidateText>1960, occupation title rm, locality, AN rm, bisher</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1960, occupation title rm, locality, bisher</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1960-01-13</eCH-0155:dateOfBirth>
@@ -613,19 +613,19 @@
           <eCH-0155:candidateText>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:candidateText>1940, occupation title 2 de, locality 2, SVP de</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1940, occupation title 2 de, locality 2</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:candidateText>1940, occupation title 2 fr, locality 2, SVP fr</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1940, occupation title 2 fr, locality 2</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:candidateText>1940, occupation title 2 it, locality 2, SVP it</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1940, occupation title 2 it, locality 2</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
             <eCH-0155:candidateTextInfo>
               <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:candidateText>1940, occupation title 2 rm, locality 2, SVP rm</eCH-0155:candidateText>
+              <eCH-0155:candidateText>1940, occupation title 2 rm, locality 2</eCH-0155:candidateText>
             </eCH-0155:candidateTextInfo>
           </eCH-0155:candidateText>
           <eCH-0155:dateOfBirth>1940-01-13</eCH-0155:dateOfBirth>
@@ -716,19 +716,19 @@
             <eCH-0155:candidateTextOnPosition>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>de</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title de, locality, AN de, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title de, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>fr</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title fr, locality, AN fr, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title fr, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>it</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title it, locality, AN it, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title it, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>rm</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title rm, locality, AN rm, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title rm, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
             </eCH-0155:candidateTextOnPosition>
           </eCH-0155:candidatePosition>
@@ -739,19 +739,19 @@
             <eCH-0155:candidateTextOnPosition>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>de</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title de, locality, AN de, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title de, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>fr</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title fr, locality, AN fr, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title fr, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>it</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title it, locality, AN it, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title it, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>rm</eCH-0155:language>
-                <eCH-0155:candidateText>1960, occupation title rm, locality, AN rm, bisher</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1960, occupation title rm, locality, bisher</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
             </eCH-0155:candidateTextOnPosition>
           </eCH-0155:candidatePosition>
@@ -762,19 +762,19 @@
             <eCH-0155:candidateTextOnPosition>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>de</eCH-0155:language>
-                <eCH-0155:candidateText>1940, occupation title 2 de, locality 2, SVP de</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1940, occupation title 2 de, locality 2</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>fr</eCH-0155:language>
-                <eCH-0155:candidateText>1940, occupation title 2 fr, locality 2, SVP fr</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1940, occupation title 2 fr, locality 2</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>it</eCH-0155:language>
-                <eCH-0155:candidateText>1940, occupation title 2 it, locality 2, SVP it</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1940, occupation title 2 it, locality 2</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
               <eCH-0155:candidateTextInfo>
                 <eCH-0155:language>rm</eCH-0155:language>
-                <eCH-0155:candidateText>1940, occupation title 2 rm, locality 2, SVP rm</eCH-0155:candidateText>
+                <eCH-0155:candidateText>1940, occupation title 2 rm, locality 2</eCH-0155:candidateText>
               </eCH-0155:candidateTextInfo>
             </eCH-0155:candidateTextOnPosition>
           </eCH-0155:candidatePosition>
@@ -822,17 +822,17 @@
             <eCH-0155:listDescriptionInfo>
               <eCH-0155:language>fr</eCH-0155:language>
               <eCH-0155:listDescriptionShort>WoP</eCH-0155:listDescriptionShort>
-              <eCH-0155:listDescription>Wahlzettel ohne Parteibezeichnung</eCH-0155:listDescription>
+              <eCH-0155:listDescription>Bulletin de vote sans désignation de parti</eCH-0155:listDescription>
             </eCH-0155:listDescriptionInfo>
             <eCH-0155:listDescriptionInfo>
               <eCH-0155:language>it</eCH-0155:language>
               <eCH-0155:listDescriptionShort>WoP</eCH-0155:listDescriptionShort>
-              <eCH-0155:listDescription>Wahlzettel ohne Parteibezeichnung</eCH-0155:listDescription>
+              <eCH-0155:listDescription>Scheda elettorale senza indicazione del partito</eCH-0155:listDescription>
             </eCH-0155:listDescriptionInfo>
             <eCH-0155:listDescriptionInfo>
               <eCH-0155:language>rm</eCH-0155:language>
               <eCH-0155:listDescriptionShort>WoP</eCH-0155:listDescriptionShort>
-              <eCH-0155:listDescription>Wahlzettel ohne Parteibezeichnung</eCH-0155:listDescription>
+              <eCH-0155:listDescription>Cedel electoral senza indicaziun da la partida</eCH-0155:listDescription>
             </eCH-0155:listDescriptionInfo>
           </eCH-0155:listDescription>
           <eCH-0155:isEmptyList>true</eCH-0155:isEmptyList>
@@ -885,17 +885,17 @@
             <eCH-0155:listDescriptionInfo>
               <eCH-0155:language>fr</eCH-0155:language>
               <eCH-0155:listDescriptionShort>WoP</eCH-0155:listDescriptionShort>
-              <eCH-0155:listDescription>Wahlzettel ohne Parteibezeichnung</eCH-0155:listDescription>
+              <eCH-0155:listDescription>Bulletin de vote sans désignation de parti</eCH-0155:listDescription>
             </eCH-0155:listDescriptionInfo>
             <eCH-0155:listDescriptionInfo>
               <eCH-0155:language>it</eCH-0155:language>
               <eCH-0155:listDescriptionShort>WoP</eCH-0155:listDescriptionShort>
-              <eCH-0155:listDescription>Wahlzettel ohne Parteibezeichnung</eCH-0155:listDescription>
+              <eCH-0155:listDescription>Scheda elettorale senza indicazione del partito</eCH-0155:listDescription>
             </eCH-0155:listDescriptionInfo>
             <eCH-0155:listDescriptionInfo>
               <eCH-0155:language>rm</eCH-0155:language>
               <eCH-0155:listDescriptionShort>WoP</eCH-0155:listDescriptionShort>
-              <eCH-0155:listDescription>Wahlzettel ohne Parteibezeichnung</eCH-0155:listDescription>
+              <eCH-0155:listDescription>Cedel electoral senza indicaziun da la partida</eCH-0155:listDescription>
             </eCH-0155:listDescriptionInfo>
           </eCH-0155:listDescription>
           <eCH-0155:isEmptyList>true</eCH-0155:isEmptyList>
@@ -948,17 +948,17 @@
             <eCH-0155:listDescriptionInfo>
               <eCH-0155:language>fr</eCH-0155:language>
               <eCH-0155:listDescriptionShort>WoP</eCH-0155:listDescriptionShort>
-              <eCH-0155:listDescription>Wahlzettel ohne Parteibezeichnung</eCH-0155:listDescription>
+              <eCH-0155:listDescription>Bulletin de vote sans désignation de parti</eCH-0155:listDescription>
             </eCH-0155:listDescriptionInfo>
             <eCH-0155:listDescriptionInfo>
               <eCH-0155:language>it</eCH-0155:language>
               <eCH-0155:listDescriptionShort>WoP</eCH-0155:listDescriptionShort>
-              <eCH-0155:listDescription>Wahlzettel ohne Parteibezeichnung</eCH-0155:listDescription>
+              <eCH-0155:listDescription>Scheda elettorale senza indicazione del partito</eCH-0155:listDescription>
             </eCH-0155:listDescriptionInfo>
             <eCH-0155:listDescriptionInfo>
               <eCH-0155:language>rm</eCH-0155:language>
               <eCH-0155:listDescriptionShort>WoP</eCH-0155:listDescriptionShort>
-              <eCH-0155:listDescription>Wahlzettel ohne Parteibezeichnung</eCH-0155:listDescription>
+              <eCH-0155:listDescription>Cedel electoral senza indicaziun da la partida</eCH-0155:listDescription>
             </eCH-0155:listDescriptionInfo>
           </eCH-0155:listDescription>
           <eCH-0155:isEmptyList>true</eCH-0155:isEmptyList>

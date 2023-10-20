@@ -41,7 +41,8 @@
       "ExternalPrintingCenter": false,
       "ExternalPrintingCenterEaiMessageType": "",
       "NameForProtocol": "Kanton St. Gallen",
-      "SapCustomerOrderNumber": ""
+      "SapCustomerOrderNumber": "",
+      "SwissPostData": null
     },
     {
       "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
@@ -84,7 +85,8 @@
       "ExternalPrintingCenter": false,
       "ExternalPrintingCenterEaiMessageType": "",
       "NameForProtocol": "Kanton Thurgau",
-      "SapCustomerOrderNumber": ""
+      "SapCustomerOrderNumber": "",
+      "SwissPostData": null
     },
     {
       "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
@@ -131,7 +133,8 @@
       "PrintData": {
         "ShippingAway": 2,
         "ShippingReturn": 5,
-        "ShippingMethod": 3
+        "ShippingMethod": 3,
+        "ShippingVotingCardsToDeliveryAddress": true
       },
       "HasLogo": false,
       "PlausibilisationConfiguration": null,
@@ -139,7 +142,11 @@
       "ExternalPrintingCenter": true,
       "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
       "NameForProtocol": "Stadt Gossau",
-      "SapCustomerOrderNumber": "0005400492"
+      "SapCustomerOrderNumber": "0005400492",
+      "SwissPostData": {
+        "InvoiceReferenceNumber": "958473825",
+        "FrankingLicenceReturnNumber": "562984257"
+      }
     }
   ]
 }

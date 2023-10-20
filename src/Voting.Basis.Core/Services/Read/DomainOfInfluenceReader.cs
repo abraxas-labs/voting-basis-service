@@ -243,12 +243,26 @@ public class DomainOfInfluenceReader
         }
     }
 
+    internal async Task<IReadOnlySet<Guid>> GetPartyIds(Guid doiId)
+    {
+        var query = await QueryAllPartiesIncludingInheritedForDomainOfInfluence(doiId);
+        return await query
+            .Select(x => x.Id)
+            .AsAsyncEnumerable()
+            .ToHashSetAsync();
+    }
+
     private async Task<List<DomainOfInfluenceParty>> GetAllPartiesIncludingInheritedForDomainOfInfluence(Guid doiId)
     {
-        var hierarchicalGreaterOrSelfDoiIds = await _hierarchyRepo.GetHierarchicalGreaterOrSelfDomainOfInfluenceIds(doiId);
-        return await _doiPartyRepo.Query()
-            .Where(x => hierarchicalGreaterOrSelfDoiIds.Contains(x.DomainOfInfluenceId))
+        var query = await QueryAllPartiesIncludingInheritedForDomainOfInfluence(doiId);
+        return await query
             .OrderBy(x => x.Name)
             .ToListAsync();
+    }
+
+    private async Task<IQueryable<DomainOfInfluenceParty>> QueryAllPartiesIncludingInheritedForDomainOfInfluence(Guid doiId)
+    {
+        var hierarchicalGreaterOrSelfDoiIds = await _hierarchyRepo.GetHierarchicalGreaterOrSelfDomainOfInfluenceIds(doiId);
+        return _doiPartyRepo.Query().Where(x => hierarchicalGreaterOrSelfDoiIds.Contains(x.DomainOfInfluenceId));
     }
 }

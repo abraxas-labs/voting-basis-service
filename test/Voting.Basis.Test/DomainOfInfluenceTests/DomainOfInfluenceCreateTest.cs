@@ -335,6 +335,13 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
             "PrintData");
 
     [Fact]
+    public Task ShouldThrowResponsibleForVotingCardsNoSwissPostData()
+        => AssertStatus(
+            async () => await AdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.SwissPostData = null)),
+            StatusCode.InvalidArgument,
+            "SwissPostData");
+
+    [Fact]
     public Task ShouldThrowNoExternalPrintingCenterEaiMessageTypeWithExternalPrintingCenterSet()
         => AssertStatus(
             async () => await AdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.ExternalPrintingCenterEaiMessageType = string.Empty)),
@@ -559,6 +566,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
                 ShippingAway = SharedProto.VotingCardShippingFranking.B1,
                 ShippingReturn = SharedProto.VotingCardShippingFranking.GasA,
                 ShippingMethod = SharedProto.VotingCardShippingMethod.PrintingPackagingShippingToCitizen,
+                ShippingVotingCardsToDeliveryAddress = true,
             },
             ContactPerson = new ProtoModels.ContactPerson
             {
@@ -583,6 +591,11 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
                     },
                 },
             PlausibilisationConfiguration = DomainOfInfluenceMockedData.BuildPlausibilisationConfiguration(),
+            SwissPostData = new ProtoModels.DomainOfInfluenceVotingCardSwissPostData
+            {
+                InvoiceReferenceNumber = "505964478",
+                FrankingLicenceReturnNumber = "965333145",
+            },
         };
         customizer?.Invoke(request);
         return request;

@@ -45,7 +45,7 @@ public class ContestEndTestingPhaseTest : BaseTest
         await RunScoped<IServiceProvider>(async sp =>
         {
             var authStore = sp.GetRequiredService<IAuthStore>();
-            authStore.SetValues("test", "test", Enumerable.Empty<string>());
+            authStore.SetValues(string.Empty, "test", "test", Enumerable.Empty<string>());
             var createContestEvent = NewValidCreationEvent();
             var contestId = Guid.Parse(createContestEvent.Contest.Id);
             await TestEventPublisher.Publish(createContestEvent);

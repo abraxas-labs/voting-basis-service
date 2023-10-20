@@ -87,7 +87,12 @@
         "Sex": 2,
         "Occupation": {},
         "Title": "",
-        "OccupationTitle": {},
+        "OccupationTitle": {
+          "de": "Director Librarian",
+          "fr": "Director Librarian",
+          "it": "Director Librarian",
+          "rm": "Director Librarian"
+        },
         "Incumbent": true,
         "ZipCode": "zip code",
         "Locality": "locality",
@@ -115,7 +120,12 @@
         "Sex": 1,
         "Occupation": {},
         "Title": "",
-        "OccupationTitle": {},
+        "OccupationTitle": {
+          "de": "Chief Executive Officer Accountant",
+          "fr": "Chief Executive Officer Accountant",
+          "it": "Chief Executive Officer Accountant",
+          "rm": "Chief Executive Officer Accountant"
+        },
         "Incumbent": false,
         "ZipCode": "zip code",
         "Locality": "locality",

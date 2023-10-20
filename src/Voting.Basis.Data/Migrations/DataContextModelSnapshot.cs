@@ -2230,6 +2230,9 @@ namespace Voting.Basis.Data.Migrations
                             b1.Property<int>("ShippingReturn")
                                 .HasColumnType("integer");
 
+                            b1.Property<bool>("ShippingVotingCardsToDeliveryAddress")
+                                .HasColumnType("boolean");
+
                             b1.HasKey("DomainOfInfluenceId");
 
                             b1.ToTable("DomainOfInfluences");
@@ -2268,6 +2271,27 @@ namespace Voting.Basis.Data.Migrations
                                 .HasColumnType("text");
 
                             b1.Property<string>("ZipCode")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("DomainOfInfluenceId");
+
+                            b1.ToTable("DomainOfInfluences");
+
+                            b1.WithOwner()
+                                .HasForeignKey("DomainOfInfluenceId");
+                        });
+
+                    b.OwnsOne("Voting.Basis.Data.Models.DomainOfInfluenceVotingCardSwissPostData", "SwissPostData", b1 =>
+                        {
+                            b1.Property<Guid>("DomainOfInfluenceId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("FrankingLicenceReturnNumber")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("InvoiceReferenceNumber")
                                 .IsRequired()
                                 .HasColumnType("text");
 
@@ -2323,6 +2347,8 @@ namespace Voting.Basis.Data.Migrations
                     b.Navigation("PrintData");
 
                     b.Navigation("ReturnAddress");
+
+                    b.Navigation("SwissPostData");
                 });
 
             modelBuilder.Entity("Voting.Basis.Data.Models.DomainOfInfluenceCountingCircle", b =>
@@ -2815,6 +2841,9 @@ namespace Voting.Basis.Data.Migrations
                             b1.Property<int>("ShippingReturn")
                                 .HasColumnType("integer");
 
+                            b1.Property<bool>("ShippingVotingCardsToDeliveryAddress")
+                                .HasColumnType("boolean");
+
                             b1.HasKey("DomainOfInfluenceSnapshotId");
 
                             b1.ToTable("DomainOfInfluenceSnapshots");
@@ -2864,12 +2893,35 @@ namespace Voting.Basis.Data.Migrations
                                 .HasForeignKey("DomainOfInfluenceSnapshotId");
                         });
 
+                    b.OwnsOne("Voting.Basis.Data.Models.DomainOfInfluenceVotingCardSwissPostData", "SwissPostData", b1 =>
+                        {
+                            b1.Property<Guid>("DomainOfInfluenceSnapshotId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("FrankingLicenceReturnNumber")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("InvoiceReferenceNumber")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("DomainOfInfluenceSnapshotId");
+
+                            b1.ToTable("DomainOfInfluenceSnapshots");
+
+                            b1.WithOwner()
+                                .HasForeignKey("DomainOfInfluenceSnapshotId");
+                        });
+
                     b.Navigation("ContactPerson")
                         .IsRequired();
 
                     b.Navigation("PrintData");
 
                     b.Navigation("ReturnAddress");
+
+                    b.Navigation("SwissPostData");
                 });
 
             modelBuilder.Entity("Voting.Basis.Data.Models.TieBreakQuestion", b =>

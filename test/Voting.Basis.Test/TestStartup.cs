@@ -12,6 +12,7 @@ using Voting.Basis.Test.MockedData.Mapping;
 using Voting.Basis.Test.Mocks;
 using Voting.Lib.Common;
 using Voting.Lib.Ech;
+using Voting.Lib.MalwareScanner.Services;
 using Voting.Lib.ObjectStorage;
 using Voting.Lib.Testing.Mocks;
 
@@ -38,7 +39,8 @@ public class TestStartup : Startup
             .AddHostedService<BucketInitializerService>()
             .AddMock<IEchMessageIdProvider, MockEchMessageIdProvider>()
             .AddScoped<TestEventPublisherAdapter>()
-            .AddSingleton<TestMapper>();
+            .AddSingleton<TestMapper>()
+            .AddMock<IMalwareScannerService, MockMalwareScannerService>();
     }
 
     protected override void ConfigureAuthentication(AuthenticationBuilder builder)

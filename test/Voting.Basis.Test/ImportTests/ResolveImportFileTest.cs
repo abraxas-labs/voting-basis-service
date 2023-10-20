@@ -104,8 +104,8 @@ public class ResolveImportFileTest : BaseImportTest
 
                 foreach (var candidate in list.Candidates)
                 {
-                    candidate.Id = string.Empty;
-                    candidate.ProportionalElectionListId = string.Empty;
+                    candidate.Candidate.Id = string.Empty;
+                    candidate.Candidate.ProportionalElectionListId = string.Empty;
                 }
             }
 

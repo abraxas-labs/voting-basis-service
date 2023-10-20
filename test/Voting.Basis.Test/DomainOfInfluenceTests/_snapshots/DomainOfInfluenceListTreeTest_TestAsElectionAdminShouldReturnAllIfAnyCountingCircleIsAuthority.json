@@ -50,7 +50,8 @@
           "ExternalPrintingCenter": false,
           "ExternalPrintingCenterEaiMessageType": "",
           "NameForProtocol": "Oberuzwil Kirche andere",
-          "SapCustomerOrderNumber": ""
+          "SapCustomerOrderNumber": "",
+          "SwissPostData": null
         }
       ],
       "Canton": 1,
@@ -85,7 +86,8 @@
       "ExternalPrintingCenter": false,
       "ExternalPrintingCenterEaiMessageType": "",
       "NameForProtocol": "",
-      "SapCustomerOrderNumber": ""
+      "SapCustomerOrderNumber": "",
+      "SwissPostData": null
     }
   ]
 }

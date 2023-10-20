@@ -16,4 +16,17 @@ public static class DomainOfInfluenceCantonDataTransformer
             _ => $"{dateOfBirth:dd.MM.yyyy}",
         };
     }
+
+    internal static string? EchCandidatePartyText(DomainOfInfluenceCanton canton, PoliticalBusinessType politicalBusinessType, string? party)
+    {
+        if (politicalBusinessType == PoliticalBusinessType.MajorityElection ||
+            politicalBusinessType == PoliticalBusinessType.SecondaryMajorityElection)
+        {
+            return party;
+        }
+        else
+        {
+            return null;
+        }
+    }
 }

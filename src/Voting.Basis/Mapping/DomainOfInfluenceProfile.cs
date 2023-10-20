@@ -19,6 +19,7 @@ public class DomainOfInfluenceProfile : Profile
         CreateMap<UpdateDomainOfInfluenceCountingCircleEntriesRequest, Core.Domain.DomainOfInfluenceCountingCircleEntries>();
         CreateMap<ProtoModels.DomainOfInfluenceVotingCardReturnAddress, Core.Domain.DomainOfInfluenceVotingCardReturnAddress>();
         CreateMap<ProtoModels.DomainOfInfluenceVotingCardPrintData, Core.Domain.DomainOfInfluenceVotingCardPrintData>();
+        CreateMap<ProtoModels.DomainOfInfluenceVotingCardSwissPostData, Core.Domain.DomainOfInfluenceVotingCardSwissPostData>();
         CreateMap<ProtoModels.DomainOfInfluenceParty, Core.Domain.DomainOfInfluenceParty>();
 
         // read
@@ -33,6 +34,7 @@ public class DomainOfInfluenceProfile : Profile
 
         CreateMap<Data.Models.DomainOfInfluenceCantonDefaults, ProtoModels.DomainOfInfluenceCantonDefaults>();
         CreateMap<Data.Models.DomainOfInfluenceVotingCardPrintData, ProtoModels.DomainOfInfluenceVotingCardPrintData>();
+        CreateMap<Data.Models.DomainOfInfluenceVotingCardSwissPostData, ProtoModels.DomainOfInfluenceVotingCardSwissPostData>();
         CreateMap<Data.Models.DomainOfInfluenceVotingCardReturnAddress, ProtoModels.DomainOfInfluenceVotingCardReturnAddress>();
     }
 }

@@ -27,9 +27,10 @@ public class ImportProfile : Profile
         CreateMap<ProtoModels.ProportionalElection, ProportionalElection>().ReverseMap();
         CreateMap<ProtoModels.ProportionalElectionListUnion, ProportionalElectionListUnion>().ReverseMap();
         CreateMap<ProtoModels.ProportionalElectionList, ProportionalElectionList>().ReverseMap();
-        CreateMap<ProtoModels.ProportionalElectionCandidate, ProportionalElectionCandidate>()
-            .ReverseMap()
-            .ForMember(dst => dst.Party, opts => opts.Ignore());
+        CreateMap<ProportionalElectionImportCandidate, ProtoModels.ProportionalElectionImportCandidate>()
+            .ForMember(dst => dst.Candidate, opts => opts.MapFrom(src => src))
+            .ReverseMap();
+        CreateMap<ProtoModels.ProportionalElectionCandidate, ProportionalElectionImportCandidate>().ReverseMap();
         CreateMap<ProtoModels.VoteImport, VoteImport>().ReverseMap();
         CreateMap<ProtoModels.Vote, Vote>().ReverseMap();
     }

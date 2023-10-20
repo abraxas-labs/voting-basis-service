@@ -16,5 +16,6 @@ public class DomainOfInfluenceTestProfile : Profile
         CreateMap<ProtoModels.DomainOfInfluence, DomainOfInfluenceEventData>();
         CreateMap<DomainOfInfluenceVotingCardPrintData, Core.Domain.DomainOfInfluenceVotingCardPrintData>();
         CreateMap<DomainOfInfluenceVotingCardReturnAddress, Core.Domain.DomainOfInfluenceVotingCardReturnAddress>();
+        CreateMap<DomainOfInfluenceVotingCardSwissPostData, Core.Domain.DomainOfInfluenceVotingCardSwissPostData>();
     }
 }

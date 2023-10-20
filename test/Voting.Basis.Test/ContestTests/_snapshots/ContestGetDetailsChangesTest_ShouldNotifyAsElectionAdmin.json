@@ -59,7 +59,8 @@
               "ExternalPrintingCenter": false,
               "ExternalPrintingCenterEaiMessageType": "",
               "NameForProtocol": "",
-              "SapCustomerOrderNumber": ""
+              "SapCustomerOrderNumber": "",
+              "SwissPostData": null
             },
             "PoliticalBusinessType": 1,
             "Active": true
@@ -127,7 +128,8 @@
               "ExternalPrintingCenter": false,
               "ExternalPrintingCenterEaiMessageType": "",
               "NameForProtocol": "",
-              "SapCustomerOrderNumber": ""
+              "SapCustomerOrderNumber": "",
+              "SwissPostData": null
             },
             "PoliticalBusinessType": 1,
             "Active": true
@@ -185,7 +187,8 @@
               "ExternalPrintingCenter": false,
               "ExternalPrintingCenterEaiMessageType": "",
               "NameForProtocol": "",
-              "SapCustomerOrderNumber": ""
+              "SapCustomerOrderNumber": "",
+              "SwissPostData": null
             },
             "PoliticalBusinessType": 1,
             "Active": false

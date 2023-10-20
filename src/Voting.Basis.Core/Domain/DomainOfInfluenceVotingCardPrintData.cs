@@ -12,4 +12,6 @@ public class DomainOfInfluenceVotingCardPrintData
     public VotingCardShippingFranking ShippingReturn { get; private set; }
 
     public VotingCardShippingMethod ShippingMethod { get; private set; }
+
+    public bool ShippingVotingCardsToDeliveryAddress { get; private set; }
 }

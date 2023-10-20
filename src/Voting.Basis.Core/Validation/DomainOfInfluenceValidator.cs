@@ -18,6 +18,8 @@ public class DomainOfInfluenceValidator : AbstractValidator<DomainOfInfluence>
         RuleFor(v => v.ReturnAddress!).NotNull().When(v => v.ResponsibleForVotingCards);
         RuleFor(v => v.PrintData).Null().When(v => !v.ResponsibleForVotingCards);
         RuleFor(v => v.PrintData!).NotNull().SetValidator(printDataValidator).When(v => v.ResponsibleForVotingCards);
+        RuleFor(v => v.SwissPostData).Null().When(v => !v.ResponsibleForVotingCards);
+        RuleFor(v => v.SwissPostData!).NotNull().When(v => v.ResponsibleForVotingCards);
 
         RuleFor(v => v.PlausibilisationConfiguration!).SetValidator(plausibilisationConfigurationValidator);
     }

@@ -39,12 +39,14 @@ public class PublicKeySignatureDeleteAuthenticationTagPayload
     // changes here are event breaking and need another signature version.
     public byte[] ConvertToBytesToSign()
     {
-        return ByteConverter.Concat(
-            SignatureVersion,
-            ContestId,
-            HostId,
-            KeyId,
-            DeletedAt,
-            SignedEventCount);
+        using var byteConverter = new ByteConverter();
+        return byteConverter
+            .Append(SignatureVersion)
+            .Append(ContestId.ToString())
+            .Append(HostId)
+            .Append(KeyId)
+            .Append(DeletedAt)
+            .Append(SignedEventCount)
+            .GetBytes();
     }
 }

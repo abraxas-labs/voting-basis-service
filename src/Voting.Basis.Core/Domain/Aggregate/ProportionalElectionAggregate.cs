@@ -748,15 +748,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
             list.Position--;
         }
 
-        foreach (var listUnion in ListUnions)
-        {
-            if (!listUnion.ProportionalElectionListIds.Contains(existingList.Id))
-            {
-                continue;
-            }
-
-            listUnion.ProportionalElectionListIds.Remove(existingList.Id);
-        }
+        RemoveListUnionsForRemovedList(existingList.Id);
     }
 
     private void Apply(ProportionalElectionListUnionCreated ev)
@@ -784,24 +776,8 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
 
     private void Apply(ProportionalElectionListUnionDeleted ev)
     {
-        var existingListUnion = FindListUnion(GuidParser.Parse(ev.ProportionalElectionListUnionId));
-        ListUnions.Remove(existingListUnion);
-
-        foreach (var listUnion in ListUnions.Where(l => l.Position > existingListUnion.Position))
-        {
-            listUnion.Position--;
-        }
-
-        if (existingListUnion.IsSubListUnion)
-        {
-            return;
-        }
-
-        var subListUnions = ListUnions.Where(lu => lu.ProportionalElectionRootListUnionId == existingListUnion.Id).ToList();
-        foreach (var subListUnion in subListUnions)
-        {
-            ListUnions.Remove(subListUnion);
-        }
+        var id = GuidParser.Parse(ev.ProportionalElectionListUnionId);
+        RemoveListUnion(id);
     }
 
     private void Apply(ProportionalElectionListUnionEntriesUpdated ev)
@@ -1022,6 +998,53 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         if (string.IsNullOrEmpty(candidate.Origin) && !doiType.IsCommunal())
         {
             throw new ValidationException("Candidate origin is required for non communal political businesses");
+        }
+    }
+
+    private void RemoveListUnionsForRemovedList(Guid listId)
+    {
+        var listUnionIdsToRemove = new HashSet<Guid>();
+        foreach (var listUnion in ListUnions)
+        {
+            listUnion.ProportionalElectionListIds.Remove(listId);
+
+            // remove the list union if this was the main list
+            if (listUnion.ProportionalElectionMainListId == listId)
+            {
+                listUnionIdsToRemove.Add(listUnion.Id);
+            }
+        }
+
+        foreach (var listUnionId in listUnionIdsToRemove)
+        {
+            RemoveListUnion(listUnionId);
+        }
+    }
+
+    private void RemoveListUnion(Guid listUnionId)
+    {
+        var existingListUnion = ListUnions.Find(x => x.Id == listUnionId);
+        if (existingListUnion == null)
+        {
+            return;
+        }
+
+        ListUnions.Remove(existingListUnion);
+
+        foreach (var listUnion in ListUnions.Where(l => l.Position > existingListUnion.Position))
+        {
+            listUnion.Position--;
+        }
+
+        if (existingListUnion.IsSubListUnion)
+        {
+            return;
+        }
+
+        var subListUnions = ListUnions.Where(lu => lu.ProportionalElectionRootListUnionId == existingListUnion.Id).ToList();
+        foreach (var subListUnion in subListUnions)
+        {
+            ListUnions.Remove(subListUnion);
         }
     }
 }

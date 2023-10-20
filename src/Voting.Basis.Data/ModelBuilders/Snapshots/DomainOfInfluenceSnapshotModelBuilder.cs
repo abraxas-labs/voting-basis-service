@@ -31,6 +31,9 @@ public class DomainOfInfluenceSnapshotModelBuilder :
             .OwnsOne(x => x.PrintData);
 
         builder
+            .OwnsOne(x => x.SwissPostData);
+
+        builder
             .Property(x => x.ValidFrom)
             .HasUtcConversion();
 
