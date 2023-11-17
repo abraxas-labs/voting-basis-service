@@ -68,7 +68,7 @@ internal static class MajorityElectionMapping
 
         var electionInformationExtension = ElectionMapping.GetExtension(election.Extension?.Extension);
 
-        var candidates = election.Candidate
+        var candidates = (election.Candidate ?? Enumerable.Empty<CandidateType>())
             .Select(c => c.ToBasisMajorityCandidate(
                 electionId,
                 idLookup,

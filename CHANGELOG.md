@@ -1,4 +1,4 @@
-# ✨ Changelog (`v1.57.1`)
+# ✨ Changelog (`v1.57.4`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v1.57.1
-Previous version ---- v1.51.0
+This version -------- v1.57.4
+Previous version ---- v1.57.1
 Initial version ----- v1.27.15
-Total commits ------- 27
+Total commits ------- 3
 ```
+
+## [v1.57.4] - 2023-11-17
+
+### 🔄 Changed
+
+- udpate to latest voting-lib version to fix role cache
+
+## [v1.57.3] - 2023-11-10
+
+### :arrows_counterclockwise: Changed
+
+- import eCH-0157 majority election without candidates correctly
+
+## [v1.57.2] - 2023-10-24
+
+### 🔄 Changed
+
+- use latest lib version to fix role cache
 
 ## [v1.57.1] - 2023-10-05
 
@@ -250,24 +268,6 @@ Total commits ------- 27
 
 ### 🔄 Changed
 
-- set bfs required and unique for doi's of type MU
-
-## [v1.45.7] - 2023-01-27
-
-### 🔄 Changed
-
-- ensure valid language on eCH import
-
-## [v1.45.6] - 2023-01-24
-
-### 🔄 Changed
-
-- map eCH dates correctly to UTC
-
-## [v1.45.5] - 2023-01-19
-
-### 🔄 Changed
-
 - fix eCH import event signature timing issue and validate eCH imports
 
 ### ❌ Removed
@@ -455,6 +455,24 @@ Total commits ------- 27
 - extend evoting date with time
 
 The readmodel needs to be recreated after this MR.
+
+## [v1.45.7] - 2023-01-27
+
+### 🔄 Changed
+
+- ensure valid language on eCH import
+
+## [v1.45.6] - 2023-01-24
+
+### 🔄 Changed
+
+- map eCH dates correctly to UTC
+
+## [v1.45.5] - 2023-01-19
+
+### 🔄 Changed
+
+- election candidate locality and origin is allowed to be empty for communal political businesses
 
 ## [v1.45.4] - 2023-01-18
 
