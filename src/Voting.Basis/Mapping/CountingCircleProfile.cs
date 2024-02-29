@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -7,6 +7,7 @@ using AutoMapper;
 using Voting.Basis.Data.Models;
 using Authority = Voting.Basis.Core.Domain.Authority;
 using CountingCircle = Voting.Basis.Core.Domain.CountingCircle;
+using CountingCircleElectorate = Voting.Basis.Core.Domain.CountingCircleElectorate;
 using CountingCirclesMerger = Voting.Basis.Core.Domain.CountingCirclesMerger;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 
@@ -26,6 +27,7 @@ public sealed class CountingCircleProfile : Profile
             .ForMember(dst => dst.NewCountingCircle, opts => opts.MapFrom(src => src));
         CreateMap<UpdateScheduledCountingCirclesMergerRequest, CountingCircle>();
         CreateMap<ProtoModels.Authority, Authority>();
+        CreateMap<ProtoModels.CountingCircleElectorate, CountingCircleElectorate>();
 
         // read
         CreateMap<IEnumerable<Data.Models.CountingCircle>, ProtoModels.CountingCircles>()
@@ -33,6 +35,7 @@ public sealed class CountingCircleProfile : Profile
         CreateMap<Data.Models.CountingCircle, ProtoModels.CountingCircle>()
             .ForMember(dst => dst.Info, opts => opts.MapFrom(src => src));
         CreateMap<Data.Models.Authority, ProtoModels.Authority>();
+        CreateMap<Data.Models.CountingCircleElectorate, ProtoModels.CountingCircleElectorate>();
         CreateMap<CountingCircleContactPerson, ProtoModels.ContactPerson>();
 
         CreateMap<DomainOfInfluenceCountingCircle, ProtoModels.CountingCircle>()

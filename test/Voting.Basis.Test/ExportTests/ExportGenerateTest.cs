@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -15,8 +15,9 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Controllers.Models;
 using Voting.Basis.Data.Models;
-using Voting.Basis.Ech.Schemas;
 using Voting.Basis.Test.MockedData;
+using Voting.Lib.Ech.Ech0157_4_0.Schemas;
+using Voting.Lib.Ech.Ech0159_4_0.Schemas;
 using Voting.Lib.Testing.Utils;
 using Voting.Lib.VotingExports.Repository.Basis;
 using Xunit;
@@ -83,7 +84,7 @@ public class ExportGenerateTest : BaseRestTest
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
 
         var xml = await response.Content.ReadAsStringAsync();
-        VerifyXml(xml, nameof(TestVoteEch0159), Ech0159SchemaLoader.LoadEch0159Schemas());
+        VerifyXml(xml, nameof(TestVoteEch0159), Ech0159Schemas.LoadEch0159Schemas());
     }
 
     [Fact]
@@ -106,7 +107,7 @@ public class ExportGenerateTest : BaseRestTest
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
 
         var xml = await response.Content.ReadAsStringAsync();
-        VerifyXml(xml, nameof(TestMajorityElectionEch0157), Ech0157SchemaLoader.LoadEch0157Schemas());
+        VerifyXml(xml, nameof(TestMajorityElectionEch0157), Ech0157Schemas.LoadEch0157Schemas());
     }
 
     [Fact]
@@ -122,7 +123,7 @@ public class ExportGenerateTest : BaseRestTest
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
 
         var xml = await response.Content.ReadAsStringAsync();
-        VerifyXml(xml, nameof(TestProportionalElectionEch0157), Ech0157SchemaLoader.LoadEch0157Schemas());
+        VerifyXml(xml, nameof(TestProportionalElectionEch0157), Ech0157Schemas.LoadEch0157Schemas());
     }
 
     [Fact]
@@ -264,15 +265,15 @@ public class ExportGenerateTest : BaseRestTest
 
             if (entry.Name.StartsWith("votes"))
             {
-                VerifyXml(content, $"{testName}_votes", Ech0159SchemaLoader.LoadEch0159Schemas());
+                VerifyXml(content, $"{testName}_votes", Ech0159Schemas.LoadEch0159Schemas());
             }
             else if (entry.Name.StartsWith("proportional_elections"))
             {
-                VerifyXml(content, $"{testName}_proportional_elections", Ech0157SchemaLoader.LoadEch0157Schemas());
+                VerifyXml(content, $"{testName}_proportional_elections", Ech0157Schemas.LoadEch0157Schemas());
             }
             else if (entry.Name.StartsWith("majority_elections"))
             {
-                VerifyXml(content, $"{testName}_majority_elections", Ech0157SchemaLoader.LoadEch0157Schemas());
+                VerifyXml(content, $"{testName}_majority_elections", Ech0157Schemas.LoadEch0157Schemas());
             }
             else
             {

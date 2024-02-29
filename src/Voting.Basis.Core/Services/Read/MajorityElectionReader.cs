@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Data;
@@ -38,8 +37,6 @@ public class MajorityElectionReader : PoliticalBusinessReader<MajorityElection>
 
     public async Task<IEnumerable<MajorityElectionCandidate>> GetCandidates(Guid electionId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
-
         var majorityElection = await Repo.Query()
             .Include(me => me.MajorityElectionCandidates)
             .FirstOrDefaultAsync(me => me.Id == electionId)
@@ -51,8 +48,6 @@ public class MajorityElectionReader : PoliticalBusinessReader<MajorityElection>
 
     public async Task<MajorityElectionCandidate> GetCandidate(Guid candidateId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
-
         var candidate = await _candidateRepo.Query()
             .Include(c => c.MajorityElection)
             .FirstOrDefaultAsync(c => c.Id == candidateId)
@@ -64,8 +59,6 @@ public class MajorityElectionReader : PoliticalBusinessReader<MajorityElection>
 
     public async Task<IEnumerable<SecondaryMajorityElection>> GetSecondaryMajorityElections(Guid electionId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
-
         var majorityElection = await Repo.Query()
             .Include(me => me.SecondaryMajorityElections)
             .FirstOrDefaultAsync(me => me.Id == electionId)
@@ -77,8 +70,6 @@ public class MajorityElectionReader : PoliticalBusinessReader<MajorityElection>
 
     public async Task<SecondaryMajorityElection> GetSecondaryMajorityElection(Guid secondaryMajorityElectionId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
-
         var secondaryMajorityElection = await _secondaryMajorityElectionRepo.Query()
             .Include(c => c.PrimaryMajorityElection)
             .FirstOrDefaultAsync(c => c.Id == secondaryMajorityElectionId)
@@ -91,8 +82,6 @@ public class MajorityElectionReader : PoliticalBusinessReader<MajorityElection>
     public async Task<IEnumerable<SecondaryMajorityElectionCandidate>> GetSecondaryMajorityElectionCandidates(
         Guid secondaryMajorityElectionId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
-
         var secondaryMajorityElection = await _secondaryMajorityElectionRepo.Query()
             .Include(sme => sme.Candidates)
             .Include(sme => sme.PrimaryMajorityElection)
@@ -105,8 +94,6 @@ public class MajorityElectionReader : PoliticalBusinessReader<MajorityElection>
 
     public async Task<IEnumerable<MajorityElectionBallotGroup>> GetBallotGroups(Guid electionId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
-
         var majorityElection = await Repo.Query()
             .AsSplitQuery()
             .Include(me => me.BallotGroups)
@@ -127,8 +114,6 @@ public class MajorityElectionReader : PoliticalBusinessReader<MajorityElection>
 
     public async Task<IEnumerable<MajorityElectionBallotGroupEntry>> GetBallotGroupEntriesWithCandidates(Guid ballotGroupId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
-
         var majorityElection = await Repo.Query()
             .FirstOrDefaultAsync(me => me.BallotGroups.Any(bg => bg.Id == ballotGroupId))
             ?? throw new EntityNotFoundException(ballotGroupId);

@@ -84,6 +84,7 @@
         "rm": "AN rm"
       }
     },
-    "Origin": "origin"
+    "Origin": "origin",
+    "CheckDigit": 6
   }
 }

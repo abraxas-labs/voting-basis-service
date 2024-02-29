@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -16,6 +16,7 @@ using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
+using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
@@ -117,6 +118,37 @@ public class ProportionalElectionListUnionDeleteTest : BaseGrpcTest<Proportional
             }),
             StatusCode.FailedPrecondition,
             "Testing phase ended, cannot modify the contest");
+    }
+
+    [Fact]
+    public async Task ListUnionInNonHagenbachBischoffElectionShouldThrow()
+    {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => doi.Id == DomainOfInfluenceMockedData.GuidGossau,
+            doi => doi.CantonDefaults.ProportionalElectionMandateAlgorithms = new()
+            {
+                ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum,
+            });
+
+        await ElectionAdminClient.UpdateAsync(new()
+        {
+            Id = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund,
+            PoliticalBusinessNumber = "1",
+            NumberOfMandates = 2,
+            MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum,
+            BallotNumberGeneration = SharedProto.BallotNumberGeneration.RestartForEachBundle,
+            DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau,
+            ContestId = ContestMockedData.IdBundContest,
+            ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
+        });
+
+        await AssertStatus(
+            async () => await ElectionAdminClient.DeleteListUnionAsync(new DeleteProportionalElectionListUnionRequest
+            {
+                Id = ProportionalElectionMockedData.ListUnionIdGossauProportionalElectionInContestBund,
+            }),
+            StatusCode.InvalidArgument,
+            "The election does not distribute mandates per Hagenbach-Bischoff algorithm");
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

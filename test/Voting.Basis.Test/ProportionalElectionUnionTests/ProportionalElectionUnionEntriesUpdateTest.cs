@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -138,6 +138,19 @@ public class ProportionalElectionUnionEntriesUpdateTest : BaseGrpcTest<Proportio
             async () => await AdminClient.UpdateEntriesAsync(NewValidRequest(x => x.ProportionalElectionIds.Add(ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallen))),
             StatusCode.InvalidArgument,
             "duplicate political business id");
+    }
+
+    [Fact]
+    public async Task MultipleMandateAlgorithmsInElectionsShouldThrow()
+    {
+        await ModifyDbEntities<ProportionalElection>(
+            pe => pe.Id == Guid.Parse(ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallen),
+            pe => pe.MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoubleProportional1Doi0DoiQuorum);
+
+        await AssertStatus(
+            async () => await AdminClient.UpdateEntriesAsync(NewValidRequest()),
+            StatusCode.FailedPrecondition,
+            "Only proportional elections with the same mandate algorithms may be combined");
     }
 
     [Fact]

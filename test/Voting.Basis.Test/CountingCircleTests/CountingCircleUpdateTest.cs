@@ -1,16 +1,19 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
 using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
+using Abraxas.Voting.Basis.Shared.V1;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing;
@@ -39,6 +42,8 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
     [Fact]
     public async Task TestAggregate()
     {
+        var electorateChId = Guid.Parse("94ff0364-19e1-4c1d-9179-17b18ad39b72");
+
         await TestEventPublisher.Publish(
             new CountingCircleUpdated
             {
@@ -77,6 +82,14 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
                     },
                     NameForProtocol = "Uzwil updated",
                     SortNumber = 101,
+                    Electorates =
+                    {
+                        new CountingCircleElectorateEventData
+                        {
+                            Id = electorateChId.ToString(),
+                            DomainOfInfluenceTypes = { DomainOfInfluenceType.Ch },
+                        },
+                    },
                 },
                 EventInfo = GetMockedEventInfo(),
             },
@@ -122,6 +135,9 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
         var countingCircles = await AdminClient.ListAsync(new ListCountingCircleRequest());
         countingCircles.CountingCircles_.Should().HaveCount(8);
         countingCircles.MatchSnapshot();
+
+        var electorateExists = await RunOnDb(db => db.CountingCircleElectorates.AnyAsync(e => e.Id == electorateChId));
+        electorateExists.Should().BeTrue();
     }
 
     [Fact]
@@ -152,8 +168,17 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
     [Fact]
     public async Task TestAsElectionAdminOtherTenant()
         => await AssertStatus(
-            async () => await ElectionAdminClient.UpdateAsync(NewValidRequestStGallenNoChanges(o => o.ContactPersonAfterEvent.FamilyName += "-updated")),
+            async () => await ElectionAdminClient.UpdateAsync(
+                NewValidRequestStGallenNoChanges(o => o.ContactPersonAfterEvent.FamilyName += "-updated")),
             StatusCode.PermissionDenied);
+
+    [Fact]
+    public async Task TestAsElectionAdminOtherElectorate()
+    => await AssertStatus(
+        async () => await ElectionAdminClient.UpdateAsync(
+            NewValidRequestStGallenNoChanges(o =>
+                o.Electorates.Add(new ProtoModels.CountingCircleElectorate { DomainOfInfluenceTypes = { DomainOfInfluenceType.Sc } }))),
+        StatusCode.PermissionDenied);
 
     [Fact]
     public async Task TestAsElectionAdmin()
@@ -174,9 +199,12 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
             o.ResponsibleAuthority.SecureConnectId = SecureConnectTestDefaults.MockedTenantUzwil.Id;
             o.NameForProtocol = "Stadt Uzwil updated";
             o.SortNumber = 95;
+            o.Electorates.Add(new ProtoModels.CountingCircleElectorate { DomainOfInfluenceTypes = { DomainOfInfluenceType.Bz } });
         }));
 
         var eventData = EventPublisherMock.GetSinglePublishedEvent<CountingCircleUpdated>();
+        eventData.CountingCircle.Electorates.Last().Id.Should().NotBeEmpty();
+        eventData.CountingCircle.Electorates.Last().Id = string.Empty;
         eventData.MatchSnapshot("event");
     }
 
@@ -186,6 +214,29 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
             async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
                 o.ResponsibleAuthority.SecureConnectId = "123333333333333333")),
             StatusCode.InvalidArgument);
+
+    [Fact]
+    public async Task ElectorateWithDuplicateDoiTypesShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
+                o.Electorates.Add(new ProtoModels.CountingCircleElectorate
+                {
+                    DomainOfInfluenceTypes = { DomainOfInfluenceType.Sk },
+                }))),
+            StatusCode.InvalidArgument,
+            "A domain of influence type in an electorate must be unique per counting circle");
+    }
+
+    [Fact]
+    public async Task ElectorateWithNoDoiTypeShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
+                o.Electorates.Add(new ProtoModels.CountingCircleElectorate()))),
+            StatusCode.InvalidArgument,
+            "Cannot create an electorate without a domain of influence type");
+    }
 
     [Fact]
     public Task NotFound()
@@ -241,6 +292,17 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
             },
             NameForProtocol = "Stadt Uzwil",
             SortNumber = 92,
+            Electorates =
+            {
+                new ProtoModels.CountingCircleElectorate
+                {
+                    DomainOfInfluenceTypes = { DomainOfInfluenceType.Ch, DomainOfInfluenceType.Ct },
+                },
+                new ProtoModels.CountingCircleElectorate
+                {
+                    DomainOfInfluenceTypes = { DomainOfInfluenceType.Sk },
+                },
+            },
         };
         customizer?.Invoke(request);
         return request;

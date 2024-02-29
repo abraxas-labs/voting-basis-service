@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Threading.Tasks;
@@ -6,14 +6,14 @@ using Abraxas.Voting.Basis.Services.V1.Models;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using AutoMapper;
 using Grpc.Core;
-using Microsoft.AspNetCore.Authorization;
 using Voting.Basis.Core.Services.Read;
+using Voting.Lib.Iam.Authorization;
 using Pageable = Voting.Lib.Database.Models.Pageable;
+using Permissions = Voting.Basis.Core.Auth.Permissions;
 using ServiceBase = Abraxas.Voting.Basis.Services.V1.EventLogService.EventLogServiceBase;
 
 namespace Voting.Basis.Services;
 
-[Authorize]
 public class EventLogService : ServiceBase
 {
     private readonly EventLogReader _eventLogReader;
@@ -25,6 +25,7 @@ public class EventLogService : ServiceBase
         _mapper = mapper;
     }
 
+    [AuthorizePermission(Permissions.EventLog.Read)]
     public override async Task<EventLogsPage> List(
         ListEventLogsRequest request,
         ServerCallContext context)

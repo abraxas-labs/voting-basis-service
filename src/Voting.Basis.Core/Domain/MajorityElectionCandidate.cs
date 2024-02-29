@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -63,4 +63,6 @@ public class MajorityElectionCandidate
     public Guid MajorityElectionId { get; set; }
 
     public string Origin { get; private set; }
+
+    public int CheckDigit { get; internal set; }
 }

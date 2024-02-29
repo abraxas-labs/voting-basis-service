@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Shared.V1;
 using AutoMapper;
-using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Domain;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.EventSignature;
@@ -20,7 +19,6 @@ using Voting.Basis.Ech.Converters;
 using Voting.Lib.Common;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
-using Voting.Lib.Iam.Store;
 using Voting.Lib.MalwareScanner.Services;
 
 namespace Voting.Basis.Core.Import;
@@ -28,7 +26,6 @@ namespace Voting.Basis.Core.Import;
 public class ImportService
 {
     private readonly IMapper _mapper;
-    private readonly IAuth _auth;
     private readonly PermissionService _permissionService;
     private readonly ContestReader _contestReader;
     private readonly ContestWriter _contestWriter;
@@ -39,10 +36,11 @@ public class ImportService
     private readonly IClock _clock;
     private readonly DomainOfInfluenceReader _domainOfInfluenceReader;
     private readonly IMalwareScannerService _malwareScannerService;
+    private readonly Ech0157Deserializer _ech0157Deserializer;
+    private readonly Ech0159Deserializer _ech0159Deserializer;
 
     public ImportService(
         IMapper mapper,
-        IAuth auth,
         PermissionService permissionService,
         ContestReader contestReader,
         ContestWriter contestWriter,
@@ -52,10 +50,11 @@ public class ImportService
         EventSignatureService eventSignatureService,
         IClock clock,
         DomainOfInfluenceReader domainOfInfluenceReader,
-        IMalwareScannerService malwareScannerService)
+        IMalwareScannerService malwareScannerService,
+        Ech0157Deserializer ech0157Deserializer,
+        Ech0159Deserializer ech0159Deserializer)
     {
         _mapper = mapper;
-        _auth = auth;
         _permissionService = permissionService;
         _contestReader = contestReader;
         _contestWriter = contestWriter;
@@ -66,12 +65,12 @@ public class ImportService
         _clock = clock;
         _domainOfInfluenceReader = domainOfInfluenceReader;
         _malwareScannerService = malwareScannerService;
+        _ech0157Deserializer = ech0157Deserializer;
+        _ech0159Deserializer = ech0159Deserializer;
     }
 
     public async Task Import(ContestImport contestImport)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
         contestImport.Contest.Id = Guid.NewGuid();
         await EnsureActiveEventSignature(contestImport.Contest.Id);
 
@@ -94,8 +93,6 @@ public class ImportService
         IEnumerable<ProportionalElectionImport> proportionalElections,
         IEnumerable<VoteImport> votes)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
         var contest = await _contestReader.Get(contestId);
         if (contest.TestingPhaseEnded)
         {
@@ -111,7 +108,6 @@ public class ImportService
     public ContestImport DeserializeImport(ImportType importType, string content, CancellationToken ct)
     {
         _malwareScannerService.EnsureFileIsClean(content, ct);
-        _auth.EnsureAdminOrElectionAdmin();
 
         return importType switch
         {
@@ -282,13 +278,13 @@ public class ImportService
 
     private ContestImport DeserializeEch157(string content)
     {
-        var contest = Ech0157Deserializer.DeserializeXml(content);
+        var contest = _ech0157Deserializer.DeserializeXml(content);
         return _mapper.Map<ContestImport>(contest);
     }
 
     private ContestImport DeserializeEch159(string content)
     {
-        var contest = Ech0159Deserializer.DeserializeXml(content);
+        var contest = _ech0159Deserializer.DeserializeXml(content);
         return _mapper.Map<ContestImport>(contest);
     }
 

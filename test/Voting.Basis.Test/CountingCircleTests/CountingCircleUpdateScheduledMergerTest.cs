@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -18,7 +18,6 @@ using Snapper;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Domain;
 using Voting.Basis.Core.Domain.Aggregate;
-using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Test.MockedData;
 using Voting.Basis.Test.MockedData.Mapping;
 using Voting.Lib.Eventing.Domain;
@@ -27,6 +26,7 @@ using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing.Mocks;
 using Voting.Lib.Testing.Utils;
 using Xunit;
+using PermissionService = Voting.Basis.Core.Services.Permission.PermissionService;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 

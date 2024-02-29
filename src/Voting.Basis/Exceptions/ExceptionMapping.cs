@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -62,6 +62,8 @@ internal readonly struct ExceptionMapping
             CountingCircleMergerAlreadyActiveException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
             ContestSetAsPreviousContestException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
             ContestInMergeSetAsPreviousContestException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
+            ProportionalElectionEditMandateAlgorithmInUnionException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed),
+            ProportionalElectionUnionMultipleMandateAlgorithmsException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed),
             AutoMapperMappingException autoMapperException when autoMapperException.InnerException is not null => Map(autoMapperException.InnerException),
             AutoMapperMappingException autoMapperException when string.Equals(autoMapperException.Source, EnumMappingErrorSource) => new(StatusCode.InvalidArgument, StatusCodes.Status400BadRequest),
             ValidationException => new(StatusCode.InvalidArgument, StatusCodes.Status400BadRequest),

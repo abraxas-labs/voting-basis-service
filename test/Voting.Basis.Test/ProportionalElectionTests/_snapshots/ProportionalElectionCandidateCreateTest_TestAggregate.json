@@ -47,7 +47,8 @@
         "rm": "AN rm"
       }
     },
-    "Origin": "origin"
+    "Origin": "origin",
+    "CheckDigit": 6
   },
   "2": {
     "Id": "c885e944-5b49-40f8-a75b-814a10ebc0f0",
@@ -97,6 +98,7 @@
         "rm": "AN rm"
       }
     },
-    "Origin": "origin"
+    "Origin": "origin",
+    "CheckDigit": 6
   }
 }

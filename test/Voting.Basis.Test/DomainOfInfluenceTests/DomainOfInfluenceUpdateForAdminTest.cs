@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -474,6 +474,89 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
                 }))),
             StatusCode.InvalidArgument,
             "Some parties cannot be modified");
+
+    [Fact]
+    public async Task DuplicatedPartyShouldThrow()
+    {
+        var partyId = "0c03d15a-ab0a-439d-a5bb-91fb17d17cf1";
+
+        await AssertStatus(
+            async () => await AdminClient.UpdateAsync(
+                NewValidRequest(o =>
+                {
+                    o.Parties.Add(new ProtoModels.DomainOfInfluenceParty
+                    {
+                        Id = partyId,
+                        Name = { LanguageUtil.MockAllLanguages("Andere") },
+                        ShortDescription = { LanguageUtil.MockAllLanguages("AN") },
+                    });
+                    o.Parties.Add(new ProtoModels.DomainOfInfluenceParty
+                    {
+                        Id = partyId,
+                        Name = { LanguageUtil.MockAllLanguages("Andere") },
+                        ShortDescription = { LanguageUtil.MockAllLanguages("AN") },
+                    });
+                })),
+            StatusCode.InvalidArgument,
+            "domain of influence party can only be provided exactly once");
+    }
+
+    [Fact]
+    public async Task ShouldThrowForeignExportConfiguration()
+    {
+        var exportConfigId = Guid.Parse("879049e5-f282-419c-b828-5110c322f1b6");
+
+        await RunOnDb(async db =>
+        {
+            db.ExportConfigurations.Add(new()
+            {
+                Id = exportConfigId,
+                DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
+            });
+            await db.SaveChangesAsync();
+        });
+
+        await AssertStatus(
+            async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
+            {
+                o.ExportConfigurations.Add(new ProtoModels.ExportConfiguration
+                {
+                    Id = exportConfigId.ToString(),
+                    Description = "Export Configuration",
+                    EaiMessageType = "1234657",
+                    Provider = SharedProto.ExportProvider.Seantis,
+                });
+            })),
+            StatusCode.InvalidArgument,
+            "Some export configurations cannot be modified");
+    }
+
+    [Fact]
+    public async Task DuplicatedExportConfigurationShouldThrow()
+    {
+        var configId = "0c03d15a-ab0a-439d-a5bb-91fb17d17cf1";
+
+        await AssertStatus(
+            async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
+            {
+                o.ExportConfigurations.Add(new ProtoModels.ExportConfiguration
+                {
+                    Id = configId,
+                    Description = "Export Configuration",
+                    EaiMessageType = "1234657",
+                    Provider = SharedProto.ExportProvider.Seantis,
+                });
+                o.ExportConfigurations.Add(new ProtoModels.ExportConfiguration
+                {
+                    Id = configId,
+                    Description = "Export Configuration2",
+                    EaiMessageType = "1234658",
+                    Provider = SharedProto.ExportProvider.Seantis,
+                });
+            })),
+            StatusCode.InvalidArgument,
+            "each export configuration can only be provided exactly once");
+    }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
         => await new DomainOfInfluenceService.DomainOfInfluenceServiceClient(channel)

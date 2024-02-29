@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -9,9 +9,10 @@ using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
+using Voting.Lib.Common;
 using Voting.Lib.Database.Repositories;
 
-namespace Voting.Basis.Core.EventProcessors;
+namespace Voting.Basis.Core.Utils;
 
 public class ProportionalElectionUnionListBuilder
 {
@@ -29,33 +30,8 @@ public class ProportionalElectionUnionListBuilder
         _electionRepo = electionRepo;
     }
 
-    public async Task RebuildLists(
-        Guid unionId,
-        List<Guid> proportionalElectionIds)
-    {
-        var proportionalElections = await _electionRepo
-            .Query()
-            .Where(p => proportionalElectionIds.Contains(p.Id))
-            .Include(p => p.ProportionalElectionLists)
-            .ToListAsync();
-
-        var lists = proportionalElections
-            .SelectMany(p => p.ProportionalElectionLists)
-            .ToList();
-
-        var listsByOrderNumberAndShortDescription = lists
-            .GroupBy(l => new { l.OrderNumber, l.ShortDescription });
-
-        var unionLists = listsByOrderNumberAndShortDescription
-            .Select(l => new ProportionalElectionUnionList(
-                unionId,
-                l.Key.OrderNumber,
-                l.Key.ShortDescription,
-                l.ToList()))
-            .ToList();
-
-        await _unionListRepo.Replace(unionId, unionLists);
-    }
+    public Task RebuildLists(Guid unionId, List<Guid> electionIds) =>
+        RebuildLists(new() { { unionId, electionIds } });
 
     public async Task RebuildForProportionalElection(Guid proportionalElectionId)
     {
@@ -78,6 +54,21 @@ public class ProportionalElectionUnionListBuilder
         await _unionListRepo.DeleteRangeByKey(listIdsWithNoEntries);
     }
 
+    internal List<ProportionalElectionUnionList> BuildUnionLists(Guid unionId, List<ProportionalElectionList> lists)
+    {
+        var listsByOrderNumberAndGermanShortDescription = lists
+            .Where(l => l.ShortDescription.ContainsKey(Languages.German))
+            .GroupBy(l => new { l.OrderNumber, GermanShortDescription = l.ShortDescription[Languages.German] });
+
+        return listsByOrderNumberAndGermanShortDescription
+            .Select(l => new ProportionalElectionUnionList(
+                unionId,
+                l.Key.OrderNumber,
+                l.OrderBy(i => i.Id).First().ShortDescription,
+                l.ToList()))
+            .ToList();
+    }
+
     private async Task RebuildListsForUnions(List<Guid> unionIds)
     {
         // complex groupby are not support in ef
@@ -85,11 +76,31 @@ public class ProportionalElectionUnionListBuilder
             .Where(e => unionIds.Contains(e.ProportionalElectionUnionId))
             .ToListAsync())
             .GroupBy(e => e.ProportionalElectionUnionId, e => e.ProportionalElectionId)
-            .ToList();
+            .ToDictionary(e => e.Key, e => e.ToList());
 
-        foreach (var electionIds in electionIdsByUnion)
+        await RebuildLists(electionIdsByUnion);
+    }
+
+    private async Task RebuildLists(Dictionary<Guid, List<Guid>> electionIdsByUnion)
+    {
+        var proportionalElectionIds = electionIdsByUnion.Values.SelectMany(e => e).ToHashSet();
+
+        var proportionalElections = await _electionRepo
+            .Query()
+            .Where(p => proportionalElectionIds.Contains(p.Id))
+            .Include(p => p.ProportionalElectionLists)
+            .ToListAsync();
+
+        var unionLists = new List<ProportionalElectionUnionList>();
+        foreach (var (unionId, electionIds) in electionIdsByUnion)
         {
-            await RebuildLists(electionIds.Key, electionIds.ToList());
+            var lists = proportionalElections.Where(p => electionIds.Contains(p.Id))
+                .SelectMany(p => p.ProportionalElectionLists)
+                .ToList();
+
+            unionLists.AddRange(BuildUnionLists(unionId, lists));
         }
+
+        await _unionListRepo.Replace(electionIdsByUnion.Keys.ToList(), unionLists);
     }
 }

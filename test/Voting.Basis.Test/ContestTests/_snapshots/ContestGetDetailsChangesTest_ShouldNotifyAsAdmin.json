@@ -354,7 +354,8 @@
               "Active": true,
               "ReportDomainOfInfluenceLevel": 0,
               "ReviewProcedure": 1,
-              "EnforceReviewProcedureForCountingCircles": true
+              "EnforceReviewProcedureForCountingCircles": true,
+              "EnforceCandidateCheckDigitForCountingCircles": false
             },
             "Description": "Test Election Group",
             "Number": 1,
@@ -405,7 +406,8 @@
               "Active": true,
               "ReportDomainOfInfluenceLevel": 0,
               "ReviewProcedure": 1,
-              "EnforceReviewProcedureForCountingCircles": true
+              "EnforceReviewProcedureForCountingCircles": true,
+              "EnforceCandidateCheckDigitForCountingCircles": false
             },
             "Description": "Test Election Group",
             "Number": 1,
@@ -446,7 +448,8 @@
               "Active": false,
               "ReportDomainOfInfluenceLevel": 0,
               "ReviewProcedure": 0,
-              "EnforceReviewProcedureForCountingCircles": false
+              "EnforceReviewProcedureForCountingCircles": false,
+              "EnforceCandidateCheckDigitForCountingCircles": false
             },
             "Description": "",
             "Number": 0,

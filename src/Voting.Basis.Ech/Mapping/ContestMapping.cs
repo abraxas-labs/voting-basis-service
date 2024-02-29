@@ -1,9 +1,9 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
 using System.Linq;
-using eCH_0155_4_0;
+using Ech0155_4_0;
 using Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Ech.Mapping;
@@ -13,22 +13,31 @@ internal static class ContestMapping
     internal static ContestType ToEchContestType(this Contest contest)
     {
         var contestDescriptionInfos = contest.Description
-            .Select(x => ContestDescriptionInfo.Create(x.Key, x.Value))
+            .Select(x => new ContestDescriptionInformationTypeContestDescriptionInfo
+            {
+                Language = x.Key,
+                ContestDescription = x.Value,
+            })
             .ToList();
-        var contestDescription = ContestDescriptionInformation.Create(contestDescriptionInfos);
 
         var eVotingPeriod = contest.EVoting
-            ? EvotingPeriodType.Create(contest.EVotingFrom!.Value, contest.EVotingTo!.Value)
+            ? new EVotingPeriodType { EVotingPeriodFrom = contest.EVotingFrom!.Value, EVotingPeriodTill = contest.EVotingTo!.Value }
             : null;
 
-        return ContestType.Create(contest.Id.ToString(), contest.Date, contestDescription, eVotingPeriod);
+        var contestType = new ContestType
+        {
+            ContestIdentification = contest.Id.ToString(),
+            ContestDate = contest.Date,
+            ContestDescription = contestDescriptionInfos,
+            EVotingPeriod = eVotingPeriod,
+        };
+
+        return contestType;
     }
 
     internal static Contest ToBasisContest(this ContestType contest, IdLookup idLookup)
     {
-        var descriptionInfos = contest
-            .ContestDescription
-            ?.ContestDescriptionInfo;
+        var descriptionInfos = contest.ContestDescription;
         var description = descriptionInfos.ToLanguageDictionary(x => x.Language, x => x.ContestDescription, contest.ContestIdentification);
 
         var contestDate = contest.ContestDate.MapToUtcDateTime();
@@ -36,9 +45,9 @@ internal static class ContestMapping
         {
             Id = idLookup.GuidForId(contest.ContestIdentification),
             Date = contestDate,
-            EVoting = contest.EvotingPeriod != null,
-            EVotingFrom = contest.EvotingPeriod?.EvotingPeriodFrom.MapToUtcDateTime(),
-            EVotingTo = contest.EvotingPeriod?.EvotingPeriodTill.MapToUtcDateTime(),
+            EVoting = contest.EVotingPeriod != null,
+            EVotingFrom = contest.EVotingPeriod?.EVotingPeriodFrom.MapToUtcDateTime(),
+            EVotingTo = contest.EVotingPeriod?.EVotingPeriodTill.MapToUtcDateTime(),
             Description = description,
             EndOfTestingPhase = DateTime.UtcNow, // required, otherwise we have error because the DateTime is not in UTC
         };

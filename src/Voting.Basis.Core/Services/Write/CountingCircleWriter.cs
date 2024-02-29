@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -49,7 +49,6 @@ public class CountingCircleWriter
 
     public async Task Create(Domain.CountingCircle data)
     {
-        _auth.EnsureAdmin();
         await SetResponsibleAuthorityTenant(data);
 
         var countingCircle = _aggregateFactory.New<CountingCircleAggregate>();
@@ -60,23 +59,25 @@ public class CountingCircleWriter
 
     public async Task Update(Domain.CountingCircle data)
     {
-        _auth.EnsureAdminOrElectionAdmin();
         await SetResponsibleAuthorityTenant(data);
 
         await EnsureNotInScheduledMerge(data.Id);
 
         var countingCircle = await _aggregateRepository.GetById<CountingCircleAggregate>(data.Id);
-        EnsureIsAdminOrResponsibleTenant(countingCircle);
 
-        countingCircle.UpdateFrom(data, _auth.IsAdmin());
+        var canUpdateAll = _auth.HasPermission(Permissions.CountingCircle.UpdateAll);
+        if (!canUpdateAll && !_auth.Tenant.Id.Equals(countingCircle.ResponsibleAuthority.SecureConnectId, StringComparison.Ordinal))
+        {
+            throw new ForbiddenException();
+        }
+
+        countingCircle.UpdateFrom(data, canUpdateAll);
 
         await _aggregateRepository.Save(countingCircle);
     }
 
     public async Task Delete(Guid countingCircleId)
     {
-        _auth.EnsureAdmin();
-
         await EnsureNotInScheduledMerge(countingCircleId);
         var countingCircle = await _aggregateRepository.GetById<CountingCircleAggregate>(countingCircleId);
         countingCircle.Delete();
@@ -86,8 +87,6 @@ public class CountingCircleWriter
 
     public async Task<Guid> ScheduleMerge(Domain.CountingCirclesMerger data)
     {
-        _auth.EnsureAdmin();
-
         await ValidateAndPrepareMerger(data);
 
         var countingCircle = _aggregateFactory.New<CountingCircleAggregate>();
@@ -101,8 +100,6 @@ public class CountingCircleWriter
 
     public async Task UpdateScheduledMerger(Guid newCountingCircleId, Domain.CountingCirclesMerger data)
     {
-        _auth.EnsureAdmin();
-
         var aggregate = await _aggregateRepository.GetById<CountingCircleAggregate>(newCountingCircleId);
 
         await ValidateAndPrepareMerger(data, aggregate.MergerOrigin?.Id ?? throw new ValidationException("new counting circle id is immutable"));
@@ -115,8 +112,6 @@ public class CountingCircleWriter
 
     public async Task DeleteScheduledMerger(Guid newCountingCircleId)
     {
-        _auth.EnsureAdmin();
-
         var aggregate = await _aggregateRepository.GetById<CountingCircleAggregate>(newCountingCircleId);
         aggregate.CancelMerger();
         await _aggregateRepository.Save(aggregate);
@@ -215,13 +210,5 @@ public class CountingCircleWriter
         }
 
         return true;
-    }
-
-    private void EnsureIsAdminOrResponsibleTenant(CountingCircleAggregate countingCircle)
-    {
-        if (!_auth.IsAdmin() && !_auth.Tenant.Id.Equals(countingCircle.ResponsibleAuthority.SecureConnectId, StringComparison.Ordinal))
-        {
-            throw new ForbiddenException();
-        }
     }
 }

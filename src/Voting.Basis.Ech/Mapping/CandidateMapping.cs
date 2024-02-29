@@ -1,15 +1,15 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using eCH_0010_6_0;
-using eCH_0155_4_0;
+using Ech0010_6_0;
+using Ech0155_4_0;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Resources;
 using Voting.Lib.Common;
-using Voting.Lib.Ech.Ech0157.Models;
+using Voting.Lib.Ech.Ech0157_4_0.Models;
 using DataModels = Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Ech.Mapping;
@@ -26,45 +26,52 @@ internal static class CandidateMapping
 
         var occupationInfos = candidate.Occupation
             .Where(x => !string.IsNullOrEmpty(x.Value))
-            .Select(x => OccupationalTitleInfo.Create(x.Key, x.Value))
+            .Select(x => new OccupationalTitleInformationTypeOccupationalTitleInfo
+            {
+                Language = x.Key,
+                OccupationalTitle = x.Value,
+            })
             .ToList();
-        var occupation = occupationInfos.Count > 0
-            ? OccupationalTitleInformation.Create(occupationInfos)
-            : null;
 
         var partyInfos = party?
-            .Select(x => PartyAffiliationInfo.Create(x.Key, x.Value))
+            .Select(x => new PartyAffiliationformationTypePartyAffiliationInfo
+            {
+                Language = x.Key,
+                PartyAffiliationShort = x.Value,
+            })
             .ToList();
 
         var zipCodeIsSwiss = int.TryParse(candidate.ZipCode, out var zipCode) && zipCode is > 1000 and <= 9999;
-        return CandidateType.Create(
-            null,
-            candidate.Id.ToString(),
-            candidate.LastName,
-            candidate.FirstName,
-            candidate.PoliticalFirstName,
-            candidate.Title,
-            candidate.Number,
-            null,
-            text,
-            candidate.DateOfBirth,
-            candidate.Sex.ToEchSexType(),
-            occupation,
-            null,
-            null,
-            new AddressInformationType
+
+        return new CandidateType
+        {
+            CandidateIdentification = candidate.Id.ToString(),
+            FamilyName = candidate.LastName,
+            FirstName = candidate.FirstName,
+            CallName = candidate.PoliticalFirstName,
+            Title = candidate.Title,
+            CandidateReference = candidate.Number,
+            CandidateText = text.CandidateTextInfo,
+            DateOfBirth = candidate.DateOfBirth,
+            Sex = candidate.Sex.ToEchSexType(),
+            OccupationalTitle = occupationInfos,
+            DwellingAddress = new AddressInformationType
             {
-                SwissZipCode = zipCodeIsSwiss ? zipCode : null,
+                SwissZipCode = zipCodeIsSwiss ? (uint?)zipCode : null,
                 ForeignZipCode = zipCodeIsSwiss ? null : candidate.ZipCode,
                 Town = candidate.Locality != string.Empty ? candidate.Locality : UnknownMapping.UnknownValue,
-                Country = CountryType.Create(SwissCountryId, SwissCountryIso, SwissCountryNameShort),
+                Country = new CountryType
+                {
+                    CountryId = SwissCountryId,
+                    CountryIdIso2 = SwissCountryIso,
+                    CountryNameShort = SwissCountryNameShort,
+                },
             },
-            Swiss.Create(candidate.Origin != string.Empty ? candidate.Origin : UnknownMapping.UnknownValue),
-            candidate.Sex.ToEchMrMrsType(),
-            Languages.German,
-            null,
-            null,
-            partyInfos?.Count > 0 ? PartyAffiliationInformation.Create(partyInfos) : null);
+            Swiss = new List<string> { candidate.Origin != string.Empty ? candidate.Origin : UnknownMapping.UnknownValue },
+            MrMrs = candidate.Sex.ToEchMrMrsType(),
+            LanguageOfCorrespondence = Languages.German,
+            PartyAffiliation = partyInfos,
+        };
     }
 
     internal static T ToBasisCandidate<T>(this CandidateType candidate, IdLookup idLookup, ElectionInformationExtensionCandidate? candidateExtension)
@@ -72,7 +79,6 @@ internal static class CandidateMapping
     {
         var occupation = candidate
             .OccupationalTitle
-            ?.OccupationalTitleInfo
             ?.ToLanguageDictionary(x => x.Language, x => x.OccupationalTitle, string.Empty, true)
             ?? new Dictionary<string, string>();
 
@@ -100,15 +106,15 @@ internal static class CandidateMapping
             Locality = UnknownMapping.MapUnknownValue(candidate.DwellingAddress?.Town),
             ZipCode = candidate.DwellingAddress?.SwissZipCode?.ToString()
                       ?? candidate.DwellingAddress?.ForeignZipCode ?? string.Empty,
-            Origin = candidate.SwissForeignChoice is Swiss swiss ? UnknownMapping.MapUnknownValue(swiss.Origin) : string.Empty,
+            Origin = candidate.SwissSpecified ? UnknownMapping.MapUnknownValue(candidate.Swiss[0]) : string.Empty,
         };
     }
 
-    internal static CandidateTextInformation ToEchCandidateText(this DataModels.ElectionCandidate candidate, DataModels.DomainOfInfluenceCanton canton, PoliticalBusinessType politicalBusinessType, Dictionary<string, string>? party = null)
+    internal static CandidateTextInformationType ToEchCandidateText(this DataModels.ElectionCandidate candidate, DataModels.DomainOfInfluenceCanton canton, PoliticalBusinessType politicalBusinessType, Dictionary<string, string>? party = null)
     {
         var dateOfBirthText = DomainOfInfluenceCantonDataTransformer.EchCandidateDateOfBirthText(canton, candidate.DateOfBirth);
         var candidateTextBase = $"{dateOfBirthText}, {{0}}{candidate.Locality}{{1}}{{2}}";
-        var textInfos = new List<CandidateTextInfo>();
+        var textInfos = new CandidateTextInformationType();
         foreach (var language in Languages.All)
         {
             var occupationTitleText = string.Empty;
@@ -134,9 +140,13 @@ internal static class CandidateMapping
                 }
             }
 
-            textInfos.Add(CandidateTextInfo.Create(language, string.Format(candidateTextBase, occupationTitleText, partyText, incumbentText)));
+            textInfos.CandidateTextInfo.Add(new CandidateTextInformationTypeCandidateTextInfo
+            {
+                Language = language,
+                CandidateText = string.Format(candidateTextBase, occupationTitleText, partyText, incumbentText),
+            });
         }
 
-        return CandidateTextInformation.Create(textInfos);
+        return textInfos;
     }
 }

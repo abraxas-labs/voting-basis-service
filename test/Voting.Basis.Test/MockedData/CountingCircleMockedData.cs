@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
+using Voting.Basis.Data.Utils;
 using Voting.Basis.Test.MockedData.Mapping;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
@@ -141,6 +142,19 @@ public static class CountingCircleMockedData
                 MobilePhone = "071 123 12 33",
                 FamilyName = "Wichtig",
                 FirstName = "Rudolph",
+            },
+            Electorates = new List<CountingCircleElectorate>
+            {
+                new()
+                {
+                    Id = BasisUuidV5.BuildCountingCircleElectorate(Guid.Parse(IdUzwil), new[] { DomainOfInfluenceType.Sk }),
+                    DomainOfInfluenceTypes = new() { DomainOfInfluenceType.Sk },
+                },
+                new()
+                {
+                    Id = BasisUuidV5.BuildCountingCircleElectorate(Guid.Parse(IdUzwil), new[] { DomainOfInfluenceType.Ch, DomainOfInfluenceType.Ct }),
+                    DomainOfInfluenceTypes = new() { DomainOfInfluenceType.Ch, DomainOfInfluenceType.Ct },
+                },
             },
         };
 

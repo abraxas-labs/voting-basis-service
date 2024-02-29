@@ -1,7 +1,8 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using FluentValidation;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Configuration;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.EventSignature;
@@ -20,6 +21,7 @@ using Voting.Basis.Core.Validation;
 using Voting.Lib.Eventing;
 using Voting.Lib.Eventing.DependencyInjection;
 using Voting.Lib.Eventing.Persistence;
+using Voting.Lib.Iam.Authorization;
 using Voting.Lib.Scheduler;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -35,6 +37,7 @@ internal static class PublisherServiceCollection
 
         return services
             .AddScoped<PermissionService>()
+            .AddSingleton<IPermissionProvider, PermissionProvider>()
             .AddObjectStorage(config.Publisher)
             .AddCryptography(config.Publisher)
             .AddWriterServices(config.Publisher)

@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -86,6 +86,9 @@ public class DomainOfInfluenceCantonDefaultsBuilder
             MajorityElectionInvalidVotes = cantonSettings.MajorityElectionInvalidVotes,
             SwissAbroadVotingRight = GetSwissAbroadVotingRight(cantonSettings, domainOfInfluence.Type),
             EnabledPoliticalBusinessUnionTypes = cantonSettings.EnabledPoliticalBusinessUnionTypes,
+            MultipleVoteBallotsEnabled = cantonSettings.MultipleVoteBallotsEnabled,
+            ProportionalElectionUseCandidateCheckDigit = cantonSettings.ProportionalElectionUseCandidateCheckDigit,
+            MajorityElectionUseCandidateCheckDigit = cantonSettings.MajorityElectionUseCandidateCheckDigit,
         };
     }
 

@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -12,8 +12,6 @@ public class Ballot : BaseEntity
     public int Position { get; set; }
 
     public BallotType BallotType { get; set; }
-
-    public Dictionary<string, string> Description { get; set; } = new Dictionary<string, string>();
 
     public bool HasTieBreakQuestions { get; set; }
 

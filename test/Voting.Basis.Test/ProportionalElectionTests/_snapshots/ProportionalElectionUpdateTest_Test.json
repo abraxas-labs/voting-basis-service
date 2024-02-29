@@ -45,7 +45,8 @@
       "Active": false,
       "BallotBundleSampleSize": 0,
       "ReviewProcedure": 1,
-      "EnforceReviewProcedureForCountingCircles": true
+      "EnforceReviewProcedureForCountingCircles": true,
+      "EnforceCandidateCheckDigitForCountingCircles": true
     }
   }
 }

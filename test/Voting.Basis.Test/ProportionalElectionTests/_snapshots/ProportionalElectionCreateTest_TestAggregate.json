@@ -27,7 +27,8 @@
     "Active": false,
     "BallotBundleSampleSize": 0,
     "ReviewProcedure": 1,
-    "EnforceReviewProcedureForCountingCircles": true
+    "EnforceReviewProcedureForCountingCircles": true,
+    "EnforceCandidateCheckDigitForCountingCircles": true
   },
   "2": {
     "Id": "53235b83-3dc3-4b72-a94d-871044168062",
@@ -45,7 +46,7 @@
       "rm": "Proporzwahl 2 rm"
     },
     "NumberOfMandates": 3,
-    "MandateAlgorithm": 2,
+    "MandateAlgorithm": 4,
     "CandidateCheckDigit": false,
     "BallotBundleSize": 0,
     "AutomaticBallotBundleNumberGeneration": false,
@@ -57,6 +58,7 @@
     "Active": false,
     "BallotBundleSampleSize": 0,
     "ReviewProcedure": 2,
-    "EnforceReviewProcedureForCountingCircles": false
+    "EnforceReviewProcedureForCountingCircles": false,
+    "EnforceCandidateCheckDigitForCountingCircles": false
   }
 }

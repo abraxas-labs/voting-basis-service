@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +8,8 @@ using Voting.Basis.Data.Models;
 namespace Voting.Basis.Data.ModelBuilders;
 
 public class CountingCircleModelBuilder : IEntityTypeConfiguration<CountingCircle>,
-    IEntityTypeConfiguration<CountingCirclesMerger>
+    IEntityTypeConfiguration<CountingCirclesMerger>,
+    IEntityTypeConfiguration<CountingCircleElectorate>
 {
     public void Configure(EntityTypeBuilder<CountingCircle> builder)
     {
@@ -60,5 +61,14 @@ public class CountingCircleModelBuilder : IEntityTypeConfiguration<CountingCircl
              .WithOne(cc => cc.MergeOrigin!)
              .HasForeignKey<CountingCircle>(c => c.MergeOriginId)
              .OnDelete(DeleteBehavior.SetNull);
+    }
+
+    public void Configure(EntityTypeBuilder<CountingCircleElectorate> builder)
+    {
+        builder
+            .HasOne(x => x.CountingCircle)
+            .WithMany(x => x.Electorates)
+            .HasForeignKey(x => x.CountingCircleId)
+            .IsRequired();
     }
 }

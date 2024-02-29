@@ -34,5 +34,6 @@
   "ZipCode": "new zip code",
   "Locality": "locality",
   "Position": 1,
-  "Origin": "origin"
+  "Origin": "origin",
+  "CheckDigit": 0
 }

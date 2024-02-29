@@ -37,7 +37,8 @@
         "ZipCode": "zip code",
         "Locality": "locality",
         "Position": 1,
-        "Origin": "origin"
+        "Origin": "origin",
+        "CheckDigit": 9
       },
       "IsReferenced": true,
       "ReferencedCandidateId": "81a11b8e-51b8-40c5-aa94-b7a854e2c726"
@@ -79,7 +80,8 @@
         "ZipCode": "zip code",
         "Locality": "locality",
         "Position": 2,
-        "Origin": "origin"
+        "Origin": "origin",
+        "CheckDigit": 7
       },
       "IsReferenced": false,
       "ReferencedCandidateId": ""
@@ -121,7 +123,8 @@
         "ZipCode": "zip code",
         "Locality": "locality",
         "Position": 3,
-        "Origin": "origin"
+        "Origin": "origin",
+        "CheckDigit": 9
       },
       "IsReferenced": false,
       "ReferencedCandidateId": ""
@@ -163,7 +166,8 @@
         "ZipCode": "zip code",
         "Locality": "locality",
         "Position": 4,
-        "Origin": "origin"
+        "Origin": "origin",
+        "CheckDigit": 9
       },
       "IsReferenced": false,
       "ReferencedCandidateId": ""

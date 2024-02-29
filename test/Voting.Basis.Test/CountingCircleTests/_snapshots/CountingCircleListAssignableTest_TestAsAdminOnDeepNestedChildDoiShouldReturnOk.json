@@ -42,7 +42,8 @@
       },
       "Code": "nonec",
       "SortNumber": 9005,
-      "NameForProtocol": "Stadt Jona"
+      "NameForProtocol": "Stadt Jona",
+      "Electorates": []
     },
     {
       "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a4e",
@@ -86,7 +87,8 @@
       },
       "Code": "nonec",
       "SortNumber": 21500,
-      "NameForProtocol": "Kirche Uzwil"
+      "NameForProtocol": "Kirche Uzwil",
+      "Electorates": []
     },
     {
       "Id": "c375f97a-0ba2-4a93-8c76-08a0661d9962",
@@ -130,7 +132,8 @@
       },
       "Code": "none_uc",
       "SortNumber": 21500,
-      "NameForProtocol": "Kirche Uzwil Andere"
+      "NameForProtocol": "Kirche Uzwil Andere",
+      "Electorates": []
     },
     {
       "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e",
@@ -174,7 +177,8 @@
       },
       "Code": "1234c",
       "SortNumber": 92,
-      "NameForProtocol": "Stadt Uzwil"
+      "NameForProtocol": "Stadt Uzwil",
+      "Electorates": []
     }
   ]
 }

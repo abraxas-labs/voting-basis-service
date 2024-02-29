@@ -43,7 +43,8 @@
         },
         "Code": "CC100c",
         "SortNumber": 0,
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "Electorates": []
       }
     ]
   }

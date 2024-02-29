@@ -21,22 +21,22 @@
     },
     {
       "Name": {
-        "de": "Sozialdemokratische Partei edited de",
-        "fr": "Sozialdemokratische Partei edited fr",
-        "it": "Sozialdemokratische Partei edited it",
-        "rm": "Sozialdemokratische Partei edited rm"
+        "de": "Schweizerische Volkspartei edited de",
+        "fr": "Schweizerische Volkspartei edited fr",
+        "it": "Schweizerische Volkspartei edited it",
+        "rm": "Schweizerische Volkspartei edited rm"
       },
       "ShortDescription": {
-        "de": "SP edited de",
-        "fr": "SP edited fr",
-        "it": "SP edited it",
-        "rm": "SP edited rm"
+        "de": "SVP edited de",
+        "fr": "SVP edited fr",
+        "it": "SVP edited it",
+        "rm": "SVP edited rm"
       },
       "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
       "DomainOfInfluence": null,
       "ProportionalElectionCandidates": [],
       "Deleted": false,
-      "Id": "d42d9fb1-4e68-4c4a-8d1f-7cf846c8304f"
+      "Id": "e6697ba9-9c7a-4dba-8640-9575dfcc3e09"
     }
   ]
 }

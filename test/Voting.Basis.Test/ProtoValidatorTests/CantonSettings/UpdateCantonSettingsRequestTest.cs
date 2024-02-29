@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -65,7 +65,7 @@ public class UpdateCantonSettingsRequestTest : ProtoValidatorBaseTest<UpdateCant
             Id = "da36912c-7eaf-43fe-86d4-70c816f17c5a",
             AuthorityName = "St.Gallen",
             SecureConnectId = "380590188826699143",
-            ProportionalElectionMandateAlgorithms = { ProportionalElectionMandateAlgorithm.HagenbachBischoff, ProportionalElectionMandateAlgorithm.DoppelterPukelsheim0Quorum },
+            ProportionalElectionMandateAlgorithms = { ProportionalElectionMandateAlgorithm.HagenbachBischoff, ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiQuorum },
             MajorityElectionAbsoluteMajorityAlgorithm = CantonMajorityElectionAbsoluteMajorityAlgorithm.ValidBallotsDividedByTwo,
             MajorityElectionInvalidVotes = true,
             SwissAbroadVotingRight = SwissAbroadVotingRight.NoRights,

@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -90,20 +90,6 @@ public class PermissionService
         }
     }
 
-    public void EnsureAdminOrOwnerOfDomainOfInfluence(DomainOfInfluence domainOfInfluence)
-    {
-        if (_auth.IsAdmin())
-        {
-            return;
-        }
-
-        var tenantId = _auth.Tenant.Id;
-        if (!string.Equals(domainOfInfluence.SecureConnectId, tenantId, StringComparison.Ordinal))
-        {
-            throw new ValidationException("Invalid domain of influence, does not belong to this tenant");
-        }
-    }
-
     /// <summary>
     /// Ensures that a list of domain of influences are children of a domain of influence or the domain of influence itself.
     /// </summary>
@@ -125,12 +111,6 @@ public class PermissionService
         {
             throw new ValidationException("Invalid domain of influence(s), some ids are not children of the parent node");
         }
-    }
-
-    public async Task EnsureCanModifyPoliticalBusiness(Guid politicalBusinessDomainOfInfluenceId)
-    {
-        _auth.EnsureAdminOrElectionAdmin();
-        await EnsureIsOwnerOfDomainOfInfluence(politicalBusinessDomainOfInfluenceId);
     }
 
     public async Task EnsureCanReadContest(Guid contestId)
@@ -193,12 +173,12 @@ public class PermissionService
 
     private async Task<bool> CanAccessDomainOfInfluence(Guid domainOfInfluenceId)
     {
-        if (_auth.IsAdmin())
+        if (_auth.HasPermission(Permissions.DomainOfInfluence.ReadAll))
         {
             return true;
         }
 
-        _auth.EnsureAdminOrElectionAdmin();
+        _auth.EnsurePermission(Permissions.DomainOfInfluence.Read);
 
         return await _permissionRepo
             .Query()

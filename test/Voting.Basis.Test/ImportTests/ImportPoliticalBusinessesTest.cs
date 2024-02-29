@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -56,7 +56,7 @@ public class ImportPoliticalBusinessesTest : BaseImportTest
     public async Task TestInvalidProportionalElectionMandateAlgorithmByCantonSettingsShouldThrow()
     {
         var request = await CreateValidRequest();
-        request.ProportionalElections[0].Election.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum;
+        request.ProportionalElections[0].Election.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum;
         await AssertStatus(
             async () => await AdminClient.ImportPoliticalBusinessesAsync(request),
             StatusCode.InvalidArgument,

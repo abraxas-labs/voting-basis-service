@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using Voting.Basis.Ech.Converters;
@@ -12,6 +12,8 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddVotingLibEch(config)
+            .AddSingleton<Ech0157Deserializer>()
+            .AddSingleton<Ech0159Deserializer>()
             .AddSingleton<Ech0157Serializer>()
             .AddSingleton<Ech0159Serializer>();
     }

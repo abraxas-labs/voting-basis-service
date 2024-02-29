@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +22,8 @@ public class DataContext : DbContext
     public DbSet<Authority> Authorities { get; set; } = null!;
 
     public DbSet<CountingCircleContactPerson> CountingCircleContactPersons { get; set; } = null!;
+
+    public DbSet<CountingCircleElectorate> CountingCircleElectorates { get; set; } = null!;
 
     public DbSet<DomainOfInfluence> DomainOfInfluences { get; set; } = null!;
 

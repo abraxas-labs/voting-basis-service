@@ -46,7 +46,8 @@
         },
         "Code": "CC100c",
         "SortNumber": 0,
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "Electorates": []
       }
     ]
   },
@@ -94,7 +95,8 @@
         },
         "Code": "CC101c",
         "SortNumber": 0,
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "Electorates": []
       },
       {
         "Id": "736ec87f-9953-4946-8459-1d03bc237aa1",
@@ -138,7 +140,8 @@
         },
         "Code": "CC100c",
         "SortNumber": 0,
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "Electorates": []
       }
     ]
   },
@@ -186,7 +189,8 @@
         },
         "Code": "CC100c",
         "SortNumber": 0,
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "Electorates": []
       },
       {
         "Id": "14451d15-cd48-46d1-bfed-6d069d160886",
@@ -233,7 +237,8 @@
         },
         "Code": "CC101c",
         "SortNumber": 0,
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "Electorates": []
       }
     ]
   },
@@ -281,7 +286,8 @@
         },
         "Code": "CC100c",
         "SortNumber": 0,
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "Electorates": []
       }
     ]
   }

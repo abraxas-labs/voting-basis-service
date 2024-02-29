@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -220,7 +220,6 @@ public class VoteAggregate : BaseHasContestAggregate
             EventInfo = _eventInfoProvider.NewEventInfo(),
             Id = ballot.Id.ToString(),
             VoteId = Id.ToString(),
-            Description = { ballot.Description },
             BallotQuestions = { ballot.BallotQuestions.Select(_mapper.Map<BallotQuestionEventData>) },
             TieBreakQuestions = { ballot.TieBreakQuestions.Select(_mapper.Map<TieBreakQuestionEventData>) },
         };
@@ -367,7 +366,6 @@ public class VoteAggregate : BaseHasContestAggregate
         var existingBallot = Ballots.Single(b => b.Id == id);
 
         var mappedBallot = _mapper.Map<Ballot>(ev);
-        existingBallot.Description = mappedBallot.Description;
         existingBallot.BallotQuestions.Clear();
         existingBallot.BallotQuestions.AddRange(mappedBallot.BallotQuestions);
         existingBallot.TieBreakQuestions.Clear();

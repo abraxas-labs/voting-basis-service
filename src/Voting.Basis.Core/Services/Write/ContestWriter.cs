@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Shared.V1;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Services.Permission;
@@ -22,7 +21,6 @@ using Voting.Basis.Data.Models;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
-using Voting.Lib.Iam.Store;
 using Contest = Voting.Basis.Core.Domain.Contest;
 using ContestCountingCircleOption = Voting.Basis.Core.Domain.ContestCountingCircleOption;
 
@@ -32,7 +30,6 @@ public class ContestWriter
 {
     private readonly ILogger<ContestWriter> _logger;
     private readonly IAggregateRepository _aggregateRepository;
-    private readonly IAuth _auth;
     private readonly IAggregateFactory _aggregateFactory;
     private readonly ContestReader _contestReader;
     private readonly PermissionService _permissionService;
@@ -43,7 +40,6 @@ public class ContestWriter
     public ContestWriter(
         ILogger<ContestWriter> logger,
         IAggregateRepository aggregateRepository,
-        IAuth auth,
         IAggregateFactory aggregateFactory,
         ContestReader contestReader,
         PermissionService permissionService,
@@ -53,7 +49,6 @@ public class ContestWriter
     {
         _logger = logger;
         _aggregateRepository = aggregateRepository;
-        _auth = auth;
         _aggregateFactory = aggregateFactory;
         _contestReader = contestReader;
         _permissionService = permissionService;
@@ -72,8 +67,6 @@ public class ContestWriter
         {
             throw new ValidationException("Date cannot be undefined");
         }
-
-        _auth.EnsureAdminOrElectionAdmin();
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(data.DomainOfInfluenceId);
         await EnsureValidPreviousContest(data);
@@ -106,8 +99,6 @@ public class ContestWriter
             throw new ValidationException("Date cannot be null");
         }
 
-        _auth.EnsureAdminOrElectionAdmin();
-
         var contest = await _aggregateRepository.GetById<ContestAggregate>(data.Id);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(contest.DomainOfInfluenceId);
@@ -135,7 +126,6 @@ public class ContestWriter
 
     public async Task Delete(Guid contestId)
     {
-        _auth.EnsureAdminOrElectionAdmin();
         var contest = await _aggregateRepository.GetById<ContestAggregate>(contestId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(contest.DomainOfInfluenceId);
@@ -154,7 +144,6 @@ public class ContestWriter
 
     public async Task Archive(Guid contestId, DateTime? archivePer)
     {
-        _auth.EnsureAdminOrElectionAdmin();
         var contest = await _aggregateRepository.GetById<ContestAggregate>(contestId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(contest.DomainOfInfluenceId);
@@ -166,7 +155,6 @@ public class ContestWriter
 
     public async Task PastUnlock(Guid contestId)
     {
-        _auth.EnsureAdminOrElectionAdmin();
         var contest = await _aggregateRepository.GetById<ContestAggregate>(contestId);
 
         await _permissionService.EnsureCanReadContest(contestId);
@@ -178,7 +166,6 @@ public class ContestWriter
 
     public async Task UpdateCountingCircleOptions(Guid contestId, IReadOnlyCollection<ContestCountingCircleOption> options)
     {
-        _auth.EnsureAdminOrElectionAdmin();
         var contest = await _aggregateRepository.GetById<ContestAggregate>(contestId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(contest.DomainOfInfluenceId);

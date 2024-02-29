@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -108,6 +108,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
     public bool EnforceReviewProcedureForCountingCircles { get; private set; }
 
+    public bool EnforceCandidateCheckDigitForCountingCircles { get; private set; }
+
     public void CreateFrom(MajorityElection majorityElection)
     {
         if (majorityElection.Id == default)
@@ -162,6 +164,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         ValidationUtils.EnsureNotModified(ResultEntry, majorityElection.ResultEntry);
         ValidationUtils.EnsureNotModified(ReviewProcedure, majorityElection.ReviewProcedure);
         ValidationUtils.EnsureNotModified(EnforceReviewProcedureForCountingCircles, majorityElection.EnforceReviewProcedureForCountingCircles);
+        ValidationUtils.EnsureNotModified(EnforceCandidateCheckDigitForCountingCircles, majorityElection.EnforceCandidateCheckDigitForCountingCircles);
 
         var ev = new MajorityElectionAfterTestingPhaseUpdated
         {
@@ -228,6 +231,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         EnsureUniqueCandidatePosition(candidate);
         EnsureUniqueCandidateNumber(candidate);
 
+        candidate.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(candidate.Number);
+
         var ev = new MajorityElectionCandidateCreated
         {
             MajorityElectionCandidate = _mapper.Map<MajorityElectionCandidateEventData>(candidate),
@@ -252,6 +257,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         EnsureUniqueCandidatePosition(candidate);
         EnsureUniqueCandidateNumber(candidate);
 
+        candidate.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(candidate.Number);
+
         var ev = new MajorityElectionCandidateUpdated
         {
             MajorityElectionCandidate = _mapper.Map<MajorityElectionCandidateEventData>(candidate),
@@ -266,12 +273,15 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         EnsureNotDeleted();
         _candidateValidator.ValidateAndThrow(candidate);
 
+        candidate.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(candidate.Number);
+
         EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, doiType);
 
         var existingCandidate = FindCandidate(candidate.Id)
             ?? throw new ValidationException($"Candidate {candidate.Id} does not exist");
 
         ValidationUtils.EnsureNotModified(existingCandidate.Number, candidate.Number);
+        ValidationUtils.EnsureNotModified(existingCandidate.CheckDigit, candidate.CheckDigit);
         ValidationUtils.EnsureNotModified(existingCandidate.Position, candidate.Position);
 
         var ev = new MajorityElectionCandidateAfterTestingPhaseUpdated
@@ -489,6 +499,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         var referencedCandidates = sme.CandidateReferences.ConvertAll(r => FindCandidate(r.CandidateId));
         sme.EnsureUniqueCandidateNumber(data, referencedCandidates);
 
+        data.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
+
         var ev = new SecondaryMajorityElectionCandidateCreated
         {
             SecondaryMajorityElectionCandidate = _mapper.Map<MajorityElectionCandidateEventData>(data),
@@ -513,6 +525,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         var referencedCandidates = sme.CandidateReferences.ConvertAll(r => FindCandidate(r.CandidateId));
         sme.EnsureUniqueCandidateNumber(data, referencedCandidates);
 
+        data.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
+
         var ev = new SecondaryMajorityElectionCandidateUpdated
         {
             SecondaryMajorityElectionCandidate = _mapper.Map<MajorityElectionCandidateEventData>(data),
@@ -530,10 +544,13 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
         EnsureLocalityAndOriginIsSetForNonCommunalDoiType(data, doiType);
 
+        data.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
+
         var sme = GetSecondaryMajorityElection(data.MajorityElectionId);
         var existingCandidate = sme.GetCandidate(data.Id);
 
         ValidationUtils.EnsureNotModified(existingCandidate.Number, data.Number);
+        ValidationUtils.EnsureNotModified(existingCandidate.CheckDigit, data.CheckDigit);
         ValidationUtils.EnsureNotModified(existingCandidate.Position, data.Position);
 
         var ev = new SecondaryMajorityElectionCandidateAfterTestingPhaseUpdated

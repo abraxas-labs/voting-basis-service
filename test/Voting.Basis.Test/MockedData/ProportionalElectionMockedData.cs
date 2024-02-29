@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -102,10 +102,11 @@ public static class ProportionalElectionMockedData
             AutomaticBallotBundleNumberGeneration = true,
             BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
             CandidateCheckDigit = true,
-            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum,
+            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum,
             NumberOfMandates = 5,
             ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
             ProportionalElectionLists = new List<ProportionalElectionList>
             {
                     new ProportionalElectionList
@@ -139,6 +140,7 @@ public static class ProportionalElectionMockedData
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                                 Origin = "origin",
+                                CheckDigit = 6,
                             },
                         },
                     },
@@ -162,10 +164,11 @@ public static class ProportionalElectionMockedData
             AutomaticBallotBundleNumberGeneration = true,
             BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
             CandidateCheckDigit = false,
-            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum,
+            MandateAlgorithm = ProportionalElectionMandateAlgorithm.HagenbachBischoff,
             NumberOfMandates = 5,
             ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = false,
             ProportionalElectionLists = new List<ProportionalElectionList>
             {
                     new ProportionalElectionList
@@ -199,6 +202,7 @@ public static class ProportionalElectionMockedData
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyStGallenSP,
                                 Origin = "origin",
+                                CheckDigit = 6,
                             },
                         },
                     },
@@ -239,10 +243,11 @@ public static class ProportionalElectionMockedData
             AutomaticBallotBundleNumberGeneration = false,
             BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
             CandidateCheckDigit = true,
-            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum,
+            MandateAlgorithm = ProportionalElectionMandateAlgorithm.HagenbachBischoff,
             NumberOfMandates = 5,
             ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
             ProportionalElectionLists = new List<ProportionalElectionList>
             {
                     new ProportionalElectionList
@@ -276,6 +281,7 @@ public static class ProportionalElectionMockedData
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                                 Origin = "origin",
+                                CheckDigit = 6,
                             },
                             new ProportionalElectionCandidate
                             {
@@ -296,6 +302,7 @@ public static class ProportionalElectionMockedData
                                 ZipCode = "zip code2",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                                 Origin = "origin 2",
+                                CheckDigit = 4,
                             },
                         },
                     },
@@ -339,6 +346,7 @@ public static class ProportionalElectionMockedData
             NumberOfMandates = 5,
             ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
             ProportionalElectionLists = new List<ProportionalElectionList>
             {
                     new ProportionalElectionList
@@ -372,6 +380,7 @@ public static class ProportionalElectionMockedData
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyStGallenSVP,
                                 Origin = "origin",
+                                CheckDigit = 6,
                             },
                         },
                     },
@@ -404,10 +413,11 @@ public static class ProportionalElectionMockedData
             AutomaticBallotBundleNumberGeneration = true,
             BallotNumberGeneration = BallotNumberGeneration.ContinuousForAllBundles,
             CandidateCheckDigit = false,
-            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoppelterPukelsheim0Quorum,
+            MandateAlgorithm = ProportionalElectionMandateAlgorithm.HagenbachBischoff,
             NumberOfMandates = 5,
             ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
             ProportionalElectionLists = new List<ProportionalElectionList>
             {
                     new ProportionalElectionList
@@ -441,6 +451,7 @@ public static class ProportionalElectionMockedData
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                                 Origin = "origin",
+                                CheckDigit = 6,
                             },
                         },
                     },
@@ -464,10 +475,11 @@ public static class ProportionalElectionMockedData
             AutomaticBallotBundleNumberGeneration = true,
             BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
             CandidateCheckDigit = true,
-            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum,
+            MandateAlgorithm = ProportionalElectionMandateAlgorithm.HagenbachBischoff,
             NumberOfMandates = 3,
             ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = false,
             ProportionalElectionLists = new List<ProportionalElectionList>
             {
                     new ProportionalElectionList
@@ -501,6 +513,7 @@ public static class ProportionalElectionMockedData
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyGossauFLiG,
                                 Origin = "origin",
+                                CheckDigit = 6,
                             },
                             new ProportionalElectionCandidate
                             {
@@ -521,6 +534,7 @@ public static class ProportionalElectionMockedData
                                 Title = "title 2",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyGossauDeleted,
                                 Origin = "origin 2",
+                                CheckDigit = 4,
                             },
                         },
                     },
@@ -685,6 +699,7 @@ public static class ProportionalElectionMockedData
             NumberOfMandates = 3,
             ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = false,
             ProportionalElectionLists = new List<ProportionalElectionList>
             {
                     new ProportionalElectionList
@@ -718,6 +733,7 @@ public static class ProportionalElectionMockedData
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                                 Origin = "origin",
+                                CheckDigit = 6,
                             },
                             new ProportionalElectionCandidate
                             {
@@ -738,6 +754,7 @@ public static class ProportionalElectionMockedData
                                 Title = "title 2",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyStGallenSVP,
                                 Origin = "origin 2",
+                                CheckDigit = 4,
                             },
                         },
                     },
@@ -809,10 +826,11 @@ public static class ProportionalElectionMockedData
             AutomaticBallotBundleNumberGeneration = true,
             BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
             CandidateCheckDigit = true,
-            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum,
+            MandateAlgorithm = ProportionalElectionMandateAlgorithm.HagenbachBischoff,
             NumberOfMandates = 5,
             ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
         };
 
     public static ProportionalElection GossauProportionalElectionInContestGossau
@@ -832,10 +850,11 @@ public static class ProportionalElectionMockedData
             AutomaticBallotBundleNumberGeneration = true,
             BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
             CandidateCheckDigit = true,
-            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum,
+            MandateAlgorithm = ProportionalElectionMandateAlgorithm.HagenbachBischoff,
             NumberOfMandates = 5,
             ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
             ProportionalElectionLists = new List<ProportionalElectionList>
             {
                     new ProportionalElectionList
@@ -869,6 +888,7 @@ public static class ProportionalElectionMockedData
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                                 Origin = "origin",
+                                CheckDigit = 6,
                             },
                         },
                     },
@@ -901,10 +921,11 @@ public static class ProportionalElectionMockedData
             AutomaticBallotBundleNumberGeneration = true,
             BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
             CandidateCheckDigit = true,
-            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum,
+            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum,
             NumberOfMandates = 5,
             ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
             ProportionalElectionLists = new List<ProportionalElectionList>
             {
                     new ProportionalElectionList
@@ -938,6 +959,7 @@ public static class ProportionalElectionMockedData
                                 ZipCode = "zip code",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                                 Origin = "origin",
+                                CheckDigit = 6,
                             },
                         },
                     },
@@ -960,10 +982,11 @@ public static class ProportionalElectionMockedData
             AutomaticBallotBundleNumberGeneration = true,
             BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
             CandidateCheckDigit = true,
-            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum,
+            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum,
             NumberOfMandates = 5,
             ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
         };
 
     public static ProportionalElection GenfProportionalElectionInContestBundWithoutChilds
@@ -982,10 +1005,11 @@ public static class ProportionalElectionMockedData
             AutomaticBallotBundleNumberGeneration = true,
             BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
             CandidateCheckDigit = true,
-            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum,
+            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum,
             NumberOfMandates = 5,
             ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
         };
 
     public static ProportionalElection KircheProportionalElectionInContestKirche
@@ -1005,10 +1029,11 @@ public static class ProportionalElectionMockedData
             AutomaticBallotBundleNumberGeneration = true,
             BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
             CandidateCheckDigit = true,
-            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum,
+            MandateAlgorithm = ProportionalElectionMandateAlgorithm.HagenbachBischoff,
             NumberOfMandates = 5,
             ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
             ProportionalElectionLists = new List<ProportionalElectionList>
             {
                     new ProportionalElectionList
@@ -1041,6 +1066,7 @@ public static class ProportionalElectionMockedData
                                 Title = "title",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyKirchgemeindeEVP,
                                 Origin = "origin",
+                                CheckDigit = 6,
                             },
                         },
                     },
@@ -1073,10 +1099,11 @@ public static class ProportionalElectionMockedData
             AutomaticBallotBundleNumberGeneration = true,
             BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
             CandidateCheckDigit = true,
-            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum,
+            MandateAlgorithm = ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum,
             NumberOfMandates = 5,
             ReviewProcedure = ProportionalElectionReviewProcedure.Physically,
             EnforceReviewProcedureForCountingCircles = false,
+            EnforceCandidateCheckDigitForCountingCircles = false,
         };
 
     public static IEnumerable<ProportionalElection> All

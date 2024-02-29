@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using Voting.Basis.Data.Models;
@@ -49,4 +49,14 @@ public class Election : PoliticalBusiness
     /// Gets or sets the number generation strategy for ballots inside ballot bundles.
     /// </summary>
     public BallotNumberGeneration BallotNumberGeneration { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether check digits must be used when entering candidate results.
+    /// </summary>
+    public bool CandidateCheckDigit { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether counting circles can override the CandidateCheckDigit setting.
+    /// </summary>
+    public bool EnforceCandidateCheckDigitForCountingCircles { get; set; }
 }

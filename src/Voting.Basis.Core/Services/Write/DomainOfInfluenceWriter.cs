@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -33,6 +33,7 @@ using CountingCircle = Voting.Basis.Data.Models.CountingCircle;
 using DomainOfInfluence = Voting.Basis.Data.Models.DomainOfInfluence;
 using DomainOfInfluenceCountingCircle = Voting.Basis.Data.Models.DomainOfInfluenceCountingCircle;
 using DomainOfInfluenceParty = Voting.Basis.Data.Models.DomainOfInfluenceParty;
+using ExportConfiguration = Voting.Basis.Data.Models.ExportConfiguration;
 using PlausibilisationConfiguration = Voting.Basis.Core.Domain.PlausibilisationConfiguration;
 
 namespace Voting.Basis.Core.Services.Write;
@@ -48,6 +49,7 @@ public class DomainOfInfluenceWriter
     private readonly IDbRepository<DataContext, DomainOfInfluenceCountingCircle> _doiCcRepo;
     private readonly DomainOfInfluenceHierarchyRepo _hierarchyRepo;
     private readonly IDbRepository<DataContext, DomainOfInfluenceParty> _doiPartyRepo;
+    private readonly IDbRepository<DataContext, ExportConfiguration> _exportConfigRepo;
     private readonly IAuth _auth;
     private readonly ITenantService _tenantService;
     private readonly DomainOfInfluenceLogoStorage _logoStorage;
@@ -62,6 +64,7 @@ public class DomainOfInfluenceWriter
         IDbRepository<DataContext, DomainOfInfluenceCountingCircle> doiCcRepo,
         DomainOfInfluenceHierarchyRepo hierarchyRepo,
         IDbRepository<DataContext, DomainOfInfluenceParty> doiPartyRepo,
+        IDbRepository<DataContext, ExportConfiguration> exportConfigRepo,
         IAuth auth,
         ITenantService tenantService,
         DomainOfInfluenceLogoStorage logoStorage,
@@ -75,6 +78,7 @@ public class DomainOfInfluenceWriter
         _doiCcRepo = doiCcRepo;
         _hierarchyRepo = hierarchyRepo;
         _doiPartyRepo = doiPartyRepo;
+        _exportConfigRepo = exportConfigRepo;
         _auth = auth;
         _tenantService = tenantService;
         _logoStorage = logoStorage;
@@ -84,12 +88,12 @@ public class DomainOfInfluenceWriter
 
     public async Task Create(Domain.DomainOfInfluence data)
     {
-        _auth.EnsureAdmin();
         await ValidateHierarchy(data);
         await ValidateUniqueBfs(data);
         await SetAuthorityTenant(data);
         await ValidatePlausibilisationConfig(null, data.PlausibilisationConfiguration);
         await ValidateParties(null, data.Parties);
+        await ValidateExportConfigurations(null, data.ExportConfigurations);
 
         var domainOfInfluence = _aggregateFactory.New<DomainOfInfluenceAggregate>();
         domainOfInfluence.CreateFrom(data);
@@ -99,13 +103,14 @@ public class DomainOfInfluenceWriter
 
     public async Task UpdateForAdmin(Domain.DomainOfInfluence data)
     {
-        _auth.EnsureAdmin();
+        _auth.EnsurePermission(Permissions.DomainOfInfluence.UpdateAll);
         await ValidateHierarchy(data);
         await ValidateUniqueBfs(data);
         await SetAuthorityTenant(data);
 
         await ValidatePlausibilisationConfig(data.Id, data.PlausibilisationConfiguration);
         await ValidateParties(data.Id, data.Parties);
+        await ValidateExportConfigurations(data.Id, data.ExportConfigurations);
 
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(data.Id);
         domainOfInfluence.UpdateFrom(data);
@@ -115,14 +120,12 @@ public class DomainOfInfluenceWriter
 
     public async Task UpdateForElectionAdmin(Domain.DomainOfInfluence data)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
         await ValidateUniqueBfs(data);
         await ValidatePlausibilisationConfig(data.Id, data.PlausibilisationConfiguration);
         await ValidateParties(data.Id, data.Parties);
 
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(data.Id);
-        EnsureIsAdminOrResponsibleTenant(domainOfInfluence);
+        EnsureCanEdit(domainOfInfluence);
 
         if (data.PlausibilisationConfiguration == null)
         {
@@ -159,8 +162,6 @@ public class DomainOfInfluenceWriter
 
     public async Task Delete(Guid domainOfInfluenceId)
     {
-        _auth.EnsureAdmin();
-
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(domainOfInfluenceId);
         domainOfInfluence.Delete();
 
@@ -170,8 +171,6 @@ public class DomainOfInfluenceWriter
 
     public async Task UpdateDomainOfInfluenceCountingCircles(DomainOfInfluenceCountingCircleEntries data)
     {
-        _auth.EnsureAdmin();
-
         await ValidateCountingCircles(data.Id, data.CountingCircleIds);
 
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(data.Id);
@@ -182,9 +181,8 @@ public class DomainOfInfluenceWriter
 
     public async Task UpdateLogo(Guid doiId, Stream logo, long logoLength, string? contentType, string? fileName, CancellationToken ct)
     {
-        _auth.EnsureAdminOrElectionAdmin();
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(doiId);
-        EnsureIsAdminOrResponsibleTenant(domainOfInfluence);
+        EnsureCanEdit(domainOfInfluence);
 
         // We cannot be sure that the logo stream supports seeking, so we copy the content (should not be large)
         using var logoContentStream = new MemoryStream();
@@ -208,9 +206,8 @@ public class DomainOfInfluenceWriter
 
     public async Task DeleteLogo(Guid id)
     {
-        _auth.EnsureAdminOrElectionAdmin();
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(id);
-        EnsureIsAdminOrResponsibleTenant(domainOfInfluence);
+        EnsureCanEdit(domainOfInfluence);
 
         var logoRef = domainOfInfluence.LogoRef;
         domainOfInfluence.DeleteLogo();
@@ -229,20 +226,7 @@ public class DomainOfInfluenceWriter
         var parent = await _repo.GetByKey(data.ParentId.Value)
             ?? throw new EntityNotFoundException(nameof(Domain.DomainOfInfluence), data.ParentId);
 
-        var selfIsPolitical = data.Type.IsPolitical();
-        var parentIsPolitical = parent.Type.IsPolitical();
-
-        if (parentIsPolitical && !selfIsPolitical)
-        {
-            throw new ValidationException("Non political DomainOfInfluence may only be a child of a non political DomainOfInfluence Parent");
-        }
-
-        if (!parentIsPolitical && selfIsPolitical)
-        {
-            throw new ValidationException("Political DomainOfInfluence may only be a child of a political DomainOfInfluence Parent");
-        }
-
-        if (selfIsPolitical && data.Type - parent.Type < 0)
+        if (data.Type.IsPolitical() && parent.Type.IsPolitical() && data.Type - parent.Type < 0)
         {
             throw new ValidationException("Violate political hierarchical order");
         }
@@ -366,9 +350,9 @@ public class DomainOfInfluenceWriter
         }
     }
 
-    private void EnsureIsAdminOrResponsibleTenant(DomainOfInfluenceAggregate doi)
+    private void EnsureCanEdit(DomainOfInfluenceAggregate doi)
     {
-        if (!_auth.IsAdmin() && !_auth.Tenant.Id.Equals(doi.SecureConnectId, StringComparison.Ordinal))
+        if (!_auth.HasPermission(Permissions.DomainOfInfluence.UpdateAll) && !_auth.Tenant.Id.Equals(doi.SecureConnectId, StringComparison.Ordinal))
         {
             throw new ForbiddenException();
         }
@@ -388,6 +372,23 @@ public class DomainOfInfluenceWriter
         if (hasUnallowedDoiParty)
         {
             throw new ValidationException("Some parties cannot be modified because they do not belong to the domain of influence");
+        }
+    }
+
+    private async Task ValidateExportConfigurations(Guid? doiId, IReadOnlyCollection<Domain.ExportConfiguration> configurations)
+    {
+        if (configurations.Count == 0)
+        {
+            return;
+        }
+
+        var configIds = configurations.Select(x => x.Id).ToHashSet();
+        var hasUnallowedConfig = await _exportConfigRepo.Query()
+            .AnyAsync(c => configIds.Contains(c.Id) && (doiId == null || c.DomainOfInfluenceId != doiId));
+
+        if (hasUnallowedConfig)
+        {
+            throw new ValidationException("Some export configurations cannot be modified because they do not belong to the domain of influence");
         }
     }
 

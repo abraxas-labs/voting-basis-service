@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -53,8 +53,6 @@ public class DomainOfInfluenceReader
 
     public async Task<DomainOfInfluence> Get(Guid id)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
         var query = _repo.Query()
             .AsSplitQuery()
             .Include(x => x.PlausibilisationConfiguration)
@@ -69,7 +67,7 @@ public class DomainOfInfluenceReader
                     .OrderBy(y => y.VotingChannel))
             .AsQueryable();
 
-        if (_auth.IsAdmin())
+        if (_auth.HasPermission(Permissions.DomainOfInfluence.ReadAll))
         {
             var domainOfInfluence = await query
                                         .Include(d => d.Children.OrderBy(c => c.SortNumber).ThenBy(c => c.ShortName))
@@ -109,9 +107,7 @@ public class DomainOfInfluenceReader
 
     public async Task<List<DomainOfInfluence>> ListForSecureConnectId(string secureConnectId)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
-        if (!_auth.IsAdmin() && _auth.Tenant.Id != secureConnectId)
+        if (!_auth.HasPermission(Permissions.DomainOfInfluence.ReadAll) && _auth.Tenant.Id != secureConnectId)
         {
             throw new ForbiddenException("Non-admins may only list the domain of influences for their own tenant");
         }
@@ -123,8 +119,6 @@ public class DomainOfInfluenceReader
 
     public async Task<List<DomainOfInfluence>> ListForPoliticalBusiness(Guid contestDomainOfInfluenceId)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
         var childDoiIds = await _hierarchyRepo.Query()
             .Where(h => h.DomainOfInfluenceId == contestDomainOfInfluenceId)
             .Select(h => h.ChildIds)
@@ -140,8 +134,7 @@ public class DomainOfInfluenceReader
 
     public async Task<List<DomainOfInfluence>> ListForCountingCircle(Guid countingCircleId)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-        if (_auth.IsAdmin())
+        if (_auth.HasPermission(Permissions.DomainOfInfluence.ReadAll))
         {
             return await _repo.Query()
                 .Where(d => d.CountingCircles.Any(c => c.CountingCircleId == countingCircleId))
@@ -164,12 +157,9 @@ public class DomainOfInfluenceReader
 
     public async Task<List<DomainOfInfluence>> ListTree()
     {
-        _auth.EnsureAdminOrElectionAdmin();
-        if (_auth.IsAdmin())
+        if (_auth.HasPermission(Permissions.DomainOfInfluenceHierarchy.ReadAll))
         {
-            var allDomains = await _repo.Query().ToListAsync();
-            var countingCircles = await _doiCountingCirclesRepo.CountingCirclesByDomainOfInfluenceId();
-            return DomainOfInfluenceTreeBuilder.BuildTree(allDomains, countingCircles);
+            return await ListAll();
         }
 
         var authEntries = await _permissionRepo.Query()
@@ -189,9 +179,8 @@ public class DomainOfInfluenceReader
     /// Creates a hierarchical list of all existing domain of influence including child and parent information.
     /// </summary>
     /// <returns>List of domain of influences.</returns>
-    public async Task<List<DomainOfInfluence>> ListTreeForApiReader()
+    public async Task<List<DomainOfInfluence>> ListAll()
     {
-        _auth.EnsureApiReader();
         var allDomains = await _repo.Query().ToListAsync();
         var countingCircles = await _doiCountingCirclesRepo.CountingCirclesByDomainOfInfluenceId();
         return DomainOfInfluenceTreeBuilder.BuildTree(allDomains, countingCircles);
@@ -199,8 +188,6 @@ public class DomainOfInfluenceReader
 
     public async Task<DomainOfInfluenceCantonDefaults> GetCantonDefaults(Guid domainOfInfluenceId)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
         var doi = await _repo.GetByKey(domainOfInfluenceId)
             ?? throw new EntityNotFoundException(domainOfInfluenceId);
 
@@ -210,8 +197,6 @@ public class DomainOfInfluenceReader
 
     public async Task<Uri> GetLogoUrl(Guid doiId)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
         var doi = await _repo.GetByKey(doiId)
             ?? throw new EntityNotFoundException(nameof(DomainOfInfluence), doiId);
 

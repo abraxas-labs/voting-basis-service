@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -12,11 +12,6 @@ namespace Voting.Basis.Core.Domain;
 public class MajorityElection : Election
 {
     public MajorityElectionMandateAlgorithm MandateAlgorithm { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether check digits must be used when entering candidate results.
-    /// </summary>
-    public bool CandidateCheckDigit { get; set; }
 
     public MajorityElectionResultEntry ResultEntry { get; set; }
 

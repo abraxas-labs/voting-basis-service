@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -8,14 +8,14 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using AutoMapper;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using Microsoft.AspNetCore.Authorization;
 using Voting.Lib.Common;
 using Voting.Lib.Grpc;
+using Voting.Lib.Iam.Authorization;
+using Permissions = Voting.Basis.Core.Auth.Permissions;
 using ServiceBase = Abraxas.Voting.Basis.Services.V1.ImportService.ImportServiceBase;
 
 namespace Voting.Basis.Services;
 
-[Authorize]
 public class ImportService : ServiceBase
 {
     private readonly IMapper _mapper;
@@ -35,12 +35,14 @@ public class ImportService : ServiceBase
         _mapper = mapper;
     }
 
+    [AuthorizePermission(Permissions.Import.ImportData)]
     public override Task<ContestImport> ResolveImportFile(ResolveImportFileRequest request, ServerCallContext context)
     {
         var contestImport = _importService.DeserializeImport(request.ImportType, request.FileContent, context.CancellationToken);
         return Task.FromResult(_mapper.Map<ContestImport>(contestImport));
     }
 
+    [AuthorizePermission(Permissions.Import.ImportData)]
     public override async Task<Empty> ImportContest(ImportContestRequest request, ServerCallContext context)
     {
         var import = _mapper.Map<Core.Import.ContestImport>(request.Contest);
@@ -48,6 +50,7 @@ public class ImportService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.Import.ImportData)]
     public override async Task<Empty> ImportPoliticalBusinesses(ImportPoliticalBusinessesRequest request, ServerCallContext context)
     {
         await _importService.Import(
@@ -58,6 +61,7 @@ public class ImportService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.Import.ImportData)]
     public override async Task<Empty> ImportProportionalElectionListsAndCandidates(ImportProportionalElectionListsAndCandidatesRequest request, ServerCallContext context)
     {
         await _proportionalElectionListsAndCandidatesImportService.Import(
@@ -67,6 +71,7 @@ public class ImportService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.Import.ImportData)]
     public override async Task<Empty> ImportMajorityElectionCandidates(ImportMajorityElectionCandidatesRequest request, ServerCallContext context)
     {
         var candidates = _mapper.Map<IReadOnlyCollection<Core.Domain.MajorityElectionCandidate>>(request.Candidates);

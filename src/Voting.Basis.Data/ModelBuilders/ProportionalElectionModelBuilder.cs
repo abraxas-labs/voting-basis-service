@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using Microsoft.EntityFrameworkCore;
@@ -158,9 +158,12 @@ public class ProportionalElectionModelBuilder :
             .Property(x => x.OccupationTitle)
             .HasJsonConversion();
 
+        // OnDelete.SetNull is required for domain of influence delete events, because it hard deletes the party.
+        // If a party is separately removed, it soft deletes the party.
         builder
             .HasOne(x => x.Party)
             .WithMany(x => x.ProportionalElectionCandidates)
+            .OnDelete(DeleteBehavior.SetNull)
             .IsRequired(false);
     }
 

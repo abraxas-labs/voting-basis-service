@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -38,10 +38,8 @@ public class CountingCircleSnapshotReader
 
     public async Task<List<CountingCircleSnapshot>> List(DateTime dateTime, bool includeDeleted)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
         var query = _repo.Query();
-        if (!_auth.IsAdmin())
+        if (!_auth.HasPermission(Permissions.CountingCircle.ReadAll))
         {
             var authEntries = await _doiPermissionBuilder.GetPermissionTreeSnapshot(dateTime, false, includeDeleted);
             var doiPermissionCcIds = authEntries
@@ -67,7 +65,6 @@ public class CountingCircleSnapshotReader
 
     public async Task<List<DomainOfInfluenceCountingCircleSnapshot>> ListForDomainOfInfluence(string domainOfInfluenceKey, DateTime dateTime)
     {
-        _auth.EnsureAdminOrElectionAdmin();
         var domainOfInfluenceId = GuidParser.Parse(domainOfInfluenceKey);
 
         IQueryable<CountingCircleSnapshot> query = _repo.Query()
@@ -77,7 +74,7 @@ public class CountingCircleSnapshotReader
             .Include(cc => cc.ContactPersonDuringEvent)
             .Include(cc => cc.ContactPersonAfterEvent);
 
-        if (!_auth.IsAdmin())
+        if (!_auth.HasPermission(Permissions.CountingCircle.ReadAll))
         {
             var authEntries = await _doiPermissionBuilder.GetPermissionTreeSnapshot(dateTime, true, false);
             var doiPermission = authEntries

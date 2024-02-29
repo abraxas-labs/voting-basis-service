@@ -236,7 +236,8 @@
           "AccumulatedPosition": 3,
           "PartyId": "",
           "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
-          "Origin": "Heimatort"
+          "Origin": "Heimatort",
+          "CheckDigit": 6
         }
       },
       {
@@ -285,7 +286,8 @@
           "AccumulatedPosition": 0,
           "PartyId": "",
           "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
-          "Origin": "Heimatort"
+          "Origin": "Heimatort",
+          "CheckDigit": 2
         }
       },
       {
@@ -329,7 +331,8 @@
           "AccumulatedPosition": 0,
           "PartyId": "",
           "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
-          "Origin": "Heimatort"
+          "Origin": "Heimatort",
+          "CheckDigit": 6
         }
       },
       {
@@ -373,7 +376,8 @@
           "AccumulatedPosition": 0,
           "PartyId": "",
           "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
-          "Origin": "Heimatort"
+          "Origin": "Heimatort",
+          "CheckDigit": 3
         }
       },
       {
@@ -417,7 +421,8 @@
           "AccumulatedPosition": 0,
           "PartyId": "",
           "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
-          "Origin": "Heimatort"
+          "Origin": "Heimatort",
+          "CheckDigit": 1
         }
       },
       {
@@ -461,7 +466,8 @@
           "AccumulatedPosition": 0,
           "PartyId": "",
           "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
-          "Origin": "Heimatort"
+          "Origin": "Heimatort",
+          "CheckDigit": 0
         }
       },
       {
@@ -505,7 +511,8 @@
           "AccumulatedPosition": 2,
           "PartyId": "",
           "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
-          "Origin": "Heimatort"
+          "Origin": "Heimatort",
+          "CheckDigit": 6
         }
       },
       {
@@ -549,7 +556,8 @@
           "AccumulatedPosition": 0,
           "PartyId": "",
           "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
-          "Origin": "Heimatort"
+          "Origin": "Heimatort",
+          "CheckDigit": 0
         }
       },
       {
@@ -593,7 +601,8 @@
           "AccumulatedPosition": 3,
           "PartyId": "",
           "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
-          "Origin": "Heimatort"
+          "Origin": "Heimatort",
+          "CheckDigit": 9
         }
       },
       {
@@ -637,7 +646,8 @@
           "AccumulatedPosition": 0,
           "PartyId": "",
           "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
-          "Origin": "Heimatort"
+          "Origin": "Heimatort",
+          "CheckDigit": 7
         }
       },
       {
@@ -681,7 +691,8 @@
           "AccumulatedPosition": 0,
           "PartyId": "",
           "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
-          "Origin": "Heimatort"
+          "Origin": "Heimatort",
+          "CheckDigit": 3
         }
       }
     ]

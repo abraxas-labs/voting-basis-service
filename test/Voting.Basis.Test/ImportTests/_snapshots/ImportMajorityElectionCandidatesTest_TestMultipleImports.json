@@ -37,6 +37,7 @@
         "Locality": "locality",
         "Position": 1,
         "Origin": "origin",
+        "CheckDigit": 9,
         "Id": "00000000-0000-0000-0000-000000000000"
       },
       {
@@ -65,6 +66,7 @@
         "Locality": "locality",
         "Position": 2,
         "Origin": "Heimatort",
+        "CheckDigit": 9,
         "Id": "00000000-0000-0000-0000-000000000000"
       },
       {
@@ -98,6 +100,7 @@
         "Locality": "locality",
         "Position": 3,
         "Origin": "Heimatort",
+        "CheckDigit": 7,
         "Id": "00000000-0000-0000-0000-000000000000"
       },
       {
@@ -131,6 +134,7 @@
         "Locality": "locality",
         "Position": 4,
         "Origin": "Heimatort",
+        "CheckDigit": 5,
         "Id": "00000000-0000-0000-0000-000000000000"
       }
     ]

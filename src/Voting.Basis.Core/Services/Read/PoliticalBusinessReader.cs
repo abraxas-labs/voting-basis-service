@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Data;
@@ -37,8 +36,6 @@ public abstract class PoliticalBusinessReader<TPoliticalBusiness>
 
     public async Task<TPoliticalBusiness> Get(Guid id)
     {
-        Auth.EnsureAdminOrElectionAdmin();
-
         var politicalBusiness = await QueryById(id)
             ?? throw new EntityNotFoundException(id);
 
@@ -48,7 +45,6 @@ public abstract class PoliticalBusinessReader<TPoliticalBusiness>
 
     public async Task<List<TPoliticalBusiness>> ListOwnedByTenantForContest(Guid contestId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
         await PermissionService.EnsureCanReadContest(contestId);
 
         var tenantId = Auth.Tenant.Id;

@@ -1,19 +1,19 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voting.Basis.Controllers.Models;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Export;
 using Voting.Basis.Core.Extensions;
+using Voting.Lib.Iam.Authorization;
 using Voting.Lib.Rest.Files;
 
 namespace Voting.Basis.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("api/exports")]
 public class ExportController : ControllerBase
@@ -25,6 +25,7 @@ public class ExportController : ControllerBase
         _exportService = exportService;
     }
 
+    [AuthorizePermission(Permissions.Export.ExportData)]
     [HttpPost]
     public async Task<FileResult> GenerateExports([FromBody] GenerateExportRequest request, CancellationToken ct)
     {

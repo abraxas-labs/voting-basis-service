@@ -1,9 +1,10 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using eCH_0157_4_0;
+using Ech0157_4_0;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Mapping;
 using Voting.Lib.Ech;
@@ -13,10 +14,12 @@ namespace Voting.Basis.Ech.Converters;
 public class Ech0157Serializer
 {
     private readonly DeliveryHeaderProvider _deliveryHeaderProvider;
+    private readonly EchSerializer _echSerializer;
 
-    public Ech0157Serializer(DeliveryHeaderProvider deliveryHeaderProvider)
+    public Ech0157Serializer(DeliveryHeaderProvider deliveryHeaderProvider, EchSerializer echSerializer)
     {
         _deliveryHeaderProvider = deliveryHeaderProvider;
+        _echSerializer = echSerializer;
     }
 
     /// <summary>
@@ -25,7 +28,7 @@ public class Ech0157Serializer
     /// <param name="contest">The contest to serialize.</param>
     /// <param name="majorityElection">The majority election to serialize. It should contain the secondary elections and candidates.</param>
     /// <returns>The serialized eCH-0157 data.</returns>
-    public DeliveryType ToDelivery(Contest contest, MajorityElection majorityElection)
+    public byte[] ToDelivery(Contest contest, MajorityElection majorityElection)
         => ToDelivery(contest, new[] { majorityElection });
 
     /// <summary>
@@ -34,15 +37,21 @@ public class Ech0157Serializer
     /// <param name="contest">The contest to serialize.</param>
     /// <param name="majorityElections">The majority elections to serialize. They should contain the secondary elections and candidates.</param>
     /// <returns>The serialized eCH-0157 data.</returns>
-    public DeliveryType ToDelivery(Contest contest, IEnumerable<MajorityElection> majorityElections)
+    public byte[] ToDelivery(Contest contest, IEnumerable<MajorityElection> majorityElections)
     {
         var contestType = contest.ToEchContestType();
         var electionGroups = majorityElections
             .OrderBy(e => e.PoliticalBusinessNumber)
             .Select(m => m.ToEchElectionGroup())
-            .ToArray();
+            .ToList();
 
-        return WrapInDelivery(EventInitialDeliveryType.Create(contestType, electionGroups));
+        var delivery = WrapInDelivery(new EventInitialDelivery
+        {
+            Contest = contestType,
+            ElectionGroupBallot = electionGroups,
+        });
+
+        return ToXmlBytes(delivery);
     }
 
     /// <summary>
@@ -51,7 +60,7 @@ public class Ech0157Serializer
     /// <param name="contest">The contest to serialize.</param>
     /// <param name="proportionalElection">The proportional election to serialize. It should contain the lists, list unions and candidates.</param>
     /// <returns>The serialized eCH-0157 data.</returns>
-    public DeliveryType ToDelivery(Contest contest, ProportionalElection proportionalElection)
+    public byte[] ToDelivery(Contest contest, ProportionalElection proportionalElection)
         => ToDelivery(contest, new[] { proportionalElection });
 
     /// <summary>
@@ -60,17 +69,34 @@ public class Ech0157Serializer
     /// <param name="contest">The contest to serialize.</param>
     /// <param name="proportionalElections">The proportional elections to serialize. They should contain the lists, list unions and candidates.</param>
     /// <returns>The serialized eCH-0157 data.</returns>
-    public DeliveryType ToDelivery(Contest contest, IEnumerable<ProportionalElection> proportionalElections)
+    public byte[] ToDelivery(Contest contest, IEnumerable<ProportionalElection> proportionalElections)
     {
         var contestType = contest.ToEchContestType();
         var electionGroups = proportionalElections
             .OrderBy(e => e.PoliticalBusinessNumber)
             .Select(p => p.ToEchElectionGroup())
-            .ToArray();
+            .ToList();
 
-        return WrapInDelivery(EventInitialDeliveryType.Create(contestType, electionGroups));
+        var delivery = WrapInDelivery(new EventInitialDelivery
+        {
+            Contest = contestType,
+            ElectionGroupBallot = electionGroups,
+        });
+
+        return ToXmlBytes(delivery);
     }
 
-    private DeliveryType WrapInDelivery(EventInitialDeliveryType data)
-        => DeliveryType.Create(_deliveryHeaderProvider.BuildHeader(), data);
+    private Delivery WrapInDelivery(EventInitialDelivery data)
+        => new Delivery
+        {
+            DeliveryHeader = _deliveryHeaderProvider.BuildHeader(),
+            InitialDelivery = data,
+        };
+
+    private byte[] ToXmlBytes(Delivery delivery)
+    {
+        using var memoryStream = new MemoryStream();
+        _echSerializer.WriteXml(memoryStream, delivery);
+        return memoryStream.ToArray();
+    }
 }

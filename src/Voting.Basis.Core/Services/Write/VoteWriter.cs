@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -25,6 +25,7 @@ public class VoteWriter
     private readonly PoliticalBusinessValidationService _politicalBusinessValidationService;
     private readonly ContestValidationService _contestValidationService;
     private readonly IDbRepository<DataContext, Vote> _voteRepository;
+    private readonly IDbRepository<DataContext, DomainOfInfluence> _doiRepository;
 
     public VoteWriter(
         IAggregateRepository aggregateRepository,
@@ -32,7 +33,8 @@ public class VoteWriter
         PermissionService permissionService,
         PoliticalBusinessValidationService politicalBusinessValidationService,
         ContestValidationService contestValidationService,
-        IDbRepository<DataContext, Vote> voteRepository)
+        IDbRepository<DataContext, Vote> voteRepository,
+        IDbRepository<DataContext, DomainOfInfluence> doiRepository)
     {
         _aggregateRepository = aggregateRepository;
         _aggregateFactory = aggregateFactory;
@@ -40,11 +42,12 @@ public class VoteWriter
         _politicalBusinessValidationService = politicalBusinessValidationService;
         _contestValidationService = contestValidationService;
         _voteRepository = voteRepository;
+        _doiRepository = doiRepository;
     }
 
     public async Task Create(Domain.Vote data)
     {
-        await _permissionService.EnsureCanModifyPoliticalBusiness(data.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(data.DomainOfInfluenceId);
         await _politicalBusinessValidationService.EnsureValidEditData(
             data.ContestId,
             data.DomainOfInfluenceId);
@@ -59,7 +62,7 @@ public class VoteWriter
 
     public async Task Update(Domain.Vote data)
     {
-        await _permissionService.EnsureCanModifyPoliticalBusiness(data.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(data.DomainOfInfluenceId);
         await _politicalBusinessValidationService.EnsureValidEditData(
             data.ContestId,
             data.DomainOfInfluenceId);
@@ -91,7 +94,7 @@ public class VoteWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(voteId);
 
-        await _permissionService.EnsureCanModifyPoliticalBusiness(vote.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(vote.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
 
         vote.UpdateActiveState(active);
@@ -102,7 +105,7 @@ public class VoteWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(voteId);
 
-        await _permissionService.EnsureCanModifyPoliticalBusiness(vote.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(vote.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
 
         vote.Delete();
@@ -113,8 +116,14 @@ public class VoteWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(data.VoteId);
 
-        await _permissionService.EnsureCanModifyPoliticalBusiness(vote.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(vote.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
+
+        if (data.Position != 1)
+        {
+            await EnsureMultipleVoteBallotsEnabled(vote.DomainOfInfluenceId);
+            EnsureIsContinuousBallotPosition(data.Position, vote.Ballots.Count);
+        }
 
         vote.CreateBallot(data);
         await _aggregateRepository.Save(vote);
@@ -124,7 +133,7 @@ public class VoteWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(data.VoteId);
 
-        await _permissionService.EnsureCanModifyPoliticalBusiness(vote.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(vote.DomainOfInfluenceId);
         var contestState = await _contestValidationService.EnsureNotLocked(vote.ContestId);
 
         if (contestState.TestingPhaseEnded())
@@ -143,10 +152,33 @@ public class VoteWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(voteId);
 
-        await _permissionService.EnsureCanModifyPoliticalBusiness(vote.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(vote.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
 
         vote.DeleteBallot(id);
         await _aggregateRepository.Save(vote);
+    }
+
+    private async Task EnsureMultipleVoteBallotsEnabled(Guid doiId)
+    {
+        var doi = await _doiRepository.GetByKey(doiId)
+                  ?? throw new EntityNotFoundException(nameof(DomainOfInfluence), doiId);
+
+        if (doi.CantonDefaults.MultipleVoteBallotsEnabled)
+        {
+            return;
+        }
+
+        throw new ValidationException("Multiple vote ballots are not enabled for this canton.");
+    }
+
+    private void EnsureIsContinuousBallotPosition(int ballotPosition, int ballotsCount)
+    {
+        if (ballotPosition == ballotsCount + 1)
+        {
+            return;
+        }
+
+        throw new ValidationException($"The ballot position {ballotPosition} is invalid, is non-continuous.");
     }
 }

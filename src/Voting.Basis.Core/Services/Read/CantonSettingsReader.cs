@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -30,21 +30,20 @@ public class CantonSettingsReader
 
     public async Task<CantonSettings> Get(Guid id)
     {
-        _auth.EnsureAdminOrElectionAdmin();
         return await Query().FirstOrDefaultAsync(c => c.Id == id)
             ?? throw new EntityNotFoundException(id);
     }
 
     public async Task<IEnumerable<CantonSettings>> List()
     {
-        _auth.EnsureAdminOrElectionAdmin();
         return await Query().ToListAsync();
     }
 
     private IQueryable<CantonSettings> Query()
     {
+        var canReadAll = _auth.HasPermission(Permissions.CantonSettings.ReadAll);
         return _repo.Query()
-            .Where(c => _auth.IsAdmin() || c.SecureConnectId == _auth.Tenant.Id)
+            .Where(c => canReadAll || c.SecureConnectId == _auth.Tenant.Id)
             .Include(x => x.EnabledVotingCardChannels.OrderBy(y => y.VotingChannel).ThenBy(y => y.Valid))
             .OrderBy(c => c.Canton);
     }

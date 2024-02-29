@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -7,7 +7,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Validation;
@@ -55,8 +54,6 @@ public abstract class PoliticalBusinessUnionWriter<TPoliticalBusiness, TPolitica
 
     protected async Task EnsureCanCreatePoliticalBusinessUnion(Guid contestId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
-
         var contest = await ContestRepo.Query()
                           .Include(x => x.DomainOfInfluence)
                           .FirstOrDefaultAsync(x => x.Id == contestId)
@@ -73,7 +70,6 @@ public abstract class PoliticalBusinessUnionWriter<TPoliticalBusiness, TPolitica
 
     protected async Task EnsureCanModifyPoliticalBusinessUnion(Guid politicalBusinessUnionId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
         var politicalBusinessUnion = await Repo.GetByKey(politicalBusinessUnionId)
             ?? throw new EntityNotFoundException(politicalBusinessUnionId);
 

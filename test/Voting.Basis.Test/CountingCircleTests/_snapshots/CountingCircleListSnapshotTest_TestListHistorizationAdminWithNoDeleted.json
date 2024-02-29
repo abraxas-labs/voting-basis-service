@@ -43,7 +43,8 @@
         },
         "Code": "CC200c",
         "SortNumber": 0,
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "Electorates": []
       },
       {
         "Id": "736ec87f-9953-4946-8459-1d03bc237aa1",
@@ -87,7 +88,8 @@
         },
         "Code": "CC100c",
         "SortNumber": 0,
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "Electorates": []
       }
     ]
   }

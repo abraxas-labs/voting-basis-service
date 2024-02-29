@@ -1,4 +1,4 @@
-# ✨ Changelog (`v1.57.4`)
+# ✨ Changelog (`v1.68.0`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,149 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v1.57.4
-Previous version ---- v1.57.1
+This version -------- v1.68.0
+Previous version ---- v1.57.4
 Initial version ----- v1.27.15
-Total commits ------- 3
+Total commits ------- 26
 ```
+
+## [v1.68.0] - 2024-02-19
+
+### 🆕 Added
+
+- Add proportional wabsti exports with a single political business
+
+## [v1.67.4] - 2024-02-14
+
+### 🔒 Security
+
+- Validate export configurations on domain of influence create and update
+
+## [v1.67.3] - 2024-02-14
+
+### 🔄 Changed
+
+- update voting library with extended validation rule set.
+
+## [v1.67.2] - 2024-02-07
+
+### 🔄 Changed
+
+- Group lists in proportional election unions
+
+## [v1.67.1] - 2024-02-06
+
+### 🔄 Changed
+
+- Standardized proportional election mandate algorithms in unions
+
+## [v1.67.0] - 2024-02-06
+
+### 🆕 Added
+
+- Double proportional election mandate algorithms
+
+## [v1.66.0] - 2024-02-05
+
+### 🆕 Added
+
+- database query monitoring
+
+## [v1.65.1] - 2024-01-31
+
+### :arrows_counterclockwise: Changed
+
+- remove domain of influence type hierarchy checks
+
+## [v1.65.0] - 2024-01-31
+
+### 🆕 Added
+
+- Add counting circle electorate
+
+## [v1.64.1] - 2024-01-29
+
+### 🔄 Changed
+
+- define default metrics port
+
+## [v1.64.0] - 2024-01-26
+
+### 🆕 Added
+
+- add candidate check digit
+
+## [v1.63.1] - 2024-01-23
+
+### 🔄 Changed
+
+- Cascade delete of candidates when a domain of influence with parties is deleted
+
+## [v1.63.0] - 2024-01-10
+
+### :new: Added
+
+- added permission service
+
+## [v1.62.0] - 2024-01-04
+
+### 🆕 Added
+
+- add new zh features flag
+
+## [v1.61.1] - 2023-12-21
+
+### 🔄 Changed
+
+- update lib with configurable malware scanner
+
+## [v1.61.0] - 2023-12-20
+
+### :lock: Security
+
+- rework authentication system to use permissions instead of roles
+
+## [v1.60.0] - 2023-12-20
+
+### 🆕 Added
+
+- Add counting machine flag to canton settings
+
+## [v1.59.0] - 2023-12-20
+
+### 🆕 Added
+
+- add eCH from voting lib
+
+## [v1.58.0] - 2023-12-19
+
+### 🆕 Added
+
+- add multiple vote ballots
+
+## [v1.57.8] - 2023-12-18
+
+### 🔄 Changed
+
+- Question number in eCH-0155 export
+
+## [v1.57.7] - 2023-12-13
+
+### 🔄 Changed
+
+- use proportional election id for empty list identification
+
+## [v1.57.6] - 2023-12-08
+
+### :arrows_counterclockwise: Changed
+
+- use separate port for metrics endpoint provisioning
+
+## [v1.57.5] - 2023-11-24
+
+### :new: Added
+
+- add support for custom oauth scopes.
 
 ## [v1.57.4] - 2023-11-17
 
@@ -148,123 +286,66 @@ Total commits ------- 3
 
 - first import all root list unions
 
-## [v1.51.6] - 2023-06-23
-
 ### 🔄 Changed
 
 - Sort contests depending on states
-
-## [v1.51.5] - 2023-06-21
 
 ### 🆕 Added
 
 - add export vote description for all languages
 
-## [v1.51.4] - 2023-06-20
-
 ### 🔄 Changed
 
 - change candidate text for proportional election
-
-## [v1.51.3] - 2023-06-20
 
 ### 🔄 Changed
 
 - list order of precendence optional for import
 
-## [v1.51.2] - 2023-06-20
-
-### 🔄 Changed
-
-- correctly import proportional elections from eCH-0157
-
-## [v1.51.1] - 2023-06-13
-
 ### 🔄 Changed
 
 - extend complex input validation rule
-
-## [v1.51.0] - 2023-05-25
-
-### 🔄 Changed
-
-- overwrite existing lists on eCH-0157 list import
-
-## [v1.50.1] - 2023-05-02
 
 ### 🔄 Changed
 
 - update cd-templates to resolve blocking deploy-trigger
 
-## [v1.50.0] - 2023-05-01
-
 ### 🔄 Changed
 
 - add domain of influence sap customer order number
 
-## [v1.49.6] - 2023-05-01
-
 ### 🆕 Added
 
 - add domain of influence sap customer order number
-
-## [v1.49.5] - 2023-04-17
 
 ### 🔄 Changed
 
 - set canton on doi's after update correctly
 
-## [v1.49.4] - 2023-04-05
-
 ### 🆕 Added
 
 - add party and incumbent to candidate text
-
-## [v1.49.3] - 2023-04-03
 
 ### ❌ Removed
 
 - remove incumbentYesNo field for eCH election export
 
-## [v1.49.2] - 2023-03-27
-
 ### 🔄 Changed
 
 - always unset canton for non-root doi's
-
-## [v1.49.1] - 2023-03-24
 
 ### 🔄 Changed
 
 - Use latest CI templates
 
-## [v1.49.0] - 2023-03-13
-
 ### 🔄 Changed
 
 - Store Canton in Domain Of Influence Read Model
-
-## [v1.48.1] - 2023-03-10
-
-### 🔄 Changed
-
-- update lib to fix eCH issues
-- export eCH ballot question ID correctly
-
-## [v1.48.0] - 2023-02-24
 
 ### 🔄 Changed
 
 - raise voting lib version including an update to allow additional characters "«»;& for complex text input validation
 - implement new mocked clock member
-
-## [v1.47.0] - 2023-02-20
-
-### 🔄 Changed
-
-- add wabstic wmwahlergebnis report
-
-## [v1.46.0] - 2023-02-01
 
 ### 🔄 Changed
 
@@ -455,6 +536,128 @@ Total commits ------- 3
 - extend evoting date with time
 
 The readmodel needs to be recreated after this MR.
+
+## [v1.51.6] - 2023-06-23
+
+### 🔄 Changed
+
+- Sort contests depending on states
+
+## [v1.51.5] - 2023-06-21
+
+### 🆕 Added
+
+- add export vote description for all languages
+
+## [v1.51.4] - 2023-06-20
+
+### 🔄 Changed
+
+- change candidate text for proportional election
+
+## [v1.51.3] - 2023-06-20
+
+### 🔄 Changed
+
+- list order of precendence optional for import
+
+## [v1.51.2] - 2023-06-20
+
+### 🔄 Changed
+
+- correctly import proportional elections from eCH-0157
+
+## [v1.51.1] - 2023-06-13
+
+### 🔄 Changed
+
+- extend complex input validation rule
+
+## [v1.51.0] - 2023-05-25
+
+### 🔄 Changed
+
+- overwrite existing lists on eCH-0157 list import
+
+## [v1.50.1] - 2023-05-02
+
+### 🔄 Changed
+
+- update cd-templates to resolve blocking deploy-trigger
+
+## [v1.50.0] - 2023-05-01
+
+### 🔄 Changed
+
+- add domain of influence sap customer order number
+
+## [v1.49.6] - 2023-05-01
+
+### 🆕 Added
+
+- add domain of influence sap customer order number
+
+## [v1.49.5] - 2023-04-17
+
+### 🔄 Changed
+
+- set canton on doi's after update correctly
+
+## [v1.49.4] - 2023-04-05
+
+### 🆕 Added
+
+- add party and incumbent to candidate text
+
+## [v1.49.3] - 2023-04-03
+
+### ❌ Removed
+
+- remove incumbentYesNo field for eCH election export
+
+## [v1.49.2] - 2023-03-27
+
+### 🔄 Changed
+
+- always unset canton for non-root doi's
+
+## [v1.49.1] - 2023-03-24
+
+### 🔄 Changed
+
+- Use latest CI templates
+
+## [v1.49.0] - 2023-03-13
+
+### 🔄 Changed
+
+- Store Canton in Domain Of Influence Read Model
+
+## [v1.48.1] - 2023-03-10
+
+### 🔄 Changed
+
+- update lib to fix eCH issues
+- export eCH ballot question ID correctly
+
+## [v1.48.0] - 2023-02-24
+
+### 🔄 Changed
+
+- raise voting lib version including an update to allow additional characters "«»;& for complex text input validation
+- implement new mocked clock member
+
+## [v1.47.0] - 2023-02-20
+
+### 🔄 Changed
+
+- add wabstic wmwahlergebnis report
+
+## [v1.46.0] - 2023-02-01
+
+### 🔄 Changed
+
+- set bfs required and unique for doi's of type MU
 
 ## [v1.45.7] - 2023-01-27
 

@@ -78,6 +78,7 @@
     "ZipCode": "",
     "Locality": "locality updated",
     "Position": 2,
-    "Origin": ""
+    "Origin": "",
+    "CheckDigit": 7
   }
 }

@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -28,7 +28,7 @@ public class ElectionGroupWriter
         // since currently only majority elections are supported as primary elections, we can fetch the aggregate directly
         var primaryMajorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(majorityElectionId);
 
-        await _permissionService.EnsureCanModifyPoliticalBusiness(primaryMajorityElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(primaryMajorityElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(primaryMajorityElection.ContestId);
 
         primaryMajorityElection.UpdateElectionGroupDescription(description);

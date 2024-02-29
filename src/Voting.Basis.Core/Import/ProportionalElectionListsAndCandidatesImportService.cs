@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Domain;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Services.Permission;
@@ -14,7 +13,6 @@ using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Validation;
 using Voting.Basis.Data.Models;
 using Voting.Lib.Eventing.Persistence;
-using Voting.Lib.Iam.Store;
 using ProportionalElectionCandidate = Voting.Basis.Core.Domain.ProportionalElectionCandidate;
 using ProportionalElectionList = Voting.Basis.Core.Domain.ProportionalElectionList;
 using ProportionalElectionListUnion = Voting.Basis.Core.Domain.ProportionalElectionListUnion;
@@ -23,20 +21,17 @@ namespace Voting.Basis.Core.Import;
 
 public class ProportionalElectionListsAndCandidatesImportService
 {
-    private readonly IAuth _auth;
     private readonly IAggregateRepository _aggregateRepository;
     private readonly ContestValidationService _contestValidationService;
     private readonly PermissionService _permissionService;
     private readonly DomainOfInfluenceReader _domainOfInfluenceReader;
 
     public ProportionalElectionListsAndCandidatesImportService(
-        IAuth auth,
         IAggregateRepository aggregateRepository,
         ContestValidationService contestValidationService,
         PermissionService permissionService,
         DomainOfInfluenceReader domainOfInfluenceReader)
     {
-        _auth = auth;
         _aggregateRepository = aggregateRepository;
         _contestValidationService = contestValidationService;
         _permissionService = permissionService;
@@ -48,8 +43,6 @@ public class ProportionalElectionListsAndCandidatesImportService
         IReadOnlyCollection<ProportionalElectionListImport> listImports,
         IReadOnlyCollection<ProportionalElectionListUnion> listUnions)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
         var proportionalElection = await _aggregateRepository.GetById<ProportionalElectionAggregate>(proportionalElectionId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);

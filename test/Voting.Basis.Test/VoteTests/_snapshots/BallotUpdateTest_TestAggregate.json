@@ -22,12 +22,6 @@
       "Id": "a2aa6f61-752b-446f-94b4-002a95111c7a",
       "Position": 0,
       "BallotType": 2,
-      "Description": {
-        "de": "updated description de",
-        "fr": "updated description fr",
-        "it": "updated description it",
-        "rm": "updated description rm"
-      },
       "BallotQuestions": [
         {
           "Number": 1,

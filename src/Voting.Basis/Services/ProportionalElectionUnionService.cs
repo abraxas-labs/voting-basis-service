@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Linq;
@@ -8,16 +8,16 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using AutoMapper;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using Microsoft.AspNetCore.Authorization;
 using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Write;
 using Voting.Lib.Common;
 using Voting.Lib.Grpc;
+using Voting.Lib.Iam.Authorization;
+using Permissions = Voting.Basis.Core.Auth.Permissions;
 using ServiceBase = Abraxas.Voting.Basis.Services.V1.ProportionalElectionUnionService.ProportionalElectionUnionServiceBase;
 
 namespace Voting.Basis.Services;
 
-[Authorize]
 public class ProportionalElectionUnionService : ServiceBase
 {
     private readonly ProportionalElectionUnionReader _proportionalElectionUnionReader;
@@ -34,6 +34,7 @@ public class ProportionalElectionUnionService : ServiceBase
         _mapper = mapper;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionUnion.Create)]
     public override async Task<IdValue> Create(CreateProportionalElectionUnionRequest request, ServerCallContext context)
     {
         var data = _mapper.Map<Core.Domain.ProportionalElectionUnion>(request);
@@ -41,6 +42,7 @@ public class ProportionalElectionUnionService : ServiceBase
         return new IdValue { Id = data.Id.ToString() };
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionUnion.Update)]
     public override async Task<Empty> Update(UpdateProportionalElectionUnionRequest request, ServerCallContext context)
     {
         var data = _mapper.Map<Core.Domain.ProportionalElectionUnion>(request);
@@ -48,6 +50,7 @@ public class ProportionalElectionUnionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionUnion.Update)]
     public override async Task<Empty> UpdateEntries(UpdateProportionalElectionUnionEntriesRequest request, ServerCallContext context)
     {
         await _proportionalElectionUnionWriter.UpdateEntries(
@@ -56,24 +59,28 @@ public class ProportionalElectionUnionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionUnion.Delete)]
     public override async Task<Empty> Delete(DeleteProportionalElectionUnionRequest request, ServerCallContext context)
     {
         await _proportionalElectionUnionWriter.Delete(GuidParser.Parse(request.Id));
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionUnion.Read)]
     public override async Task<ElectionCandidates> GetCandidates(GetProportionalElectionUnionCandidatesRequest request, ServerCallContext context)
     {
         return _mapper.Map<ElectionCandidates>(
             await _proportionalElectionUnionReader.GetCandidates(GuidParser.Parse(request.ProportionalElectionUnionId)));
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionUnion.Read)]
     public override async Task<PoliticalBusinesses> GetPoliticalBusinesses(GetProportionalElectionUnionPoliticalBusinessesRequest request, ServerCallContext context)
     {
         return _mapper.Map<PoliticalBusinesses>(
             await _proportionalElectionUnionReader.GetPoliticalBusinesses(GuidParser.Parse(request.ProportionalElectionUnionId)));
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionUnion.Read)]
     public override async Task<ProportionalElectionUnionLists> GetProportionalElectionUnionLists(GetProportionalElectionUnionListsRequest request, ServerCallContext context)
     {
         return _mapper.Map<ProportionalElectionUnionLists>(

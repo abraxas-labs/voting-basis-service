@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Linq;
@@ -9,6 +9,7 @@ using Voting.Basis.Data.Models;
 using Authority = Voting.Basis.Data.Models.Authority;
 using ContactPerson = Voting.Basis.Core.Domain.ContactPerson;
 using CountingCircle = Voting.Basis.Core.Domain.CountingCircle;
+using CountingCircleElectorate = Voting.Basis.Core.Domain.CountingCircleElectorate;
 using CountingCirclesMerger = Voting.Basis.Core.Domain.CountingCirclesMerger;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 
@@ -31,5 +32,6 @@ public class CountingCircleTestProfile : Profile
         CreateMap<Data.Models.CountingCircle, CountingCircle>();
         CreateMap<Authority, Core.Domain.Authority>();
         CreateMap<CountingCircleContactPerson, ContactPerson>();
+        CreateMap<Data.Models.CountingCircleElectorate, CountingCircleElectorate>();
     }
 }

@@ -50,7 +50,12 @@
       "VotingDocumentsEVotingEaiMessageType": "1234567",
       "ProtocolDomainOfInfluenceSortType": 2,
       "ProtocolCountingCircleSortType": 2,
-      "ElectoralRegistrationEnabled": true
+      "ElectoralRegistrationEnabled": true,
+      "MultipleVoteBallotsEnabled": true,
+      "CountingMachineEnabled": true,
+      "NewZhFeaturesEnabled": false,
+      "ProportionalElectionUseCandidateCheckDigit": true,
+      "MajorityElectionUseCandidateCheckDigit": true
     }
   }
 }

@@ -1,72 +1,79 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using eCH_0155_4_0;
-using eCH_0157_4_0;
+using Ech0155_4_0;
+using Ech0157_4_0;
 using Voting.Basis.Data.Models;
-using Voting.Lib.Ech.Ech0157.Models;
-using DataModels = Voting.Basis.Data.Models;
+using Voting.Lib.Ech.Ech0157_4_0.Models;
 
 namespace Voting.Basis.Ech.Mapping;
 
 internal static class MajorityElectionMapping
 {
-    internal static ElectionGroupBallotType ToEchElectionGroup(this DataModels.MajorityElection majorityElection)
+    internal static EventInitialDeliveryElectionGroupBallot ToEchElectionGroup(this MajorityElection majorityElection)
     {
         var electionInfos = majorityElection.SecondaryMajorityElections
             .OrderBy(s => s.PoliticalBusinessNumber)
             .Select(ToEchElectionInformation)
             .Append(majorityElection.ToEchElectionInformation())
-            .ToArray();
+            .ToList();
 
-        return ElectionGroupBallotType.Create(majorityElection.DomainOfInfluenceId.ToString(), electionInfos);
+        return new EventInitialDeliveryElectionGroupBallot
+        {
+            DomainOfInfluenceIdentification = majorityElection.DomainOfInfluenceId.ToString(),
+            ElectionInformation = electionInfos,
+        };
     }
 
-    internal static ElectionInformationType ToEchElectionInformation(this DataModels.MajorityElection majorityElection)
+    internal static EventInitialDeliveryElectionGroupBallotElectionInformation ToEchElectionInformation(this MajorityElection majorityElection)
     {
         var description = majorityElection.ToEchElectionDescription();
         var referencedElections = majorityElection.SecondaryMajorityElections
             .OrderBy(s => s.PoliticalBusinessNumber)
             .Select(ToEchReferenceElection)
             .ToList();
-        var electionType = ElectionType.Create(
-            majorityElection.Id.ToString(),
-            TypeOfElectionType.Majorz,
-            0,
-            description,
-            majorityElection.NumberOfMandates,
-            referencedElections);
+        var electionType = new ElectionType
+        {
+            ElectionIdentification = majorityElection.Id.ToString(),
+            TypeOfElection = TypeOfElectionType.Item2,
+            ElectionPosition = "0",
+            ElectionDescription = description.ElectionDescriptionInfo,
+            NumberOfMandates = majorityElection.NumberOfMandates.ToString(),
+            ReferencedElection = referencedElections,
+        };
 
         var candidates = majorityElection.MajorityElectionCandidates
             .OrderBy(c => c.Number)
             .Select(c => c.ToEchCandidateType(c.Party, majorityElection.Contest.DomainOfInfluence.CantonDefaults.Canton, PoliticalBusinessType.MajorityElection))
-            .ToArray();
+            .ToList();
 
-        return ElectionInformationType.Create(electionType, candidates);
+        return new EventInitialDeliveryElectionGroupBallotElectionInformation
+        {
+            Election = electionType,
+            Candidate = candidates,
+        };
     }
 
-    internal static DataModels.MajorityElection ToBasisMajorityElection(this ElectionInformationType election, IdLookup idLookup)
+    internal static MajorityElection ToBasisMajorityElection(this EventInitialDeliveryElectionGroupBallotElectionInformation election, IdLookup idLookup)
     {
         var electionIdentification = election.Election.ElectionIdentification;
         var electionId = idLookup.GuidForId(electionIdentification);
 
         var officialDescriptionInfos = election
             .Election
-            .ElectionDescription
-            ?.ElectionDescriptionInfo;
+            .ElectionDescription;
         var officialDescriptions = officialDescriptionInfos.ToLanguageDictionary(x => x.Language, x => x.ElectionDescription ?? electionIdentification, electionIdentification);
 
         var shortDescriptionInfos = election
             .Election
-            .ElectionDescription
-            ?.ElectionDescriptionInfo;
+            .ElectionDescription;
         var shortDescriptions = shortDescriptionInfos.ToLanguageDictionary(x => x.Language, x => x.ElectionDescriptionShort ?? electionIdentification, electionIdentification);
 
-        var electionInformationExtension = ElectionMapping.GetExtension(election.Extension?.Extension);
+        var electionInformationExtension = ElectionMapping.GetExtension(election.Extension?.Any);
 
         var candidates = (election.Candidate ?? Enumerable.Empty<CandidateType>())
             .Select(c => c.ToBasisMajorityCandidate(
@@ -80,61 +87,73 @@ internal static class MajorityElectionMapping
             candidates[i].Position = i + 1;
         }
 
-        return new DataModels.MajorityElection
+        return new MajorityElection
         {
             Id = electionId,
             OfficialDescription = officialDescriptions,
             ShortDescription = shortDescriptions,
             PoliticalBusinessNumber = election.Election.ElectionPosition.ToString(CultureInfo.InvariantCulture),
-            NumberOfMandates = election.Election.NumberOfMandates,
+            NumberOfMandates = int.Parse(election.Election.NumberOfMandates),
             MajorityElectionCandidates = candidates,
-            ResultEntry = DataModels.MajorityElectionResultEntry.Detailed,
-            MandateAlgorithm = DataModels.MajorityElectionMandateAlgorithm.AbsoluteMajority,
-            BallotNumberGeneration = DataModels.BallotNumberGeneration.RestartForEachBundle,
-            ReviewProcedure = DataModels.MajorityElectionReviewProcedure.Electronically,
+            ResultEntry = MajorityElectionResultEntry.Detailed,
+            MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
+            BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
+            ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
         };
     }
 
-    private static ElectionInformationType ToEchElectionInformation(this DataModels.SecondaryMajorityElection secondaryElection)
+    private static EventInitialDeliveryElectionGroupBallotElectionInformation ToEchElectionInformation(this SecondaryMajorityElection secondaryElection)
     {
         var description = secondaryElection.ToEchElectionDescription();
 
         var referencedElection = secondaryElection.PrimaryMajorityElection.ToEchReferenceElection();
-        var electionType = ElectionType.Create(
-            secondaryElection.Id.ToString(),
-            TypeOfElectionType.Majorz,
-            0,
-            description,
-            secondaryElection.NumberOfMandates,
-            new List<ReferencedElection> { referencedElection });
+        var electionType = new ElectionType
+        {
+            ElectionIdentification = secondaryElection.Id.ToString(),
+            TypeOfElection = TypeOfElectionType.Item2,
+            ElectionPosition = "0",
+            ElectionDescription = description.ElectionDescriptionInfo,
+            NumberOfMandates = secondaryElection.NumberOfMandates.ToString(),
+            ReferencedElection = new List<ReferencedElectionInformationType> { referencedElection },
+        };
 
         var candidates = secondaryElection.Candidates
             .OrderBy(c => c.Number)
             .Select(c => c.ToEchCandidateType(c.Party, secondaryElection.Contest.DomainOfInfluence.CantonDefaults.Canton, PoliticalBusinessType.SecondaryMajorityElection))
-            .ToArray();
+            .ToList();
 
-        return ElectionInformationType.Create(electionType, candidates);
+        return new EventInitialDeliveryElectionGroupBallotElectionInformation()
+        {
+            Election = electionType,
+            Candidate = candidates,
+        };
     }
 
-    private static ReferencedElection ToEchReferenceElection(this DataModels.SecondaryMajorityElection secondaryElection)
+    private static ReferencedElectionInformationType ToEchReferenceElection(this SecondaryMajorityElection secondaryElection)
     {
-        return ReferencedElection.Create(secondaryElection.Id.ToString(), ElectionRelationType.Minor);
+        return new ReferencedElectionInformationType
+        {
+            ReferencedElection = secondaryElection.Id.ToString(),
+            ElectionRelation = ElectionRelationType.Item2,
+        };
     }
 
-    private static ReferencedElection ToEchReferenceElection(this DataModels.MajorityElection election)
+    private static ReferencedElectionInformationType ToEchReferenceElection(this MajorityElection election)
     {
-        return ReferencedElection.Create(election.Id.ToString(), ElectionRelationType.Major);
+        return new ReferencedElectionInformationType
+        {
+            ReferencedElection = election.Id.ToString(),
+            ElectionRelation = ElectionRelationType.Item1,
+        };
     }
 
-    private static DataModels.MajorityElectionCandidate ToBasisMajorityCandidate(this CandidateType candidate, Guid electionId, IdLookup idLookup, ElectionInformationExtensionCandidate? candidateExtension)
+    private static MajorityElectionCandidate ToBasisMajorityCandidate(this CandidateType candidate, Guid electionId, IdLookup idLookup, ElectionInformationExtensionCandidate? candidateExtension)
     {
-        var basisCandidate = candidate.ToBasisCandidate<DataModels.MajorityElectionCandidate>(idLookup, candidateExtension);
+        var basisCandidate = candidate.ToBasisCandidate<MajorityElectionCandidate>(idLookup, candidateExtension);
 
         basisCandidate.MajorityElectionId = electionId;
-        var partyInfos = candidate
-            .PartyAffiliation
-            ?.PartyAffiliationInfo;
-        basisCandidate.Party = partyInfos.ToLanguageDictionary(x => x.Language, x => x.PartyAffiliationShort ?? x.PartyAffiliation, string.Empty);
+        var partyInfos = candidate.PartyAffiliation;
+        basisCandidate.Party = partyInfos.ToLanguageDictionary(x => x.Language, x => x.PartyAffiliationShort ?? x.PartyAffiliationLong, string.Empty);
 
         return basisCandidate;
     }

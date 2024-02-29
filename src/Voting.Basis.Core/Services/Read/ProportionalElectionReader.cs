@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Data;
@@ -38,8 +37,6 @@ public class ProportionalElectionReader : PoliticalBusinessReader<ProportionalEl
 
     public async Task<IEnumerable<ProportionalElectionList>> GetLists(Guid electionId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
-
         var proportionalElection = await Repo.Query()
             .Include(p => p.ProportionalElectionLists)
             .Include(p => p.DomainOfInfluence)
@@ -52,8 +49,6 @@ public class ProportionalElectionReader : PoliticalBusinessReader<ProportionalEl
 
     public async Task<ProportionalElectionList> GetList(Guid listId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
-
         var list = await _listRepo.Query()
             .Include(l => l.ProportionalElection)
             .FirstOrDefaultAsync(l => l.Id == listId)
@@ -65,8 +60,6 @@ public class ProportionalElectionReader : PoliticalBusinessReader<ProportionalEl
 
     public async Task<IEnumerable<ProportionalElectionListUnion>> GetListUnions(Guid electionId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
-
         var proportionalElection = await Repo.Query()
             .FirstOrDefaultAsync(p => p.Id == electionId)
             ?? throw new EntityNotFoundException(electionId);
@@ -92,8 +85,6 @@ public class ProportionalElectionReader : PoliticalBusinessReader<ProportionalEl
 
     public async Task<ProportionalElectionListUnion> GetListUnion(Guid listUnionId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
-
         var listUnion = await _listUnionRepo.Query()
             .AsSplitQuery()
             .Include(lu => lu.ProportionalElectionSubListUnions)
@@ -111,8 +102,6 @@ public class ProportionalElectionReader : PoliticalBusinessReader<ProportionalEl
 
     public async Task<IEnumerable<ProportionalElectionCandidate>> GetCandidates(Guid listId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
-
         var list = await _listRepo.Query()
             .IgnoreQueryFilters() // candidate could contain a soft deleted party, whose properties should be displayed.
             .Include(l => l.ProportionalElection)
@@ -127,8 +116,6 @@ public class ProportionalElectionReader : PoliticalBusinessReader<ProportionalEl
 
     public async Task<ProportionalElectionCandidate> GetCandidate(Guid candidateId)
     {
-        Auth.EnsureAdminOrElectionAdmin();
-
         var candidate = await _candidateRepo.Query()
             .IgnoreQueryFilters() // candidate could contain a soft deleted party, whose properties should be displayed.
             .Include(c => c.ProportionalElectionList)

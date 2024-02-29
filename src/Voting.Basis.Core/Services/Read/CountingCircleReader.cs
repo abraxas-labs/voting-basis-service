@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -43,7 +43,6 @@ public class CountingCircleReader
 
     public async Task<CountingCircle> Get(Guid id)
     {
-        _auth.EnsureAdminOrElectionAdmin();
         return await BuildQuery()
                    .FirstOrDefaultAsync(x => x.Id == id)
                ?? throw new EntityNotFoundException(nameof(CountingCircle), id);
@@ -51,7 +50,6 @@ public class CountingCircleReader
 
     public async Task<List<CountingCircle>> List()
     {
-        _auth.EnsureAdminOrElectionAdmin();
         return await BuildQuery()
             .OrderBy(cc => cc.Name)
             .ToListAsync();
@@ -59,8 +57,6 @@ public class CountingCircleReader
 
     public async Task<List<DomainOfInfluenceCountingCircle>> ListForDomainOfInfluence(Guid domainOfInfluenceId)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
         var query = _doiCcRepo.Query()
             .Include(doiCc => doiCc.CountingCircle)
             .ThenInclude(cc => cc.ResponsibleAuthority)
@@ -70,7 +66,7 @@ public class CountingCircleReader
             .ThenInclude(cc => cc.ContactPersonAfterEvent)
             .Where(doiCc => doiCc.DomainOfInfluenceId == domainOfInfluenceId);
 
-        if (!_auth.IsAdmin())
+        if (!_auth.HasPermission(Permissions.CountingCircle.ReadAll))
         {
             var doiPermission = await _permissionRepo.Query()
                 .Where(p => p.DomainOfInfluenceId == domainOfInfluenceId && p.TenantId == _auth.Tenant.Id)
@@ -87,8 +83,6 @@ public class CountingCircleReader
 
     public async Task<List<CountingCircle>> GetAssignableListForDomainOfInfluence(Guid domainOfInfluenceId)
     {
-        _auth.EnsureAdmin();
-
         var doiHierarchy = await _hierarchyRepo
             .Query()
             .FirstOrDefaultAsync(h => h.DomainOfInfluenceId == domainOfInfluenceId)
@@ -120,8 +114,6 @@ public class CountingCircleReader
 
     public async Task<List<CountingCirclesMerger>> ListMergers(bool? merged)
     {
-        _auth.EnsureAdmin();
-
         var query = _mergerRepo.Query();
 
         if (merged.HasValue)
@@ -142,7 +134,7 @@ public class CountingCircleReader
     private IQueryable<CountingCircle> BuildQuery()
     {
         var query = _repo.Query();
-        if (!_auth.IsAdmin())
+        if (!_auth.HasPermission(Permissions.CountingCircle.ReadAll))
         {
             // ef core does not support selectmany on array columns
             var doiPermissionCcIds = _permissionRepo.Query()
@@ -160,6 +152,7 @@ public class CountingCircleReader
         return query
             .Include(cc => cc.ResponsibleAuthority)
             .Include(cc => cc.ContactPersonDuringEvent)
-            .Include(cc => cc.ContactPersonAfterEvent);
+            .Include(cc => cc.ContactPersonAfterEvent)
+            .Include(cc => cc.Electorates.OrderBy(e => e.DomainOfInfluenceTypes[0]));
     }
 }

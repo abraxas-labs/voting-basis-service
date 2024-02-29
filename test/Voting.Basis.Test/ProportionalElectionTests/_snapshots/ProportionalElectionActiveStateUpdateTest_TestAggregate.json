@@ -14,7 +14,7 @@
     "rm": "Proporzwahl Gossau rm"
   },
   "NumberOfMandates": 3,
-  "MandateAlgorithm": 2,
+  "MandateAlgorithm": 1,
   "CandidateCheckDigit": true,
   "BallotBundleSize": 10,
   "AutomaticBallotBundleNumberGeneration": true,
@@ -26,5 +26,6 @@
   "Active": true,
   "BallotBundleSampleSize": 1,
   "ReviewProcedure": 1,
-  "EnforceReviewProcedureForCountingCircles": true
+  "EnforceReviewProcedureForCountingCircles": true,
+  "EnforceCandidateCheckDigitForCountingCircles": false
 }

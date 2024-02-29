@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -42,7 +42,6 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
             Id = VoteMockedData.BallotIdGossauVoteInContestGossau,
             VoteId = VoteMockedData.IdGossauVoteInContestGossau,
             BallotType = SharedProto.BallotType.VariantsBallot,
-            Description = { LanguageUtil.MockAllLanguages("updated description") },
             HasTieBreakQuestions = true,
             BallotQuestions =
                 {
@@ -185,7 +184,6 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
             VoteId = VoteMockedData.IdGossauVoteInContestBund,
             Id = VoteMockedData.BallotIdGossauVoteInContestBund,
             BallotType = SharedProto.BallotType.VariantsBallot,
-            Description = { LanguageUtil.MockAllLanguages("updated description") },
             BallotQuestions =
                 {
                     new ProtoModels.BallotQuestion
@@ -233,7 +231,6 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                 VoteId = VoteMockedData.IdGossauVoteInContestBund,
                 Id = VoteMockedData.BallotIdGossauVoteInContestBund,
                 BallotType = SharedProto.BallotType.StandardBallot,
-                Description = { LanguageUtil.MockAllLanguages("Updated desc") },
                 BallotQuestions =
                 {
                         new ProtoModels.BallotQuestion

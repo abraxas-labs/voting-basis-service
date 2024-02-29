@@ -1,149 +1,150 @@
-<eCH-0157:delivery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.ech.ch/xmlns/eCH-0157/4 http://www.ech.ch/xmlns/eCH-0157/4/eCH-0157-4-0.xsd" xmlns:eCH-0157="http://www.ech.ch/xmlns/eCH-0157/4">
-  <eCH-0157:deliveryHeader xmlns:eCH-0058="http://www.ech.ch/xmlns/eCH-0058/5">
-    <eCH-0058:senderId>ABX-VOTING</eCH-0058:senderId>
-    <eCH-0058:messageId>mock-id</eCH-0058:messageId>
-    <eCH-0058:messageType>1710967</eCH-0058:messageType>
-    <eCH-0058:sendingApplication>
-      <eCH-0058:manufacturer>Abraxas Informatik AG</eCH-0058:manufacturer>
-      <eCH-0058:product>Voting.Basis</eCH-0058:product>
-      <eCH-0058:productVersion>0.0.0.1</eCH-0058:productVersion>
-    </eCH-0058:sendingApplication>
-    <eCH-0058:messageDate>2020-01-10T13:12:10.200</eCH-0058:messageDate>
-    <eCH-0058:action>1</eCH-0058:action>
-    <eCH-0058:testDeliveryFlag>true</eCH-0058:testDeliveryFlag>
-  </eCH-0157:deliveryHeader>
-  <eCH-0157:initialDelivery>
-    <eCH-0157:contest xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
-      <eCH-0155:contestIdentification>bfd88d88-77f2-4172-a73d-56b1ca5442b3</eCH-0155:contestIdentification>
-      <eCH-0155:contestDate>2020-02-29</eCH-0155:contestDate>
-      <eCH-0155:contestDescription>
-        <eCH-0155:contestDescriptionInfo>
-          <eCH-0155:language>de</eCH-0155:language>
-          <eCH-0155:contestDescription>Gossau Urnengang de</eCH-0155:contestDescription>
-        </eCH-0155:contestDescriptionInfo>
-        <eCH-0155:contestDescriptionInfo>
-          <eCH-0155:language>fr</eCH-0155:language>
-          <eCH-0155:contestDescription>Gossau Urnengang fr</eCH-0155:contestDescription>
-        </eCH-0155:contestDescriptionInfo>
-        <eCH-0155:contestDescriptionInfo>
-          <eCH-0155:language>it</eCH-0155:language>
-          <eCH-0155:contestDescription>Gossau Urnengang it</eCH-0155:contestDescription>
-        </eCH-0155:contestDescriptionInfo>
-        <eCH-0155:contestDescriptionInfo>
-          <eCH-0155:language>rm</eCH-0155:language>
-          <eCH-0155:contestDescription>Gossau Urnengang rm</eCH-0155:contestDescription>
-        </eCH-0155:contestDescriptionInfo>
-      </eCH-0155:contestDescription>
-    </eCH-0157:contest>
-    <eCH-0157:electionGroupBallot>
-      <eCH-0157:domainOfInfluenceIdentification>a18b1c6a-6b66-43e4-a7d2-a440a7025dbd</eCH-0157:domainOfInfluenceIdentification>
-      <eCH-0157:electionInformation>
-        <eCH-0157:election xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
-          <eCH-0155:electionIdentification>e39a4d1c-6db4-44a7-a707-05cf2005dd4a</eCH-0155:electionIdentification>
-          <eCH-0155:typeOfElection>2</eCH-0155:typeOfElection>
-          <eCH-0155:electionPosition>0</eCH-0155:electionPosition>
-          <eCH-0155:electionDescription>
-            <eCH-0155:electionDescriptionInfo>
-              <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:electionDescriptionShort>Proporzwahl Gossau de</eCH-0155:electionDescriptionShort>
-              <eCH-0155:electionDescription>Proporzwahl Gossau de</eCH-0155:electionDescription>
-            </eCH-0155:electionDescriptionInfo>
-            <eCH-0155:electionDescriptionInfo>
-              <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:electionDescriptionShort>Proporzwahl Gossau fr</eCH-0155:electionDescriptionShort>
-              <eCH-0155:electionDescription>Proporzwahl Gossau fr</eCH-0155:electionDescription>
-            </eCH-0155:electionDescriptionInfo>
-            <eCH-0155:electionDescriptionInfo>
-              <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:electionDescriptionShort>Proporzwahl Gossau it</eCH-0155:electionDescriptionShort>
-              <eCH-0155:electionDescription>Proporzwahl Gossau it</eCH-0155:electionDescription>
-            </eCH-0155:electionDescriptionInfo>
-            <eCH-0155:electionDescriptionInfo>
-              <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:electionDescriptionShort>Proporzwahl Gossau rm</eCH-0155:electionDescriptionShort>
-              <eCH-0155:electionDescription>Proporzwahl Gossau rm</eCH-0155:electionDescription>
-            </eCH-0155:electionDescriptionInfo>
-          </eCH-0155:electionDescription>
-          <eCH-0155:numberOfMandates>5</eCH-0155:numberOfMandates>
-        </eCH-0157:election>
-        <eCH-0157:candidate xmlns:eCH-0155="http://www.ech.ch/xmlns/eCH-0155/4">
-          <eCH-0155:candidateIdentification>194ff485-6eb9-4d98-8bec-855a2ec92650</eCH-0155:candidateIdentification>
-          <eCH-0155:familyName>lastName</eCH-0155:familyName>
-          <eCH-0155:firstName>firstName</eCH-0155:firstName>
-          <eCH-0155:callName>pol first name</eCH-0155:callName>
-          <eCH-0155:candidateText>
-            <eCH-0155:candidateTextInfo>
-              <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title de, locality, Test de, bisher</eCH-0155:candidateText>
-            </eCH-0155:candidateTextInfo>
-            <eCH-0155:candidateTextInfo>
-              <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title fr, locality, Test fr, bisher</eCH-0155:candidateText>
-            </eCH-0155:candidateTextInfo>
-            <eCH-0155:candidateTextInfo>
-              <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title it, locality, Test it, bisher</eCH-0155:candidateText>
-            </eCH-0155:candidateTextInfo>
-            <eCH-0155:candidateTextInfo>
-              <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:candidateText>13.01.1960, occupation title rm, locality, Test rm, bisher</eCH-0155:candidateText>
-            </eCH-0155:candidateTextInfo>
-          </eCH-0155:candidateText>
-          <eCH-0155:dateOfBirth>1960-01-13</eCH-0155:dateOfBirth>
-          <eCH-0155:sex>2</eCH-0155:sex>
-          <eCH-0155:occupationalTitle>
-            <eCH-0155:occupationalTitleInfo>
-              <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:occupationalTitle>occupation de</eCH-0155:occupationalTitle>
-            </eCH-0155:occupationalTitleInfo>
-            <eCH-0155:occupationalTitleInfo>
-              <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:occupationalTitle>occupation fr</eCH-0155:occupationalTitle>
-            </eCH-0155:occupationalTitleInfo>
-            <eCH-0155:occupationalTitleInfo>
-              <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:occupationalTitle>occupation it</eCH-0155:occupationalTitle>
-            </eCH-0155:occupationalTitleInfo>
-            <eCH-0155:occupationalTitleInfo>
-              <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:occupationalTitle>occupation rm</eCH-0155:occupationalTitle>
-            </eCH-0155:occupationalTitleInfo>
-          </eCH-0155:occupationalTitle>
-          <eCH-0155:dwellingAddress xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/6">
-            <eCH-0010:town>locality</eCH-0010:town>
-            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
-            <eCH-0010:country>
-              <eCH-0010:countryId>8100</eCH-0010:countryId>
-              <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
-              <eCH-0010:countryNameShort>Schweiz</eCH-0010:countryNameShort>
-            </eCH-0010:country>
-          </eCH-0155:dwellingAddress>
-          <eCH-0155:swiss>
-            <eCH-0155:origin>origin</eCH-0155:origin>
-          </eCH-0155:swiss>
-          <eCH-0155:mrMrs>1</eCH-0155:mrMrs>
-          <eCH-0155:title>title</eCH-0155:title>
-          <eCH-0155:candidateReference>number1</eCH-0155:candidateReference>
-          <eCH-0155:partyAffiliation>
-            <eCH-0155:partyAffiliationInfo>
-              <eCH-0155:language>de</eCH-0155:language>
-              <eCH-0155:partyAffiliationShort>Test de</eCH-0155:partyAffiliationShort>
-            </eCH-0155:partyAffiliationInfo>
-            <eCH-0155:partyAffiliationInfo>
-              <eCH-0155:language>fr</eCH-0155:language>
-              <eCH-0155:partyAffiliationShort>Test fr</eCH-0155:partyAffiliationShort>
-            </eCH-0155:partyAffiliationInfo>
-            <eCH-0155:partyAffiliationInfo>
-              <eCH-0155:language>it</eCH-0155:language>
-              <eCH-0155:partyAffiliationShort>Test it</eCH-0155:partyAffiliationShort>
-            </eCH-0155:partyAffiliationInfo>
-            <eCH-0155:partyAffiliationInfo>
-              <eCH-0155:language>rm</eCH-0155:language>
-              <eCH-0155:partyAffiliationShort>Test rm</eCH-0155:partyAffiliationShort>
-            </eCH-0155:partyAffiliationInfo>
-          </eCH-0155:partyAffiliation>
-        </eCH-0157:candidate>
-      </eCH-0157:electionInformation>
-    </eCH-0157:electionGroupBallot>
-  </eCH-0157:initialDelivery>
-</eCH-0157:delivery>
+<delivery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.ech.ch/xmlns/eCH-0157/4">
+  <deliveryHeader>
+    <senderId xmlns="http://www.ech.ch/xmlns/eCH-0058/5">ABX-VOTING</senderId>
+    <messageId xmlns="http://www.ech.ch/xmlns/eCH-0058/5">mock-id</messageId>
+    <messageType xmlns="http://www.ech.ch/xmlns/eCH-0058/5">1710967</messageType>
+    <sendingApplication xmlns="http://www.ech.ch/xmlns/eCH-0058/5">
+      <manufacturer>Abraxas Informatik AG</manufacturer>
+      <product>Voting.Basis</product>
+      <productVersion>0.0.0.1</productVersion>
+    </sendingApplication>
+    <messageDate xmlns="http://www.ech.ch/xmlns/eCH-0058/5">2020-01-10T13:12:10.2Z</messageDate>
+    <action xmlns="http://www.ech.ch/xmlns/eCH-0058/5">1</action>
+    <testDeliveryFlag xmlns="http://www.ech.ch/xmlns/eCH-0058/5">true</testDeliveryFlag>
+  </deliveryHeader>
+  <initialDelivery>
+    <contest>
+      <contestIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">bfd88d88-77f2-4172-a73d-56b1ca5442b3</contestIdentification>
+      <contestDate xmlns="http://www.ech.ch/xmlns/eCH-0155/4">2020-02-29</contestDate>
+      <contestDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+        <contestDescriptionInfo>
+          <language>de</language>
+          <contestDescription>Gossau Urnengang de</contestDescription>
+        </contestDescriptionInfo>
+        <contestDescriptionInfo>
+          <language>fr</language>
+          <contestDescription>Gossau Urnengang fr</contestDescription>
+        </contestDescriptionInfo>
+        <contestDescriptionInfo>
+          <language>it</language>
+          <contestDescription>Gossau Urnengang it</contestDescription>
+        </contestDescriptionInfo>
+        <contestDescriptionInfo>
+          <language>rm</language>
+          <contestDescription>Gossau Urnengang rm</contestDescription>
+        </contestDescriptionInfo>
+      </contestDescription>
+    </contest>
+    <electionGroupBallot>
+      <domainOfInfluenceIdentification>a18b1c6a-6b66-43e4-a7d2-a440a7025dbd</domainOfInfluenceIdentification>
+      <electionInformation>
+        <election>
+          <electionIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">e39a4d1c-6db4-44a7-a707-05cf2005dd4a</electionIdentification>
+          <typeOfElection xmlns="http://www.ech.ch/xmlns/eCH-0155/4">2</typeOfElection>
+          <electionPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/4">0</electionPosition>
+          <electionDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <electionDescriptionInfo>
+              <language>de</language>
+              <electionDescriptionShort>Proporzwahl Gossau de</electionDescriptionShort>
+              <electionDescription>Proporzwahl Gossau de</electionDescription>
+            </electionDescriptionInfo>
+            <electionDescriptionInfo>
+              <language>fr</language>
+              <electionDescriptionShort>Proporzwahl Gossau fr</electionDescriptionShort>
+              <electionDescription>Proporzwahl Gossau fr</electionDescription>
+            </electionDescriptionInfo>
+            <electionDescriptionInfo>
+              <language>it</language>
+              <electionDescriptionShort>Proporzwahl Gossau it</electionDescriptionShort>
+              <electionDescription>Proporzwahl Gossau it</electionDescription>
+            </electionDescriptionInfo>
+            <electionDescriptionInfo>
+              <language>rm</language>
+              <electionDescriptionShort>Proporzwahl Gossau rm</electionDescriptionShort>
+              <electionDescription>Proporzwahl Gossau rm</electionDescription>
+            </electionDescriptionInfo>
+          </electionDescription>
+          <numberOfMandates xmlns="http://www.ech.ch/xmlns/eCH-0155/4">5</numberOfMandates>
+        </election>
+        <candidate>
+          <candidateIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">194ff485-6eb9-4d98-8bec-855a2ec92650</candidateIdentification>
+          <familyName xmlns="http://www.ech.ch/xmlns/eCH-0155/4">lastName</familyName>
+          <firstName xmlns="http://www.ech.ch/xmlns/eCH-0155/4">firstName</firstName>
+          <callName xmlns="http://www.ech.ch/xmlns/eCH-0155/4">pol first name</callName>
+          <candidateText xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <candidateTextInfo>
+              <language>de</language>
+              <candidateText>13.01.1960, occupation title de, locality, Test de, bisher</candidateText>
+            </candidateTextInfo>
+            <candidateTextInfo>
+              <language>fr</language>
+              <candidateText>13.01.1960, occupation title fr, locality, Test fr, bisher</candidateText>
+            </candidateTextInfo>
+            <candidateTextInfo>
+              <language>it</language>
+              <candidateText>13.01.1960, occupation title it, locality, Test it, bisher</candidateText>
+            </candidateTextInfo>
+            <candidateTextInfo>
+              <language>rm</language>
+              <candidateText>13.01.1960, occupation title rm, locality, Test rm, bisher</candidateText>
+            </candidateTextInfo>
+          </candidateText>
+          <dateOfBirth xmlns="http://www.ech.ch/xmlns/eCH-0155/4">1960-01-13</dateOfBirth>
+          <sex xmlns="http://www.ech.ch/xmlns/eCH-0155/4">2</sex>
+          <occupationalTitle xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <occupationalTitleInfo>
+              <language>de</language>
+              <occupationalTitle>occupation de</occupationalTitle>
+            </occupationalTitleInfo>
+            <occupationalTitleInfo>
+              <language>fr</language>
+              <occupationalTitle>occupation fr</occupationalTitle>
+            </occupationalTitleInfo>
+            <occupationalTitleInfo>
+              <language>it</language>
+              <occupationalTitle>occupation it</occupationalTitle>
+            </occupationalTitleInfo>
+            <occupationalTitleInfo>
+              <language>rm</language>
+              <occupationalTitle>occupation rm</occupationalTitle>
+            </occupationalTitleInfo>
+          </occupationalTitle>
+          <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
+            <foreignZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">zip code</foreignZipCode>
+            <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
+              <countryId>8100</countryId>
+              <countryIdISO2>CH</countryIdISO2>
+              <countryNameShort>Schweiz</countryNameShort>
+            </country>
+          </dwellingAddress>
+          <swiss xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <origin>origin</origin>
+          </swiss>
+          <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/4">1</mrMrs>
+          <title xmlns="http://www.ech.ch/xmlns/eCH-0155/4">title</title>
+          <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/4">de</languageOfCorrespondence>
+          <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/4">number1</candidateReference>
+          <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <partyAffiliationInfo>
+              <language>de</language>
+              <partyAffiliationShort>Test de</partyAffiliationShort>
+            </partyAffiliationInfo>
+            <partyAffiliationInfo>
+              <language>fr</language>
+              <partyAffiliationShort>Test fr</partyAffiliationShort>
+            </partyAffiliationInfo>
+            <partyAffiliationInfo>
+              <language>it</language>
+              <partyAffiliationShort>Test it</partyAffiliationShort>
+            </partyAffiliationInfo>
+            <partyAffiliationInfo>
+              <language>rm</language>
+              <partyAffiliationShort>Test rm</partyAffiliationShort>
+            </partyAffiliationInfo>
+          </partyAffiliation>
+        </candidate>
+      </electionInformation>
+    </electionGroupBallot>
+  </initialDelivery>
+</delivery>

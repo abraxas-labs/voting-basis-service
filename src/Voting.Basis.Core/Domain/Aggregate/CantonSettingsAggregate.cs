@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using Google.Protobuf;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data.Models;
+using Voting.Basis.Data.Utils;
 using Voting.Lib.Eventing.Domain;
 
 namespace Voting.Basis.Core.Domain.Aggregate;
@@ -67,6 +68,19 @@ public class CantonSettingsAggregate : BaseEventSourcingAggregate
     /// Gets a value indicating whether vOTING Stimmregister is enabled.
     /// </summary>
     public bool ElectoralRegistrationEnabled { get; private set; }
+
+    public bool MultipleVoteBallotsEnabled { get; private set; }
+
+    /// <summary>
+    /// Gets a value indicating whether counting circles in VOTING Ausmittlung can use counting machines or not.
+    /// </summary>
+    public bool CountingMachineEnabled { get; private set; }
+
+    public bool NewZhFeaturesEnabled { get; private set; }
+
+    public bool ProportionalElectionUseCandidateCheckDigit { get; private set; }
+
+    public bool MajorityElectionUseCandidateCheckDigit { get; private set; }
 
     public void CreateFrom(CantonSettings cantonSettings)
     {

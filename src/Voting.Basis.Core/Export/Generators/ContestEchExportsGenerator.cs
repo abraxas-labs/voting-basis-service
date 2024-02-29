@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -74,7 +74,7 @@ public class ContestEchExportsGenerator : IExportsGenerator
             ?? throw new EntityNotFoundException(contestId);
 
         var doiHierarchyGroups = await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups();
-        if (!_auth.IsAdmin())
+        if (!_auth.HasPermission(Permissions.Export.ExportAllPoliticalBusinesses))
         {
             // Can only export when the tenant is involved in the contest (somewhere in the hierarchy)
             if (!doiHierarchyGroups.AccessibleDoiIds.Contains(contest.DomainOfInfluenceId))
@@ -92,22 +92,19 @@ public class ContestEchExportsGenerator : IExportsGenerator
         var contestDesc = LanguageUtil.GetInCurrentLanguage(contest.Description);
         if (contest.Votes.Count > 0)
         {
-            var ech0159 = _ech0159Serializer.ToEventInitialDelivery(contest, contest.Votes);
-            var xmlBytes = EchSerializer.ToXml(ech0159);
+            var xmlBytes = _ech0159Serializer.ToEventInitialDelivery(contest, contest.Votes);
             yield return new ExportFile(xmlBytes, $"votes_{contestDesc}{FileExtensions.Xml}", MediaTypeNames.Application.Xml);
         }
 
         if (contest.ProportionalElections.Count > 0)
         {
-            var ech0157 = _ech0157Serializer.ToDelivery(contest, contest.ProportionalElections);
-            var xmlBytes = EchSerializer.ToXml(ech0157);
+            var xmlBytes = _ech0157Serializer.ToDelivery(contest, contest.ProportionalElections);
             yield return new ExportFile(xmlBytes, $"proportional_elections_{contestDesc}{FileExtensions.Xml}", MediaTypeNames.Application.Xml);
         }
 
         if (contest.MajorityElections.Count > 0)
         {
-            var ech0157 = _ech0157Serializer.ToDelivery(contest, contest.MajorityElections);
-            var xmlBytes = EchSerializer.ToXml(ech0157);
+            var xmlBytes = _ech0157Serializer.ToDelivery(contest, contest.MajorityElections);
             yield return new ExportFile(xmlBytes, $"majority_elections_{contestDesc}{FileExtensions.Xml}", MediaTypeNames.Application.Xml);
         }
     }

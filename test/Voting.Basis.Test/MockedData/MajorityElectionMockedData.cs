@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -116,6 +116,7 @@ public static class MajorityElectionMockedData
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
             MajorityElectionCandidates = new List<MajorityElectionCandidate>
             {
                     new MajorityElectionCandidate
@@ -137,6 +138,7 @@ public static class MajorityElectionMockedData
                         Title = "title",
                         ZipCode = "zip code",
                         Origin = "origin",
+                        CheckDigit = 9,
                     },
             },
         };
@@ -164,6 +166,7 @@ public static class MajorityElectionMockedData
             NumberOfMandates = 1,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = false,
             MajorityElectionCandidates = new List<MajorityElectionCandidate>
             {
                     new MajorityElectionCandidate
@@ -185,6 +188,7 @@ public static class MajorityElectionMockedData
                         Title = "title",
                         ZipCode = "zip code",
                         Origin = "origin",
+                        CheckDigit = 9,
                     },
                     new MajorityElectionCandidate
                     {
@@ -205,6 +209,7 @@ public static class MajorityElectionMockedData
                         Title = "title",
                         ZipCode = "zip code",
                         Origin = "origin",
+                        CheckDigit = 1,
                     },
             },
             SecondaryMajorityElections = new List<SecondaryMajorityElection>
@@ -241,6 +246,7 @@ public static class MajorityElectionMockedData
                                 ZipCode = "zip code",
                                 CandidateReferenceId = Guid.Parse(CandidateId1StGallenMajorityElectionInContestBund),
                                 Origin = "origin",
+                                CheckDigit = 9,
                             },
                             new SecondaryMajorityElectionCandidate
                             {
@@ -261,6 +267,7 @@ public static class MajorityElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 Origin = "origin",
+                                CheckDigit = 7,
                             },
                         },
                     },
@@ -337,6 +344,7 @@ public static class MajorityElectionMockedData
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
             MajorityElectionCandidates = new List<MajorityElectionCandidate>
             {
                     new MajorityElectionCandidate
@@ -358,6 +366,7 @@ public static class MajorityElectionMockedData
                         Title = "title",
                         ZipCode = "zip code",
                         Origin = "origin",
+                        CheckDigit = 9,
                     },
                     new MajorityElectionCandidate
                     {
@@ -378,6 +387,7 @@ public static class MajorityElectionMockedData
                         Title = "title2",
                         ZipCode = "zip code2",
                         Origin = "origin 2",
+                        CheckDigit = 7,
                     },
             },
         };
@@ -405,6 +415,7 @@ public static class MajorityElectionMockedData
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
             MajorityElectionCandidates = new List<MajorityElectionCandidate>
             {
                     new MajorityElectionCandidate
@@ -426,6 +437,7 @@ public static class MajorityElectionMockedData
                         Title = "title",
                         ZipCode = "zip code",
                         Origin = "origin",
+                        CheckDigit = 9,
                     },
             },
             SecondaryMajorityElections = new List<SecondaryMajorityElection>
@@ -462,6 +474,7 @@ public static class MajorityElectionMockedData
                                 ZipCode = "zip code",
                                 CandidateReferenceId = Guid.Parse(CandidateIdUzwilMajorityElectionInContestStGallen),
                                 Origin = "origin",
+                                CheckDigit = 9,
                             },
                         },
                     },
@@ -540,6 +553,7 @@ public static class MajorityElectionMockedData
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
             MajorityElectionCandidates = new List<MajorityElectionCandidate>
             {
                     new MajorityElectionCandidate
@@ -561,6 +575,7 @@ public static class MajorityElectionMockedData
                         Title = "title",
                         ZipCode = "zip code",
                         Origin = "origin",
+                        CheckDigit = 9,
                     },
             },
         };
@@ -587,6 +602,7 @@ public static class MajorityElectionMockedData
             NumberOfMandates = 3,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = false,
             MajorityElectionCandidates = new List<MajorityElectionCandidate>
             {
                     new MajorityElectionCandidate
@@ -608,6 +624,7 @@ public static class MajorityElectionMockedData
                         Title = "title",
                         ZipCode = "zip code",
                         Origin = "origin",
+                        CheckDigit = 9,
                     },
                     new MajorityElectionCandidate
                     {
@@ -627,6 +644,7 @@ public static class MajorityElectionMockedData
                         Sex = SexType.Undefined,
                         Title = "title 2",
                         Origin = "origin 2",
+                        CheckDigit = 7,
                     },
             },
             SecondaryMajorityElections = new List<SecondaryMajorityElection>
@@ -663,6 +681,7 @@ public static class MajorityElectionMockedData
                                 ZipCode = "zip code",
                                 CandidateReferenceId = Guid.Parse(CandidateId1GossauMajorityElectionInContestStGallen),
                                 Origin = "origin",
+                                CheckDigit = 9,
                             },
                             new SecondaryMajorityElectionCandidate
                             {
@@ -683,6 +702,7 @@ public static class MajorityElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 Origin = "origin",
+                                CheckDigit = 7,
                             },
                         },
                     },
@@ -718,6 +738,7 @@ public static class MajorityElectionMockedData
             NumberOfMandates = 1,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = false,
             MajorityElectionCandidates = new List<MajorityElectionCandidate>
             {
                     new MajorityElectionCandidate
@@ -739,6 +760,7 @@ public static class MajorityElectionMockedData
                         Title = "title",
                         ZipCode = "zip code",
                         Origin = "origin",
+                        CheckDigit = 9,
                     },
                     new MajorityElectionCandidate
                     {
@@ -759,6 +781,7 @@ public static class MajorityElectionMockedData
                         Title = "title",
                         ZipCode = "zip code",
                         Origin = "origin",
+                        CheckDigit = 1,
                     },
             },
             SecondaryMajorityElections = new List<SecondaryMajorityElection>
@@ -795,6 +818,7 @@ public static class MajorityElectionMockedData
                                 ZipCode = "zip code",
                                 CandidateReferenceId = Guid.Parse(CandidateId1GossauMajorityElectionInContestBund),
                                 Origin = "origin",
+                                CheckDigit = 9,
                             },
                             new SecondaryMajorityElectionCandidate
                             {
@@ -815,6 +839,7 @@ public static class MajorityElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 Origin = "origin",
+                                CheckDigit = 7,
                             },
                         },
                     },
@@ -929,6 +954,7 @@ public static class MajorityElectionMockedData
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = false,
         };
 
     public static MajorityElection GossauMajorityElectionInContestGossau
@@ -954,6 +980,7 @@ public static class MajorityElectionMockedData
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
             MajorityElectionCandidates = new List<MajorityElectionCandidate>
             {
                     new MajorityElectionCandidate
@@ -975,6 +1002,7 @@ public static class MajorityElectionMockedData
                         Title = "title",
                         ZipCode = "zip code",
                         Origin = "origin",
+                        CheckDigit = 9,
                     },
             },
         };
@@ -1002,6 +1030,7 @@ public static class MajorityElectionMockedData
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
             MajorityElectionCandidates = new List<MajorityElectionCandidate>
             {
                     new MajorityElectionCandidate
@@ -1023,6 +1052,7 @@ public static class MajorityElectionMockedData
                         Title = "title",
                         ZipCode = "zip code",
                         Origin = "origin",
+                        CheckDigit = 9,
                     },
             },
         };
@@ -1050,6 +1080,7 @@ public static class MajorityElectionMockedData
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
         };
 
     public static MajorityElection GenfMajorityElectionInContestBundWithoutChilds
@@ -1075,6 +1106,7 @@ public static class MajorityElectionMockedData
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
         };
 
     public static MajorityElection KircheMajorityElectionInContestKirche
@@ -1099,6 +1131,7 @@ public static class MajorityElectionMockedData
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
             MajorityElectionCandidates = new List<MajorityElectionCandidate>
             {
                     new MajorityElectionCandidate
@@ -1119,6 +1152,7 @@ public static class MajorityElectionMockedData
                         Sex = SexType.Male,
                         Title = "title",
                         Origin = "origin",
+                        CheckDigit = 9,
                     },
             },
             SecondaryMajorityElections = new List<SecondaryMajorityElection>
@@ -1154,6 +1188,7 @@ public static class MajorityElectionMockedData
                                 Title = "title",
                                 ZipCode = "zip code",
                                 Origin = "origin",
+                                CheckDigit = 9,
                             },
                         },
                     },
@@ -1230,6 +1265,7 @@ public static class MajorityElectionMockedData
             NumberOfMandates = 5,
             ReviewProcedure = MajorityElectionReviewProcedure.Physically,
             EnforceReviewProcedureForCountingCircles = false,
+            EnforceCandidateCheckDigitForCountingCircles = false,
         };
 
     public static IEnumerable<MajorityElection> All

@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -56,4 +56,17 @@ public class CantonSettings
     /// Gets or sets a value indicating whether VOTING Stimmregister is enabled.
     /// </summary>
     public bool ElectoralRegistrationEnabled { get; set; }
+
+    public bool MultipleVoteBallotsEnabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether counting circles in VOTING Ausmittlung can use counting machines or not.
+    /// </summary>
+    public bool CountingMachineEnabled { get; set; }
+
+    public bool NewZhFeaturesEnabled { get; set; }
+
+    public bool ProportionalElectionUseCandidateCheckDigit { get; set; }
+
+    public bool MajorityElectionUseCandidateCheckDigit { get; set; }
 }

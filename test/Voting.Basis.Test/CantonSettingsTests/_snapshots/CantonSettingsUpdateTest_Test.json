@@ -23,8 +23,8 @@
       "SecureConnectId": "000000000000000000",
       "ProportionalElectionMandateAlgorithms": [
         1,
-        3,
-        2
+        5,
+        4
       ],
       "MajorityElectionAbsoluteMajorityAlgorithm": 1,
       "MajorityElectionInvalidVotes": false,
@@ -51,7 +51,12 @@
       "VotingDocumentsEVotingEaiMessageType": "1234567",
       "ProtocolDomainOfInfluenceSortType": 2,
       "ProtocolCountingCircleSortType": 1,
-      "ElectoralRegistrationEnabled": false
+      "ElectoralRegistrationEnabled": false,
+      "MultipleVoteBallotsEnabled": false,
+      "CountingMachineEnabled": true,
+      "NewZhFeaturesEnabled": false,
+      "ProportionalElectionUseCandidateCheckDigit": false,
+      "MajorityElectionUseCandidateCheckDigit": false
     }
   }
 }

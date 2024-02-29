@@ -30,6 +30,7 @@
     "Active": false,
     "ReportDomainOfInfluenceLevel": 2,
     "ReviewProcedure": 1,
-    "EnforceReviewProcedureForCountingCircles": true
+    "EnforceReviewProcedureForCountingCircles": true,
+    "EnforceCandidateCheckDigitForCountingCircles": true
   }
 }

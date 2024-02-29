@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -89,8 +89,7 @@ public class MajorityElectionUnionCreateTest : BaseGrpcTest<MajorityElectionUnio
     {
         await AssertStatus(
             async () => await ElectionAdminClient.CreateAsync(NewValidRequest(x => x.ContestId = ContestMockedData.IdKirche)),
-            StatusCode.PermissionDenied,
-            "you have no read access on contest");
+            StatusCode.PermissionDenied);
     }
 
     [Fact]

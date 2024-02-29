@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -161,6 +161,30 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     }
 
     [Fact]
+    public async Task DuplicatedPartyShouldThrow()
+    {
+        var partyId = "efd6fbe7-a874-4817-b416-aacd255d198a";
+        await AssertStatus(
+            async () => await AdminClient.CreateAsync(NewValidRequest(o =>
+            {
+                o.Parties.Add(new ProtoModels.DomainOfInfluenceParty
+                {
+                    Id = partyId,
+                    Name = { LanguageUtil.MockAllLanguages("Neue Partei") },
+                    ShortDescription = { LanguageUtil.MockAllLanguages("NP") },
+                });
+                o.Parties.Add(new ProtoModels.DomainOfInfluenceParty
+                {
+                    Id = partyId,
+                    Name = { LanguageUtil.MockAllLanguages("Demo") },
+                    ShortDescription = { LanguageUtil.MockAllLanguages("D") },
+                });
+            })),
+            StatusCode.InvalidArgument,
+            "domain of influence party can only be provided exactly once");
+    }
+
+    [Fact]
     public async Task NonPoliticalShouldPublishAndReturnOk()
     {
         var response = await AdminClient.CreateAsync(NewValidRootDoiRequest(x => x.Type = SharedProto.DomainOfInfluenceType.Ki));
@@ -186,32 +210,6 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
         await AssertStatus(
             async () => await AdminClient.CreateAsync(NewValidRequest(o => o.ParentId = DomainOfInfluenceMockedData.IdNotExisting)),
             StatusCode.NotFound);
-    }
-
-    [Fact]
-    public async Task ParentPoliticalSelfNonPoliticalShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(o =>
-            {
-                o.ParentId = DomainOfInfluenceMockedData.IdBund;
-                o.Type = SharedProto.DomainOfInfluenceType.Ki;
-            })),
-            StatusCode.InvalidArgument,
-            "Non political DomainOfInfluence may only be a child of a non political DomainOfInfluence Parent");
-    }
-
-    [Fact]
-    public async Task ParentNonPoliticalSelfPoliticalShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(o =>
-            {
-                o.ParentId = DomainOfInfluenceMockedData.IdKirchgemeinde;
-                o.Type = SharedProto.DomainOfInfluenceType.Ct;
-            })),
-            StatusCode.InvalidArgument,
-            "Political DomainOfInfluence may only be a child of a political DomainOfInfluence Parent");
     }
 
     [Fact]
@@ -451,6 +449,51 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
             })),
             StatusCode.InvalidArgument,
             "Some parties cannot be modified");
+    }
+
+    [Fact]
+    public async Task ShouldThrowForeignExportConfiguration()
+    {
+        await AssertStatus(
+            async () => await AdminClient.CreateAsync(NewValidRequest(o =>
+            {
+                o.ExportConfigurations.Add(new ProtoModels.ExportConfiguration
+                {
+                    Id = DomainOfInfluenceMockedData.ExportConfigurationIdBund001,
+                    Description = "Export Configuration",
+                    EaiMessageType = "1234657",
+                    Provider = SharedProto.ExportProvider.Seantis,
+                });
+            })),
+            StatusCode.InvalidArgument,
+            "Some export configurations cannot be modified");
+    }
+
+    [Fact]
+    public async Task DuplicatedExportConfigurationShouldThrow()
+    {
+        var configId = "0c03d15a-ab0a-439d-a5bb-91fb17d17cf1";
+
+        await AssertStatus(
+            async () => await AdminClient.CreateAsync(NewValidRequest(o =>
+            {
+                o.ExportConfigurations.Add(new ProtoModels.ExportConfiguration
+                {
+                    Id = configId,
+                    Description = "Export Configuration",
+                    EaiMessageType = "1234657",
+                    Provider = SharedProto.ExportProvider.Seantis,
+                });
+                o.ExportConfigurations.Add(new ProtoModels.ExportConfiguration
+                {
+                    Id = configId,
+                    Description = "Export Configuration2",
+                    EaiMessageType = "1234658",
+                    Provider = SharedProto.ExportProvider.Seantis,
+                });
+            })),
+            StatusCode.InvalidArgument,
+            "each export configuration can only be provided exactly once");
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

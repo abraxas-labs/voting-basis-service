@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -8,17 +8,17 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using AutoMapper;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using Microsoft.AspNetCore.Authorization;
 using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Read.Snapshot;
 using Voting.Basis.Core.Services.Write;
 using Voting.Lib.Common;
 using Voting.Lib.Grpc;
+using Voting.Lib.Iam.Authorization;
+using Permissions = Voting.Basis.Core.Auth.Permissions;
 using ServiceBase = Abraxas.Voting.Basis.Services.V1.CountingCircleService.CountingCircleServiceBase;
 
 namespace Voting.Basis.Services;
 
-[Authorize]
 public class CountingCircleService : ServiceBase
 {
     private readonly CountingCircleWriter _countingCircleWriter;
@@ -38,6 +38,7 @@ public class CountingCircleService : ServiceBase
         _countingCircleSnapshotReader = countingCircleSnapshotReader;
     }
 
+    [AuthorizePermission(Permissions.CountingCircle.Create)]
     public override async Task<IdValue> Create(
         CreateCountingCircleRequest request,
         ServerCallContext context)
@@ -47,6 +48,7 @@ public class CountingCircleService : ServiceBase
         return new IdValue { Id = data.Id.ToString() };
     }
 
+    [AuthorizePermission(Permissions.CountingCircle.Update)]
     public override async Task<Empty> Update(
         UpdateCountingCircleRequest request,
         ServerCallContext context)
@@ -56,40 +58,48 @@ public class CountingCircleService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.CountingCircle.Delete)]
     public override async Task<Empty> Delete(DeleteCountingCircleRequest request, ServerCallContext context)
     {
         await _countingCircleWriter.Delete(GuidParser.Parse(request.Id));
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.CountingCircle.Read)]
     public override async Task<CountingCircle> Get(GetCountingCircleRequest request, ServerCallContext context)
         => _mapper.Map<CountingCircle>(await _countingCircleReader.Get(GuidParser.Parse(request.Id)));
 
+    [AuthorizePermission(Permissions.CountingCircle.Read)]
     public override async Task<CountingCircles> List(ListCountingCircleRequest request, ServerCallContext context)
     {
         return _mapper.Map<CountingCircles>(await _countingCircleReader.List());
     }
 
+    [AuthorizePermission(Permissions.CountingCircle.Read)]
     public override async Task<DomainOfInfluenceCountingCircles> ListAssigned(ListAssignedCountingCircleRequest request, ServerCallContext context)
     {
         return _mapper.Map<DomainOfInfluenceCountingCircles>(await _countingCircleReader.ListForDomainOfInfluence(GuidParser.Parse(request.DomainOfInfluenceId)));
     }
 
+    [AuthorizePermission(Permissions.CountingCircle.ReadAll)]
     public override async Task<CountingCircles> ListAssignable(ListAssignableCountingCircleRequest request, ServerCallContext context)
     {
         return _mapper.Map<CountingCircles>(await _countingCircleReader.GetAssignableListForDomainOfInfluence(GuidParser.Parse(request.DomainOfInfluenceId)));
     }
 
+    [AuthorizePermission(Permissions.CountingCircle.Read)]
     public override async Task<CountingCircles> ListSnapshot(ListCountingCircleSnapshotRequest request, ServerCallContext context)
     {
         return _mapper.Map<CountingCircles>(await _countingCircleSnapshotReader.List(request.DateTime?.ToDateTime() ?? DateTime.UtcNow, request.IncludeDeleted));
     }
 
+    [AuthorizePermission(Permissions.CountingCircle.Read)]
     public override async Task<DomainOfInfluenceCountingCircles> ListAssignedSnapshot(ListAssignedCountingCircleSnapshotRequest request, ServerCallContext context)
     {
         return _mapper.Map<DomainOfInfluenceCountingCircles>(await _countingCircleSnapshotReader.ListForDomainOfInfluence(request.DomainOfInfluenceId, request.DateTime?.ToDateTime() ?? DateTime.UtcNow));
     }
 
+    [AuthorizePermission(Permissions.CountingCircle.Merge)]
     public override async Task<IdValue> ScheduleMerger(ScheduleCountingCirclesMergerRequest request, ServerCallContext context)
     {
         var data = _mapper.Map<Core.Domain.CountingCirclesMerger>(request);
@@ -97,6 +107,7 @@ public class CountingCircleService : ServiceBase
         return new IdValue { Id = id.ToString() };
     }
 
+    [AuthorizePermission(Permissions.CountingCircle.Merge)]
     public override async Task<Empty> UpdateScheduledMerger(UpdateScheduledCountingCirclesMergerRequest request, ServerCallContext context)
     {
         var data = _mapper.Map<Core.Domain.CountingCirclesMerger>(request);
@@ -104,6 +115,7 @@ public class CountingCircleService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.CountingCircle.Merge)]
     public override async Task<Empty> DeleteScheduledMerger(DeleteScheduledCountingCirclesMergerRequest request, ServerCallContext context)
     {
         var newCcId = GuidParser.Parse(request.NewCountingCircleId);
@@ -111,6 +123,7 @@ public class CountingCircleService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.CountingCircle.Merge)]
     public override async Task<CountingCirclesMergers> ListMergers(ListCountingCirclesMergersRequest request, ServerCallContext context)
     {
         var data = await _countingCircleReader.ListMergers(request.Merged);

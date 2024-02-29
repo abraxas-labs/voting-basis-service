@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -60,7 +60,7 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
                     ProportionalElectionMandateAlgorithms =
                     {
                             SharedProto.ProportionalElectionMandateAlgorithm.HagenbachBischoff,
-                            SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim0Quorum,
+                            SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiQuorum,
                     },
                     MajorityElectionAbsoluteMajorityAlgorithm = SharedProto.CantonMajorityElectionAbsoluteMajorityAlgorithm.ValidBallotsDividedByTwo,
                     MajorityElectionInvalidVotes = false,
@@ -98,6 +98,7 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
                     VotingDocumentsEVotingEaiMessageType = "1234567",
                     ProtocolDomainOfInfluenceSortType = SharedProto.ProtocolDomainOfInfluenceSortType.Alphabetical,
                     ProtocolCountingCircleSortType = SharedProto.ProtocolCountingCircleSortType.SortNumber,
+                    CountingMachineEnabled = true,
                 },
                 EventInfo = GetMockedEventInfo(),
             });
@@ -107,6 +108,42 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
 
         var affectedDois = await RunOnDb(db => db.DomainOfInfluences.Where(doi => doi.CantonDefaults.Canton == DomainOfInfluenceCanton.Sg).ToListAsync());
         affectedDois.MatchSnapshot("affectedDomainOfInfluences");
+    }
+
+    [Theory]
+    [InlineData(SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim0Quorum, SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportional1Doi0DoiQuorum)]
+    [InlineData(SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum, SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum)]
+    public async Task TestProcessorWithDeprecatedProportionalElectionMandateAlgorithms(
+        SharedProto.ProportionalElectionMandateAlgorithm deprecatedMandateAlgorithm,
+        SharedProto.ProportionalElectionMandateAlgorithm expectedMandateAlgorithm)
+    {
+        var id = CantonSettingsMockedData.IdStGallen;
+
+        await TestEventPublisher.Publish(
+            new CantonSettingsUpdated
+            {
+                CantonSettings = new CantonSettingsEventData
+                {
+                    Id = id,
+                    Canton = SharedProto.DomainOfInfluenceCanton.Sg,
+                    SecureConnectId = SecureConnectTestDefaults.MockedTenantDefault.Id,
+                    AuthorityName = "Staatskanzlei St.Gallen",
+                    ProportionalElectionMandateAlgorithms =
+                    {
+                            SharedProto.ProportionalElectionMandateAlgorithm.HagenbachBischoff,
+                            deprecatedMandateAlgorithm,
+                    },
+                    MajorityElectionAbsoluteMajorityAlgorithm = SharedProto.CantonMajorityElectionAbsoluteMajorityAlgorithm.CandidateVotesDividedByTheDoubleOfNumberOfMandates,
+                    SwissAbroadVotingRight = SharedProto.SwissAbroadVotingRight.OnEveryCountingCircle,
+                    VotingDocumentsEVotingEaiMessageType = "1234567",
+                    ProtocolDomainOfInfluenceSortType = SharedProto.ProtocolDomainOfInfluenceSortType.Alphabetical,
+                    ProtocolCountingCircleSortType = SharedProto.ProtocolCountingCircleSortType.Alphabetical,
+                },
+                EventInfo = GetMockedEventInfo(),
+            });
+
+        var cantonSettings = await AdminClient.GetAsync(new() { Id = id });
+        cantonSettings.ProportionalElectionMandateAlgorithms.Should().Contain(expectedMandateAlgorithm);
     }
 
     [Fact]
@@ -165,8 +202,8 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
             ProportionalElectionMandateAlgorithms =
                 {
                     SharedProto.ProportionalElectionMandateAlgorithm.HagenbachBischoff,
-                    SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim0Quorum,
-                    SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum,
+                    SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiQuorum,
+                    SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum,
                 },
             MajorityElectionAbsoluteMajorityAlgorithm = SharedProto.CantonMajorityElectionAbsoluteMajorityAlgorithm.ValidBallotsDividedByTwo,
             MajorityElectionInvalidVotes = false,
@@ -197,6 +234,7 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
             VotingDocumentsEVotingEaiMessageType = "1234567",
             ProtocolDomainOfInfluenceSortType = SharedProto.ProtocolDomainOfInfluenceSortType.Alphabetical,
             ProtocolCountingCircleSortType = SharedProto.ProtocolCountingCircleSortType.SortNumber,
+            CountingMachineEnabled = true,
         };
         customizer?.Invoke(request);
         return request;

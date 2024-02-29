@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -77,6 +77,8 @@ public class MajorityElectionCreateTest : BaseGrpcTest<MajorityElectionService.M
                     ResultEntry = SharedProto.MajorityElectionResultEntry.FinalResults,
                     ReviewProcedure = SharedProto.MajorityElectionReviewProcedure.Electronically,
                     EnforceReviewProcedureForCountingCircles = true,
+                    CandidateCheckDigit = true,
+                    EnforceCandidateCheckDigitForCountingCircles = true,
                 },
             },
             new MajorityElectionCreated
@@ -242,6 +244,7 @@ public class MajorityElectionCreateTest : BaseGrpcTest<MajorityElectionService.M
             ReportDomainOfInfluenceLevel = 1,
             ReviewProcedure = SharedProto.MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
         };
 
         customizer?.Invoke(request);

@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -118,6 +118,42 @@ public class CantonSettingsCreateTest : BaseGrpcTest<CantonSettingsService.Canto
         affectedDois.MatchSnapshot("affectedDomainOfInfluences");
     }
 
+    [Theory]
+    [InlineData(SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim0Quorum, SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportional1Doi0DoiQuorum)]
+    [InlineData(SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum, SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum)]
+    public async Task TestProcessorWithDeprecatedProportionalElectionMandateAlgorithms(
+        SharedProto.ProportionalElectionMandateAlgorithm deprecatedMandateAlgorithm,
+        SharedProto.ProportionalElectionMandateAlgorithm expectedMandateAlgorithm)
+    {
+        var id = "2d203a3c-40ba-4b53-a57e-38909d71390c";
+
+        await TestEventPublisher.Publish(
+            new CantonSettingsCreated
+            {
+                CantonSettings = new CantonSettingsEventData
+                {
+                    Id = id,
+                    Canton = SharedProto.DomainOfInfluenceCanton.Tg,
+                    SecureConnectId = SecureConnectTestDefaults.MockedTenantDefault.Id,
+                    AuthorityName = "Staatskanzlei Thurgau",
+                    ProportionalElectionMandateAlgorithms =
+                    {
+                            SharedProto.ProportionalElectionMandateAlgorithm.HagenbachBischoff,
+                            deprecatedMandateAlgorithm,
+                    },
+                    MajorityElectionAbsoluteMajorityAlgorithm = SharedProto.CantonMajorityElectionAbsoluteMajorityAlgorithm.CandidateVotesDividedByTheDoubleOfNumberOfMandates,
+                    SwissAbroadVotingRight = SharedProto.SwissAbroadVotingRight.OnEveryCountingCircle,
+                    VotingDocumentsEVotingEaiMessageType = "1234567",
+                    ProtocolDomainOfInfluenceSortType = SharedProto.ProtocolDomainOfInfluenceSortType.Alphabetical,
+                    ProtocolCountingCircleSortType = SharedProto.ProtocolCountingCircleSortType.Alphabetical,
+                },
+                EventInfo = GetMockedEventInfo(),
+            });
+
+        var cantonSettings = await AdminClient.GetAsync(new() { Id = id });
+        cantonSettings.ProportionalElectionMandateAlgorithms.Should().Contain(expectedMandateAlgorithm);
+    }
+
     [Fact]
     public Task InvalidSecureConnectTenant()
         => AssertStatus(
@@ -165,6 +201,7 @@ public class CantonSettingsCreateTest : BaseGrpcTest<CantonSettingsService.Canto
             SecureConnectId = SecureConnectTestDefaults.MockedTenantDefault.Id,
             AuthorityName = "Thurgau",
             ElectoralRegistrationEnabled = true,
+            CountingMachineEnabled = true,
             ProportionalElectionMandateAlgorithms =
                 {
                     SharedProto.ProportionalElectionMandateAlgorithm.HagenbachBischoff,
@@ -201,6 +238,9 @@ public class CantonSettingsCreateTest : BaseGrpcTest<CantonSettingsService.Canto
             VotingDocumentsEVotingEaiMessageType = "1234567",
             ProtocolDomainOfInfluenceSortType = SharedProto.ProtocolDomainOfInfluenceSortType.Alphabetical,
             ProtocolCountingCircleSortType = SharedProto.ProtocolCountingCircleSortType.Alphabetical,
+            MultipleVoteBallotsEnabled = true,
+            ProportionalElectionUseCandidateCheckDigit = true,
+            MajorityElectionUseCandidateCheckDigit = true,
         };
         customizer?.Invoke(request);
         return request;

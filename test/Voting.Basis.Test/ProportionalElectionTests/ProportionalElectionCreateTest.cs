@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -77,6 +77,8 @@ public class ProportionalElectionCreateTest : BaseGrpcTest<ProportionalElectionS
                     BallotNumberGeneration = SharedProto.BallotNumberGeneration.RestartForEachBundle,
                     ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
                     EnforceReviewProcedureForCountingCircles = true,
+                    CandidateCheckDigit = false,
+                    EnforceCandidateCheckDigitForCountingCircles = true,
                 },
             },
             new ProportionalElectionCreated
@@ -90,7 +92,7 @@ public class ProportionalElectionCreateTest : BaseGrpcTest<ProportionalElectionS
                     DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen,
                     ContestId = ContestMockedData.IdBundContest,
                     NumberOfMandates = 3,
-                    MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum,
+                    MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum,
                     BallotNumberGeneration = SharedProto.BallotNumberGeneration.RestartForEachBundle,
                     ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Physically,
                 },
@@ -111,6 +113,40 @@ public class ProportionalElectionCreateTest : BaseGrpcTest<ProportionalElectionS
             x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id1, EntityState.Added));
         await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
             x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id2, EntityState.Added));
+    }
+
+    [Theory]
+    [InlineData(SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim0Quorum, SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportional1Doi0DoiQuorum)]
+    [InlineData(SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum, SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum)]
+    public async Task TestProcessorWithDeprecatedMandateAlgorithms(SharedProto.ProportionalElectionMandateAlgorithm deprecatedMandateAlgorithm, SharedProto.ProportionalElectionMandateAlgorithm expectedMandateAlgorithm)
+    {
+        var id = Guid.Parse("f6ebc06e-a252-4cf4-9aa7-9ad46dd517f3");
+        await TestEventPublisher.Publish(
+            new ProportionalElectionCreated
+            {
+                ProportionalElection = new ProportionalElectionEventData
+                {
+                    Id = id.ToString(),
+                    PoliticalBusinessNumber = "6000",
+                    OfficialDescription = { LanguageUtil.MockAllLanguages("Neue Proporzwahl 1") },
+                    ShortDescription = { LanguageUtil.MockAllLanguages("Proporzwahl 1") },
+                    DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau,
+                    ContestId = ContestMockedData.IdGossau,
+                    NumberOfMandates = 6,
+                    MandateAlgorithm = deprecatedMandateAlgorithm,
+                    BallotNumberGeneration = SharedProto.BallotNumberGeneration.RestartForEachBundle,
+                    ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
+                    EnforceReviewProcedureForCountingCircles = true,
+                    CandidateCheckDigit = false,
+                    EnforceCandidateCheckDigitForCountingCircles = true,
+                },
+            });
+
+        var proportionalElection = await AdminClient.GetAsync(new GetProportionalElectionRequest
+        {
+            Id = id.ToString(),
+        });
+        proportionalElection.MandateAlgorithm.Should().Be(expectedMandateAlgorithm);
     }
 
     [Fact]
@@ -189,7 +225,7 @@ public class ProportionalElectionCreateTest : BaseGrpcTest<ProportionalElectionS
     public async Task InvalidMandateAlgorithmByCantonShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(o => o.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum)),
+            async () => await AdminClient.CreateAsync(NewValidRequest(o => o.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum)),
             StatusCode.InvalidArgument);
     }
 
@@ -236,6 +272,7 @@ public class ProportionalElectionCreateTest : BaseGrpcTest<ProportionalElectionS
             NumberOfMandates = 5,
             ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
         };
 
         customizer?.Invoke(request);

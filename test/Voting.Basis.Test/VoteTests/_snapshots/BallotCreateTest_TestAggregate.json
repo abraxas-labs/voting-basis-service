@@ -22,7 +22,6 @@
       "Id": "239702ef-3064-498c-beea-ebf57a55ff05",
       "Position": 1,
       "BallotType": 1,
-      "Description": {},
       "BallotQuestions": [
         {
           "Number": 1,
@@ -42,7 +41,6 @@
       "Id": "259902ef-3064-498c-beea-ebf57a55ecab",
       "Position": 2,
       "BallotType": 1,
-      "Description": {},
       "BallotQuestions": [
         {
           "Number": 1,
@@ -62,7 +60,6 @@
       "Id": "0afc89f8-fc84-4a86-ace6-2cedfb5f8033",
       "Position": 3,
       "BallotType": 2,
-      "Description": {},
       "BallotQuestions": [
         {
           "Number": 1,

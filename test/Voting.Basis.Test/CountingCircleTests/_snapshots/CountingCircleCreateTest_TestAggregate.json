@@ -42,7 +42,8 @@
       },
       "Code": "",
       "SortNumber": 1,
-      "NameForProtocol": "Stadt St. Gallen"
+      "NameForProtocol": "Stadt St. Gallen",
+      "Electorates": []
     },
     {
       "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da",
@@ -86,7 +87,20 @@
       },
       "Code": "Code1234",
       "SortNumber": 1,
-      "NameForProtocol": "Stadt Uzwil"
+      "NameForProtocol": "Stadt Uzwil",
+      "Electorates": [
+        {
+          "DomainOfInfluenceTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "DomainOfInfluenceTypes": [
+            3
+          ]
+        }
+      ]
     }
   ]
 }

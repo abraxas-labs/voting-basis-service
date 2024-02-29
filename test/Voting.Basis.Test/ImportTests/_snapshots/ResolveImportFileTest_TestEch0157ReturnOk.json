@@ -64,7 +64,8 @@
         "Active": false,
         "ReportDomainOfInfluenceLevel": 0,
         "ReviewProcedure": 1,
-        "EnforceReviewProcedureForCountingCircles": false
+        "EnforceReviewProcedureForCountingCircles": false,
+        "EnforceCandidateCheckDigitForCountingCircles": false
       },
       "Candidates": [
         {
@@ -93,7 +94,8 @@
           "ZipCode": "zip code",
           "Locality": "locality",
           "Position": 1,
-          "Origin": "Heimatort"
+          "Origin": "Heimatort",
+          "CheckDigit": 0
         },
         {
           "Id": "",
@@ -126,7 +128,8 @@
           "ZipCode": "zip code",
           "Locality": "locality",
           "Position": 2,
-          "Origin": "Heimatort"
+          "Origin": "Heimatort",
+          "CheckDigit": 0
         },
         {
           "Id": "",
@@ -159,7 +162,8 @@
           "ZipCode": "zip code",
           "Locality": "locality",
           "Position": 3,
-          "Origin": "Heimatort"
+          "Origin": "Heimatort",
+          "CheckDigit": 0
         }
       ]
     }
@@ -194,7 +198,8 @@
         "Active": false,
         "BallotBundleSampleSize": 0,
         "ReviewProcedure": 1,
-        "EnforceReviewProcedureForCountingCircles": false
+        "EnforceReviewProcedureForCountingCircles": false,
+        "EnforceCandidateCheckDigitForCountingCircles": false
       },
       "Lists": [
         {
@@ -256,7 +261,8 @@
                   "Name": {},
                   "ShortDescription": {}
                 },
-                "Origin": "Heimatort"
+                "Origin": "Heimatort",
+                "CheckDigit": 0
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -295,7 +301,8 @@
                   "Name": {},
                   "ShortDescription": {}
                 },
-                "Origin": "Heimatort"
+                "Origin": "Heimatort",
+                "CheckDigit": 0
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -356,7 +363,8 @@
                   "Name": {},
                   "ShortDescription": {}
                 },
-                "Origin": "Heimatort"
+                "Origin": "Heimatort",
+                "CheckDigit": 0
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -417,7 +425,8 @@
                   "Name": {},
                   "ShortDescription": {}
                 },
-                "Origin": "Heimatort"
+                "Origin": "Heimatort",
+                "CheckDigit": 0
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -451,7 +460,8 @@
                   "Name": {},
                   "ShortDescription": {}
                 },
-                "Origin": "Heimatort"
+                "Origin": "Heimatort",
+                "CheckDigit": 0
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -485,7 +495,8 @@
                   "Name": {},
                   "ShortDescription": {}
                 },
-                "Origin": "Heimatort"
+                "Origin": "Heimatort",
+                "CheckDigit": 0
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -546,7 +557,8 @@
                   "Name": {},
                   "ShortDescription": {}
                 },
-                "Origin": "Heimatort"
+                "Origin": "Heimatort",
+                "CheckDigit": 0
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -607,7 +619,8 @@
                   "Name": {},
                   "ShortDescription": {}
                 },
-                "Origin": "Heimatort"
+                "Origin": "Heimatort",
+                "CheckDigit": 0
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -641,7 +654,8 @@
                   "Name": {},
                   "ShortDescription": {}
                 },
-                "Origin": "Heimatort"
+                "Origin": "Heimatort",
+                "CheckDigit": 0
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -675,7 +689,8 @@
                   "Name": {},
                   "ShortDescription": {}
                 },
-                "Origin": "Heimatort"
+                "Origin": "Heimatort",
+                "CheckDigit": 0
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -709,7 +724,8 @@
                   "Name": {},
                   "ShortDescription": {}
                 },
-                "Origin": "Heimatort"
+                "Origin": "Heimatort",
+                "CheckDigit": 0
               },
               "SourcePartyShort": {},
               "SourceParty": {}

@@ -50,7 +50,8 @@
             },
             "Code": "",
             "SortNumber": 22,
-            "NameForProtocol": "RapperswilJona"
+            "NameForProtocol": "RapperswilJona",
+            "Electorates": []
           },
           "MergedCountingCircleIds": [
             "2a3a799a-2437-47da-86fe-06decf70a267",
@@ -150,7 +151,8 @@
       },
       "Code": "",
       "SortNumber": 22,
-      "NameForProtocol": "RapperswilJona"
+      "NameForProtocol": "RapperswilJona",
+      "Electorates": []
     }
   },
   "assignedDoiIds": {
@@ -206,7 +208,8 @@
       },
       "Code": "code",
       "SortNumber": 40,
-      "NameForProtocol": "Stadt Rapperswil-Jona"
+      "NameForProtocol": "Stadt Rapperswil-Jona",
+      "Electorates": []
     }
   }
 }

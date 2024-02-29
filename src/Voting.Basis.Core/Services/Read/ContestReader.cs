@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -64,10 +64,9 @@ public class ContestReader
 
     public async Task<Contest> Get(Guid id)
     {
-        _auth.EnsureAdminOrElectionAdmin();
         var query = _repo.Query().AsSplitQuery();
 
-        if (_auth.IsAdmin())
+        if (_auth.HasPermission(Permissions.Contest.ReadAll))
         {
             query = query.Include(x => x.SimplePoliticalBusinesses
                     .OrderBy(pb => pb.DomainOfInfluence!.Type)
@@ -100,8 +99,6 @@ public class ContestReader
 
     public async Task<IEnumerable<ContestSummary>> ListSummaries(IReadOnlyCollection<ContestState> states)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
         var query = _repo.Query();
 
         if (states.Count > 0)
@@ -109,9 +106,9 @@ public class ContestReader
             query = query.Where(x => states.Contains(x.State));
         }
 
-        var isAdmin = _auth.IsAdmin();
+        var canReadAll = _auth.HasPermission(Permissions.Contest.ReadAll);
         List<Guid>? accessibleGuids = null;
-        if (!isAdmin)
+        if (!canReadAll)
         {
             var doiHierarchyGroups = await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups();
             accessibleGuids = doiHierarchyGroups.AccessibleDoiIds;
@@ -125,7 +122,7 @@ public class ContestReader
             {
                 Contest = c,
                 ContestEntriesDetails = c.SimplePoliticalBusinesses
-                    .Where(pb => pb.BusinessType != PoliticalBusinessType.SecondaryMajorityElection && (isAdmin || accessibleGuids!.Contains(pb.DomainOfInfluenceId)))
+                    .Where(pb => pb.BusinessType != PoliticalBusinessType.SecondaryMajorityElection && (canReadAll || accessibleGuids!.Contains(pb.DomainOfInfluenceId)))
                     .GroupBy(x => x.DomainOfInfluence!.Type)
                     .Select(x => new ContestSummaryEntryDetails
                     {
@@ -140,8 +137,6 @@ public class ContestReader
 
     public async Task<IEnumerable<Contest>> ListPast(DateTime date, Guid doiId)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
         return await _repo.Query()
             .Where(c => c.Date < date.Date && c.DomainOfInfluence.Id == doiId && c.DomainOfInfluence.SecureConnectId == _auth.Tenant.Id)
             .ToListAsync();
@@ -149,7 +144,6 @@ public class ContestReader
 
     public async Task<IEnumerable<PreconfiguredContestDate>> ListFuturePreconfiguredDates()
     {
-        _auth.EnsureAdminOrElectionAdmin();
         var from = _clock.UtcNow.Date;
         var to = from.Add(MaxPreconfiguredDatesDelta).Date.AddDays(1);
 
@@ -161,8 +155,6 @@ public class ContestReader
 
     public async Task<SharedProto.ContestDateAvailability> CheckAvailability(DateTime date, Guid domainOfInfluenceId)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
         if (!await _hierarchyRepo.Query()
                 .AnyAsync(h => h.TenantId == _auth.Tenant.Id && h.DomainOfInfluenceId == domainOfInfluenceId))
         {
@@ -174,8 +166,6 @@ public class ContestReader
 
     public async Task<List<ContestCountingCircleOption>> ListCountingCircleOptions(Guid contestId)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
         var contest = await _repo
                           .Query()
                           .Include(x => x.CountingCircleOptions).ThenInclude(x => x.CountingCircle)
@@ -193,15 +183,13 @@ public class ContestReader
         Func<ContestOverviewChangeMessage, Task> listener,
         CancellationToken cancellationToken)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
-        var isAdmin = _auth.IsAdmin();
-        var tenantAndParentDoiIds = isAdmin ? new() : (await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups()).TenantAndParentDoiIds;
+        var canReadAll = _auth.HasPermission(Permissions.Contest.ReadAll);
+        var tenantAndParentDoiIds = canReadAll ? new() : (await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups()).TenantAndParentDoiIds;
 
         await _contestOverviewChangeListener.Listen(
             e => e.Contest!.Data != null &&
                 (
-                    isAdmin ||
+                    canReadAll ||
                     tenantAndParentDoiIds.Contains(e.Contest.Data.DomainOfInfluenceId)
                 ),
             listener,
@@ -213,16 +201,14 @@ public class ContestReader
         Func<ContestDetailsChangeMessage, Task> listener,
         CancellationToken cancellationToken)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
-        var isAdmin = _auth.IsAdmin();
-        var accessibleDoiIds = isAdmin ? new() : (await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups()).AccessibleDoiIds;
+        var canReadAll = _auth.HasPermission(Permissions.Contest.ReadAll);
+        var accessibleDoiIds = canReadAll ? new() : (await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups()).AccessibleDoiIds;
 
         await _contestDetailsChangeListener.Listen(
             e => e.ContestId.HasValue &&
                  e.ContestId == contestId &&
                  (
-                     isAdmin ||
+                     canReadAll ||
                      e.PoliticalBusinessUnion?.Data != null ||
                      (e.PoliticalBusiness?.Data != null && accessibleDoiIds.Contains(e.PoliticalBusiness.Data.DomainOfInfluenceId)) ||
                      (e.ElectionGroup?.Data != null && accessibleDoiIds.Contains(e.ElectionGroup.Data.PrimaryMajorityElection.DomainOfInfluenceId))

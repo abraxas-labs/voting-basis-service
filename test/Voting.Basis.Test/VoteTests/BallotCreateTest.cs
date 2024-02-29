@@ -1,8 +1,9 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
@@ -216,6 +217,21 @@ public class BallotCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
     }
 
     [Fact]
+    public async Task MultipleBallotsShouldReturnOk()
+    {
+        await ModifyDbEntities<DomainOfInfluence>(
+            x => x.Id == DomainOfInfluenceMockedData.GuidStGallen,
+            x => x.CantonDefaults.MultipleVoteBallotsEnabled = true);
+        await AdminClient.CreateBallotAsync(NewValidRequest());
+        var response = await AdminClient.CreateBallotAsync(NewValidRequest(x => x.Position = 2));
+
+        var eventData = EventPublisherMock.GetPublishedEvents<BallotCreated>().Single(e => e.Ballot.Position == 2);
+
+        eventData.Ballot.Id.Should().Be(response.Id);
+        eventData.MatchSnapshot("event", e => e.Ballot.Id);
+    }
+
+    [Fact]
     public async Task VariantsBallotWithMoreThan3QuestionsShouldThrow()
     {
         await AssertStatus(
@@ -252,6 +268,28 @@ public class BallotCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                 x.VoteId = VoteMockedData.IdGossauVoteInContestBund)),
             StatusCode.FailedPrecondition,
             "Testing phase ended, cannot modify the contest");
+    }
+
+    [Fact]
+    public async Task MultipleBallotsIfNotActivatedShouldThrow()
+    {
+        await AdminClient.CreateBallotAsync(NewValidRequest());
+        await AssertStatus(
+            async () => await AdminClient.CreateBallotAsync(NewValidRequest(x => x.Position = 2)),
+            StatusCode.InvalidArgument,
+            "Multiple vote ballots are not enabled for this canton.");
+    }
+
+    [Fact]
+    public async Task MultipleBallotsIfNotContinuousShouldThrow()
+    {
+        await ModifyDbEntities<DomainOfInfluence>(
+            x => x.Id == DomainOfInfluenceMockedData.GuidStGallen,
+            x => x.CantonDefaults.MultipleVoteBallotsEnabled = true);
+        await AssertStatus(
+            async () => await AdminClient.CreateBallotAsync(NewValidRequest(x => x.Position = 2)),
+            StatusCode.InvalidArgument,
+            "The ballot position 2 is invalid, is non-continuous.");
     }
 
     protected override IEnumerable<string> UnauthorizedRoles()

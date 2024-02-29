@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -33,7 +33,6 @@ public class EnumProfile : Profile
         CreateEnumMap<SharedProto.MajorityElectionMandateAlgorithm, MajorityElectionMandateAlgorithm>();
         CreateEnumMap<SharedProto.MajorityElectionResultEntry, MajorityElectionResultEntry>();
         CreateEnumMap<SharedProto.PoliticalBusinessType, PoliticalBusinessType>();
-        CreateEnumMap<SharedProto.ProportionalElectionMandateAlgorithm, ProportionalElectionMandateAlgorithm>();
         CreateEnumMap<SharedProto.BallotType, BallotType>();
         CreateEnumMap<SharedProto.VoteResultAlgorithm, VoteResultAlgorithm>();
         CreateEnumMap<SharedProto.VoteResultEntry, VoteResultEntry>();
@@ -47,6 +46,14 @@ public class EnumProfile : Profile
         // map by value since the political business union type enum in the proto has the wrong prefix.
         CreateMap<SharedProto.PoliticalBusinessUnionType, PoliticalBusinessUnionType>()
             .ConvertUsingEnumMapping(opt => opt.MapByValue())
+            .ReverseMap();
+
+        // explicitly map deprecated values to the corresponding new value.
+        CreateMap<SharedProto.ProportionalElectionMandateAlgorithm, ProportionalElectionMandateAlgorithm>()
+            .ConvertUsingEnumMapping(opt => opt
+                .MapByName()
+                .MapValue(SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum, ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum)
+                .MapValue(SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim0Quorum, ProportionalElectionMandateAlgorithm.DoubleProportional1Doi0DoiQuorum))
             .ReverseMap();
     }
 

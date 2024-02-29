@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -20,6 +20,8 @@ public class CountingCircle : BaseCountingCircle, IHasSnapshotEntity<CountingCir
     public DateTime ModifiedOn { get; set; } = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
 
     public ICollection<ContestCountingCircleOption> ContestOptions { get; set; } = new HashSet<ContestCountingCircleOption>();
+
+    public ICollection<CountingCircleElectorate> Electorates { get; set; } = new HashSet<CountingCircleElectorate>();
 
     public CountingCirclesMerger? MergeTarget { get; set; }
 

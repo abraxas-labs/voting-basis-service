@@ -1,10 +1,12 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -22,21 +24,25 @@ public class DomainOfInfluenceUpdatePartiesTest : BaseTest
     public override async Task InitializeAsync()
     {
         await base.InitializeAsync();
-        await DomainOfInfluenceMockedData.Seed(RunScoped);
+        await ProportionalElectionMockedData.Seed(RunScoped);
     }
 
     [Fact]
     public async Task ProcessorShouldWork()
     {
+        var candidateId = Guid.Parse(ProportionalElectionMockedData.CandidateIdStGallenProportionalElectionInContestBund);
+        var candidateBefore = await RunOnDb(db => db.ProportionalElectionCandidates.SingleAsync(x => x.Id == candidateId));
+        candidateBefore.PartyId.Should().Be(DomainOfInfluenceMockedData.GuidPartyStGallenSP);
+
         await TestEventPublisher.Publish(new DomainOfInfluencePartyUpdated
         {
             EventInfo = GetMockedEventInfo(),
             Party = new DomainOfInfluencePartyEventData
             {
-                Id = DomainOfInfluenceMockedData.PartyIdStGallenSP,
+                Id = DomainOfInfluenceMockedData.PartyIdStGallenSVP,
                 DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen,
-                Name = { LanguageUtil.MockAllLanguages("Sozialdemokratische Partei edited") },
-                ShortDescription = { LanguageUtil.MockAllLanguages("SP edited") },
+                Name = { LanguageUtil.MockAllLanguages("Schweizerische Volkspartei edited") },
+                ShortDescription = { LanguageUtil.MockAllLanguages("SVP edited") },
             },
         });
         await TestEventPublisher.Publish(1, new DomainOfInfluencePartyCreated
@@ -53,7 +59,7 @@ public class DomainOfInfluenceUpdatePartiesTest : BaseTest
         await TestEventPublisher.Publish(2, new DomainOfInfluencePartyDeleted
         {
             EventInfo = GetMockedEventInfo(),
-            Id = DomainOfInfluenceMockedData.PartyIdStGallenSVP,
+            Id = DomainOfInfluenceMockedData.PartyIdStGallenSP,
             DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen,
         });
 
@@ -63,5 +69,9 @@ public class DomainOfInfluenceUpdatePartiesTest : BaseTest
             .ToListAsync());
 
         parties.MatchSnapshot();
+
+        var candidateAfter = await RunOnDb(db => db.ProportionalElectionCandidates.Include(c => c.Party).SingleAsync(x => x.Id == candidateId));
+        candidateAfter.PartyId.Should().Be(DomainOfInfluenceMockedData.GuidPartyStGallenSP); // Parties are soft deleted;
+        candidateAfter.Party.Should().BeNull();
     }
 }

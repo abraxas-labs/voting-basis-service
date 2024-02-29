@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -272,7 +272,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateParties(IEnumerable<DomainOfInfluenceParty> parties)
+    public void UpdateParties(IReadOnlyCollection<DomainOfInfluenceParty> parties)
     {
         SyncParties(parties);
     }
@@ -334,6 +334,11 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
     {
         var updatedConfigs = _mapper.Map<List<ExportConfiguration>>(updatedExportConfigurations);
 
+        if (updatedConfigs.Count != updatedConfigs.DistinctBy(p => p.Id).Count())
+        {
+            throw new ValidationException("each export configuration can only be provided exactly once");
+        }
+
         // Ensure Templates exists
         foreach (var key in updatedConfigs.SelectMany(x => x.ExportKeys))
         {
@@ -374,7 +379,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         }
     }
 
-    private void SyncParties(IEnumerable<DomainOfInfluenceParty> updatedParties)
+    private void SyncParties(IReadOnlyCollection<DomainOfInfluenceParty> updatedParties)
     {
         foreach (var party in updatedParties)
         {
@@ -382,6 +387,11 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
             {
                 party.Id = Guid.NewGuid();
             }
+        }
+
+        if (updatedParties.Count != updatedParties.DistinctBy(p => p.Id).Count())
+        {
+            throw new ValidationException("each domain of influence party can only be provided exactly once");
         }
 
         var diff = _parties.BuildDiff(

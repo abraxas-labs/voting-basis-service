@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -88,6 +88,8 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
 
     public bool EnforceReviewProcedureForCountingCircles { get; private set; }
 
+    public bool EnforceCandidateCheckDigitForCountingCircles { get; private set; }
+
     public void CreateFrom(ProportionalElection proportionalElection)
     {
         if (proportionalElection.Id == default)
@@ -141,6 +143,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         ValidationUtils.EnsureNotModified(BallotBundleSampleSize, proportionalElection.BallotBundleSampleSize);
         ValidationUtils.EnsureNotModified(ReviewProcedure, proportionalElection.ReviewProcedure);
         ValidationUtils.EnsureNotModified(EnforceReviewProcedureForCountingCircles, proportionalElection.EnforceReviewProcedureForCountingCircles);
+        ValidationUtils.EnsureNotModified(EnforceCandidateCheckDigitForCountingCircles, proportionalElection.EnforceCandidateCheckDigitForCountingCircles);
 
         var ev = new ProportionalElectionAfterTestingPhaseUpdated
         {
@@ -295,6 +298,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void CreateListUnionFrom(ProportionalElectionListUnion listUnion)
     {
         EnsureNotDeleted();
+        EnsureIsHagenbachBischoffElection();
         if (listUnion.Id == default)
         {
             listUnion.Id = Guid.NewGuid();
@@ -314,6 +318,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void UpdateListUnionFrom(ProportionalElectionListUnion listUnion)
     {
         EnsureNotDeleted();
+        EnsureIsHagenbachBischoffElection();
 
         var existingListUnion = FindListUnion(listUnion.Id);
         if (listUnion.ProportionalElectionRootListUnionId != existingListUnion.ProportionalElectionRootListUnionId)
@@ -340,6 +345,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void ReorderListUnions(Guid? rootListUnionId, IReadOnlyCollection<EntityOrder> orders)
     {
         EnsureNotDeleted();
+        EnsureIsHagenbachBischoffElection();
 
         _entityOrdersValidator.ValidateAndThrow(orders);
 
@@ -370,6 +376,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void DeleteListUnion(Guid listUnionId)
     {
         EnsureNotDeleted();
+        EnsureIsHagenbachBischoffElection();
         EnsureListUnionExists(listUnionId);
 
         var ev = new ProportionalElectionListUnionDeleted
@@ -385,6 +392,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void UpdateListUnionEntriesFrom(ProportionalElectionListUnionEntries listUnionEntries)
     {
         EnsureNotDeleted();
+        EnsureIsHagenbachBischoffElection();
         var existingListUnion = FindListUnion(listUnionEntries.ProportionalElectionListUnionId);
 
         if (listUnionEntries.ProportionalElectionListIds.Distinct().Count() != listUnionEntries.ProportionalElectionListIds.Count)
@@ -422,6 +430,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void UpdateListUnionMainList(Guid unionId, Guid? mainListId)
     {
         EnsureNotDeleted();
+        EnsureIsHagenbachBischoffElection();
 
         var listUnion = FindListUnion(unionId);
         var list = mainListId.HasValue
@@ -460,6 +469,8 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         EnsureListHasSpace(list, candidate);
         EnsureUniqueCandidateNumber(list, candidate);
 
+        candidate.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(list.OrderNumber + candidate.Number);
+
         var candidateEventData = _mapper.Map<ProportionalElectionCandidateEventData>(candidate);
         candidateEventData.ProportionalElectionId = Id.ToString();
 
@@ -484,6 +495,8 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         EnsureListHasSpace(list, candidate);
         EnsureUniqueCandidateNumber(list, candidate);
 
+        candidate.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(list.OrderNumber + candidate.Number);
+
         var candidateEventData = _mapper.Map<ProportionalElectionCandidateEventData>(candidate);
         candidateEventData.ProportionalElectionId = Id.ToString();
 
@@ -502,10 +515,14 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         _candidateValidator.ValidateAndThrow(candidate);
         EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, doiType);
 
+        var list = FindList(candidate.ProportionalElectionListId);
+        candidate.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(list.OrderNumber + candidate.Number);
+
         var existingCandidate = FindCandidate(candidate.ProportionalElectionListId, candidate.Id)
             ?? throw new ValidationException($"Candidate {candidate.Id} does not exist");
 
         ValidationUtils.EnsureNotModified(existingCandidate.Number, candidate.Number);
+        ValidationUtils.EnsureNotModified(existingCandidate.CheckDigit, candidate.CheckDigit);
         ValidationUtils.EnsureNotModified(existingCandidate.Position, candidate.Position);
         ValidationUtils.EnsureNotModified(existingCandidate.Accumulated, candidate.Accumulated);
         ValidationUtils.EnsureNotModified(existingCandidate.AccumulatedPosition, candidate.AccumulatedPosition);
@@ -1045,6 +1062,14 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         foreach (var subListUnion in subListUnions)
         {
             ListUnions.Remove(subListUnion);
+        }
+    }
+
+    private void EnsureIsHagenbachBischoffElection()
+    {
+        if (MandateAlgorithm != ProportionalElectionMandateAlgorithm.HagenbachBischoff)
+        {
+            throw new ValidationException("The election does not distribute mandates per Hagenbach-Bischoff algorithm");
         }
     }
 }

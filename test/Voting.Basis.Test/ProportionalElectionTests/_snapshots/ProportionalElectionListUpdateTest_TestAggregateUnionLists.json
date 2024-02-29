@@ -10,15 +10,6 @@
       }
     },
     {
-      "OrderNumber": "1a",
-      "ShortDescription": {
-        "de": "Liste 1 de",
-        "fr": "Liste 1 fr",
-        "it": "Liste 1 it",
-        "rm": "Liste 1 rm"
-      }
-    },
-    {
       "OrderNumber": "2",
       "ShortDescription": {
         "de": "Liste 2 de",

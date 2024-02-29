@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using FluentValidation;
@@ -14,5 +14,7 @@ public class ProportionalElectionValidator : AbstractValidator<ProportionalElect
         RuleFor(m => m.BallotBundleSampleSize).LessThanOrEqualTo(m => m.BallotBundleSize);
         RuleFor(p => p.BallotNumberGeneration).Equal(BallotNumberGeneration.RestartForEachBundle)
             .Unless(p => p.AutomaticBallotBundleNumberGeneration);
+        RuleFor(p => p.MandateAlgorithm)
+            .IsInEnum(); // prevent deprecated proto mandate algorithms inputs.
     }
 }

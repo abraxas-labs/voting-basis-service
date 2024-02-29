@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -8,18 +8,18 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using AutoMapper;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using Microsoft.AspNetCore.Authorization;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Domain;
 using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Write;
 using Voting.Lib.Common;
 using Voting.Lib.Grpc;
+using Voting.Lib.Iam.Authorization;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 using ServiceBase = Abraxas.Voting.Basis.Services.V1.ProportionalElectionService.ProportionalElectionServiceBase;
 
 namespace Voting.Basis.Services;
 
-[Authorize]
 public class ProportionalElectionService : ServiceBase
 {
     private readonly ProportionalElectionReader _proportionalElectionReader;
@@ -36,6 +36,7 @@ public class ProportionalElectionService : ServiceBase
         _mapper = mapper;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElection.Create)]
     public override async Task<ProtoModels.IdValue> Create(
         CreateProportionalElectionRequest request,
         ServerCallContext context)
@@ -45,6 +46,7 @@ public class ProportionalElectionService : ServiceBase
         return new ProtoModels.IdValue { Id = data.Id.ToString() };
     }
 
+    [AuthorizePermission(Permissions.ProportionalElection.Update)]
     public override async Task<Empty> Update(
         UpdateProportionalElectionRequest request,
         ServerCallContext context)
@@ -54,6 +56,7 @@ public class ProportionalElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElection.Update)]
     public override async Task<Empty> UpdateActiveState(
         UpdateProportionalElectionActiveStateRequest request,
         ServerCallContext context)
@@ -62,6 +65,7 @@ public class ProportionalElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElection.Delete)]
     public override async Task<Empty> Delete(
         DeleteProportionalElectionRequest request,
         ServerCallContext context)
@@ -70,6 +74,7 @@ public class ProportionalElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElection.Read)]
     public override async Task<ProtoModels.ProportionalElection> Get(
         GetProportionalElectionRequest request,
         ServerCallContext context)
@@ -77,6 +82,7 @@ public class ProportionalElectionService : ServiceBase
         return _mapper.Map<ProtoModels.ProportionalElection>(await _proportionalElectionReader.Get(GuidParser.Parse(request.Id)));
     }
 
+    [AuthorizePermission(Permissions.ProportionalElection.Read)]
     public override async Task<ProtoModels.ProportionalElections> List(
         ListProportionalElectionRequest request,
         ServerCallContext context)
@@ -84,6 +90,7 @@ public class ProportionalElectionService : ServiceBase
         return _mapper.Map<ProtoModels.ProportionalElections>(await _proportionalElectionReader.ListOwnedByTenantForContest(GuidParser.Parse(request.ContestId)));
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionList.Create)]
     public override async Task<ProtoModels.IdValue> CreateList(
         CreateProportionalElectionListRequest request,
         ServerCallContext context)
@@ -93,6 +100,7 @@ public class ProportionalElectionService : ServiceBase
         return new ProtoModels.IdValue { Id = data.Id.ToString() };
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionList.Read)]
     public override async Task<ProtoModels.ProportionalElectionLists> GetLists(
         GetProportionalElectionListsRequest request,
         ServerCallContext context)
@@ -101,6 +109,7 @@ public class ProportionalElectionService : ServiceBase
         return _mapper.Map<ProtoModels.ProportionalElectionLists>(lists);
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionList.Read)]
     public override async Task<ProtoModels.ProportionalElectionList> GetList(
         GetProportionalElectionListRequest request,
         ServerCallContext context)
@@ -109,6 +118,7 @@ public class ProportionalElectionService : ServiceBase
         return _mapper.Map<ProtoModels.ProportionalElectionList>(list);
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionList.Update)]
     public override async Task<Empty> UpdateList(
         UpdateProportionalElectionListRequest request,
         ServerCallContext context)
@@ -118,6 +128,7 @@ public class ProportionalElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionList.Update)]
     public override async Task<Empty> ReorderLists(
         ReorderProportionalElectionListsRequest request,
         ServerCallContext context)
@@ -127,6 +138,7 @@ public class ProportionalElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionList.Delete)]
     public override async Task<Empty> DeleteList(
         DeleteProportionalElectionListRequest request,
         ServerCallContext context)
@@ -135,6 +147,7 @@ public class ProportionalElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionListUnion.Create)]
     public override async Task<ProtoModels.IdValue> CreateListUnion(
         CreateProportionalElectionListUnionRequest request,
         ServerCallContext context)
@@ -144,6 +157,7 @@ public class ProportionalElectionService : ServiceBase
         return new ProtoModels.IdValue { Id = data.Id.ToString() };
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionListUnion.Update)]
     public override async Task<Empty> UpdateListUnion(
         UpdateProportionalElectionListUnionRequest request,
         ServerCallContext context)
@@ -153,6 +167,7 @@ public class ProportionalElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionListUnion.Update)]
     public override async Task<Empty> UpdateListUnionEntries(
         UpdateProportionalElectionListUnionEntriesRequest request,
         ServerCallContext context)
@@ -162,6 +177,7 @@ public class ProportionalElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionListUnion.Update)]
     public override async Task<Empty> UpdateListUnionMainList(
         UpdateProportionalElectionListUnionMainListRequest request,
         ServerCallContext context)
@@ -172,6 +188,7 @@ public class ProportionalElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionListUnion.Read)]
     public override async Task<ProtoModels.ProportionalElectionListUnions> GetListUnions(
         GetProportionalElectionListUnionsRequest request,
         ServerCallContext context)
@@ -180,6 +197,7 @@ public class ProportionalElectionService : ServiceBase
         return _mapper.Map<ProtoModels.ProportionalElectionListUnions>(listUnions);
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionListUnion.Read)]
     public override async Task<ProtoModels.ProportionalElectionListUnion> GetListUnion(
         GetProportionalElectionListUnionRequest request,
         ServerCallContext context)
@@ -188,6 +206,7 @@ public class ProportionalElectionService : ServiceBase
         return _mapper.Map<ProtoModels.ProportionalElectionListUnion>(list);
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionListUnion.Delete)]
     public override async Task<Empty> DeleteListUnion(
         DeleteProportionalElectionListUnionRequest request,
         ServerCallContext context)
@@ -196,6 +215,7 @@ public class ProportionalElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionListUnion.Read)]
     public override async Task<Empty> ReorderListUnions(
         ReorderProportionalElectionListUnionsRequest request,
         ServerCallContext context)
@@ -207,6 +227,7 @@ public class ProportionalElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionCandidate.Create)]
     public override async Task<ProtoModels.IdValue> CreateCandidate(
         CreateProportionalElectionCandidateRequest request,
         ServerCallContext context)
@@ -216,6 +237,7 @@ public class ProportionalElectionService : ServiceBase
         return new ProtoModels.IdValue { Id = data.Id.ToString() };
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionCandidate.Read)]
     public override async Task<ProtoModels.ProportionalElectionCandidates> GetCandidates(
         GetProportionalElectionCandidatesRequest request,
         ServerCallContext context)
@@ -224,6 +246,7 @@ public class ProportionalElectionService : ServiceBase
         return _mapper.Map<ProtoModels.ProportionalElectionCandidates>(candidates);
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionCandidate.Read)]
     public override async Task<ProtoModels.ProportionalElectionCandidate> GetCandidate(
         GetProportionalElectionCandidateRequest request,
         ServerCallContext context)
@@ -232,6 +255,7 @@ public class ProportionalElectionService : ServiceBase
         return _mapper.Map<ProtoModels.ProportionalElectionCandidate>(candidate);
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionCandidate.Update)]
     public override async Task<Empty> UpdateCandidate(
         UpdateProportionalElectionCandidateRequest request,
         ServerCallContext context)
@@ -241,6 +265,7 @@ public class ProportionalElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionCandidate.Update)]
     public override async Task<Empty> ReorderCandidates(
         ReorderProportionalElectionCandidatesRequest request,
         ServerCallContext context)
@@ -251,6 +276,7 @@ public class ProportionalElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.ProportionalElectionCandidate.Delete)]
     public override async Task<Empty> DeleteCandidate(
         DeleteProportionalElectionCandidateRequest request,
         ServerCallContext context)

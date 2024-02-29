@@ -48,7 +48,8 @@
           "rm": "FLiG rm"
         }
       },
-      "Origin": "origin"
+      "Origin": "origin",
+      "CheckDigit": 6
     },
     {
       "Id": "9efe090f-883b-4e86-89c2-cd132ea84cbd",
@@ -98,7 +99,8 @@
           "rm": "DEL rm"
         }
       },
-      "Origin": "origin 2"
+      "Origin": "origin 2",
+      "CheckDigit": 4
     }
   ]
 }

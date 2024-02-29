@@ -52,7 +52,8 @@
       "ZipCode": "zip code",
       "Locality": "locality",
       "Position": 3,
-      "Origin": "origin"
+      "Origin": "origin",
+      "CheckDigit": 7
     }
   }
 }

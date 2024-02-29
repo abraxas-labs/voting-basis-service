@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -9,17 +9,17 @@ using AutoMapper;
 using FluentValidation;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using Microsoft.AspNetCore.Authorization;
 using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Read.Snapshot;
 using Voting.Basis.Core.Services.Write;
 using Voting.Lib.Common;
 using Voting.Lib.Grpc;
+using Voting.Lib.Iam.Authorization;
+using Permissions = Voting.Basis.Core.Auth.Permissions;
 using ServiceBase = Abraxas.Voting.Basis.Services.V1.DomainOfInfluenceService.DomainOfInfluenceServiceBase;
 
 namespace Voting.Basis.Services;
 
-[Authorize]
 public class DomainOfInfluenceService : ServiceBase
 {
     private readonly DomainOfInfluenceReader _domainOfInfluenceReader;
@@ -39,6 +39,7 @@ public class DomainOfInfluenceService : ServiceBase
         _mapper = mapper;
     }
 
+    [AuthorizePermission(Permissions.DomainOfInfluence.Create)]
     public override async Task<IdValue> Create(
         CreateDomainOfInfluenceRequest request,
         ServerCallContext context)
@@ -48,6 +49,7 @@ public class DomainOfInfluenceService : ServiceBase
         return new IdValue { Id = data.Id.ToString() };
     }
 
+    [AuthorizePermission(Permissions.DomainOfInfluence.Update)]
     public override async Task<Empty> Update(
         UpdateDomainOfInfluenceRequest request,
         ServerCallContext context)
@@ -67,17 +69,20 @@ public class DomainOfInfluenceService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.DomainOfInfluence.Delete)]
     public override async Task<Empty> Delete(DeleteDomainOfInfluenceRequest request, ServerCallContext context)
     {
         await _domainOfInfluenceWriter.Delete(GuidParser.Parse(request.Id));
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.DomainOfInfluence.Read)]
     public override async Task<DomainOfInfluence> Get(
         GetDomainOfInfluenceRequest request,
         ServerCallContext context)
         => _mapper.Map<DomainOfInfluence>(await _domainOfInfluenceReader.Get(GuidParser.Parse(request.Id)));
 
+    [AuthorizePermission(Permissions.DomainOfInfluence.Read)]
     public override async Task<DomainOfInfluences> List(
         ListDomainOfInfluenceRequest request,
         ServerCallContext context)
@@ -93,11 +98,13 @@ public class DomainOfInfluenceService : ServiceBase
         return _mapper.Map<DomainOfInfluences>(domainOfInfluences);
     }
 
+    [AuthorizePermission(Permissions.DomainOfInfluenceHierarchy.Read)]
     public override async Task<DomainOfInfluences> ListTree(
         ListTreeDomainOfInfluenceRequest request,
         ServerCallContext context)
         => _mapper.Map<DomainOfInfluences>(await _domainOfInfluenceReader.ListTree());
 
+    [AuthorizePermission(Permissions.DomainOfInfluenceHierarchy.Update)]
     public override async Task<Empty> UpdateCountingCircleEntries(
         UpdateDomainOfInfluenceCountingCircleEntriesRequest request,
         ServerCallContext context)
@@ -107,6 +114,7 @@ public class DomainOfInfluenceService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.DomainOfInfluenceHierarchy.Read)]
     public override async Task<DomainOfInfluences> ListTreeSnapshot(
         ListTreeDomainOfInfluenceSnapshotRequest request,
         ServerCallContext context)
@@ -114,6 +122,7 @@ public class DomainOfInfluenceService : ServiceBase
         return _mapper.Map<DomainOfInfluences>(await _domainOfInfluenceSnapshotReader.ListTree(request.DateTime?.ToDateTime() ?? DateTime.UtcNow, request.IncludeDeleted));
     }
 
+    [AuthorizePermission(Permissions.DomainOfInfluence.Read)]
     public override async Task<DomainOfInfluences> ListSnapshot(
         ListDomainOfInfluenceSnapshotRequest request,
         ServerCallContext context)
@@ -121,6 +130,7 @@ public class DomainOfInfluenceService : ServiceBase
         return _mapper.Map<DomainOfInfluences>(await _domainOfInfluenceSnapshotReader.ListForCountingCircle(request.CountingCircleId, request.DateTime?.ToDateTime() ?? DateTime.UtcNow));
     }
 
+    [AuthorizePermission(Permissions.DomainOfInfluence.Read)]
     public override async Task<DomainOfInfluenceCantonDefaults> GetCantonDefaults(
         GetDomainOfInfluenceCantonDefaultsRequest request,
         ServerCallContext context)
@@ -128,6 +138,7 @@ public class DomainOfInfluenceService : ServiceBase
         return _mapper.Map<DomainOfInfluenceCantonDefaults>(await _domainOfInfluenceReader.GetCantonDefaults(GuidParser.Parse(request.DomainOfInfluenceId)));
     }
 
+    [AuthorizePermission(Permissions.DomainOfInfluenceLogo.Read)]
     public override async Task<DomainOfInfluenceLogo> GetLogo(GetDomainOfInfluenceLogoRequest request, ServerCallContext context)
     {
         var doiId = GuidParser.Parse(request.DomainOfInfluenceId);
@@ -139,12 +150,14 @@ public class DomainOfInfluenceService : ServiceBase
         };
     }
 
+    [AuthorizePermission(Permissions.DomainOfInfluenceLogo.Delete)]
     public override async Task<Empty> DeleteLogo(DeleteDomainOfInfluenceLogoRequest request, ServerCallContext context)
     {
         await _domainOfInfluenceWriter.DeleteLogo(GuidParser.Parse(request.DomainOfInfluenceId));
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.DomainOfInfluence.Read)]
     public override async Task<DomainOfInfluenceParties> ListParties(ListDomainOfInfluencePartiesRequest request, ServerCallContext context)
     {
         return _mapper.Map<DomainOfInfluenceParties>(await _domainOfInfluenceReader.ListParties(GuidParser.Parse(request.DomainOfInfluenceId)));

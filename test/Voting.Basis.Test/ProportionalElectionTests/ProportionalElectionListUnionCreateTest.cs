@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -154,6 +154,15 @@ public class ProportionalElectionListUnionCreateTest : BaseGrpcTest<Proportional
             })),
             StatusCode.FailedPrecondition,
             "Testing phase ended, cannot modify the contest");
+    }
+
+    [Fact]
+    public async Task ListUnionInNonHagenbachBischoffElectionShouldThrow()
+    {
+        await AssertStatus(
+            async () => await ElectionAdminUzwilClient.CreateListUnionAsync(NewValidRequest(o => o.ProportionalElectionId = ProportionalElectionMockedData.IdUzwilProportionalElectionInContestUzwilWithoutChilds)),
+            StatusCode.InvalidArgument,
+            "The election does not distribute mandates per Hagenbach-Bischoff algorithm");
     }
 
     protected override IEnumerable<string> UnauthorizedRoles()

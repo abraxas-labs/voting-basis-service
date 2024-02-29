@@ -1,12 +1,13 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
-using eCH_0155_4_0;
-using eCH_0159_4_0;
+using Ech0155_4_0;
+using Ech0159_4_0;
 using Voting.Lib.Common;
 using Voting.Lib.Ech.Utils;
 using DataModels = Voting.Basis.Data.Models;
@@ -32,7 +33,7 @@ internal static class VoteMapping
         [DataModels.DomainOfInfluenceType.Sk] = Languages.All.ToDictionary(x => x, _ => "Gemeinde-Volksabstimmung vom {0}"),
     };
 
-    internal static (VoteInformation VoteInformation, DataModels.DomainOfInfluenceType DoiType) ToEchVoteInformation(this IEnumerable<DataModels.Vote> votes)
+    internal static (EventInitialDeliveryVoteInformation VoteInformation, DataModels.DomainOfInfluenceType DoiType) ToEchVoteInformation(this IEnumerable<DataModels.Vote> votes)
     {
         // Ensure consistent ordering
         var orderedVotes = votes.OrderBy(x => x.PoliticalBusinessNumber).ToList();
@@ -40,34 +41,41 @@ internal static class VoteMapping
 
         var voteDescriptionFormats = VoteDescriptionMapping.GetValueOrDefault(firstVote.DomainOfInfluence!.Type, Languages.All.ToDictionary(x => x, _ => DefaultVoteDescription));
         var voteDescriptions = voteDescriptionFormats
-            .Select(x => VoteDescriptionInfoType.Create(x.Key, string.Format(x.Value, firstVote.Contest.Date.ToString(VoteDescriptionDateFormat))))
+            .Select(x => new VoteDescriptionInformationTypeVoteDescriptionInfo
+            {
+                Language = x.Key,
+                VoteDescription = string.Format(x.Value, firstVote.Contest.Date.ToString(VoteDescriptionDateFormat)),
+            })
             .ToList();
 
         // Since we do not have a corresponding vote type in our system, just use the first "VOTING vote" ID as the eCH-vote ID
-        var voteType = VoteType.Create(
-            firstVote.Id.ToString(),
-            firstVote.DomainOfInfluenceId.ToString(),
-            VoteDescriptionInformationType.Create(voteDescriptions));
+        var voteType = new VoteType
+        {
+            VoteIdentification = firstVote.Id.ToString(),
+            DomainOfInfluenceIdentification = firstVote.DomainOfInfluenceId.ToString(),
+            VoteDescription = voteDescriptions,
+        };
 
-        var questionNumber = 1;
         var ballotTypes = orderedVotes
             .SelectMany(v => v.Ballots.OrderBy(b => b.Position))
-            .Select((b, i) => b.ToEchBallot(i, ref questionNumber))
-            .ToArray();
-        return (VoteInformation.Create(voteType, ballotTypes), firstVote.DomainOfInfluence!.Type);
+            .Select((b, i) => b.ToEchBallot(i))
+            .ToList();
+        return (new EventInitialDeliveryVoteInformation
+        {
+            Vote = voteType,
+            Ballot = ballotTypes,
+        }, firstVote.DomainOfInfluence!.Type);
     }
 
-    internal static IEnumerable<DataModels.Vote> ToBasisVotes(this VoteInformation vote, IdLookup idLookup)
+    internal static IEnumerable<DataModels.Vote> ToBasisVotes(this EventInitialDeliveryVoteInformation vote, IdLookup idLookup)
     {
         // eCH votes correspond to VOTING ballots
-        for (var i = 0; i < vote.Ballot.Length; i++)
+        for (var i = 0; i < vote.Ballot.Count; i++)
         {
             var ballot = vote.Ballot[i];
 
             var voteId = Guid.NewGuid();
-            var descriptionInfos = ballot
-                .BallotDescription
-                ?.BallotDescriptionInfo;
+            var descriptionInfos = ballot.BallotDescription;
             var longDescription = descriptionInfos.ToLanguageDictionary(x => x.Language, x => x.BallotDescriptionLong, ballot.BallotIdentification);
             var shortDescription = descriptionInfos.ToLanguageDictionary(x => x.Language, x => x.BallotDescriptionShort, ballot.BallotIdentification);
             var basisBallot = ballot.ToBasisBallot(voteId, idLookup, i);
@@ -88,70 +96,88 @@ internal static class VoteMapping
         }
     }
 
-    private static Ballot ToEchBallot(this DataModels.Ballot ballot, int positionOffset, ref int questionNumber)
+    private static BallotType ToEchBallot(this DataModels.Ballot ballot, int positionOffset)
     {
         // Use the description from the vote instead of the ballot, since ballot descriptions are optional in VOTING.
         // At least in the cantons SG and TG, they are never filled, since they use a separate vote per ballot.
         var vote = ballot.Vote;
         var descriptionInfos = vote.OfficialDescription
-            .Select(d => BallotDescriptionInfo.Create(d.Key, d.Value, vote.ShortDescription.GetValueOrDefault(d.Key)))
+            .Select(d => new BallotDescriptionInformationTypeBallotDescriptionInfo
+            {
+                Language = d.Key,
+                BallotDescriptionLong = d.Value,
+                BallotDescriptionShort = vote.ShortDescription.GetValueOrDefault(d.Key),
+            })
             .ToList();
+        var ballotPosition = ballot.Position + positionOffset;
+        var ballotType = new BallotType
+        {
+            BallotIdentification = ballot.Id.ToString(),
+            BallotPosition = ballotPosition.ToString(),
+            BallotDescription = descriptionInfos,
+        };
 
-        var ballotDescription = BallotDescriptionInformation.Create(descriptionInfos);
+        if (ballot.BallotType == DataModels.BallotType.StandardBallot)
+        {
+            ballotType.StandardBallot = ballot.ToEchStandardBallot(ballotPosition);
+        }
+        else
+        {
+            ballotType.VariantBallot = ballot.ToEchVariantBallot(ballotPosition);
+        }
 
-        var ballotTypeChoice = ballot.BallotType == DataModels.BallotType.StandardBallot
-            ? (object)ballot.ToEchStandardBallot(ref questionNumber)
-            : ballot.ToEchVariantBallot(ref questionNumber);
-
-        return Ballot.Create(
-            ballot.Id.ToString(),
-            ballot.Position + positionOffset,
-            ballotDescription,
-            null,
-            ballotTypeChoice,
-            null);
+        return ballotType;
     }
 
-    private static StandardBallotType ToEchStandardBallot(this DataModels.Ballot ballot, ref int questionNumber)
+    private static BallotTypeStandardBallot ToEchStandardBallot(this DataModels.Ballot ballot, int ballotPosition)
     {
         var question = ballot.BallotQuestions.First();
 
         var questionInfos = question.Question
-            .Select(d => BallotQuestionInfo.Create(d.Key, d.Value))
+            .Select(d => new BallotQuestionTypeBallotQuestionInfo
+            {
+                Language = d.Key,
+                BallotQuestion = d.Value,
+            })
             .ToList();
-        var questionType = BallotQuestion.Create(questionInfos);
 
-        var questionNumberAsString = questionNumber.ToString(CultureInfo.InvariantCulture);
-        questionNumber++;
-
-        return StandardBallotType.Create(
-            BallotQuestionIdConverter.ToEchBallotQuestionId(ballot.Id, false, question.Number),
-            questionNumberAsString,
-            AnswerInformationType.Create(AnswerType.YesNoEmpty),
-            questionType);
+        return new BallotTypeStandardBallot
+        {
+            QuestionIdentification = BallotQuestionIdConverter.ToEchBallotQuestionId(ballot.Id, false, question.Number),
+            BallotQuestionNumber = ballotPosition.ToString(CultureInfo.InvariantCulture), // A standard ballot only includes the ballot position on question number display.
+            AnswerInformation = new AnswerInformationType { AnswerType = AnswerTypeType.Item2, },
+            BallotQuestion = questionInfos,
+        };
     }
 
-    private static VariantBallot ToEchVariantBallot(this DataModels.Ballot ballot, ref int questionNumber)
+    private static BallotTypeVariantBallot ToEchVariantBallot(this DataModels.Ballot ballot, int ballotPosition)
     {
         var questionInformations = new List<QuestionInformationType>();
 
         var questionIdsByNumber = new Dictionary<int, string>();
+        var questionNumber = 1;
+
         foreach (var question in ballot.BallotQuestions.OrderBy(q => q.Number))
         {
             var questionInfos = question.Question
-                .Select(d => BallotQuestionInfo.Create(d.Key, d.Value))
+                .Select(d => new BallotQuestionTypeBallotQuestionInfo
+                {
+                    Language = d.Key,
+                    BallotQuestion = d.Value,
+                })
                 .ToList();
-            var questionType = BallotQuestion.Create(questionInfos);
 
             var questionId = BallotQuestionIdConverter.ToEchBallotQuestionId(ballot.Id, false, question.Number);
             questionIdsByNumber[question.Number] = questionId;
 
-            var questionInformation = QuestionInformationType.Create(
-                questionId,
-                questionNumber.ToString(CultureInfo.InvariantCulture),
-                (uint?)questionNumber,
-                AnswerType.YesNoEmpty,
-                questionType);
+            var questionInformation = new QuestionInformationType
+            {
+                QuestionIdentification = questionId,
+                BallotQuestionNumber = ballotPosition.ToString(CultureInfo.InvariantCulture) + ConvertBasisQuestionNumber(questionNumber),
+                AnswerInformation = new AnswerInformationType { AnswerType = AnswerTypeType.Item2 },
+                BallotQuestion = questionInfos,
+            };
+
             questionInformations.Add(questionInformation);
 
             questionNumber++;
@@ -161,45 +187,54 @@ internal static class VoteMapping
         foreach (var tieBreakQuestion in ballot.TieBreakQuestions.OrderBy(t => t.Number))
         {
             var questionInfos = tieBreakQuestion.Question
-                .Select(d => TieBreakQuestionInfo.Create(d.Key, d.Value))
+                .Select(d => new TieBreakQuestionTypeTieBreakQuestionInfo
+                {
+                    Language = d.Key,
+                    TieBreakQuestion = d.Value,
+                })
                 .ToList();
-            var tieBreakQuestionType = TieBreakQuestion.Create(questionInfos);
 
-            var tieBreakQuestionInformation = TieBreakInformationType.Create(
-                AnswerType.InitiativeCounterdraft,
-                BallotQuestionIdConverter.ToEchBallotQuestionId(ballot.Id, true, tieBreakQuestion.Number),
-                questionNumber.ToString(CultureInfo.InvariantCulture),
-                (uint?)questionNumber,
-                tieBreakQuestionType,
-                questionIdsByNumber[tieBreakQuestion.Question1Number],
-                questionIdsByNumber[tieBreakQuestion.Question2Number]);
+            var tieBreakQuestionInformation = new TieBreakInformationType
+            {
+                AnswerInformation = new AnswerInformationType { AnswerType = AnswerTypeType.Item4 },
+                QuestionIdentification = BallotQuestionIdConverter.ToEchBallotQuestionId(ballot.Id, true, tieBreakQuestion.Number),
+                TieBreakQuestionNumber = ballotPosition.ToString(CultureInfo.InvariantCulture) + ConvertBasisQuestionNumber(questionNumber),
+                TieBreakQuestion = questionInfos,
+                ReferencedQuestion1 = questionIdsByNumber[tieBreakQuestion.Question1Number],
+                ReferencedQuestion2 = questionIdsByNumber[tieBreakQuestion.Question2Number],
+            };
+
             tieBreakQuestionInformations.Add(tieBreakQuestionInformation);
 
             questionNumber++;
         }
 
-        return VariantBallot.Create(questionInformations, tieBreakQuestionInformations);
+        return new BallotTypeVariantBallot
+        {
+            QuestionInformation = questionInformations,
+            TieBreakInformation = tieBreakQuestionInformations,
+        };
     }
 
-    private static DataModels.Ballot ToBasisBallot(this Ballot ballot, Guid voteId, IdLookup idLookup, int positionOffset)
+    private static DataModels.Ballot ToBasisBallot(this BallotType ballot, Guid voteId, IdLookup idLookup, int positionOffset)
     {
         var ballotId = idLookup.GuidForId(ballot.BallotIdentification);
         var ballotType = DataModels.BallotType.StandardBallot;
         var questions = new List<DataModels.BallotQuestion>();
         var tieBreakQuestions = new List<DataModels.TieBreakQuestion>();
 
-        if (ballot.BallotTypeChoice is StandardBallotType standardBallot)
+        if (ballot.StandardBallot != null)
         {
-            questions.Add(standardBallot.ToBasisQuestion(ballotId, idLookup));
+            questions.Add(ballot.StandardBallot.ToBasisQuestion(ballotId, idLookup));
         }
-        else if (ballot.BallotTypeChoice is VariantBallot variantBallot)
+        else if (ballot.VariantBallot != null)
         {
             ballotType = DataModels.BallotType.VariantsBallot;
-            questions.AddRange(variantBallot.QuestionInformation.Select((x, i) => x.ToBasisQuestion(ballotId, idLookup, i)));
+            questions.AddRange(ballot.VariantBallot.QuestionInformation.Select((x, i) => x.ToBasisQuestion(ballotId, idLookup, i)));
 
-            if (variantBallot.TieBreakInformation?.Count > 0)
+            if (ballot.VariantBallot.TieBreakInformation?.Count > 0)
             {
-                tieBreakQuestions.AddRange(variantBallot.TieBreakInformation.Select((x, i) => x.ToBasisTieBreakQuestion(ballotId, idLookup, i, questions)));
+                tieBreakQuestions.AddRange(ballot.VariantBallot.TieBreakInformation.Select((x, i) => x.ToBasisTieBreakQuestion(ballotId, idLookup, i, questions)));
             }
         }
 
@@ -207,7 +242,7 @@ internal static class VoteMapping
         {
             Id = ballotId,
             VoteId = voteId,
-            Position = ballot.BallotPosition - positionOffset,
+            Position = int.Parse(ballot.BallotPosition) - positionOffset,
             BallotType = ballotType,
             BallotQuestions = questions,
             TieBreakQuestions = tieBreakQuestions,
@@ -215,11 +250,9 @@ internal static class VoteMapping
         };
     }
 
-    private static DataModels.BallotQuestion ToBasisQuestion(this StandardBallotType ballot, Guid ballotId, IdLookup idLookup)
+    private static DataModels.BallotQuestion ToBasisQuestion(this BallotTypeStandardBallot ballot, Guid ballotId, IdLookup idLookup)
     {
-        var questionInfos = ballot
-            .BallotQuestion
-            ?.BallotQuestionInfo;
+        var questionInfos = ballot.BallotQuestion;
         var question = questionInfos.ToLanguageDictionary(x => x.Language, x => x.BallotQuestion, ballot.QuestionIdentification);
 
         return new DataModels.BallotQuestion
@@ -233,9 +266,7 @@ internal static class VoteMapping
 
     private static DataModels.BallotQuestion ToBasisQuestion(this QuestionInformationType questionType, Guid ballotId, IdLookup idLookup, int position)
     {
-        var questionInfos = questionType
-            .BallotQuestion
-            .BallotQuestionInfo;
+        var questionInfos = questionType.BallotQuestion;
         var question = questionInfos.ToLanguageDictionary(x => x.Language, x => x.BallotQuestion, questionType.QuestionIdentification);
 
         return new DataModels.BallotQuestion
@@ -254,9 +285,7 @@ internal static class VoteMapping
         int position,
         List<DataModels.BallotQuestion> ballotQuestions)
     {
-        var questionInfos = tieBreak
-            .TieBreakQuestion
-            ?.TieBreakQuestionInfo;
+        var questionInfos = tieBreak.TieBreakQuestion;
         var question = questionInfos.ToLanguageDictionary(x => x.Language, x => x.TieBreakQuestion, tieBreak.TieBreakQuestionNumber);
 
         return new DataModels.TieBreakQuestion
@@ -275,5 +304,16 @@ internal static class VoteMapping
         var mappedQuestionId = idLookup.GuidForId(questionId);
         var question = ballotQuestions.First(q => q.Id == mappedQuestionId);
         return question.Number;
+    }
+
+    private static char ConvertBasisQuestionNumber(int number)
+    {
+        if (number < 1 || number > 26)
+        {
+            throw new ValidationException($"Cannot convert the question number '{number}' to an eCH number");
+        }
+
+        // 1 = a, 2 = b, ...
+        return (char)(number + 96);
     }
 }

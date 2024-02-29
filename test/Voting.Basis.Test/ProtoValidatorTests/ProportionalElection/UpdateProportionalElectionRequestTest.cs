@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -34,6 +34,7 @@ public class UpdateProportionalElectionRequestTest : ProtoValidatorBaseTest<Upda
         yield return NewValidRequest(x => x.BallotBundleSampleSize = 0);
         yield return NewValidRequest(x => x.BallotBundleSampleSize = 500);
         yield return NewValidRequest(x => x.EnforceReviewProcedureForCountingCircles = false);
+        yield return NewValidRequest(x => x.EnforceCandidateCheckDigitForCountingCircles = false);
     }
 
     protected override IEnumerable<UpdateProportionalElectionRequest> NotOkMessages()
@@ -93,6 +94,7 @@ public class UpdateProportionalElectionRequestTest : ProtoValidatorBaseTest<Upda
             BallotBundleSampleSize = 10,
             ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
         };
 
         action?.Invoke(request);

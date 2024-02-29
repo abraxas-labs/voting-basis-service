@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -68,6 +68,41 @@ public class ProportionalElectionUpdateTest : BaseGrpcTest<ProportionalElectionS
 
         await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
             x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id, EntityState.Modified));
+    }
+
+    [Theory]
+    [InlineData(SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim0Quorum, SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportional1Doi0DoiQuorum)]
+    [InlineData(SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum, SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum)]
+    public async Task TestProcessorWithDeprecatedMandateAlgorithms(SharedProto.ProportionalElectionMandateAlgorithm deprecatedMandateAlgorithm, SharedProto.ProportionalElectionMandateAlgorithm expectedMandateAlgorithm)
+    {
+        var id = Guid.Parse(ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund);
+
+        await TestEventPublisher.Publish(
+            new ProportionalElectionUpdated
+            {
+                ProportionalElection = new ProportionalElectionEventData
+                {
+                    Id = id.ToString(),
+                    PoliticalBusinessNumber = "6000",
+                    OfficialDescription = { LanguageUtil.MockAllLanguages("Updated Official Description") },
+                    ShortDescription = { LanguageUtil.MockAllLanguages("Updated Short Description") },
+                    DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau,
+                    ContestId = ContestMockedData.IdGossau,
+                    NumberOfMandates = 6,
+                    MandateAlgorithm = deprecatedMandateAlgorithm,
+                    BallotNumberGeneration = SharedProto.BallotNumberGeneration.RestartForEachBundle,
+                    ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
+                    EnforceReviewProcedureForCountingCircles = true,
+                    CandidateCheckDigit = false,
+                    EnforceCandidateCheckDigitForCountingCircles = true,
+                },
+            });
+
+        var proportionalElection = await AdminClient.GetAsync(new GetProportionalElectionRequest
+        {
+            Id = id.ToString(),
+        });
+        proportionalElection.MandateAlgorithm.Should().Be(expectedMandateAlgorithm);
     }
 
     [Fact]
@@ -195,8 +230,25 @@ public class ProportionalElectionUpdateTest : BaseGrpcTest<ProportionalElectionS
     public async Task InvalidMandateAlgorithmByCantonShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o => o.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim0Quorum)),
-            StatusCode.InvalidArgument);
+            async () => await AdminClient.UpdateAsync(NewValidRequest(o => o.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiQuorum)),
+            StatusCode.InvalidArgument,
+            "Canton settings does not allow proportional election mandate algorithm");
+    }
+
+    [Fact]
+    public async Task UpdateMandateAlgorithmWithPbUnionsShouldThrow()
+    {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => doi.Id == DomainOfInfluenceMockedData.GuidStGallen,
+            doi => doi.CantonDefaults.ProportionalElectionMandateAlgorithms = new()
+            {
+                ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiQuorum,
+            });
+
+        await AssertStatus(
+            async () => await AdminClient.UpdateAsync(NewValidRequest(o => o.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiQuorum)),
+            StatusCode.FailedPrecondition,
+            "The mandate algorithm may only be changed in the case of proportional elections without unions");
     }
 
     [Fact]
@@ -301,6 +353,7 @@ public class ProportionalElectionUpdateTest : BaseGrpcTest<ProportionalElectionS
             NumberOfMandates = 2,
             ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = true,
         };
 
         customizer?.Invoke(request);
@@ -330,6 +383,7 @@ public class ProportionalElectionUpdateTest : BaseGrpcTest<ProportionalElectionS
                 NumberOfMandates = 2,
                 ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
                 EnforceReviewProcedureForCountingCircles = true,
+                EnforceCandidateCheckDigitForCountingCircles = true,
             },
         };
 

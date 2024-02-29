@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Threading.Tasks;
@@ -7,16 +7,16 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using AutoMapper;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using Microsoft.AspNetCore.Authorization;
 using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Write;
 using Voting.Lib.Common;
 using Voting.Lib.Grpc;
+using Voting.Lib.Iam.Authorization;
+using Permissions = Voting.Basis.Core.Auth.Permissions;
 using ServiceBase = Abraxas.Voting.Basis.Services.V1.VoteService.VoteServiceBase;
 
 namespace Voting.Basis.Services;
 
-[Authorize]
 public class VoteService : ServiceBase
 {
     private readonly VoteReader _voteReader;
@@ -33,6 +33,7 @@ public class VoteService : ServiceBase
         _mapper = mapper;
     }
 
+    [AuthorizePermission(Permissions.Vote.Create)]
     public override async Task<IdValue> Create(
         CreateVoteRequest request,
         ServerCallContext context)
@@ -42,6 +43,7 @@ public class VoteService : ServiceBase
         return new IdValue { Id = data.Id.ToString() };
     }
 
+    [AuthorizePermission(Permissions.Vote.Update)]
     public override async Task<Empty> Update(
         UpdateVoteRequest request,
         ServerCallContext context)
@@ -51,6 +53,7 @@ public class VoteService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.Vote.Update)]
     public override async Task<Empty> UpdateActiveState(
         UpdateVoteActiveStateRequest request,
         ServerCallContext context)
@@ -59,6 +62,7 @@ public class VoteService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.Vote.Delete)]
     public override async Task<Empty> Delete(
         DeleteVoteRequest request,
         ServerCallContext context)
@@ -67,6 +71,7 @@ public class VoteService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.Vote.Read)]
     public override async Task<Vote> Get(
         GetVoteRequest request,
         ServerCallContext context)
@@ -74,6 +79,7 @@ public class VoteService : ServiceBase
         return _mapper.Map<Vote>(await _voteReader.Get(GuidParser.Parse(request.Id)));
     }
 
+    [AuthorizePermission(Permissions.VoteBallot.Create)]
     public override async Task<IdValue> CreateBallot(
         CreateBallotRequest request,
         ServerCallContext context)
@@ -83,6 +89,7 @@ public class VoteService : ServiceBase
         return new IdValue { Id = data.Id.ToString() };
     }
 
+    [AuthorizePermission(Permissions.VoteBallot.Update)]
     public override async Task<Empty> UpdateBallot(
         UpdateBallotRequest request,
         ServerCallContext context)
@@ -92,6 +99,7 @@ public class VoteService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.VoteBallot.Delete)]
     public override async Task<Empty> DeleteBallot(
         DeleteBallotRequest request,
         ServerCallContext context)

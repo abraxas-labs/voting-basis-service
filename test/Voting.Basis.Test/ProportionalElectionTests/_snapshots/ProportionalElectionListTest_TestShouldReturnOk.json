@@ -16,7 +16,7 @@
         "rm": "Proporzwahl St.Gallen rm"
       },
       "NumberOfMandates": 5,
-      "MandateAlgorithm": 3,
+      "MandateAlgorithm": 1,
       "CandidateCheckDigit": false,
       "BallotBundleSize": 50,
       "AutomaticBallotBundleNumberGeneration": true,
@@ -28,7 +28,8 @@
       "Active": true,
       "BallotBundleSampleSize": 1,
       "ReviewProcedure": 1,
-      "EnforceReviewProcedureForCountingCircles": true
+      "EnforceReviewProcedureForCountingCircles": true,
+      "EnforceCandidateCheckDigitForCountingCircles": true
     },
     {
       "Id": "fa69e964-0a02-4d16-b417-247e8987021a",
@@ -46,7 +47,7 @@
         "rm": "Proporzwahl Gossau rm"
       },
       "NumberOfMandates": 3,
-      "MandateAlgorithm": 2,
+      "MandateAlgorithm": 1,
       "CandidateCheckDigit": true,
       "BallotBundleSize": 10,
       "AutomaticBallotBundleNumberGeneration": true,
@@ -58,7 +59,8 @@
       "Active": true,
       "BallotBundleSampleSize": 1,
       "ReviewProcedure": 1,
-      "EnforceReviewProcedureForCountingCircles": true
+      "EnforceReviewProcedureForCountingCircles": true,
+      "EnforceCandidateCheckDigitForCountingCircles": false
     },
     {
       "Id": "06f7ecb7-e175-4c3b-9ea5-cfc138d08278",
@@ -76,7 +78,7 @@
         "rm": "Proporzwahl St.Gallen 2 rm"
       },
       "NumberOfMandates": 5,
-      "MandateAlgorithm": 2,
+      "MandateAlgorithm": 1,
       "CandidateCheckDigit": true,
       "BallotBundleSize": 25,
       "AutomaticBallotBundleNumberGeneration": true,
@@ -88,7 +90,8 @@
       "Active": false,
       "BallotBundleSampleSize": 3,
       "ReviewProcedure": 1,
-      "EnforceReviewProcedureForCountingCircles": true
+      "EnforceReviewProcedureForCountingCircles": true,
+      "EnforceCandidateCheckDigitForCountingCircles": true
     }
   ]
 }

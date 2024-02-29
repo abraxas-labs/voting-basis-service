@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -7,8 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
-using eCH_0155_4_0;
-using Voting.Lib.Ech.Ech0157.Models;
+using Ech0155_4_0;
+using Voting.Lib.Ech.Ech0157_4_0.Models;
 using DataModels = Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Ech.Mapping;
@@ -17,37 +17,31 @@ internal static class ElectionMapping
 {
     internal static ElectionDescriptionInformationType ToEchElectionDescription(this DataModels.PoliticalBusiness election)
     {
-        var descriptionInfos = new List<ElectionDescriptionInfoType>();
+        var descriptionInfos = new ElectionDescriptionInformationType();
 
         foreach (var (lang, officialDescription) in election.OfficialDescription)
         {
             election.ShortDescription.TryGetValue(lang, out var shortDescription);
 
             // Truncating to 255, since eCH doesn't allow any longer strings in this field.
-            descriptionInfos.Add(ElectionDescriptionInfoType.Create(lang, officialDescription.Truncate(255), shortDescription));
+            descriptionInfos.ElectionDescriptionInfo.Add(new ElectionDescriptionInformationTypeElectionDescriptionInfo
+            {
+                Language = lang,
+                ElectionDescription = officialDescription.Truncate(255),
+                ElectionDescriptionShort = shortDescription,
+            });
         }
 
-        return ElectionDescriptionInformationType.Create(descriptionInfos);
+        return descriptionInfos;
     }
 
-    internal static ElectionInformationExtension? GetExtension(object? extension)
+    internal static ElectionInformationExtension? GetExtension(IEnumerable<XmlElement>? extension)
     {
-        if (extension == null)
+        var extensionNode = extension?.FirstOrDefault();
+        if (extensionNode == null)
         {
             return null;
         }
-
-        var extensionChildNodes = extension as XmlNode[]
-            ?? throw new InvalidOperationException("Election information extension not set as XML node");
-
-        var childElement = extensionChildNodes.FirstOrDefault(n => n is XmlElement);
-        if (childElement == null)
-        {
-            return null;
-        }
-
-        var extensionNode = childElement?.ParentNode
-            ?? throw new InvalidOperationException("Election information extension child node has no parent node");
 
         using var reader = new StringReader(extensionNode.OuterXml);
         var electionInformationExtension = DeserializeXmlNode<ElectionInformationExtension>(reader);

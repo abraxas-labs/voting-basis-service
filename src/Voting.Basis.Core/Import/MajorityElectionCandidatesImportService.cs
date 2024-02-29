@@ -1,37 +1,32 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Domain;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Read;
 using Voting.Lib.Eventing.Persistence;
-using Voting.Lib.Iam.Store;
 
 namespace Voting.Basis.Core.Import;
 
 public class MajorityElectionCandidatesImportService
 {
-    private readonly IAuth _auth;
     private readonly IAggregateRepository _aggregateRepository;
     private readonly ContestReader _contestReader;
     private readonly PermissionService _permissionService;
     private readonly DomainOfInfluenceReader _domainOfInfluenceReader;
 
     public MajorityElectionCandidatesImportService(
-        IAuth auth,
         IAggregateRepository aggregateRepository,
         ContestReader contestReader,
         PermissionService permissionService,
         DomainOfInfluenceReader domainOfInfluenceReader)
     {
-        _auth = auth;
         _aggregateRepository = aggregateRepository;
         _contestReader = contestReader;
         _permissionService = permissionService;
@@ -42,8 +37,6 @@ public class MajorityElectionCandidatesImportService
         Guid majorityElectionId,
         IEnumerable<MajorityElectionCandidate> candidates)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(majorityElectionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(majorityElection.DomainOfInfluenceId);
 

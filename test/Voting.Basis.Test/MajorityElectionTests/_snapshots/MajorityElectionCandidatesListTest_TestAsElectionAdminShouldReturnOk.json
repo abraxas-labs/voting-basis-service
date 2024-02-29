@@ -36,7 +36,8 @@
       "ZipCode": "zip code",
       "Locality": "locality",
       "Position": 1,
-      "Origin": "origin"
+      "Origin": "origin",
+      "CheckDigit": 9
     },
     {
       "Id": "4a44cb35-05a7-41f9-aa1e-034bedd320ec",
@@ -74,7 +75,8 @@
       "ZipCode": "",
       "Locality": "locality 2",
       "Position": 2,
-      "Origin": "origin 2"
+      "Origin": "origin 2",
+      "CheckDigit": 7
     }
   ]
 }

@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -57,7 +57,6 @@ public class GetPoliticalDoiHierarchyTest : BaseGrpcTest<AdminManagementService.
 
     protected override IEnumerable<string> UnauthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.ElectionAdmin;
     }
 }

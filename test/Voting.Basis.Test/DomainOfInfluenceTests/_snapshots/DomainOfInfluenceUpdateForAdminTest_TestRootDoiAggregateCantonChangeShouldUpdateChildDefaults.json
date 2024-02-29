@@ -17,8 +17,8 @@
           "Canton": 3,
           "ProportionalElectionMandateAlgorithms": [
             1,
-            3,
-            2
+            5,
+            4
           ],
           "MajorityElectionAbsoluteMajorityAlgorithm": 1,
           "MajorityElectionInvalidVotes": true,
@@ -26,7 +26,10 @@
           "EnabledPoliticalBusinessUnionTypes": [
             1,
             2
-          ]
+          ],
+          "MultipleVoteBallotsEnabled": true,
+          "ProportionalElectionUseCandidateCheckDigit": true,
+          "MajorityElectionUseCandidateCheckDigit": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -75,8 +78,8 @@
           "Canton": 3,
           "ProportionalElectionMandateAlgorithms": [
             1,
-            3,
-            2
+            5,
+            4
           ],
           "MajorityElectionAbsoluteMajorityAlgorithm": 1,
           "MajorityElectionInvalidVotes": true,
@@ -84,7 +87,10 @@
           "EnabledPoliticalBusinessUnionTypes": [
             1,
             2
-          ]
+          ],
+          "MultipleVoteBallotsEnabled": true,
+          "ProportionalElectionUseCandidateCheckDigit": true,
+          "MajorityElectionUseCandidateCheckDigit": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -133,8 +139,8 @@
           "Canton": 3,
           "ProportionalElectionMandateAlgorithms": [
             1,
-            3,
-            2
+            5,
+            4
           ],
           "MajorityElectionAbsoluteMajorityAlgorithm": 1,
           "MajorityElectionInvalidVotes": true,
@@ -142,7 +148,10 @@
           "EnabledPoliticalBusinessUnionTypes": [
             1,
             2
-          ]
+          ],
+          "MultipleVoteBallotsEnabled": true,
+          "ProportionalElectionUseCandidateCheckDigit": true,
+          "MajorityElectionUseCandidateCheckDigit": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -207,8 +216,8 @@
           "Canton": 3,
           "ProportionalElectionMandateAlgorithms": [
             1,
-            3,
-            2
+            5,
+            4
           ],
           "MajorityElectionAbsoluteMajorityAlgorithm": 1,
           "MajorityElectionInvalidVotes": true,
@@ -216,7 +225,10 @@
           "EnabledPoliticalBusinessUnionTypes": [
             1,
             2
-          ]
+          ],
+          "MultipleVoteBallotsEnabled": true,
+          "ProportionalElectionUseCandidateCheckDigit": true,
+          "MajorityElectionUseCandidateCheckDigit": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -265,8 +277,8 @@
           "Canton": 3,
           "ProportionalElectionMandateAlgorithms": [
             1,
-            3,
-            2
+            5,
+            4
           ],
           "MajorityElectionAbsoluteMajorityAlgorithm": 1,
           "MajorityElectionInvalidVotes": true,
@@ -274,7 +286,10 @@
           "EnabledPoliticalBusinessUnionTypes": [
             1,
             2
-          ]
+          ],
+          "MultipleVoteBallotsEnabled": true,
+          "ProportionalElectionUseCandidateCheckDigit": true,
+          "MajorityElectionUseCandidateCheckDigit": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -323,8 +338,8 @@
           "Canton": 3,
           "ProportionalElectionMandateAlgorithms": [
             1,
-            3,
-            2
+            5,
+            4
           ],
           "MajorityElectionAbsoluteMajorityAlgorithm": 1,
           "MajorityElectionInvalidVotes": true,
@@ -332,7 +347,10 @@
           "EnabledPoliticalBusinessUnionTypes": [
             1,
             2
-          ]
+          ],
+          "MultipleVoteBallotsEnabled": true,
+          "ProportionalElectionUseCandidateCheckDigit": true,
+          "MajorityElectionUseCandidateCheckDigit": true
         },
         "LogoRef": null,
         "HasLogo": false,

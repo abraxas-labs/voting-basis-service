@@ -38,7 +38,8 @@
         },
         "Code": "CODE M1",
         "SortNumber": 0,
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "Electorates": []
       },
       "MergedCountingCircles": [
         {
@@ -77,7 +78,8 @@
           },
           "Code": "nonec",
           "SortNumber": 21500,
-          "NameForProtocol": "Kirche Uzwil"
+          "NameForProtocol": "Kirche Uzwil",
+          "Electorates": []
         },
         {
           "Id": "c375f97a-0ba2-4a93-8c76-08a0661d9962",
@@ -115,7 +117,8 @@
           },
           "Code": "none_uc",
           "SortNumber": 21500,
-          "NameForProtocol": "Kirche Uzwil Andere"
+          "NameForProtocol": "Kirche Uzwil Andere",
+          "Electorates": []
         },
         {
           "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e",
@@ -153,7 +156,8 @@
           },
           "Code": "1234c",
           "SortNumber": 92,
-          "NameForProtocol": "Stadt Uzwil"
+          "NameForProtocol": "Stadt Uzwil",
+          "Electorates": []
         }
       ],
       "CopyFromCountingCircleId": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e",
@@ -201,7 +205,8 @@
         },
         "Code": "CODE M0",
         "SortNumber": 0,
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "Electorates": []
       },
       "MergedCountingCircles": [
         {
@@ -240,7 +245,8 @@
           },
           "Code": "nonec",
           "SortNumber": 9005,
-          "NameForProtocol": "Stadt Jona"
+          "NameForProtocol": "Stadt Jona",
+          "Electorates": []
         },
         {
           "Id": "2a3a799a-2437-47da-86fe-06decf70a267",
@@ -278,7 +284,8 @@
           },
           "Code": "nonec",
           "SortNumber": 9004,
-          "NameForProtocol": "Stadt Rapperswil"
+          "NameForProtocol": "Stadt Rapperswil",
+          "Electorates": []
         }
       ],
       "CopyFromCountingCircleId": "2a3a799a-2437-47da-86fe-06decf70a267",

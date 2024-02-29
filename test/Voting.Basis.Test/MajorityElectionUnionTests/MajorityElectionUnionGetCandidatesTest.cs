@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -55,8 +55,7 @@ public class MajorityElectionUnionGetCandidatesTest : BaseGrpcTest<MajorityElect
                 {
                     MajorityElectionUnionId = MajorityElectionUnionMockedData.IdKirche,
                 }),
-            StatusCode.PermissionDenied,
-            "you have no read access on contest");
+            StatusCode.PermissionDenied);
     }
 
     protected override IEnumerable<string> UnauthorizedRoles()

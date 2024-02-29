@@ -6,5 +6,8 @@
   "MajorityElectionInvalidVotes": false,
   "EnabledPoliticalBusinessUnionTypes": [
     1
-  ]
+  ],
+  "MultipleVoteBallotsEnabled": false,
+  "ProportionalElectionUseCandidateCheckDigit": false,
+  "MajorityElectionUseCandidateCheckDigit": false
 }

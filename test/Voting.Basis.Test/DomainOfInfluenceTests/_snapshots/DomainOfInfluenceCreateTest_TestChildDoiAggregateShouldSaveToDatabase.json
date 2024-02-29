@@ -429,6 +429,9 @@
     "SwissAbroadVotingRight": 3,
     "EnabledPoliticalBusinessUnionTypes": [
       1
-    ]
+    ],
+    "MultipleVoteBallotsEnabled": false,
+    "ProportionalElectionUseCandidateCheckDigit": false,
+    "MajorityElectionUseCandidateCheckDigit": false
   }
 }

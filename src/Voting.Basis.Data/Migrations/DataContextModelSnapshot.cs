@@ -77,10 +77,6 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<int>("BallotType")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("jsonb");
-
                     b.Property<bool>("HasTieBreakQuestions")
                         .HasColumnType("boolean");
 
@@ -137,6 +133,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<int>("Canton")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("CountingMachineEnabled")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("ElectoralRegistrationEnabled")
                         .HasColumnType("boolean");
 
@@ -150,9 +149,21 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("MajorityElectionInvalidVotes")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("MajorityElectionUseCandidateCheckDigit")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("MultipleVoteBallotsEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("NewZhFeaturesEnabled")
+                        .HasColumnType("boolean");
+
                     b.Property<List<int>>("ProportionalElectionMandateAlgorithms")
                         .IsRequired()
                         .HasColumnType("integer[]");
+
+                    b.Property<bool>("ProportionalElectionUseCandidateCheckDigit")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("ProtocolCountingCircleSortType")
                         .HasColumnType("integer");
@@ -448,6 +459,26 @@ namespace Voting.Basis.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("CountingCircleContactPersons");
+                });
+
+            modelBuilder.Entity("Voting.Basis.Data.Models.CountingCircleElectorate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CountingCircleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int[]>("DomainOfInfluenceTypes")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountingCircleId");
+
+                    b.ToTable("CountingCircleElectorates");
                 });
 
             modelBuilder.Entity("Voting.Basis.Data.Models.CountingCirclesMerger", b =>
@@ -871,6 +902,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<Guid>("DomainOfInfluenceId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("EnforceCandidateCheckDigitForCountingCircles")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("EnforceEmptyVoteCountingForCountingCircles")
                         .HasColumnType("boolean");
 
@@ -1012,6 +1046,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<int>("CheckDigit")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("date");
@@ -1192,6 +1229,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<Guid>("DomainOfInfluenceId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("EnforceCandidateCheckDigitForCountingCircles")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("EnforceEmptyVoteCountingForCountingCircles")
                         .HasColumnType("boolean");
 
@@ -1238,6 +1278,9 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<int>("AccumulatedPosition")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CheckDigit")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("DateOfBirth")
@@ -1552,6 +1595,9 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<Guid?>("CandidateReferenceId")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("CheckDigit")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("date");
@@ -2176,6 +2222,17 @@ namespace Voting.Basis.Data.Migrations
                     b.Navigation("CountingCircleDuringEvent");
                 });
 
+            modelBuilder.Entity("Voting.Basis.Data.Models.CountingCircleElectorate", b =>
+                {
+                    b.HasOne("Voting.Basis.Data.Models.CountingCircle", "CountingCircle")
+                        .WithMany("Electorates")
+                        .HasForeignKey("CountingCircleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CountingCircle");
+                });
+
             modelBuilder.Entity("Voting.Basis.Data.Models.DomainOfInfluence", b =>
                 {
                     b.HasOne("Voting.Basis.Data.Models.DomainOfInfluence", "Parent")
@@ -2321,9 +2378,18 @@ namespace Voting.Basis.Data.Migrations
                             b1.Property<bool>("MajorityElectionInvalidVotes")
                                 .HasColumnType("boolean");
 
+                            b1.Property<bool>("MajorityElectionUseCandidateCheckDigit")
+                                .HasColumnType("boolean");
+
+                            b1.Property<bool>("MultipleVoteBallotsEnabled")
+                                .HasColumnType("boolean");
+
                             b1.Property<List<int>>("ProportionalElectionMandateAlgorithms")
                                 .IsRequired()
                                 .HasColumnType("integer[]");
+
+                            b1.Property<bool>("ProportionalElectionUseCandidateCheckDigit")
+                                .HasColumnType("boolean");
 
                             b1.Property<int>("SwissAbroadVotingRight")
                                 .HasColumnType("integer");
@@ -2578,7 +2644,8 @@ namespace Voting.Basis.Data.Migrations
                 {
                     b.HasOne("Voting.Basis.Data.Models.DomainOfInfluenceParty", "Party")
                         .WithMany("ProportionalElectionCandidates")
-                        .HasForeignKey("PartyId");
+                        .HasForeignKey("PartyId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Voting.Basis.Data.Models.ProportionalElectionList", "ProportionalElectionList")
                         .WithMany("ProportionalElectionCandidates")
@@ -2995,6 +3062,8 @@ namespace Voting.Basis.Data.Migrations
                     b.Navigation("ContestOptions");
 
                     b.Navigation("DomainOfInfluences");
+
+                    b.Navigation("Electorates");
 
                     b.Navigation("ResponsibleAuthority")
                         .IsRequired();

@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -10,6 +10,7 @@ using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
+using Voting.Basis.Data.Utils;
 using Voting.Basis.Test.MockedData.Mapping;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
@@ -80,6 +81,9 @@ public static class CantonSettingsMockedData
             VotingDocumentsEVotingEaiMessageType = "1234567",
             ProtocolCountingCircleSortType = ProtocolCountingCircleSortType.SortNumber,
             ProtocolDomainOfInfluenceSortType = ProtocolDomainOfInfluenceSortType.SortNumber,
+            MultipleVoteBallotsEnabled = false,
+            ProportionalElectionUseCandidateCheckDigit = false,
+            MajorityElectionUseCandidateCheckDigit = false,
         };
 
     public static CantonSettings Zurich
@@ -92,8 +96,8 @@ public static class CantonSettingsMockedData
             ProportionalElectionMandateAlgorithms = new List<ProportionalElectionMandateAlgorithm>
             {
                     ProportionalElectionMandateAlgorithm.HagenbachBischoff,
-                    ProportionalElectionMandateAlgorithm.DoppelterPukelsheim0Quorum,
-                    ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum,
+                    ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiQuorum,
+                    ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum,
             },
             MajorityElectionAbsoluteMajorityAlgorithm = CantonMajorityElectionAbsoluteMajorityAlgorithm.ValidBallotsDividedByTwo,
             MajorityElectionInvalidVotes = true,
@@ -133,6 +137,11 @@ public static class CantonSettingsMockedData
             VotingDocumentsEVotingEaiMessageType = "1234567",
             ProtocolCountingCircleSortType = ProtocolCountingCircleSortType.Alphabetical,
             ProtocolDomainOfInfluenceSortType = ProtocolDomainOfInfluenceSortType.Alphabetical,
+            MultipleVoteBallotsEnabled = true,
+            CountingMachineEnabled = true,
+            NewZhFeaturesEnabled = true,
+            ProportionalElectionUseCandidateCheckDigit = true,
+            MajorityElectionUseCandidateCheckDigit = true,
         };
 
     public static IEnumerable<CantonSettings> All

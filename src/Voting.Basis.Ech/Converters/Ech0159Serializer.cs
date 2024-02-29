@@ -1,9 +1,10 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using eCH_0159_4_0;
+using Ech0159_4_0;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Mapping;
 using Voting.Lib.Ech;
@@ -13,10 +14,12 @@ namespace Voting.Basis.Ech.Converters;
 public class Ech0159Serializer
 {
     private readonly DeliveryHeaderProvider _deliveryHeaderProvider;
+    private readonly EchSerializer _echSerializer;
 
-    public Ech0159Serializer(DeliveryHeaderProvider deliveryHeaderProvider)
+    public Ech0159Serializer(DeliveryHeaderProvider deliveryHeaderProvider, EchSerializer echSerializer)
     {
         _deliveryHeaderProvider = deliveryHeaderProvider;
+        _echSerializer = echSerializer;
     }
 
     /// <summary>
@@ -25,7 +28,7 @@ public class Ech0159Serializer
     /// <param name="contest">The contest to serialize.</param>
     /// <param name="vote">The vote to serialize. It should contain the ballots, questions and tie break questions.</param>
     /// <returns>The serialized eCH-0159 data.</returns>
-    public Delivery ToEventInitialDelivery(Contest contest, Vote vote)
+    public byte[] ToEventInitialDelivery(Contest contest, Vote vote)
         => ToEventInitialDelivery(contest, new[] { vote });
 
     /// <summary>
@@ -34,7 +37,7 @@ public class Ech0159Serializer
     /// <param name="contest">The contest to serialize.</param>
     /// <param name="votes">The votes to serialize. They should contain the ballots, questions and tie break questions.</param>
     /// <returns>The serialized eCH-0159 data.</returns>
-    public Delivery ToEventInitialDelivery(Contest contest, IEnumerable<Vote> votes)
+    public byte[] ToEventInitialDelivery(Contest contest, IEnumerable<Vote> votes)
     {
         var contestType = contest.ToEchContestType();
 
@@ -47,8 +50,23 @@ public class Ech0159Serializer
             .OrderBy(x => x.DoiType)
             .ThenBy(x => x.VoteInformation.Vote.DomainOfInfluenceIdentification)
             .Select(x => x.VoteInformation)
-            .ToArray();
+            .ToList();
 
-        return Delivery.Create(_deliveryHeaderProvider.BuildHeader(), EventInitialDelivery.Create(contestType, voteTypes));
+        return ToXmlBytes(new Delivery
+        {
+            DeliveryHeader = _deliveryHeaderProvider.BuildHeader(),
+            InitialDelivery = new EventInitialDelivery
+            {
+                Contest = contestType,
+                VoteInformation = voteTypes,
+            },
+        });
+    }
+
+    private byte[] ToXmlBytes(Delivery delivery)
+    {
+        using var memoryStream = new MemoryStream();
+        _echSerializer.WriteXml(memoryStream, delivery);
+        return memoryStream.ToArray();
     }
 }

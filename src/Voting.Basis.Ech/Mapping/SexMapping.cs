@@ -1,8 +1,8 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
-using eCH_0010_6_0;
-using eCH_0044_4_1;
+using Ech0010_6_0;
+using Ech0044_4_1;
 using DataModels = Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Ech.Mapping;
@@ -11,26 +11,28 @@ internal static class SexMapping
 {
     internal static SexType ToEchSexType(this DataModels.SexType sex)
     {
-        return sex == DataModels.SexType.Male
-            ? SexType.Männlich
-            : sex == DataModels.SexType.Female
-                ? SexType.Weiblich
-                : SexType.Unbestimmt;
+        return sex switch
+        {
+            DataModels.SexType.Male => SexType.Item1,
+            DataModels.SexType.Female => SexType.Item2,
+            _ => SexType.Item3,
+        };
     }
 
     internal static MrMrsType ToEchMrMrsType(this DataModels.SexType sex)
     {
         return sex == DataModels.SexType.Male
-            ? MrMrsType.Herr
-            : MrMrsType.Frau;
+            ? MrMrsType.Item2
+            : MrMrsType.Item1;
     }
 
     internal static DataModels.SexType ToBasisSexType(this SexType sex)
     {
-        return sex == SexType.Männlich
-            ? DataModels.SexType.Male
-            : sex == SexType.Weiblich
-                ? DataModels.SexType.Female
-                : DataModels.SexType.Undefined;
+        return sex switch
+        {
+            SexType.Item1 => DataModels.SexType.Male,
+            SexType.Item2 => DataModels.SexType.Female,
+            _ => DataModels.SexType.Undefined,
+        };
     }
 }

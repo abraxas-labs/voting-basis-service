@@ -1,10 +1,13 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Domain.Aggregate;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Validation;
 using Voting.Basis.Data;
@@ -66,6 +69,7 @@ public class ProportionalElectionUnionWriter : PoliticalBusinessUnionWriter<Prop
 
         var proportionalElectionUnion = await _aggregateRepository.GetById<ProportionalElectionUnionAggregate>(proportionalElectionUnionId);
         await EnsureValidPoliticalBusinessIds(proportionalElectionUnion.ContestId, proportionalElectionIds);
+        await EnsureDistinctMandateAlgorithm(proportionalElectionIds);
 
         proportionalElectionUnion.UpdateEntries(proportionalElectionIds);
         await _aggregateRepository.Save(proportionalElectionUnion);
@@ -79,5 +83,18 @@ public class ProportionalElectionUnionWriter : PoliticalBusinessUnionWriter<Prop
         proportionalElectionUnion.Delete();
 
         await _aggregateRepository.Save(proportionalElectionUnion);
+    }
+
+    private async Task EnsureDistinctMandateAlgorithm(List<Guid> proportionalElectionIds)
+    {
+        var mandateAlgorithms = await PoliticalBusinessRepo.Query()
+            .Where(pe => proportionalElectionIds.Contains(pe.Id))
+            .Select(pe => pe.MandateAlgorithm)
+            .ToListAsync();
+
+        if (mandateAlgorithms.Distinct().Count() > 1)
+        {
+            throw new ProportionalElectionUnionMultipleMandateAlgorithmsException();
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -9,19 +9,19 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using AutoMapper;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using Microsoft.AspNetCore.Authorization;
 using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Write;
 using Voting.Basis.Data.Models;
 using Voting.Lib.Common;
 using Voting.Lib.Grpc;
+using Voting.Lib.Iam.Authorization;
 using Contest = Abraxas.Voting.Basis.Services.V1.Models.Contest;
 using ContestCountingCircleOption = Voting.Basis.Core.Domain.ContestCountingCircleOption;
+using Permissions = Voting.Basis.Core.Auth.Permissions;
 using ServiceBase = Abraxas.Voting.Basis.Services.V1.ContestService.ContestServiceBase;
 
 namespace Voting.Basis.Services;
 
-[Authorize]
 public class ContestService : ServiceBase
 {
     private readonly ContestReader _contestReader;
@@ -38,6 +38,7 @@ public class ContestService : ServiceBase
         _mapper = mapper;
     }
 
+    [AuthorizePermission(Permissions.Contest.Create)]
     public override async Task<IdValue> Create(
         CreateContestRequest request,
         ServerCallContext context)
@@ -47,6 +48,7 @@ public class ContestService : ServiceBase
         return new IdValue { Id = data.Id.ToString() };
     }
 
+    [AuthorizePermission(Permissions.Contest.Update)]
     public override async Task<Empty> Update(
         UpdateContestRequest request,
         ServerCallContext context)
@@ -56,23 +58,27 @@ public class ContestService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.Contest.Delete)]
     public override async Task<Empty> Delete(DeleteContestRequest request, ServerCallContext context)
     {
         await _contestWriter.Delete(GuidParser.Parse(request.Id));
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.Contest.Read)]
     public override async Task<Contest> Get(
         GetContestRequest request,
         ServerCallContext context)
         => _mapper.Map<Contest>(await _contestReader.Get(GuidParser.Parse(request.Id)));
 
+    [AuthorizePermission(Permissions.Contest.Read)]
     public override async Task<ContestSummaries> ListSummaries(ListContestSummariesRequest request, ServerCallContext context)
     {
         var contestSummaries = await _contestReader.ListSummaries(request.States.Cast<ContestState>().ToList());
         return _mapper.Map<ContestSummaries>(contestSummaries);
     }
 
+    [AuthorizePermission(Permissions.Contest.Read)]
     public override async Task<PreconfiguredContestDates> ListFuturePreconfiguredDates(
         ListFuturePreconfiguredDatesRequest request, ServerCallContext context)
     {
@@ -80,30 +86,35 @@ public class ContestService : ServiceBase
         return _mapper.Map<PreconfiguredContestDates>(preconfiguredDates);
     }
 
+    [AuthorizePermission(Permissions.Contest.Read)]
     public override async Task<Contests> ListPast(ListContestPastRequest request, ServerCallContext context)
     {
         var contests = await _contestReader.ListPast(request.Date.ToDateTime(), GuidParser.Parse(request.DomainOfInfluenceId));
         return _mapper.Map<Contests>(contests);
     }
 
+    [AuthorizePermission(Permissions.Contest.Read)]
     public override async Task<ContestAvailability> CheckAvailability(CheckAvailabilityRequest request, ServerCallContext context)
     {
         var availability = await _contestReader.CheckAvailability(request.Date.ToDateTime(), GuidParser.Parse(request.DomainOfInfluenceId));
         return new ContestAvailability { Availability = availability };
     }
 
+    [AuthorizePermission(Permissions.Contest.Update)]
     public override async Task<Empty> Archive(ArchiveContestRequest request, ServerCallContext context)
     {
         await _contestWriter.Archive(GuidParser.Parse(request.Id), request.ArchivePer?.ToDateTime());
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.Contest.Update)]
     public override async Task<Empty> PastUnlock(PastUnlockContestRequest request, ServerCallContext context)
     {
         await _contestWriter.PastUnlock(GuidParser.Parse(request.Id));
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.Contest.Read)]
     public override async Task<ContestCountingCircleOptions> ListCountingCircleOptions(
         ListCountingCircleOptionsRequest request,
         ServerCallContext context)
@@ -112,12 +123,14 @@ public class ContestService : ServiceBase
         return _mapper.Map<ContestCountingCircleOptions>(options);
     }
 
+    [AuthorizePermission(Permissions.Contest.Update)]
     public override async Task<Empty> UpdateCountingCircleOptions(UpdateCountingCircleOptionsRequest request, ServerCallContext context)
     {
         await _contestWriter.UpdateCountingCircleOptions(GuidParser.Parse(request.Id), _mapper.Map<List<ContestCountingCircleOption>>(request.Options));
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.Contest.Read)]
     public override Task GetOverviewChanges(
         GetContestOverviewChangesRequest request,
         IServerStreamWriter<ContestOverviewChangeMessage> responseStream,
@@ -128,6 +141,7 @@ public class ContestService : ServiceBase
             context.CancellationToken);
     }
 
+    [AuthorizePermission(Permissions.Contest.Read)]
     public override Task GetDetailsChanges(
         GetContestDetailsChangesRequest request,
         IServerStreamWriter<ContestDetailsChangeMessage> responseStream,

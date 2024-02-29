@@ -17,12 +17,6 @@
       }
     },
     "Id": "690c36d8-dd09-4464-91ce-73c48df176a1",
-    "Description": {
-      "de": "updated description de",
-      "fr": "updated description fr",
-      "it": "updated description it",
-      "rm": "updated description rm"
-    },
     "BallotQuestions": [
       {
         "Number": 1,
@@ -82,12 +76,6 @@
         "Id": "690c36d8-dd09-4464-91ce-73c48df176a1",
         "Position": 1,
         "BallotType": 2,
-        "Description": {
-          "de": "updated description de",
-          "fr": "updated description fr",
-          "it": "updated description it",
-          "rm": "updated description rm"
-        },
         "BallotQuestions": [
           {
             "Number": 1,

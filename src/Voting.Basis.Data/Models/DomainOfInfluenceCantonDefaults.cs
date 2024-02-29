@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -20,4 +20,10 @@ public class DomainOfInfluenceCantonDefaults
 
     public List<PoliticalBusinessUnionType> EnabledPoliticalBusinessUnionTypes { get; set; }
         = new List<PoliticalBusinessUnionType>();
+
+    public bool MultipleVoteBallotsEnabled { get; set; }
+
+    public bool ProportionalElectionUseCandidateCheckDigit { get; set; }
+
+    public bool MajorityElectionUseCandidateCheckDigit { get; set; }
 }

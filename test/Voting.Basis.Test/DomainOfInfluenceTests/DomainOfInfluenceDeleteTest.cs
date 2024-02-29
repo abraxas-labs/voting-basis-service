@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -82,6 +82,27 @@ public class DomainOfInfluenceDeleteTest : BaseGrpcTest<DomainOfInfluenceService
                 .FirstOrDefaultAsync(di => di.DomainOfInfluenceId == DomainOfInfluenceMockedData.GuidGossau)))
             .Should()
             .BeNull();
+    }
+
+    [Fact]
+    public async Task TestIndirectCascadeDeleteShouldWork()
+    {
+        // invalid cascade delete: doi delete doi partys but also proportional elections.
+        // proportional election deletes candidates which depends on doi party.
+        await RunOnDb(async db =>
+        {
+            await db.Database.EnsureDeletedAsync();
+            await db.Database.MigrateAsync();
+        });
+
+        await ProportionalElectionMockedData.Seed(RunScoped);
+
+        // should throw no exception
+        await TestEventPublisher.Publish(new DomainOfInfluenceDeleted
+        {
+            DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau,
+            EventInfo = GetMockedEventInfo(),
+        });
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

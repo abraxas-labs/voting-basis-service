@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Linq;
@@ -32,12 +32,12 @@ public class EventLogReader
 
     public async Task<Page<EventLog>> List(Pageable pageable)
     {
-        _auth.EnsureAdminOrElectionAdmin();
         _pageableValidator.ValidateAndThrow(pageable);
 
         var tenantId = _auth.Tenant.Id;
+        var canReadAll = _auth.HasPermission(Permissions.EventLog.ReadAll);
         return await _repo.Query()
-            .Where(e => _auth.IsAdmin() || e.EventTenant!.TenantId == tenantId)
+            .Where(e => canReadAll || e.EventTenant!.TenantId == tenantId)
             .Include(e => e.EventTenant)
             .Include(e => e.EventUser)
             .OrderByDescending(e => e.Timestamp)

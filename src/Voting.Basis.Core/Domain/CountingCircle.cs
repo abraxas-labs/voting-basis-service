@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -62,4 +62,6 @@ public class CountingCircle
     public string Code { get; set; } = string.Empty;
 
     public string Name { get; set; } = string.Empty;
+
+    public List<CountingCircleElectorate> Electorates { get; set; } = new();
 }

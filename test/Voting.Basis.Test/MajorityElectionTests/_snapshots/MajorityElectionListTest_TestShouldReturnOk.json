@@ -31,7 +31,8 @@
       "Active": true,
       "ReportDomainOfInfluenceLevel": 0,
       "ReviewProcedure": 1,
-      "EnforceReviewProcedureForCountingCircles": true
+      "EnforceReviewProcedureForCountingCircles": true,
+      "EnforceCandidateCheckDigitForCountingCircles": true
     },
     {
       "Id": "50415df8-6ee9-4eb4-9e31-68c0d3021e76",
@@ -64,7 +65,8 @@
       "Active": true,
       "ReportDomainOfInfluenceLevel": 0,
       "ReviewProcedure": 1,
-      "EnforceReviewProcedureForCountingCircles": true
+      "EnforceReviewProcedureForCountingCircles": true,
+      "EnforceCandidateCheckDigitForCountingCircles": false
     },
     {
       "Id": "a6ab97b9-ce86-4973-876e-a128ff279bf7",
@@ -97,7 +99,8 @@
       "Active": false,
       "ReportDomainOfInfluenceLevel": 0,
       "ReviewProcedure": 1,
-      "EnforceReviewProcedureForCountingCircles": true
+      "EnforceReviewProcedureForCountingCircles": true,
+      "EnforceCandidateCheckDigitForCountingCircles": false
     }
   ]
 }

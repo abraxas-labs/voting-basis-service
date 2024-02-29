@@ -1,4 +1,4 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -8,9 +8,11 @@ using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
 using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
+using Abraxas.Voting.Basis.Shared.V1;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing.Utils;
@@ -33,6 +35,12 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
 
         var eventData = EventPublisherMock.GetSinglePublishedEvent<CountingCircleCreated>();
 
+        foreach (var electorate in eventData.CountingCircle.Electorates)
+        {
+            electorate.Id.Should().NotBeEmpty();
+            electorate.Id = string.Empty;
+        }
+
         eventData.CountingCircle.Id.Should().Be(response.Id);
         eventData.MatchSnapshot("event", d => d.CountingCircle.Id);
     }
@@ -40,6 +48,8 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
     [Fact]
     public async Task TestAggregate()
     {
+        var electorateBzId = Guid.Parse("fbf2386a-4354-46d8-a393-6b2ec3e475b4");
+
         await TestEventPublisher.Publish(
             new CountingCircleCreated
             {
@@ -75,6 +85,19 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
                         MobilePhone = "071 123 12 33",
                         FamilyName = "Wichtig",
                         FirstName = "Rudolph",
+                    },
+                    Electorates =
+                    {
+                        new CountingCircleElectorateEventData
+                        {
+                            Id = electorateBzId.ToString(),
+                            DomainOfInfluenceTypes = { DomainOfInfluenceType.Bz },
+                        },
+                        new CountingCircleElectorateEventData
+                        {
+                            Id = "403ae820-2ad3-482a-a321-3da9745adb1e",
+                            DomainOfInfluenceTypes = { DomainOfInfluenceType.Ch, DomainOfInfluenceType.Ct },
+                        },
                     },
                     NameForProtocol = "Stadt Uzwil",
                     SortNumber = 1,
@@ -123,6 +146,9 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
         var countingCircles = await AdminClient.ListAsync(new ListCountingCircleRequest());
         countingCircles.CountingCircles_.Should().HaveCount(2);
         countingCircles.MatchSnapshot();
+
+        var electorateExists = await RunOnDb(db => db.CountingCircleElectorates.AnyAsync(e => e.Id == electorateBzId));
+        electorateExists.Should().BeTrue();
     }
 
     [Fact]
@@ -131,6 +157,32 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
             async () => await AdminClient.CreateAsync(NewValidRequest(o =>
                 o.ResponsibleAuthority.SecureConnectId = "123333333333333333")),
             StatusCode.InvalidArgument);
+
+    [Fact]
+    public async Task ElectorateWithDuplicateDoiTypesShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.CreateAsync(NewValidRequest(o =>
+                o.Electorates.Add(new ProtoModels.CountingCircleElectorate
+                {
+                    DomainOfInfluenceTypes =
+                    {
+                        DomainOfInfluenceType.Ch,
+                    },
+                }))),
+            StatusCode.InvalidArgument,
+            "A domain of influence type in an electorate must be unique per counting circle");
+    }
+
+    [Fact]
+    public async Task ElectorateWithNoDoiTypeShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.CreateAsync(NewValidRequest(o =>
+                o.Electorates.Add(new ProtoModels.CountingCircleElectorate()))),
+            StatusCode.InvalidArgument,
+            "Cannot create an electorate without a domain of influence type");
+    }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
         => await new CountingCircleService.CountingCircleServiceClient(channel)
@@ -178,6 +230,17 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
             },
             NameForProtocol = "Stadt Uzwil",
             SortNumber = 210,
+            Electorates =
+            {
+                new ProtoModels.CountingCircleElectorate()
+                {
+                    DomainOfInfluenceTypes = { DomainOfInfluenceType.Bz },
+                },
+                new ProtoModels.CountingCircleElectorate()
+                {
+                    DomainOfInfluenceTypes = { DomainOfInfluenceType.Ct, DomainOfInfluenceType.Ch },
+                },
+            },
         };
         customizer?.Invoke(request);
         return request;

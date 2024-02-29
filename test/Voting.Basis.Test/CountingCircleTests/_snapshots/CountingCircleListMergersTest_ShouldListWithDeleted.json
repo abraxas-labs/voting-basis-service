@@ -38,7 +38,8 @@
         },
         "Code": "CODE M0",
         "SortNumber": 0,
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "Electorates": []
       },
       "MergedCountingCircles": [
         {
@@ -77,7 +78,8 @@
           },
           "Code": "nonec",
           "SortNumber": 9005,
-          "NameForProtocol": "Stadt Jona"
+          "NameForProtocol": "Stadt Jona",
+          "Electorates": []
         },
         {
           "Id": "2a3a799a-2437-47da-86fe-06decf70a267",
@@ -115,7 +117,8 @@
           },
           "Code": "nonec",
           "SortNumber": 9004,
-          "NameForProtocol": "Stadt Rapperswil"
+          "NameForProtocol": "Stadt Rapperswil",
+          "Electorates": []
         }
       ],
       "CopyFromCountingCircleId": "2a3a799a-2437-47da-86fe-06decf70a267",

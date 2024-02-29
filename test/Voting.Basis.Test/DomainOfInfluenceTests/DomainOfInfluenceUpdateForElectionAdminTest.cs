@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -258,6 +258,32 @@ public class DomainOfInfluenceUpdateForElectionAdminTest : BaseGrpcTest<DomainOf
                 }))),
             StatusCode.InvalidArgument,
             "Some parties cannot be modified");
+
+    [Fact]
+    public async Task DuplicatedPartyShouldThrow()
+    {
+        var partyId = "0c03d15a-ab0a-439d-a5bb-91fb17d17cf1";
+
+        await AssertStatus(
+            async () => await ElectionAdminUzwilClient.UpdateAsync(
+                NewValidRequest(o =>
+                {
+                    o.Parties.Add(new ProtoModels.DomainOfInfluenceParty
+                    {
+                        Id = partyId,
+                        Name = { LanguageUtil.MockAllLanguages("Andere") },
+                        ShortDescription = { LanguageUtil.MockAllLanguages("AN") },
+                    });
+                    o.Parties.Add(new ProtoModels.DomainOfInfluenceParty
+                    {
+                        Id = partyId,
+                        Name = { LanguageUtil.MockAllLanguages("Andere") },
+                        ShortDescription = { LanguageUtil.MockAllLanguages("AN") },
+                    });
+                })),
+            StatusCode.InvalidArgument,
+            "domain of influence party can only be provided exactly once");
+    }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
         => await new DomainOfInfluenceService.DomainOfInfluenceServiceClient(channel)

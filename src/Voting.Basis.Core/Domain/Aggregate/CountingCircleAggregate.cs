@@ -1,7 +1,9 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
 using AutoMapper;
@@ -10,6 +12,7 @@ using Google.Protobuf;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data.Models;
+using Voting.Basis.Data.Utils;
 using Voting.Lib.Common;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Iam.Exceptions;
@@ -38,6 +41,7 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
         NameForProtocol = string.Empty;
         ResponsibleAuthority = new Authority();
         ContactPersonDuringEvent = new ContactPerson();
+        Electorates = new();
         _mapper = mapper;
         _eventInfoProvider = eventInfoProvider;
         _ccMergerValidator = ccMergerValidator;
@@ -68,6 +72,8 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
 
     public CountingCirclesMerger? MergerOrigin { get; private set; }
 
+    public List<CountingCircleElectorate> Electorates { get; private set; }
+
     public bool MergeActivationOverdue => MergerOrigin is { Merged: false } && MergerOrigin.ActiveFrom < _clock.UtcNow;
 
     public void CreateFrom(CountingCircle countingCircle)
@@ -76,6 +82,9 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
         {
             countingCircle.Id = Guid.NewGuid();
         }
+
+        PrepareElectorates(countingCircle.Id, countingCircle.Electorates);
+        ValidateElectorates(countingCircle.Electorates);
 
         var ev = new CountingCircleCreated
         {
@@ -156,11 +165,13 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateFrom(CountingCircle countingCircle, bool isAdmin)
+    public void UpdateFrom(CountingCircle countingCircle, bool canUpdateAll)
     {
         EnsureNotDeletedOrMergedOrInactive();
 
-        if (!isAdmin)
+        PrepareElectorates(countingCircle.Id, countingCircle.Electorates);
+
+        if (!canUpdateAll)
         {
             if (!ResponsibleAuthority.SecureConnectId.Equals(
                 countingCircle.ResponsibleAuthority?.SecureConnectId, StringComparison.Ordinal))
@@ -193,7 +204,15 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
             {
                 throw new ForbiddenException("only admins are allowed to update the name for protocol");
             }
+
+            if (countingCircle.Electorates.Count != Electorates.Count
+                || countingCircle.Electorates.Any(oe => !Electorates.Any(ie => ie.Equals(oe))))
+            {
+                throw new ForbiddenException("only admins are allowed to update electorates");
+            }
         }
+
+        ValidateElectorates(countingCircle.Electorates);
 
         var ev = new CountingCircleUpdated
         {
@@ -333,6 +352,30 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
         if (MergerOrigin is { Merged: true } || (MergerOrigin != null && MergerOrigin.ActiveFrom < _clock.UtcNow))
         {
             throw new CountingCircleMergerAlreadyActiveException();
+        }
+    }
+
+    private void PrepareElectorates(Guid countingCircleId, IReadOnlyCollection<CountingCircleElectorate> electorates)
+    {
+        foreach (var electorate in electorates)
+        {
+            electorate.DomainOfInfluenceTypes = electorate.DomainOfInfluenceTypes.OrderBy(x => x).ToList();
+            electorate.Id = BasisUuidV5.BuildCountingCircleElectorate(countingCircleId, electorate.DomainOfInfluenceTypes);
+        }
+    }
+
+    private void ValidateElectorates(IReadOnlyCollection<CountingCircleElectorate> electorates)
+    {
+        var electorateDoiTypes = electorates.SelectMany(e => e.DomainOfInfluenceTypes).ToList();
+
+        if (electorates.Any(e => e.DomainOfInfluenceTypes.Count == 0))
+        {
+            throw new ValidationException("Cannot create an electorate without a domain of influence type");
+        }
+
+        if (electorateDoiTypes.Count != electorateDoiTypes.Distinct().Count())
+        {
+            throw new ValidationException("A domain of influence type in an electorate must be unique per counting circle");
         }
     }
 }

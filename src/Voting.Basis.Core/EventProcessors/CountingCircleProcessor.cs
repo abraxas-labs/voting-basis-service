@@ -1,7 +1,8 @@
-// (c) Copyright 2022 by Abraxas Informatik AG
+// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
@@ -33,6 +34,7 @@ public class CountingCircleProcessor :
     private readonly DomainOfInfluencePermissionBuilder _permissionBuilder;
     private readonly IMapper _mapper;
     private readonly EventLoggerAdapter _eventLogger;
+    private readonly IDbRepository<DataContext, CountingCircleElectorate> _electorateRepo;
 
     public CountingCircleProcessor(
         CountingCircleRepo repo,
@@ -40,7 +42,8 @@ public class CountingCircleProcessor :
         DomainOfInfluenceCountingCircleRepo doiCcRepo,
         DomainOfInfluencePermissionBuilder permissionBuilder,
         IMapper mapper,
-        EventLoggerAdapter eventLogger)
+        EventLoggerAdapter eventLogger,
+        IDbRepository<DataContext, CountingCircleElectorate> electorateRepo)
     {
         _repo = repo;
         _ccMergeRepo = ccMergeRepo;
@@ -48,6 +51,7 @@ public class CountingCircleProcessor :
         _mapper = mapper;
         _permissionBuilder = permissionBuilder;
         _eventLogger = eventLogger;
+        _electorateRepo = electorateRepo;
     }
 
     public async Task Process(CountingCircleCreated eventData)
@@ -65,6 +69,7 @@ public class CountingCircleProcessor :
                            .Include(x => x.ContactPersonDuringEvent)
                            .Include(x => x.ContactPersonAfterEvent)
                            .Include(x => x.ResponsibleAuthority)
+                           .Include(x => x.Electorates)
                            .FirstOrDefaultAsync(x => x.Id == id)
                        ?? throw new EntityNotFoundException(id);
 
@@ -77,6 +82,9 @@ public class CountingCircleProcessor :
         {
             model.ContactPersonAfterEvent.Id = existing.ContactPersonAfterEvent?.Id ?? Guid.Empty;
         }
+
+        await ReplaceElectorates(existing, model.Electorates.ToList());
+        model.Electorates = null!;
 
         await _repo.Update(model, eventData.EventInfo.Timestamp.ToDateTime());
         await _permissionBuilder.RebuildPermissionTree();
@@ -250,5 +258,16 @@ public class CountingCircleProcessor :
         await _repo.Delete(existing, eventData.EventInfo.Timestamp.ToDateTime());
         await _permissionBuilder.RebuildPermissionTree();
         await _eventLogger.LogCountingCircleEvent(eventData, existing);
+    }
+
+    private async Task ReplaceElectorates(CountingCircle existing, IReadOnlyCollection<CountingCircleElectorate> electorates)
+    {
+        await _electorateRepo.DeleteRangeByKey(existing.Electorates.Select(e => e.Id).ToList());
+        foreach (var electorate in electorates)
+        {
+            electorate.CountingCircleId = existing.Id;
+        }
+
+        await _electorateRepo.CreateRange(electorates);
     }
 }

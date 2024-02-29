@@ -46,7 +46,22 @@
       },
       "Code": "",
       "SortNumber": 210,
-      "NameForProtocol": "Stadt Uzwil"
+      "NameForProtocol": "Stadt Uzwil",
+      "Electorates": [
+        {
+          "Id": "",
+          "DomainOfInfluenceTypes": [
+            3
+          ]
+        },
+        {
+          "Id": "",
+          "DomainOfInfluenceTypes": [
+            1,
+            2
+          ]
+        }
+      ]
     }
   }
 }

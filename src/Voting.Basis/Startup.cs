@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -68,6 +68,8 @@ public class Startup
 
     public void Configure(IApplicationBuilder app)
     {
+        app.UseMetricServer(_appConfig.MetricPort);
+
         app.UseRouting();
 
         if (_appConfig.PublisherModeEnabled)
@@ -77,8 +79,7 @@ public class Startup
 
         app.UseEndpoints(endpoints =>
         {
-            // Metrics and health checks are always exposed, regardless of service mode
-            endpoints.MapMetrics();
+            // Health checks are always exposed, regardless of service mode
             endpoints.MapVotingHealthChecks(_appConfig.LowPriorityHealthCheckNames);
 
             if (_appConfig.PublisherModeEnabled)
@@ -96,6 +97,7 @@ public class Startup
             options.Authority = _appConfig.SecureConnect.Authority;
             options.ServiceAccount = _appConfig.SecureConnect.ServiceAccount;
             options.ServiceAccountPassword = _appConfig.SecureConnect.ServiceAccountPassword;
+            options.ServiceAccountScopes = _appConfig.SecureConnect.ServiceAccountScopes;
         });
     }
 
@@ -160,6 +162,7 @@ public class Startup
         endpoints.MapGrpcService<EventLogService>();
         endpoints.MapGrpcService<CantonSettingsService>();
         endpoints.MapGrpcService<AdminManagementService>();
+        endpoints.MapGrpcService<PermissionService>();
     }
 
     private void ConfigureHealthChecks(IHealthChecksBuilder checks)

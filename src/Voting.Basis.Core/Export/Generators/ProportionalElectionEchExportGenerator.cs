@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -58,8 +58,7 @@ public class ProportionalElectionEchExportGenerator : IExportGenerator
             throw new ForbiddenException();
         }
 
-        var ech0157 = _ech0157Serializer.ToDelivery(proportionalElection.Contest, proportionalElection);
-        var xmlBytes = EchSerializer.ToXml(ech0157);
+        var xmlBytes = _ech0157Serializer.ToDelivery(proportionalElection.Contest, proportionalElection);
         var electionDescription = LanguageUtil.GetInCurrentLanguage(proportionalElection.ShortDescription);
         return new ExportFile(xmlBytes, electionDescription + FileExtensions.Xml, MediaTypeNames.Application.Xml);
     }

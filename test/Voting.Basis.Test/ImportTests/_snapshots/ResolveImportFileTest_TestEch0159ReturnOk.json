@@ -59,7 +59,6 @@
             "Id": "",
             "Position": 1,
             "BallotType": 1,
-            "Description": {},
             "BallotQuestions": [
               {
                 "Number": 1,
@@ -111,7 +110,6 @@
             "Id": "",
             "Position": 1,
             "BallotType": 1,
-            "Description": {},
             "BallotQuestions": [
               {
                 "Number": 1,
@@ -163,7 +161,6 @@
             "Id": "",
             "Position": 1,
             "BallotType": 1,
-            "Description": {},
             "BallotQuestions": [
               {
                 "Number": 1,

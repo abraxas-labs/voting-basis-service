@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -37,12 +37,10 @@ public class ElectionGroupReader
 
     public async Task<IEnumerable<ElectionGroup>> List(Guid contestId)
     {
-        _auth.EnsureAdminOrElectionAdmin();
-
-        var isAdmin = _auth.IsAdmin();
+        var canReadAll = _auth.HasPermission(Permissions.ElectionGroup.ReadAll);
         var doiHierarchyGroups = await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups();
         var contest = await _contestRepo.Query()
-            .FirstOrDefaultAsync(c => c.Id == contestId && (isAdmin || doiHierarchyGroups.AccessibleDoiIds.Contains(c.DomainOfInfluenceId)));
+            .FirstOrDefaultAsync(c => c.Id == contestId && (canReadAll || doiHierarchyGroups.AccessibleDoiIds.Contains(c.DomainOfInfluenceId)));
 
         if (contest == null)
         {
@@ -53,7 +51,7 @@ public class ElectionGroupReader
             .Include(eg => eg.PrimaryMajorityElection)
             .Include(eg => eg.SecondaryMajorityElections)
             .Where(eg => eg.PrimaryMajorityElection.ContestId == contestId
-                && (isAdmin || doiHierarchyGroups.AccessibleDoiIds.Contains(eg.PrimaryMajorityElection.DomainOfInfluenceId)))
+                && (canReadAll || doiHierarchyGroups.AccessibleDoiIds.Contains(eg.PrimaryMajorityElection.DomainOfInfluenceId)))
             .OrderBy(eg => eg.Number)
             .ToListAsync();
     }

@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2022 by Abraxas Informatik AG
+﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -22,8 +22,6 @@ public class Ballot
     public Guid VoteId { get; internal set; }
 
     public BallotType BallotType { get; internal set; }
-
-    public Dictionary<string, string> Description { get; internal set; } = new();
 
     /// <summary>
     /// Gets the questions of this ballot. Only one question for standard ballots, multiple for variant ballots.
