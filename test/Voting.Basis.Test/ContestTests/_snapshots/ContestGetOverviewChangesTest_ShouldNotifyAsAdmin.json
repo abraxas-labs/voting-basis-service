@@ -61,7 +61,11 @@
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "",
             "SapCustomerOrderNumber": "",
-            "SwissPostData": null
+            "SwissPostData": null,
+            "VirtualTopLevel": false,
+            "ViewCountingCirclePartialResults": false,
+            "VotingCardColor": 0,
+            "ElectoralRegistrationEnabled": false
           },
           "EVoting": false,
           "EVotingFrom": null,
@@ -135,7 +139,11 @@
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "Stadt Uzwil",
             "SapCustomerOrderNumber": "",
-            "SwissPostData": null
+            "SwissPostData": null,
+            "VirtualTopLevel": false,
+            "ViewCountingCirclePartialResults": false,
+            "VotingCardColor": 0,
+            "ElectoralRegistrationEnabled": false
           },
           "EVoting": true,
           "EVotingFrom": {
@@ -215,7 +223,11 @@
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "",
             "SapCustomerOrderNumber": "",
-            "SwissPostData": null
+            "SwissPostData": null,
+            "VirtualTopLevel": false,
+            "ViewCountingCirclePartialResults": false,
+            "VotingCardColor": 0,
+            "ElectoralRegistrationEnabled": false
           },
           "EVoting": false,
           "EVotingFrom": null,
@@ -284,7 +296,11 @@
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "",
             "SapCustomerOrderNumber": "",
-            "SwissPostData": null
+            "SwissPostData": null,
+            "VirtualTopLevel": false,
+            "ViewCountingCirclePartialResults": false,
+            "VotingCardColor": 0,
+            "ElectoralRegistrationEnabled": false
           },
           "EVoting": false,
           "EVotingFrom": null,

@@ -102,8 +102,8 @@ public class CountingCircleScheduleMergerTest : BaseGrpcTest<CountingCircleServi
         var mergeActivatedEvents = EventPublisherMock.GetPublishedEvents<CountingCirclesMergerActivated>();
         var mergedEvents = EventPublisherMock.GetPublishedEvents<CountingCircleMerged>();
 
-        mergeActivatedEvents.Should().MatchSnapshot("mergeActivated");
-        mergedEvents.Should().MatchSnapshot("merged");
+        mergeActivatedEvents.MatchSnapshot("mergeActivated");
+        mergedEvents.MatchSnapshot("merged");
 
         await TestEventPublisher.Publish(1, mergeActivatedEvents.ToArray());
         await TestEventPublisher.Publish(2, mergedEvents.ToArray());
@@ -111,7 +111,7 @@ public class CountingCircleScheduleMergerTest : BaseGrpcTest<CountingCircleServi
         var ccListAfterActivated = await AdminClient.ListAsync(new ListCountingCircleRequest());
         ccListAfterActivated.CountingCircles_.FirstOrDefault(cc => cc.Id == CountingCircleMockedData.IdRapperswil).Should().BeNull();
         ccListAfterActivated.CountingCircles_.FirstOrDefault(cc => cc.Id == CountingCircleMockedData.IdJona).Should().BeNull();
-        ccListAfterActivated.CountingCircles_.FirstOrDefault(cc => cc.Id == RapperswilJonaId).Should().MatchSnapshot("rapperswil-jona");
+        ccListAfterActivated.CountingCircles_.FirstOrDefault(cc => cc.Id == RapperswilJonaId).MatchSnapshot("rapperswil-jona");
 
         var rapperswilJona = await RunOnDb(db => db.CountingCircles
             .Include(cc => cc.DomainOfInfluences)
@@ -123,7 +123,7 @@ public class CountingCircleScheduleMergerTest : BaseGrpcTest<CountingCircleServi
             .OrderBy(id => id)
             .ToList();
 
-        assignedDoiIds.Should().MatchSnapshot("assignedDoiIds");
+        assignedDoiIds.MatchSnapshot("assignedDoiIds");
         rapperswilJona.MergeOrigin!.Merged.Should().BeTrue();
 
         // after activated merge the new counting circle should be editable and the merged counting circles should be deleted.
@@ -169,10 +169,10 @@ public class CountingCircleScheduleMergerTest : BaseGrpcTest<CountingCircleServi
         => await new CountingCircleService.CountingCircleServiceClient(channel)
             .ScheduleMergerAsync(NewValidRequest());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
-        yield return Roles.ElectionAdmin;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
     }
 
     private static ScheduleCountingCirclesMergerRequest NewValidRequest(Action<ScheduleCountingCirclesMergerRequest>? customizer = null)
@@ -238,6 +238,7 @@ public class CountingCircleScheduleMergerTest : BaseGrpcTest<CountingCircleServi
             },
             NameForProtocol = "Stadt Rapperswil-Jona",
             SortNumber = 40,
+            Canton = SharedProto.DomainOfInfluenceCanton.Sg,
         };
 
         action?.Invoke(request);
@@ -277,6 +278,7 @@ public class CountingCircleScheduleMergerTest : BaseGrpcTest<CountingCircleServi
                 },
                 NameForProtocol = "RapperswilJona",
                 SortNumber = 22,
+                Canton = SharedProto.DomainOfInfluenceCanton.Sg,
             },
             ActiveFrom = MockedClock.GetTimestampDate(),
             MergedCountingCircles =

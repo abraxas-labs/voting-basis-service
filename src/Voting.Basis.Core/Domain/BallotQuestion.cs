@@ -2,6 +2,7 @@
 // For license information see LICENSE file
 
 using System.Collections.Generic;
+using Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Core.Domain;
 
@@ -15,4 +16,6 @@ public class BallotQuestion
     public int Number { get; private set; }
 
     public Dictionary<string, string> Question { get; private set; }
+
+    public BallotQuestionType Type { get; private set; }
 }

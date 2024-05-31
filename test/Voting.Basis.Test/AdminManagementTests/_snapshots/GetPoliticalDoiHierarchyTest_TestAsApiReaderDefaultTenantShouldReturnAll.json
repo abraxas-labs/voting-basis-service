@@ -13,7 +13,8 @@
           "TenantName": "",
           "TenantId": "random",
           "Type": 2,
-          "Canton": 1
+          "Canton": 1,
+          "ReturnAddress": null
         },
         {
           "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
@@ -28,7 +29,16 @@
               "TenantName": "",
               "TenantId": "000000000000000000",
               "Type": 5,
-              "Canton": 1
+              "Canton": 1,
+              "ReturnAddress": {
+                "AddressLine1": "Stadtverwaltung Gossau",
+                "AddressLine2": "",
+                "Street": "Bahnhofstrasse 25",
+                "AddressAddition": "",
+                "ZipCode": "9200",
+                "City": "Gossau",
+                "Country": "Schweiz"
+              }
             },
             {
               "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
@@ -39,7 +49,8 @@
               "TenantName": "",
               "TenantId": "100100100100100100",
               "Type": 5,
-              "Canton": 1
+              "Canton": 1,
+              "ReturnAddress": null
             }
           ],
           "Name": "St. Gallen",
@@ -47,7 +58,8 @@
           "TenantName": "",
           "TenantId": "000000000000000000",
           "Type": 2,
-          "Canton": 1
+          "Canton": 1,
+          "ReturnAddress": null
         },
         {
           "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
@@ -58,7 +70,8 @@
           "TenantName": "",
           "TenantId": "000000000000000000",
           "Type": 2,
-          "Canton": 1
+          "Canton": 1,
+          "ReturnAddress": null
         }
       ],
       "Name": "Bund",
@@ -66,7 +79,8 @@
       "TenantName": "",
       "TenantId": "random",
       "Type": 1,
-      "Canton": 1
+      "Canton": 1,
+      "ReturnAddress": null
     },
     {
       "Id": "22949a1e-fb09-47ec-9e9f-d26675676565",
@@ -81,7 +95,8 @@
           "TenantName": "",
           "TenantId": "100100100100100100",
           "Type": 10,
-          "Canton": 1
+          "Canton": 1,
+          "ReturnAddress": null
         }
       ],
       "Name": "Kirchgemeinde Oberuzwil",
@@ -89,7 +104,8 @@
       "TenantName": "",
       "TenantId": "100100100100100100",
       "Type": 7,
-      "Canton": 1
+      "Canton": 1,
+      "ReturnAddress": null
     }
   ]
 }

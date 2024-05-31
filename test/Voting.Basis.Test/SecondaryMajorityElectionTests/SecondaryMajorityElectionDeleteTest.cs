@@ -12,16 +12,19 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
+using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.SecondaryMajorityElectionTests;
 
 public class SecondaryMajorityElectionDeleteTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
+    private string? _authTestElectionId;
 
     public SecondaryMajorityElectionDeleteTest(TestApplicationFactory factory)
         : base(factory)
@@ -102,14 +105,43 @@ public class SecondaryMajorityElectionDeleteTest : BaseGrpcTest<MajorityElection
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
-        var id = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund;
+        if (_authTestElectionId == null)
+        {
+            var response = await ElectionAdminClient.CreateSecondaryMajorityElectionAsync(new CreateSecondaryMajorityElectionRequest
+            {
+                PoliticalBusinessNumber = "10246",
+                OfficialDescription = { LanguageUtil.MockAllLanguages("Neue Neben-Majorzwahl") },
+                ShortDescription = { LanguageUtil.MockAllLanguages("Neue Neben-Majorzwahl") },
+                Active = true,
+                NumberOfMandates = 5,
+                AllowedCandidates = SharedProto.SecondaryMajorityElectionAllowedCandidates.MayExistInPrimaryElection,
+                PrimaryMajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallenWithoutChilds,
+            });
+            try
+            {
+                await RunEvents<ElectionGroupCreated>(false);
+            }
+            catch (DbUpdateException)
+            {
+                // may already exist
+            }
+
+            await RunEvents<SecondaryMajorityElectionCreated>();
+
+            _authTestElectionId = response.Id;
+        }
 
         await new MajorityElectionService.MajorityElectionServiceClient(channel)
-            .DeleteSecondaryMajorityElectionAsync(new DeleteSecondaryMajorityElectionRequest { Id = id });
+            .DeleteSecondaryMajorityElectionAsync(new DeleteSecondaryMajorityElectionRequest { Id = _authTestElectionId });
+        await RunEvents<SecondaryMajorityElectionDeleted>();
+        _authTestElectionId = null;
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 }

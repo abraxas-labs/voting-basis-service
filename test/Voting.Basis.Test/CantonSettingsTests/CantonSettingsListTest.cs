@@ -7,6 +7,7 @@ using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -35,6 +36,14 @@ public class CantonSettingsListTest : BaseGrpcTest<CantonSettingsService.CantonS
     }
 
     [Fact]
+    public async Task TestAsCantonAdminShouldListAllWithMatchingAuthority()
+    {
+        var list = await CantonAdminClient.ListAsync(new ListCantonSettingsRequest());
+        list.CantonSettingsList_.Should().HaveCount(1);
+        list.CantonSettingsList_.MatchSnapshot();
+    }
+
+    [Fact]
     public async Task TestAsAdminShouldReturnAll()
     {
         var list = await AdminClient.ListAsync(new ListCantonSettingsRequest());
@@ -46,8 +55,11 @@ public class CantonSettingsListTest : BaseGrpcTest<CantonSettingsService.CantonS
         => await new CantonSettingsService.CantonSettingsServiceClient(channel)
             .ListAsync(new ListCantonSettingsRequest());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 }

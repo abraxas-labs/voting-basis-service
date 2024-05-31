@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
+using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Lib.Database.Repositories;
@@ -30,6 +31,7 @@ public class CountingCircleWriter
     private readonly IAuth _auth;
     private readonly ITenantService _tenantService;
     private readonly IMapper _mapper;
+    private readonly PermissionService _permissionService;
 
     public CountingCircleWriter(
         IDbRepository<DataContext, CountingCircle> repo,
@@ -37,7 +39,8 @@ public class CountingCircleWriter
         IAggregateFactory aggregateFactory,
         IAuth auth,
         ITenantService tenantService,
-        IMapper mapper)
+        IMapper mapper,
+        PermissionService permissionService)
     {
         _repo = repo;
         _aggregateRepository = aggregateRepository;
@@ -45,11 +48,13 @@ public class CountingCircleWriter
         _auth = auth;
         _tenantService = tenantService;
         _mapper = mapper;
+        _permissionService = permissionService;
     }
 
     public async Task Create(Domain.CountingCircle data)
     {
         await SetResponsibleAuthorityTenant(data);
+        await EnsureCanCreate(data);
 
         var countingCircle = _aggregateFactory.New<CountingCircleAggregate>();
         countingCircle.CreateFrom(data);
@@ -60,18 +65,14 @@ public class CountingCircleWriter
     public async Task Update(Domain.CountingCircle data)
     {
         await SetResponsibleAuthorityTenant(data);
-
         await EnsureNotInScheduledMerge(data.Id);
 
         var countingCircle = await _aggregateRepository.GetById<CountingCircleAggregate>(data.Id);
 
-        var canUpdateAll = _auth.HasPermission(Permissions.CountingCircle.UpdateAll);
-        if (!canUpdateAll && !_auth.Tenant.Id.Equals(countingCircle.ResponsibleAuthority.SecureConnectId, StringComparison.Ordinal))
-        {
-            throw new ForbiddenException();
-        }
-
-        countingCircle.UpdateFrom(data, canUpdateAll);
+        await EnsureCanEdit(countingCircle);
+        var canUpdateAllFields = _auth.HasAnyPermission(Permissions.CountingCircle.UpdateAll, Permissions.CountingCircle.UpdateSameCanton);
+        var canUpdateCanton = _auth.HasPermission(Permissions.CountingCircle.UpdateAll);
+        countingCircle.UpdateFrom(data, canUpdateAllFields, canUpdateCanton);
 
         await _aggregateRepository.Save(countingCircle);
     }
@@ -80,6 +81,7 @@ public class CountingCircleWriter
     {
         await EnsureNotInScheduledMerge(countingCircleId);
         var countingCircle = await _aggregateRepository.GetById<CountingCircleAggregate>(countingCircleId);
+        await EnsureCanDelete(countingCircle);
         countingCircle.Delete();
 
         await _aggregateRepository.Save(countingCircle);
@@ -88,6 +90,7 @@ public class CountingCircleWriter
     public async Task<Guid> ScheduleMerge(Domain.CountingCirclesMerger data)
     {
         await ValidateAndPrepareMerger(data);
+        await EnsureCanMerge(data.NewCountingCircle.Canton);
 
         var countingCircle = _aggregateFactory.New<CountingCircleAggregate>();
         countingCircle.ScheduleMergeFrom(data);
@@ -103,6 +106,7 @@ public class CountingCircleWriter
         var aggregate = await _aggregateRepository.GetById<CountingCircleAggregate>(newCountingCircleId);
 
         await ValidateAndPrepareMerger(data, aggregate.MergerOrigin?.Id ?? throw new ValidationException("new counting circle id is immutable"));
+        await EnsureCanMerge(data.NewCountingCircle.Canton);
 
         aggregate.UpdateScheduledMergerFrom(data);
         await _aggregateRepository.Save(aggregate);
@@ -113,6 +117,7 @@ public class CountingCircleWriter
     public async Task DeleteScheduledMerger(Guid newCountingCircleId)
     {
         var aggregate = await _aggregateRepository.GetById<CountingCircleAggregate>(newCountingCircleId);
+        await EnsureCanMerge(aggregate.Canton);
         aggregate.CancelMerger();
         await _aggregateRepository.Save(aggregate);
     }
@@ -171,6 +176,7 @@ public class CountingCircleWriter
         data.NewCountingCircle.ContactPersonDuringEvent = copyFromCc.ContactPersonDuringEvent;
         data.NewCountingCircle.ContactPersonAfterEvent = copyFromCc.ContactPersonAfterEvent;
         data.NewCountingCircle.ContactPersonSameDuringEventAsAfter = copyFromCc.ContactPersonSameDuringEventAsAfter;
+        data.NewCountingCircle.Canton = copyFromCc.Canton;
     }
 
     private async Task EnsureNotInScheduledMerge(Guid id)
@@ -210,5 +216,70 @@ public class CountingCircleWriter
         }
 
         return true;
+    }
+
+    private async Task EnsureCanCreate(Domain.CountingCircle countingCircle)
+    {
+        if (_auth.HasPermission(Permissions.CountingCircle.CreateAll))
+        {
+            return;
+        }
+
+        if (await _permissionService.IsOwnerOfCanton(countingCircle.Canton))
+        {
+            return;
+        }
+
+        throw new ForbiddenException();
+    }
+
+    private async Task EnsureCanEdit(CountingCircleAggregate countingCircle)
+    {
+        if (_auth.HasPermission(Permissions.CountingCircle.UpdateAll))
+        {
+            return;
+        }
+
+        if (_auth.HasPermission(Permissions.CountingCircle.UpdateSameCanton) && await _permissionService.IsOwnerOfCanton(countingCircle.Canton))
+        {
+            return;
+        }
+
+        if (_auth.Tenant.Id == countingCircle.ResponsibleAuthority.SecureConnectId)
+        {
+            return;
+        }
+
+        throw new ForbiddenException();
+    }
+
+    private async Task EnsureCanDelete(CountingCircleAggregate countingCircle)
+    {
+        if (_auth.HasPermission(Permissions.CountingCircle.DeleteAll))
+        {
+            return;
+        }
+
+        if (_auth.HasPermission(Permissions.CountingCircle.DeleteSameCanton) && await _permissionService.IsOwnerOfCanton(countingCircle.Canton))
+        {
+            return;
+        }
+
+        throw new ForbiddenException();
+    }
+
+    private async Task EnsureCanMerge(DomainOfInfluenceCanton canton)
+    {
+        if (_auth.HasPermission(Permissions.CountingCircle.MergeAll))
+        {
+            return;
+        }
+
+        if (_auth.HasPermission(Permissions.CountingCircle.MergeSameCanton) && await _permissionService.IsOwnerOfCanton(canton))
+        {
+            return;
+        }
+
+        throw new ForbiddenException();
     }
 }

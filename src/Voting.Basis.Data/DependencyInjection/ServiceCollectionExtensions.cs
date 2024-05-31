@@ -51,7 +51,6 @@ public static class ServiceCollectionExtensions
             .AddTransient<DomainOfInfluenceHierarchyRepo>()
             .AddTransient<BallotQuestionRepo>()
             .AddTransient<TieBreakQuestionRepo>()
-            .AddTransient<ContestCountingCircleOptionsRepo>()
             .AddTransient<ProportionalElectionListUnionEntryRepo>()
             .AddTransient<MajorityElectionBallotGroupEntryRepo>()
             .AddTransient<ProportionalElectionUnionEntryRepo>()

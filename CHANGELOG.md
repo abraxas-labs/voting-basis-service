@@ -1,4 +1,4 @@
-# ✨ Changelog (`v1.68.0`)
+# ✨ Changelog (`v2.12.1`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,172 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v1.68.0
-Previous version ---- v1.57.4
+This version -------- v2.12.1
+Previous version ---- v1.68.0
 Initial version ----- v1.27.15
-Total commits ------- 26
+Total commits ------- 31
 ```
+
+## [v2.12.1] - 2024-05-29
+
+### 🔄 Changed
+
+- split ech-0252 election to majority and proportional election export
+
+## [v2.12.0] - 2024-05-29
+
+### 🆕 Added
+
+- add publish results enabled canton setting
+
+## [v2.11.0] - 2024-05-22
+
+### 🆕 Added
+
+- add ballot question type
+
+## [v2.10.3] - 2024-05-15
+
+### 🆕 Added
+
+- new voting-lib reference for expanded special character validation
+
+## [v2.10.2] - 2024-05-15
+
+### :lock: Security
+
+- correctly apply permissions when user has both admin and canton-admin permissions
+
+## [v2.10.1] - 2024-05-15
+
+### :arrows_counterclockwise: Changed
+
+- detect duplicated ids during import
+
+## [v2.10.0] - 2024-05-08
+
+### :arrows_counterclockwise: Changed
+
+- update voting lib
+
+## [v2.9.0] - 2024-05-07
+
+### 🔄 Changed
+
+- allow to add same counting circle in domain of influence trees
+
+## [v2.8.0] - 2024-05-07
+
+### 🆕 Added
+
+- update mandate algorithm for proportional elections in unions
+
+## [v2.7.0] - 2024-05-04
+
+### 🔄 Changed
+
+- move Stimmregister flag from canton settings to DOI
+
+## [v2.6.1] - 2024-04-25
+
+### 🔄 Changed
+
+- only root domain of influences should be used for contest creation
+
+## [v2.6.0] - 2024-04-24
+
+### :new: Added
+
+- check for unique political business number
+
+## [v2.5.0] - 2024-04-19
+
+### 🆕 Added
+
+- add state plausibilised disabled canton setting
+
+## [v2.4.0] - 2024-04-18
+
+### 🆕 Added
+
+- add counting circle result state descriptions
+
+## [v2.3.0] - 2024-04-17
+
+### :new: Added
+
+- added domain of influence voting card color
+
+## [v2.2.0] - 2024-04-15
+
+### :new: Added
+
+- added election supporter role
+
+- added view partial counting circle results flag to domain of influence
+
+## [v2.1.1] - 2024-04-08
+
+### 🔄 Changed
+
+- admin management service contains the return address of dois now
+
+## [v2.1.0] - 2024-04-08
+
+### 🆕 Added
+
+- add evoting counting circle
+
+## [v2.0.0] - 2024-03-15
+
+### 🆕 Added
+
+- add virtual top level domain of influence
+
+### :lock: Security
+
+- dependency and runtime patch policy
+- use latest dotnet runtime v8.0.3
+
+### :arrows_counterclockwise: Changed
+
+- update input validation for vote attribute
+
+### 🔄 Changed
+
+- update voting library with extended validation rule set.
+
+### 🆕 Added
+
+- add vote result algorithm popular and counting circle majority
+
+### 🔄 Changed
+
+- change file names of eCH exports
+
+### 🆕 Added
+
+- add political assembly
+
+BREAKING CHANGE: Updated service to .NET 8 LTS.
+
+### :arrows_counterclockwise: Changed
+
+- update to dotnet 8
+
+### :lock: Security
+
+- apply patch policy
+
+### :new: Added
+
+- added canton to counting circle
+
+## [v1.68.1] - 2024-03-12
+
+### 🔄 Changed
+
+- update voting library with extended validation rule set.
 
 ## [v1.68.0] - 2024-02-19
 
@@ -122,97 +283,65 @@ Total commits ------- 26
 
 - add eCH from voting lib
 
-## [v1.58.0] - 2023-12-19
-
 ### 🆕 Added
 
 - add multiple vote ballots
-
-## [v1.57.8] - 2023-12-18
 
 ### 🔄 Changed
 
 - Question number in eCH-0155 export
 
-## [v1.57.7] - 2023-12-13
-
 ### 🔄 Changed
 
 - use proportional election id for empty list identification
-
-## [v1.57.6] - 2023-12-08
 
 ### :arrows_counterclockwise: Changed
 
 - use separate port for metrics endpoint provisioning
 
-## [v1.57.5] - 2023-11-24
-
 ### :new: Added
 
 - add support for custom oauth scopes.
-
-## [v1.57.4] - 2023-11-17
 
 ### 🔄 Changed
 
 - udpate to latest voting-lib version to fix role cache
 
-## [v1.57.3] - 2023-11-10
-
 ### :arrows_counterclockwise: Changed
 
 - import eCH-0157 majority election without candidates correctly
-
-## [v1.57.2] - 2023-10-24
 
 ### 🔄 Changed
 
 - use latest lib version to fix role cache
 
-## [v1.57.1] - 2023-10-05
-
 ### 🔄 Changed
 
 - Update lib dependency
-
-## [v1.57.0] - 2023-09-01
 
 ### 🔄 Changed
 
 - political first name of candidate from simple text to complex text
 
-## [v1.56.3] - 2023-08-29
-
 ### 🔄 Changed
 
 - remove list unions when a main list is removed
-
-## [v1.56.2] - 2023-08-29
 
 ### 🔄 Changed
 
 - remove empty list unions when a list is removed
 
-## [v1.56.1] - 2023-08-29
-
 ### 🔄 Changed
 
 - remove party from candidate text for proportional election
-
-## [v1.56.0] - 2023-08-28
 
 ### 🆕 Added
 
 - add health check for cert pinned authorities
 
-## [v1.55.2] - 2023-08-28
-
 ### 🔄 Changed
 
 - extend ech-0157 import to map all languages for occupation.
-
-## [v1.55.1] - 2023-08-28
 
 ### 🔄 Changed
 
@@ -220,67 +349,45 @@ Total commits ------- 26
 - extend eCH-0157 export to add multi-language support for empty list description `WoP`
 - extend candidate text transformer to differentiate between custom templates
 
-## [v1.55.0] - 2023-08-22
-
 ### 🔄 Changed
 
 - Update eai and lib dependency to deterministic version
-
-## [v1.54.3] - 2023-08-18
 
 ### ❌ Removed
 
 - remove swiss post order number
 
-## [v1.54.2] - 2023-08-16
-
 ### 🔄 Changed
 
 - list import delete list only on same order number
-
-## [v1.54.1] - 2023-08-10
 
 ### 🔄 Changed
 
 - map ballot title occupation from candidate lookup extension during eCH-0157 import
 
-## [v1.54.0] - 2023-08-10
-
 ### 🔄 Changed
 
 - import party for proportional election candidates
-
-## [v1.53.0] - 2023-07-26
 
 ### 🆕 Added
 
 - add swiss post data
 
-## [v1.52.2] - 2023-07-26
-
 ### 🔄 Changed
 
 - Migrate optional owned domain of influence print data correctly
-
-## [v1.52.1] - 2023-07-18
 
 ### 🆕 Added
 
 - Add domain of influence voting card shipping choice
 
-## [v1.52.0] - 2023-07-12
-
 ### 🆕 Added
 
 - integrate malware scanner to check logo and ech-files import
 
-## [v1.51.8] - 2023-06-26
-
 ### 🔄 Changed
 
 - export vote sorting by domain of influence type
-
-## [v1.51.7] - 2023-06-23
 
 ### 🔄 Changed
 
@@ -536,6 +643,170 @@ Total commits ------- 26
 - extend evoting date with time
 
 The readmodel needs to be recreated after this MR.
+
+## [v1.58.0] - 2023-12-19
+
+### 🆕 Added
+
+- add multiple vote ballots
+
+## [v1.57.8] - 2023-12-18
+
+### 🔄 Changed
+
+- Question number in eCH-0155 export
+
+## [v1.57.7] - 2023-12-13
+
+### 🔄 Changed
+
+- use proportional election id for empty list identification
+
+## [v1.57.6] - 2023-12-08
+
+### :arrows_counterclockwise: Changed
+
+- use separate port for metrics endpoint provisioning
+
+## [v1.57.5] - 2023-11-24
+
+### :new: Added
+
+- add support for custom oauth scopes.
+
+## [v1.57.4] - 2023-11-17
+
+### 🔄 Changed
+
+- udpate to latest voting-lib version to fix role cache
+
+## [v1.57.3] - 2023-11-10
+
+### :arrows_counterclockwise: Changed
+
+- import eCH-0157 majority election without candidates correctly
+
+## [v1.57.2] - 2023-10-24
+
+### 🔄 Changed
+
+- use latest lib version to fix role cache
+
+## [v1.57.1] - 2023-10-05
+
+### 🔄 Changed
+
+- Update lib dependency
+
+## [v1.57.0] - 2023-09-01
+
+### 🔄 Changed
+
+- political first name of candidate from simple text to complex text
+
+## [v1.56.3] - 2023-08-29
+
+### 🔄 Changed
+
+- remove list unions when a main list is removed
+
+## [v1.56.2] - 2023-08-29
+
+### 🔄 Changed
+
+- remove empty list unions when a list is removed
+
+## [v1.56.1] - 2023-08-29
+
+### 🔄 Changed
+
+- remove party from candidate text for proportional election
+
+## [v1.56.0] - 2023-08-28
+
+### 🆕 Added
+
+- add health check for cert pinned authorities
+
+## [v1.55.2] - 2023-08-28
+
+### 🔄 Changed
+
+- extend ech-0157 import to map all languages for occupation.
+
+## [v1.55.1] - 2023-08-28
+
+### 🔄 Changed
+
+- extend eCH-0157 import to add multi-language support for `occupationTitle` candidate attribute
+- extend eCH-0157 export to add multi-language support for empty list description `WoP`
+- extend candidate text transformer to differentiate between custom templates
+
+## [v1.55.0] - 2023-08-22
+
+### 🔄 Changed
+
+- Update eai and lib dependency to deterministic version
+
+## [v1.54.3] - 2023-08-18
+
+### ❌ Removed
+
+- remove swiss post order number
+
+## [v1.54.2] - 2023-08-16
+
+### 🔄 Changed
+
+- list import delete list only on same order number
+
+## [v1.54.1] - 2023-08-10
+
+### 🔄 Changed
+
+- map ballot title occupation from candidate lookup extension during eCH-0157 import
+
+## [v1.54.0] - 2023-08-10
+
+### 🔄 Changed
+
+- import party for proportional election candidates
+
+## [v1.53.0] - 2023-07-26
+
+### 🆕 Added
+
+- add swiss post data
+
+## [v1.52.2] - 2023-07-26
+
+### 🔄 Changed
+
+- Migrate optional owned domain of influence print data correctly
+
+## [v1.52.1] - 2023-07-18
+
+### 🆕 Added
+
+- Add domain of influence voting card shipping choice
+
+## [v1.52.0] - 2023-07-12
+
+### 🆕 Added
+
+- integrate malware scanner to check logo and ech-files import
+
+## [v1.51.8] - 2023-06-26
+
+### 🔄 Changed
+
+- export vote sorting by domain of influence type
+
+## [v1.51.7] - 2023-06-23
+
+### 🔄 Changed
+
+- first import all root list unions
 
 ## [v1.51.6] - 2023-06-23
 

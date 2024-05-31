@@ -47,6 +47,7 @@ public class EnumTest : BaseTest
     [InlineData(typeof(ComparisonCountOfVotersCategory), typeof(SharedProto.ComparisonCountOfVotersCategory))]
     [InlineData(typeof(VotingChannel), typeof(SharedProto.VotingChannel))]
     [InlineData(typeof(VotingApp), typeof(SharedProto.ExportGenerator))]
+    [InlineData(typeof(BallotQuestionType), typeof(SharedProto.BallotQuestionType))]
     public void ShouldBeSameEnum(Type dataEnumType, Type protoEnumType)
     {
         CompareEnums(dataEnumType, protoEnumType);

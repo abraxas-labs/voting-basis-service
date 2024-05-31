@@ -88,6 +88,7 @@ internal static class PublisherServiceCollection
             .AddScoped<CantonSettingsWriter>()
             .AddScoped<ContestMerger>()
             .AddScoped<EventSignatureWriter>()
+            .AddScoped<PoliticalAssemblyWriter>()
             .AddScoped<IAggregateRepositoryHandler, EventSignatureAggregateRepositoryHandler>()
             .AddValidatorsFromAssemblyContaining<EntityOrdersValidator>()
             .AddScheduledJobs(config);
@@ -109,7 +110,8 @@ internal static class PublisherServiceCollection
             .AddScoped<MajorityElectionReader>()
             .AddScoped<ElectionGroupReader>()
             .AddScoped<ProportionalElectionUnionReader>()
-            .AddScoped<EventLogReader>();
+            .AddScoped<EventLogReader>()
+            .AddScoped<PoliticalAssemblyReader>();
     }
 
     private static IServiceCollection AddExports(this IServiceCollection services)

@@ -82,6 +82,7 @@ public class UpdateDomainOfInfluenceForAdminRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => x.SapCustomerOrderNumber = RandomStringUtil.GenerateAlphabetic(20));
         yield return NewValidRequest(x => x.NameForProtocol = RandomStringUtil.GenerateComplexSingleLineText(101));
         yield return NewValidRequest(x => x.NameForProtocol = "Bezirk Uzwil \n(Protokoll)");
+        yield return NewValidRequest(x => x.VotingCardColor = (VotingCardColor)28);
     }
 
     private UpdateDomainOfInfluenceForAdminRequest NewValidRequest(Action<UpdateDomainOfInfluenceForAdminRequest>? action = null)

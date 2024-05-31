@@ -43,7 +43,7 @@ public class CantonSettingsService : ServiceBase
         return new IdValue { Id = data.Id.ToString() };
     }
 
-    [AuthorizePermission(Permissions.CantonSettings.Update)]
+    [AuthorizeAnyPermission(Permissions.CantonSettings.UpdateSameTenant, Permissions.CantonSettings.UpdateAll)]
     public override async Task<Empty> Update(
         UpdateCantonSettingsRequest request,
         ServerCallContext context)
@@ -53,7 +53,7 @@ public class CantonSettingsService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
-    [AuthorizePermission(Permissions.CantonSettings.Read)]
+    [AuthorizeAnyPermission(Permissions.CantonSettings.ReadSameTenant, Permissions.CantonSettings.ReadAll)]
     public override async Task<CantonSettingsList> List(
         ListCantonSettingsRequest request,
         ServerCallContext context)
@@ -61,7 +61,7 @@ public class CantonSettingsService : ServiceBase
         return _mapper.Map<CantonSettingsList>(await _cantonSettingsReader.List());
     }
 
-    [AuthorizePermission(Permissions.CantonSettings.Read)]
+    [AuthorizeAnyPermission(Permissions.CantonSettings.ReadSameTenant, Permissions.CantonSettings.ReadAll)]
     public override async Task<CantonSettings> Get(
         GetCantonSettingsRequest request,
         ServerCallContext context)

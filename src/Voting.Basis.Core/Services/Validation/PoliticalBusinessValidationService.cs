@@ -6,9 +6,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Read;
+using Voting.Basis.Data;
+using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
+using Voting.Lib.Database.Repositories;
 
 namespace Voting.Basis.Core.Services.Validation;
 
@@ -17,21 +21,56 @@ public class PoliticalBusinessValidationService
     private readonly PermissionService _permissionService;
     private readonly ContestReader _contestReader;
     private readonly DomainOfInfluenceHierarchyRepo _doiHierarchyRepo;
+    private readonly IDbRepository<DataContext, DomainOfInfluence> _doiRepo;
+    private readonly IDbRepository<DataContext, SimplePoliticalBusiness> _simplePbRepo;
 
-    public PoliticalBusinessValidationService(PermissionService permissionService, ContestReader contestReader, DomainOfInfluenceHierarchyRepo doiHierarchyRepo)
+    public PoliticalBusinessValidationService(
+        PermissionService permissionService,
+        ContestReader contestReader,
+        DomainOfInfluenceHierarchyRepo doiHierarchyRepo,
+        IDbRepository<DataContext, DomainOfInfluence> doiRepo,
+        IDbRepository<DataContext, SimplePoliticalBusiness> simplePbRepo)
     {
         _permissionService = permissionService;
         _contestReader = contestReader;
         _doiHierarchyRepo = doiHierarchyRepo;
+        _doiRepo = doiRepo;
+        _simplePbRepo = simplePbRepo;
     }
 
-    public async Task EnsureValidEditData(Guid contestId, Guid politicalBusinessDomainOfInfluenceId)
+    public async Task EnsureValidEditData(
+        Guid politicalBusinessId,
+        Guid contestId,
+        Guid domainOfInfluenceId,
+        string politicalBusinessNumber,
+        int reportLevel)
     {
         // ensure user has read permissions of the contest
         var contest = await _contestReader.Get(contestId);
-        await _permissionService.EnsureDomainOfInfluencesAreChildrenOrSelf(
-            contest.DomainOfInfluenceId,
-            politicalBusinessDomainOfInfluenceId);
+        await _permissionService.EnsureDomainOfInfluencesAreChildrenOrSelf(contest.DomainOfInfluenceId, domainOfInfluenceId);
+
+        await EnsureUniquePoliticalBusinessNumber(politicalBusinessId, contestId, domainOfInfluenceId, politicalBusinessNumber);
+        await EnsureValidReportDomainOfInfluenceLevel(domainOfInfluenceId, reportLevel);
+        await EnsureNotVirtualTopLevelDomainOfInfluence(domainOfInfluenceId);
+    }
+
+    public async Task EnsureUniquePoliticalBusinessNumber(
+        Guid politicalBusinessId,
+        Guid contestId,
+        Guid domainOfInfluenceId,
+        string politicalBusinessNumber)
+    {
+        var alreadyExists = await _simplePbRepo.Query()
+            .AnyAsync(pb =>
+                pb.Id != politicalBusinessId
+                && pb.ContestId == contestId
+                && pb.DomainOfInfluenceId == domainOfInfluenceId
+                && pb.PoliticalBusinessNumber == politicalBusinessNumber);
+
+        if (alreadyExists)
+        {
+            throw new DuplicatedPoliticalBusinessNumberException(politicalBusinessNumber);
+        }
     }
 
     /// <summary>
@@ -41,7 +80,7 @@ public class PoliticalBusinessValidationService
     /// <param name="doiId">The domain of influence id of a political business.</param>
     /// <param name="reportLevel">The report level of the business.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    public async Task EnsureValidReportDomainOfInfluenceLevel(Guid doiId, int reportLevel)
+    private async Task EnsureValidReportDomainOfInfluenceLevel(Guid doiId, int reportLevel)
     {
         // since there is at least one domain of influence, the first level is always valid
         // report level cannot be negative, checked by business rules
@@ -69,6 +108,18 @@ public class PoliticalBusinessValidationService
         if (parentIdsList.All(ids => ids.Count - domainOfInfluenceParentCount < reportLevel))
         {
             throw new ValidationException($"Report domainOfInfluence level {reportLevel} is invalid.");
+        }
+    }
+
+    private async Task EnsureNotVirtualTopLevelDomainOfInfluence(Guid domainOfInfluenceId)
+    {
+        var domainOfInfluence = await _doiRepo.GetByKey(domainOfInfluenceId)
+            ?? throw new EntityNotFoundException(domainOfInfluenceId);
+
+        if (domainOfInfluence.VirtualTopLevel)
+        {
+            throw new ValidationException(
+                "A virtual top level domain of influence is not allowed for political businesses.");
         }
     }
 }

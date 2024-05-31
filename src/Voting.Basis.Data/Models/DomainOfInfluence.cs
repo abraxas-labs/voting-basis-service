@@ -20,6 +20,8 @@ public class DomainOfInfluence : BaseDomainOfInfluence, IHasSnapshotEntity<Domai
 
     public ICollection<Contest> Contests { get; set; } = new HashSet<Contest>();
 
+    public ICollection<PoliticalAssembly> PoliticalAssemblies { get; set; } = new HashSet<PoliticalAssembly>();
+
     public ICollection<Vote> Votes { get; set; } = new HashSet<Vote>();
 
     public ICollection<ProportionalElection> ProportionalElections { get; set; } = new HashSet<ProportionalElection>();

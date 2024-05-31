@@ -2,6 +2,7 @@
 // For license information see LICENSE file
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
 using Abraxas.Voting.Basis.Events.V1.Metadata;
 using FluentAssertions;
+using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MassTransit;
@@ -26,6 +28,7 @@ using Voting.Lib.Eventing.Persistence;
 using Voting.Lib.Eventing.Testing.Mocks;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing;
+using Xunit;
 
 namespace Voting.Basis.Test;
 
@@ -34,8 +37,11 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
 {
     private readonly Lazy<TService> _adminClient;
     private readonly Lazy<TService> _electionAdminClient;
+    private readonly Lazy<TService> _electionSupporterClient;
+    private readonly Lazy<TService> _cantonAdminClient;
     private readonly Lazy<TService> _electionAdminUzwilClient;
     private readonly Lazy<TService> _apiReaderClient;
+    private int _currentEventNumber;
 
     protected BaseGrpcTest(TestApplicationFactory factory)
         : base(factory)
@@ -49,8 +55,10 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
         AggregateRepositoryMock.Clear();
 
         _adminClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.Admin));
+        _cantonAdminClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.CantonAdmin));
         _electionAdminClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ElectionAdmin));
         _electionAdminUzwilClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantUzwil.Id, Roles.ElectionAdmin));
+        _electionSupporterClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ElectionSupporter));
         _apiReaderClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ApiReader));
 
         MessagingTestHarness = GetService<InMemoryTestHarness>();
@@ -64,13 +72,47 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
 
     protected TService AdminClient => _adminClient.Value;
 
+    protected TService CantonAdminClient => _cantonAdminClient.Value;
+
     protected TService ElectionAdminClient => _electionAdminClient.Value;
+
+    protected TService ElectionSupporterClient => _electionSupporterClient.Value;
 
     protected TService ElectionAdminUzwilClient => _electionAdminUzwilClient.Value;
 
     protected TService ApiReaderClient => _apiReaderClient.Value;
 
     protected InMemoryTestHarness MessagingTestHarness { get; set; }
+
+    /// <summary>
+    /// Authorized roles should have access to the method.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    [Fact]
+    public async Task AuthorizedRolesShouldHaveAccess()
+    {
+        foreach (var role in AuthorizedRoles())
+        {
+            try
+            {
+                await AuthorizationTestCall(CreateGrpcChannel(role == NoRole ? Array.Empty<string>() : new[] { role }));
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail($"Call failed for role {role}: {ex}");
+            }
+        }
+    }
+
+    protected abstract IEnumerable<string> AuthorizedRoles();
+
+    protected override IEnumerable<string> UnauthorizedRoles()
+    {
+        return Roles
+            .All()
+            .Append(NoRole)
+            .Except(AuthorizedRoles());
+    }
 
     protected async Task AssertHasPublishedMessage<T>(Func<T, bool> predicate, bool hasMessage = true)
         where T : class
@@ -91,6 +133,20 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
 
     protected Task<TResult> RunOnDb<TResult>(Func<DataContext, Task<TResult>> action)
         => RunScoped(action);
+
+    protected async Task RunEvents<TEvent>(bool clear = true)
+        where TEvent : IMessage<TEvent>
+    {
+        var events = EventPublisherMock.GetPublishedEvents<TEvent>().ToArray();
+        await TestEventPublisher.Publish(
+            _currentEventNumber,
+            events);
+        _currentEventNumber += events.Length;
+        if (clear)
+        {
+            EventPublisherMock.Clear();
+        }
+    }
 
     protected void ResetDb()
     {

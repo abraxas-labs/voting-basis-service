@@ -23,6 +23,7 @@ public class CountingCircleReader
     private readonly DomainOfInfluenceCountingCircleRepo _doiCcRepo;
     private readonly DomainOfInfluenceHierarchyRepo _hierarchyRepo;
     private readonly IDbRepository<DataContext, CountingCirclesMerger> _mergerRepo;
+    private readonly CantonSettingsRepo _cantonSettingsRepo;
     private readonly IAuth _auth;
 
     public CountingCircleReader(
@@ -31,6 +32,7 @@ public class CountingCircleReader
         DomainOfInfluenceCountingCircleRepo doiCcRepo,
         DomainOfInfluenceHierarchyRepo hierarchyRepo,
         IDbRepository<DataContext, CountingCirclesMerger> mergerRepo,
+        CantonSettingsRepo cantonSettingsRepo,
         IAuth auth)
     {
         _repo = repo;
@@ -38,19 +40,22 @@ public class CountingCircleReader
         _doiCcRepo = doiCcRepo;
         _hierarchyRepo = hierarchyRepo;
         _mergerRepo = mergerRepo;
+        _cantonSettingsRepo = cantonSettingsRepo;
         _auth = auth;
     }
 
     public async Task<CountingCircle> Get(Guid id)
     {
-        return await BuildQuery()
-                   .FirstOrDefaultAsync(x => x.Id == id)
-               ?? throw new EntityNotFoundException(nameof(CountingCircle), id);
+        var query = await BuildQuery();
+        return await query
+            .FirstOrDefaultAsync(x => x.Id == id)
+            ?? throw new EntityNotFoundException(nameof(CountingCircle), id);
     }
 
     public async Task<List<CountingCircle>> List()
     {
-        return await BuildQuery()
+        var query = await BuildQuery();
+        return await query
             .OrderBy(cc => cc.Name)
             .ToListAsync();
     }
@@ -66,7 +71,16 @@ public class CountingCircleReader
             .ThenInclude(cc => cc.ContactPersonAfterEvent)
             .Where(doiCc => doiCc.DomainOfInfluenceId == domainOfInfluenceId);
 
-        if (!_auth.HasPermission(Permissions.CountingCircle.ReadAll))
+        if (_auth.HasPermission(Permissions.CountingCircle.ReadAll))
+        {
+            // No restrictions
+        }
+        else if (_auth.HasPermission(Permissions.CountingCircle.ReadSameCanton))
+        {
+            var cantons = await GetAccessibleCantons();
+            query = query.Where(doiCc => cantons.Contains(doiCc.CountingCircle.Canton));
+        }
+        else if (_auth.HasPermission(Permissions.CountingCircle.Read))
         {
             var doiPermission = await _permissionRepo.Query()
                 .Where(p => p.DomainOfInfluenceId == domainOfInfluenceId && p.TenantId == _auth.Tenant.Id)
@@ -88,22 +102,28 @@ public class CountingCircleReader
             .FirstOrDefaultAsync(h => h.DomainOfInfluenceId == domainOfInfluenceId)
             ?? throw new EntityNotFoundException(domainOfInfluenceId);
 
-        var rootCcIds = await _doiCcRepo
+        var hierarchicalGreaterNonInheritedCcIds = await _doiCcRepo
             .Query()
-            .Where(doiCc => doiCc.DomainOfInfluenceId == doiHierarchy.RootId)
+            .Where(doiCc => doiHierarchy.ParentIds.Contains(doiCc.DomainOfInfluenceId) && !doiCc.Inherited)
             .Select(doiCc => doiCc.CountingCircleId)
             .ToListAsync();
 
-        var selfNonInheritedCcIds = await _doiCcRepo
+        var inheritedCcIds = await _doiCcRepo
             .Query()
-            .Where(doiCc => doiCc.DomainOfInfluenceId == domainOfInfluenceId && !doiCc.Inherited)
+            .Where(doiCc => doiCc.DomainOfInfluenceId == domainOfInfluenceId && doiCc.Inherited)
             .Select(doiCc => doiCc.CountingCircleId)
             .ToListAsync();
 
-        return await _repo
-            .Query()
-            .Where(cc => !rootCcIds.Contains(cc.Id)
-                || (rootCcIds.Contains(cc.Id) && selfNonInheritedCcIds.Contains(cc.Id)))
+        var query = _repo.Query();
+
+        if (_auth.HasPermission(Permissions.CountingCircle.ReadSameCanton))
+        {
+            var cantons = await GetAccessibleCantons();
+            query = query.Where(cc => cantons.Contains(cc.Canton));
+        }
+
+        return await query
+            .Where(cc => !inheritedCcIds.Contains(cc.Id) && !hierarchicalGreaterNonInheritedCcIds.Contains(cc.Id))
             .OrderBy(cc => cc.Name)
             .Include(cc => cc.DomainOfInfluences)
             .Include(cc => cc.ResponsibleAuthority)
@@ -121,6 +141,12 @@ public class CountingCircleReader
             query = query.Where(x => x.Merged == merged);
         }
 
+        if (_auth.HasPermission(Permissions.CountingCircle.ReadSameCanton) && !_auth.HasPermission(Permissions.CountingCircle.ReadAll))
+        {
+            var cantons = await GetAccessibleCantons();
+            query = query.Where(x => cantons.Contains(x.NewCountingCircle!.Canton));
+        }
+
         // ignore query filters to include already merged counting circles
         return await query
             .IgnoreQueryFilters()
@@ -131,10 +157,20 @@ public class CountingCircleReader
             .ToListAsync();
     }
 
-    private IQueryable<CountingCircle> BuildQuery()
+    private async Task<IQueryable<CountingCircle>> BuildQuery()
     {
         var query = _repo.Query();
-        if (!_auth.HasPermission(Permissions.CountingCircle.ReadAll))
+
+        if (_auth.HasPermission(Permissions.CountingCircle.ReadAll))
+        {
+            // No restrictions
+        }
+        else if (_auth.HasPermission(Permissions.CountingCircle.ReadSameCanton))
+        {
+            var cantons = await GetAccessibleCantons();
+            query = query.Where(cc => cantons.Contains(cc.Canton));
+        }
+        else if (_auth.HasPermission(Permissions.CountingCircle.Read))
         {
             // ef core does not support selectmany on array columns
             var doiPermissionCcIds = _permissionRepo.Query()
@@ -154,5 +190,13 @@ public class CountingCircleReader
             .Include(cc => cc.ContactPersonDuringEvent)
             .Include(cc => cc.ContactPersonAfterEvent)
             .Include(cc => cc.Electorates.OrderBy(e => e.DomainOfInfluenceTypes[0]));
+    }
+
+    private Task<List<DomainOfInfluenceCanton>> GetAccessibleCantons()
+    {
+        return _cantonSettingsRepo.Query()
+            .Where(x => x.SecureConnectId == _auth.Tenant.Id)
+            .Select(x => x.Canton)
+            .ToListAsync();
     }
 }

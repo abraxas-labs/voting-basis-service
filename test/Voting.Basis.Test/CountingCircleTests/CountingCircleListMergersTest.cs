@@ -88,10 +88,10 @@ public class CountingCircleListMergersTest : BaseGrpcTest<CountingCircleService.
             .ListMergersAsync(new ListCountingCirclesMergersRequest());
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
-        yield return Roles.ElectionAdmin;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
     }
 
     private async Task SeedMergers()

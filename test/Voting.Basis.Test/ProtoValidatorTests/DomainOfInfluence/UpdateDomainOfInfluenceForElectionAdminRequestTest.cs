@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Abraxas.Voting.Basis.Services.V1.Requests;
+using Abraxas.Voting.Basis.Shared.V1;
 using Voting.Basis.Test.ProtoValidatorTests.Models;
 using Voting.Basis.Test.ProtoValidatorTests.Utils;
 using Voting.Lib.Testing.Validation;
@@ -36,6 +37,7 @@ public class UpdateDomainOfInfluenceForElectionAdminRequestTest : ProtoValidator
         yield return NewValidRequest(x => x.ExternalPrintingCenterEaiMessageType = RandomStringUtil.GenerateAlphabetic(7));
         yield return NewValidRequest(x => x.SapCustomerOrderNumber = RandomStringUtil.GenerateNumeric(21));
         yield return NewValidRequest(x => x.SapCustomerOrderNumber = RandomStringUtil.GenerateAlphabetic(20));
+        yield return NewValidRequest(x => x.VotingCardColor = (VotingCardColor)28);
     }
 
     private UpdateDomainOfInfluenceForElectionAdminRequest NewValidRequest(Action<UpdateDomainOfInfluenceForElectionAdminRequest>? action = null)

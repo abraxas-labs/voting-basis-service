@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -19,6 +18,7 @@ using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Extensions;
 using Voting.Basis.Core.ObjectStorage;
+using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
@@ -52,6 +52,7 @@ public class DomainOfInfluenceWriter
     private readonly IDbRepository<DataContext, ExportConfiguration> _exportConfigRepo;
     private readonly IAuth _auth;
     private readonly ITenantService _tenantService;
+    private readonly PermissionService _permissionService;
     private readonly DomainOfInfluenceLogoStorage _logoStorage;
     private readonly AppConfig _appConfig;
     private readonly IMalwareScannerService _malwareScannerService;
@@ -67,6 +68,7 @@ public class DomainOfInfluenceWriter
         IDbRepository<DataContext, ExportConfiguration> exportConfigRepo,
         IAuth auth,
         ITenantService tenantService,
+        PermissionService permissionService,
         DomainOfInfluenceLogoStorage logoStorage,
         AppConfig appConfig,
         IMalwareScannerService malwareScannerService)
@@ -81,6 +83,7 @@ public class DomainOfInfluenceWriter
         _exportConfigRepo = exportConfigRepo;
         _auth = auth;
         _tenantService = tenantService;
+        _permissionService = permissionService;
         _logoStorage = logoStorage;
         _appConfig = appConfig;
         _malwareScannerService = malwareScannerService;
@@ -88,12 +91,14 @@ public class DomainOfInfluenceWriter
 
     public async Task Create(Domain.DomainOfInfluence data)
     {
-        await ValidateHierarchy(data);
+        ValidateElectoralRegistration(data);
+        var parent = await ValidateHierarchy(data);
         await ValidateUniqueBfs(data);
         await SetAuthorityTenant(data);
         await ValidatePlausibilisationConfig(null, data.PlausibilisationConfiguration);
         await ValidateParties(null, data.Parties);
         await ValidateExportConfigurations(null, data.ExportConfigurations);
+        await EnsureCanCreate(data, parent);
 
         var domainOfInfluence = _aggregateFactory.New<DomainOfInfluenceAggregate>();
         domainOfInfluence.CreateFrom(data);
@@ -103,7 +108,8 @@ public class DomainOfInfluenceWriter
 
     public async Task UpdateForAdmin(Domain.DomainOfInfluence data)
     {
-        _auth.EnsurePermission(Permissions.DomainOfInfluence.UpdateAll);
+        await EnsureCanEdit(data.Id, false);
+        ValidateElectoralRegistration(data);
         await ValidateHierarchy(data);
         await ValidateUniqueBfs(data);
         await SetAuthorityTenant(data);
@@ -113,6 +119,14 @@ public class DomainOfInfluenceWriter
         await ValidateExportConfigurations(data.Id, data.ExportConfigurations);
 
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(data.Id);
+
+        if (_auth.HasPermission(Permissions.DomainOfInfluence.UpdateSameCanton)
+            && domainOfInfluence.ParentId == null
+            && data.Canton != domainOfInfluence.Canton)
+        {
+            throw new ForbiddenException("Not allowed to change the canton");
+        }
+
         domainOfInfluence.UpdateFrom(data);
 
         await _aggregateRepository.Save(domainOfInfluence);
@@ -123,9 +137,9 @@ public class DomainOfInfluenceWriter
         await ValidateUniqueBfs(data);
         await ValidatePlausibilisationConfig(data.Id, data.PlausibilisationConfiguration);
         await ValidateParties(data.Id, data.Parties);
+        await EnsureCanEdit(data.Id);
 
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(data.Id);
-        EnsureCanEdit(domainOfInfluence);
 
         if (data.PlausibilisationConfiguration == null)
         {
@@ -154,7 +168,8 @@ public class DomainOfInfluenceWriter
                 data.ExternalPrintingCenter,
                 data.ExternalPrintingCenterEaiMessageType,
                 data.SapCustomerOrderNumber,
-                null);
+                null,
+                data.VotingCardColor);
         }
 
         await _aggregateRepository.Save(domainOfInfluence);
@@ -162,6 +177,7 @@ public class DomainOfInfluenceWriter
 
     public async Task Delete(Guid domainOfInfluenceId)
     {
+        await EnsureCanDelete(domainOfInfluenceId);
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(domainOfInfluenceId);
         domainOfInfluence.Delete();
 
@@ -171,7 +187,11 @@ public class DomainOfInfluenceWriter
 
     public async Task UpdateDomainOfInfluenceCountingCircles(DomainOfInfluenceCountingCircleEntries data)
     {
-        await ValidateCountingCircles(data.Id, data.CountingCircleIds);
+        // Since non-root DOI aggregates do not keep track of the canton, we need to fetch that data from the database
+        var dbDoi = await _repo.GetByKey(data.Id)
+            ?? throw new EntityNotFoundException(data.Id);
+        await EnsureCanEdit(dbDoi.SecureConnectId, dbDoi.Canton);
+        await ValidateCountingCircles(dbDoi, data.CountingCircleIds);
 
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(data.Id);
         domainOfInfluence.UpdateCountingCircleEntries(data);
@@ -181,8 +201,8 @@ public class DomainOfInfluenceWriter
 
     public async Task UpdateLogo(Guid doiId, Stream logo, long logoLength, string? contentType, string? fileName, CancellationToken ct)
     {
+        await EnsureCanEdit(doiId);
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(doiId);
-        EnsureCanEdit(domainOfInfluence);
 
         // We cannot be sure that the logo stream supports seeking, so we copy the content (should not be large)
         using var logoContentStream = new MemoryStream();
@@ -206,8 +226,8 @@ public class DomainOfInfluenceWriter
 
     public async Task DeleteLogo(Guid id)
     {
+        await EnsureCanEdit(id);
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(id);
-        EnsureCanEdit(domainOfInfluence);
 
         var logoRef = domainOfInfluence.LogoRef;
         domainOfInfluence.DeleteLogo();
@@ -216,11 +236,11 @@ public class DomainOfInfluenceWriter
         await _logoStorage.Delete(logoRef!);
     }
 
-    private async Task ValidateHierarchy(Domain.DomainOfInfluence data)
+    private async Task<DomainOfInfluence?> ValidateHierarchy(Domain.DomainOfInfluence data)
     {
         if (!data.ParentId.HasValue)
         {
-            return;
+            return null;
         }
 
         var parent = await _repo.GetByKey(data.ParentId.Value)
@@ -230,6 +250,8 @@ public class DomainOfInfluenceWriter
         {
             throw new ValidationException("Violate political hierarchical order");
         }
+
+        return parent;
     }
 
     private async Task ValidateUniqueBfs(Domain.DomainOfInfluence data)
@@ -255,14 +277,21 @@ public class DomainOfInfluenceWriter
         }
     }
 
-    private async Task ValidateCountingCircles(Guid domainOfInfluenceId, IReadOnlyCollection<Guid> countingCircleIds)
+    private async Task ValidateCountingCircles(DomainOfInfluence domainOfInfluence, IReadOnlyCollection<Guid> countingCircleIds)
     {
         if (countingCircleIds.Count == 0)
         {
             return;
         }
 
-        var foundCircleIds = await _countingCircleRepo.Query()
+        var query = _countingCircleRepo.Query();
+
+        if (_auth.HasPermission(Permissions.DomainOfInfluenceHierarchy.UpdateSameCanton))
+        {
+            query = query.Where(x => x.Canton == domainOfInfluence.Canton);
+        }
+
+        var foundCircleIds = await query
             .Select(cc => cc.Id)
             .Where(ccId => countingCircleIds.Contains(ccId)) // Intersect() in a way ef core can translate it
             .ToListAsync();
@@ -273,7 +302,7 @@ public class DomainOfInfluenceWriter
             throw new EntityNotFoundException(missingId);
         }
 
-        await EnsureCountingCircleOnlyOnceInTree(domainOfInfluenceId, countingCircleIds);
+        await EnsureCountingCircleOnlyOnceInTree(domainOfInfluence.Id, countingCircleIds);
     }
 
     private async Task SetAuthorityTenant(Domain.DomainOfInfluence data)
@@ -286,28 +315,14 @@ public class DomainOfInfluenceWriter
 
     private async Task EnsureCountingCircleOnlyOnceInTree(Guid domainOfInfluenceId, IReadOnlyCollection<Guid> countingCircleIds)
     {
-        // validation with nonInheritedCcIds to prevent events with inherited CcIds
-        var nonInheritedCcIds = await _doiCcRepo
+        // validation to prevent events with inherited CcIds
+        var inheritedCcIds = await _doiCcRepo
             .Query()
-            .Where(doiCc => doiCc.DomainOfInfluenceId == domainOfInfluenceId && !doiCc.Inherited)
+            .Where(doiCc => doiCc.DomainOfInfluenceId == domainOfInfluenceId && doiCc.Inherited)
             .Select(doiCc => doiCc.CountingCircleId)
             .ToListAsync();
 
-        var ccIdsToAdd = countingCircleIds.Except(nonInheritedCcIds).ToList();
-
-        var doiHierarchy = await _hierarchyRepo
-            .Query()
-            .FirstOrDefaultAsync(h => h.DomainOfInfluenceId == domainOfInfluenceId)
-            ?? throw new EntityNotFoundException(domainOfInfluenceId);
-
-        // the root doi contains all ccIds of the tree
-        var rootDoiCcIds = await _doiCcRepo
-            .Query()
-            .Where(doiCc => doiCc.DomainOfInfluenceId == doiHierarchy.RootId)
-            .Select(doiCc => doiCc.CountingCircleId)
-            .ToListAsync();
-
-        if (rootDoiCcIds.Any(rootDoiCcId => ccIdsToAdd.Contains(rootDoiCcId)))
+        if (inheritedCcIds.Any(inheritedDoiCcId => countingCircleIds.Contains(inheritedDoiCcId)))
         {
             throw new ValidationException("A CountingCircle cannot be added twice in the same DomainOfInfluence Tree");
         }
@@ -350,14 +365,6 @@ public class DomainOfInfluenceWriter
         }
     }
 
-    private void EnsureCanEdit(DomainOfInfluenceAggregate doi)
-    {
-        if (!_auth.HasPermission(Permissions.DomainOfInfluence.UpdateAll) && !_auth.Tenant.Id.Equals(doi.SecureConnectId, StringComparison.Ordinal))
-        {
-            throw new ForbiddenException();
-        }
-    }
-
     private async Task ValidateParties(Guid? doiId, IReadOnlyCollection<Domain.DomainOfInfluenceParty> parties)
     {
         if (parties.Count == 0)
@@ -392,6 +399,15 @@ public class DomainOfInfluenceWriter
         }
     }
 
+    private void ValidateElectoralRegistration(Domain.DomainOfInfluence data)
+    {
+        if (!data.ResponsibleForVotingCards && data.ElectoralRegistrationEnabled)
+        {
+            throw new ValidationException(
+                "Domain of influence needs to be 'responsible for voting cards' in order to be able to use the electoral registration.");
+        }
+    }
+
     private async Task EnsureValidLogoContent(Stream contentStream, [NotNull] string? mimeType, [NotNull] string? fileName, CancellationToken ct)
     {
         if (string.IsNullOrEmpty(mimeType) || string.IsNullOrEmpty(fileName))
@@ -419,5 +435,69 @@ public class DomainOfInfluenceWriter
         {
             throw new ValidationException($"File extension {extensionFromFileName} is not allowed for logo uploads");
         }
+    }
+
+    private async Task EnsureCanCreate(Domain.DomainOfInfluence domainOfInfluence, DomainOfInfluence? parent)
+    {
+        if (_auth.HasPermission(Permissions.DomainOfInfluence.CreateAll))
+        {
+            return;
+        }
+
+        // Either this is a root DOI with the same canton or the parent has the same canton
+        var canton = parent?.Canton ?? domainOfInfluence.Canton;
+        if (await _permissionService.IsOwnerOfCanton(canton))
+        {
+            return;
+        }
+
+        throw new ForbiddenException();
+    }
+
+    private async Task EnsureCanEdit(Guid domainOfInfluenceId, bool allowSameTenant = true)
+    {
+        // Since non-root DOI aggregates do not keep track of the canton, we need to fetch that data from the database
+        var dbDoi = await _repo.GetByKey(domainOfInfluenceId)
+            ?? throw new EntityNotFoundException(domainOfInfluenceId);
+        await EnsureCanEdit(dbDoi.SecureConnectId, dbDoi.Canton, allowSameTenant);
+    }
+
+    private async Task EnsureCanEdit(string doiTenantId, DomainOfInfluenceCanton canton, bool allowSameTenant = true)
+    {
+        if (_auth.HasPermission(Permissions.DomainOfInfluence.UpdateAll))
+        {
+            return;
+        }
+
+        if (allowSameTenant && _auth.HasPermission(Permissions.DomainOfInfluence.UpdateSameTenant) && _auth.Tenant.Id == doiTenantId)
+        {
+            return;
+        }
+
+        if (_auth.HasPermission(Permissions.DomainOfInfluence.UpdateSameCanton) && await _permissionService.IsOwnerOfCanton(canton))
+        {
+            return;
+        }
+
+        throw new ForbiddenException();
+    }
+
+    private async Task EnsureCanDelete(Guid domainOfInfluenceId)
+    {
+        // Since non-root DOI aggregates do not keep track of the canton, we need to fetch that data from the database
+        var doi = await _repo.GetByKey(domainOfInfluenceId)
+            ?? throw new EntityNotFoundException(domainOfInfluenceId);
+
+        if (_auth.HasPermission(Permissions.DomainOfInfluence.DeleteAll))
+        {
+            return;
+        }
+
+        if (_auth.HasPermission(Permissions.DomainOfInfluence.DeleteSameCanton) && await _permissionService.IsOwnerOfCanton(doi.Canton))
+        {
+            return;
+        }
+
+        throw new ForbiddenException();
     }
 }

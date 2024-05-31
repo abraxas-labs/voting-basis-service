@@ -25,6 +25,7 @@ public class EventSignatureAggregateRepositoryHandler : IAggregateRepositoryHand
         typeof(DomainOfInfluenceAggregate),
         typeof(ContestEventSignatureAggregate),
         typeof(CantonSettingsAggregate),
+        typeof(PoliticalAssemblyAggregate),
     };
 
     private IDisposable? _writeLock;

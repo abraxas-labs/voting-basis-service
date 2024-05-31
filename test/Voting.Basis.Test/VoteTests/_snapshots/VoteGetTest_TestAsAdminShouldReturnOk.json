@@ -30,7 +30,8 @@
             "fr": "Frage 1 Gossau fr",
             "it": "Frage 1 Gossau it",
             "rm": "Frage 1 Gossau rm"
-          }
+          },
+          "Type": 1
         },
         {
           "Number": 2,
@@ -39,7 +40,8 @@
             "fr": "Frage 2 Gossau fr",
             "it": "Frage 2 Gossau it",
             "rm": "Frage 2 Gossau rm"
-          }
+          },
+          "Type": 2
         }
       ],
       "VoteId": "8076dee2-f19b-4af9-80b1-69b0c7b1402b",

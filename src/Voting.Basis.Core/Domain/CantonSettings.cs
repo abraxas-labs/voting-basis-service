@@ -52,11 +52,6 @@ public class CantonSettings
 
     public ProtocolCountingCircleSortType ProtocolCountingCircleSortType { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether VOTING Stimmregister is enabled.
-    /// </summary>
-    public bool ElectoralRegistrationEnabled { get; set; }
-
     public bool MultipleVoteBallotsEnabled { get; set; }
 
     /// <summary>
@@ -69,4 +64,10 @@ public class CantonSettings
     public bool ProportionalElectionUseCandidateCheckDigit { get; set; }
 
     public bool MajorityElectionUseCandidateCheckDigit { get; set; }
+
+    public List<CountingCircleResultStateDescription>? CountingCircleResultStateDescriptions { get; set; }
+
+    public bool StatePlausibilisedDisabled { get; set; }
+
+    public bool PublishResultsEnabled { get; set; }
 }

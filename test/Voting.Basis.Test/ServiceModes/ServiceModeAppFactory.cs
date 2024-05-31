@@ -21,6 +21,6 @@ public abstract class ServiceModeAppFactory : TestApplicationFactory
     {
         base.ConfigureWebHost(builder);
         builder.ConfigureAppConfiguration(x => x.AddInMemoryCollection(
-            new Dictionary<string, string> { [nameof(AppConfig.ServiceMode)] = _serviceMode.ToString() }));
+            new Dictionary<string, string?> { [nameof(AppConfig.ServiceMode)] = _serviceMode.ToString() }));
     }
 }

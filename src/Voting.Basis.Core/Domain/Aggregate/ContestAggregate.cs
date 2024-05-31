@@ -143,38 +143,6 @@ public sealed class ContestAggregate : BaseDeletableAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateCountingCircleOptions(IReadOnlyCollection<ContestCountingCircleOption> options)
-    {
-        EnsureNotDeleted();
-        EnsureNotLocked();
-
-        if (options.DistinctBy(x => x.CountingCircleId).Count() != options.Count)
-        {
-            throw new ValidationException("each counting circle option can only be provided exactly once");
-        }
-
-        if (!EVoting)
-        {
-            throw new ValidationException("cannot update options if eVoting is not enabled.");
-        }
-
-        var ev = new ContestCountingCircleOptionsUpdated
-        {
-            EventInfo = _eventInfoProvider.NewEventInfo(),
-            ContestId = Id.ToString(),
-            Options =
-                     {
-                         options.Select(x => new ContestCountingCircleOptionEventData
-                                             {
-                                                 EVoting = x.EVoting,
-                                                 CountingCircleId = x.CountingCircleId.ToString(),
-                                             }),
-                     },
-        };
-
-        RaiseEvent(ev);
-    }
-
     public bool TryEndTestingPhase()
     {
         EnsureNotDeleted();
@@ -353,7 +321,6 @@ public sealed class ContestAggregate : BaseDeletableAggregate
             case ContestPastUnlocked e:
                 Apply(e);
                 break;
-            case ContestCountingCircleOptionsUpdated _:
             case ContestImportStarted _:
             case PoliticalBusinessesImportStarted _:
                 break;

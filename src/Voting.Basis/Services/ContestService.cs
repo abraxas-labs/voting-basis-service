@@ -1,7 +1,6 @@
 ﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Services.V1.Models;
@@ -16,7 +15,6 @@ using Voting.Lib.Common;
 using Voting.Lib.Grpc;
 using Voting.Lib.Iam.Authorization;
 using Contest = Abraxas.Voting.Basis.Services.V1.Models.Contest;
-using ContestCountingCircleOption = Voting.Basis.Core.Domain.ContestCountingCircleOption;
 using Permissions = Voting.Basis.Core.Auth.Permissions;
 using ServiceBase = Abraxas.Voting.Basis.Services.V1.ContestService.ContestServiceBase;
 
@@ -65,20 +63,20 @@ public class ContestService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
-    [AuthorizePermission(Permissions.Contest.Read)]
+    [AuthorizeAnyPermission(Permissions.Contest.ReadTenantHierarchy, Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll)]
     public override async Task<Contest> Get(
         GetContestRequest request,
         ServerCallContext context)
         => _mapper.Map<Contest>(await _contestReader.Get(GuidParser.Parse(request.Id)));
 
-    [AuthorizePermission(Permissions.Contest.Read)]
+    [AuthorizeAnyPermission(Permissions.Contest.ReadTenantHierarchy, Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll)]
     public override async Task<ContestSummaries> ListSummaries(ListContestSummariesRequest request, ServerCallContext context)
     {
         var contestSummaries = await _contestReader.ListSummaries(request.States.Cast<ContestState>().ToList());
         return _mapper.Map<ContestSummaries>(contestSummaries);
     }
 
-    [AuthorizePermission(Permissions.Contest.Read)]
+    [AuthorizeAnyPermission(Permissions.Contest.ReadTenantHierarchy, Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll)]
     public override async Task<PreconfiguredContestDates> ListFuturePreconfiguredDates(
         ListFuturePreconfiguredDatesRequest request, ServerCallContext context)
     {
@@ -86,14 +84,14 @@ public class ContestService : ServiceBase
         return _mapper.Map<PreconfiguredContestDates>(preconfiguredDates);
     }
 
-    [AuthorizePermission(Permissions.Contest.Read)]
+    [AuthorizeAnyPermission(Permissions.Contest.ReadTenantHierarchy, Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll)]
     public override async Task<Contests> ListPast(ListContestPastRequest request, ServerCallContext context)
     {
         var contests = await _contestReader.ListPast(request.Date.ToDateTime(), GuidParser.Parse(request.DomainOfInfluenceId));
         return _mapper.Map<Contests>(contests);
     }
 
-    [AuthorizePermission(Permissions.Contest.Read)]
+    [AuthorizeAnyPermission(Permissions.Contest.ReadTenantHierarchy, Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll)]
     public override async Task<ContestAvailability> CheckAvailability(CheckAvailabilityRequest request, ServerCallContext context)
     {
         var availability = await _contestReader.CheckAvailability(request.Date.ToDateTime(), GuidParser.Parse(request.DomainOfInfluenceId));
@@ -114,23 +112,7 @@ public class ContestService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
-    [AuthorizePermission(Permissions.Contest.Read)]
-    public override async Task<ContestCountingCircleOptions> ListCountingCircleOptions(
-        ListCountingCircleOptionsRequest request,
-        ServerCallContext context)
-    {
-        var options = await _contestReader.ListCountingCircleOptions(GuidParser.Parse(request.Id));
-        return _mapper.Map<ContestCountingCircleOptions>(options);
-    }
-
-    [AuthorizePermission(Permissions.Contest.Update)]
-    public override async Task<Empty> UpdateCountingCircleOptions(UpdateCountingCircleOptionsRequest request, ServerCallContext context)
-    {
-        await _contestWriter.UpdateCountingCircleOptions(GuidParser.Parse(request.Id), _mapper.Map<List<ContestCountingCircleOption>>(request.Options));
-        return ProtobufEmpty.Instance;
-    }
-
-    [AuthorizePermission(Permissions.Contest.Read)]
+    [AuthorizeAnyPermission(Permissions.Contest.ReadTenantHierarchy, Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll)]
     public override Task GetOverviewChanges(
         GetContestOverviewChangesRequest request,
         IServerStreamWriter<ContestOverviewChangeMessage> responseStream,
@@ -141,7 +123,7 @@ public class ContestService : ServiceBase
             context.CancellationToken);
     }
 
-    [AuthorizePermission(Permissions.Contest.Read)]
+    [AuthorizeAnyPermission(Permissions.Contest.ReadTenantHierarchy, Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll)]
     public override Task GetDetailsChanges(
         GetContestDetailsChangesRequest request,
         IServerStreamWriter<ContestDetailsChangeMessage> responseStream,

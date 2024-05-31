@@ -9,13 +9,16 @@ using Abraxas.Voting.Basis.Events.V1.Metadata;
 using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
+using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
@@ -23,6 +26,7 @@ public class ProportionalElectionCandidateDeleteTest : BaseGrpcTest<Proportional
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
     private const string IdInvalid = "eae2xxxx";
+    private string? _authTestCandidateId;
 
     public ProportionalElectionCandidateDeleteTest(TestApplicationFactory factory)
         : base(factory)
@@ -132,14 +136,44 @@ public class ProportionalElectionCandidateDeleteTest : BaseGrpcTest<Proportional
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
-        var id = ProportionalElectionMockedData.CandidateIdGossauProportionalElectionInContestGossau;
+        if (_authTestCandidateId == null)
+        {
+            var response = await ElectionAdminClient.CreateCandidateAsync(new CreateProportionalElectionCandidateRequest
+            {
+                ProportionalElectionListId = ProportionalElectionMockedData.ListIdStGallenProportionalElectionInContestStGallen,
+                Position = 3,
+                FirstName = "firstName",
+                LastName = "lastName",
+                PoliticalFirstName = "pol first name",
+                PoliticalLastName = "pol last name",
+                Occupation = { LanguageUtil.MockAllLanguages("occupation") },
+                OccupationTitle = { LanguageUtil.MockAllLanguages("occupation title") },
+                DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
+                Incumbent = true,
+                Accumulated = false,
+                Locality = "locality",
+                Number = "number2",
+                Sex = SharedProto.SexType.Female,
+                Title = "title",
+                ZipCode = "zip code",
+                PartyId = DomainOfInfluenceMockedData.PartyIdStGallenSVP,
+                Origin = "origin",
+            });
+            await RunEvents<ProportionalElectionCandidateCreated>();
+
+            _authTestCandidateId = response.Id;
+        }
 
         await new ProportionalElectionService.ProportionalElectionServiceClient(channel)
-            .DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest { Id = id });
+            .DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest { Id = _authTestCandidateId });
+        _authTestCandidateId = null;
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 }

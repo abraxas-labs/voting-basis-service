@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Services.V1;
+using Abraxas.Voting.Basis.Shared.V1;
 using FluentAssertions;
 using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +58,7 @@ public abstract class BaseServiceModeTest<TFactory> : BaseTest<TFactory, TestSta
                     ContactPersonAfterEvent = new(),
                     ContactPersonDuringEvent = new(),
                     ContactPersonSameDuringEventAsAfter = true,
+                    Canton = DomainOfInfluenceCanton.Sg,
                 });
         resp.Id.Should().NotBeNull();
 

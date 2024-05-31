@@ -24,6 +24,7 @@ public class AdminManagementProfile : Profile
             .ForMember(dst => dst.TenantName, opts => opts.MapFrom(src => src.AuthorityName))
             .ForMember(dst => dst.TenantId, opts => opts.MapFrom(src => src.SecureConnectId))
             .ForMember(dst => dst.Type, opts => opts.MapFrom(src => src.Type))
-            .ForMember(dst => dst.Canton, opts => opts.MapFrom(src => src.Canton));
+            .ForMember(dst => dst.Canton, opts => opts.MapFrom(src => src.Canton))
+            .ForMember(dst => dst.ReturnAddress, opts => opts.MapFrom(src => src.ReturnAddress));
     }
 }

@@ -2,7 +2,6 @@
 // For license information see LICENSE file
 
 using System;
-using System.Runtime.Serialization;
 
 namespace Voting.Basis.Core.Exceptions;
 
@@ -20,11 +19,6 @@ public class ContestWithExistingPoliticalBusinessesException : Exception
 
     public ContestWithExistingPoliticalBusinessesException(string? message, Exception? innerException)
         : base(message, innerException)
-    {
-    }
-
-    protected ContestWithExistingPoliticalBusinessesException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
     {
     }
 }

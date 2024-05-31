@@ -9,8 +9,7 @@ namespace Voting.Basis.Data.ModelBuilders;
 
 public class ContestModelBuilder :
     IEntityTypeConfiguration<Contest>,
-    IEntityTypeConfiguration<PreconfiguredContestDate>,
-    IEntityTypeConfiguration<ContestCountingCircleOption>
+    IEntityTypeConfiguration<PreconfiguredContestDate>
 {
     public void Configure(EntityTypeBuilder<Contest> builder)
     {
@@ -66,24 +65,5 @@ public class ContestModelBuilder :
             .Property(d => d.Id)
             .HasDateType()
             .HasUtcConversion();
-    }
-
-    public void Configure(EntityTypeBuilder<ContestCountingCircleOption> builder)
-    {
-        builder
-            .HasOne(x => x.Contest!)
-            .WithMany(x => x.CountingCircleOptions)
-            .HasForeignKey(x => x.ContestId)
-            .IsRequired();
-
-        builder
-            .HasOne(x => x.CountingCircle!)
-            .WithMany(x => x.ContestOptions)
-            .HasForeignKey(x => x.CountingCircleId)
-            .IsRequired();
-
-        builder
-            .HasIndex(x => new { x.CountingCircleId, x.ContestId })
-            .IsUnique();
     }
 }

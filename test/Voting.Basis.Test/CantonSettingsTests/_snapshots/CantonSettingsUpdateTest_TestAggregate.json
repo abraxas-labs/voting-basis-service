@@ -40,18 +40,20 @@
         "VotingDocumentsEVotingEaiMessageType": "1234567",
         "ProtocolDomainOfInfluenceSortType": 2,
         "ProtocolCountingCircleSortType": 1,
-        "ElectoralRegistrationEnabled": false,
         "MultipleVoteBallotsEnabled": false,
         "CountingMachineEnabled": true,
         "NewZhFeaturesEnabled": false,
         "ProportionalElectionUseCandidateCheckDigit": false,
-        "MajorityElectionUseCandidateCheckDigit": false
+        "MajorityElectionUseCandidateCheckDigit": false,
+        "CountingCircleResultStateDescriptions": [],
+        "StatePlausibilisedDisabled": true,
+        "PublishResultsEnabled": true
       },
       {
         "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
         "Canton": 3,
         "AuthorityName": "Zürich",
-        "SecureConnectId": "000000000000000000",
+        "SecureConnectId": "zürich-sec-id",
         "ProportionalElectionMandateAlgorithms": [
           1,
           5,
@@ -86,12 +88,19 @@
         "VotingDocumentsEVotingEaiMessageType": "1234567",
         "ProtocolDomainOfInfluenceSortType": 2,
         "ProtocolCountingCircleSortType": 2,
-        "ElectoralRegistrationEnabled": false,
         "MultipleVoteBallotsEnabled": true,
         "CountingMachineEnabled": true,
         "NewZhFeaturesEnabled": true,
         "ProportionalElectionUseCandidateCheckDigit": true,
-        "MajorityElectionUseCandidateCheckDigit": true
+        "MajorityElectionUseCandidateCheckDigit": true,
+        "CountingCircleResultStateDescriptions": [
+          {
+            "State": 6,
+            "Description": "geprüft"
+          }
+        ],
+        "StatePlausibilisedDisabled": true,
+        "PublishResultsEnabled": false
       }
     ]
   },
@@ -103,6 +112,7 @@
         "Children": [],
         "CountingCircles": [],
         "Contests": [],
+        "PoliticalAssemblies": [],
         "Votes": [],
         "ProportionalElections": [],
         "MajorityElections": [],
@@ -154,6 +164,10 @@
         "PrintData": null,
         "SwissPostData": null,
         "CreatedOn": "2018-01-01T00:00:00Z",
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
         "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79"
       },
       {
@@ -162,6 +176,7 @@
         "Children": [],
         "CountingCircles": [],
         "Contests": [],
+        "PoliticalAssemblies": [],
         "Votes": [],
         "ProportionalElections": [],
         "MajorityElections": [],
@@ -213,6 +228,10 @@
         "PrintData": null,
         "SwissPostData": null,
         "CreatedOn": "2018-01-01T00:00:00Z",
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
         "Id": "22949a1e-fb09-47ec-9e9f-d26675676565"
       },
       {
@@ -221,6 +240,7 @@
         "Children": [],
         "CountingCircles": [],
         "Contests": [],
+        "PoliticalAssemblies": [],
         "Votes": [],
         "ProportionalElections": [],
         "MajorityElections": [],
@@ -272,6 +292,10 @@
         "PrintData": null,
         "SwissPostData": null,
         "CreatedOn": "2018-01-01T00:00:00Z",
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
         "Id": "692be088-00e2-490c-b1fd-828adc38571d"
       },
       {
@@ -280,6 +304,7 @@
         "Children": [],
         "CountingCircles": [],
         "Contests": [],
+        "PoliticalAssemblies": [],
         "Votes": [],
         "ProportionalElections": [],
         "MajorityElections": [],
@@ -331,6 +356,10 @@
         "PrintData": null,
         "SwissPostData": null,
         "CreatedOn": "2018-01-01T00:00:00Z",
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
         "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752"
       },
       {
@@ -339,6 +368,7 @@
         "Children": [],
         "CountingCircles": [],
         "Contests": [],
+        "PoliticalAssemblies": [],
         "Votes": [],
         "ProportionalElections": [],
         "MajorityElections": [],
@@ -406,6 +436,10 @@
           "FrankingLicenceReturnNumber": "562984257"
         },
         "CreatedOn": "2018-01-01T00:00:00Z",
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": true,
         "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd"
       },
       {
@@ -414,6 +448,7 @@
         "Children": [],
         "CountingCircles": [],
         "Contests": [],
+        "PoliticalAssemblies": [],
         "Votes": [],
         "ProportionalElections": [],
         "MajorityElections": [],
@@ -465,6 +500,10 @@
         "PrintData": null,
         "SwissPostData": null,
         "CreatedOn": "2018-01-01T00:00:00Z",
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
         "Id": "ade30989-5e28-40c7-918c-2c9408f853ba"
       },
       {
@@ -473,6 +512,7 @@
         "Children": [],
         "CountingCircles": [],
         "Contests": [],
+        "PoliticalAssemblies": [],
         "Votes": [],
         "ProportionalElections": [],
         "MajorityElections": [],
@@ -524,6 +564,10 @@
         "PrintData": null,
         "SwissPostData": null,
         "CreatedOn": "2018-01-01T00:00:00Z",
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
         "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b"
       },
       {
@@ -532,6 +576,7 @@
         "Children": [],
         "CountingCircles": [],
         "Contests": [],
+        "PoliticalAssemblies": [],
         "Votes": [],
         "ProportionalElections": [],
         "MajorityElections": [],
@@ -583,6 +628,10 @@
         "PrintData": null,
         "SwissPostData": null,
         "CreatedOn": "2018-01-01T00:00:00Z",
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
         "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da"
       }
     ]

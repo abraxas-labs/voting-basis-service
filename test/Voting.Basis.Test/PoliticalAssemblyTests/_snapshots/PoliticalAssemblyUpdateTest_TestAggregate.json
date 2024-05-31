@@ -1,0 +1,79 @@
+{
+  "Id": "b629dad9-afce-44cf-bcbb-22516ba86007",
+  "Date": {
+    "Seconds": 1598140800,
+    "Nanos": 0
+  },
+  "Description": {
+    "de": "test de",
+    "fr": "test fr",
+    "it": "test it",
+    "rm": "test rm"
+  },
+  "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+  "DomainOfInfluence": {
+    "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+    "Name": "Gossau",
+    "ShortName": "GOS",
+    "AuthorityName": "",
+    "SecureConnectId": "000000000000000000",
+    "Type": 5,
+    "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+    "Children": [],
+    "Canton": 1,
+    "ContactPerson": {
+      "FirstName": "",
+      "FamilyName": "",
+      "Phone": "",
+      "MobilePhone": "",
+      "Email": ""
+    },
+    "Info": {
+      "CreatedOn": {
+        "Seconds": 1514764800,
+        "Nanos": 0
+      },
+      "ModifiedOn": {
+        "Seconds": 1514764800,
+        "Nanos": 0
+      },
+      "DeletedOn": null
+    },
+    "ResponsibleForVotingCards": true,
+    "Bfs": "3443",
+    "Code": "",
+    "SortNumber": 0,
+    "ExportConfigurations": [],
+    "ReturnAddress": {
+      "AddressLine1": "Stadtverwaltung Gossau",
+      "AddressLine2": "",
+      "Street": "Bahnhofstrasse 25",
+      "AddressAddition": "",
+      "ZipCode": "9200",
+      "City": "Gossau",
+      "Country": "Schweiz"
+    },
+    "PrintData": {
+      "ShippingAway": 2,
+      "ShippingReturn": 5,
+      "ShippingMethod": 3,
+      "ShippingVotingCardsToDeliveryAddress": true
+    },
+    "HasLogo": false,
+    "PlausibilisationConfiguration": null,
+    "Parties": [],
+    "ExternalPrintingCenter": true,
+    "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
+    "NameForProtocol": "Stadt Gossau",
+    "SapCustomerOrderNumber": "0005400492",
+    "SwissPostData": {
+      "InvoiceReferenceNumber": "958473825",
+      "FrankingLicenceReturnNumber": "562984257"
+    },
+    "VirtualTopLevel": false,
+    "ViewCountingCirclePartialResults": false,
+    "VotingCardColor": 0,
+    "ElectoralRegistrationEnabled": true
+  },
+  "EVoting": false
+}

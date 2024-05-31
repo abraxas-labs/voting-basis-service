@@ -46,6 +46,14 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
     }
 
     [Fact]
+    public async Task TestCantonAdminOtherCantonShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(req => req.Id = CantonSettingsMockedData.IdZurich)),
+            StatusCode.PermissionDenied);
+    }
+
+    [Fact]
     public async Task TestAggregate()
     {
         await TestEventPublisher.Publish(
@@ -99,6 +107,8 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
                     ProtocolDomainOfInfluenceSortType = SharedProto.ProtocolDomainOfInfluenceSortType.Alphabetical,
                     ProtocolCountingCircleSortType = SharedProto.ProtocolCountingCircleSortType.SortNumber,
                     CountingMachineEnabled = true,
+                    StatePlausibilisedDisabled = true,
+                    PublishResultsEnabled = true,
                 },
                 EventInfo = GetMockedEventInfo(),
             });
@@ -175,6 +185,13 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
             "EnabledVotingCardChannels");
 
     [Fact]
+    public Task DuplicateCountingCircleResultStateDescriptionShouldThrow()
+        => AssertStatus(
+            async () => await AdminClient.UpdateAsync(NewValidRequest(o => o.CountingCircleResultStateDescriptions[1].State = SharedProto.CountingCircleResultState.SubmissionOngoing)),
+            StatusCode.InvalidArgument,
+            "CountingCircleResultStateDescriptions");
+
+    [Fact]
     public Task NotFound()
         => AssertStatus(
             async () => await AdminClient.UpdateAsync(
@@ -185,10 +202,10 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
         => await new CantonSettingsService.CantonSettingsServiceClient(channel)
             .UpdateAsync(NewValidRequest());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
-        yield return Roles.ElectionAdmin;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
     }
 
     private UpdateCantonSettingsRequest NewValidRequest(
@@ -235,6 +252,21 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
             ProtocolDomainOfInfluenceSortType = SharedProto.ProtocolDomainOfInfluenceSortType.Alphabetical,
             ProtocolCountingCircleSortType = SharedProto.ProtocolCountingCircleSortType.SortNumber,
             CountingMachineEnabled = true,
+            CountingCircleResultStateDescriptions =
+            {
+                new ServiceModels.CountingCircleResultStateDescription
+                {
+                    State = SharedProto.CountingCircleResultState.SubmissionOngoing,
+                    Description = "In neuer Erfassung",
+                },
+                new ServiceModels.CountingCircleResultStateDescription
+                {
+                    State = SharedProto.CountingCircleResultState.AuditedTentatively,
+                    Description = "geprüft",
+                },
+            },
+            StatePlausibilisedDisabled = true,
+            PublishResultsEnabled = true,
         };
         customizer?.Invoke(request);
         return request;

@@ -18,11 +18,13 @@ using Voting.Basis.Data.Models;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
+using Voting.Lib.Iam.Store;
 using DomainOfInfluence = Voting.Basis.Data.Models.DomainOfInfluence;
 using ProportionalElection = Voting.Basis.Data.Models.ProportionalElection;
 using ProportionalElectionCandidate = Voting.Basis.Data.Models.ProportionalElectionCandidate;
 using ProportionalElectionList = Voting.Basis.Core.Domain.ProportionalElectionList;
 using ProportionalElectionListUnion = Voting.Basis.Core.Domain.ProportionalElectionListUnion;
+using ProportionalElectionUnion = Voting.Basis.Data.Models.ProportionalElectionUnion;
 
 namespace Voting.Basis.Core.Services.Write;
 
@@ -36,8 +38,10 @@ public class ProportionalElectionWriter
     private readonly IDbRepository<DataContext, ProportionalElection> _proportionalElectionRepo;
     private readonly IDbRepository<DataContext, ProportionalElectionCandidate> _proportionalElectionCandidateRepo;
     private readonly IDbRepository<DataContext, ProportionalElectionUnionEntry> _proportionalElectionUnionEntryRepo;
+    private readonly IDbRepository<DataContext, ProportionalElectionUnion> _proportionalElectionUnionRepo;
     private readonly IDbRepository<DataContext, DomainOfInfluence> _doiRepo;
     private readonly DomainOfInfluenceReader _doiReader;
+    private readonly IAuth _auth;
 
     public ProportionalElectionWriter(
         IAggregateRepository aggregateRepository,
@@ -48,8 +52,10 @@ public class ProportionalElectionWriter
         IDbRepository<DataContext, ProportionalElection> proportionalElectionRepo,
         IDbRepository<DataContext, ProportionalElectionCandidate> proportionalElectionCandidateRepo,
         IDbRepository<DataContext, ProportionalElectionUnionEntry> proportionalElectionUnionEntryRepo,
+        IDbRepository<DataContext, ProportionalElectionUnion> proportionalElectionUnionRepo,
         IDbRepository<DataContext, DomainOfInfluence> doiRepo,
-        DomainOfInfluenceReader doiReader)
+        DomainOfInfluenceReader doiReader,
+        IAuth auth)
     {
         _aggregateRepository = aggregateRepository;
         _aggregateFactory = aggregateFactory;
@@ -59,16 +65,21 @@ public class ProportionalElectionWriter
         _proportionalElectionRepo = proportionalElectionRepo;
         _proportionalElectionCandidateRepo = proportionalElectionCandidateRepo;
         _proportionalElectionUnionEntryRepo = proportionalElectionUnionEntryRepo;
+        _proportionalElectionUnionRepo = proportionalElectionUnionRepo;
         _doiRepo = doiRepo;
         _doiReader = doiReader;
+        _auth = auth;
     }
 
     public async Task Create(Domain.ProportionalElection data)
     {
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(data.DomainOfInfluenceId);
         await _politicalBusinessValidationService.EnsureValidEditData(
+            data.Id,
             data.ContestId,
-            data.DomainOfInfluenceId);
+            data.DomainOfInfluenceId,
+            data.PoliticalBusinessNumber,
+            data.ReportDomainOfInfluenceLevel);
         await EnsureValidProportionalElectionMandateAlgorithm(data.MandateAlgorithm, data.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(data.ContestId);
 
@@ -82,14 +93,17 @@ public class ProportionalElectionWriter
     {
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(data.DomainOfInfluenceId);
         await _politicalBusinessValidationService.EnsureValidEditData(
+            data.Id,
             data.ContestId,
-            data.DomainOfInfluenceId);
+            data.DomainOfInfluenceId,
+            data.PoliticalBusinessNumber,
+            data.ReportDomainOfInfluenceLevel);
         var contestState = await _contestValidationService.EnsureNotLocked(data.ContestId);
 
         var existingProportionalElection = await _proportionalElectionRepo.GetByKey(data.Id)
             ?? throw new EntityNotFoundException(nameof(Domain.ProportionalElection), data.Id);
 
-        await EnsureValidProportionalElectionMandateAlgorithm(data.MandateAlgorithm, data.DomainOfInfluenceId, data.Id, existingProportionalElection.MandateAlgorithm);
+        await EnsureValidProportionalElectionMandateAlgorithm(data.MandateAlgorithm, data.DomainOfInfluenceId);
         if (existingProportionalElection.ContestId != data.ContestId)
         {
             throw new ValidationException($"{nameof(existingProportionalElection.ContestId)} is immutable.");
@@ -102,6 +116,15 @@ public class ProportionalElectionWriter
         }
         else
         {
+            var hasPbUnions = await _proportionalElectionUnionEntryRepo
+                .Query()
+                .AnyAsync(x => x.ProportionalElectionId == data.Id);
+
+            if (hasPbUnions && data.MandateAlgorithm != proportionalElection.MandateAlgorithm)
+            {
+                throw new ProportionalElectionEditMandateAlgorithmInUnionException();
+            }
+
             proportionalElection.UpdateFrom(data);
         }
 
@@ -304,30 +327,67 @@ public class ProportionalElectionWriter
         await _aggregateRepository.Save(proportionalElection);
     }
 
+    public async Task UpdateAllMandateAlgorithmsInUnion(IReadOnlyCollection<Guid> unionIds, ProportionalElectionMandateAlgorithm mandateAlgorithm)
+    {
+        if (unionIds.Distinct().Count() != unionIds.Count)
+        {
+            throw new ValidationException("duplicate union id");
+        }
+
+        var unions = await _proportionalElectionUnionRepo.Query()
+            .Include(x => x.ProportionalElectionUnionEntries)
+            .ThenInclude(x => x.ProportionalElection.DomainOfInfluence)
+            .Where(x => unionIds.Contains(x.Id))
+            .ToListAsync();
+
+        foreach (var union in unions)
+        {
+            await _contestValidationService.EnsureInTestingPhase(union.ContestId);
+            foreach (var proportionalElection in union.ProportionalElectionUnionEntries.Select(x => x.ProportionalElection))
+            {
+                EnsureValidProportionalElectionMandateAlgorithm(mandateAlgorithm, proportionalElection.DomainOfInfluence!);
+                if (proportionalElection.DomainOfInfluence!.SecureConnectId != _auth.Tenant.Id)
+                {
+                    throw new ValidationException($"Domain of influence with id {proportionalElection.DomainOfInfluence!.Id} does not belong to this tenant");
+                }
+            }
+        }
+
+        var proportionalElectionIds = unions.SelectMany(x => x.ProportionalElectionUnionEntries)
+            .Select(x => x.ProportionalElectionId)
+            .Distinct();
+
+        var aggregates = new List<ProportionalElectionAggregate>();
+        foreach (var proportionalElectionId in proportionalElectionIds)
+        {
+            var proportionalElection = await _aggregateRepository.GetById<ProportionalElectionAggregate>(proportionalElectionId);
+            proportionalElection.UpdateMandatAlgorithm(mandateAlgorithm);
+            aggregates.Add(proportionalElection);
+        }
+
+        foreach (var aggregate in aggregates)
+        {
+            await _aggregateRepository.Save(aggregate);
+        }
+    }
+
     internal async Task EnsureValidProportionalElectionMandateAlgorithm(
         ProportionalElectionMandateAlgorithm algo,
-        Guid domainOfInfluenceId,
-        Guid? proportionalElectionId = null,
-        ProportionalElectionMandateAlgorithm? existingAlgo = null)
+        Guid domainOfInfluenceId)
     {
         var doi = await _doiRepo.GetByKey(domainOfInfluenceId)
             ?? throw new EntityNotFoundException(domainOfInfluenceId);
 
+        EnsureValidProportionalElectionMandateAlgorithm(algo, doi);
+    }
+
+    private void EnsureValidProportionalElectionMandateAlgorithm(
+        ProportionalElectionMandateAlgorithm algo,
+        DomainOfInfluence doi)
+    {
         if (!doi.CantonDefaults.ProportionalElectionMandateAlgorithms.Contains(algo))
         {
             throw new ValidationException($"Canton settings does not allow proportional election mandate algorithm {algo}");
-        }
-
-        if (proportionalElectionId.HasValue && existingAlgo.HasValue && existingAlgo != algo)
-        {
-            var hasPbUnions = await _proportionalElectionUnionEntryRepo
-                .Query()
-                .AnyAsync(x => x.ProportionalElectionId == proportionalElectionId);
-
-            if (hasPbUnions)
-            {
-                throw new ProportionalElectionEditMandateAlgorithmInUnionException();
-            }
         }
     }
 

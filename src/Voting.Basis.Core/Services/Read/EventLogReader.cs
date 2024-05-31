@@ -34,10 +34,15 @@ public class EventLogReader
     {
         _pageableValidator.ValidateAndThrow(pageable);
 
-        var tenantId = _auth.Tenant.Id;
-        var canReadAll = _auth.HasPermission(Permissions.EventLog.ReadAll);
-        return await _repo.Query()
-            .Where(e => canReadAll || e.EventTenant!.TenantId == tenantId)
+        var query = _repo.Query();
+
+        if (_auth.HasPermission(Permissions.EventLog.ReadSameTenant))
+        {
+            var tenantId = _auth.Tenant.Id;
+            query = query.Where(e => e.EventTenant!.TenantId == tenantId);
+        }
+
+        return await query
             .Include(e => e.EventTenant)
             .Include(e => e.EventUser)
             .OrderByDescending(e => e.Timestamp)

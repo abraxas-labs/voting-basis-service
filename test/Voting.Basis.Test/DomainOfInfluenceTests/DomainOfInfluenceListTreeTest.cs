@@ -34,6 +34,13 @@ public class DomainOfInfluenceListTreeTest : BaseGrpcTest<DomainOfInfluenceServi
     }
 
     [Fact]
+    public async Task TestAsCantonAdminShouldReturnSameCanton()
+    {
+        var response = await CantonAdminClient.ListTreeAsync(new ListTreeDomainOfInfluenceRequest());
+        response.MatchSnapshot();
+    }
+
+    [Fact]
     public async Task TestAsAdminEmptyShouldReturnEmpty()
     {
         await RunOnDb(async db =>
@@ -67,8 +74,12 @@ public class DomainOfInfluenceListTreeTest : BaseGrpcTest<DomainOfInfluenceServi
         => await new DomainOfInfluenceService.DomainOfInfluenceServiceClient(channel)
             .ListTreeAsync(new ListTreeDomainOfInfluenceRequest());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
+        yield return Roles.ApiReader;
     }
 }

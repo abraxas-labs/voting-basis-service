@@ -44,7 +44,9 @@
         "Code": "nonec",
         "SortNumber": 0,
         "NameForProtocol": "",
-        "Electorates": []
+        "Electorates": [],
+        "Canton": 1,
+        "EVoting": false
       },
       {
         "Id": "2a3a799a-2437-47da-86fe-06decf70a267",
@@ -89,7 +91,9 @@
         "Code": "nonec",
         "SortNumber": 0,
         "NameForProtocol": "",
-        "Electorates": []
+        "Electorates": [],
+        "Canton": 1,
+        "EVoting": false
       }
     ]
   },
@@ -132,7 +136,9 @@
         "Code": "nonec",
         "SortNumber": 0,
         "NameForProtocol": "",
-        "Electorates": []
+        "Electorates": [],
+        "Canton": 1,
+        "EVoting": false
       },
       {
         "Id": "3ec3d50c-6cb7-4ba1-bd1a-2882153834b0",
@@ -180,7 +186,9 @@
         "Code": "nonec",
         "SortNumber": 0,
         "NameForProtocol": "",
-        "Electorates": []
+        "Electorates": [],
+        "Canton": 1,
+        "EVoting": false
       },
       {
         "Id": "2a3a799a-2437-47da-86fe-06decf70a267",
@@ -228,7 +236,9 @@
         "Code": "nonec",
         "SortNumber": 0,
         "NameForProtocol": "",
-        "Electorates": []
+        "Electorates": [],
+        "Canton": 1,
+        "EVoting": false
       }
     ]
   }

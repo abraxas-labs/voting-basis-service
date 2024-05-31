@@ -54,6 +54,16 @@ public class EventLoggerAdapter
         });
     }
 
+    public async Task LogPoliticalAssemblyEvent<T>(T eventData, PoliticalAssembly politicalAssembly)
+        where T : IMessage<T>
+    {
+        await _eventLogger.LogEvent(eventData, new EventLog
+        {
+            PoliticalAssemblyId = politicalAssembly.Id,
+            DomainOfInfluenceId = politicalAssembly.DomainOfInfluenceId,
+        });
+    }
+
     public async Task LogVoteEvent<T>(T eventData, Vote vote)
         where T : IMessage<T>
     {

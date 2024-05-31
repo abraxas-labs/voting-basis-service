@@ -52,7 +52,11 @@
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "Kanton Genf",
             "SapCustomerOrderNumber": "",
-            "SwissPostData": null
+            "SwissPostData": null,
+            "VirtualTopLevel": false,
+            "ViewCountingCirclePartialResults": false,
+            "VotingCardColor": 0,
+            "ElectoralRegistrationEnabled": false
           },
           {
             "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
@@ -121,7 +125,11 @@
                 "SwissPostData": {
                   "InvoiceReferenceNumber": "958473825",
                   "FrankingLicenceReturnNumber": "562984257"
-                }
+                },
+                "VirtualTopLevel": false,
+                "ViewCountingCirclePartialResults": false,
+                "VotingCardColor": 0,
+                "ElectoralRegistrationEnabled": true
               },
               {
                 "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
@@ -174,7 +182,11 @@
                     "ExternalPrintingCenterEaiMessageType": "",
                     "NameForProtocol": "",
                     "SapCustomerOrderNumber": "",
-                    "SwissPostData": null
+                    "SwissPostData": null,
+                    "VirtualTopLevel": false,
+                    "ViewCountingCirclePartialResults": false,
+                    "VotingCardColor": 0,
+                    "ElectoralRegistrationEnabled": false
                   }
                 ],
                 "Canton": 1,
@@ -210,7 +222,11 @@
                 "ExternalPrintingCenterEaiMessageType": "",
                 "NameForProtocol": "Stadt Uzwil",
                 "SapCustomerOrderNumber": "",
-                "SwissPostData": null
+                "SwissPostData": null,
+                "VirtualTopLevel": false,
+                "ViewCountingCirclePartialResults": false,
+                "VotingCardColor": 0,
+                "ElectoralRegistrationEnabled": false
               }
             ],
             "Canton": 1,
@@ -246,7 +262,11 @@
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "Kanton St. Gallen",
             "SapCustomerOrderNumber": "",
-            "SwissPostData": null
+            "SwissPostData": null,
+            "VirtualTopLevel": false,
+            "ViewCountingCirclePartialResults": false,
+            "VotingCardColor": 0,
+            "ElectoralRegistrationEnabled": false
           },
           {
             "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
@@ -290,7 +310,11 @@
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "Kanton Thurgau",
             "SapCustomerOrderNumber": "",
-            "SwissPostData": null
+            "SwissPostData": null,
+            "VirtualTopLevel": false,
+            "ViewCountingCirclePartialResults": false,
+            "VotingCardColor": 0,
+            "ElectoralRegistrationEnabled": false
           }
         ],
         "Canton": 1,
@@ -326,7 +350,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       {
         "Id": "22949a1e-fb09-47ec-9e9f-d26675676565",
@@ -379,7 +407,11 @@
             "ExternalPrintingCenterEaiMessageType": "",
             "NameForProtocol": "Oberuzwil Kirche andere",
             "SapCustomerOrderNumber": "",
-            "SwissPostData": null
+            "SwissPostData": null,
+            "VirtualTopLevel": false,
+            "ViewCountingCirclePartialResults": false,
+            "VotingCardColor": 0,
+            "ElectoralRegistrationEnabled": false
           }
         ],
         "Canton": 1,
@@ -415,14 +447,19 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       }
     ]
   },
   "cantonDefaults": {
     "Canton": 1,
     "ProportionalElectionMandateAlgorithms": [
-      1
+      1,
+      4
     ],
     "MajorityElectionAbsoluteMajorityAlgorithm": 1,
     "MajorityElectionInvalidVotes": false,

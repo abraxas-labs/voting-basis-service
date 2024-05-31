@@ -19,8 +19,6 @@ public class CountingCircle : BaseCountingCircle, IHasSnapshotEntity<CountingCir
 
     public DateTime ModifiedOn { get; set; } = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
 
-    public ICollection<ContestCountingCircleOption> ContestOptions { get; set; } = new HashSet<ContestCountingCircleOption>();
-
     public ICollection<CountingCircleElectorate> Electorates { get; set; } = new HashSet<CountingCircleElectorate>();
 
     public CountingCirclesMerger? MergeTarget { get; set; }

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Abraxas.Voting.Basis.Services.V1.Models;
+using Abraxas.Voting.Basis.Shared.V1;
 using Voting.Basis.Test.ProtoValidatorTests.Utils;
 using Voting.Lib.Testing.Utils;
 using Voting.Lib.Testing.Validation;
@@ -18,6 +19,7 @@ public class BallotQuestionTest : ProtoValidatorBaseTest<BallotQuestion>
         {
             Number = 27,
             Question = { LanguageUtil.MockAllLanguages("Frage 1") },
+            Type = BallotQuestionType.Variant,
         };
 
         action?.Invoke(ballotQuestion);
@@ -42,5 +44,7 @@ public class BallotQuestionTest : ProtoValidatorBaseTest<BallotQuestion>
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.Question, RandomStringUtil.GenerateComplexMultiLineText(3), "test"));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.Question, "de", string.Empty));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.Question, "de", RandomStringUtil.GenerateComplexMultiLineText(701)));
+        yield return NewValid(x => x.Type = BallotQuestionType.Unspecified);
+        yield return NewValid(x => x.Type = (BallotQuestionType)20);
     }
 }

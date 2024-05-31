@@ -2,6 +2,7 @@
 // For license information see LICENSE file
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Snapper;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.EventSignature;
 using Voting.Basis.Core.Extensions;
@@ -315,8 +317,17 @@ public class ContestArchiveTest : BaseGrpcTest<ContestService.ContestServiceClie
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
+        var contestId = Guid.NewGuid().ToString();
+        await SeedContest(contestId);
         await new ContestService.ContestServiceClient(channel)
-            .ArchiveAsync(new ArchiveContestRequest { Id = ContestId });
+            .ArchiveAsync(new ArchiveContestRequest { Id = contestId });
+    }
+
+    protected override IEnumerable<string> AuthorizedRoles()
+    {
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
     }
 
     private async Task SeedContest(string id, bool setPast = true, string doiId = DomainOfInfluenceMockedData.IdGossau)

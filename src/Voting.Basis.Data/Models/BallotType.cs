@@ -6,7 +6,7 @@ namespace Voting.Basis.Data.Models;
 public enum BallotType
 {
     /// <summary>
-    /// Ballot number generation is unspecified.
+    /// Ballot type is unspecified.
     /// </summary>
     Unspecified,
 

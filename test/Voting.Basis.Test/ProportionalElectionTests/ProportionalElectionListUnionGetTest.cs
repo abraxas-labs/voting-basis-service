@@ -7,6 +7,7 @@ using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -119,12 +120,15 @@ public class ProportionalElectionListUnionGetTest : BaseGrpcTest<ProportionalEle
         await new ProportionalElectionService.ProportionalElectionServiceClient(channel)
             .GetListUnionAsync(new GetProportionalElectionListUnionRequest
             {
-                Id = ProportionalElectionMockedData.ListIdGossauProportionalElectionInContestGossau,
+                Id = ProportionalElectionMockedData.ListUnion1IdGossauProportionalElectionInContestStGallen,
             });
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 }

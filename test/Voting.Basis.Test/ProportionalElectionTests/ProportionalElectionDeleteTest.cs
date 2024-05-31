@@ -13,17 +13,20 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
+using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
 public class ProportionalElectionDeleteTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
+    private string? _authTestElectionId;
 
     public ProportionalElectionDeleteTest(TestApplicationFactory factory)
         : base(factory)
@@ -139,14 +142,42 @@ public class ProportionalElectionDeleteTest : BaseGrpcTest<ProportionalElectionS
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
-        var id = ProportionalElectionMockedData.IdGossauProportionalElectionInContestGossau;
+        if (_authTestElectionId == null)
+        {
+            var response = await ElectionAdminClient.CreateAsync(new CreateProportionalElectionRequest
+            {
+                PoliticalBusinessNumber = "4687",
+                OfficialDescription = { LanguageUtil.MockAllLanguages("Neue Proporzwahl") },
+                ShortDescription = { LanguageUtil.MockAllLanguages("Proporzwahl") },
+                DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen,
+                ContestId = ContestMockedData.IdStGallenEvoting,
+                Active = true,
+                AutomaticBallotBundleNumberGeneration = true,
+                AutomaticEmptyVoteCounting = true,
+                BallotBundleSize = 13,
+                BallotNumberGeneration = SharedProto.BallotNumberGeneration.ContinuousForAllBundles,
+                CandidateCheckDigit = true,
+                EnforceEmptyVoteCountingForCountingCircles = true,
+                MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.HagenbachBischoff,
+                NumberOfMandates = 5,
+                ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
+                EnforceReviewProcedureForCountingCircles = true,
+                EnforceCandidateCheckDigitForCountingCircles = true,
+            });
+
+            _authTestElectionId = response.Id;
+        }
 
         await new ProportionalElectionService.ProportionalElectionServiceClient(channel)
-            .DeleteAsync(new DeleteProportionalElectionRequest { Id = id });
+            .DeleteAsync(new DeleteProportionalElectionRequest { Id = _authTestElectionId });
+        _authTestElectionId = null;
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 }

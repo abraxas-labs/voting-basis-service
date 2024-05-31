@@ -35,7 +35,6 @@
     "ContactPersonAfterEvent": null,
     "DomainOfInfluences": [],
     "ModifiedOn": "2020-07-17T10:07:56Z",
-    "ContestOptions": [],
     "Electorates": [],
     "MergeTarget": null,
     "MergeTargetId": null,
@@ -49,6 +48,8 @@
     "SortNumber": 200,
     "NameForProtocol": "Stadt Rapperswil-Jona updated",
     "CreatedOn": "2020-07-17T10:07:56Z",
+    "Canton": 1,
+    "EVoting": false,
     "Id": "102defb7-9fe7-426a-ad87-9127a650b79f"
   }
 }

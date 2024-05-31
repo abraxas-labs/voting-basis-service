@@ -2,7 +2,6 @@
 // For license information see LICENSE file
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -21,8 +20,8 @@ using Voting.Basis.Data.Models;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
+using Voting.Lib.Iam.Store;
 using Contest = Voting.Basis.Core.Domain.Contest;
-using ContestCountingCircleOption = Voting.Basis.Core.Domain.ContestCountingCircleOption;
 
 namespace Voting.Basis.Core.Services.Write;
 
@@ -35,7 +34,9 @@ public class ContestWriter
     private readonly PermissionService _permissionService;
     private readonly ContestValidationService _contestValidationService;
     private readonly IDbRepository<DataContext, SimplePoliticalBusiness> _simplePoliticalBusinessRepo;
+    private readonly IDbRepository<DataContext, DomainOfInfluence> _doiRepo;
     private readonly ContestMerger _contestMerger;
+    private readonly IAuth _auth;
 
     public ContestWriter(
         ILogger<ContestWriter> logger,
@@ -45,7 +46,9 @@ public class ContestWriter
         PermissionService permissionService,
         ContestValidationService contestValidationService,
         IDbRepository<DataContext, SimplePoliticalBusiness> simplePoliticalBusinessRepo,
-        ContestMerger contestMerger)
+        IDbRepository<DataContext, DomainOfInfluence> doiRepo,
+        ContestMerger contestMerger,
+        IAuth auth)
     {
         _logger = logger;
         _aggregateRepository = aggregateRepository;
@@ -54,7 +57,9 @@ public class ContestWriter
         _permissionService = permissionService;
         _contestValidationService = contestValidationService;
         _simplePoliticalBusinessRepo = simplePoliticalBusinessRepo;
+        _doiRepo = doiRepo;
         _contestMerger = contestMerger;
+        _auth = auth;
     }
 
     [SuppressMessage(
@@ -70,6 +75,7 @@ public class ContestWriter
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(data.DomainOfInfluenceId);
         await EnsureValidPreviousContest(data);
+        await EnsureValidDomainOfInfluence(data);
 
         var availability = await _contestReader.CheckAvailabilityInternal(data.Date, data.DomainOfInfluenceId);
         var contestAggregate = _aggregateFactory.New<ContestAggregate>();
@@ -164,16 +170,6 @@ public class ContestWriter
         _logger.LogInformation("Unlocked past contest {ContestId}.", contestId);
     }
 
-    public async Task UpdateCountingCircleOptions(Guid contestId, IReadOnlyCollection<ContestCountingCircleOption> options)
-    {
-        var contest = await _aggregateRepository.GetById<ContestAggregate>(contestId);
-
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(contest.DomainOfInfluenceId);
-
-        contest.UpdateCountingCircleOptions(options);
-        await _aggregateRepository.Save(contest);
-    }
-
     internal async Task<bool> TryEndTestingPhase(Guid id)
     {
         var contest = await _aggregateRepository.GetById<ContestAggregate>(id);
@@ -239,6 +235,22 @@ public class ContestWriter
         if (pastContests.All(c => c.Id != contest.PreviousContestId))
         {
             throw new ValidationException("invalid previous contest id");
+        }
+    }
+
+    private async Task EnsureValidDomainOfInfluence(Contest contest)
+    {
+        var doi = await _doiRepo.GetByKey(contest.DomainOfInfluenceId)
+                  ?? throw new EntityNotFoundException(nameof(DomainOfInfluence), contest.DomainOfInfluenceId);
+
+        if (doi.ParentId != null)
+        {
+            var tenantId = _auth.Tenant.Id;
+            var hasRootDomainOfInfluences = await _doiRepo.Query().AnyAsync(x => x.SecureConnectId == tenantId && x.ParentId == null);
+            if (hasRootDomainOfInfluences)
+            {
+                throw new ValidationException("tenant has root domain of influences, so one must be selected");
+            }
         }
     }
 }

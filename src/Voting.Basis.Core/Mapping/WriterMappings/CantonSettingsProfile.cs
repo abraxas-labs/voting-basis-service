@@ -15,5 +15,6 @@ public class CantonSettingsProfile : Profile
         CreateMap<CantonSettings, CantonSettingsEventData>();
         CreateMap<CantonSettingsEventData, CantonSettingsAggregate>();
         CreateMap<CantonSettingsVotingCardChannel, CantonSettingsVotingCardChannelEventData>().ReverseMap();
+        CreateMap<CountingCircleResultStateDescription, CountingCircleResultStateDescriptionEventData>().ReverseMap();
     }
 }

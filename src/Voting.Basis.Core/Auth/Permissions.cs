@@ -10,27 +10,45 @@ public static class Permissions
     private const string ReadSuffix = ":read";
     private const string DeleteSuffix = ":delete";
 
+    // This suffix allows to access the resource when the tenant of the users matches the tenant of the resource
+    private const string ReadSameTenantSuffix = ReadSuffix + "-same-tenant";
+    private const string UpdateSameTenantSuffix = UpdateSuffix + "-same-tenant";
+
+    // This suffix allows to access the resource when the "canton matches"
+    private const string CreateSameCantonSuffix = CreateSuffix + "-same-canton";
+    private const string ReadSameCantonSuffix = ReadSuffix + "-same-canton";
+    private const string UpdateSameCantonSuffix = UpdateSuffix + "-same-canton";
+    private const string DeleteSameCantonSuffix = DeleteSuffix + "-same-canton";
+
     // Used when the "normal" permission (ex. 'read') allows access only to specific resources, while the  '-all' allows access to all resources
+    private const string CreateAllSuffix = CreateSuffix + "-all";
     private const string ReadAllSuffix = ReadSuffix + "-all";
     private const string UpdateAllSuffix = UpdateSuffix + "-all";
+    private const string DeleteAllSuffix = DeleteSuffix + "-all";
 
     public static class DomainOfInfluence
     {
-        public const string Create = Prefix + CreateSuffix;
+        public const string CreateAll = Prefix + CreateAllSuffix;
+        public const string CreateSameCanton = Prefix + CreateSameCantonSuffix;
         public const string UpdateAll = Prefix + UpdateAllSuffix;
-        public const string Update = Prefix + UpdateSuffix;
-        public const string Read = Prefix + ReadSuffix;
+        public const string UpdateSameCanton = Prefix + UpdateSameCantonSuffix;
+        public const string UpdateSameTenant = Prefix + UpdateSameTenantSuffix;
+        public const string ReadSameTenant = Prefix + ReadSameTenantSuffix;
+        public const string ReadSameCanton = Prefix + ReadSameCantonSuffix;
         public const string ReadAll = Prefix + ReadAllSuffix;
-        public const string Delete = Prefix + DeleteSuffix;
+        public const string DeleteSameCanton = Prefix + DeleteSameCantonSuffix;
+        public const string DeleteAll = Prefix + DeleteAllSuffix;
 
         private const string Prefix = "DomainOfInfluence";
     }
 
     public static class DomainOfInfluenceHierarchy
     {
-        public const string Read = Prefix + ReadSuffix;
+        public const string ReadSameTenant = Prefix + ReadSameTenantSuffix;
+        public const string ReadSameCanton = Prefix + ReadSameCantonSuffix;
         public const string ReadAll = Prefix + ReadAllSuffix;
-        public const string Update = Prefix + UpdateSuffix;
+        public const string UpdateSameCanton = Prefix + UpdateSameCantonSuffix;
+        public const string UpdateAll = Prefix + UpdateAllSuffix;
 
         private const string Prefix = "DomainOfInfluence.Hierarchy";
     }
@@ -47,8 +65,9 @@ public static class Permissions
     public static class CantonSettings
     {
         public const string Create = Prefix + CreateSuffix;
-        public const string Update = Prefix + UpdateSuffix;
-        public const string Read = Prefix + ReadSuffix;
+        public const string UpdateAll = Prefix + UpdateAllSuffix;
+        public const string UpdateSameTenant = Prefix + UpdateSameTenantSuffix;
+        public const string ReadSameTenant = Prefix + ReadSameTenantSuffix;
         public const string ReadAll = Prefix + ReadAllSuffix;
 
         private const string Prefix = "CantonSettings";
@@ -56,13 +75,18 @@ public static class Permissions
 
     public static class CountingCircle
     {
-        public const string Create = Prefix + CreateSuffix;
-        public const string Update = Prefix + UpdateSuffix;
+        public const string CreateAll = Prefix + CreateAllSuffix;
+        public const string CreateSameCanton = Prefix + CreateSameCantonSuffix;
+        public const string UpdateSameTenant = Prefix + UpdateSameTenantSuffix;
+        public const string UpdateSameCanton = Prefix + UpdateSameCantonSuffix;
         public const string UpdateAll = Prefix + UpdateAllSuffix;
         public const string Read = Prefix + ReadSuffix;
+        public const string ReadSameCanton = Prefix + ReadSameCantonSuffix;
         public const string ReadAll = Prefix + ReadAllSuffix;
-        public const string Delete = Prefix + DeleteSuffix;
-        public const string Merge = Prefix + ":merge";
+        public const string DeleteSameCanton = Prefix + DeleteSameCantonSuffix;
+        public const string DeleteAll = Prefix + DeleteSuffix;
+        public const string MergeSameCanton = Prefix + ":merge-same-canton";
+        public const string MergeAll = Prefix + ":merge-all";
 
         private const string Prefix = "CountingCircle";
     }
@@ -71,11 +95,24 @@ public static class Permissions
     {
         public const string Create = Prefix + CreateSuffix;
         public const string Update = Prefix + UpdateSuffix;
-        public const string Read = Prefix + ReadSuffix;
+        public const string ReadTenantHierarchy = Prefix + ReadSuffix + "-tenant-hierarchy";
+        public const string ReadSameCanton = Prefix + ReadSameCantonSuffix;
         public const string ReadAll = Prefix + ReadAllSuffix;
         public const string Delete = Prefix + DeleteSuffix;
 
         private const string Prefix = "Contest";
+    }
+
+    public static class PoliticalAssembly
+    {
+        public const string Create = Prefix + CreateSuffix;
+        public const string Update = Prefix + UpdateSuffix;
+        public const string ReadTenantHierarchy = Prefix + ReadSuffix + "-tenant-hierarchy";
+        public const string ReadSameCanton = Prefix + ReadSameCantonSuffix;
+        public const string ReadAll = Prefix + ReadAllSuffix;
+        public const string Delete = Prefix + DeleteSuffix;
+
+        private const string Prefix = "PoliticalAssembly";
     }
 
     public static class Vote
@@ -219,7 +256,7 @@ public static class Permissions
 
     public static class EventLog
     {
-        public const string Read = Prefix + ReadSuffix;
+        public const string ReadSameTenant = Prefix + ReadSameTenantSuffix;
         public const string ReadAll = Prefix + ReadAllSuffix;
 
         private const string Prefix = "EventLog";

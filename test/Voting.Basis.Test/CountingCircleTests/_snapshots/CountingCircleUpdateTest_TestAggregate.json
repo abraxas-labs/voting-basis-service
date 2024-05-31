@@ -43,7 +43,9 @@
       "Code": "1_code",
       "SortNumber": 1,
       "NameForProtocol": "",
-      "Electorates": []
+      "Electorates": [],
+      "Canton": 1,
+      "EVoting": false
     },
     {
       "Id": "0bb8d89c-d387-40d0-83cf-84e118a8d524",
@@ -88,7 +90,9 @@
       "Code": "3443c",
       "SortNumber": 9001,
       "NameForProtocol": "Stadt Gossau",
-      "Electorates": []
+      "Electorates": [],
+      "Canton": 1,
+      "EVoting": true
     },
     {
       "Id": "3ec3d50c-6cb7-4ba1-bd1a-2882153834b0",
@@ -133,7 +137,9 @@
       "Code": "nonec",
       "SortNumber": 9005,
       "NameForProtocol": "Stadt Jona",
-      "Electorates": []
+      "Electorates": [],
+      "Canton": 1,
+      "EVoting": false
     },
     {
       "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a4e",
@@ -178,7 +184,9 @@
       "Code": "nonec",
       "SortNumber": 21500,
       "NameForProtocol": "Kirche Uzwil",
-      "Electorates": []
+      "Electorates": [],
+      "Canton": 1,
+      "EVoting": false
     },
     {
       "Id": "c375f97a-0ba2-4a93-8c76-08a0661d9962",
@@ -223,7 +231,9 @@
       "Code": "none_uc",
       "SortNumber": 21500,
       "NameForProtocol": "Kirche Uzwil Andere",
-      "Electorates": []
+      "Electorates": [],
+      "Canton": 1,
+      "EVoting": false
     },
     {
       "Id": "2a3a799a-2437-47da-86fe-06decf70a267",
@@ -268,7 +278,9 @@
       "Code": "nonec",
       "SortNumber": 9004,
       "NameForProtocol": "Stadt Rapperswil",
-      "Electorates": []
+      "Electorates": [],
+      "Canton": 1,
+      "EVoting": false
     },
     {
       "Id": "1e2e062e-288d-4347-9f22-224e69b95bed",
@@ -313,7 +325,9 @@
       "Code": "",
       "SortNumber": 102,
       "NameForProtocol": "St. Gallen updated",
-      "Electorates": []
+      "Electorates": [],
+      "Canton": 1,
+      "EVoting": false
     },
     {
       "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e",
@@ -364,7 +378,9 @@
             1
           ]
         }
-      ]
+      ],
+      "Canton": 1,
+      "EVoting": false
     }
   ]
 }

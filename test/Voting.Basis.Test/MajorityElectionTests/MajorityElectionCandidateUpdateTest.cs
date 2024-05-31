@@ -13,6 +13,7 @@ using FluentAssertions;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -287,9 +288,12 @@ public class MajorityElectionCandidateUpdateTest : BaseGrpcTest<MajorityElection
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdGossau);
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

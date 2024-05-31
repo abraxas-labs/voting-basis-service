@@ -23,4 +23,8 @@ public abstract class BaseCountingCircle : BaseEntity
     public string NameForProtocol { get; set; } = string.Empty;
 
     public DateTime CreatedOn { get; set; } = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
+
+    public DomainOfInfluenceCanton Canton { get; set; }
+
+    public bool EVoting { get; set; }
 }

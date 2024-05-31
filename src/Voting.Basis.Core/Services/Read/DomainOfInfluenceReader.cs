@@ -27,6 +27,7 @@ public class DomainOfInfluenceReader
     private readonly DomainOfInfluenceHierarchyRepo _hierarchyRepo;
     private readonly IDbRepository<DataContext, DomainOfInfluencePermissionEntry> _permissionRepo;
     private readonly IDbRepository<DataContext, DomainOfInfluenceParty> _doiPartyRepo;
+    private readonly CantonSettingsRepo _cantonSettingsRepo;
     private readonly IAuth _auth;
     private readonly PermissionService _permissionService;
     private readonly DomainOfInfluenceLogoStorage _logoStorage;
@@ -37,6 +38,7 @@ public class DomainOfInfluenceReader
         DomainOfInfluenceHierarchyRepo hierarchyRepo,
         DomainOfInfluenceCountingCircleRepo doiCountingCirclesRepo,
         IDbRepository<DataContext, DomainOfInfluenceParty> doiPartyRepo,
+        CantonSettingsRepo cantonSettingsRepo,
         IAuth auth,
         PermissionService permissionService,
         DomainOfInfluenceLogoStorage logoStorage)
@@ -46,6 +48,7 @@ public class DomainOfInfluenceReader
         _doiCountingCirclesRepo = doiCountingCirclesRepo;
         _hierarchyRepo = hierarchyRepo;
         _doiPartyRepo = doiPartyRepo;
+        _cantonSettingsRepo = cantonSettingsRepo;
         _auth = auth;
         _permissionService = permissionService;
         _logoStorage = logoStorage;
@@ -56,36 +59,42 @@ public class DomainOfInfluenceReader
         var query = _repo.Query()
             .AsSplitQuery()
             .Include(x => x.PlausibilisationConfiguration)
-                .ThenInclude(x => x!.ComparisonVoterParticipationConfigurations!
+                .ThenInclude(x => x!.ComparisonVoterParticipationConfigurations
                     .OrderBy(y => y.MainLevel)
                     .ThenBy(y => y.ComparisonLevel))
             .Include(x => x.PlausibilisationConfiguration)
-                .ThenInclude(x => x!.ComparisonCountOfVotersConfigurations!
+                .ThenInclude(x => x!.ComparisonCountOfVotersConfigurations
                     .OrderBy(y => y.Category))
             .Include(x => x.PlausibilisationConfiguration)
-                .ThenInclude(x => x!.ComparisonVotingChannelConfigurations!
+                .ThenInclude(x => x!.ComparisonVotingChannelConfigurations
                     .OrderBy(y => y.VotingChannel))
             .AsQueryable();
 
-        if (_auth.HasPermission(Permissions.DomainOfInfluence.ReadAll))
+        if (_auth.HasAnyPermission(Permissions.DomainOfInfluence.ReadAll, Permissions.DomainOfInfluence.ReadSameCanton))
         {
             var domainOfInfluence = await query
-                                        .Include(d => d.Children.OrderBy(c => c.SortNumber).ThenBy(c => c.ShortName))
-                                        .Include(x => x.ExportConfigurations)
-                                        .Include(d => d.CountingCircles.OrderBy(c => c.CountingCircle.Name))
-                                            .ThenInclude(c => c.CountingCircle)
-                                                .ThenInclude(c => c.ResponsibleAuthority)
-                                        .FirstOrDefaultAsync(d => d.Id == id)
-                                    ?? throw new EntityNotFoundException(id);
+                .Include(d => d.Children.OrderBy(c => c.SortNumber).ThenBy(c => c.ShortName))
+                .Include(x => x.ExportConfigurations)
+                .Include(d => d.CountingCircles.OrderBy(c => c.CountingCircle.Name))
+                    .ThenInclude(c => c.CountingCircle)
+                        .ThenInclude(c => c.ResponsibleAuthority)
+                .FirstOrDefaultAsync(d => d.Id == id)
+                ?? throw new EntityNotFoundException(id);
             domainOfInfluence.SortExportConfigurations();
             domainOfInfluence.Parties = await ListParties(domainOfInfluence.Id);
+
+            if (_auth.HasPermission(Permissions.DomainOfInfluence.ReadSameCanton) && !await _permissionService.IsOwnerOfCanton(domainOfInfluence.Canton))
+            {
+                throw new EntityNotFoundException(id);
+            }
+
             return domainOfInfluence;
         }
 
         var tenantId = _auth.Tenant.Id;
         var authEntry = await _permissionRepo.Query()
-                            .FirstOrDefaultAsync(p => p.DomainOfInfluenceId == id && p.TenantId == tenantId)
-                        ?? throw new EntityNotFoundException(id);
+            .FirstOrDefaultAsync(p => p.DomainOfInfluenceId == id && p.TenantId == tenantId)
+            ?? throw new EntityNotFoundException(id);
 
         if (!authEntry.IsParent)
         {
@@ -93,7 +102,7 @@ public class DomainOfInfluenceReader
         }
 
         var doi = await query.FirstOrDefaultAsync(d => d.Id == id)
-                  ?? throw new EntityNotFoundException(id);
+            ?? throw new EntityNotFoundException(id);
         doi.CountingCircles = await _doiCountingCirclesRepo.Query()
             .Where(c => c.DomainOfInfluenceId == id && authEntry.CountingCircleIds.Contains(c.CountingCircleId))
             .Include(c => c.CountingCircle)
@@ -107,13 +116,20 @@ public class DomainOfInfluenceReader
 
     public async Task<List<DomainOfInfluence>> ListForSecureConnectId(string secureConnectId)
     {
-        if (!_auth.HasPermission(Permissions.DomainOfInfluence.ReadAll) && _auth.Tenant.Id != secureConnectId)
+        if (!_auth.HasAnyPermission(Permissions.DomainOfInfluence.ReadAll, Permissions.DomainOfInfluence.ReadSameCanton) && _auth.Tenant.Id != secureConnectId)
         {
             throw new ForbiddenException("Non-admins may only list the domain of influences for their own tenant");
         }
 
-        return await _repo.Query()
-            .Where(doi => doi.SecureConnectId == secureConnectId)
+        var query = _repo.Query().Where(doi => doi.SecureConnectId == secureConnectId);
+
+        if (_auth.HasPermission(Permissions.DomainOfInfluence.ReadSameCanton) && !_auth.HasPermission(Permissions.DomainOfInfluence.ReadAll))
+        {
+            var cantons = await GetAccessibleCantons();
+            query = query.Where(x => cantons.Contains(x.Canton));
+        }
+
+        return await query
             .ToListAsync();
     }
 
@@ -142,6 +158,16 @@ public class DomainOfInfluenceReader
                 .ToListAsync();
         }
 
+        if (_auth.HasPermission(Permissions.DomainOfInfluence.ReadSameCanton))
+        {
+            var cantons = await GetAccessibleCantons();
+            return await _repo.Query()
+                .Where(d => cantons.Contains(d.Canton))
+                .Where(d => d.CountingCircles.Any(c => c.CountingCircleId == countingCircleId))
+                .OrderBy(d => d.Name)
+                .ToListAsync();
+        }
+
         var tenantId = _auth.Tenant.Id;
         var doiIds = _permissionRepo.Query()
             .Where(p => p.TenantId == tenantId)
@@ -160,6 +186,17 @@ public class DomainOfInfluenceReader
         if (_auth.HasPermission(Permissions.DomainOfInfluenceHierarchy.ReadAll))
         {
             return await ListAll();
+        }
+
+        if (_auth.HasPermission(Permissions.DomainOfInfluenceHierarchy.ReadSameCanton))
+        {
+            var cantons = await GetAccessibleCantons();
+            var domainsForCantons = await _repo.Query()
+                .Where(d => cantons.Contains(d.Canton))
+                .ToListAsync();
+            var countingCircles = await _doiCountingCirclesRepo.CountingCirclesByDomainOfInfluenceId(
+                filteredDomainOfInfluenceIds: domainsForCantons.ConvertAll(d => d.Id));
+            return DomainOfInfluenceTreeBuilder.BuildTree(domainsForCantons, countingCircles);
         }
 
         var authEntries = await _permissionRepo.Query()
@@ -191,7 +228,7 @@ public class DomainOfInfluenceReader
         var doi = await _repo.GetByKey(domainOfInfluenceId)
             ?? throw new EntityNotFoundException(domainOfInfluenceId);
 
-        await _permissionService.EnsureCanReadDomainOfInfluence(domainOfInfluenceId);
+        await _permissionService.EnsureCanReadDomainOfInfluence(doi);
         return doi.CantonDefaults;
     }
 
@@ -200,7 +237,7 @@ public class DomainOfInfluenceReader
         var doi = await _repo.GetByKey(doiId)
             ?? throw new EntityNotFoundException(nameof(DomainOfInfluence), doiId);
 
-        await _permissionService.EnsureCanReadDomainOfInfluence(doi.Id);
+        await _permissionService.EnsureCanReadDomainOfInfluence(doi);
 
         if (doi.LogoRef == null)
         {
@@ -249,5 +286,13 @@ public class DomainOfInfluenceReader
     {
         var hierarchicalGreaterOrSelfDoiIds = await _hierarchyRepo.GetHierarchicalGreaterOrSelfDomainOfInfluenceIds(doiId);
         return _doiPartyRepo.Query().Where(x => hierarchicalGreaterOrSelfDoiIds.Contains(x.DomainOfInfluenceId));
+    }
+
+    private Task<List<DomainOfInfluenceCanton>> GetAccessibleCantons()
+    {
+        return _cantonSettingsRepo.Query()
+            .Where(x => x.SecureConnectId == _auth.Tenant.Id)
+            .Select(x => x.Canton)
+            .ToListAsync();
     }
 }

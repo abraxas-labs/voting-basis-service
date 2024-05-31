@@ -13,6 +13,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -121,15 +122,24 @@ public class ProportionalElectionUnionCreateTest : BaseGrpcTest<
             "Testing phase ended, cannot modify the contest");
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
-        await new ProportionalElectionUnionService.ProportionalElectionUnionServiceClient(channel)
+        var response = await new ProportionalElectionUnionService.ProportionalElectionUnionServiceClient(channel)
             .CreateAsync(NewValidRequest());
+        await RunEvents<ProportionalElectionUnionCreated>();
+
+        await ElectionAdminClient.DeleteAsync(new DeleteProportionalElectionUnionRequest
+        {
+            Id = response.Id,
+        });
     }
 
     private CreateProportionalElectionUnionRequest NewValidRequest(

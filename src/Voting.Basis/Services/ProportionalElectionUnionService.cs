@@ -10,6 +10,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Write;
+using Voting.Basis.Data.Models;
 using Voting.Lib.Common;
 using Voting.Lib.Grpc;
 using Voting.Lib.Iam.Authorization;
@@ -22,15 +23,18 @@ public class ProportionalElectionUnionService : ServiceBase
 {
     private readonly ProportionalElectionUnionReader _proportionalElectionUnionReader;
     private readonly ProportionalElectionUnionWriter _proportionalElectionUnionWriter;
+    private readonly ProportionalElectionWriter _proportionalElectionWriter;
     private readonly IMapper _mapper;
 
     public ProportionalElectionUnionService(
         ProportionalElectionUnionReader proportionalElectionUnionReader,
         ProportionalElectionUnionWriter proportionalElectionUnionWriter,
+        ProportionalElectionWriter proportionalElectionWriter,
         IMapper mapper)
     {
         _proportionalElectionUnionReader = proportionalElectionUnionReader;
         _proportionalElectionUnionWriter = proportionalElectionUnionWriter;
+        _proportionalElectionWriter = proportionalElectionWriter;
         _mapper = mapper;
     }
 
@@ -85,5 +89,21 @@ public class ProportionalElectionUnionService : ServiceBase
     {
         return _mapper.Map<ProportionalElectionUnionLists>(
             await _proportionalElectionUnionReader.GetUnionLists(GuidParser.Parse(request.ProportionalElectionUnionId)));
+    }
+
+    [AuthorizePermission(Permissions.ProportionalElectionUnion.Read)]
+    public override async Task<ProportionalElectionUnions> List(ListProportionalElectionUnionsRequest request, ServerCallContext context)
+    {
+        return _mapper.Map<ProportionalElectionUnions>(
+            await _proportionalElectionUnionReader.List(GuidParser.Parse(request.ProportionalElectionId)));
+    }
+
+    [AuthorizePermission(Permissions.ProportionalElectionUnion.Update)]
+    public override async Task<Empty> UpdatePoliticalBusinesses(UpdateProportionalElectionUnionPoliticalBusinessesRequest request, ServerCallContext context)
+    {
+        await _proportionalElectionWriter.UpdateAllMandateAlgorithmsInUnion(
+            request.ProportionalElectionUnionIds.Select(GuidParser.Parse).ToList(),
+            _mapper.Map<ProportionalElectionMandateAlgorithm>(request.MandateAlgorithm));
+        return ProtobufEmpty.Instance;
     }
 }

@@ -12,17 +12,20 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
+using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.VoteTests;
 
 public class VoteDeleteTest : BaseGrpcTest<VoteService.VoteServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
+    private string? _authTestVoteId;
 
     public VoteDeleteTest(TestApplicationFactory factory)
         : base(factory)
@@ -124,14 +127,37 @@ public class VoteDeleteTest : BaseGrpcTest<VoteService.VoteServiceClient>
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
-        var id = VoteMockedData.IdGossauVoteInContestGossau;
+        if (_authTestVoteId == null)
+        {
+            var response = await ElectionAdminClient.CreateAsync(new CreateVoteRequest
+            {
+                PoliticalBusinessNumber = "1338",
+                OfficialDescription = { LanguageUtil.MockAllLanguages("Neue Abstimmung") },
+                ShortDescription = { LanguageUtil.MockAllLanguages("Neue Abst") },
+                DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen,
+                ContestId = ContestMockedData.IdStGallenEvoting,
+                Active = true,
+                ResultAlgorithm = SharedProto.VoteResultAlgorithm.PopularMajority,
+                ResultEntry = SharedProto.VoteResultEntry.FinalResults,
+                AutomaticBallotBundleNumberGeneration = true,
+                BallotBundleSampleSizePercent = 50,
+                EnforceResultEntryForCountingCircles = true,
+                ReviewProcedure = SharedProto.VoteReviewProcedure.Physically,
+                EnforceReviewProcedureForCountingCircles = true,
+            });
+            _authTestVoteId = response.Id;
+        }
 
         await new VoteService.VoteServiceClient(channel)
-            .DeleteAsync(new DeleteVoteRequest { Id = id });
+            .DeleteAsync(new DeleteVoteRequest { Id = _authTestVoteId });
+        _authTestVoteId = null;
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 }

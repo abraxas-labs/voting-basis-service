@@ -32,6 +32,7 @@ public class ExceptionMappingTest
             new CountingCircleMergerAlreadyActiveException(),
             new ContestSetAsPreviousContestException(),
             new DuplicatedBfsException("BFS"),
+            new DuplicatedPoliticalBusinessNumberException("PBN"),
             new ContestInMergeSetAsPreviousContestException(),
         };
 

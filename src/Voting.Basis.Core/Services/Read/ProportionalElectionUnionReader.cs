@@ -17,13 +17,16 @@ namespace Voting.Basis.Core.Services.Read;
 public class ProportionalElectionUnionReader
 {
     private readonly IDbRepository<DataContext, ProportionalElectionUnion> _repo;
+    private readonly IDbRepository<DataContext, ProportionalElectionUnionEntry> _unionEntryRepo;
     private readonly PermissionService _permissionService;
 
     public ProportionalElectionUnionReader(
         IDbRepository<DataContext, ProportionalElectionUnion> repo,
+        IDbRepository<DataContext, ProportionalElectionUnionEntry> unionEntryRepo,
         PermissionService permissionService)
     {
         _repo = repo;
+        _unionEntryRepo = unionEntryRepo;
         _permissionService = permissionService;
     }
 
@@ -90,5 +93,21 @@ public class ProportionalElectionUnionReader
             .OrderBy(l => l.OrderNumber)
             .ThenBy(l => l.PoliticalBusinessNumbers)
             .ToList();
+    }
+
+    public async Task<List<ProportionalElectionUnion>> List(Guid proportionalElectionId)
+    {
+        var unions = await _unionEntryRepo.Query()
+            .Include(x => x.ProportionalElectionUnion.Contest)
+            .Where(x => x.ProportionalElectionId == proportionalElectionId)
+            .Select(x => x.ProportionalElectionUnion)
+            .ToListAsync();
+
+        foreach (var union in unions)
+        {
+            await _permissionService.EnsureCanReadContest(union.Contest);
+        }
+
+        return unions;
     }
 }

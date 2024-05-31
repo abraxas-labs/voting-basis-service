@@ -53,6 +53,7 @@ internal readonly struct ExceptionMapping
             AlreadyExistsException => new(StatusCode.AlreadyExists, StatusCodes.Status424FailedDependency),
             NonUniqueCandidateNumberException => new(StatusCode.AlreadyExists, StatusCodes.Status424FailedDependency, true),
             DuplicatedBfsException => new(StatusCode.AlreadyExists, StatusCodes.Status424FailedDependency, true),
+            DuplicatedPoliticalBusinessNumberException => new(StatusCode.AlreadyExists, StatusCodes.Status424FailedDependency, true),
             MajorityElectionWithExistingSecondaryElectionsException => new(StatusCode.FailedPrecondition, StatusCodes.Status424FailedDependency, true),
             ContestTestingPhaseEndedException => new(StatusCode.FailedPrecondition, StatusCodes.Status424FailedDependency),
             ModificationNotAllowedException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed),

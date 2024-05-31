@@ -57,7 +57,11 @@
     "ExternalPrintingCenterEaiMessageType": "",
     "NameForProtocol": "Kanton St. Gallen",
     "SapCustomerOrderNumber": "",
-    "SwissPostData": null
+    "SwissPostData": null,
+    "VirtualTopLevel": false,
+    "ViewCountingCirclePartialResults": false,
+    "VotingCardColor": 0,
+    "ElectoralRegistrationEnabled": false
   },
   "EVoting": true,
   "EVotingFrom": {
@@ -126,7 +130,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 1,
       "Active": true
@@ -188,7 +196,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 2,
       "Active": true
@@ -250,7 +262,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 3,
       "Active": true
@@ -312,7 +328,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "Kanton St. Gallen",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 1,
       "Active": true
@@ -374,7 +394,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "Kanton St. Gallen",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 2,
       "Active": true
@@ -436,7 +460,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "Kanton St. Gallen",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 3,
       "Active": true
@@ -498,7 +526,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "Kanton St. Gallen",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 1,
       "Active": false
@@ -560,7 +592,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "Kanton St. Gallen",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 2,
       "Active": false
@@ -622,7 +658,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "Kanton St. Gallen",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 3,
       "Active": false
@@ -684,7 +724,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "Stadt Uzwil",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 1,
       "Active": true
@@ -746,7 +790,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "Stadt Uzwil",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 2,
       "Active": true
@@ -808,7 +856,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "Stadt Uzwil",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 3,
       "Active": true
@@ -886,7 +938,11 @@
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
           "FrankingLicenceReturnNumber": "562984257"
-        }
+        },
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": true
       },
       "PoliticalBusinessType": 1,
       "Active": true
@@ -964,7 +1020,11 @@
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
           "FrankingLicenceReturnNumber": "562984257"
-        }
+        },
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": true
       },
       "PoliticalBusinessType": 2,
       "Active": true
@@ -1042,7 +1102,11 @@
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
           "FrankingLicenceReturnNumber": "562984257"
-        }
+        },
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": true
       },
       "PoliticalBusinessType": 3,
       "Active": true
@@ -1104,7 +1168,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "Stadt Uzwil",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 4,
       "Active": false
@@ -1182,7 +1250,11 @@
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
           "FrankingLicenceReturnNumber": "562984257"
-        }
+        },
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": true
       },
       "PoliticalBusinessType": 4,
       "Active": false

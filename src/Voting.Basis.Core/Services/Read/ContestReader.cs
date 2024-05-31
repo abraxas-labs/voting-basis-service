@@ -33,6 +33,7 @@ public class ContestReader
     private readonly IDbRepository<DataContext, Contest> _repo;
     private readonly IDbRepository<DataContext, DateTime, PreconfiguredContestDate> _preconfiguredDatesRepo;
     private readonly DomainOfInfluenceHierarchyRepo _hierarchyRepo;
+    private readonly CantonSettingsRepo _cantonSettingsRepo;
     private readonly PublisherConfig _config;
     private readonly IAuth _auth;
     private readonly PermissionService _permissionService;
@@ -44,6 +45,7 @@ public class ContestReader
         IDbRepository<DataContext, Contest> repo,
         IDbRepository<DataContext, DateTime, PreconfiguredContestDate> preconfiguredDatesRepo,
         DomainOfInfluenceHierarchyRepo hierarchyRepo,
+        CantonSettingsRepo cantonSettingsRepo,
         PublisherConfig config,
         IAuth auth,
         PermissionService permissionService,
@@ -54,6 +56,7 @@ public class ContestReader
         _repo = repo;
         _preconfiguredDatesRepo = preconfiguredDatesRepo;
         _hierarchyRepo = hierarchyRepo;
+        _cantonSettingsRepo = cantonSettingsRepo;
         _config = config;
         _auth = auth;
         _permissionService = permissionService;
@@ -66,7 +69,7 @@ public class ContestReader
     {
         var query = _repo.Query().AsSplitQuery();
 
-        if (_auth.HasPermission(Permissions.Contest.ReadAll))
+        if (_auth.HasAnyPermission(Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll))
         {
             query = query.Include(x => x.SimplePoliticalBusinesses
                     .OrderBy(pb => pb.DomainOfInfluence!.Type)
@@ -89,12 +92,21 @@ public class ContestReader
                 .ThenInclude(v => v.DomainOfInfluence);
         }
 
-        return await query
-                   .Include(c => c.DomainOfInfluence)
-                   .Include(c => c.ProportionalElectionUnions)
-                   .Include(c => c.MajorityElectionUnions)
-                   .FirstOrDefaultAsync(x => x.Id == id)
-               ?? throw new EntityNotFoundException(nameof(Contest), id);
+        var contest = await query
+            .Include(c => c.DomainOfInfluence)
+            .Include(c => c.ProportionalElectionUnions)
+            .Include(c => c.MajorityElectionUnions)
+            .FirstOrDefaultAsync(x => x.Id == id)
+            ?? throw new EntityNotFoundException(nameof(Contest), id);
+
+        if (_auth.HasPermission(Permissions.Contest.ReadSameCanton)
+            && !_auth.HasPermission(Permissions.Contest.ReadAll)
+            && !await _permissionService.IsOwnerOfCanton(contest.DomainOfInfluence.Canton))
+        {
+            throw new EntityNotFoundException(nameof(Contest), id);
+        }
+
+        return contest;
     }
 
     public async Task<IEnumerable<ContestSummary>> ListSummaries(IReadOnlyCollection<ContestState> states)
@@ -106,12 +118,23 @@ public class ContestReader
             query = query.Where(x => states.Contains(x.State));
         }
 
-        var canReadAll = _auth.HasPermission(Permissions.Contest.ReadAll);
-        List<Guid>? accessibleGuids = null;
-        if (!canReadAll)
+        var canReadAllPbs = false;
+        List<Guid>? accessibleDois = null;
+        if (_auth.HasPermission(Permissions.Contest.ReadAll))
+        {
+            // no restrictions
+            canReadAllPbs = true;
+        }
+        else if (_auth.HasPermission(Permissions.Contest.ReadSameCanton))
+        {
+            canReadAllPbs = true;
+            var cantons = await GetAccessibleCantons();
+            query = query.Where(x => cantons.Contains(x.DomainOfInfluence.Canton));
+        }
+        else
         {
             var doiHierarchyGroups = await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups();
-            accessibleGuids = doiHierarchyGroups.AccessibleDoiIds;
+            accessibleDois = doiHierarchyGroups.AccessibleDoiIds;
             query = query.Where(x => doiHierarchyGroups.TenantAndParentDoiIds.Contains(x.DomainOfInfluenceId));
         }
 
@@ -122,7 +145,7 @@ public class ContestReader
             {
                 Contest = c,
                 ContestEntriesDetails = c.SimplePoliticalBusinesses
-                    .Where(pb => pb.BusinessType != PoliticalBusinessType.SecondaryMajorityElection && (canReadAll || accessibleGuids!.Contains(pb.DomainOfInfluenceId)))
+                    .Where(pb => pb.BusinessType != PoliticalBusinessType.SecondaryMajorityElection && (canReadAllPbs || accessibleDois!.Contains(pb.DomainOfInfluenceId)))
                     .GroupBy(x => x.DomainOfInfluence!.Type)
                     .Select(x => new ContestSummaryEntryDetails
                     {
@@ -164,34 +187,28 @@ public class ContestReader
         return (await CheckAvailabilityInternal(date, domainOfInfluenceId)).Availability;
     }
 
-    public async Task<List<ContestCountingCircleOption>> ListCountingCircleOptions(Guid contestId)
-    {
-        var contest = await _repo
-                          .Query()
-                          .Include(x => x.CountingCircleOptions).ThenInclude(x => x.CountingCircle)
-                          .FirstOrDefaultAsync(c => c.Id == contestId)
-                      ?? throw new EntityNotFoundException(contestId);
-
-        await _permissionService.EnsureCanReadContest(contest);
-
-        return contest.CountingCircleOptions
-            .OrderBy(x => x.CountingCircle!.Name)
-            .ToList();
-    }
-
     public async Task ListenToContestOverviewChanges(
         Func<ContestOverviewChangeMessage, Task> listener,
         CancellationToken cancellationToken)
     {
-        var canReadAll = _auth.HasPermission(Permissions.Contest.ReadAll);
-        var tenantAndParentDoiIds = canReadAll ? new() : (await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups()).TenantAndParentDoiIds;
+        Func<Contest, bool> contestFilter;
+        if (_auth.HasPermission(Permissions.Contest.ReadAll))
+        {
+            contestFilter = _ => true;
+        }
+        else if (_auth.HasPermission(Permissions.Contest.ReadSameCanton))
+        {
+            var cantons = await GetAccessibleCantons();
+            contestFilter = contest => cantons.Contains(contest.DomainOfInfluence.Canton);
+        }
+        else
+        {
+            var tenantAndParentDoiIds = (await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups()).TenantAndParentDoiIds;
+            contestFilter = contest => tenantAndParentDoiIds.Contains(contest.DomainOfInfluenceId);
+        }
 
         await _contestOverviewChangeListener.Listen(
-            e => e.Contest!.Data != null &&
-                (
-                    canReadAll ||
-                    tenantAndParentDoiIds.Contains(e.Contest.Data.DomainOfInfluenceId)
-                ),
+            e => e.Contest.Data != null && contestFilter(e.Contest.Data),
             listener,
             cancellationToken);
     }
@@ -201,18 +218,26 @@ public class ContestReader
         Func<ContestDetailsChangeMessage, Task> listener,
         CancellationToken cancellationToken)
     {
-        var canReadAll = _auth.HasPermission(Permissions.Contest.ReadAll);
-        var accessibleDoiIds = canReadAll ? new() : (await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups()).AccessibleDoiIds;
+        var doi = await _repo.Query()
+            .Where(x => x.Id == contestId)
+            .Select(x => x.DomainOfInfluence)
+            .FirstOrDefaultAsync(cancellationToken)
+            ?? throw new EntityNotFoundException(nameof(Contest), contestId);
+        await _permissionService.EnsureCanReadDomainOfInfluence(doi);
+
+        Func<ContestDetailsChangeMessage, bool> filter = _ => true;
+        if (_auth.HasPermission(Permissions.Contest.ReadTenantHierarchy))
+        {
+            var accessibleDoiIds = (await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups()).AccessibleDoiIds;
+            filter = e => e.PoliticalBusinessUnion?.Data != null ||
+                (e.PoliticalBusiness?.Data != null && accessibleDoiIds.Contains(e.PoliticalBusiness.Data.DomainOfInfluenceId)) ||
+                (e.ElectionGroup?.Data != null && accessibleDoiIds.Contains(e.ElectionGroup.Data.PrimaryMajorityElection.DomainOfInfluenceId));
+        }
 
         await _contestDetailsChangeListener.Listen(
             e => e.ContestId.HasValue &&
                  e.ContestId == contestId &&
-                 (
-                     canReadAll ||
-                     e.PoliticalBusinessUnion?.Data != null ||
-                     (e.PoliticalBusiness?.Data != null && accessibleDoiIds.Contains(e.PoliticalBusiness.Data.DomainOfInfluenceId)) ||
-                     (e.ElectionGroup?.Data != null && accessibleDoiIds.Contains(e.ElectionGroup.Data.PrimaryMajorityElection.DomainOfInfluenceId))
-                 ),
+                 filter(e),
             listener,
             cancellationToken);
     }
@@ -262,5 +287,13 @@ public class ContestReader
         }
 
         return (SharedProto.ContestDateAvailability.Available, Enumerable.Empty<Contest>());
+    }
+
+    private async Task<List<DomainOfInfluenceCanton>> GetAccessibleCantons()
+    {
+        return await _cantonSettingsRepo.Query()
+            .Where(x => x.SecureConnectId == _auth.Tenant.Id)
+            .Select(x => x.Canton)
+            .ToListAsync();
     }
 }

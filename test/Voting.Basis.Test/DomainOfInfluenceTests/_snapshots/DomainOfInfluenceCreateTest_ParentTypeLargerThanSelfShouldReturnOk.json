@@ -29,7 +29,10 @@
       "Bfs": "3408",
       "Code": "",
       "SortNumber": 0,
-      "NameForProtocol": "Uzwil"
+      "NameForProtocol": "Uzwil",
+      "VirtualTopLevel": false,
+      "ViewCountingCirclePartialResults": false,
+      "ElectoralRegistrationEnabled": false
     }
   }
 }

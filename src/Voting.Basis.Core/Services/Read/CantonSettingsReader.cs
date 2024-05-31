@@ -43,8 +43,10 @@ public class CantonSettingsReader
     {
         var canReadAll = _auth.HasPermission(Permissions.CantonSettings.ReadAll);
         return _repo.Query()
+            .AsSplitQuery()
             .Where(c => canReadAll || c.SecureConnectId == _auth.Tenant.Id)
             .Include(x => x.EnabledVotingCardChannels.OrderBy(y => y.VotingChannel).ThenBy(y => y.Valid))
+            .Include(x => x.CountingCircleResultStateDescriptions.OrderBy(y => y.State))
             .OrderBy(c => c.Canton);
     }
 }

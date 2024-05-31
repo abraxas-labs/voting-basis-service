@@ -452,13 +452,24 @@ public class ContestCreateTest : BaseGrpcTest<ContestService.ContestServiceClien
             "contest in merge set as a previous contest");
     }
 
+    [Fact]
+    public async Task NotRootDoiShouldThrow()
+    {
+        await AssertStatus(
+            async () => await ElectionAdminUzwilClient.CreateAsync(NewValidRequest(x => x.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdKirchgemeindeAndere)),
+            StatusCode.InvalidArgument,
+            "tenant has root domain of influences, so one must be selected");
+    }
+
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
         => await new ContestService.ContestServiceClient(channel)
             .CreateAsync(NewValidRequest());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
     }
 
     private CreateContestRequest NewValidRequest(

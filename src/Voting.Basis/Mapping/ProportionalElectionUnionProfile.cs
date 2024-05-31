@@ -22,5 +22,7 @@ public class ProportionalElectionUnionProfile : Profile
         CreateMap<Data.Models.ProportionalElectionUnionList, ProtoModels.ProportionalElectionUnionList>();
         CreateMap<IEnumerable<Data.Models.ProportionalElectionUnionList>, ProtoModels.ProportionalElectionUnionLists>()
             .ForMember(dst => dst.ProportionalElectionUnionLists_, opts => opts.MapFrom(src => src));
+        CreateMap<IEnumerable<Data.Models.ProportionalElectionUnion>, ProtoModels.ProportionalElectionUnions>()
+            .ForMember(dst => dst.Unions, opts => opts.MapFrom(src => src));
     }
 }

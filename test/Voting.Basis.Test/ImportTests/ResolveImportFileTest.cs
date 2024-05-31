@@ -8,6 +8,7 @@ using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Lib.Testing.Utils;
 using Xunit;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
@@ -72,12 +73,16 @@ public class ResolveImportFileTest : BaseImportTest
             .ResolveImportFileAsync(new ResolveImportFileRequest
             {
                 ImportType = SharedProto.ImportType.Ech157,
+                FileContent = await GetTestEch0157File(),
             });
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     private void IgnoreGeneratedFields(ProtoModels.ContestImport contestImport)

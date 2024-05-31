@@ -49,9 +49,11 @@ public class VoteWriter
     {
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(data.DomainOfInfluenceId);
         await _politicalBusinessValidationService.EnsureValidEditData(
+            data.Id,
             data.ContestId,
-            data.DomainOfInfluenceId);
-        await _politicalBusinessValidationService.EnsureValidReportDomainOfInfluenceLevel(data.DomainOfInfluenceId, data.ReportDomainOfInfluenceLevel);
+            data.DomainOfInfluenceId,
+            data.PoliticalBusinessNumber,
+            data.ReportDomainOfInfluenceLevel);
         await _contestValidationService.EnsureInTestingPhase(data.ContestId);
 
         var vote = _aggregateFactory.New<VoteAggregate>();
@@ -64,9 +66,11 @@ public class VoteWriter
     {
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(data.DomainOfInfluenceId);
         await _politicalBusinessValidationService.EnsureValidEditData(
+            data.Id,
             data.ContestId,
-            data.DomainOfInfluenceId);
-        await _politicalBusinessValidationService.EnsureValidReportDomainOfInfluenceLevel(data.DomainOfInfluenceId, data.ReportDomainOfInfluenceLevel);
+            data.DomainOfInfluenceId,
+            data.PoliticalBusinessNumber,
+            data.ReportDomainOfInfluenceLevel);
         var contestState = await _contestValidationService.EnsureNotLocked(data.ContestId);
 
         var voteModel = await _voteRepository.GetByKey(data.Id)

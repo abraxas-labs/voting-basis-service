@@ -25,7 +25,7 @@ public class EventLogService : ServiceBase
         _mapper = mapper;
     }
 
-    [AuthorizePermission(Permissions.EventLog.Read)]
+    [AuthorizeAnyPermission(Permissions.EventLog.ReadSameTenant, Permissions.EventLog.ReadAll)]
     public override async Task<EventLogsPage> List(
         ListEventLogsRequest request,
         ServerCallContext context)

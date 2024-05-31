@@ -71,9 +71,11 @@ public class MajorityElectionWriter
     {
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(data.DomainOfInfluenceId);
         await _politicalBusinessValidationService.EnsureValidEditData(
+            data.Id,
             data.ContestId,
-            data.DomainOfInfluenceId);
-        await _politicalBusinessValidationService.EnsureValidReportDomainOfInfluenceLevel(data.DomainOfInfluenceId, data.ReportDomainOfInfluenceLevel);
+            data.DomainOfInfluenceId,
+            data.PoliticalBusinessNumber,
+            data.ReportDomainOfInfluenceLevel);
         await _contestValidationService.EnsureInTestingPhase(data.ContestId);
 
         var majorityElection = _aggregateFactory.New<MajorityElectionAggregate>();
@@ -86,9 +88,11 @@ public class MajorityElectionWriter
     {
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(data.DomainOfInfluenceId);
         await _politicalBusinessValidationService.EnsureValidEditData(
+            data.Id,
             data.ContestId,
-            data.DomainOfInfluenceId);
-        await _politicalBusinessValidationService.EnsureValidReportDomainOfInfluenceLevel(data.DomainOfInfluenceId, data.ReportDomainOfInfluenceLevel);
+            data.DomainOfInfluenceId,
+            data.PoliticalBusinessNumber,
+            data.ReportDomainOfInfluenceLevel);
         var contestState = await _contestValidationService.EnsureNotLocked(data.ContestId);
 
         var existingMajorityElection = await _majorityElectionRepo.Query()
@@ -198,6 +202,11 @@ public class MajorityElectionWriter
     {
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(data.PrimaryMajorityElectionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(majorityElection.DomainOfInfluenceId);
+        await _politicalBusinessValidationService.EnsureUniquePoliticalBusinessNumber(
+            data.Id,
+            majorityElection.ContestId,
+            majorityElection.DomainOfInfluenceId,
+            data.PoliticalBusinessNumber);
         await _contestValidationService.EnsureInTestingPhase(majorityElection.ContestId);
 
         if (majorityElection.SecondaryMajorityElections.Count == 0)
@@ -214,6 +223,11 @@ public class MajorityElectionWriter
     {
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(data.PrimaryMajorityElectionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(majorityElection.DomainOfInfluenceId);
+        await _politicalBusinessValidationService.EnsureUniquePoliticalBusinessNumber(
+            data.Id,
+            majorityElection.ContestId,
+            majorityElection.DomainOfInfluenceId,
+            data.PoliticalBusinessNumber);
         var contestState = await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
 
         if (contestState.TestingPhaseEnded())

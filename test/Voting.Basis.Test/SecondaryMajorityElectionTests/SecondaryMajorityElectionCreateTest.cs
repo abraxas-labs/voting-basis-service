@@ -12,6 +12,7 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -153,9 +154,20 @@ public class SecondaryMajorityElectionCreateTest : BaseGrpcTest<MajorityElection
         createdElectionGroup.PrimaryMajorityElectionId.Should().Be(request.PrimaryMajorityElectionId);
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    [Fact]
+    public Task DuplicatePoliticalBusinessIdShouldThrow()
     {
-        yield return NoRole;
+        return AssertStatus(
+            async () => await AdminClient.CreateSecondaryMajorityElectionAsync(NewValidRequest(v => v.PoliticalBusinessNumber = "155")),
+            StatusCode.AlreadyExists);
+    }
+
+    protected override IEnumerable<string> AuthorizedRoles()
+    {
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

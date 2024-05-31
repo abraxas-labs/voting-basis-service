@@ -46,7 +46,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -90,7 +94,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       }
     ]
   },
@@ -138,7 +146,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       {
         "Id": "ec1e23a1-bfba-4f1b-b75f-ca31ac53a80f",
@@ -182,7 +194,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       }
     ]
   },
@@ -230,7 +246,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -274,7 +294,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       }
     ]
   },
@@ -325,7 +349,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -369,7 +397,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       }
     ]
   },

@@ -29,7 +29,10 @@
       "Bfs": "",
       "Code": "",
       "SortNumber": 0,
-      "NameForProtocol": ""
+      "NameForProtocol": "",
+      "VirtualTopLevel": false,
+      "ViewCountingCirclePartialResults": false,
+      "ElectoralRegistrationEnabled": false
     }
   },
   "partyCreated": {

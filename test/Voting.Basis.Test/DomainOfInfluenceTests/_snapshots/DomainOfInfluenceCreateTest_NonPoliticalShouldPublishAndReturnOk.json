@@ -29,7 +29,10 @@
       "Bfs": "2442",
       "Code": "C2355",
       "SortNumber": 3,
-      "NameForProtocol": ""
+      "NameForProtocol": "",
+      "VirtualTopLevel": false,
+      "ViewCountingCirclePartialResults": false,
+      "ElectoralRegistrationEnabled": false
     }
   }
 }

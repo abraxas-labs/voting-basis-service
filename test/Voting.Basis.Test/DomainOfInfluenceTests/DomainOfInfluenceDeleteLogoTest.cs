@@ -2,8 +2,10 @@
 // For license information see LICENSE file
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
@@ -17,6 +19,7 @@ using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Snapper;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Extensions;
 using Voting.Basis.Core.ObjectStorage;
@@ -165,5 +168,29 @@ public class DomainOfInfluenceDeleteLogoTest : BaseGrpcTest<DomainOfInfluenceSer
         await new DomainOfInfluenceService.DomainOfInfluenceServiceClient(channel)
             .DeleteLogoAsync(
                 new DeleteDomainOfInfluenceLogoRequest { DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen });
+
+        await SetLogo();
+    }
+
+    protected override IEnumerable<string> AuthorizedRoles()
+    {
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
+    }
+
+    private async Task SetLogo()
+    {
+        using var content = new MultipartFormDataContent();
+        var logoContent =
+            new StringContent(
+                @"<svg height=""100"" width=""100""><circle cx=""50"" cy=""50"" r=""40"" stroke=""black"" stroke-width=""3"" fill=""red"" /></svg>",
+                Encoding.UTF8,
+                "image/svg");
+        content.Add(logoContent, "logo", "logo.svg");
+
+        using var httpClient = CreateHttpClient(Roles.ElectionAdmin);
+        await httpClient.PostAsync($"api/domain-of-influences/{DomainOfInfluenceMockedData.IdStGallen}/logo", content);
     }
 }

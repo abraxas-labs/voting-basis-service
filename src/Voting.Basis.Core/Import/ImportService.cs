@@ -126,11 +126,12 @@ public class ImportService
     {
         var politicalBusinessDomainOfInfluenceIds = new HashSet<Guid>();
         var result = new AggregateImport();
+        var idVerifier = new IdVerifier();
 
         foreach (var majorityElection in majorityElections)
         {
             majorityElection.Election.ContestId = contestId;
-            var aggregate = await CreateMajorityElectionAggregate(majorityElection);
+            var aggregate = await CreateMajorityElectionAggregate(majorityElection, idVerifier);
             result.MajorityElectionAggregates.Add(aggregate);
             politicalBusinessDomainOfInfluenceIds.Add(majorityElection.Election.DomainOfInfluenceId);
         }
@@ -143,7 +144,7 @@ public class ImportService
                 proportionalElection.Election.DomainOfInfluenceId);
 
             proportionalElection.Election.ContestId = contestId;
-            var aggregate = await CreateProportionalElectionAggregate(proportionalElection);
+            var aggregate = await CreateProportionalElectionAggregate(proportionalElection, idVerifier);
             result.ProportionalElectionAggregates.Add(aggregate);
             politicalBusinessDomainOfInfluenceIds.Add(proportionalElection.Election.DomainOfInfluenceId);
         }
@@ -151,7 +152,7 @@ public class ImportService
         foreach (var vote in votes)
         {
             vote.Vote.ContestId = contestId;
-            var aggregate = CreateVoteAggregate(vote);
+            var aggregate = CreateVoteAggregate(vote, idVerifier);
             result.VoteAggregates.Add(aggregate);
             politicalBusinessDomainOfInfluenceIds.Add(vote.Vote.DomainOfInfluenceId);
         }
@@ -183,29 +184,32 @@ public class ImportService
         }
     }
 
-    private async Task<MajorityElectionAggregate> CreateMajorityElectionAggregate(MajorityElectionImport electionImport)
+    private async Task<MajorityElectionAggregate> CreateMajorityElectionAggregate(MajorityElectionImport electionImport, IdVerifier idVerifier)
     {
         var majorityElection = _aggregateFactory.New<MajorityElectionAggregate>();
         majorityElection.CreateFrom(electionImport.Election);
 
         var electionId = electionImport.Election.Id;
+        idVerifier.EnsureUnique(electionId);
         var doi = await _domainOfInfluenceReader.Get(majorityElection.DomainOfInfluenceId);
 
         foreach (var candidate in electionImport.Candidates)
         {
             candidate.MajorityElectionId = electionId;
             majorityElection.CreateCandidateFrom(candidate, doi.Type);
+            idVerifier.EnsureUnique(candidate.Id);
         }
 
         return majorityElection;
     }
 
-    private async Task<ProportionalElectionAggregate> CreateProportionalElectionAggregate(ProportionalElectionImport electionImport)
+    private async Task<ProportionalElectionAggregate> CreateProportionalElectionAggregate(ProportionalElectionImport electionImport, IdVerifier idVerifier)
     {
         var proportionalElection = _aggregateFactory.New<ProportionalElectionAggregate>();
         proportionalElection.CreateFrom(electionImport.Election);
 
         var electionId = electionImport.Election.Id;
+        idVerifier.EnsureUnique(electionId);
         var doi = await _domainOfInfluenceReader.Get(proportionalElection.DomainOfInfluenceId);
 
         foreach (var list in electionImport.Lists)
@@ -214,11 +218,13 @@ public class ImportService
             proportionalElection.CreateListFrom(list.List);
 
             var listId = list.List.Id;
+            idVerifier.EnsureUnique(listId);
 
             foreach (var candidate in list.Candidates)
             {
                 candidate.ProportionalElectionListId = listId;
                 proportionalElection.CreateCandidateFrom(candidate, doi.Type);
+                idVerifier.EnsureUnique(candidate.Id);
             }
         }
 
@@ -236,6 +242,7 @@ public class ImportService
                 ProportionalElectionRootListUnionId = listUnion.ProportionalElectionRootListUnionId,
             };
             proportionalElection.CreateListUnionFrom(listUnionProto);
+            idVerifier.EnsureUnique(listUnionProto.Id);
 
             var entries = new ProportionalElectionListUnionEntries
             {
@@ -248,7 +255,7 @@ public class ImportService
         return proportionalElection;
     }
 
-    private VoteAggregate CreateVoteAggregate(VoteImport voteImport)
+    private VoteAggregate CreateVoteAggregate(VoteImport voteImport, IdVerifier idVerifier)
     {
         var enforceResultEntryForCountingCircles = voteImport.Vote.EnforceResultEntryForCountingCircles;
         var vote = _aggregateFactory.New<VoteAggregate>();
@@ -260,11 +267,13 @@ public class ImportService
         vote.CreateFrom(voteImport.Vote);
 
         var voteId = voteImport.Vote.Id;
+        idVerifier.EnsureUnique(voteId);
 
         foreach (var ballot in voteImport.Vote.Ballots)
         {
             ballot.VoteId = voteId;
             vote.CreateBallot(ballot);
+            idVerifier.EnsureUnique(ballot.Id);
         }
 
         if (!enforceResultEntryForCountingCircles)

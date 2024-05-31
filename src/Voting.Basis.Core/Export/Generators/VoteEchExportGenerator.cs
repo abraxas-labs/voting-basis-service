@@ -59,6 +59,7 @@ public class VoteEchExportGenerator : IExportGenerator
 
         var xmlBytes = _ech0159Serializer.ToEventInitialDelivery(vote.Contest, vote);
         var voteDescription = LanguageUtil.GetInCurrentLanguage(vote.ShortDescription);
-        return new ExportFile(xmlBytes, voteDescription + FileExtensions.Xml, MediaTypeNames.Application.Xml);
+        var fileName = FileNameUtil.GetXmlFileName(Ech0159Serializer.EchNumber, Ech0159Serializer.EchVersion, vote.DomainOfInfluence!.Canton, vote.Contest.Date, voteDescription);
+        return new ExportFile(xmlBytes, fileName, MediaTypeNames.Application.Xml);
     }
 }

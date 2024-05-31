@@ -1,7 +1,8 @@
 {
   "Canton": 1,
   "ProportionalElectionMandateAlgorithms": [
-    1
+    1,
+    4
   ],
   "MajorityElectionInvalidVotes": false,
   "EnabledPoliticalBusinessUnionTypes": [

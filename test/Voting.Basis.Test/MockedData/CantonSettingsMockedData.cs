@@ -34,11 +34,11 @@ public static class CantonSettingsMockedData
             Id = GuidStGallen,
             Canton = DomainOfInfluenceCanton.Sg,
             AuthorityName = "St.Gallen",
-            ElectoralRegistrationEnabled = true,
-            SecureConnectId = SecureConnectTestDefaults.MockedTenantStGallen.Id,
+            SecureConnectId = SecureConnectTestDefaults.MockedTenantDefault.Id,
             ProportionalElectionMandateAlgorithms = new List<ProportionalElectionMandateAlgorithm>
             {
                     ProportionalElectionMandateAlgorithm.HagenbachBischoff,
+                    ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum,
             },
             MajorityElectionAbsoluteMajorityAlgorithm = CantonMajorityElectionAbsoluteMajorityAlgorithm.ValidBallotsDividedByTwo,
             MajorityElectionInvalidVotes = false,
@@ -84,6 +84,7 @@ public static class CantonSettingsMockedData
             MultipleVoteBallotsEnabled = false,
             ProportionalElectionUseCandidateCheckDigit = false,
             MajorityElectionUseCandidateCheckDigit = false,
+            PublishResultsEnabled = true,
         };
 
     public static CantonSettings Zurich
@@ -92,7 +93,7 @@ public static class CantonSettingsMockedData
             Id = GuidZurich,
             Canton = DomainOfInfluenceCanton.Zh,
             AuthorityName = "Zürich",
-            SecureConnectId = SecureConnectTestDefaults.MockedTenantDefault.Id,
+            SecureConnectId = "zürich-sec-id",
             ProportionalElectionMandateAlgorithms = new List<ProportionalElectionMandateAlgorithm>
             {
                     ProportionalElectionMandateAlgorithm.HagenbachBischoff,
@@ -142,6 +143,16 @@ public static class CantonSettingsMockedData
             NewZhFeaturesEnabled = true,
             ProportionalElectionUseCandidateCheckDigit = true,
             MajorityElectionUseCandidateCheckDigit = true,
+            CountingCircleResultStateDescriptions =
+            {
+                new CountingCircleResultStateDescription
+                {
+                    Id = Guid.Parse("01e6a947-c04d-436b-82c3-bd53290311c9"),
+                    State = CountingCircleResultState.AuditedTentatively,
+                    Description = "geprüft",
+                },
+            },
+            StatePlausibilisedDisabled = true,
         };
 
     public static IEnumerable<CantonSettings> All

@@ -274,6 +274,7 @@ public static class DomainOfInfluenceMockedData
                 InvoiceReferenceNumber = "958473825",
                 FrankingLicenceReturnNumber = "562984257",
             },
+            ElectoralRegistrationEnabled = true,
         };
 
     public static DomainOfInfluence Kirchgemeinde

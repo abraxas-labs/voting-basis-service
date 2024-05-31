@@ -25,7 +25,8 @@
           "fr": "Frage 1 Gossau (geändert) fr",
           "it": "Frage 1 Gossau (geändert) it",
           "rm": "Frage 1 Gossau (geändert) rm"
-        }
+        },
+        "Type": 1
       },
       {
         "Number": 2,
@@ -34,7 +35,8 @@
           "fr": "Frage 2 Gossau (geändert) fr",
           "it": "Frage 2 Gossau (geändert) it",
           "rm": "Frage 2 Gossau (geändert) rm"
-        }
+        },
+        "Type": 3
       }
     ],
     "TieBreakQuestions": [
@@ -84,7 +86,8 @@
               "fr": "Frage 1 Gossau (geändert) fr",
               "it": "Frage 1 Gossau (geändert) it",
               "rm": "Frage 1 Gossau (geändert) rm"
-            }
+            },
+            "Type": 1
           },
           {
             "Number": 2,
@@ -93,7 +96,8 @@
               "fr": "Frage 2 Gossau (geändert) fr",
               "it": "Frage 2 Gossau (geändert) it",
               "rm": "Frage 2 Gossau (geändert) rm"
-            }
+            },
+            "Type": 3
           }
         ],
         "VoteId": "76d9b4bd-52e6-462e-9613-f344f7b860df",

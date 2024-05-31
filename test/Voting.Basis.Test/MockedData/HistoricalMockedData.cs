@@ -88,6 +88,7 @@ public static class HistoricalMockedData
             ContactPersonDuringEvent = new ProtoModels.ContactPerson(),
             ContactPersonAfterEvent = new ProtoModels.ContactPerson(),
             State = SharedProto.CountingCircleState.Active,
+            Canton = SharedProto.DomainOfInfluenceCanton.Sg,
         };
     }
 
@@ -106,6 +107,7 @@ public static class HistoricalMockedData
             ContactPersonDuringEvent = new ProtoModels.ContactPerson(),
             ContactPersonAfterEvent = new ProtoModels.ContactPerson(),
             State = SharedProto.CountingCircleState.Active,
+            Canton = SharedProto.DomainOfInfluenceCanton.Tg,
         };
     }
 
@@ -124,6 +126,7 @@ public static class HistoricalMockedData
             ContactPersonDuringEvent = new ProtoModels.ContactPerson(),
             ContactPersonAfterEvent = new ProtoModels.ContactPerson(),
             State = SharedProto.CountingCircleState.Active,
+            Canton = SharedProto.DomainOfInfluenceCanton.Sg,
         };
     }
 
@@ -142,6 +145,7 @@ public static class HistoricalMockedData
             ContactPersonDuringEvent = new ProtoModels.ContactPerson(),
             ContactPersonAfterEvent = new ProtoModels.ContactPerson(),
             State = SharedProto.CountingCircleState.Active,
+            Canton = SharedProto.DomainOfInfluenceCanton.Sg,
         };
     }
 
@@ -164,6 +168,7 @@ public static class HistoricalMockedData
                 },
                 State = SharedProto.CountingCircleState.Inactive,
                 ContactPersonDuringEvent = new ProtoModels.ContactPerson(),
+                Canton = SharedProto.DomainOfInfluenceCanton.Sg,
             },
             MergedCountingCircles =
                 {

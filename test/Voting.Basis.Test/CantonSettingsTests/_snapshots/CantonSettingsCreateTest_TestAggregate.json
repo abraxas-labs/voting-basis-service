@@ -5,9 +5,10 @@
         "Id": "4ce6466f-81f2-5df6-8104-61ff31d89fad",
         "Canton": 1,
         "AuthorityName": "St.Gallen",
-        "SecureConnectId": "200200200200200200",
+        "SecureConnectId": "000000000000000000",
         "ProportionalElectionMandateAlgorithms": [
-          1
+          1,
+          4
         ],
         "MajorityElectionAbsoluteMajorityAlgorithm": 1,
         "MajorityElectionInvalidVotes": false,
@@ -39,12 +40,14 @@
         "VotingDocumentsEVotingEaiMessageType": "1234567",
         "ProtocolDomainOfInfluenceSortType": 1,
         "ProtocolCountingCircleSortType": 1,
-        "ElectoralRegistrationEnabled": true,
         "MultipleVoteBallotsEnabled": false,
         "CountingMachineEnabled": false,
         "NewZhFeaturesEnabled": false,
         "ProportionalElectionUseCandidateCheckDigit": false,
-        "MajorityElectionUseCandidateCheckDigit": false
+        "MajorityElectionUseCandidateCheckDigit": false,
+        "CountingCircleResultStateDescriptions": [],
+        "StatePlausibilisedDisabled": false,
+        "PublishResultsEnabled": true
       },
       {
         "Id": "2d203a3c-40ba-4b53-a57e-38909d71390c",
@@ -81,18 +84,20 @@
         "VotingDocumentsEVotingEaiMessageType": "1234567",
         "ProtocolDomainOfInfluenceSortType": 2,
         "ProtocolCountingCircleSortType": 2,
-        "ElectoralRegistrationEnabled": false,
         "MultipleVoteBallotsEnabled": false,
         "CountingMachineEnabled": false,
         "NewZhFeaturesEnabled": false,
         "ProportionalElectionUseCandidateCheckDigit": false,
-        "MajorityElectionUseCandidateCheckDigit": false
+        "MajorityElectionUseCandidateCheckDigit": false,
+        "CountingCircleResultStateDescriptions": [],
+        "StatePlausibilisedDisabled": false,
+        "PublishResultsEnabled": false
       },
       {
         "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
         "Canton": 3,
         "AuthorityName": "Zürich",
-        "SecureConnectId": "000000000000000000",
+        "SecureConnectId": "zürich-sec-id",
         "ProportionalElectionMandateAlgorithms": [
           1,
           5,
@@ -127,12 +132,19 @@
         "VotingDocumentsEVotingEaiMessageType": "1234567",
         "ProtocolDomainOfInfluenceSortType": 2,
         "ProtocolCountingCircleSortType": 2,
-        "ElectoralRegistrationEnabled": false,
         "MultipleVoteBallotsEnabled": true,
         "CountingMachineEnabled": true,
         "NewZhFeaturesEnabled": true,
         "ProportionalElectionUseCandidateCheckDigit": true,
-        "MajorityElectionUseCandidateCheckDigit": true
+        "MajorityElectionUseCandidateCheckDigit": true,
+        "CountingCircleResultStateDescriptions": [
+          {
+            "State": 6,
+            "Description": "geprüft"
+          }
+        ],
+        "StatePlausibilisedDisabled": true,
+        "PublishResultsEnabled": false
       }
     ]
   },
@@ -144,6 +156,7 @@
         "Children": [],
         "CountingCircles": [],
         "Contests": [],
+        "PoliticalAssemblies": [],
         "Votes": [],
         "ProportionalElections": [],
         "MajorityElections": [],
@@ -194,6 +207,10 @@
         "PrintData": null,
         "SwissPostData": null,
         "CreatedOn": "0001-01-01T00:00:00Z",
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
         "Id": "e84a3f1e-c2ea-422c-904e-130b822aad64"
       }
     ]

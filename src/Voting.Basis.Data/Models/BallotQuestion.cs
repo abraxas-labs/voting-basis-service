@@ -16,4 +16,6 @@ public class BallotQuestion : BaseEntity
     public Guid BallotId { get; set; }
 
     public Ballot Ballot { get; set; } = null!; // set by ef
+
+    public BallotQuestionType Type { get; set; }
 }

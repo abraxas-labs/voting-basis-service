@@ -42,7 +42,11 @@
       "ExternalPrintingCenterEaiMessageType": "",
       "NameForProtocol": "Kanton St. Gallen",
       "SapCustomerOrderNumber": "",
-      "SwissPostData": null
+      "SwissPostData": null,
+      "VirtualTopLevel": false,
+      "ViewCountingCirclePartialResults": false,
+      "VotingCardColor": 0,
+      "ElectoralRegistrationEnabled": false
     },
     {
       "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
@@ -102,7 +106,11 @@
       "SwissPostData": {
         "InvoiceReferenceNumber": "958473825",
         "FrankingLicenceReturnNumber": "562984257"
-      }
+      },
+      "VirtualTopLevel": false,
+      "ViewCountingCirclePartialResults": false,
+      "VotingCardColor": 0,
+      "ElectoralRegistrationEnabled": true
     }
   ]
 }

@@ -16,10 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{C128A9
 		docker-compose.yml = docker-compose.yml
 		Dockerfile = Dockerfile
 		dotnet-tools.json = dotnet-tools.json
+		global.json = global.json
 		config\project.ruleset = config\project.ruleset
 		readme.md = readme.md
 		config\stylecop.json = config\stylecop.json
-		global.json = global.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3663B411-F818-45C6-92FB-90407694C5F0}"
@@ -39,7 +39,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voting.Basis.Data", "src\Vo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voting.Basis.Ech", "src\Voting.Basis.Ech\Voting.Basis.Ech.csproj", "{70D22E77-8457-4E7C-8D1C-8EEF9565E4C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voting.Basis.EventSignature", "src\Voting.Basis.EventSignature\Voting.Basis.EventSignature.csproj", "{1D7334BD-01E1-4404-8E88-3E4F4BC39670}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voting.Basis.EventSignature", "src\Voting.Basis.EventSignature\Voting.Basis.EventSignature.csproj", "{1D7334BD-01E1-4404-8E88-3E4F4BC39670}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voting.Basis.Core.Unit.Tests", "test\Voting.Basis.Core.Unit.Tests\Voting.Basis.Core.Unit.Tests.csproj", "{EE849047-0402-42CA-A178-4653C4D90D14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,6 +86,12 @@ Global
 		{1D7334BD-01E1-4404-8E88-3E4F4BC39670}.DebugUpdateSnapshots|Any CPU.Build.0 = Debug|Any CPU
 		{1D7334BD-01E1-4404-8E88-3E4F4BC39670}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D7334BD-01E1-4404-8E88-3E4F4BC39670}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE849047-0402-42CA-A178-4653C4D90D14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE849047-0402-42CA-A178-4653C4D90D14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE849047-0402-42CA-A178-4653C4D90D14}.DebugUpdateSnapshots|Any CPU.ActiveCfg = DebugUpdateSnapshots|Any CPU
+		{EE849047-0402-42CA-A178-4653C4D90D14}.DebugUpdateSnapshots|Any CPU.Build.0 = DebugUpdateSnapshots|Any CPU
+		{EE849047-0402-42CA-A178-4653C4D90D14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE849047-0402-42CA-A178-4653C4D90D14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +103,7 @@ Global
 		{5700295F-8EE4-4634-AEAA-0EAFEC6EC3C8} = {3663B411-F818-45C6-92FB-90407694C5F0}
 		{70D22E77-8457-4E7C-8D1C-8EEF9565E4C7} = {3663B411-F818-45C6-92FB-90407694C5F0}
 		{1D7334BD-01E1-4404-8E88-3E4F4BC39670} = {3663B411-F818-45C6-92FB-90407694C5F0}
+		{EE849047-0402-42CA-A178-4653C4D90D14} = {D8339021-3544-4C38-A832-231D642FF235}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82F88F25-4FCC-4B5C-BE6E-CEA915E13A63}

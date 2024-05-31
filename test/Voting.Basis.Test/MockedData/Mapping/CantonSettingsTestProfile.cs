@@ -12,5 +12,6 @@ public class CantonSettingsTestProfile : Profile
     {
         CreateMap<CantonSettings, Core.Domain.CantonSettings>();
         CreateMap<CantonSettingsVotingCardChannel, Core.Domain.CantonSettingsVotingCardChannel>();
+        CreateMap<CountingCircleResultStateDescription, Core.Domain.CountingCircleResultStateDescription>();
     }
 }

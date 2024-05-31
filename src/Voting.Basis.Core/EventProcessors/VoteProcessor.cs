@@ -121,6 +121,9 @@ public class VoteProcessor :
     public async Task Process(BallotCreated eventData)
     {
         var model = _mapper.Map<Ballot>(eventData.Ballot);
+
+        SetDefaultValues(model);
+
         await _ballotRepo.Create(model);
         await _eventLogger.LogBallotEvent(eventData, await GetBallot(model.Id));
     }
@@ -128,6 +131,9 @@ public class VoteProcessor :
     public async Task Process(BallotUpdated eventData)
     {
         var model = _mapper.Map<Ballot>(eventData.Ballot);
+
+        SetDefaultValues(model);
+
         var existingModel = await GetBallot(model.Id);
 
         await _ballotQuestionRepo.Replace(model.Id, model.BallotQuestions);
@@ -142,6 +148,8 @@ public class VoteProcessor :
         var id = GuidParser.Parse(eventData.Id);
         var ballot = await GetBallot(id);
         _mapper.Map(eventData, ballot);
+
+        SetDefaultValues(ballot);
 
         await _ballotQuestionRepo.Replace(ballot.Id, ballot.BallotQuestions);
         await _tieBreakQuestionRepo.Replace(ballot.Id, ballot.TieBreakQuestions);
@@ -182,5 +190,19 @@ public class VoteProcessor :
             .Include(b => b.Vote)
             .FirstOrDefaultAsync(b => b.Id == id)
             ?? throw new EntityNotFoundException(id);
+    }
+
+    private void SetDefaultValues(Ballot ballot)
+    {
+        // Set default ballot question type value since the old eventData (before introducing the type) can contain the unspecified value.
+        foreach (var ballotQuestion in ballot.BallotQuestions)
+        {
+            if (ballotQuestion.Type == BallotQuestionType.Unspecified)
+            {
+                ballotQuestion.Type = ballotQuestion.Number == 1
+                    ? BallotQuestionType.MainBallot
+                    : BallotQuestionType.CounterProposal;
+            }
+        }
     }
 }

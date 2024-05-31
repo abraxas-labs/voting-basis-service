@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Core.Domain;
 
@@ -38,8 +39,6 @@ public class CountingCircle
 
     public DateTime ModifiedOn { get; set; } = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
 
-    public ICollection<ContestCountingCircleOption> ContestOptions { get; set; } = new HashSet<ContestCountingCircleOption>();
-
     public CountingCirclesMerger? MergeTarget { get; set; }
 
     public Guid? MergeTargetId { get; set; }
@@ -64,4 +63,8 @@ public class CountingCircle
     public string Name { get; set; } = string.Empty;
 
     public List<CountingCircleElectorate> Electorates { get; set; } = new();
+
+    public DomainOfInfluenceCanton Canton { get; set; }
+
+    public bool EVoting { get; set; }
 }

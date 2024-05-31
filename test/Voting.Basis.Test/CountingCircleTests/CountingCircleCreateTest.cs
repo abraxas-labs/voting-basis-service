@@ -14,6 +14,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Test.MockedData;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -26,6 +27,13 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
     public CountingCircleCreateTest(TestApplicationFactory factory)
         : base(factory)
     {
+    }
+
+    public override async Task InitializeAsync()
+    {
+        await base.InitializeAsync();
+        await DomainOfInfluenceMockedData.Seed(RunScoped);
+        EventPublisherMock.Clear();
     }
 
     [Fact]
@@ -140,11 +148,11 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
                     },
                     NameForProtocol = "Stadt St. Gallen",
                     SortNumber = 1,
+                    Canton = DomainOfInfluenceCanton.Sg,
                 },
                 EventInfo = GetMockedEventInfo(),
             });
         var countingCircles = await AdminClient.ListAsync(new ListCountingCircleRequest());
-        countingCircles.CountingCircles_.Should().HaveCount(2);
         countingCircles.MatchSnapshot();
 
         var electorateExists = await RunOnDb(db => db.CountingCircleElectorates.AnyAsync(e => e.Id == electorateBzId));
@@ -184,14 +192,22 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
             "Cannot create an electorate without a domain of influence type");
     }
 
+    [Fact]
+    public async Task TestCantonAdminOtherCantonShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(req => req.Canton = DomainOfInfluenceCanton.Zh)),
+            StatusCode.PermissionDenied);
+    }
+
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
         => await new CountingCircleService.CountingCircleServiceClient(channel)
             .CreateAsync(NewValidRequest());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
-        yield return Roles.ElectionAdmin;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
     }
 
     private CreateCountingCircleRequest NewValidRequest(
@@ -241,6 +257,7 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
                     DomainOfInfluenceTypes = { DomainOfInfluenceType.Ct, DomainOfInfluenceType.Ch },
                 },
             },
+            Canton = DomainOfInfluenceCanton.Sg,
         };
         customizer?.Invoke(request);
         return request;

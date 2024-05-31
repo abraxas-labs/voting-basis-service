@@ -61,6 +61,7 @@ public static class EventLogMockedData
                 FirstName = "Rudolph",
             },
             State = SharedProto.CountingCircleState.Active,
+            Canton = SharedProto.DomainOfInfluenceCanton.Sg,
         };
     }
 

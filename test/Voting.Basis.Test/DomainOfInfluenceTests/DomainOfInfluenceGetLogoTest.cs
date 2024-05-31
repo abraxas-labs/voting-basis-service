@@ -2,6 +2,7 @@
 // For license information see LICENSE file
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.ObjectStorage;
 using Voting.Basis.Test.MockedData;
@@ -109,5 +111,13 @@ public class DomainOfInfluenceGetLogoTest : BaseGrpcTest<DomainOfInfluenceServic
         await new DomainOfInfluenceService.DomainOfInfluenceServiceClient(channel)
             .GetLogoAsync(
                 new GetDomainOfInfluenceLogoRequest { DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen });
+    }
+
+    protected override IEnumerable<string> AuthorizedRoles()
+    {
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 }

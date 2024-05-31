@@ -67,7 +67,9 @@
             3
           ]
         }
-      ]
+      ],
+      "Canton": 1,
+      "EVoting": false
     }
   }
 }

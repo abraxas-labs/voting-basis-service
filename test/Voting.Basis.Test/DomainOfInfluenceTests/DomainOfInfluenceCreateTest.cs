@@ -205,6 +205,14 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     }
 
     [Fact]
+    public async Task CantonAdminWithDifferentCantonRootDoiShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateAsync(NewValidRootDoiRequest(req => req.Canton = SharedProto.DomainOfInfluenceCanton.Zh)),
+            StatusCode.PermissionDenied);
+    }
+
+    [Fact]
     public async Task InvalidParentShouldThrow()
     {
         await AssertStatus(
@@ -496,14 +504,29 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
             "each export configuration can only be provided exactly once");
     }
 
+    [Fact]
+    public async Task ElectoralRegistrationEnabledWithoutResponsibleForVotingCardsShouldTrow()
+    {
+        var req = NewValidRequest(x =>
+        {
+            x.ResponsibleForVotingCards = false;
+            x.ElectoralRegistrationEnabled = true;
+        });
+
+        await AssertStatus(
+            async () => await AdminClient.CreateAsync(req),
+            StatusCode.InvalidArgument,
+            "electoral registration");
+    }
+
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
         => await new DomainOfInfluenceService.DomainOfInfluenceServiceClient(channel)
             .CreateAsync(NewValidRequest());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
-        yield return Roles.ElectionAdmin;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
     }
 
     private CreateDomainOfInfluenceRequest NewValidRootDoiRequest(
@@ -639,6 +662,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
                 InvoiceReferenceNumber = "505964478",
                 FrankingLicenceReturnNumber = "965333145",
             },
+            ElectoralRegistrationEnabled = true,
         };
         customizer?.Invoke(request);
         return request;

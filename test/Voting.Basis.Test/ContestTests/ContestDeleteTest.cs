@@ -11,9 +11,11 @@ using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.EventSignature;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.EventSignature;
@@ -30,6 +32,7 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
     private const string IdInvalid = "eae2xxxx";
+    private string? _authTestContestId;
 
     public ContestDeleteTest(TestApplicationFactory factory)
         : base(factory)
@@ -250,14 +253,28 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
-        var id = ContestMockedData.IdGossau;
+        if (_authTestContestId == null)
+        {
+            var response = await ElectionAdminClient.CreateAsync(new CreateContestRequest
+            {
+                Date = new DateTime(2020, 12, 23, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
+                Description = { LanguageUtil.MockAllLanguages("test") },
+                DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau,
+                EndOfTestingPhase = new DateTime(2020, 12, 22, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
+            });
+
+            _authTestContestId = response.Id;
+        }
 
         await new ContestService.ContestServiceClient(channel)
-            .DeleteAsync(new DeleteContestRequest { Id = id });
+            .DeleteAsync(new DeleteContestRequest { Id = _authTestContestId });
+        _authTestContestId = null;
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
     }
 }

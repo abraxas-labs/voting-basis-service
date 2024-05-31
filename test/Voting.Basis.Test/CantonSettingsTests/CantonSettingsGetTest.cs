@@ -7,6 +7,7 @@ using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -27,9 +28,23 @@ public class CantonSettingsGetTest : BaseGrpcTest<CantonSettingsService.CantonSe
     }
 
     [Fact]
+    public async Task TestAsAdminShouldReturn()
+    {
+        var response = await AdminClient.GetAsync(new GetCantonSettingsRequest { Id = CantonSettingsMockedData.IdZurich });
+        response.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task TestAsCantonAdminShouldReturn()
+    {
+        var response = await CantonAdminClient.GetAsync(new GetCantonSettingsRequest { Id = CantonSettingsMockedData.IdStGallen });
+        response.MatchSnapshot();
+    }
+
+    [Fact]
     public async Task TestAsElectionAdminShouldReturn()
     {
-        var response = await ElectionAdminClient.GetAsync(new GetCantonSettingsRequest { Id = CantonSettingsMockedData.IdZurich });
+        var response = await ElectionAdminClient.GetAsync(new GetCantonSettingsRequest { Id = CantonSettingsMockedData.IdStGallen });
         response.MatchSnapshot();
     }
 
@@ -37,23 +52,27 @@ public class CantonSettingsGetTest : BaseGrpcTest<CantonSettingsService.CantonSe
     public async Task TestOtherTenantAsElectionAdminShouldThrow()
     {
         await AssertStatus(
-            async () => await ElectionAdminClient.GetAsync(new GetCantonSettingsRequest { Id = CantonSettingsMockedData.IdStGallen }),
+            async () => await ElectionAdminClient.GetAsync(new GetCantonSettingsRequest { Id = CantonSettingsMockedData.IdZurich }),
             StatusCode.NotFound);
     }
 
     [Fact]
-    public async Task TestAsAdminShouldReturn()
+    public async Task TestOtherCantonAsCantonAdminShouldThrow()
     {
-        var response = await AdminClient.GetAsync(new GetCantonSettingsRequest { Id = CantonSettingsMockedData.IdZurich });
-        response.MatchSnapshot();
+        await AssertStatus(
+            async () => await CantonAdminClient.GetAsync(new GetCantonSettingsRequest { Id = CantonSettingsMockedData.IdZurich }),
+            StatusCode.NotFound);
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
         => await new CantonSettingsService.CantonSettingsServiceClient(channel)
             .GetAsync(new GetCantonSettingsRequest { Id = CantonSettingsMockedData.IdStGallen });
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 }

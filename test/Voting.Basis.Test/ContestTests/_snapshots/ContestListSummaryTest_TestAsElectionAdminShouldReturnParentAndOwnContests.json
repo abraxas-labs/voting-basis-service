@@ -58,7 +58,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -138,7 +142,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "Kanton St. Gallen",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -240,7 +248,11 @@
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
           "FrankingLicenceReturnNumber": "562984257"
-        }
+        },
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": true
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -312,7 +324,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "Kanton Thurgau",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -379,7 +395,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -452,7 +472,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -525,7 +549,11 @@
         "ExternalPrintingCenterEaiMessageType": "",
         "NameForProtocol": "",
         "SapCustomerOrderNumber": "",
-        "SwissPostData": null
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -614,7 +642,11 @@
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
           "FrankingLicenceReturnNumber": "562984257"
-        }
+        },
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": true
       },
       "EVoting": false,
       "EVotingFrom": null,

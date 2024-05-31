@@ -18,7 +18,7 @@ namespace Voting.Basis.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -110,6 +110,9 @@ namespace Voting.Basis.Data.Migrations
                         .IsRequired()
                         .HasColumnType("jsonb");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BallotId");
@@ -136,10 +139,7 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("CountingMachineEnabled")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("ElectoralRegistrationEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<List<int>>("EnabledPoliticalBusinessUnionTypes")
+                    b.Property<int[]>("EnabledPoliticalBusinessUnionTypes")
                         .IsRequired()
                         .HasColumnType("integer[]");
 
@@ -158,7 +158,7 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("NewZhFeaturesEnabled")
                         .HasColumnType("boolean");
 
-                    b.Property<List<int>>("ProportionalElectionMandateAlgorithms")
+                    b.Property<int[]>("ProportionalElectionMandateAlgorithms")
                         .IsRequired()
                         .HasColumnType("integer[]");
 
@@ -171,14 +171,20 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<int>("ProtocolDomainOfInfluenceSortType")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("PublishResultsEnabled")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("SecureConnectId")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("StatePlausibilisedDisabled")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("SwissAbroadVotingRight")
                         .HasColumnType("integer");
 
-                    b.Property<List<int>>("SwissAbroadVotingRightDomainOfInfluenceTypes")
+                    b.Property<int[]>("SwissAbroadVotingRightDomainOfInfluenceTypes")
                         .IsRequired()
                         .HasColumnType("integer[]");
 
@@ -340,31 +346,6 @@ namespace Voting.Basis.Data.Migrations
                     b.ToTable("Contests");
                 });
 
-            modelBuilder.Entity("Voting.Basis.Data.Models.ContestCountingCircleOption", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ContestId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CountingCircleId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("EVoting")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContestId");
-
-                    b.HasIndex("CountingCircleId", "ContestId")
-                        .IsUnique();
-
-                    b.ToTable("ContestCountingCircleOptions");
-                });
-
             modelBuilder.Entity("Voting.Basis.Data.Models.CountingCircle", b =>
                 {
                     b.Property<Guid>("Id")
@@ -375,6 +356,9 @@ namespace Voting.Basis.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Canton")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("text");
@@ -384,6 +368,9 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("EVoting")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid?>("MergeOriginId")
                         .HasColumnType("uuid");
@@ -481,6 +468,30 @@ namespace Voting.Basis.Data.Migrations
                     b.ToTable("CountingCircleElectorates");
                 });
 
+            modelBuilder.Entity("Voting.Basis.Data.Models.CountingCircleResultStateDescription", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CantonSettingsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("State")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CantonSettingsId", "State")
+                        .IsUnique();
+
+                    b.ToTable("CountingCircleResultStateDescriptions");
+                });
+
             modelBuilder.Entity("Voting.Basis.Data.Models.CountingCirclesMerger", b =>
                 {
                     b.Property<Guid>("Id")
@@ -525,6 +536,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("ElectoralRegistrationEnabled")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("ExternalPrintingCenter")
                         .HasColumnType("boolean");
 
@@ -568,6 +582,15 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("ViewCountingCirclePartialResults")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("VirtualTopLevel")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("VotingCardColor")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -746,6 +769,9 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("EventUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("PoliticalAssemblyId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("PoliticalBusinessId")
@@ -1184,6 +1210,29 @@ namespace Voting.Basis.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("PlausibilisationConfigurations");
+                });
+
+            modelBuilder.Entity("Voting.Basis.Data.Models.PoliticalAssembly", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<Guid>("DomainOfInfluenceId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DomainOfInfluenceId");
+
+                    b.ToTable("PoliticalAssemblies");
                 });
 
             modelBuilder.Entity("Voting.Basis.Data.Models.PreconfiguredContestDate", b =>
@@ -1811,6 +1860,9 @@ namespace Voting.Basis.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Canton")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1822,6 +1874,9 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("Deleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("EVoting")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
@@ -1929,6 +1984,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("ElectoralRegistrationEnabled")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("ExternalPrintingCenter")
                         .HasColumnType("boolean");
 
@@ -1970,6 +2028,15 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<DateTime?>("ValidTo")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("ViewCountingCirclePartialResults")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("VirtualTopLevel")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("VotingCardColor")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -2168,25 +2235,6 @@ namespace Voting.Basis.Data.Migrations
                     b.Navigation("PreviousContest");
                 });
 
-            modelBuilder.Entity("Voting.Basis.Data.Models.ContestCountingCircleOption", b =>
-                {
-                    b.HasOne("Voting.Basis.Data.Models.Contest", "Contest")
-                        .WithMany("CountingCircleOptions")
-                        .HasForeignKey("ContestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Voting.Basis.Data.Models.CountingCircle", "CountingCircle")
-                        .WithMany("ContestOptions")
-                        .HasForeignKey("CountingCircleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Contest");
-
-                    b.Navigation("CountingCircle");
-                });
-
             modelBuilder.Entity("Voting.Basis.Data.Models.CountingCircle", b =>
                 {
                     b.HasOne("Voting.Basis.Data.Models.CountingCirclesMerger", "MergeOrigin")
@@ -2231,6 +2279,17 @@ namespace Voting.Basis.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("CountingCircle");
+                });
+
+            modelBuilder.Entity("Voting.Basis.Data.Models.CountingCircleResultStateDescription", b =>
+                {
+                    b.HasOne("Voting.Basis.Data.Models.CantonSettings", "CantonSettings")
+                        .WithMany("CountingCircleResultStateDescriptions")
+                        .HasForeignKey("CantonSettingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CantonSettings");
                 });
 
             modelBuilder.Entity("Voting.Basis.Data.Models.DomainOfInfluence", b =>
@@ -2368,7 +2427,7 @@ namespace Voting.Basis.Data.Migrations
                             b1.Property<int>("Canton")
                                 .HasColumnType("integer");
 
-                            b1.Property<List<int>>("EnabledPoliticalBusinessUnionTypes")
+                            b1.Property<int[]>("EnabledPoliticalBusinessUnionTypes")
                                 .IsRequired()
                                 .HasColumnType("integer[]");
 
@@ -2384,7 +2443,7 @@ namespace Voting.Basis.Data.Migrations
                             b1.Property<bool>("MultipleVoteBallotsEnabled")
                                 .HasColumnType("boolean");
 
-                            b1.Property<List<int>>("ProportionalElectionMandateAlgorithms")
+                            b1.Property<int[]>("ProportionalElectionMandateAlgorithms")
                                 .IsRequired()
                                 .HasColumnType("integer[]");
 
@@ -2615,6 +2674,17 @@ namespace Voting.Basis.Data.Migrations
                     b.HasOne("Voting.Basis.Data.Models.DomainOfInfluence", "DomainOfInfluence")
                         .WithOne("PlausibilisationConfiguration")
                         .HasForeignKey("Voting.Basis.Data.Models.PlausibilisationConfiguration", "DomainOfInfluenceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DomainOfInfluence");
+                });
+
+            modelBuilder.Entity("Voting.Basis.Data.Models.PoliticalAssembly", b =>
+                {
+                    b.HasOne("Voting.Basis.Data.Models.DomainOfInfluence", "DomainOfInfluence")
+                        .WithMany("PoliticalAssemblies")
+                        .HasForeignKey("DomainOfInfluenceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -3030,13 +3100,13 @@ namespace Voting.Basis.Data.Migrations
 
             modelBuilder.Entity("Voting.Basis.Data.Models.CantonSettings", b =>
                 {
+                    b.Navigation("CountingCircleResultStateDescriptions");
+
                     b.Navigation("EnabledVotingCardChannels");
                 });
 
             modelBuilder.Entity("Voting.Basis.Data.Models.Contest", b =>
                 {
-                    b.Navigation("CountingCircleOptions");
-
                     b.Navigation("MajorityElectionUnions");
 
                     b.Navigation("MajorityElections");
@@ -3058,8 +3128,6 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Navigation("ContactPersonDuringEvent")
                         .IsRequired();
-
-                    b.Navigation("ContestOptions");
 
                     b.Navigation("DomainOfInfluences");
 
@@ -3091,6 +3159,8 @@ namespace Voting.Basis.Data.Migrations
                     b.Navigation("Parties");
 
                     b.Navigation("PlausibilisationConfiguration");
+
+                    b.Navigation("PoliticalAssemblies");
 
                     b.Navigation("ProportionalElections");
 

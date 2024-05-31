@@ -17,7 +17,6 @@ public sealed class ContestProfile : Profile
         // write
         CreateMap<CreateContestRequest, Contest>();
         CreateMap<UpdateContestRequest, Contest>();
-        CreateMap<UpdateCountingCircleOptionRequest, ContestCountingCircleOption>();
 
         // read
         CreateMap<Data.Models.Contest, ProtoModels.Contest>()
@@ -39,10 +38,6 @@ public sealed class ContestProfile : Profile
 
         CreateMap<Data.Models.PoliticalBusiness, ProtoModels.PoliticalBusiness>();
         CreateMap<Data.Models.PoliticalBusinessUnion, ProtoModels.PoliticalBusinessUnion>();
-
-        CreateMap<IEnumerable<Data.Models.ContestCountingCircleOption>, ProtoModels.ContestCountingCircleOptions>()
-            .ForMember(dst => dst.Options, opts => opts.MapFrom(src => src));
-        CreateMap<Data.Models.ContestCountingCircleOption, ProtoModels.ContestCountingCircleOption>();
 
         CreateMap<Data.Models.Contest, ProtoModels.ContestSummary>();
 

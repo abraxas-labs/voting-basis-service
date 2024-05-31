@@ -16,6 +16,7 @@ using Voting.Lib.Common;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.VotingExports.Repository;
 using ExportProvider = Abraxas.Voting.Basis.Shared.V1.ExportProvider;
+using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Core.Domain.Aggregate;
 
@@ -103,6 +104,15 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
     public bool HasLogo => LogoRef != null;
 
     public IEnumerable<string> CountingCircles => _countingCircles.AsEnumerable();
+
+    public bool VirtualTopLevel { get; private set; }
+
+    public bool ViewCountingCirclePartialResults { get; private set; }
+
+    /// <summary>
+    /// Gets a value indicating whether VOTING Stimmregister is enabled.
+    /// </summary>
+    public bool ElectoralRegistrationEnabled { get; private set; }
 
     public void CreateFrom(DomainOfInfluence domainOfInfluence)
     {
@@ -192,7 +202,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         bool externalPrintingCenter,
         string externalPrintingCenterEaiMessageType,
         string sapCustomerOrderNumber,
-        DomainOfInfluenceVotingCardSwissPostData? swissPostData)
+        DomainOfInfluenceVotingCardSwissPostData? swissPostData,
+        VotingCardColor votingCardColor)
     {
         EnsureNotDeleted();
 
@@ -218,6 +229,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
             ExternalPrintingCenter = externalPrintingCenter,
             ExternalPrintingCenterEaiMessageType = externalPrintingCenterEaiMessageType,
             SapCustomerOrderNumber = sapCustomerOrderNumber,
+            VotingCardColor = _mapper.Map<SharedProto.VotingCardColor>(votingCardColor),
         };
 
         RaiseEvent(ev);
@@ -544,7 +556,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
                 domainOfInfluence.ExternalPrintingCenter,
                 domainOfInfluence.ExternalPrintingCenterEaiMessageType,
                 domainOfInfluence.SapCustomerOrderNumber,
-                domainOfInfluence.SwissPostData ?? throw new ValidationException(nameof(domainOfInfluence.SwissPostData) + " must be set"));
+                domainOfInfluence.SwissPostData ?? throw new ValidationException(nameof(domainOfInfluence.SwissPostData) + " must be set"),
+                domainOfInfluence.VotingCardColor);
         }
     }
 }

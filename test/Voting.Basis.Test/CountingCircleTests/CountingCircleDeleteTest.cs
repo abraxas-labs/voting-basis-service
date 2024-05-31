@@ -7,14 +7,17 @@ using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
+using Abraxas.Voting.Basis.Shared.V1;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Test.MockedData;
+using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing.Utils;
 using Xunit;
+using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 
 namespace Voting.Basis.Test.CountingCircleTests;
 
@@ -22,6 +25,7 @@ public class CountingCircleDeleteTest : BaseGrpcTest<CountingCircleService.Count
 {
     private const string IdNotFound = "eae2cfaf-c787-48b9-a108-c975b0addddd";
     private const string IdInvalid = "eae2xxxx";
+    private string? _authTestCcId;
 
     public CountingCircleDeleteTest(TestApplicationFactory factory)
         : base(factory)
@@ -31,7 +35,8 @@ public class CountingCircleDeleteTest : BaseGrpcTest<CountingCircleService.Count
     public override async Task InitializeAsync()
     {
         await base.InitializeAsync();
-        await CountingCircleMockedData.Seed(RunScoped);
+        await DomainOfInfluenceMockedData.Seed(RunScoped);
+        EventPublisherMock.Clear();
     }
 
     [Fact]
@@ -66,6 +71,64 @@ public class CountingCircleDeleteTest : BaseGrpcTest<CountingCircleService.Count
     }
 
     [Fact]
+    public async Task TestCantonAdminOtherCantonShouldThrow()
+    {
+        var response = await AdminClient.CreateAsync(new CreateCountingCircleRequest
+        {
+            Name = "Other Canton",
+            Bfs = "1234",
+            ResponsibleAuthority = new ProtoModels.Authority
+            {
+                Name = "Uzwil",
+                Email = "uzwil-test@abraxas.ch",
+                Phone = "071 123 12 20",
+                Street = "WerkstrasseUZ",
+                City = "MyCityUZ",
+                Zip = "9200",
+                SecureConnectId = SecureConnectTestDefaults.MockedTenantUzwil.Id,
+            },
+            ContactPersonSameDuringEventAsAfter = false,
+            ContactPersonDuringEvent = new ProtoModels.ContactPerson
+            {
+                Email = "uzwil-test@abraxas.ch",
+                Phone = "071 123 12 21",
+                MobilePhone = "071 123 12 31",
+                FamilyName = "Muster",
+                FirstName = "Hans",
+            },
+            ContactPersonAfterEvent = new ProtoModels.ContactPerson
+            {
+                Email = "uzwil-test2@abraxas.ch",
+                Phone = "071 123 12 22",
+                MobilePhone = "071 123 12 33",
+                FamilyName = "Wichtig",
+                FirstName = "Rudolph",
+            },
+            NameForProtocol = "Stadt Uzwil",
+            SortNumber = 210,
+            Electorates =
+            {
+                new ProtoModels.CountingCircleElectorate()
+                {
+                    DomainOfInfluenceTypes = { DomainOfInfluenceType.Bz },
+                },
+                new ProtoModels.CountingCircleElectorate()
+                {
+                    DomainOfInfluenceTypes = { DomainOfInfluenceType.Ct, DomainOfInfluenceType.Ch },
+                },
+            },
+            Canton = DomainOfInfluenceCanton.Zh,
+        });
+
+        await AssertStatus(
+            async () => await CantonAdminClient.DeleteAsync(new DeleteCountingCircleRequest
+            {
+                Id = response.Id,
+            }),
+            StatusCode.PermissionDenied);
+    }
+
+    [Fact]
     public async Task TestAggregate()
     {
         var idUzwil = CountingCircleMockedData.IdUzwil;
@@ -78,21 +141,70 @@ public class CountingCircleDeleteTest : BaseGrpcTest<CountingCircleService.Count
         var idGuid = Guid.Parse(idUzwil);
         (await RunOnDb(db => db.CountingCircles.CountAsync(cc => cc.Id == idGuid)))
             .Should().Be(0);
-        (await RunOnDb(db => db.DomainOfInfluenceCountingCircles.CountAsync(dc => dc.CountingCircleId == idGuid)))
-            .Should().Be(0);
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
-        var idUzwil = CountingCircleMockedData.IdUzwil;
+        if (_authTestCcId == null)
+        {
+            var response = await AdminClient.CreateAsync(new CreateCountingCircleRequest
+            {
+                Name = "Uzwil",
+                Bfs = "1234",
+                ResponsibleAuthority = new ProtoModels.Authority
+                {
+                    Name = "Uzwil",
+                    Email = "uzwil-test@abraxas.ch",
+                    Phone = "071 123 12 20",
+                    Street = "WerkstrasseUZ",
+                    City = "MyCityUZ",
+                    Zip = "9200",
+                    SecureConnectId = SecureConnectTestDefaults.MockedTenantUzwil.Id,
+                },
+                ContactPersonSameDuringEventAsAfter = false,
+                ContactPersonDuringEvent = new ProtoModels.ContactPerson
+                {
+                    Email = "uzwil-test@abraxas.ch",
+                    Phone = "071 123 12 21",
+                    MobilePhone = "071 123 12 31",
+                    FamilyName = "Muster",
+                    FirstName = "Hans",
+                },
+                ContactPersonAfterEvent = new ProtoModels.ContactPerson
+                {
+                    Email = "uzwil-test2@abraxas.ch",
+                    Phone = "071 123 12 22",
+                    MobilePhone = "071 123 12 33",
+                    FamilyName = "Wichtig",
+                    FirstName = "Rudolph",
+                },
+                NameForProtocol = "Stadt Uzwil",
+                SortNumber = 210,
+                Electorates =
+                {
+                    new ProtoModels.CountingCircleElectorate()
+                    {
+                        DomainOfInfluenceTypes = { DomainOfInfluenceType.Bz },
+                    },
+                    new ProtoModels.CountingCircleElectorate()
+                    {
+                        DomainOfInfluenceTypes = { DomainOfInfluenceType.Ct, DomainOfInfluenceType.Ch },
+                    },
+                },
+                Canton = DomainOfInfluenceCanton.Sg,
+            });
+
+            _authTestCcId = response.Id;
+        }
 
         await new CountingCircleService.CountingCircleServiceClient(channel)
-            .DeleteAsync(new DeleteCountingCircleRequest { Id = idUzwil });
+            .DeleteAsync(new DeleteCountingCircleRequest { Id = _authTestCcId });
+        _authTestCcId = null;
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
-        yield return Roles.ElectionAdmin;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
     }
 }

@@ -13,6 +13,7 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -50,6 +51,7 @@ public class BallotCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                     {
                         Number = 1,
                         Question = { LanguageUtil.MockAllLanguages("Frage 1 neu") },
+                        Type = SharedProto.BallotQuestionType.MainBallot,
                     },
                 },
         };
@@ -66,6 +68,7 @@ public class BallotCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                     {
                         Number = 1,
                         Question = { LanguageUtil.MockAllLanguages("Frage 2 neu") },
+                        Type = SharedProto.BallotQuestionType.MainBallot,
                     },
                 },
         };
@@ -83,16 +86,19 @@ public class BallotCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                     {
                         Number = 1,
                         Question = { LanguageUtil.MockAllLanguages("Variante 1 neu") },
+                        Type = SharedProto.BallotQuestionType.MainBallot,
                     },
                     new BallotQuestionEventData
                     {
                         Number = 2,
                         Question = { LanguageUtil.MockAllLanguages("Variante 2 neu") },
+                        Type = SharedProto.BallotQuestionType.Variant,
                     },
                     new BallotQuestionEventData
                     {
                         Number = 3,
                         Question = { LanguageUtil.MockAllLanguages("Variante 3 neu") },
+                        Type = SharedProto.BallotQuestionType.Variant,
                     },
                 },
             TieBreakQuestions =
@@ -144,6 +150,77 @@ public class BallotCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
     }
 
     [Fact]
+    public async Task TestAggregateShouldSetDefaultValues()
+    {
+        var ballot = new BallotEventData
+        {
+            Id = "f8df06f3-deb1-4aeb-8eaa-8affa38fe567",
+            Position = 1,
+            VoteId = VoteMockedData.IdStGallenVoteInContestStGallenWithoutChilds,
+            BallotType = SharedProto.BallotType.VariantsBallot,
+            HasTieBreakQuestions = true,
+            BallotQuestions =
+                {
+                    new BallotQuestionEventData
+                    {
+                        Number = 1,
+                        Question = { LanguageUtil.MockAllLanguages("Variante 1 neu") },
+                        Type = SharedProto.BallotQuestionType.Unspecified,
+                    },
+                    new BallotQuestionEventData
+                    {
+                        Number = 2,
+                        Question = { LanguageUtil.MockAllLanguages("Variante 2 neu") },
+                        Type = SharedProto.BallotQuestionType.Unspecified,
+                    },
+                    new BallotQuestionEventData
+                    {
+                        Number = 3,
+                        Question = { LanguageUtil.MockAllLanguages("Variante 3 neu") },
+                        Type = SharedProto.BallotQuestionType.Unspecified,
+                    },
+                },
+            TieBreakQuestions =
+                {
+                    new TieBreakQuestionEventData
+                    {
+                        Number = 1,
+                        Question = { LanguageUtil.MockAllLanguages("TieBreak V1/V2") },
+                        Question1Number = 1,
+                        Question2Number = 2,
+                    },
+                    new TieBreakQuestionEventData
+                    {
+                        Number = 2,
+                        Question = { LanguageUtil.MockAllLanguages("TieBreak V1/V3") },
+                        Question1Number = 1,
+                        Question2Number = 3,
+                    },
+                    new TieBreakQuestionEventData
+                    {
+                        Number = 3,
+                        Question = { LanguageUtil.MockAllLanguages("TieBreak V2/V3") },
+                        Question1Number = 2,
+                        Question2Number = 3,
+                    },
+                },
+        };
+
+        await TestEventPublisher.Publish(
+            new BallotCreated
+            {
+                Ballot = ballot,
+            });
+
+        var response = await AdminClient.GetAsync(new GetVoteRequest
+        {
+            Id = VoteMockedData.IdStGallenVoteInContestStGallenWithoutChilds,
+        });
+
+        response.MatchSnapshot();
+    }
+
+    [Fact]
     public async Task StandardBallotShouldReturnOk()
     {
         var response = await AdminClient.CreateBallotAsync(NewValidRequest());
@@ -174,6 +251,7 @@ public class BallotCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                 {
                     Number = 2,
                     Question = { LanguageUtil.MockAllLanguages("Frage 2") },
+                    Type = SharedProto.BallotQuestionType.CounterProposal,
                 }))),
             StatusCode.InvalidArgument);
     }
@@ -191,6 +269,14 @@ public class BallotCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
     {
         await AssertStatus(
             async () => await AdminClient.CreateBallotAsync(NewValidRequest(x => x.BallotQuestions[0].Number = 2)),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task StandardBallotWithWrongTypeShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.CreateBallotAsync(NewValidRequest(x => x.BallotQuestions[0].Type = SharedProto.BallotQuestionType.CounterProposal)),
             StatusCode.InvalidArgument);
     }
 
@@ -249,6 +335,18 @@ public class BallotCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
     }
 
     [Fact]
+    public async Task VariantsBallotWithWrongTypesShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.CreateBallotAsync(NewValidTieBreakRequest(3, x => x.BallotQuestions[0].Type = SharedProto.BallotQuestionType.CounterProposal)),
+            StatusCode.InvalidArgument);
+
+        await AssertStatus(
+            async () => await AdminClient.CreateBallotAsync(NewValidTieBreakRequest(3, x => x.BallotQuestions[1].Type = SharedProto.BallotQuestionType.MainBallot)),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
     public async Task CreateTwiceShouldThrow()
     {
         await AdminClient.CreateBallotAsync(NewValidRequest());
@@ -292,14 +390,24 @@ public class BallotCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
             "The ballot position 2 is invalid, is non-continuous.");
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
-        => await new VoteService.VoteServiceClient(channel)
+    {
+        var response = await new VoteService.VoteServiceClient(channel)
             .CreateBallotAsync(NewValidRequest());
+        await ElectionAdminClient.DeleteBallotAsync(new DeleteBallotRequest
+        {
+            VoteId = VoteMockedData.IdStGallenVoteInContestStGallenWithoutChilds,
+            Id = response.Id,
+        });
+    }
 
     private CreateBallotRequest NewValidRequest(
         Action<CreateBallotRequest>? customizer = null)
@@ -315,6 +423,7 @@ public class BallotCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                     {
                         Number = 1,
                         Question = { LanguageUtil.MockAllLanguages("Frage 1") },
+                        Type = SharedProto.BallotQuestionType.MainBallot,
                     },
                 },
         };
@@ -332,12 +441,13 @@ public class BallotCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
         {
             Number = 2,
             Question = { LanguageUtil.MockAllLanguages("Frage 2") },
+            Type = SharedProto.BallotQuestionType.CounterProposal,
         });
         customizer?.Invoke(req);
         return req;
     }
 
-    private CreateBallotRequest NewValidTieBreakRequest(int variantsCount)
+    private CreateBallotRequest NewValidTieBreakRequest(int variantsCount, Action<CreateBallotRequest>? customizer = null)
     {
         var req = NewValidVariantRequest();
         for (var i = req.BallotQuestions.Count; i < variantsCount; i++)
@@ -346,6 +456,7 @@ public class BallotCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
             {
                 Number = i + 1,
                 Question = { LanguageUtil.MockAllLanguages($"Frage {i + 1}") },
+                Type = SharedProto.BallotQuestionType.Variant,
             });
         }
 
@@ -364,6 +475,7 @@ public class BallotCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
             }
         }
 
+        customizer?.Invoke(req);
         return req;
     }
 }

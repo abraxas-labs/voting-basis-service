@@ -10,6 +10,7 @@ using FluentAssertions;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Test.MockedData;
 using Xunit;
 using SharedProto = Abraxas.Voting.Basis.Shared.V1;
@@ -97,9 +98,12 @@ public class ContestCheckAvailabilityTest : BaseGrpcTest<ContestService.ContestS
         => await new ContestService.ContestServiceClient(channel)
             .CheckAvailabilityAsync(NewValidRequest());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     private CheckAvailabilityRequest NewValidRequest(

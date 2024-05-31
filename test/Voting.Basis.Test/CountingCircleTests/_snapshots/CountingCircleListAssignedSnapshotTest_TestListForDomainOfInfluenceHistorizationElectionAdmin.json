@@ -36,7 +36,9 @@
         "State": 1,
         "Code": "CC100c",
         "SortNumber": 0,
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "Canton": 1,
+        "EVoting": false
       }
     ]
   },
@@ -77,7 +79,9 @@
         "State": 1,
         "Code": "CC100c",
         "SortNumber": 0,
-        "NameForProtocol": ""
+        "NameForProtocol": "",
+        "Canton": 1,
+        "EVoting": false
       }
     ]
   }

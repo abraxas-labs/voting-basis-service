@@ -16,6 +16,7 @@ public class DomainOfInfluencePermissionRepo : DbRepository<DataContext, DomainO
     {
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "EF1002:Risk of vulnerability to SQL injection.", Justification = "Referencing hardened inerpolated string parameters.")]
     public async Task Replace(IReadOnlyCollection<DomainOfInfluencePermissionEntry> entries)
     {
         await Context.Database.ExecuteSqlRawAsync($"TRUNCATE {DelimitedSchemaAndTableName}");

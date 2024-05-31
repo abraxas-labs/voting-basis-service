@@ -73,4 +73,15 @@ public class DomainOfInfluence
     public string ExternalPrintingCenterEaiMessageType { get; set; } = string.Empty;
 
     public string SapCustomerOrderNumber { get; set; } = string.Empty;
+
+    public bool VirtualTopLevel { get; set; }
+
+    public bool ViewCountingCirclePartialResults { get; set; }
+
+    public VotingCardColor VotingCardColor { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether VOTING Stimmregister is enabled.
+    /// </summary>
+    public bool ElectoralRegistrationEnabled { get; set; }
 }

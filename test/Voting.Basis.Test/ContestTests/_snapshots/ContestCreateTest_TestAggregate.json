@@ -74,7 +74,11 @@
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
           "FrankingLicenceReturnNumber": "562984257"
-        }
+        },
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": true
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -163,7 +167,11 @@
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
           "FrankingLicenceReturnNumber": "562984257"
-        }
+        },
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": true
       },
       "EVoting": false,
       "EVotingFrom": null,

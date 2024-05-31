@@ -31,7 +31,7 @@ public class DataContext : DbContext
 
     public DbSet<Contest> Contests { get; set; } = null!;
 
-    public DbSet<ContestCountingCircleOption> ContestCountingCircleOptions { get; set; } = null!;
+    public DbSet<PoliticalAssembly> PoliticalAssemblies { get; set; } = null!;
 
     public DbSet<PreconfiguredContestDate> PreconfiguredContestDates { get; set; } = null!;
 
@@ -98,6 +98,8 @@ public class DataContext : DbContext
     public DbSet<CantonSettings> CantonSettings { get; set; } = null!;
 
     public DbSet<CantonSettingsVotingCardChannel> CantonSettingsVotingCardChannels { get; set; } = null!;
+
+    public DbSet<CountingCircleResultStateDescription> CountingCircleResultStateDescriptions { get; set; } = null!;
 
     public DbSet<CountingCirclesMerger> CountingCirclesMergers { get; set; } = null!;
 

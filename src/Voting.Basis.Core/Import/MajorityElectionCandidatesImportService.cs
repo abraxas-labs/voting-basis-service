@@ -52,6 +52,7 @@ public class MajorityElectionCandidatesImportService
             .Select(x => (x.PoliticalFirstName, x.PoliticalLastName, x.DateOfBirth))
             .ToHashSet();
 
+        var idVerifier = new IdVerifier();
         foreach (var candidate in candidates)
         {
             if (candidatesFirstLastNameDob.Add((candidate.PoliticalFirstName, candidate.PoliticalLastName, candidate.DateOfBirth)))
@@ -59,6 +60,7 @@ public class MajorityElectionCandidatesImportService
                 candidate.Position = ++currentCandidatePosition;
                 candidate.MajorityElectionId = majorityElectionId;
                 majorityElection.CreateCandidateFrom(candidate, doi.Type);
+                idVerifier.EnsureUnique(candidate.Id);
             }
         }
 

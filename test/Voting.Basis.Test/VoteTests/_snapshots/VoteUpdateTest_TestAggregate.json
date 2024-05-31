@@ -31,7 +31,8 @@
               "fr": "Frage 1 St.Gallen fr",
               "it": "Frage 1 St.Gallen it",
               "rm": "Frage 1 St.Gallen rm"
-            }
+            },
+            "Type": 1
           }
         ],
         "VoteId": "96d8275f-f1f8-4933-a097-5c0c19f54567",

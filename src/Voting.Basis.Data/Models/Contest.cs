@@ -43,8 +43,6 @@ public class Contest : BaseEntity
 
     public ICollection<MajorityElectionUnion> MajorityElectionUnions { get; set; } = new HashSet<MajorityElectionUnion>();
 
-    public ICollection<ContestCountingCircleOption> CountingCircleOptions { get; set; } = new HashSet<ContestCountingCircleOption>();
-
     public ICollection<SimplePoliticalBusiness> SimplePoliticalBusinesses { get; set; } = new HashSet<SimplePoliticalBusiness>();
 
     public Guid? PreviousContestId { get; set; }

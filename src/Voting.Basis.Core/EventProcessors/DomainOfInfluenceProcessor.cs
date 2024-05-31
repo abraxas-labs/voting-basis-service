@@ -39,7 +39,6 @@ public class DomainOfInfluenceProcessor :
     private readonly DomainOfInfluencePermissionBuilder _permissionBuilder;
     private readonly DomainOfInfluenceHierarchyBuilder _hierarchyBuilder;
     private readonly DomainOfInfluenceCountingCircleInheritanceBuilder _doiCcInheritanceBuilder;
-    private readonly ContestCountingCircleOptionsReplacer _contestCountingCircleOptionsReplacer;
     private readonly DomainOfInfluenceCantonDefaultsBuilder _domainOfInfluenceCantonDefaultsBuilder;
     private readonly IDbRepository<DataContext, DomainOfInfluenceParty> _doiPartyRepo;
     private readonly DomainOfInfluenceHierarchyRepo _hierarchyRepo;
@@ -52,7 +51,6 @@ public class DomainOfInfluenceProcessor :
         DomainOfInfluencePermissionBuilder permissionBuilder,
         DomainOfInfluenceHierarchyBuilder hierarchyBuilder,
         DomainOfInfluenceCountingCircleInheritanceBuilder doiCcInheritanceBuilder,
-        ContestCountingCircleOptionsReplacer contestCountingCircleOptionsReplacer,
         DomainOfInfluenceCantonDefaultsBuilder domainOfInfluenceCantonDefaultsBuilder,
         IDbRepository<DataContext, DomainOfInfluenceParty> doiPartyRepo,
         DomainOfInfluenceHierarchyRepo hierarchyRepo,
@@ -66,7 +64,6 @@ public class DomainOfInfluenceProcessor :
         _hierarchyBuilder = hierarchyBuilder;
         _doiCcInheritanceBuilder = doiCcInheritanceBuilder;
         _eventLogger = eventLogger;
-        _contestCountingCircleOptionsReplacer = contestCountingCircleOptionsReplacer;
         _domainOfInfluenceCantonDefaultsBuilder = domainOfInfluenceCantonDefaultsBuilder;
         _doiPartyRepo = doiPartyRepo;
         _hierarchyRepo = hierarchyRepo;
@@ -151,8 +148,6 @@ public class DomainOfInfluenceProcessor :
             dateTime);
 
         await _permissionBuilder.RebuildPermissionTree();
-
-        await _contestCountingCircleOptionsReplacer.ReplaceForContestsInTestingPhaseAndDoiIds(hierarchicalGreaterOrSelfDoiIds);
     }
 
     public async Task Process(DomainOfInfluenceDeleted eventData)

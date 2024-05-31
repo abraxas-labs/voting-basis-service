@@ -55,8 +55,9 @@ public class GetPoliticalDoiHierarchyTest : BaseGrpcTest<AdminManagementService.
         => await new AdminManagementService.AdminManagementServiceClient(channel)
             .GetPoliticalDomainOfInfluenceHierarchyAsync(new());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.ElectionAdmin;
+        yield return Roles.Admin;
+        yield return Roles.ApiReader;
     }
 }

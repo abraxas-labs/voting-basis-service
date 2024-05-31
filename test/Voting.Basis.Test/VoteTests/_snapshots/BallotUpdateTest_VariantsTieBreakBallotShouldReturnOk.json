@@ -28,7 +28,8 @@
             "fr": "Frage 1 fr",
             "it": "Frage 1 it",
             "rm": "Frage 1 rm"
-          }
+          },
+          "Type": 1
         },
         {
           "Number": 2,
@@ -37,7 +38,8 @@
             "fr": "Frage 2 fr",
             "it": "Frage 2 it",
             "rm": "Frage 2 rm"
-          }
+          },
+          "Type": 3
         },
         {
           "Number": 3,
@@ -46,7 +48,8 @@
             "fr": "Frage 3 fr",
             "it": "Frage 3 it",
             "rm": "Frage 3 rm"
-          }
+          },
+          "Type": 3
         }
       ],
       "VoteId": "96d8275f-f1f8-4933-a097-5c0c19f54567",

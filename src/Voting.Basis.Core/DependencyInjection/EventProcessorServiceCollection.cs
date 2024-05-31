@@ -23,7 +23,6 @@ internal static class EventProcessorServiceCollection
             .AddScoped<ProportionalElectionListBuilder>()
             .AddScoped<DomainOfInfluenceCantonDefaultsBuilder>()
             .AddScoped<DomainOfInfluenceHierarchyBuilder>()
-            .AddScoped<ContestCountingCircleOptionsReplacer>()
             .AddScoped<DomainOfInfluenceCountingCircleInheritanceBuilder>()
             .AddScoped(typeof(SimplePoliticalBusinessBuilder<>))
             .AddScoped<EventLogger>()

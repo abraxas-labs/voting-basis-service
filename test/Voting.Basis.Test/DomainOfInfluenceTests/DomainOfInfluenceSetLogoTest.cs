@@ -2,6 +2,7 @@
 // For license information see LICENSE file
 
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -13,6 +14,7 @@ using FluentAssertions;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.EntityFrameworkCore;
 using Snapper;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Extensions;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
@@ -141,6 +143,14 @@ public class DomainOfInfluenceSetLogoTest : BaseRestTest
     {
         using var content = BuildSimpleContent();
         return await httpClient.PostAsync(BuildUrl(DomainOfInfluenceMockedData.IdStGallen), content);
+    }
+
+    protected override IEnumerable<string> AuthorizedRoles()
+    {
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     private static HttpContent BuildSimpleContent(string? contentType = null, string? fileName = null)

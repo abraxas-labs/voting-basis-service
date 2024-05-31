@@ -55,9 +55,9 @@ public abstract class PoliticalBusinessUnionWriter<TPoliticalBusiness, TPolitica
     protected async Task EnsureCanCreatePoliticalBusinessUnion(Guid contestId)
     {
         var contest = await ContestRepo.Query()
-                          .Include(x => x.DomainOfInfluence)
-                          .FirstOrDefaultAsync(x => x.Id == contestId)
-                      ?? throw new EntityNotFoundException(contestId);
+            .Include(x => x.DomainOfInfluence)
+            .FirstOrDefaultAsync(x => x.Id == contestId)
+            ?? throw new EntityNotFoundException(contestId);
 
         ContestValidationService.EnsureInTestingPhase(contest);
         await PermissionService.EnsureCanReadContest(contest);

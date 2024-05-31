@@ -13,6 +13,9 @@ namespace Voting.Basis.Ech.Converters;
 
 public class Ech0157Serializer
 {
+    public const string EchNumber = "0157";
+    public const string EchVersion = "4";
+
     private readonly DeliveryHeaderProvider _deliveryHeaderProvider;
     private readonly EchSerializer _echSerializer;
 

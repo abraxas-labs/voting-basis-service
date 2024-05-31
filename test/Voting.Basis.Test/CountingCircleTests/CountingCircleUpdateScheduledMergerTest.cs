@@ -95,6 +95,7 @@ public class CountingCircleUpdateScheduledMergerTest : BaseGrpcTest<CountingCirc
                     },
                     NameForProtocol = "Stadt Rapperswil-Jona updated",
                     SortNumber = 200,
+                    Canton = SharedProto.DomainOfInfluenceCanton.Sg,
                 },
                 MergedCountingCircleIds =
                     {
@@ -156,10 +157,10 @@ public class CountingCircleUpdateScheduledMergerTest : BaseGrpcTest<CountingCirc
         => await new CountingCircleService.CountingCircleServiceClient(channel)
             .UpdateScheduledMergerAsync(NewValidRequest());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
-        yield return Roles.ElectionAdmin;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
     }
 
     private static UpdateScheduledCountingCirclesMergerRequest NewValidRequest(Action<UpdateScheduledCountingCirclesMergerRequest>? customizer = null)

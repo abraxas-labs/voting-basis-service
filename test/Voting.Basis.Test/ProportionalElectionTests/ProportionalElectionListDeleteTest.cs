@@ -13,6 +13,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -23,6 +24,7 @@ namespace Voting.Basis.Test.ProportionalElectionTests;
 public class ProportionalElectionListDeleteTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
+    private string? _authTestListId;
 
     public ProportionalElectionListDeleteTest(TestApplicationFactory factory)
         : base(factory)
@@ -135,14 +137,32 @@ public class ProportionalElectionListDeleteTest : BaseGrpcTest<ProportionalElect
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
-        var id = ProportionalElectionMockedData.ListIdGossauProportionalElectionInContestGossau;
+        if (_authTestListId == null)
+        {
+            var response = await ElectionAdminClient.CreateListAsync(new CreateProportionalElectionListRequest
+            {
+                BlankRowCount = 0,
+                OrderNumber = "o1",
+                Position = 1,
+                ProportionalElectionId = ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallenWithoutChilds,
+                Description = { LanguageUtil.MockAllLanguages("Created list") },
+                ShortDescription = { LanguageUtil.MockAllLanguages("Juso") },
+            });
+            await RunEvents<ProportionalElectionListCreated>();
+
+            _authTestListId = response.Id;
+        }
 
         await new ProportionalElectionService.ProportionalElectionServiceClient(channel)
-            .DeleteListAsync(new DeleteProportionalElectionListRequest { Id = id });
+            .DeleteListAsync(new DeleteProportionalElectionListRequest { Id = _authTestListId });
+        _authTestListId = null;
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 }

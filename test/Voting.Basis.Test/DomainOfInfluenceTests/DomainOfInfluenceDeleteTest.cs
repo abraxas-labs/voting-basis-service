@@ -13,13 +13,19 @@ using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Test.MockedData;
+using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing.Utils;
+using Voting.Lib.VotingExports.Repository.Ausmittlung;
 using Xunit;
+using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
+using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.DomainOfInfluenceTests;
 
 public class DomainOfInfluenceDeleteTest : BaseGrpcTest<DomainOfInfluenceService.DomainOfInfluenceServiceClient>
 {
+    private string? _authTestDoiId;
+
     public DomainOfInfluenceDeleteTest(TestApplicationFactory factory)
         : base(factory)
     {
@@ -106,12 +112,81 @@ public class DomainOfInfluenceDeleteTest : BaseGrpcTest<DomainOfInfluenceService
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
-        => await new DomainOfInfluenceService.DomainOfInfluenceServiceClient(channel)
-            .DeleteAsync(new DeleteDomainOfInfluenceRequest { Id = DomainOfInfluenceMockedData.IdBund });
-
-    protected override IEnumerable<string> UnauthorizedRoles()
     {
-        yield return NoRole;
-        yield return Roles.ElectionAdmin;
+        if (_authTestDoiId == null)
+        {
+            var response = await AdminClient.CreateAsync(new CreateDomainOfInfluenceRequest
+            {
+                Name = "Bezirk Uzwil",
+                ShortName = "BZ Uz",
+                AuthorityName = "Gemeinde Uzwil",
+                SecureConnectId = SecureConnectTestDefaults.MockedTenantUzwil.Id,
+                Type = SharedProto.DomainOfInfluenceType.Bz,
+                ParentId = DomainOfInfluenceMockedData.IdStGallen,
+                Canton = SharedProto.DomainOfInfluenceCanton.Sg, // Should be ignored unless root
+                ResponsibleForVotingCards = true,
+                ExternalPrintingCenter = true,
+                ExternalPrintingCenterEaiMessageType = "1234567",
+                SapCustomerOrderNumber = "55431",
+                ReturnAddress = new ProtoModels.DomainOfInfluenceVotingCardReturnAddress
+                {
+                    AddressLine1 = "Zeile 1",
+                    AddressLine2 = "Zeile 2",
+                    AddressAddition = "Addition",
+                    City = "City",
+                    Country = "Schweiz",
+                    Street = "Street",
+                    ZipCode = "1000",
+                },
+                PrintData = new ProtoModels.DomainOfInfluenceVotingCardPrintData
+                {
+                    ShippingAway = SharedProto.VotingCardShippingFranking.B1,
+                    ShippingReturn = SharedProto.VotingCardShippingFranking.GasA,
+                    ShippingMethod = SharedProto.VotingCardShippingMethod.PrintingPackagingShippingToCitizen,
+                    ShippingVotingCardsToDeliveryAddress = true,
+                },
+                ContactPerson = new ProtoModels.ContactPerson
+                {
+                    Email = "hans@muster.com",
+                    Phone = "071 123 12 12",
+                    FamilyName = "muster",
+                    FirstName = "hans",
+                    MobilePhone = "079 721 21 21",
+                },
+                ExportConfigurations =
+                    {
+                        new ProtoModels.ExportConfiguration
+                        {
+                            Description = "Intf001",
+                            ExportKeys =
+                            {
+                                AusmittlungXmlVoteTemplates.Ech0110.Key,
+                                AusmittlungCsvProportionalElectionTemplates.CandidateCountingCircleResultsWithVoteSources.Key,
+                            },
+                            EaiMessageType = "1234567",
+                            Provider = SharedProto.ExportProvider.Standard,
+                        },
+                    },
+                PlausibilisationConfiguration = DomainOfInfluenceMockedData.BuildPlausibilisationConfiguration(),
+                SwissPostData = new ProtoModels.DomainOfInfluenceVotingCardSwissPostData
+                {
+                    InvoiceReferenceNumber = "505964478",
+                    FrankingLicenceReturnNumber = "965333145",
+                },
+            });
+
+            _authTestDoiId = response.Id;
+            await RunEvents<DomainOfInfluenceCreated>();
+        }
+
+        await new DomainOfInfluenceService.DomainOfInfluenceServiceClient(channel)
+            .DeleteAsync(new DeleteDomainOfInfluenceRequest { Id = _authTestDoiId });
+        _authTestDoiId = null;
+    }
+
+    protected override IEnumerable<string> AuthorizedRoles()
+    {
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
     }
 }

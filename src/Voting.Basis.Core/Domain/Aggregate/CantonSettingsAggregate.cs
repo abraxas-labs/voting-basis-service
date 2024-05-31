@@ -64,11 +64,6 @@ public class CantonSettingsAggregate : BaseEventSourcingAggregate
 
     public ProtocolCountingCircleSortType ProtocolCountingCircleSortType { get; private set; }
 
-    /// <summary>
-    /// Gets a value indicating whether vOTING Stimmregister is enabled.
-    /// </summary>
-    public bool ElectoralRegistrationEnabled { get; private set; }
-
     public bool MultipleVoteBallotsEnabled { get; private set; }
 
     /// <summary>

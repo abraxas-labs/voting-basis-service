@@ -50,12 +50,23 @@
       "VotingDocumentsEVotingEaiMessageType": "1234567",
       "ProtocolDomainOfInfluenceSortType": 2,
       "ProtocolCountingCircleSortType": 2,
-      "ElectoralRegistrationEnabled": true,
       "MultipleVoteBallotsEnabled": true,
       "CountingMachineEnabled": true,
       "NewZhFeaturesEnabled": false,
       "ProportionalElectionUseCandidateCheckDigit": true,
-      "MajorityElectionUseCandidateCheckDigit": true
+      "MajorityElectionUseCandidateCheckDigit": true,
+      "CountingCircleResultStateDescriptions": [
+        {
+          "State": 2,
+          "Description": "In neuer Erfassung"
+        },
+        {
+          "State": 6,
+          "Description": "geprüft"
+        }
+      ],
+      "StatePlausibilisedDisabled": true,
+      "PublishResultsEnabled": true
     }
   }
 }

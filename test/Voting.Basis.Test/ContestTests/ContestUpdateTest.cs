@@ -331,9 +331,11 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
         => await new ContestService.ContestServiceClient(channel)
             .UpdateAsync(NewValidRequest());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
     }
 
     private UpdateContestRequest NewValidRequest(

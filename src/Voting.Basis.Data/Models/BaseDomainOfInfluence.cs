@@ -45,4 +45,15 @@ public abstract class BaseDomainOfInfluence : BaseEntity
     public DomainOfInfluenceVotingCardSwissPostData? SwissPostData { get; set; }
 
     public DateTime CreatedOn { get; set; } = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
+
+    public bool VirtualTopLevel { get; set; }
+
+    public bool ViewCountingCirclePartialResults { get; set; }
+
+    public VotingCardColor VotingCardColor { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether VOTING Stimmregister is enabled.
+    /// </summary>
+    public bool ElectoralRegistrationEnabled { get; set; }
 }

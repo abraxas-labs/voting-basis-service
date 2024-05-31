@@ -89,23 +89,31 @@ public class ContestEchExportsGenerator : IExportsGenerator
                 .ToList();
         }
 
-        var contestDesc = LanguageUtil.GetInCurrentLanguage(contest.Description);
         if (contest.Votes.Count > 0)
         {
             var xmlBytes = _ech0159Serializer.ToEventInitialDelivery(contest, contest.Votes);
-            yield return new ExportFile(xmlBytes, $"votes_{contestDesc}{FileExtensions.Xml}", MediaTypeNames.Application.Xml);
+            yield return new ExportFile(
+                xmlBytes,
+                FileNameUtil.GetXmlFileName(Ech0159Serializer.EchNumber, Ech0159Serializer.EchVersion, contest.DomainOfInfluence.Canton, contest.Date, $"votes"),
+                MediaTypeNames.Application.Xml);
         }
 
         if (contest.ProportionalElections.Count > 0)
         {
             var xmlBytes = _ech0157Serializer.ToDelivery(contest, contest.ProportionalElections);
-            yield return new ExportFile(xmlBytes, $"proportional_elections_{contestDesc}{FileExtensions.Xml}", MediaTypeNames.Application.Xml);
+            yield return new ExportFile(
+                xmlBytes,
+                FileNameUtil.GetXmlFileName(Ech0157Serializer.EchNumber, Ech0157Serializer.EchVersion, contest.DomainOfInfluence.Canton, contest.Date, $"proportional_elections"),
+                MediaTypeNames.Application.Xml);
         }
 
         if (contest.MajorityElections.Count > 0)
         {
             var xmlBytes = _ech0157Serializer.ToDelivery(contest, contest.MajorityElections);
-            yield return new ExportFile(xmlBytes, $"majority_elections_{contestDesc}{FileExtensions.Xml}", MediaTypeNames.Application.Xml);
+            yield return new ExportFile(
+                xmlBytes,
+                FileNameUtil.GetXmlFileName(Ech0157Serializer.EchNumber, Ech0157Serializer.EchVersion, contest.DomainOfInfluence.Canton, contest.Date, $"majority_elections"),
+                MediaTypeNames.Application.Xml);
         }
     }
 }

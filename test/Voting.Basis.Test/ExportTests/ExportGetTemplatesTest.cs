@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Lib.Testing.Utils;
 using Xunit;
 using SharedProto = Abraxas.Voting.Basis.Shared.V1;
@@ -94,8 +95,11 @@ public class ExportGetTemplatesTest : BaseGrpcTest<ExportService.ExportServiceCl
             });
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 }

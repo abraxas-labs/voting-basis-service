@@ -13,6 +13,7 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -23,6 +24,8 @@ namespace Voting.Basis.Test.MajorityElectionBallotGroupTests;
 
 public class MajorityElectionBallotGroupCreateTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
 {
+    private int _authTestPosition = 1;
+
     public MajorityElectionBallotGroupCreateTest(TestApplicationFactory factory)
         : base(factory)
     {
@@ -231,14 +234,19 @@ public class MajorityElectionBallotGroupCreateTest : BaseGrpcTest<MajorityElecti
             "Contest is past locked or archived");
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
-        => await new MajorityElectionService.MajorityElectionServiceClient(channel)
-            .CreateBallotGroupAsync(NewValidRequest());
+    {
+        await new MajorityElectionService.MajorityElectionServiceClient(channel)
+            .CreateBallotGroupAsync(NewValidRequest(req => req.Position = _authTestPosition++));
+    }
 
     private CreateMajorityElectionBallotGroupRequest NewValidRequest(
         Action<CreateMajorityElectionBallotGroupRequest>? customizer = null)

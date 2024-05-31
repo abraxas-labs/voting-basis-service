@@ -1,10 +1,12 @@
 ﻿// (c) Copyright 2024 by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Services.V1;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -32,10 +34,39 @@ public class ListPermissionsTest : BaseGrpcTest<PermissionService.PermissionServ
     }
 
     [Fact]
+    public async Task TestAsCantonAdminShouldWork()
+    {
+        var response = await CantonAdminClient.ListAsync(new Empty());
+        response.MatchSnapshot();
+    }
+
+    [Fact]
     public async Task TestAsElectionAdminShouldWork()
     {
         var response = await ElectionAdminClient.ListAsync(new Empty());
         response.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task TestAsElectionSupporterShouldWork()
+    {
+        var response = await ElectionSupporterClient.ListAsync(new Empty());
+        response.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task TestAsApiReaderShouldWork()
+    {
+        var response = await ApiReaderClient.ListAsync(new Empty());
+        response.MatchSnapshot();
+    }
+
+    protected override IEnumerable<string> AuthorizedRoles()
+        => Roles.All();
+
+    protected override IEnumerable<string> UnauthorizedRoles()
+    {
+        yield break;
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

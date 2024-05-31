@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Voting.Basis.Core.Domain.Aggregate;
-using Voting.Basis.Core.EventProcessors;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.EventSignature;
@@ -111,14 +110,6 @@ public static class ContestMockedData
             EVoting = true,
             EVotingFrom = new DateTime(2020, 2, 20, 0, 0, 0, DateTimeKind.Utc),
             EVotingTo = new DateTime(2020, 3, 1, 0, 0, 0, DateTimeKind.Utc),
-            CountingCircleOptions =
-            {
-                    new ContestCountingCircleOption
-                    {
-                        CountingCircleId = CountingCircleMockedData.Gossau.Id,
-                        EVoting = true,
-                    },
-            },
         };
 
     public static Contest GossauContest
@@ -204,11 +195,8 @@ public static class ContestMockedData
             db.Contests.AddRange(all);
             await db.SaveChangesAsync();
 
-            var optionsReplacer = sp.GetRequiredService<ContestCountingCircleOptionsReplacer>();
             foreach (var contest in all)
             {
-                await optionsReplacer.Replace(contest);
-
                 // contests have per default an unlimited valid key for performance reasons.
                 contestCache.Add(new()
                 {

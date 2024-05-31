@@ -183,12 +183,15 @@ public class ContestGetDetailsChangesTest : BaseGrpcTest<ContestService.ContestS
             new() { Id = ContestMockedData.IdBundContest },
             new(cancellationToken: cts.Token));
 
-        await responseStream.ResponseStream.MoveNext();
+        await responseStream.ResponseStream.ReadNIgnoreCancellation(1, cts.Token);
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     private ContestService.ContestServiceClient GetUzwilClient(string role)

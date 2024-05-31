@@ -14,6 +14,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -214,9 +215,20 @@ public class SecondaryMajorityElectionUpdateTest : BaseGrpcTest<MajorityElection
             "Contest is past locked or archived");
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    [Fact]
+    public Task DuplicatePoliticalBusinessIdShouldThrow()
     {
-        yield return NoRole;
+        return AssertStatus(
+            async () => await AdminClient.UpdateSecondaryMajorityElectionAsync(NewValidRequest(v => v.PoliticalBusinessNumber = "201")),
+            StatusCode.AlreadyExists);
+    }
+
+    protected override IEnumerable<string> AuthorizedRoles()
+    {
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

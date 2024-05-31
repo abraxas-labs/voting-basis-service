@@ -9,6 +9,7 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -95,9 +96,12 @@ public class CountingCircleListAssignedSnapshotTest : BaseGrpcTest<CountingCircl
         => await new CountingCircleService.CountingCircleServiceClient(channel)
             .ListSnapshotAsync(new ListCountingCircleSnapshotRequest());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     private async Task<IEnumerable<ProtoModels.DomainOfInfluenceCountingCircle>> ElectionAdminListForDoiSnapshotRequest(

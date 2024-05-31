@@ -171,6 +171,19 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
+    public void UpdateMandatAlgorithm(ProportionalElectionMandateAlgorithm mandateAlgorithm)
+    {
+        EnsureNotDeleted();
+        var ev = new ProportionalElectionMandateAlgorithmUpdated
+        {
+            ProportionalElectionId = Id.ToString(),
+            MandateAlgorithm = _mapper.Map<SharedProto.ProportionalElectionMandateAlgorithm>(mandateAlgorithm),
+            EventInfo = _eventInfoProvider.NewEventInfo(),
+        };
+
+        RaiseEvent(ev);
+    }
+
     public void Delete()
     {
         EnsureNotDeleted();
@@ -692,6 +705,9 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
             case ProportionalElectionCandidateDeleted e:
                 Apply(e);
                 break;
+            case ProportionalElectionMandateAlgorithmUpdated e:
+                Apply(e);
+                break;
             default: throw new EventNotAppliedException(eventData?.GetType());
         }
     }
@@ -885,6 +901,11 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         {
             DecreaseCandidatePositions(list.Candidates, existingCandidate.AccumulatedPosition);
         }
+    }
+
+    private void Apply(ProportionalElectionMandateAlgorithmUpdated ev)
+    {
+        MandateAlgorithm = _mapper.Map<ProportionalElectionMandateAlgorithm>(ev.MandateAlgorithm);
     }
 
     private ProportionalElectionList FindList(Guid listId)

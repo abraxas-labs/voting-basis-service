@@ -4,9 +4,10 @@
       "Id": "4ce6466f-81f2-5df6-8104-61ff31d89fad",
       "Canton": 1,
       "AuthorityName": "St.Gallen",
-      "SecureConnectId": "200200200200200200",
+      "SecureConnectId": "000000000000000000",
       "ProportionalElectionMandateAlgorithms": [
-        1
+        1,
+        4
       ],
       "MajorityElectionAbsoluteMajorityAlgorithm": 1,
       "MajorityElectionInvalidVotes": false,
@@ -38,18 +39,20 @@
       "VotingDocumentsEVotingEaiMessageType": "1234567",
       "ProtocolDomainOfInfluenceSortType": 1,
       "ProtocolCountingCircleSortType": 1,
-      "ElectoralRegistrationEnabled": true,
       "MultipleVoteBallotsEnabled": false,
       "CountingMachineEnabled": false,
       "NewZhFeaturesEnabled": false,
       "ProportionalElectionUseCandidateCheckDigit": false,
-      "MajorityElectionUseCandidateCheckDigit": false
+      "MajorityElectionUseCandidateCheckDigit": false,
+      "CountingCircleResultStateDescriptions": [],
+      "StatePlausibilisedDisabled": false,
+      "PublishResultsEnabled": true
     },
     {
       "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
       "Canton": 3,
       "AuthorityName": "Zürich",
-      "SecureConnectId": "000000000000000000",
+      "SecureConnectId": "zürich-sec-id",
       "ProportionalElectionMandateAlgorithms": [
         1,
         5,
@@ -84,12 +87,19 @@
       "VotingDocumentsEVotingEaiMessageType": "1234567",
       "ProtocolDomainOfInfluenceSortType": 2,
       "ProtocolCountingCircleSortType": 2,
-      "ElectoralRegistrationEnabled": false,
       "MultipleVoteBallotsEnabled": true,
       "CountingMachineEnabled": true,
       "NewZhFeaturesEnabled": true,
       "ProportionalElectionUseCandidateCheckDigit": true,
-      "MajorityElectionUseCandidateCheckDigit": true
+      "MajorityElectionUseCandidateCheckDigit": true,
+      "CountingCircleResultStateDescriptions": [
+        {
+          "State": 6,
+          "Description": "geprüft"
+        }
+      ],
+      "StatePlausibilisedDisabled": true,
+      "PublishResultsEnabled": false
     }
   ]
 }

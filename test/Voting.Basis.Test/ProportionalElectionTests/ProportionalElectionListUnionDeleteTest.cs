@@ -12,6 +12,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -23,6 +24,7 @@ namespace Voting.Basis.Test.ProportionalElectionTests;
 public class ProportionalElectionListUnionDeleteTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
+    private string? _authTestListUnionId;
 
     public ProportionalElectionListUnionDeleteTest(TestApplicationFactory factory)
         : base(factory)
@@ -153,14 +155,29 @@ public class ProportionalElectionListUnionDeleteTest : BaseGrpcTest<Proportional
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
-        var id = ProportionalElectionMockedData.ListUnion1IdGossauProportionalElectionInContestStGallen;
+        if (_authTestListUnionId == null)
+        {
+            var response = await ElectionAdminClient.CreateListUnionAsync(new CreateProportionalElectionListUnionRequest
+            {
+                Position = 3,
+                ProportionalElectionId = ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallenWithoutChilds,
+                Description = { LanguageUtil.MockAllLanguages("Created list union") },
+            });
+            await RunEvents<ProportionalElectionListUnionCreated>();
+
+            _authTestListUnionId = response.Id;
+        }
 
         await new ProportionalElectionService.ProportionalElectionServiceClient(channel)
-            .DeleteListUnionAsync(new DeleteProportionalElectionListUnionRequest { Id = id });
+            .DeleteListUnionAsync(new DeleteProportionalElectionListUnionRequest { Id = _authTestListUnionId });
+        _authTestListUnionId = null;
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 }

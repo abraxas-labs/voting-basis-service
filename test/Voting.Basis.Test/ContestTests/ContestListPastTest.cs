@@ -71,9 +71,12 @@ public class ContestListPastTest : BaseGrpcTest<ContestService.ContestServiceCli
             .ListSummariesAsync(new ListContestSummariesRequest());
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     private ListContestPastRequest NewValidRequest(

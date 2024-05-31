@@ -2,13 +2,10 @@
 // For license information see LICENSE file
 
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using AutoMapper;
 using Google.Protobuf;
-using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Messaging.Extensions;
 using Voting.Basis.Core.Messaging.Messages;
@@ -31,26 +28,22 @@ public class ContestProcessor :
     IEventProcessor<ContestPastLocked>,
     IEventProcessor<ContestPastUnlocked>,
     IEventProcessor<ContestArchived>,
-    IEventProcessor<ContestArchiveDateUpdated>,
-    IEventProcessor<ContestCountingCircleOptionsUpdated>
+    IEventProcessor<ContestArchiveDateUpdated>
 {
     private readonly IDbRepository<DataContext, Contest> _repo;
     private readonly IMapper _mapper;
     private readonly EventLoggerAdapter _eventLogger;
-    private readonly ContestCountingCircleOptionsReplacer _contestCountingCircleOptionsReplacer;
     private readonly MessageProducerBuffer _messageProducerBuffer;
 
     public ContestProcessor(
         IMapper mapper,
         IDbRepository<DataContext, Contest> repo,
         EventLoggerAdapter eventLogger,
-        ContestCountingCircleOptionsReplacer contestCountingCircleOptionsReplacer,
         MessageProducerBuffer messageProducerBuffer)
     {
         _mapper = mapper;
         _repo = repo;
         _eventLogger = eventLogger;
-        _contestCountingCircleOptionsReplacer = contestCountingCircleOptionsReplacer;
         _messageProducerBuffer = messageProducerBuffer;
     }
 
@@ -59,7 +52,6 @@ public class ContestProcessor :
         var model = _mapper.Map<Contest>(eventData.Contest);
         model.State = ContestState.TestingPhase;
         await _repo.Create(model);
-        await _contestCountingCircleOptionsReplacer.Replace(model, false);
         await _eventLogger.LogContestEvent(eventData, model);
         PublishContestEventMessage(model, EntityState.Added);
     }
@@ -67,16 +59,7 @@ public class ContestProcessor :
     public async Task Process(ContestUpdated eventData)
     {
         var model = _mapper.Map<Contest>(eventData.Contest);
-
-        var existingContest = await _repo.GetByKey(model.Id)
-            ?? throw new EntityNotFoundException(model.Id);
-
         await _repo.Update(model);
-
-        if (existingContest.EVoting != model.EVoting || existingContest.DomainOfInfluenceId != model.DomainOfInfluenceId)
-        {
-            await _contestCountingCircleOptionsReplacer.Replace(model);
-        }
 
         await _eventLogger.LogContestEvent(eventData, model);
         PublishContestEventMessage(model, EntityState.Modified);
@@ -138,30 +121,6 @@ public class ContestProcessor :
                       ?? throw new EntityNotFoundException(id);
 
         contest.ArchivePer = eventData.ArchivePer?.ToDateTime();
-        await _repo.Update(contest);
-        await _eventLogger.LogContestEvent(eventData, contest);
-    }
-
-    public async Task Process(ContestCountingCircleOptionsUpdated eventData)
-    {
-        var contestId = GuidParser.Parse(eventData.ContestId);
-        var contest = await _repo.Query()
-            .Include(x => x.CountingCircleOptions)
-            .FirstOrDefaultAsync(x => x.Id == contestId)
-            ?? throw new EntityNotFoundException(nameof(Contest), contestId);
-
-        var optionsByCcId = contest.CountingCircleOptions.ToDictionary(x => x.CountingCircleId);
-        foreach (var option in eventData.Options)
-        {
-            var ccId = GuidParser.Parse(option.CountingCircleId);
-            if (!optionsByCcId.TryGetValue(ccId, out var existingOption))
-            {
-                throw new ValidationException($"contest counting circle option not found for contest {contestId} and ccId {ccId}");
-            }
-
-            existingOption.EVoting = option.EVoting;
-        }
-
         await _repo.Update(contest);
         await _eventLogger.LogContestEvent(eventData, contest);
     }

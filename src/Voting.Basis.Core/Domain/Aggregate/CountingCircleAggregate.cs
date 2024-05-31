@@ -74,6 +74,8 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
 
     public List<CountingCircleElectorate> Electorates { get; private set; }
 
+    public DomainOfInfluenceCanton Canton { get; private set; }
+
     public bool MergeActivationOverdue => MergerOrigin is { Merged: false } && MergerOrigin.ActiveFrom < _clock.UtcNow;
 
     public void CreateFrom(CountingCircle countingCircle)
@@ -165,13 +167,13 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateFrom(CountingCircle countingCircle, bool canUpdateAll)
+    public void UpdateFrom(CountingCircle countingCircle, bool canUpdateAllFields, bool canUpdateCanton)
     {
         EnsureNotDeletedOrMergedOrInactive();
 
         PrepareElectorates(countingCircle.Id, countingCircle.Electorates);
 
-        if (!canUpdateAll)
+        if (!canUpdateAllFields)
         {
             if (!ResponsibleAuthority.SecureConnectId.Equals(
                 countingCircle.ResponsibleAuthority?.SecureConnectId, StringComparison.Ordinal))
@@ -209,6 +211,14 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
                 || countingCircle.Electorates.Any(oe => !Electorates.Any(ie => ie.Equals(oe))))
             {
                 throw new ForbiddenException("only admins are allowed to update electorates");
+            }
+        }
+
+        if (!canUpdateCanton)
+        {
+            if (Canton != countingCircle.Canton)
+            {
+                throw new ForbiddenException("only admins are allowed to update the canton");
             }
         }
 

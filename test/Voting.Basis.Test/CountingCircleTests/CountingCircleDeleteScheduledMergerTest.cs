@@ -14,7 +14,6 @@ using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Domain;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Test.MockedData;
 using Voting.Basis.Test.MockedData.Mapping;
@@ -24,6 +23,7 @@ using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing.Mocks;
 using Voting.Lib.Testing.Utils;
 using Xunit;
+using CountingCirclesMerger = Voting.Basis.Core.Domain.CountingCirclesMerger;
 using PermissionService = Voting.Basis.Core.Services.Permission.PermissionService;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 using SharedProto = Abraxas.Voting.Basis.Shared.V1;
@@ -34,6 +34,7 @@ public class CountingCircleDeleteScheduledMergerTest : BaseGrpcTest<CountingCirc
 {
     private const string RapperswilJonaMergeId = "9dd859aa-2274-4a6a-bf19-6311e18644b2";
     private const string RapperswilJonaId = "102defb7-9fe7-426a-ad87-9127a650b79f";
+    private bool _authTestNeedsSeeding = true;
 
     public CountingCircleDeleteScheduledMergerTest(TestApplicationFactory factory)
         : base(factory)
@@ -76,6 +77,15 @@ public class CountingCircleDeleteScheduledMergerTest : BaseGrpcTest<CountingCirc
             "No merger set, cannot delete");
 
     [Fact]
+    public async Task TestCantonAdminOtherCantonShouldThrow()
+    {
+        await SeedScheduledMerge(1, SharedProto.DomainOfInfluenceCanton.Zh);
+        await AssertStatus(
+            async () => await CantonAdminClient.DeleteScheduledMergerAsync(NewValidRequest()),
+            StatusCode.PermissionDenied);
+    }
+
+    [Fact]
     public async Task TestProcessor()
     {
         await SeedScheduledMerge(1);
@@ -94,13 +104,23 @@ public class CountingCircleDeleteScheduledMergerTest : BaseGrpcTest<CountingCirc
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
-        => await new CountingCircleService.CountingCircleServiceClient(channel)
-            .DeleteScheduledMergerAsync(NewValidRequest());
-
-    protected override IEnumerable<string> UnauthorizedRoles()
     {
-        yield return NoRole;
-        yield return Roles.ElectionAdmin;
+        if (_authTestNeedsSeeding)
+        {
+            await SeedScheduledMerge(1);
+            _authTestNeedsSeeding = false;
+        }
+
+        await new CountingCircleService.CountingCircleServiceClient(channel)
+            .DeleteScheduledMergerAsync(NewValidRequest());
+        await RunEvents<CountingCirclesMergerScheduleDeleted>();
+        _authTestNeedsSeeding = true;
+    }
+
+    protected override IEnumerable<string> AuthorizedRoles()
+    {
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
     }
 
     private static DeleteScheduledCountingCirclesMergerRequest NewValidRequest()
@@ -111,7 +131,7 @@ public class CountingCircleDeleteScheduledMergerTest : BaseGrpcTest<CountingCirc
         };
     }
 
-    private async Task SeedScheduledMerge(int dayDelta = 0)
+    private async Task SeedScheduledMerge(int dayDelta = 0, SharedProto.DomainOfInfluenceCanton canton = SharedProto.DomainOfInfluenceCanton.Sg)
     {
         var mergerProto = new ProtoModels.CountingCirclesMerger
         {
@@ -142,6 +162,7 @@ public class CountingCircleDeleteScheduledMergerTest : BaseGrpcTest<CountingCirc
                     FamilyName = "Wichtig",
                     FirstName = "Rudolph",
                 },
+                Canton = canton,
             },
             ActiveFrom = MockedClock.GetTimestampDate(dayDelta),
             MergedCountingCircles =

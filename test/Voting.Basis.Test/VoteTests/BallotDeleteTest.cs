@@ -12,6 +12,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -24,6 +25,7 @@ namespace Voting.Basis.Test.VoteTests;
 public class BallotDeleteTest : BaseGrpcTest<VoteService.VoteServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
+    private string? _authTestBallotId;
 
     public BallotDeleteTest(TestApplicationFactory factory)
         : base(factory)
@@ -125,11 +127,13 @@ public class BallotDeleteTest : BaseGrpcTest<VoteService.VoteServiceClient>
                     {
                         Number = 1,
                         Question = { LanguageUtil.MockAllLanguages("Frage 1") },
+                        Type = SharedProto.BallotQuestionType.MainBallot,
                     },
                     new ProtoModels.BallotQuestion
                     {
                         Number = 2,
                         Question = { LanguageUtil.MockAllLanguages("Frage 2") },
+                        Type = SharedProto.BallotQuestionType.CounterProposal,
                     },
                 },
         });
@@ -159,13 +163,42 @@ public class BallotDeleteTest : BaseGrpcTest<VoteService.VoteServiceClient>
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
+        if (_authTestBallotId == null)
+        {
+            var response = await ElectionAdminClient.CreateBallotAsync(new CreateBallotRequest
+            {
+                VoteId = VoteMockedData.IdStGallenVoteInContestStGallenWithoutChilds,
+                Position = 1,
+                BallotType = SharedProto.BallotType.StandardBallot,
+                BallotQuestions =
+                {
+                    new ProtoModels.BallotQuestion
+                    {
+                        Number = 1,
+                        Question = { LanguageUtil.MockAllLanguages("Frage 1") },
+                        Type = SharedProto.BallotQuestionType.MainBallot,
+                    },
+                },
+            });
+
+            _authTestBallotId = response.Id;
+        }
+
         await new VoteService.VoteServiceClient(channel)
-            .DeleteBallotAsync(NewValidRequest());
+            .DeleteBallotAsync(new DeleteBallotRequest
+            {
+                Id = _authTestBallotId,
+                VoteId = VoteMockedData.IdStGallenVoteInContestStGallenWithoutChilds,
+            });
+        _authTestBallotId = null;
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     private DeleteBallotRequest NewValidRequest(

@@ -41,7 +41,8 @@ public class ProportionalElectionProcessor :
     IEventProcessor<ProportionalElectionCandidateUpdated>,
     IEventProcessor<ProportionalElectionCandidateAfterTestingPhaseUpdated>,
     IEventProcessor<ProportionalElectionCandidatesReordered>,
-    IEventProcessor<ProportionalElectionCandidateDeleted>
+    IEventProcessor<ProportionalElectionCandidateDeleted>,
+    IEventProcessor<ProportionalElectionMandateAlgorithmUpdated>
 {
     private readonly IDbRepository<DataContext, ProportionalElection> _repo;
     private readonly SimplePoliticalBusinessBuilder<ProportionalElection> _simplePoliticalBusinessBuilder;
@@ -514,6 +515,16 @@ public class ProportionalElectionProcessor :
 
         await _candidateRepo.UpdateRange(candidatesToUpdate);
         await _eventLogger.LogProportionalElectionCandidateEvent(eventData, existingCandidate);
+    }
+
+    public async Task Process(ProportionalElectionMandateAlgorithmUpdated eventData)
+    {
+        var electionId = GuidParser.Parse(eventData.ProportionalElectionId);
+        var existingModel = await GetElection(electionId);
+
+        existingModel.MandateAlgorithm = _mapper.Map<ProportionalElectionMandateAlgorithm>(eventData.MandateAlgorithm);
+        await _repo.Update(existingModel);
+        await _eventLogger.LogProportionalElectionEvent(eventData, existingModel);
     }
 
     private Task UpdateListCandidateCount(ProportionalElectionList list, bool added, bool accumulated)

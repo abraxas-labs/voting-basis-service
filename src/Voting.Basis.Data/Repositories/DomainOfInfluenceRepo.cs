@@ -19,6 +19,7 @@ public class DomainOfInfluenceRepo : HasSnapshotDbRepository<DomainOfInfluence, 
     {
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "EF1002:Risk of vulnerability to SQL injection.", Justification = "Referencing hardened inerpolated string parameters.")]
     public async Task<DomainOfInfluenceCanton> GetRootCanton(Guid domainOfInfluenceId)
     {
         var idColumnName = GetDelimitedColumnName(x => x.Id);

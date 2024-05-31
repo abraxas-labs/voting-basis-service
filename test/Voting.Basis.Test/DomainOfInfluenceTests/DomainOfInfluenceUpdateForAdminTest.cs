@@ -13,6 +13,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -558,13 +559,29 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
             "each export configuration can only be provided exactly once");
     }
 
+    [Fact]
+    public async Task ElectoralRegistrationEnabledWithoutResponsibleForVotingCardsShouldTrow()
+    {
+        var req = NewValidRequest(x =>
+        {
+            x.ResponsibleForVotingCards = false;
+            x.ElectoralRegistrationEnabled = true;
+        });
+
+        await AssertStatus(
+            async () => await AdminClient.UpdateAsync(req),
+            StatusCode.InvalidArgument,
+            "electoral registration");
+    }
+
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
         => await new DomainOfInfluenceService.DomainOfInfluenceServiceClient(channel)
             .UpdateAsync(NewValidRequest());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
     }
 
     private static UpdateDomainOfInfluenceRequest NewValidRequest(
@@ -651,6 +668,8 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
                     InvoiceReferenceNumber = "505964478",
                     FrankingLicenceReturnNumber = "965333145",
                 },
+                VotingCardColor = SharedProto.VotingCardColor.Green,
+                ElectoralRegistrationEnabled = true,
             },
         };
         customizer?.Invoke(request.AdminRequest);

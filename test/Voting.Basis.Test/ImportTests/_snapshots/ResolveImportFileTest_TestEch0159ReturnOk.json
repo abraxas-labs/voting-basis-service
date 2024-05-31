@@ -67,7 +67,8 @@
                   "fr": "Frage Bund1",
                   "it": "Frage Bund1",
                   "rm": "Frage Bund1"
-                }
+                },
+                "Type": 1
               }
             ],
             "VoteId": "",
@@ -118,7 +119,8 @@
                   "fr": "Frage Bund2",
                   "it": "Frage Bund2",
                   "rm": "Frage Bund2"
-                }
+                },
+                "Type": 1
               }
             ],
             "VoteId": "",
@@ -169,7 +171,8 @@
                   "fr": "Frage Kanton",
                   "it": "Frage Kanton",
                   "rm": "Frage Kanton"
-                }
+                },
+                "Type": 1
               }
             ],
             "VoteId": "",

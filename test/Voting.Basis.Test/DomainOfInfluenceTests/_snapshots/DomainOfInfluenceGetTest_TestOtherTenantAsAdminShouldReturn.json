@@ -148,5 +148,9 @@
   "ExternalPrintingCenterEaiMessageType": "",
   "NameForProtocol": "Stadt Uzwil",
   "SapCustomerOrderNumber": "",
-  "SwissPostData": null
+  "SwissPostData": null,
+  "VirtualTopLevel": false,
+  "ViewCountingCirclePartialResults": false,
+  "VotingCardColor": 0,
+  "ElectoralRegistrationEnabled": false
 }

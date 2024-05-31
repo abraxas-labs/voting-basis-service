@@ -7,6 +7,7 @@ using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Test.MockedData;
 using Xunit;
 using SharedProto = Abraxas.Voting.Basis.Shared.V1;
@@ -56,11 +57,22 @@ public class ImportPoliticalBusinessesTest : BaseImportTest
     public async Task TestInvalidProportionalElectionMandateAlgorithmByCantonSettingsShouldThrow()
     {
         var request = await CreateValidRequest();
-        request.ProportionalElections[0].Election.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum;
+        request.ProportionalElections[0].Election.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportional1Doi0DoiQuorum;
         await AssertStatus(
             async () => await AdminClient.ImportPoliticalBusinessesAsync(request),
             StatusCode.InvalidArgument,
             "mandate algorithm");
+    }
+
+    [Fact]
+    public async Task TestWithDuplicatedCandidateIdShouldThrow()
+    {
+        var request = await CreateValidRequest();
+        request.ProportionalElections[0].Lists[0].Candidates[0].Candidate.Id = request.ProportionalElections[0].Lists[0].Candidates[1].Candidate.Id;
+        await AssertStatus(
+            async () => await AdminClient.ImportPoliticalBusinessesAsync(request),
+            StatusCode.InvalidArgument,
+            "This id is not unique");
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
@@ -69,9 +81,12 @@ public class ImportPoliticalBusinessesTest : BaseImportTest
             .ImportPoliticalBusinessesAsync(await CreateValidRequest());
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     private async Task<ImportPoliticalBusinessesRequest> CreateValidRequest(

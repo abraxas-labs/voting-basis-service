@@ -8,6 +8,7 @@ using Voting.Basis.Core.Configuration;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data.Models;
 using Ballot = Voting.Basis.Core.Domain.Ballot;
+using BallotQuestion = Voting.Basis.Core.Domain.BallotQuestion;
 using TieBreakQuestion = Voting.Basis.Core.Domain.TieBreakQuestion;
 
 namespace Voting.Basis.Core.Validation;
@@ -23,7 +24,7 @@ public class BallotValidator : AbstractValidator<Ballot>
 
         When(x => x.BallotType == BallotType.StandardBallot, () =>
         {
-            RuleFor(b => b.BallotQuestions).Must(b => b.Count == 1 && b[0].Number == 1).WithMessage("A standard ballot must have exactly one question with the number 1.");
+            RuleFor(b => b.BallotQuestions).Must(b => b.Count == 1 && b[0].Number == 1 && b[0].Type == BallotQuestionType.MainBallot).WithMessage($"A standard ballot must have exactly one question with the number 1 and type {BallotQuestionType.MainBallot}.");
             RuleFor(b => b.HasTieBreakQuestions).Must(x => !x).WithMessage("A standard ballot cannot have tie break questions.");
             RuleFor(b => b.TieBreakQuestions).Must(x => x.Count == 0).WithMessage("A standard ballot cannot have tie break questions.");
         });
@@ -32,6 +33,7 @@ public class BallotValidator : AbstractValidator<Ballot>
         {
             RuleFor(b => b.BallotQuestions)
                 .Must(b => b.Count > 1).WithMessage("A variant ballot must have more than one question.")
+                .Must(b => b.All(TypeMatchQuestionNumber))
                 .Must(b => b.Count <= config.Vote.MaxVariantBallotQuestionCount).WithMessage($"A variant ballot can have {config.Vote.MaxVariantBallotQuestionCount} questions at max.")
                 .Must(b => ContainsQuestionNumberOnlyOnceWithNoGaps(b.Select(bb => bb.Number))).WithMessage("Numbers of the {PropertyName} have gaps.");
             RuleFor(b => b.TieBreakQuestions)
@@ -69,5 +71,15 @@ public class BallotValidator : AbstractValidator<Ballot>
         return !questionNumbers.OrderBy(x => x)
             .Where((t, i) => t != i + 1) // number should always be the index + 1
             .Any();
+    }
+
+    private bool TypeMatchQuestionNumber(BallotQuestion ballotQuestion)
+    {
+        return ballotQuestion.Number switch
+        {
+            1 => ballotQuestion.Type is BallotQuestionType.MainBallot,
+            > 1 => ballotQuestion.Type is BallotQuestionType.CounterProposal or BallotQuestionType.Variant,
+            _ => false,
+        };
     }
 }

@@ -11,7 +11,9 @@ using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Test.MockedData;
 using Xunit;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
@@ -77,6 +79,17 @@ public class ImportContestTest : BaseImportTest
         publicKeyCreatedEvent.ContestId.Should().Be(contestId);
     }
 
+    [Fact]
+    public async Task TestWithDuplicatedCandidateIdShouldThrow()
+    {
+        var contest = await CreateValidContestImport();
+        contest.MajorityElections[0].Candidates[0].Id = contest.MajorityElections[0].Candidates[1].Id;
+        await AssertStatus(
+            async () => await AdminClient.ImportContestAsync(new ImportContestRequest { Contest = contest }),
+            StatusCode.InvalidArgument,
+            "This id is not unique");
+    }
+
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
         var contest = await CreateValidContestImport();
@@ -87,9 +100,12 @@ public class ImportContestTest : BaseImportTest
             });
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     private async Task<ProtoModels.ContestImport> CreateValidContestImport()

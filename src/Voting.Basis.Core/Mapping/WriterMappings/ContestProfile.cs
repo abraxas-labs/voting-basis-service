@@ -16,6 +16,5 @@ public class ContestProfile : Profile
         CreateMap<Contest, ContestEventData>();
         CreateMap<ContestEventData, ContestAggregate>()
             .ForMember(dst => dst.PastLockPer, opts => opts.MapFrom(src => src.Date.ToDateTime().NextUtcDate(true)));
-        CreateMap<ContestCountingCircleOption, ContestCountingCircleOptionEventData>().ReverseMap();
     }
 }

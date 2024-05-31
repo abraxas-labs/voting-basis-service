@@ -66,12 +66,12 @@ public class CountingCircleProcessor :
     {
         var id = GuidParser.Parse(eventData.CountingCircle.Id);
         var existing = await _repo.Query()
-                           .Include(x => x.ContactPersonDuringEvent)
-                           .Include(x => x.ContactPersonAfterEvent)
-                           .Include(x => x.ResponsibleAuthority)
-                           .Include(x => x.Electorates)
-                           .FirstOrDefaultAsync(x => x.Id == id)
-                       ?? throw new EntityNotFoundException(id);
+            .Include(x => x.ContactPersonDuringEvent)
+            .Include(x => x.ContactPersonAfterEvent)
+            .Include(x => x.ResponsibleAuthority)
+            .Include(x => x.Electorates)
+            .FirstOrDefaultAsync(x => x.Id == id)
+            ?? throw new EntityNotFoundException(id);
 
         var model = _mapper.Map<CountingCircle>(eventData.CountingCircle);
         model.ResponsibleAuthority.Id = existing.ResponsibleAuthority.Id;
@@ -95,11 +95,11 @@ public class CountingCircleProcessor :
     {
         var id = GuidParser.Parse(eventData.CountingCircleId);
         var existing = await _repo.Query()
-                                       .Include(x => x.ContactPersonDuringEvent)
-                                       .Include(x => x.ContactPersonAfterEvent)
-                                       .Include(x => x.ResponsibleAuthority)
-                                       .FirstOrDefaultAsync(x => x.Id == id)
-                                   ?? throw new EntityNotFoundException(id);
+            .Include(x => x.ContactPersonDuringEvent)
+            .Include(x => x.ContactPersonAfterEvent)
+            .Include(x => x.ResponsibleAuthority)
+            .FirstOrDefaultAsync(x => x.Id == id)
+            ?? throw new EntityNotFoundException(id);
 
         existing.State = CountingCircleState.Deleted;
         await _repo.Delete(existing, eventData.EventInfo.Timestamp.ToDateTime());

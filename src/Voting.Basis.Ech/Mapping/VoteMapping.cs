@@ -261,6 +261,7 @@ internal static class VoteMapping
             BallotId = ballotId,
             Number = 1,
             Question = question,
+            Type = DataModels.BallotQuestionType.MainBallot,
         };
     }
 
@@ -268,13 +269,15 @@ internal static class VoteMapping
     {
         var questionInfos = questionType.BallotQuestion;
         var question = questionInfos.ToLanguageDictionary(x => x.Language, x => x.BallotQuestion, questionType.QuestionIdentification);
+        var number = position + 1;
 
         return new DataModels.BallotQuestion
         {
             Id = idLookup.GuidForId(questionType.QuestionIdentification),
             BallotId = ballotId,
-            Number = position + 1,
+            Number = number,
             Question = question,
+            Type = number == 1 ? DataModels.BallotQuestionType.MainBallot : DataModels.BallotQuestionType.CounterProposal,
         };
     }
 

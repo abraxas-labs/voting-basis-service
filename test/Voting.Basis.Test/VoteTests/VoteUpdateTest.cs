@@ -12,6 +12,7 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -173,11 +174,13 @@ public class VoteUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                     {
                         Number = 1,
                         Question = { LanguageUtil.MockAllLanguages("Frage 1") },
+                        Type = SharedProto.BallotQuestionType.MainBallot,
                     },
                     new ProtoModels.BallotQuestion
                     {
                         Number = 2,
                         Question = { LanguageUtil.MockAllLanguages("Frage 2") },
+                        Type = SharedProto.BallotQuestionType.CounterProposal,
                     },
                 },
         });
@@ -267,9 +270,32 @@ public class VoteUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
             "Contest is past locked or archived");
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    [Fact]
+    public async Task VirtualTopLevelDomainOfInfluenceShouldThrow()
     {
-        yield return NoRole;
+        await ModifyDbEntities<DomainOfInfluence>(
+            x => x.Id == DomainOfInfluenceMockedData.GuidStGallen,
+            x => x.VirtualTopLevel = true);
+
+        await AssertStatus(
+            async () => await AdminClient.UpdateAsync(NewValidRequest()),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public Task DuplicatePoliticalBusinessIdShouldThrow()
+    {
+        return AssertStatus(
+            async () => await AdminClient.UpdateAsync(NewValidRequest(v => v.PoliticalBusinessNumber = "500")),
+            StatusCode.AlreadyExists);
+    }
+
+    protected override IEnumerable<string> AuthorizedRoles()
+    {
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

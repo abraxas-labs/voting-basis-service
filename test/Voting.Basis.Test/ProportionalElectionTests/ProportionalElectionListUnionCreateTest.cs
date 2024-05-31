@@ -12,6 +12,7 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -165,14 +166,25 @@ public class ProportionalElectionListUnionCreateTest : BaseGrpcTest<Proportional
             "The election does not distribute mandates per Hagenbach-Bischoff algorithm");
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
-        => await new ProportionalElectionService.ProportionalElectionServiceClient(channel)
+    {
+        var response = await new ProportionalElectionService.ProportionalElectionServiceClient(channel)
             .CreateListUnionAsync(NewValidRequest());
+        await RunEvents<ProportionalElectionListUnionCreated>();
+
+        await ElectionAdminClient.DeleteListUnionAsync(new DeleteProportionalElectionListUnionRequest
+        {
+            Id = response.Id,
+        });
+    }
 
     private CreateProportionalElectionListUnionRequest NewValidRequest(
         Action<CreateProportionalElectionListUnionRequest>? customizer = null)

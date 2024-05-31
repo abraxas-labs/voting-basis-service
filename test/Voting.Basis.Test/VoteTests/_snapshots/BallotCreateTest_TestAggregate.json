@@ -30,7 +30,8 @@
             "fr": "Frage 1 neu fr",
             "it": "Frage 1 neu it",
             "rm": "Frage 1 neu rm"
-          }
+          },
+          "Type": 1
         }
       ],
       "VoteId": "607a9dbc-250a-4bbf-ab31-73c81f6556ba",
@@ -49,7 +50,8 @@
             "fr": "Frage 2 neu fr",
             "it": "Frage 2 neu it",
             "rm": "Frage 2 neu rm"
-          }
+          },
+          "Type": 1
         }
       ],
       "VoteId": "607a9dbc-250a-4bbf-ab31-73c81f6556ba",
@@ -68,7 +70,8 @@
             "fr": "Variante 1 neu fr",
             "it": "Variante 1 neu it",
             "rm": "Variante 1 neu rm"
-          }
+          },
+          "Type": 1
         },
         {
           "Number": 2,
@@ -77,7 +80,8 @@
             "fr": "Variante 2 neu fr",
             "it": "Variante 2 neu it",
             "rm": "Variante 2 neu rm"
-          }
+          },
+          "Type": 3
         },
         {
           "Number": 3,
@@ -86,7 +90,8 @@
             "fr": "Variante 3 neu fr",
             "it": "Variante 3 neu it",
             "rm": "Variante 3 neu rm"
-          }
+          },
+          "Type": 3
         }
       ],
       "VoteId": "607a9dbc-250a-4bbf-ab31-73c81f6556ba",

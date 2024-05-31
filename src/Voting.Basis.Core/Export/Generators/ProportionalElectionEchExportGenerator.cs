@@ -60,6 +60,7 @@ public class ProportionalElectionEchExportGenerator : IExportGenerator
 
         var xmlBytes = _ech0157Serializer.ToDelivery(proportionalElection.Contest, proportionalElection);
         var electionDescription = LanguageUtil.GetInCurrentLanguage(proportionalElection.ShortDescription);
-        return new ExportFile(xmlBytes, electionDescription + FileExtensions.Xml, MediaTypeNames.Application.Xml);
+        var fileName = FileNameUtil.GetXmlFileName(Ech0157Serializer.EchNumber, Ech0157Serializer.EchVersion, proportionalElection.Contest.DomainOfInfluence.Canton, proportionalElection.Contest.Date, electionDescription);
+        return new ExportFile(xmlBytes, fileName, MediaTypeNames.Application.Xml);
     }
 }

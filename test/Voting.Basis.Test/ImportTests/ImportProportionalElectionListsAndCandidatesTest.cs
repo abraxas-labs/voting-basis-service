@@ -96,6 +96,17 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportTest
     }
 
     [Fact]
+    public async Task TestWithDuplicatedCandidateIdShouldThrow()
+    {
+        var request = await CreateValidRequest();
+        request.Lists[0].Candidates[0].Candidate.Id = request.Lists[0].Candidates[1].Candidate.Id;
+        await AssertStatus(
+            async () => await AdminClient.ImportProportionalElectionListsAndCandidatesAsync(request),
+            StatusCode.InvalidArgument,
+            "This id is not unique");
+    }
+
+    [Fact]
     public async Task TestNotOwnDomainOfInfluenceShouldThrow()
     {
         var request = await CreateValidRequest();
@@ -187,9 +198,12 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportTest
             .ImportProportionalElectionListsAndCandidatesAsync(await CreateValidRequest());
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     private async Task<ImportProportionalElectionListsAndCandidatesRequest> CreateValidRequest()

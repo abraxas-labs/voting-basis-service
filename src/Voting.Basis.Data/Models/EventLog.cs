@@ -31,4 +31,6 @@ public class EventLog : BaseEntity
     public Guid? PoliticalBusinessId { get; set; }
 
     public Guid? PoliticalBusinessUnionId { get; set; }
+
+    public Guid? PoliticalAssemblyId { get; set; }
 }

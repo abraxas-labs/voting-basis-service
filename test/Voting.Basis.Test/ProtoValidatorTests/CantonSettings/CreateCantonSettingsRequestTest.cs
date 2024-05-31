@@ -25,6 +25,7 @@ public class CreateCantonSettingsRequestTest : ProtoValidatorBaseTest<CreateCant
         yield return NewValidRequest(x => x.SwissAbroadVotingRightDomainOfInfluenceTypes.Clear());
         yield return NewValidRequest(x => x.EnabledPoliticalBusinessUnionTypes.Clear());
         yield return NewValidRequest(x => x.VotingDocumentsEVotingEaiMessageType = RandomStringUtil.GenerateNumeric(7));
+        yield return NewValidRequest(x => x.CountingCircleResultStateDescriptions.Clear());
     }
 
     protected override IEnumerable<CreateCantonSettingsRequest> NotOkMessages()
@@ -75,6 +76,7 @@ public class CreateCantonSettingsRequestTest : ProtoValidatorBaseTest<CreateCant
             VotingDocumentsEVotingEaiMessageType = "1234567",
             ProtocolDomainOfInfluenceSortType = ProtocolDomainOfInfluenceSortType.SortNumber,
             ProtocolCountingCircleSortType = ProtocolCountingCircleSortType.Alphabetical,
+            CountingCircleResultStateDescriptions = { CountingCircleResultStateDescriptionTest.NewValid() },
         };
 
         action?.Invoke(request);

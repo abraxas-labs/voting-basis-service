@@ -2,6 +2,7 @@
 // For license information see LICENSE file
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
@@ -15,6 +16,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Snapper;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -158,8 +160,17 @@ public class ContestPastUnlockTest : BaseGrpcTest<ContestService.ContestServiceC
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
+        var contestId = Guid.NewGuid().ToString();
+        await SeedContest(contestId);
         await new ContestService.ContestServiceClient(channel)
-            .PastUnlockAsync(new PastUnlockContestRequest { Id = ContestId });
+            .PastUnlockAsync(new PastUnlockContestRequest { Id = contestId });
+    }
+
+    protected override IEnumerable<string> AuthorizedRoles()
+    {
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
     }
 
     private async Task SeedContest(string id, bool setPast = true, bool setArchived = false, string doiId = DomainOfInfluenceMockedData.IdGossau)

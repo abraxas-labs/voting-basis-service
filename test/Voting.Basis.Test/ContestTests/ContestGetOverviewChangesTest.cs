@@ -10,6 +10,7 @@ using Abraxas.Voting.Basis.Services.V1;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Messaging.Extensions;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Test.MockedData;
@@ -103,11 +104,14 @@ public class ContestGetOverviewChangesTest : BaseGrpcTest<ContestService.Contest
             new(),
             new(cancellationToken: cts.Token));
 
-        await responseStream.ResponseStream.MoveNext();
+        await responseStream.ResponseStream.ReadNIgnoreCancellation(1, cts.Token);
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 }

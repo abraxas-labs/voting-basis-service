@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
 
@@ -36,7 +37,12 @@ public class DomainOfInfluenceCountingCircleInheritanceBuilder
         List<Guid> countingCircleIdsToRemove,
         DateTime dateTime)
     {
-        var newEntries = BuildDomainOfInfluenceCountingCircleEntries(doiId, hierarchicalGreaterOrSelfDoiIds, countingCircleIdsToAdd);
+        var existingEntries = await _doiCountingCirclesRepo.Query()
+            .Where(doiCc => hierarchicalGreaterOrSelfDoiIds.Contains(doiCc.DomainOfInfluenceId) && countingCircleIdsToAdd.Contains(doiCc.CountingCircleId))
+            .ToListAsync();
+
+        var newEntries = BuildDomainOfInfluenceCountingCircleEntries(doiId, hierarchicalGreaterOrSelfDoiIds, countingCircleIdsToAdd, existingEntries);
+
         await _doiCountingCirclesRepo.AddRange(newEntries, dateTime);
         await _doiCountingCirclesRepo.RemoveAll(hierarchicalGreaterOrSelfDoiIds, countingCircleIdsToRemove, dateTime);
     }
@@ -44,10 +50,11 @@ public class DomainOfInfluenceCountingCircleInheritanceBuilder
     private IEnumerable<DomainOfInfluenceCountingCircle> BuildDomainOfInfluenceCountingCircleEntries(
         Guid currentDoiId,
         IEnumerable<Guid> doiIds,
-        IReadOnlyCollection<Guid> ccIds)
+        IReadOnlyCollection<Guid> ccIds,
+        IReadOnlyCollection<DomainOfInfluenceCountingCircle> existingEntries)
     {
         return doiIds.SelectMany(doiId =>
-            ccIds.Select(ccId => new DomainOfInfluenceCountingCircle
+            ccIds.Where(ccId => !existingEntries.Any(x => x.CountingCircleId == ccId && x.DomainOfInfluenceId == doiId)).Select(ccId => new DomainOfInfluenceCountingCircle
             {
                 CountingCircleId = ccId,
                 DomainOfInfluenceId = doiId,

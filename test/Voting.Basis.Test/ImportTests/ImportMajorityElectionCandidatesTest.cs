@@ -52,6 +52,17 @@ public class ImportMajorityElectionCandidatesTest : BaseImportTest
     }
 
     [Fact]
+    public async Task TestWithDuplicatedCandidateIdShouldThrow()
+    {
+        var request = await CreateValidRequest();
+        request.Candidates[0].Id = request.Candidates[1].Id;
+        await AssertStatus(
+            async () => await AdminClient.ImportMajorityElectionCandidatesAsync(request),
+            StatusCode.InvalidArgument,
+            "This id is not unique");
+    }
+
+    [Fact]
     public async Task TestMultipleImports()
     {
         var request = await CreateValidRequest();
@@ -80,9 +91,12 @@ public class ImportMajorityElectionCandidatesTest : BaseImportTest
             .ImportMajorityElectionCandidatesAsync(await CreateValidRequest());
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     private async Task<ImportMajorityElectionCandidatesRequest> CreateValidRequest()

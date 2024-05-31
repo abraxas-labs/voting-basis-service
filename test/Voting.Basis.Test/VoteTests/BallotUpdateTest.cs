@@ -12,6 +12,7 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -37,41 +38,33 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
     [Fact]
     public async Task TestAggregate()
     {
-        var ballot = new BallotEventData
-        {
-            Id = VoteMockedData.BallotIdGossauVoteInContestGossau,
-            VoteId = VoteMockedData.IdGossauVoteInContestGossau,
-            BallotType = SharedProto.BallotType.VariantsBallot,
-            HasTieBreakQuestions = true,
-            BallotQuestions =
-                {
-                    new BallotQuestionEventData
-                    {
-                        Number = 1,
-                        Question = { LanguageUtil.MockAllLanguages("Frage 1 update") },
-                    },
-                    new BallotQuestionEventData
-                    {
-                        Number = 2,
-                        Question = { LanguageUtil.MockAllLanguages("Frage 2 update") },
-                    },
-                },
-            TieBreakQuestions =
-                {
-                    new TieBreakQuestionEventData
-                    {
-                        Number = 1,
-                        Question = { LanguageUtil.MockAllLanguages("TieBreak 1 Updated") },
-                        Question1Number = 1,
-                        Question2Number = 2,
-                    },
-                },
-        };
-
         await TestEventPublisher.Publish(
             new BallotUpdated
             {
-                Ballot = ballot,
+                Ballot = NewValidEventData(),
+            });
+
+        var response = await AdminClient.GetAsync(new GetVoteRequest
+        {
+            Id = VoteMockedData.IdGossauVoteInContestGossau,
+        });
+
+        response.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task TestAggregateShouldSetDefaultValues()
+    {
+        await TestEventPublisher.Publish(
+            new BallotUpdated
+            {
+                Ballot = NewValidEventData(x =>
+                {
+                    foreach (var ballotQuestion in x.BallotQuestions)
+                    {
+                        ballotQuestion.Type = SharedProto.BallotQuestionType.Unspecified;
+                    }
+                }),
             });
 
         var response = await AdminClient.GetAsync(new GetVoteRequest
@@ -110,6 +103,7 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                 {
                     Number = 2,
                     Question = { LanguageUtil.MockAllLanguages("Frage 2") },
+                    Type = SharedProto.BallotQuestionType.CounterProposal,
                 }))),
             StatusCode.InvalidArgument);
     }
@@ -136,6 +130,14 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
         await AssertStatus(
             async () => await AdminClient.UpdateBallotAsync(NewValidRequest(x => x.Id = "ad87714e-44b0-4424-b38d-f7c7046994d8")),
             StatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task StandardBallotWithWrongTypeShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.UpdateBallotAsync(NewValidRequest(x => x.BallotQuestions[0].Type = SharedProto.BallotQuestionType.CounterProposal)),
+            StatusCode.InvalidArgument);
     }
 
     [Fact]
@@ -176,6 +178,18 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
     }
 
     [Fact]
+    public async Task VariantsBallotWithWrongTypesShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.UpdateBallotAsync(NewValidTieBreakRequest(3, x => x.BallotQuestions[0].Type = SharedProto.BallotQuestionType.CounterProposal)),
+            StatusCode.InvalidArgument);
+
+        await AssertStatus(
+            async () => await AdminClient.UpdateBallotAsync(NewValidTieBreakRequest(3, x => x.BallotQuestions[1].Type = SharedProto.BallotQuestionType.MainBallot)),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
     public async Task BallotUpdateAfterTestingPhaseShouldWork()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
@@ -190,11 +204,13 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                     {
                         Number = 1,
                         Question = { LanguageUtil.MockAllLanguages("Frage 1 Gossau (geändert)") },
+                        Type = SharedProto.BallotQuestionType.MainBallot,
                     },
                     new ProtoModels.BallotQuestion
                     {
                         Number = 2,
                         Question = { LanguageUtil.MockAllLanguages("Frage 2 Gossau (geändert)") },
+                        Type = SharedProto.BallotQuestionType.Variant,
                     },
                 },
             HasTieBreakQuestions = true,
@@ -237,6 +253,7 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                         {
                             Number = 1,
                             Question = { LanguageUtil.MockAllLanguages("Frage 1 Gossau (geändert)") },
+                            Type = SharedProto.BallotQuestionType.MainBallot,
                         },
                 },
                 HasTieBreakQuestions = false,
@@ -259,11 +276,13 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                     {
                         Number = 1,
                         Question = { LanguageUtil.MockAllLanguages("Frage 1") },
+                        Type = SharedProto.BallotQuestionType.MainBallot,
                     },
                     new ProtoModels.BallotQuestion
                     {
                         Number = 2,
                         Question = { LanguageUtil.MockAllLanguages("Frage 2") },
+                        Type = SharedProto.BallotQuestionType.Variant,
                     },
                 },
         });
@@ -305,9 +324,12 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
             "Contest is past locked or archived");
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
@@ -328,6 +350,7 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                     {
                         Number = 1,
                         Question = { LanguageUtil.MockAllLanguages("Frage 1") },
+                        Type = SharedProto.BallotQuestionType.MainBallot,
                     },
                 },
         };
@@ -345,12 +368,13 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
         {
             Number = 2,
             Question = { LanguageUtil.MockAllLanguages("Frage 2") },
+            Type = SharedProto.BallotQuestionType.Variant,
         });
         customizer?.Invoke(req);
         return req;
     }
 
-    private UpdateBallotRequest NewValidTieBreakRequest(int variantsCount)
+    private UpdateBallotRequest NewValidTieBreakRequest(int variantsCount, Action<UpdateBallotRequest>? customizer = null)
     {
         var req = NewValidVariantRequest();
         for (var i = req.BallotQuestions.Count; i < variantsCount; i++)
@@ -359,6 +383,7 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
             {
                 Number = i + 1,
                 Question = { LanguageUtil.MockAllLanguages($"Frage {i + 1}") },
+                Type = SharedProto.BallotQuestionType.Variant,
             });
         }
 
@@ -377,6 +402,46 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
             }
         }
 
+        customizer?.Invoke(req);
         return req;
+    }
+
+    private BallotEventData NewValidEventData(Action<BallotEventData>? customizer = null)
+    {
+        var eventData = new BallotEventData
+        {
+            Id = VoteMockedData.BallotIdGossauVoteInContestGossau,
+            VoteId = VoteMockedData.IdGossauVoteInContestGossau,
+            BallotType = SharedProto.BallotType.VariantsBallot,
+            HasTieBreakQuestions = true,
+            BallotQuestions =
+            {
+                new BallotQuestionEventData
+                {
+                    Number = 1,
+                    Question = { LanguageUtil.MockAllLanguages("Frage 1 update") },
+                    Type = SharedProto.BallotQuestionType.MainBallot,
+                },
+                new BallotQuestionEventData
+                {
+                    Number = 2,
+                    Question = { LanguageUtil.MockAllLanguages("Frage 2 update") },
+                    Type = SharedProto.BallotQuestionType.CounterProposal,
+                },
+            },
+            TieBreakQuestions =
+            {
+                new TieBreakQuestionEventData
+                {
+                    Number = 1,
+                    Question = { LanguageUtil.MockAllLanguages("TieBreak 1 Updated") },
+                    Question1Number = 1,
+                    Question2Number = 2,
+                },
+            },
+        };
+
+        customizer?.Invoke(eventData);
+        return eventData;
     }
 }

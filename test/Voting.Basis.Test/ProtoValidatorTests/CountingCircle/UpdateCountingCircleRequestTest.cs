@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Abraxas.Voting.Basis.Services.V1.Requests;
+using Abraxas.Voting.Basis.Shared.V1;
 using Voting.Basis.Test.ProtoValidatorTests.Models;
 using Voting.Basis.Test.ProtoValidatorTests.Utils;
 using Voting.Lib.Testing.Validation;
@@ -27,6 +28,7 @@ public class UpdateCountingCircleRequestTest : ProtoValidatorBaseTest<UpdateCoun
         yield return NewValidRequest(x => x.SortNumber = 1000);
         yield return NewValidRequest(x => x.NameForProtocol = string.Empty);
         yield return NewValidRequest(x => x.NameForProtocol = RandomStringUtil.GenerateComplexSingleLineText(100));
+        yield return NewValidRequest(x => x.Canton = DomainOfInfluenceCanton.Tg);
     }
 
     protected override IEnumerable<UpdateCountingCircleRequest> NotOkMessages()
@@ -45,6 +47,7 @@ public class UpdateCountingCircleRequestTest : ProtoValidatorBaseTest<UpdateCoun
         yield return NewValidRequest(x => x.SortNumber = 1001);
         yield return NewValidRequest(x => x.NameForProtocol = RandomStringUtil.GenerateComplexSingleLineText(101));
         yield return NewValidRequest(x => x.NameForProtocol = "Kreis 1 \n(Protokoll)");
+        yield return NewValidRequest(x => x.Canton = DomainOfInfluenceCanton.Unspecified);
     }
 
     private UpdateCountingCircleRequest NewValidRequest(Action<UpdateCountingCircleRequest>? action = null)
@@ -61,6 +64,7 @@ public class UpdateCountingCircleRequestTest : ProtoValidatorBaseTest<UpdateCoun
             SortNumber = 5,
             NameForProtocol = "Kreis 1 (Protokoll)",
             Electorates = { CountingCircleElectorateTest.NewValid() },
+            Canton = DomainOfInfluenceCanton.Sg,
         };
 
         action?.Invoke(request);

@@ -12,6 +12,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -21,6 +22,7 @@ namespace Voting.Basis.Test.SecondaryMajorityElectionTests;
 public class SecondaryMajorityElectionCandidateReferenceDeleteTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
+    private string? _authTestCandidateReferenceId;
 
     public SecondaryMajorityElectionCandidateReferenceDeleteTest(TestApplicationFactory factory)
         : base(factory)
@@ -95,14 +97,30 @@ public class SecondaryMajorityElectionCandidateReferenceDeleteTest : BaseGrpcTes
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
-        var id = MajorityElectionMockedData.SecondaryElectionCandidateId1StGallenMajorityElectionInContestBund;
+        if (_authTestCandidateReferenceId == null)
+        {
+            var response = await ElectionAdminClient.CreateMajorityElectionCandidateReferenceAsync(new CreateMajorityElectionCandidateReferenceRequest
+            {
+                SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+                Position = 3,
+                Incumbent = false,
+                CandidateId = MajorityElectionMockedData.CandidateId2StGallenMajorityElectionInContestBund,
+            });
+            await RunEvents<SecondaryMajorityElectionCandidateReferenceCreated>();
+
+            _authTestCandidateReferenceId = response.Id;
+        }
 
         await new MajorityElectionService.MajorityElectionServiceClient(channel)
-            .DeleteMajorityElectionCandidateReferenceAsync(new DeleteMajorityElectionCandidateReferenceRequest { Id = id });
+            .DeleteMajorityElectionCandidateReferenceAsync(new DeleteMajorityElectionCandidateReferenceRequest { Id = _authTestCandidateReferenceId });
+        _authTestCandidateReferenceId = null;
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 }

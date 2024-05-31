@@ -51,6 +51,7 @@ public static class CountingCircleMockedData
                 SecureConnectId = "random",
             },
             ContactPersonAfterEvent = new CountingCircleContactPerson(),
+            Canton = DomainOfInfluenceCanton.Sg,
         };
 
     public static CountingCircle StGallen
@@ -89,6 +90,7 @@ public static class CountingCircleMockedData
                 FamilyName = "Wichtig-sg",
                 FirstName = "Rudolph-sg",
             },
+            Canton = DomainOfInfluenceCanton.Sg,
         };
 
     public static CountingCircle Gossau
@@ -105,6 +107,8 @@ public static class CountingCircleMockedData
                 SecureConnectId = SecureConnectTestDefaults.MockedTenantGossau.Id,
             },
             ContactPersonAfterEvent = new CountingCircleContactPerson(),
+            Canton = DomainOfInfluenceCanton.Sg,
+            EVoting = true,
         };
 
     public static CountingCircle Uzwil
@@ -156,6 +160,7 @@ public static class CountingCircleMockedData
                     DomainOfInfluenceTypes = new() { DomainOfInfluenceType.Ch, DomainOfInfluenceType.Ct },
                 },
             },
+            Canton = DomainOfInfluenceCanton.Sg,
         };
 
     public static CountingCircle Rorschach
@@ -186,6 +191,7 @@ public static class CountingCircleMockedData
                 FamilyName = "Muster-sg",
                 FirstName = "Hans-sg",
             },
+            Canton = DomainOfInfluenceCanton.Sg,
         };
 
     public static CountingCircle UzwilKirche
@@ -202,6 +208,7 @@ public static class CountingCircleMockedData
                 SecureConnectId = CountingCircleUzwilKircheSecureConnectId,
             },
             ContactPersonAfterEvent = new CountingCircleContactPerson(),
+            Canton = DomainOfInfluenceCanton.Sg,
         };
 
     public static CountingCircle UzwilKircheAndere
@@ -218,6 +225,7 @@ public static class CountingCircleMockedData
                 SecureConnectId = CountingCircleUzwilKircheSecureConnectId,
             },
             ContactPersonAfterEvent = new CountingCircleContactPerson(),
+            Canton = DomainOfInfluenceCanton.Sg,
         };
 
     public static CountingCircle Rapperswil
@@ -242,6 +250,7 @@ public static class CountingCircleMockedData
                 FamilyName = "Muster-sg",
                 FirstName = "Hans-sg",
             },
+            Canton = DomainOfInfluenceCanton.Sg,
         };
 
     public static CountingCircle Jona
@@ -265,6 +274,7 @@ public static class CountingCircleMockedData
                 FamilyName = "Muster-sg",
                 FirstName = "Hans-sg",
             },
+            Canton = DomainOfInfluenceCanton.Sg,
         };
 
     public static IEnumerable<CountingCircle> All

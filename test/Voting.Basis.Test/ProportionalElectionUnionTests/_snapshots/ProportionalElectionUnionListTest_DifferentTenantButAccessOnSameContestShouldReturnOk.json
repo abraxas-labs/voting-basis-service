@@ -1,0 +1,10 @@
+{
+  "Unions": [
+    {
+      "Id": "b0389a7d-77cf-4032-b1b2-0fa2d7cde028",
+      "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
+      "Description": "Bund Union different Tenant",
+      "SecureConnectId": "100100100100100100"
+    }
+  ]
+}

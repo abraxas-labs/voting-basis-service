@@ -14,6 +14,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing;
@@ -90,6 +91,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
                             DomainOfInfluenceTypes = { DomainOfInfluenceType.Ch },
                         },
                     },
+                    Canton = DomainOfInfluenceCanton.Sg,
                 },
                 EventInfo = GetMockedEventInfo(),
             },
@@ -129,6 +131,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
                     },
                     NameForProtocol = "St. Gallen updated",
                     SortNumber = 102,
+                    Canton = DomainOfInfluenceCanton.Sg,
                 },
                 EventInfo = GetMockedEventInfo(),
             });
@@ -178,6 +181,22 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
         async () => await ElectionAdminClient.UpdateAsync(
             NewValidRequestStGallenNoChanges(o =>
                 o.Electorates.Add(new ProtoModels.CountingCircleElectorate { DomainOfInfluenceTypes = { DomainOfInfluenceType.Sc } }))),
+        StatusCode.PermissionDenied);
+
+    [Fact]
+    public async Task TestAsElectionAdminDifferentCanton()
+    => await AssertStatus(
+        async () => await ElectionAdminClient.UpdateAsync(
+            NewValidRequestStGallenNoChanges(o =>
+                o.Canton = DomainOfInfluenceCanton.Gr)),
+        StatusCode.PermissionDenied);
+
+    [Fact]
+    public async Task TestAsCantonAdminDifferentCanton()
+    => await AssertStatus(
+        async () => await CantonAdminClient.UpdateAsync(
+            NewValidRequestStGallenNoChanges(o =>
+                o.Canton = DomainOfInfluenceCanton.Gr)),
         StatusCode.PermissionDenied);
 
     [Fact]
@@ -249,9 +268,12 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
         => await new CountingCircleService.CountingCircleServiceClient(channel)
             .UpdateAsync(NewValidRequest());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     private UpdateCountingCircleRequest NewValidRequest(
@@ -303,6 +325,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
                     DomainOfInfluenceTypes = { DomainOfInfluenceType.Sk },
                 },
             },
+            Canton = DomainOfInfluenceCanton.Sg,
         };
         customizer?.Invoke(request);
         return request;
@@ -346,6 +369,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
             },
             NameForProtocol = "Stadt Uzwil",
             SortNumber = 92,
+            Canton = DomainOfInfluenceCanton.Sg,
         };
         customizer?.Invoke(request);
         return request;
@@ -389,6 +413,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
             },
             NameForProtocol = "Stadt St. Gallen",
             SortNumber = 90,
+            Canton = DomainOfInfluenceCanton.Sg,
         };
         customizer?.Invoke(request);
         return request;

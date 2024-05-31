@@ -82,6 +82,7 @@ public class CreateDomainOfInfluenceRequestTest : ProtoValidatorBaseTest<CreateD
         yield return NewValidRequest(x => x.SapCustomerOrderNumber = RandomStringUtil.GenerateAlphabetic(20));
         yield return NewValidRequest(x => x.NameForProtocol = RandomStringUtil.GenerateComplexSingleLineText(101));
         yield return NewValidRequest(x => x.NameForProtocol = "Bezirk Uzwil \n(Protokoll)");
+        yield return NewValidRequest(x => x.VotingCardColor = (VotingCardColor)28);
     }
 
     private CreateDomainOfInfluenceRequest NewValidRequest(Action<CreateDomainOfInfluenceRequest>? action = null)

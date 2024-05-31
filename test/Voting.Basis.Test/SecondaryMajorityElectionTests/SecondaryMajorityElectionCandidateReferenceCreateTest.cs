@@ -12,6 +12,7 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -122,14 +123,25 @@ public class SecondaryMajorityElectionCandidateReferenceCreateTest : BaseGrpcTes
         eventData.MatchSnapshot("event", e => e.MajorityElectionCandidateReference.Id);
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
-        => await new MajorityElectionService.MajorityElectionServiceClient(channel)
+    {
+        var response = await new MajorityElectionService.MajorityElectionServiceClient(channel)
             .CreateMajorityElectionCandidateReferenceAsync(NewValidRequest());
+        await RunEvents<SecondaryMajorityElectionCandidateReferenceCreated>();
+
+        await ElectionAdminClient.DeleteMajorityElectionCandidateReferenceAsync(new DeleteMajorityElectionCandidateReferenceRequest
+        {
+            Id = response.Id,
+        });
+    }
 
     private CreateMajorityElectionCandidateReferenceRequest NewValidRequest(
         Action<CreateMajorityElectionCandidateReferenceRequest>? customizer = null)

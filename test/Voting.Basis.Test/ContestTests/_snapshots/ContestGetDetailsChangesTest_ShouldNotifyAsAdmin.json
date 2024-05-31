@@ -60,7 +60,11 @@
               "ExternalPrintingCenterEaiMessageType": "",
               "NameForProtocol": "",
               "SapCustomerOrderNumber": "",
-              "SwissPostData": null
+              "SwissPostData": null,
+              "VirtualTopLevel": false,
+              "ViewCountingCirclePartialResults": false,
+              "VotingCardColor": 0,
+              "ElectoralRegistrationEnabled": false
             },
             "PoliticalBusinessType": 1,
             "Active": true
@@ -129,7 +133,11 @@
               "ExternalPrintingCenterEaiMessageType": "",
               "NameForProtocol": "Kanton Genf",
               "SapCustomerOrderNumber": "",
-              "SwissPostData": null
+              "SwissPostData": null,
+              "VirtualTopLevel": false,
+              "ViewCountingCirclePartialResults": false,
+              "VotingCardColor": 0,
+              "ElectoralRegistrationEnabled": false
             },
             "PoliticalBusinessType": 1,
             "Active": false
@@ -198,7 +206,11 @@
               "ExternalPrintingCenterEaiMessageType": "",
               "NameForProtocol": "",
               "SapCustomerOrderNumber": "",
-              "SwissPostData": null
+              "SwissPostData": null,
+              "VirtualTopLevel": false,
+              "ViewCountingCirclePartialResults": false,
+              "VotingCardColor": 0,
+              "ElectoralRegistrationEnabled": false
             },
             "PoliticalBusinessType": 1,
             "Active": true
@@ -257,7 +269,11 @@
               "ExternalPrintingCenterEaiMessageType": "",
               "NameForProtocol": "",
               "SapCustomerOrderNumber": "",
-              "SwissPostData": null
+              "SwissPostData": null,
+              "VirtualTopLevel": false,
+              "ViewCountingCirclePartialResults": false,
+              "VotingCardColor": 0,
+              "ElectoralRegistrationEnabled": false
             },
             "PoliticalBusinessType": 1,
             "Active": false

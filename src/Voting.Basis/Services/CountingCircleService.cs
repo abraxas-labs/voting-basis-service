@@ -38,7 +38,7 @@ public class CountingCircleService : ServiceBase
         _countingCircleSnapshotReader = countingCircleSnapshotReader;
     }
 
-    [AuthorizePermission(Permissions.CountingCircle.Create)]
+    [AuthorizeAnyPermission(Permissions.CountingCircle.CreateSameCanton, Permissions.CountingCircle.CreateAll)]
     public override async Task<IdValue> Create(
         CreateCountingCircleRequest request,
         ServerCallContext context)
@@ -48,7 +48,7 @@ public class CountingCircleService : ServiceBase
         return new IdValue { Id = data.Id.ToString() };
     }
 
-    [AuthorizePermission(Permissions.CountingCircle.Update)]
+    [AuthorizeAnyPermission(Permissions.CountingCircle.UpdateSameTenant, Permissions.CountingCircle.UpdateSameCanton, Permissions.CountingCircle.UpdateAll)]
     public override async Task<Empty> Update(
         UpdateCountingCircleRequest request,
         ServerCallContext context)
@@ -58,48 +58,48 @@ public class CountingCircleService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
-    [AuthorizePermission(Permissions.CountingCircle.Delete)]
+    [AuthorizeAnyPermission(Permissions.CountingCircle.DeleteSameCanton, Permissions.CountingCircle.DeleteAll)]
     public override async Task<Empty> Delete(DeleteCountingCircleRequest request, ServerCallContext context)
     {
         await _countingCircleWriter.Delete(GuidParser.Parse(request.Id));
         return ProtobufEmpty.Instance;
     }
 
-    [AuthorizePermission(Permissions.CountingCircle.Read)]
+    [AuthorizeAnyPermission(Permissions.CountingCircle.Read, Permissions.CountingCircle.ReadSameCanton, Permissions.CountingCircle.ReadAll)]
     public override async Task<CountingCircle> Get(GetCountingCircleRequest request, ServerCallContext context)
         => _mapper.Map<CountingCircle>(await _countingCircleReader.Get(GuidParser.Parse(request.Id)));
 
-    [AuthorizePermission(Permissions.CountingCircle.Read)]
+    [AuthorizeAnyPermission(Permissions.CountingCircle.Read, Permissions.CountingCircle.ReadSameCanton, Permissions.CountingCircle.ReadAll)]
     public override async Task<CountingCircles> List(ListCountingCircleRequest request, ServerCallContext context)
     {
         return _mapper.Map<CountingCircles>(await _countingCircleReader.List());
     }
 
-    [AuthorizePermission(Permissions.CountingCircle.Read)]
+    [AuthorizeAnyPermission(Permissions.CountingCircle.Read, Permissions.CountingCircle.ReadSameCanton, Permissions.CountingCircle.ReadAll)]
     public override async Task<DomainOfInfluenceCountingCircles> ListAssigned(ListAssignedCountingCircleRequest request, ServerCallContext context)
     {
         return _mapper.Map<DomainOfInfluenceCountingCircles>(await _countingCircleReader.ListForDomainOfInfluence(GuidParser.Parse(request.DomainOfInfluenceId)));
     }
 
-    [AuthorizePermission(Permissions.CountingCircle.ReadAll)]
+    [AuthorizeAnyPermission(Permissions.CountingCircle.ReadSameCanton, Permissions.CountingCircle.ReadAll)]
     public override async Task<CountingCircles> ListAssignable(ListAssignableCountingCircleRequest request, ServerCallContext context)
     {
         return _mapper.Map<CountingCircles>(await _countingCircleReader.GetAssignableListForDomainOfInfluence(GuidParser.Parse(request.DomainOfInfluenceId)));
     }
 
-    [AuthorizePermission(Permissions.CountingCircle.Read)]
+    [AuthorizeAnyPermission(Permissions.CountingCircle.Read, Permissions.CountingCircle.ReadSameCanton, Permissions.CountingCircle.ReadAll)]
     public override async Task<CountingCircles> ListSnapshot(ListCountingCircleSnapshotRequest request, ServerCallContext context)
     {
         return _mapper.Map<CountingCircles>(await _countingCircleSnapshotReader.List(request.DateTime?.ToDateTime() ?? DateTime.UtcNow, request.IncludeDeleted));
     }
 
-    [AuthorizePermission(Permissions.CountingCircle.Read)]
+    [AuthorizeAnyPermission(Permissions.CountingCircle.Read, Permissions.CountingCircle.ReadSameCanton, Permissions.CountingCircle.ReadAll)]
     public override async Task<DomainOfInfluenceCountingCircles> ListAssignedSnapshot(ListAssignedCountingCircleSnapshotRequest request, ServerCallContext context)
     {
         return _mapper.Map<DomainOfInfluenceCountingCircles>(await _countingCircleSnapshotReader.ListForDomainOfInfluence(request.DomainOfInfluenceId, request.DateTime?.ToDateTime() ?? DateTime.UtcNow));
     }
 
-    [AuthorizePermission(Permissions.CountingCircle.Merge)]
+    [AuthorizeAnyPermission(Permissions.CountingCircle.MergeSameCanton, Permissions.CountingCircle.MergeAll)]
     public override async Task<IdValue> ScheduleMerger(ScheduleCountingCirclesMergerRequest request, ServerCallContext context)
     {
         var data = _mapper.Map<Core.Domain.CountingCirclesMerger>(request);
@@ -107,7 +107,7 @@ public class CountingCircleService : ServiceBase
         return new IdValue { Id = id.ToString() };
     }
 
-    [AuthorizePermission(Permissions.CountingCircle.Merge)]
+    [AuthorizeAnyPermission(Permissions.CountingCircle.MergeSameCanton, Permissions.CountingCircle.MergeAll)]
     public override async Task<Empty> UpdateScheduledMerger(UpdateScheduledCountingCirclesMergerRequest request, ServerCallContext context)
     {
         var data = _mapper.Map<Core.Domain.CountingCirclesMerger>(request);
@@ -115,7 +115,7 @@ public class CountingCircleService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
-    [AuthorizePermission(Permissions.CountingCircle.Merge)]
+    [AuthorizeAnyPermission(Permissions.CountingCircle.MergeSameCanton, Permissions.CountingCircle.MergeAll)]
     public override async Task<Empty> DeleteScheduledMerger(DeleteScheduledCountingCirclesMergerRequest request, ServerCallContext context)
     {
         var newCcId = GuidParser.Parse(request.NewCountingCircleId);
@@ -123,7 +123,7 @@ public class CountingCircleService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
-    [AuthorizePermission(Permissions.CountingCircle.Merge)]
+    [AuthorizeAnyPermission(Permissions.CountingCircle.MergeSameCanton, Permissions.CountingCircle.MergeAll)]
     public override async Task<CountingCirclesMergers> ListMergers(ListCountingCirclesMergersRequest request, ServerCallContext context)
     {
         var data = await _countingCircleReader.ListMergers(request.Merged);

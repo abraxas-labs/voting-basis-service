@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
+using Abraxas.Voting.Basis.Events.V1.Data;
 using Abraxas.Voting.Basis.Events.V1.Metadata;
 using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
@@ -12,16 +13,21 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
+using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing.Utils;
 using Xunit;
+using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.MajorityElectionUnionTests;
 
 public class MajorityElectionUnionDeleteTest : BaseGrpcTest<MajorityElectionUnionService.MajorityElectionUnionServiceClient>
 {
+    private string? _authTestUnionId;
+
     public MajorityElectionUnionDeleteTest(TestApplicationFactory factory)
         : base(factory)
     {
@@ -31,6 +37,7 @@ public class MajorityElectionUnionDeleteTest : BaseGrpcTest<MajorityElectionUnio
     {
         await base.InitializeAsync();
         await MajorityElectionMockedData.Seed(RunScoped);
+        await SetCantonSettingsMajorityElectionUnionsEnabled(true);
     }
 
     [Fact]
@@ -111,17 +118,67 @@ public class MajorityElectionUnionDeleteTest : BaseGrpcTest<MajorityElectionUnio
             "Testing phase ended, cannot modify the contest");
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
+        if (_authTestUnionId == null)
+        {
+            var response = await ElectionAdminClient.CreateAsync(new CreateMajorityElectionUnionRequest
+            {
+                ContestId = ContestMockedData.IdStGallenEvoting,
+                Description = "new description",
+            });
+            await RunEvents<MajorityElectionUnionCreated>();
+
+            _authTestUnionId = response.Id;
+        }
+
         await new MajorityElectionUnionService.MajorityElectionUnionServiceClient(channel)
             .DeleteAsync(new DeleteMajorityElectionUnionRequest
             {
-                Id = MajorityElectionUnionMockedData.IdStGallen1,
+                Id = _authTestUnionId,
+            });
+        _authTestUnionId = null;
+    }
+
+    private async Task SetCantonSettingsMajorityElectionUnionsEnabled(bool enabled)
+    {
+        await TestEventPublisher.Publish(
+            0,
+            new CantonSettingsUpdated
+            {
+                CantonSettings = new CantonSettingsEventData
+                {
+                    Id = CantonSettingsMockedData.IdStGallen,
+                    Canton = SharedProto.DomainOfInfluenceCanton.Sg,
+                    AuthorityName = "St.Gallen",
+                    SecureConnectId = SecureConnectTestDefaults.MockedTenantDefault.Id,
+                    ProportionalElectionMandateAlgorithms =
+                    {
+                        SharedProto.ProportionalElectionMandateAlgorithm.HagenbachBischoff,
+                    },
+                    MajorityElectionAbsoluteMajorityAlgorithm =
+                        SharedProto.CantonMajorityElectionAbsoluteMajorityAlgorithm.ValidBallotsDividedByTwo,
+                    MajorityElectionInvalidVotes = false,
+                    SwissAbroadVotingRight = SharedProto.SwissAbroadVotingRight.SeparateCountingCircle,
+                    SwissAbroadVotingRightDomainOfInfluenceTypes =
+                    {
+                        SharedProto.DomainOfInfluenceType.Ch,
+                    },
+                    EnabledPoliticalBusinessUnionTypes =
+                    {
+                        enabled
+                            ? SharedProto.PoliticalBusinessUnionType.PoliticalBusinessUnionMajorityElection
+                            : SharedProto.PoliticalBusinessUnionType.PoliticalBusinessUnionProportionalElection,
+                    },
+                },
             });
     }
 }

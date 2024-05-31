@@ -14,6 +14,7 @@ using System.Xml.Schema;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Controllers.Models;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Ech.Ech0157_4_0.Schemas;
@@ -153,16 +154,13 @@ public class ExportGenerateTest : BaseRestTest
     [Fact]
     public async Task TestForeignContest()
     {
-        // this throws a http request exception since this check is validated after the zip
-        // has already started to be written to the response
-        // and we can't set the http headers (status) after the response has already begun and
-        // trailers are not well supported.
-        await Assert.ThrowsAsync<HttpRequestException>(
+        await AssertStatus(
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(ContestMockedData.IdKirche),
                 Key = BasisXmlContestTemplates.Ech0157And0159.Key,
-            }));
+            }),
+            HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -241,14 +239,17 @@ public class ExportGenerateTest : BaseRestTest
     {
         return httpClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
         {
-            EntityId = Guid.Parse("9595a884-b0c0-4ac6-ad85-567fd1c2a483"),
-            Key = "test",
+            EntityId = Guid.Parse(ContestMockedData.IdBundContest),
+            Key = BasisXmlContestTemplates.Ech0157And0159.Key,
         });
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     private async Task ZipEntriesShouldMatchSnapshot(HttpResponseMessage response, string testName)
@@ -263,15 +264,15 @@ public class ExportGenerateTest : BaseRestTest
             using var streamReader = new StreamReader(entry.Open());
             var content = await streamReader.ReadToEndAsync();
 
-            if (entry.Name.StartsWith("votes"))
+            if (entry.Name.Contains("_votes"))
             {
                 VerifyXml(content, $"{testName}_votes", Ech0159Schemas.LoadEch0159Schemas());
             }
-            else if (entry.Name.StartsWith("proportional_elections"))
+            else if (entry.Name.Contains("_proportional_elections"))
             {
                 VerifyXml(content, $"{testName}_proportional_elections", Ech0157Schemas.LoadEch0157Schemas());
             }
-            else if (entry.Name.StartsWith("majority_elections"))
+            else if (entry.Name.Contains("_majority_elections"))
             {
                 VerifyXml(content, $"{testName}_majority_elections", Ech0157Schemas.LoadEch0157Schemas());
             }

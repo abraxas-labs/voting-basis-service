@@ -39,7 +39,8 @@
         "Code": "3443c",
         "SortNumber": 9001,
         "NameForProtocol": "Stadt Gossau",
-        "Electorates": []
+        "Electorates": [],
+        "Canton": 1
       },
       "EVoting": true
     },
@@ -82,7 +83,8 @@
         "Code": "nonec",
         "SortNumber": 9004,
         "NameForProtocol": "Stadt Rapperswil",
-        "Electorates": []
+        "Electorates": [],
+        "Canton": 1
       },
       "EVoting": false
     },
@@ -125,7 +127,8 @@
         "Code": "5500c",
         "SortNumber": 9000,
         "NameForProtocol": "Stadt St. Gallen",
-        "Electorates": []
+        "Electorates": [],
+        "Canton": 1
       },
       "EVoting": false
     },
@@ -168,7 +171,8 @@
         "Code": "1234c",
         "SortNumber": 92,
         "NameForProtocol": "Stadt Uzwil",
-        "Electorates": []
+        "Electorates": [],
+        "Canton": 1
       },
       "EVoting": false
     }

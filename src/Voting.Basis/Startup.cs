@@ -40,7 +40,7 @@ public class Startup
     {
         _configuration = configuration;
         _environment = environment;
-        _appConfig = configuration.Get<AppConfig>();
+        _appConfig = configuration.Get<AppConfig>()!;
     }
 
     public virtual void ConfigureServices(IServiceCollection services)
@@ -103,7 +103,9 @@ public class Startup
 
     protected virtual void ConfigureDatabase(DbContextOptionsBuilder db)
     {
-        db.UseNpgsql(_appConfig.Database.ConnectionString, options => options.CommandTimeout(_appConfig.Database.CommandTimeout));
+        db.UseNpgsql(_appConfig.Database.ConnectionString, options => options
+            .CommandTimeout(_appConfig.Database.CommandTimeout)
+            .SetPostgresVersion(_appConfig.Database.Version));
 
         // The warning "The same entity is being tracked as different weak entity types..." pops up very often (especially in tests)
         // The reason is our domain of influence and counting circle snapshotting system, which creates duplicates of entities
@@ -163,6 +165,7 @@ public class Startup
         endpoints.MapGrpcService<CantonSettingsService>();
         endpoints.MapGrpcService<AdminManagementService>();
         endpoints.MapGrpcService<PermissionService>();
+        endpoints.MapGrpcService<PoliticalAssemblyService>();
     }
 
     private void ConfigureHealthChecks(IHealthChecksBuilder checks)

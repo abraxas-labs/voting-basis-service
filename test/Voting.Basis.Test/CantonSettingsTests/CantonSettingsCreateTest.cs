@@ -182,14 +182,20 @@ public class CantonSettingsCreateTest : BaseGrpcTest<CantonSettingsService.Canto
             StatusCode.InvalidArgument,
             "EnabledVotingCardChannels");
 
+    [Fact]
+    public Task DuplicateCountingCircleResultStateDescriptionShouldThrow()
+        => AssertStatus(
+            async () => await AdminClient.CreateAsync(NewValidRequest(o => o.CountingCircleResultStateDescriptions[1].State = SharedProto.CountingCircleResultState.SubmissionOngoing)),
+            StatusCode.InvalidArgument,
+            "CountingCircleResultStateDescriptions");
+
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
         => await new CantonSettingsService.CantonSettingsServiceClient(channel)
             .CreateAsync(NewValidRequest());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
-        yield return Roles.ElectionAdmin;
+        yield return Roles.Admin;
     }
 
     private CreateCantonSettingsRequest NewValidRequest(
@@ -200,7 +206,6 @@ public class CantonSettingsCreateTest : BaseGrpcTest<CantonSettingsService.Canto
             Canton = SharedProto.DomainOfInfluenceCanton.Tg,
             SecureConnectId = SecureConnectTestDefaults.MockedTenantDefault.Id,
             AuthorityName = "Thurgau",
-            ElectoralRegistrationEnabled = true,
             CountingMachineEnabled = true,
             ProportionalElectionMandateAlgorithms =
                 {
@@ -241,6 +246,21 @@ public class CantonSettingsCreateTest : BaseGrpcTest<CantonSettingsService.Canto
             MultipleVoteBallotsEnabled = true,
             ProportionalElectionUseCandidateCheckDigit = true,
             MajorityElectionUseCandidateCheckDigit = true,
+            CountingCircleResultStateDescriptions =
+            {
+                new ServiceModels.CountingCircleResultStateDescription
+                {
+                    State = SharedProto.CountingCircleResultState.SubmissionOngoing,
+                    Description = "In neuer Erfassung",
+                },
+                new ServiceModels.CountingCircleResultStateDescription
+                {
+                    State = SharedProto.CountingCircleResultState.AuditedTentatively,
+                    Description = "geprüft",
+                },
+            },
+            StatePlausibilisedDisabled = true,
+            PublishResultsEnabled = true,
         };
         customizer?.Invoke(request);
         return request;

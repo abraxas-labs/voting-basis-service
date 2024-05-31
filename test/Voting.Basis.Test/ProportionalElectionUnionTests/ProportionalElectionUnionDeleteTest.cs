@@ -12,6 +12,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -22,6 +23,8 @@ namespace Voting.Basis.Test.ProportionalElectionUnionTests;
 
 public class ProportionalElectionUnionDeleteTest : BaseGrpcTest<ProportionalElectionUnionService.ProportionalElectionUnionServiceClient>
 {
+    private string? _authTestUnionId;
+
     public ProportionalElectionUnionDeleteTest(TestApplicationFactory factory)
         : base(factory)
     {
@@ -111,17 +114,33 @@ public class ProportionalElectionUnionDeleteTest : BaseGrpcTest<ProportionalElec
             "Testing phase ended, cannot modify the contest");
     }
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
+        yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionSupporter;
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
+        if (_authTestUnionId == null)
+        {
+            var response = await ElectionAdminClient.CreateAsync(new CreateProportionalElectionUnionRequest
+            {
+                ContestId = ContestMockedData.IdStGallenEvoting,
+                Description = "new description",
+            });
+            await RunEvents<ProportionalElectionUnionCreated>();
+
+            _authTestUnionId = response.Id;
+        }
+
         await new ProportionalElectionUnionService.ProportionalElectionUnionServiceClient(channel)
             .DeleteAsync(new DeleteProportionalElectionUnionRequest
             {
-                Id = ProportionalElectionUnionMockedData.IdStGallen1,
+                Id = _authTestUnionId,
             });
+        _authTestUnionId = null;
     }
 }

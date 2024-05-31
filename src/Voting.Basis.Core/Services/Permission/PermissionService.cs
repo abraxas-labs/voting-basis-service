@@ -26,6 +26,7 @@ public class PermissionService
     private readonly IDbRepository<DataContext, Contest> _contestRepo;
     private readonly DomainOfInfluenceHierarchyRepo _hierarchyRepo;
     private readonly DomainOfInfluencePermissionRepo _permissionRepo;
+    private readonly CantonSettingsRepo _cantonSettingsRepo;
     private readonly IAuthStore _authStore;
     private readonly AppConfig _config;
     private readonly IAuth _auth;
@@ -35,6 +36,7 @@ public class PermissionService
         IDbRepository<DataContext, Contest> contestRepo,
         DomainOfInfluenceHierarchyRepo hierarchyRepo,
         DomainOfInfluencePermissionRepo permissionRepo,
+        CantonSettingsRepo cantonSettingsRepo,
         IAuth auth,
         IAuthStore authStore,
         AppConfig config)
@@ -43,6 +45,7 @@ public class PermissionService
         _contestRepo = contestRepo;
         _hierarchyRepo = hierarchyRepo;
         _permissionRepo = permissionRepo;
+        _cantonSettingsRepo = cantonSettingsRepo;
         _auth = auth;
         _authStore = authStore;
         _config = config;
@@ -123,15 +126,22 @@ public class PermissionService
 
     public async Task EnsureCanReadContest(Contest contest)
     {
-        if (!await CanAccessDomainOfInfluence(contest.DomainOfInfluenceId))
+        await EnsureCanReadDomainOfInfluence(contest.DomainOfInfluenceId);
+    }
+
+    public async Task EnsureCanReadDomainOfInfluence(DomainOfInfluence domainOfInfluence)
+    {
+        if (!await CanAccessDomainOfInfluence(domainOfInfluence))
         {
-            throw new ForbiddenException($"you have no read access on contest {contest.Id}");
+            throw new ForbiddenException($"you have no read access on domain of influence {domainOfInfluence.Id}");
         }
     }
 
     public async Task EnsureCanReadDomainOfInfluence(Guid domainOfInfluenceId)
     {
-        if (!await CanAccessDomainOfInfluence(domainOfInfluenceId))
+        var doi = await _doiRepo.GetByKey(domainOfInfluenceId)
+            ?? throw new EntityNotFoundException(domainOfInfluenceId);
+        if (!await CanAccessDomainOfInfluence(doi))
         {
             throw new ForbiddenException($"you have no read access on domain of influence {domainOfInfluenceId}");
         }
@@ -163,6 +173,12 @@ public class PermissionService
         return hierarchyGroups;
     }
 
+    internal Task<bool> IsOwnerOfCanton(DomainOfInfluenceCanton canton)
+    {
+        return _cantonSettingsRepo.Query()
+            .AnyAsync(x => x.Canton == canton && x.SecureConnectId == _auth.Tenant.Id);
+    }
+
     internal void SetAbraxasAuthIfNotAuthenticated()
     {
         if (!_auth.IsAuthenticated)
@@ -171,17 +187,25 @@ public class PermissionService
         }
     }
 
-    private async Task<bool> CanAccessDomainOfInfluence(Guid domainOfInfluenceId)
+    private async Task<bool> CanAccessDomainOfInfluence(DomainOfInfluence domainOfInfluence)
     {
         if (_auth.HasPermission(Permissions.DomainOfInfluence.ReadAll))
         {
             return true;
         }
 
-        _auth.EnsurePermission(Permissions.DomainOfInfluence.Read);
+        if (_auth.HasPermission(Permissions.DomainOfInfluence.ReadSameCanton))
+        {
+            if (await IsOwnerOfCanton(domainOfInfluence.Canton))
+            {
+                return true;
+            }
+        }
+
+        _auth.EnsurePermission(Permissions.DomainOfInfluence.ReadSameTenant);
 
         return await _permissionRepo
             .Query()
-            .AnyAsync(p => p.TenantId == _auth.Tenant.Id && p.DomainOfInfluenceId == domainOfInfluenceId);
+            .AnyAsync(p => p.TenantId == _auth.Tenant.Id && p.DomainOfInfluenceId == domainOfInfluence.Id);
     }
 }

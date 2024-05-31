@@ -36,7 +36,8 @@ public class ExportController : ControllerBase
         // ZIP file is only created when exporting a contest, otherwise it's a single file.
         if (isMultiExport)
         {
-            return SingleFileResult.CreateZipFile(files, "contest.zip", ct);
+            var fileName = await _exportService.GetZipFileName(request.EntityId);
+            return SingleFileResult.CreateZipFile(files, fileName, ct);
         }
 
         var enumerator = files.GetAsyncEnumerator(ct);

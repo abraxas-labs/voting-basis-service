@@ -48,8 +48,10 @@ public class CantonSettingsProcessor :
     {
         var id = GuidParser.Parse(eventData.CantonSettings.Id);
         var existing = await _repo.Query()
+            .AsSplitQuery()
             .AsTracking()
             .Include(x => x.EnabledVotingCardChannels)
+            .Include(x => x.CountingCircleResultStateDescriptions)
             .FirstOrDefaultAsync(x => x.Id == id)
             ?? throw new EntityNotFoundException(nameof(CantonSettings), id);
         _mapper.Map(eventData.CantonSettings, existing);

@@ -35,11 +35,8 @@ public class DomainOfInfluenceModelBuilder :
 
         builder.OwnsOne(doi => doi.CantonDefaults, b =>
         {
-            b.Property(x => x.ProportionalElectionMandateAlgorithms)
-                .HasPostgresEnumListToIntListConversion();
-
-            b.Property(x => x.EnabledPoliticalBusinessUnionTypes)
-                .HasPostgresEnumListToIntListConversion();
+            b.Property(x => x.ProportionalElectionMandateAlgorithms);
+            b.Property(x => x.EnabledPoliticalBusinessUnionTypes);
         });
         builder.Navigation(doi => doi.CantonDefaults).IsRequired();
 

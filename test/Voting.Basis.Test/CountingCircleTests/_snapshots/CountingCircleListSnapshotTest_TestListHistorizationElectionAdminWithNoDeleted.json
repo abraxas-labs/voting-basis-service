@@ -44,7 +44,9 @@
         "Code": "CC100c",
         "SortNumber": 0,
         "NameForProtocol": "",
-        "Electorates": []
+        "Electorates": [],
+        "Canton": 1,
+        "EVoting": false
       }
     ]
   }

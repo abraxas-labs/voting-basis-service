@@ -93,12 +93,6 @@ public class DomainOfInfluenceUpdateCountingCirclesTest : BaseGrpcTest<DomainOfI
         selfDoiUzwilKircheCc.Inherited.Should().BeFalse();
 
         childDoiUzwilKircheCc.Should().BeNull();
-
-        // check cc options is created correctly.
-        var contestId = Guid.Parse(ContestMockedData.IdStGallenEvoting);
-        var options = await RunOnDb(db => db.ContestCountingCircleOptions.Where(x => x.ContestId == contestId).ToListAsync());
-        var optionsByCcId = options.ToDictionary(x => x.CountingCircleId);
-        optionsByCcId[parentDoiUzwilKircheCc.CountingCircleId].EVoting.Should().BeFalse();
     }
 
     [Fact]
@@ -174,10 +168,10 @@ public class DomainOfInfluenceUpdateCountingCirclesTest : BaseGrpcTest<DomainOfI
         => await new DomainOfInfluenceService.DomainOfInfluenceServiceClient(channel)
                 .UpdateCountingCircleEntriesAsync(NewValidRequest());
 
-    protected override IEnumerable<string> UnauthorizedRoles()
+    protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return NoRole;
-        yield return Roles.ElectionAdmin;
+        yield return Roles.Admin;
+        yield return Roles.CantonAdmin;
     }
 
     private UpdateDomainOfInfluenceCountingCircleEntriesRequest NewValidRequest(
