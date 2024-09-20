@@ -31,12 +31,16 @@
             "it": "Frage 1 neu it",
             "rm": "Frage 1 neu rm"
           },
-          "Type": 1
+          "Type": 1,
+          "FederalIdentification": null
         }
       ],
       "VoteId": "607a9dbc-250a-4bbf-ab31-73c81f6556ba",
       "HasTieBreakQuestions": false,
-      "TieBreakQuestions": []
+      "TieBreakQuestions": [],
+      "SubType": 0,
+      "OfficialDescription": {},
+      "ShortDescription": {}
     },
     {
       "Id": "259902ef-3064-498c-beea-ebf57a55ecab",
@@ -51,12 +55,16 @@
             "it": "Frage 2 neu it",
             "rm": "Frage 2 neu rm"
           },
-          "Type": 1
+          "Type": 1,
+          "FederalIdentification": null
         }
       ],
       "VoteId": "607a9dbc-250a-4bbf-ab31-73c81f6556ba",
       "HasTieBreakQuestions": false,
-      "TieBreakQuestions": []
+      "TieBreakQuestions": [],
+      "SubType": 0,
+      "OfficialDescription": {},
+      "ShortDescription": {}
     },
     {
       "Id": "0afc89f8-fc84-4a86-ace6-2cedfb5f8033",
@@ -71,7 +79,8 @@
             "it": "Variante 1 neu it",
             "rm": "Variante 1 neu rm"
           },
-          "Type": 1
+          "Type": 1,
+          "FederalIdentification": null
         },
         {
           "Number": 2,
@@ -81,7 +90,8 @@
             "it": "Variante 2 neu it",
             "rm": "Variante 2 neu rm"
           },
-          "Type": 3
+          "Type": 3,
+          "FederalIdentification": null
         },
         {
           "Number": 3,
@@ -91,7 +101,8 @@
             "it": "Variante 3 neu it",
             "rm": "Variante 3 neu rm"
           },
-          "Type": 3
+          "Type": 3,
+          "FederalIdentification": null
         }
       ],
       "VoteId": "607a9dbc-250a-4bbf-ab31-73c81f6556ba",
@@ -106,7 +117,8 @@
             "rm": "TieBreak V1/V2 rm"
           },
           "Question1Number": 1,
-          "Question2Number": 2
+          "Question2Number": 2,
+          "FederalIdentification": null
         },
         {
           "Number": 2,
@@ -117,7 +129,8 @@
             "rm": "TieBreak V1/V3 rm"
           },
           "Question1Number": 1,
-          "Question2Number": 3
+          "Question2Number": 3,
+          "FederalIdentification": null
         },
         {
           "Number": 3,
@@ -128,9 +141,13 @@
             "rm": "TieBreak V2/V3 rm"
           },
           "Question1Number": 2,
-          "Question2Number": 3
+          "Question2Number": 3,
+          "FederalIdentification": null
         }
-      ]
+      ],
+      "SubType": 0,
+      "OfficialDescription": {},
+      "ShortDescription": {}
     }
   ],
   "ReportDomainOfInfluenceLevel": 0,
@@ -140,5 +157,6 @@
   "AutomaticBallotBundleNumberGeneration": false,
   "EnforceResultEntryForCountingCircles": true,
   "ReviewProcedure": 1,
-  "EnforceReviewProcedureForCountingCircles": true
+  "EnforceReviewProcedureForCountingCircles": true,
+  "Type": 1
 }

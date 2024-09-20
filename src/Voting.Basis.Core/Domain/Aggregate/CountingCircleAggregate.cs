@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -76,7 +76,13 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
 
     public DomainOfInfluenceCanton Canton { get; private set; }
 
+    public bool EVoting { get; private set; }
+
+    public DateTime? EVotingActiveFrom { get; private set; }
+
     public bool MergeActivationOverdue => MergerOrigin is { Merged: false } && MergerOrigin.ActiveFrom < _clock.UtcNow;
+
+    public bool EVotingActivationOverdue => !EVoting && EVotingActiveFrom.HasValue && EVotingActiveFrom.Value.ConvertUtcTimeToSwissTime().Date <= _clock.UtcNow.ConvertUtcTimeToSwissTime().Date;
 
     public void CreateFrom(CountingCircle countingCircle)
     {
@@ -87,6 +93,7 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
 
         PrepareElectorates(countingCircle.Id, countingCircle.Electorates);
         ValidateElectorates(countingCircle.Electorates);
+        SetEVoting(countingCircle);
 
         var ev = new CountingCircleCreated
         {
@@ -114,6 +121,7 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
 
         merger.ActiveFrom = merger.ActiveFrom.Date;
         ValidateDateTodayOrInFuture(merger.ActiveFrom, nameof(merger.ActiveFrom));
+        SetEVoting(merger.NewCountingCircle);
 
         var ev = new CountingCirclesMergerScheduled
         {
@@ -139,6 +147,7 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
 
         merger.ActiveFrom = merger.ActiveFrom.Date;
         ValidateDateTodayOrInFuture(merger.ActiveFrom, nameof(merger.ActiveFrom));
+        SetEVoting(merger.NewCountingCircle);
 
         var ev = new CountingCirclesMergerScheduleUpdated
         {
@@ -212,6 +221,11 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
             {
                 throw new ForbiddenException("only admins are allowed to update electorates");
             }
+
+            if (!EVotingActiveFrom.Equals(countingCircle.EVotingActiveFrom))
+            {
+                throw new ForbiddenException("only admins are allowed to update e-voting");
+            }
         }
 
         if (!canUpdateCanton)
@@ -223,6 +237,7 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
         }
 
         ValidateElectorates(countingCircle.Electorates);
+        SetEVoting(countingCircle);
 
         var ev = new CountingCircleUpdated
         {
@@ -263,6 +278,26 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
         {
             EventInfo = _eventInfoProvider.NewEventInfo(),
             Merger = ccMerger,
+        };
+
+        RaiseEvent(ev);
+        return true;
+    }
+
+    internal bool TryActivateEVoting()
+    {
+        if (EVoting)
+        {
+            return false;
+        }
+
+        var cc = _mapper.Map<CountingCircleEventData>(this);
+        cc.EVoting = true;
+
+        var ev = new CountingCircleUpdated
+        {
+            EventInfo = _eventInfoProvider.NewEventInfo(),
+            CountingCircle = cc,
         };
 
         RaiseEvent(ev);
@@ -387,5 +422,10 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
         {
             throw new ValidationException("A domain of influence type in an electorate must be unique per counting circle");
         }
+    }
+
+    private void SetEVoting(CountingCircle countingCircle)
+    {
+        countingCircle.EVoting = countingCircle.EVotingActiveFrom.HasValue && _clock.UtcNow >= countingCircle.EVotingActiveFrom;
     }
 }

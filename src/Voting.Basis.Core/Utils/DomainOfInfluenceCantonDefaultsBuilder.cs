@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -30,10 +30,15 @@ public class DomainOfInfluenceCantonDefaultsBuilder
 
     public async Task BuildForDomainOfInfluence(DomainOfInfluence domainOfInfluence)
     {
-        var cantonSettings = domainOfInfluence.Canton != DomainOfInfluenceCanton.Unspecified
-            ? await LoadCantonSettings(domainOfInfluence.Canton)
-            : await LoadCantonSettings(domainOfInfluence.ParentId ?? throw new InvalidOperationException("Can only build canton settings for non root doi's or root dois with a canton set"));
+        var cantonSettings = await LoadCantonSettings(domainOfInfluence.Canton, domainOfInfluence.ParentId);
         BuildCantonDefaultsOnDomainOfInfluence(cantonSettings, domainOfInfluence);
+    }
+
+    public async Task<CantonSettings> LoadCantonSettings(DomainOfInfluenceCanton canton, Guid? parentId)
+    {
+        return canton != DomainOfInfluenceCanton.Unspecified
+            ? await LoadCantonSettings(canton)
+            : await LoadCantonSettings(parentId ?? throw new InvalidOperationException("Can only build canton settings for non root doi's or root dois with a canton set"));
     }
 
     public async Task RebuildForCanton(CantonSettings cantonSettings)
@@ -89,6 +94,8 @@ public class DomainOfInfluenceCantonDefaultsBuilder
             MultipleVoteBallotsEnabled = cantonSettings.MultipleVoteBallotsEnabled,
             ProportionalElectionUseCandidateCheckDigit = cantonSettings.ProportionalElectionUseCandidateCheckDigit,
             MajorityElectionUseCandidateCheckDigit = cantonSettings.MajorityElectionUseCandidateCheckDigit,
+            CreateContestOnHighestHierarchicalLevelEnabled = cantonSettings.CreateContestOnHighestHierarchicalLevelEnabled,
+            InternalPlausibilisationDisabled = cantonSettings.InternalPlausibilisationDisabled,
         };
     }
 

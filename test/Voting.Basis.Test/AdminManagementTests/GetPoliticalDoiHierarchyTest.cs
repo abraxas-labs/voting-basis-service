@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -33,6 +33,13 @@ public class GetPoliticalDoiHierarchyTest : BaseGrpcTest<AdminManagementService.
     }
 
     [Fact]
+    public async Task TestAsApiReaderDoiShouldReturnAll()
+    {
+        var response = await ApiReaderDoiClient.GetPoliticalDomainOfInfluenceHierarchyAsync(new());
+        response.MatchSnapshot();
+    }
+
+    [Fact]
     public async Task TestAsApiReaderEmptyShouldReturnEmpty()
     {
         await RunOnDb(async db =>
@@ -45,9 +52,28 @@ public class GetPoliticalDoiHierarchyTest : BaseGrpcTest<AdminManagementService.
     }
 
     [Fact]
+    public async Task TestAsApiReaderDoiEmptyShouldReturnEmpty()
+    {
+        await RunOnDb(async db =>
+        {
+            db.DomainOfInfluences.RemoveRange(db.DomainOfInfluences);
+            await db.SaveChangesAsync();
+        });
+        var response = await ApiReaderDoiClient.GetPoliticalDomainOfInfluenceHierarchyAsync(new());
+        response.MatchSnapshot();
+    }
+
+    [Fact]
     public async Task TestAsApiReaderDefaultTenantShouldReturnAll()
     {
         var response = await ApiReaderClient.GetPoliticalDomainOfInfluenceHierarchyAsync(new());
+        response.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task TestAsApiReaderDoiDefaultTenantShouldReturnAll()
+    {
+        var response = await ApiReaderDoiClient.GetPoliticalDomainOfInfluenceHierarchyAsync(new());
         response.MatchSnapshot();
     }
 
@@ -59,5 +85,6 @@ public class GetPoliticalDoiHierarchyTest : BaseGrpcTest<AdminManagementService.
     {
         yield return Roles.Admin;
         yield return Roles.ApiReader;
+        yield return Roles.ApiReaderDoi;
     }
 }

@@ -18,7 +18,7 @@ namespace Voting.Basis.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -80,7 +80,18 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("HasTieBreakQuestions")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("OfficialDescription")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
                     b.Property<int>("Position")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<int>("SubType")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("VoteId")
@@ -102,6 +113,9 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<Guid>("BallotId")
                         .HasColumnType("uuid");
+
+                    b.Property<int?>("FederalIdentification")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Number")
                         .HasColumnType("integer");
@@ -139,9 +153,18 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("CountingMachineEnabled")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("CreateContestOnHighestHierarchicalLevelEnabled")
+                        .HasColumnType("boolean");
+
                     b.Property<int[]>("EnabledPoliticalBusinessUnionTypes")
                         .IsRequired()
                         .HasColumnType("integer[]");
+
+                    b.Property<bool>("EndResultFinalizeDisabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("InternalPlausibilisationDisabled")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("MajorityElectionAbsoluteMajorityAlgorithm")
                         .HasColumnType("integer");
@@ -170,6 +193,9 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<int>("ProtocolDomainOfInfluenceSortType")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("PublishResultsBeforeAuditedTentatively")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("PublishResultsEnabled")
                         .HasColumnType("boolean");
@@ -371,6 +397,9 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<bool>("EVoting")
                         .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("EVotingActiveFrom")
+                        .HasColumnType("date");
 
                     b.Property<Guid?>("MergeOriginId")
                         .HasColumnType("uuid");
@@ -940,6 +969,12 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("EnforceReviewProcedureForCountingCircles")
                         .HasColumnType("boolean");
 
+                    b.Property<int?>("FederalIdentification")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IndividualCandidatesDisabled")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("MandateAlgorithm")
                         .HasColumnType("integer");
 
@@ -1287,6 +1322,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("EnforceReviewProcedureForCountingCircles")
                         .HasColumnType("boolean");
 
+                    b.Property<int?>("FederalIdentification")
+                        .HasColumnType("integer");
+
                     b.Property<int>("MandateAlgorithm")
                         .HasColumnType("integer");
 
@@ -1430,6 +1468,9 @@ namespace Voting.Basis.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("PartyId")
+                        .HasColumnType("uuid");
+
                     b.Property<int>("Position")
                         .HasColumnType("integer");
 
@@ -1445,6 +1486,8 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("jsonb");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PartyId");
 
                     b.HasIndex("ProportionalElectionId");
 
@@ -1609,6 +1652,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<Guid>("ElectionGroupId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IndividualCandidatesDisabled")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("NumberOfMandates")
                         .HasColumnType("integer");
 
@@ -1728,6 +1774,9 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
+
+                    b.Property<int>("BusinessSubType")
+                        .HasColumnType("integer");
 
                     b.Property<int>("BusinessType")
                         .HasColumnType("integer");
@@ -1878,6 +1927,9 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<bool>("EVoting")
                         .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("EVotingActiveFrom")
+                        .HasColumnType("date");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -2056,6 +2108,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<Guid>("BallotId")
                         .HasColumnType("uuid");
 
+                    b.Property<int?>("FederalIdentification")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Number")
                         .HasColumnType("integer");
 
@@ -2131,6 +2186,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<string>("ShortDescription")
                         .IsRequired()
                         .HasColumnType("jsonb");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -2427,9 +2485,15 @@ namespace Voting.Basis.Data.Migrations
                             b1.Property<int>("Canton")
                                 .HasColumnType("integer");
 
+                            b1.Property<bool>("CreateContestOnHighestHierarchicalLevelEnabled")
+                                .HasColumnType("boolean");
+
                             b1.Property<int[]>("EnabledPoliticalBusinessUnionTypes")
                                 .IsRequired()
                                 .HasColumnType("integer[]");
+
+                            b1.Property<bool>("InternalPlausibilisationDisabled")
+                                .HasColumnType("boolean");
 
                             b1.Property<int>("MajorityElectionAbsoluteMajorityAlgorithm")
                                 .HasColumnType("integer");
@@ -2730,11 +2794,18 @@ namespace Voting.Basis.Data.Migrations
 
             modelBuilder.Entity("Voting.Basis.Data.Models.ProportionalElectionList", b =>
                 {
+                    b.HasOne("Voting.Basis.Data.Models.DomainOfInfluenceParty", "Party")
+                        .WithMany("ProportionalElectionLists")
+                        .HasForeignKey("PartyId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("Voting.Basis.Data.Models.ProportionalElection", "ProportionalElection")
                         .WithMany("ProportionalElectionLists")
                         .HasForeignKey("ProportionalElectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Party");
 
                     b.Navigation("ProportionalElection");
                 });
@@ -3172,6 +3243,8 @@ namespace Voting.Basis.Data.Migrations
             modelBuilder.Entity("Voting.Basis.Data.Models.DomainOfInfluenceParty", b =>
                 {
                     b.Navigation("ProportionalElectionCandidates");
+
+                    b.Navigation("ProportionalElectionLists");
                 });
 
             modelBuilder.Entity("Voting.Basis.Data.Models.ElectionGroup", b =>

@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -45,6 +45,16 @@ public class VoteGetTest : BaseGrpcTest<VoteService.VoteServiceClient>
         var response = await ElectionAdminClient.GetAsync(new GetVoteRequest
         {
             Id = VoteMockedData.IdGossauVoteInContestStGallen,
+        });
+        response.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task TestAsCantonAdminShouldReturnOk()
+    {
+        var response = await ZurichCantonAdminClient.GetAsync(new GetVoteRequest
+        {
+            Id = VoteMockedData.IdZurichVoteInContestZurich,
         });
         response.MatchSnapshot();
     }

@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -51,23 +51,23 @@ public class SecondaryMajorityElectionCandidateReferenceDeleteTest : BaseGrpcTes
     {
         await AdminClient.DeleteMajorityElectionCandidateReferenceAsync(new DeleteMajorityElectionCandidateReferenceRequest
         {
-            Id = MajorityElectionMockedData.SecondaryElectionCandidateId1StGallenMajorityElectionInContestBund,
+            Id = MajorityElectionMockedData.SecondaryElectionCandidateId1GossauMajorityElectionInContestStGallen,
         });
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateReferenceDeleted, EventSignatureBusinessMetadata>();
 
-        eventData.SecondaryMajorityElectionCandidateReferenceId.Should().Be(MajorityElectionMockedData.SecondaryElectionCandidateId1StGallenMajorityElectionInContestBund);
+        eventData.SecondaryMajorityElectionCandidateReferenceId.Should().Be(MajorityElectionMockedData.SecondaryElectionCandidateId1GossauMajorityElectionInContestStGallen);
         eventData.MatchSnapshot();
-        eventMetadata!.ContestId.Should().Be(ContestMockedData.IdBundContest);
+        eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
     }
 
     [Fact]
     public async Task TestShouldTriggerEventSignatureAndSignEvent()
     {
-        await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdBundContest, async () =>
+        await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
             await AdminClient.DeleteMajorityElectionCandidateReferenceAsync(new DeleteMajorityElectionCandidateReferenceRequest
             {
-                Id = MajorityElectionMockedData.SecondaryElectionCandidateId1StGallenMajorityElectionInContestBund,
+                Id = MajorityElectionMockedData.SecondaryElectionCandidateId1GossauMajorityElectionInContestStGallen,
             });
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<SecondaryMajorityElectionCandidateReferenceDeleted>();
         });
@@ -93,6 +93,19 @@ public class SecondaryMajorityElectionCandidateReferenceDeleteTest : BaseGrpcTes
                 Id = MajorityElectionMockedData.SecondaryElectionCandidateIdKircheMajorityElectionInContestKirche,
             }),
             StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task CandidateInBallotGroupShouldThrow()
+    {
+        var candidateId = MajorityElectionMockedData.SecondaryElectionCandidateId1GossauMajorityElectionInContestBund;
+        await AssertStatus(
+            async () => await ElectionAdminClient.DeleteMajorityElectionCandidateReferenceAsync(new DeleteMajorityElectionCandidateReferenceRequest
+            {
+                Id = candidateId,
+            }),
+            StatusCode.FailedPrecondition,
+            $"Candidate {candidateId} is in a ballot group");
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

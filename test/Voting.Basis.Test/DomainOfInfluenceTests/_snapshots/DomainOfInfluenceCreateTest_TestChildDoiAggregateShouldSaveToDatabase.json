@@ -452,6 +452,54 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false
+      },
+      {
+        "Id": "8af17c9d-6bae-45bf-a85b-b77239f2eefb",
+        "Name": "Zürich",
+        "ShortName": "ZH",
+        "AuthorityName": "",
+        "SecureConnectId": "zürich-sec-id",
+        "Type": 2,
+        "ParentId": "",
+        "Children": [],
+        "Canton": 3,
+        "ContactPerson": {
+          "FirstName": "Hans",
+          "FamilyName": "Muster",
+          "Phone": "071 123 12 12",
+          "MobilePhone": "079 123 12 12",
+          "Email": "hans@muster.com"
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": "Kanton Zürich",
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false
       }
     ]
   },
@@ -469,6 +517,8 @@
     ],
     "MultipleVoteBallotsEnabled": false,
     "ProportionalElectionUseCandidateCheckDigit": false,
-    "MajorityElectionUseCandidateCheckDigit": false
+    "MajorityElectionUseCandidateCheckDigit": false,
+    "CreateContestOnHighestHierarchicalLevelEnabled": false,
+    "InternalPlausibilisationDisabled": false
   }
 }

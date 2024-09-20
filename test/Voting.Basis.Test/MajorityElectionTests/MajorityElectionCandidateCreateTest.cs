@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -231,6 +231,43 @@ public class MajorityElectionCandidateCreateTest : BaseGrpcTest<MajorityElection
         }));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionCandidateCreated>();
         eventData.MatchSnapshot("event", c => c.MajorityElectionCandidate.Id);
+    }
+
+    [Fact]
+    public async Task TestProcessorWithDeprecatedSexType()
+    {
+        await TestEventPublisher.Publish(
+            new MajorityElectionCandidateCreated
+            {
+                MajorityElectionCandidate = new MajorityElectionCandidateEventData
+                {
+                    Id = "8da8dac5-b4ad-492d-8d7e-0168518103d2",
+                    MajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen,
+                    Position = 2,
+                    FirstName = "firstName",
+                    LastName = "lastName",
+                    PoliticalFirstName = "pol first name",
+                    PoliticalLastName = "pol last name",
+                    Occupation = { LanguageUtil.MockAllLanguages("occupation") },
+                    OccupationTitle = { LanguageUtil.MockAllLanguages("occupation title") },
+                    DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
+                    Incumbent = true,
+                    Locality = "locality",
+                    Party = { LanguageUtil.MockAllLanguages("Grüne") },
+                    Number = "number1",
+                    Sex = SharedProto.SexType.Undefined,
+                    Title = "title",
+                    ZipCode = "zip code",
+                    Origin = "origin",
+                    CheckDigit = 9,
+                },
+            });
+
+        var candidate = await AdminClient.GetCandidateAsync(new GetMajorityElectionCandidateRequest
+        {
+            Id = "8da8dac5-b4ad-492d-8d7e-0168518103d2",
+        });
+        candidate.Sex.Should().Be(SharedProto.SexType.Female);
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

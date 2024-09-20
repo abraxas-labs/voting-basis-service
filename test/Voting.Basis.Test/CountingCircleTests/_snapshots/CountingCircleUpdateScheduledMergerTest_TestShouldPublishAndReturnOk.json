@@ -50,7 +50,8 @@
       "NameForProtocol": "Stadt Rapperswil-Jona updated",
       "Electorates": [],
       "Canton": 1,
-      "EVoting": false
+      "EVoting": false,
+      "EVotingActiveFrom": null
     },
     "MergedCountingCircleIds": [
       "2a3a799a-2437-47da-86fe-06decf70a267",

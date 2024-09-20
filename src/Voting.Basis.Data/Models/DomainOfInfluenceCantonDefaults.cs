@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -26,4 +26,8 @@ public class DomainOfInfluenceCantonDefaults
     public bool ProportionalElectionUseCandidateCheckDigit { get; set; }
 
     public bool MajorityElectionUseCandidateCheckDigit { get; set; }
+
+    public bool CreateContestOnHighestHierarchicalLevelEnabled { get; set; }
+
+    public bool InternalPlausibilisationDisabled { get; set; }
 }

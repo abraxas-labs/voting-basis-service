@@ -64,6 +64,7 @@
         "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 2,
+      "PoliticalBusinessSubType": 0,
       "Active": true
     },
     {
@@ -146,6 +147,7 @@
         "ElectoralRegistrationEnabled": true
       },
       "PoliticalBusinessType": 2,
+      "PoliticalBusinessSubType": 0,
       "Active": true
     }
   ]

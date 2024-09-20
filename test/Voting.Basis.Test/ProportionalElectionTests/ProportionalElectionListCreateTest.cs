@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -15,6 +15,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -60,25 +61,29 @@ public class ProportionalElectionListCreateTest : BaseGrpcTest<ProportionalElect
     [Fact]
     public async Task TestAggregate()
     {
+        var listId1 = Guid.Parse("430f11f8-82bf-4f39-a2b9-d76e8c9dab08");
+        var listId2 = Guid.Parse("c995e944-5b49-40f8-a75b-814a10ebc0f0");
+
         await TestEventPublisher.Publish(
             new ProportionalElectionListCreated
             {
                 ProportionalElectionList = new ProportionalElectionListEventData
                 {
-                    Id = "430f11f8-82bf-4f39-a2b9-d76e8c9dab08",
+                    Id = listId1.ToString(),
                     BlankRowCount = 0,
                     OrderNumber = "o1",
                     Position = 1,
                     ProportionalElectionId = ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallenWithoutChilds,
                     Description = { LanguageUtil.MockAllLanguages("Created list") },
                     ShortDescription = { LanguageUtil.MockAllLanguages("Short description") },
+                    PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
                 },
             },
             new ProportionalElectionListCreated
             {
                 ProportionalElectionList = new ProportionalElectionListEventData
                 {
-                    Id = "c995e944-5b49-40f8-a75b-814a10ebc0f0",
+                    Id = listId2.ToString(),
                     BlankRowCount = 3,
                     OrderNumber = "o2",
                     Position = 2,
@@ -89,14 +94,19 @@ public class ProportionalElectionListCreateTest : BaseGrpcTest<ProportionalElect
 
         var list1 = await AdminClient.GetListAsync(new GetProportionalElectionListRequest
         {
-            Id = "430f11f8-82bf-4f39-a2b9-d76e8c9dab08",
+            Id = listId1.ToString(),
         });
         var list2 = await AdminClient.GetListAsync(new GetProportionalElectionListRequest
         {
-            Id = "c995e944-5b49-40f8-a75b-814a10ebc0f0",
+            Id = listId2.ToString(),
         });
         list1.MatchSnapshot("1");
         list2.MatchSnapshot("2");
+
+        await AssertHasPublishedMessage<ProportionalElectionListChangeMessage>(
+            x => x.List.HasEqualIdAndNewEntityState(listId1, EntityState.Added));
+        await AssertHasPublishedMessage<ProportionalElectionListChangeMessage>(
+            x => x.List.HasEqualIdAndNewEntityState(listId2, EntityState.Added));
     }
 
     [Fact]
@@ -199,6 +209,7 @@ public class ProportionalElectionListCreateTest : BaseGrpcTest<ProportionalElect
             ProportionalElectionId = ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallenWithoutChilds,
             Description = { LanguageUtil.MockAllLanguages("Created list") },
             ShortDescription = { LanguageUtil.MockAllLanguages("Juso") },
+            PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
         };
 
         customizer?.Invoke(request);

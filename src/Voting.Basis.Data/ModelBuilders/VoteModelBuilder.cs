@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using Microsoft.EntityFrameworkCore;
@@ -68,6 +68,14 @@ public class VoteModelBuilder :
         builder
             .Property(x => x.HasTieBreakQuestions)
             .IsRequired();
+
+        builder
+            .Property(x => x.OfficialDescription)
+            .HasJsonConversion();
+
+        builder
+            .Property(x => x.ShortDescription)
+            .HasJsonConversion();
     }
 
     public void Configure(EntityTypeBuilder<BallotQuestion> builder)

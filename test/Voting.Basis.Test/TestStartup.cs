@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using MassTransit.ExtensionsDependencyInjectionIntegration;
@@ -58,6 +58,8 @@ public class TestStartup : Startup
         {
             o.AddConsumerAndConsumerTestHarness<ContestDetailsChangeMessageConsumer>();
             o.AddConsumerAndConsumerTestHarness<ContestOverviewChangeMessageConsumer>();
+            o.AddConsumerAndConsumerTestHarness<CountingCircleChangeMessageConsumer>();
+            o.AddConsumerAndConsumerTestHarness<ProportionalElectionListChangeMessageConsumer>();
         });
     }
 }

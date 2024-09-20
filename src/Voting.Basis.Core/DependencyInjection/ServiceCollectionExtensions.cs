@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using Abraxas.Voting.Basis.Events.V1.Data;
@@ -13,6 +13,7 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddScoped<DomainOfInfluencePermissionBuilder>()
+            .AddScoped<DomainOfInfluenceCantonDefaultsBuilder>()
             .AddEventProcessorServices(config)
             .AddPublisherServices(config)
             .AddEventing(config)

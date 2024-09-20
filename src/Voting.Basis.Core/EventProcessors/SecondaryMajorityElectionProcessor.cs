@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -91,7 +91,8 @@ public class SecondaryMajorityElectionProcessor :
     public async Task Process(SecondaryMajorityElectionUpdated eventData)
     {
         var model = _mapper.Map<SecondaryMajorityElection>(eventData.SecondaryMajorityElection);
-        var existingModel = await GetElection(model.Id);
+        var existingModel = await _repo.GetByKey(model.Id)
+            ?? throw new EntityNotFoundException(model.Id);
 
         model.ElectionGroupId = existingModel.ElectionGroupId;
         await _repo.Update(model);
@@ -101,9 +102,11 @@ public class SecondaryMajorityElectionProcessor :
             await _electionBallotGroupEntryRepo.UpdateCandidateCountOk(model.Id, false, model.NumberOfMandates);
         }
 
-        await _simplePoliticalBusinessBuilder.Update(existingModel);
-        PublishContestDetailsElectionGroupChangeMessage(existingModel);
-        await _eventLogger.LogSecondaryMajorityElectionEvent(eventData, existingModel);
+        var electionInclPrimary = await GetElection(model.Id);
+
+        await _simplePoliticalBusinessBuilder.Update(electionInclPrimary);
+        PublishContestDetailsElectionGroupChangeMessage(electionInclPrimary);
+        await _eventLogger.LogSecondaryMajorityElectionEvent(eventData, electionInclPrimary);
     }
 
     public async Task Process(SecondaryMajorityElectionAfterTestingPhaseUpdated eventData)

@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -12,7 +12,9 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -50,6 +52,14 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
         });
 
         response.MatchSnapshot();
+
+        await RunEvents<BallotUpdated>();
+        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
+            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(VoteMockedData.GossauVoteInContestGossau.Id, EntityState.Modified)
+                 && x.PoliticalBusiness!.Data!.PoliticalBusinessSubType == PoliticalBusinessSubType.VoteVariantBallot);
+
+        var simplePb = await RunOnDb(db => db.SimplePoliticalBusiness.FirstAsync(x => x.Id == VoteMockedData.GossauVoteInContestGossau.Id));
+        simplePb.BusinessSubType.Should().Be(PoliticalBusinessSubType.VoteVariantBallot);
     }
 
     [Fact]
@@ -190,6 +200,31 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
     }
 
     [Fact]
+    public async Task QuestionsOnMultipleBallotsShouldWork()
+    {
+        await ZurichCantonAdminClient.UpdateBallotAsync(new UpdateBallotRequest
+        {
+            Id = VoteMockedData.BallotId2ZurichVoteInContestZurich,
+            VoteId = VoteMockedData.IdZurichVoteInContestZurich,
+            BallotType = SharedProto.BallotType.StandardBallot,
+            SubType = SharedProto.BallotSubType.Variant1,
+            ShortDescription = { LanguageUtil.MockAllLanguages("Variante") },
+            OfficialDescription = { LanguageUtil.MockAllLanguages("Abstimmung Variante") },
+            BallotQuestions =
+            {
+                new ProtoModels.BallotQuestion
+                {
+                    Number = 1,
+                    Question = { LanguageUtil.MockAllLanguages("Variante") },
+                    Type = SharedProto.BallotQuestionType.MainBallot,
+                },
+            },
+        });
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<BallotUpdated>();
+        eventData.MatchSnapshot("event");
+    }
+
+    [Fact]
     public async Task BallotUpdateAfterTestingPhaseShouldWork()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
@@ -303,6 +338,7 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = SharedProto.VoteReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = SharedProto.VoteType.QuestionsOnSingleBallot,
         });
         await AssertStatus(
             async () => await AdminClient.UpdateBallotAsync(NewValidRequest()),
@@ -351,6 +387,7 @@ public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                         Number = 1,
                         Question = { LanguageUtil.MockAllLanguages("Frage 1") },
                         Type = SharedProto.BallotQuestionType.MainBallot,
+                        FederalIdentification = 29348929,
                     },
                 },
         };

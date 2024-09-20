@@ -10,5 +10,7 @@
   ],
   "MultipleVoteBallotsEnabled": false,
   "ProportionalElectionUseCandidateCheckDigit": false,
-  "MajorityElectionUseCandidateCheckDigit": false
+  "MajorityElectionUseCandidateCheckDigit": false,
+  "CreateContestOnHighestHierarchicalLevelEnabled": false,
+  "InternalPlausibilisationDisabled": false
 }

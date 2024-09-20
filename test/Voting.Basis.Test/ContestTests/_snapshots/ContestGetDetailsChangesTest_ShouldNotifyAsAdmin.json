@@ -67,6 +67,7 @@
               "ElectoralRegistrationEnabled": false
             },
             "PoliticalBusinessType": 1,
+            "PoliticalBusinessSubType": 0,
             "Active": true
           },
           "NewEntityState": 1
@@ -140,6 +141,7 @@
               "ElectoralRegistrationEnabled": false
             },
             "PoliticalBusinessType": 1,
+            "PoliticalBusinessSubType": 0,
             "Active": false
           },
           "NewEntityState": 1
@@ -213,6 +215,7 @@
               "ElectoralRegistrationEnabled": false
             },
             "PoliticalBusinessType": 1,
+            "PoliticalBusinessSubType": 0,
             "Active": true
           },
           "NewEntityState": 2
@@ -276,6 +279,7 @@
               "ElectoralRegistrationEnabled": false
             },
             "PoliticalBusinessType": 1,
+            "PoliticalBusinessSubType": 0,
             "Active": false
           },
           "NewEntityState": 3
@@ -371,7 +375,9 @@
               "ReportDomainOfInfluenceLevel": 0,
               "ReviewProcedure": 1,
               "EnforceReviewProcedureForCountingCircles": true,
-              "EnforceCandidateCheckDigitForCountingCircles": false
+              "EnforceCandidateCheckDigitForCountingCircles": false,
+              "IndividualCandidatesDisabled": false,
+              "FederalIdentification": null
             },
             "Description": "Test Election Group",
             "Number": 1,
@@ -423,7 +429,9 @@
               "ReportDomainOfInfluenceLevel": 0,
               "ReviewProcedure": 1,
               "EnforceReviewProcedureForCountingCircles": true,
-              "EnforceCandidateCheckDigitForCountingCircles": false
+              "EnforceCandidateCheckDigitForCountingCircles": false,
+              "IndividualCandidatesDisabled": false,
+              "FederalIdentification": null
             },
             "Description": "Test Election Group",
             "Number": 1,
@@ -465,7 +473,9 @@
               "ReportDomainOfInfluenceLevel": 0,
               "ReviewProcedure": 0,
               "EnforceReviewProcedureForCountingCircles": false,
-              "EnforceCandidateCheckDigitForCountingCircles": false
+              "EnforceCandidateCheckDigitForCountingCircles": false,
+              "IndividualCandidatesDisabled": false,
+              "FederalIdentification": null
             },
             "Description": "",
             "Number": 0,

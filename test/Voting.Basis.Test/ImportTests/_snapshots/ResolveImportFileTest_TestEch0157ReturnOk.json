@@ -65,7 +65,9 @@
         "ReportDomainOfInfluenceLevel": 0,
         "ReviewProcedure": 1,
         "EnforceReviewProcedureForCountingCircles": false,
-        "EnforceCandidateCheckDigitForCountingCircles": false
+        "EnforceCandidateCheckDigitForCountingCircles": false,
+        "IndividualCandidatesDisabled": false,
+        "FederalIdentification": null
       },
       "Candidates": [
         {
@@ -199,7 +201,8 @@
         "BallotBundleSampleSize": 0,
         "ReviewProcedure": 1,
         "EnforceReviewProcedureForCountingCircles": false,
-        "EnforceCandidateCheckDigitForCountingCircles": false
+        "EnforceCandidateCheckDigitForCountingCircles": false,
+        "FederalIdentification": null
       },
       "Lists": [
         {
@@ -224,7 +227,13 @@
             "CountOfCandidates": 0,
             "CandidateCountOk": false,
             "ListUnionDescription": {},
-            "SubListUnionDescription": {}
+            "SubListUnionDescription": {},
+            "Party": {
+              "Id": "",
+              "DomainOfInfluenceId": "",
+              "Name": {},
+              "ShortDescription": {}
+            }
           },
           "Candidates": [
             {
@@ -331,7 +340,13 @@
             "CountOfCandidates": 0,
             "CandidateCountOk": false,
             "ListUnionDescription": {},
-            "SubListUnionDescription": {}
+            "SubListUnionDescription": {},
+            "Party": {
+              "Id": "",
+              "DomainOfInfluenceId": "",
+              "Name": {},
+              "ShortDescription": {}
+            }
           },
           "Candidates": [
             {
@@ -393,7 +408,13 @@
             "CountOfCandidates": 0,
             "CandidateCountOk": false,
             "ListUnionDescription": {},
-            "SubListUnionDescription": {}
+            "SubListUnionDescription": {},
+            "Party": {
+              "Id": "",
+              "DomainOfInfluenceId": "",
+              "Name": {},
+              "ShortDescription": {}
+            }
           },
           "Candidates": [
             {
@@ -525,7 +546,13 @@
             "CountOfCandidates": 0,
             "CandidateCountOk": false,
             "ListUnionDescription": {},
-            "SubListUnionDescription": {}
+            "SubListUnionDescription": {},
+            "Party": {
+              "Id": "",
+              "DomainOfInfluenceId": "",
+              "Name": {},
+              "ShortDescription": {}
+            }
           },
           "Candidates": [
             {
@@ -541,7 +568,7 @@
                   "Seconds": 989539200,
                   "Nanos": 0
                 },
-                "Sex": 3,
+                "Sex": 2,
                 "Occupation": {},
                 "Title": "",
                 "OccupationTitle": {},
@@ -587,7 +614,13 @@
             "CountOfCandidates": 0,
             "CandidateCountOk": false,
             "ListUnionDescription": {},
-            "SubListUnionDescription": {}
+            "SubListUnionDescription": {},
+            "Party": {
+              "Id": "",
+              "DomainOfInfluenceId": "",
+              "Name": {},
+              "ShortDescription": {}
+            }
           },
           "Candidates": [
             {

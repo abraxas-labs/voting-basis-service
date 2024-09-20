@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -41,6 +41,8 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
     private readonly Lazy<TService> _cantonAdminClient;
     private readonly Lazy<TService> _electionAdminUzwilClient;
     private readonly Lazy<TService> _apiReaderClient;
+    private readonly Lazy<TService> _apiReaderDoiClient;
+    private readonly Lazy<TService> _zurichCantonAdminClient;
     private int _currentEventNumber;
 
     protected BaseGrpcTest(TestApplicationFactory factory)
@@ -60,6 +62,8 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
         _electionAdminUzwilClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantUzwil.Id, Roles.ElectionAdmin));
         _electionSupporterClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ElectionSupporter));
         _apiReaderClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ApiReader));
+        _apiReaderDoiClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ApiReaderDoi));
+        _zurichCantonAdminClient = new(() => CreateAuthorizedClient("zürich-sec-id", Roles.CantonAdmin));
 
         MessagingTestHarness = GetService<InMemoryTestHarness>();
     }
@@ -81,6 +85,10 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
     protected TService ElectionAdminUzwilClient => _electionAdminUzwilClient.Value;
 
     protected TService ApiReaderClient => _apiReaderClient.Value;
+
+    protected TService ApiReaderDoiClient => _apiReaderDoiClient.Value;
+
+    protected TService ZurichCantonAdminClient => _zurichCantonAdminClient.Value;
 
     protected InMemoryTestHarness MessagingTestHarness { get; set; }
 

@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -81,6 +81,8 @@ public class MajorityElectionCreateTest : BaseGrpcTest<MajorityElectionService.M
                     EnforceReviewProcedureForCountingCircles = true,
                     CandidateCheckDigit = true,
                     EnforceCandidateCheckDigitForCountingCircles = true,
+                    IndividualCandidatesDisabled = true,
+                    FederalIdentification = 92834984,
                 },
             },
             new MajorityElectionCreated
@@ -270,6 +272,8 @@ public class MajorityElectionCreateTest : BaseGrpcTest<MajorityElectionService.M
             ReviewProcedure = SharedProto.MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
             EnforceCandidateCheckDigitForCountingCircles = true,
+            IndividualCandidatesDisabled = true,
+            FederalIdentification = 92834984,
         };
 
         customizer?.Invoke(request);

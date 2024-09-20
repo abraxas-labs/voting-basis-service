@@ -1,17 +1,20 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Exceptions;
+using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Iam.Store;
+using Voting.Lib.Messaging;
 
 namespace Voting.Basis.Core.Services.Read;
 
@@ -20,6 +23,7 @@ public class ProportionalElectionReader : PoliticalBusinessReader<ProportionalEl
     private readonly IDbRepository<DataContext, ProportionalElectionList> _listRepo;
     private readonly IDbRepository<DataContext, ProportionalElectionListUnion> _listUnionRepo;
     private readonly IDbRepository<DataContext, ProportionalElectionCandidate> _candidateRepo;
+    private readonly MessageConsumerHub<ProportionalElectionListChangeMessage> _proportionalElectionListChangeListener;
 
     public ProportionalElectionReader(
         IDbRepository<DataContext, ProportionalElection> repo,
@@ -27,12 +31,14 @@ public class ProportionalElectionReader : PoliticalBusinessReader<ProportionalEl
         IDbRepository<DataContext, ProportionalElectionListUnion> listUnionRepo,
         IDbRepository<DataContext, ProportionalElectionCandidate> candidateRepo,
         IAuth auth,
-        PermissionService permissionService)
+        PermissionService permissionService,
+        MessageConsumerHub<ProportionalElectionListChangeMessage> proportionalElectionListChangeListener)
         : base(auth, permissionService, repo)
     {
         _listRepo = listRepo;
         _listUnionRepo = listUnionRepo;
         _candidateRepo = candidateRepo;
+        _proportionalElectionListChangeListener = proportionalElectionListChangeListener;
     }
 
     public async Task<IEnumerable<ProportionalElectionList>> GetLists(Guid electionId)
@@ -51,6 +57,7 @@ public class ProportionalElectionReader : PoliticalBusinessReader<ProportionalEl
     {
         var list = await _listRepo.Query()
             .Include(l => l.ProportionalElection)
+            .Include(l => l.Party)
             .FirstOrDefaultAsync(l => l.Id == listId)
             ?? throw new EntityNotFoundException(listId);
 
@@ -126,6 +133,18 @@ public class ProportionalElectionReader : PoliticalBusinessReader<ProportionalEl
 
         await EnsureAllowedToRead(candidate.ProportionalElectionList.ProportionalElection.DomainOfInfluenceId);
         return candidate;
+    }
+
+    public async Task ListenToListChanges(
+        Func<ProportionalElectionListChangeMessage, Task> listener,
+        CancellationToken ct)
+    {
+        var accessibleDoiIds = (await PermissionService.GetAccessibleDomainOfInfluenceHierarchyGroups()).AccessibleDoiIds;
+
+        await _proportionalElectionListChangeListener.Listen(
+            e => e.List.Data != null && accessibleDoiIds.Contains(e.List.Data.ProportionalElection.DomainOfInfluenceId),
+            listener,
+            ct);
     }
 
     protected override async Task<ProportionalElection> QueryById(Guid id)

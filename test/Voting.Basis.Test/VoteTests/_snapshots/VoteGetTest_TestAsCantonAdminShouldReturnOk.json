@@ -1,0 +1,133 @@
+{
+  "Id": "daf1dc06-3b08-4a24-9c76-e25e05b9d0ef",
+  "PoliticalBusinessNumber": "1",
+  "OfficialDescription": {
+    "de": "Variantenabstimmumg Zürich de",
+    "fr": "Variantenabstimmumg Zürich fr",
+    "it": "Variantenabstimmumg Zürich it",
+    "rm": "Variantenabstimmumg Zürich rm"
+  },
+  "ShortDescription": {
+    "de": "Abst ZH de",
+    "fr": "Abst ZH fr",
+    "it": "Abst ZH it",
+    "rm": "Abst ZH rm"
+  },
+  "InternalDescription": "Variantenabstimmumg Zürich auf mehreren Wahlzetteln",
+  "DomainOfInfluenceId": "8af17c9d-6bae-45bf-a85b-b77239f2eefb",
+  "ContestId": "2d98b9a1-404e-44b7-b217-f496949a7639",
+  "Active": true,
+  "Ballots": [
+    {
+      "Id": "b8c09df7-54a8-4d52-88eb-a469c81e4264",
+      "Position": 1,
+      "BallotType": 1,
+      "BallotQuestions": [
+        {
+          "Number": 1,
+          "Question": {
+            "de": "Hauptvorlage de",
+            "fr": "Hauptvorlage fr",
+            "it": "Hauptvorlage it",
+            "rm": "Hauptvorlage rm"
+          },
+          "Type": 1,
+          "FederalIdentification": null
+        }
+      ],
+      "VoteId": "daf1dc06-3b08-4a24-9c76-e25e05b9d0ef",
+      "HasTieBreakQuestions": false,
+      "TieBreakQuestions": [],
+      "SubType": 1,
+      "OfficialDescription": {
+        "de": "Abstimmung Hauptvorlage de",
+        "fr": "Abstimmung Hauptvorlage fr",
+        "it": "Abstimmung Hauptvorlage it",
+        "rm": "Abstimmung Hauptvorlage rm"
+      },
+      "ShortDescription": {
+        "de": "Hauptvorlage de",
+        "fr": "Hauptvorlage fr",
+        "it": "Hauptvorlage it",
+        "rm": "Hauptvorlage rm"
+      }
+    },
+    {
+      "Id": "d5609342-d3e8-4f76-9208-971ff85f5c38",
+      "Position": 2,
+      "BallotType": 1,
+      "BallotQuestions": [
+        {
+          "Number": 1,
+          "Question": {
+            "de": "Gegenvorschlag de",
+            "fr": "Gegenvorschlag fr",
+            "it": "Gegenvorschlag it",
+            "rm": "Gegenvorschlag rm"
+          },
+          "Type": 1,
+          "FederalIdentification": null
+        }
+      ],
+      "VoteId": "daf1dc06-3b08-4a24-9c76-e25e05b9d0ef",
+      "HasTieBreakQuestions": false,
+      "TieBreakQuestions": [],
+      "SubType": 2,
+      "OfficialDescription": {
+        "de": "Abstimmung Gegenvorschlag de",
+        "fr": "Abstimmung Gegenvorschlag fr",
+        "it": "Abstimmung Gegenvorschlag it",
+        "rm": "Abstimmung Gegenvorschlag rm"
+      },
+      "ShortDescription": {
+        "de": "Gegenvorschlag de",
+        "fr": "Gegenvorschlag fr",
+        "it": "Gegenvorschlag it",
+        "rm": "Gegenvorschlag rm"
+      }
+    },
+    {
+      "Id": "44063379-53b3-48dc-9bbd-f84ff2d35ae2",
+      "Position": 3,
+      "BallotType": 1,
+      "BallotQuestions": [
+        {
+          "Number": 1,
+          "Question": {
+            "de": "Stichfrage de",
+            "fr": "Stichfrage fr",
+            "it": "Stichfrage it",
+            "rm": "Stichfrage rm"
+          },
+          "Type": 1,
+          "FederalIdentification": null
+        }
+      ],
+      "VoteId": "daf1dc06-3b08-4a24-9c76-e25e05b9d0ef",
+      "HasTieBreakQuestions": false,
+      "TieBreakQuestions": [],
+      "SubType": 6,
+      "OfficialDescription": {
+        "de": "Abstimmung Stichfrage de",
+        "fr": "Abstimmung Stichfrage fr",
+        "it": "Abstimmung Stichfrage it",
+        "rm": "Abstimmung Stichfrage rm"
+      },
+      "ShortDescription": {
+        "de": "Stichfrage de",
+        "fr": "Stichfrage fr",
+        "it": "Stichfrage it",
+        "rm": "Stichfrage rm"
+      }
+    }
+  ],
+  "ReportDomainOfInfluenceLevel": 0,
+  "ResultAlgorithm": 1,
+  "ResultEntry": 1,
+  "BallotBundleSampleSizePercent": 0,
+  "AutomaticBallotBundleNumberGeneration": false,
+  "EnforceResultEntryForCountingCircles": true,
+  "ReviewProcedure": 1,
+  "EnforceReviewProcedureForCountingCircles": true,
+  "Type": 2
+}

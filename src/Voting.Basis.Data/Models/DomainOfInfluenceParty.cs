@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -20,4 +20,6 @@ public class DomainOfInfluenceParty : BaseEntity
     public ICollection<ProportionalElectionCandidate> ProportionalElectionCandidates { get; set; } = new HashSet<ProportionalElectionCandidate>();
 
     public bool Deleted { get; set; }
+
+    public ICollection<ProportionalElectionList> ProportionalElectionLists { get; set; } = new HashSet<ProportionalElectionList>();
 }

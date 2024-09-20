@@ -1,14 +1,17 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Messaging.Extensions;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Messaging;
+using EntityState = Voting.Basis.Core.Messaging.Messages.EntityState;
 
 namespace Voting.Basis.Core.EventProcessors;
 
@@ -41,6 +44,19 @@ public class SimplePoliticalBusinessBuilder<TPoliticalBusiness>
         var simplePoliticalBusiness = _mapper.Map<SimplePoliticalBusiness>(politicalBusiness);
         await _politicalBusinessRepo.Update(simplePoliticalBusiness);
         PublishContestDetailsChangeMessage(politicalBusiness, EntityState.Modified);
+    }
+
+    public async Task UpdateSubTypeIfNecessary(TPoliticalBusiness politicalBusiness)
+    {
+        var simplePoliticalBusiness = _mapper.Map<SimplePoliticalBusiness>(politicalBusiness);
+        var affectedRows = await _politicalBusinessRepo.Query()
+            .Where(x => x.Id == simplePoliticalBusiness.Id && x.BusinessSubType != simplePoliticalBusiness.BusinessSubType)
+            .ExecuteUpdateAsync(x => x.SetProperty(prop => prop.BusinessSubType, simplePoliticalBusiness.BusinessSubType));
+
+        if (affectedRows > 0)
+        {
+            PublishContestDetailsChangeMessage(politicalBusiness, EntityState.Modified);
+        }
     }
 
     public async Task Delete(TPoliticalBusiness politicalBusiness)

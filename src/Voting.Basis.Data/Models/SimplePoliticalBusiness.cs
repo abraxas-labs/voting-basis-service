@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 namespace Voting.Basis.Data.Models;
@@ -10,5 +10,9 @@ public class SimplePoliticalBusiness : PoliticalBusiness
 {
     public override PoliticalBusinessType PoliticalBusinessType => BusinessType;
 
+    public override PoliticalBusinessSubType PoliticalBusinessSubType => BusinessSubType;
+
     public PoliticalBusinessType BusinessType { get; set; }
+
+    public PoliticalBusinessSubType BusinessSubType { get; set; }
 }

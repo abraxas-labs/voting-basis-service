@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -88,6 +88,7 @@ public class SecondaryMajorityElectionCreateTest : BaseGrpcTest<MajorityElection
                     NumberOfMandates = 2,
                     AllowedCandidates = SharedProto.SecondaryMajorityElectionAllowedCandidates.MustExistInPrimaryElection,
                     PrimaryMajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen,
+                    IndividualCandidatesDisabled = true,
                 },
             },
             new SecondaryMajorityElectionCreated
@@ -186,6 +187,7 @@ public class SecondaryMajorityElectionCreateTest : BaseGrpcTest<MajorityElection
             NumberOfMandates = 5,
             AllowedCandidates = SharedProto.SecondaryMajorityElectionAllowedCandidates.MayExistInPrimaryElection,
             PrimaryMajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen,
+            IndividualCandidatesDisabled = true,
         };
 
         customizer?.Invoke(request);

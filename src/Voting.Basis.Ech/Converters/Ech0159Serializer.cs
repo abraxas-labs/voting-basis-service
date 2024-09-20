@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -57,7 +57,7 @@ public class Ech0159Serializer
 
         return ToXmlBytes(new Delivery
         {
-            DeliveryHeader = _deliveryHeaderProvider.BuildHeader(),
+            DeliveryHeader = _deliveryHeaderProvider.BuildHeader(!contest.TestingPhaseEnded),
             InitialDelivery = new EventInitialDelivery
             {
                 Contest = contestType,

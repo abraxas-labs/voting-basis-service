@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -194,6 +194,8 @@ public class Startup
 
         bus.AddConsumer<ContestOverviewChangeMessageConsumer>().Endpoint(ConfigureMessagingConsumerEndpoint);
         bus.AddConsumer<ContestDetailsChangeMessageConsumer>().Endpoint(ConfigureMessagingConsumerEndpoint);
+        bus.AddConsumer<CountingCircleChangeMessageConsumer>().Endpoint(ConfigureMessagingConsumerEndpoint);
+        bus.AddConsumer<ProportionalElectionListChangeMessageConsumer>().Endpoint(ConfigureMessagingConsumerEndpoint);
     }
 
     private void ConfigureMessagingConsumerEndpoint(IConsumerEndpointRegistrationConfigurator config)

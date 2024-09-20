@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -47,6 +47,20 @@ public class BallotDeleteTest : BaseGrpcTest<VoteService.VoteServiceClient>
         eventData.BallotId.Should().Be(VoteMockedData.BallotIdStGallenVoteInContestStGallen);
         eventData.MatchSnapshot();
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
+    }
+
+    [Fact]
+    public async Task TestMultipleBallots()
+    {
+        await ZurichCantonAdminClient.DeleteBallotAsync(new DeleteBallotRequest
+        {
+            Id = VoteMockedData.BallotId3ZurichVoteInContestZurich,
+            VoteId = VoteMockedData.IdZurichVoteInContestZurich,
+        });
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<BallotDeleted>();
+
+        eventData.BallotId.Should().Be(VoteMockedData.BallotId3ZurichVoteInContestZurich);
+        eventData.MatchSnapshot();
     }
 
     [Fact]
@@ -154,6 +168,7 @@ public class BallotDeleteTest : BaseGrpcTest<VoteService.VoteServiceClient>
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = SharedProto.VoteReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = SharedProto.VoteType.QuestionsOnSingleBallot,
         });
         await AssertStatus(
             async () => await AdminClient.DeleteBallotAsync(NewValidRequest()),

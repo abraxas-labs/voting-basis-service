@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -15,6 +15,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Common;
@@ -75,6 +76,7 @@ public class ProportionalElectionListUpdateTest : BaseGrpcTest<ProportionalElect
                     ProportionalElectionId = ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallen,
                     Description = { LanguageUtil.MockAllLanguages("Updated list") },
                     ShortDescription = { LanguageUtil.MockAllLanguages("Updated s.d. <script>alert(\"hi\");</script>") },
+                    PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
                 },
             });
 
@@ -123,6 +125,9 @@ public class ProportionalElectionListUpdateTest : BaseGrpcTest<ProportionalElect
                 "<span><span class=\"main-list\">Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; fr</span>, <span>Liste 2 fr</span></span>",
                 "<span><span class=\"main-list\">Liste 1 fr</span>, <span class=\"main-list\">Liste 1 fr</span>, <span>Liste 2 fr</span>, <span>…</span></span>",
                 "<span><span class=\"main-list\">Liste 1 fr</span>, <span class=\"main-list\">Liste 1 fr</span>, <span>Liste 2 fr</span>, <span>…</span></span>");
+
+        await AssertHasPublishedMessage<ProportionalElectionListChangeMessage>(
+            x => x.List.HasEqualIdAndNewEntityState(listId, EntityState.Modified));
     }
 
     [Fact]
@@ -188,11 +193,12 @@ public class ProportionalElectionListUpdateTest : BaseGrpcTest<ProportionalElect
     [Fact]
     public async Task ProportionalElectionListUpdateAfterTestingPhaseShouldWork()
     {
+        var listId = Guid.Parse(ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestBund);
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AdminClient.UpdateListAsync(new UpdateProportionalElectionListRequest
         {
             ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund,
-            Id = ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestBund,
+            Id = listId.ToString(),
             BlankRowCount = 0,
             Position = 2,
             OrderNumber = "2",
@@ -206,9 +212,12 @@ public class ProportionalElectionListUpdateTest : BaseGrpcTest<ProportionalElect
         await TestEventPublisher.Publish(ev);
         var election = await AdminClient.GetListAsync(new GetProportionalElectionListRequest
         {
-            Id = ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestBund,
+            Id = listId.ToString(),
         });
         election.MatchSnapshot("reponse");
+
+        await AssertHasPublishedMessage<ProportionalElectionListChangeMessage>(
+            x => x.List.HasEqualIdAndNewEntityState(listId, EntityState.Modified));
     }
 
     [Fact]
@@ -265,6 +274,7 @@ public class ProportionalElectionListUpdateTest : BaseGrpcTest<ProportionalElect
             ProportionalElectionId = ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallen,
             Description = { LanguageUtil.MockAllLanguages("Updated list") },
             ShortDescription = { LanguageUtil.MockAllLanguages("updated s.d.") },
+            PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
         };
 
         customizer?.Invoke(request);

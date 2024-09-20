@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -12,6 +12,7 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
@@ -47,6 +48,9 @@ public class VoteUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<VoteUpdated, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event", d => d.Vote.Id);
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
+
+        var simplePb = await RunOnDb(db => db.SimplePoliticalBusiness.FirstAsync(x => x.Id == VoteMockedData.StGallenVoteInContestStGallen.Id));
+        simplePb.BusinessSubType.Should().Be(PoliticalBusinessSubType.Unspecified);
     }
 
     [Fact]
@@ -137,6 +141,18 @@ public class VoteUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
             })),
             StatusCode.InvalidArgument,
             "ContestId");
+    }
+
+    [Fact]
+    public async Task ChangeTypeShouldWork()
+    {
+        await AdminClient.UpdateAsync(NewValidRequest(x => x.Type = SharedProto.VoteType.VariantQuestionsOnMultipleBallots));
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<VoteUpdated>();
+        eventData.MatchSnapshot("event", d => d.Vote.Id);
+
+        await RunEvents<VoteUpdated>();
+        var simplePb = await RunOnDb(db => db.SimplePoliticalBusiness.FirstAsync(x => x.Id == VoteMockedData.StGallenVoteInContestStGallen.Id));
+        simplePb.BusinessSubType.Should().Be(PoliticalBusinessSubType.VoteVariantBallot);
     }
 
     [Fact]
@@ -322,6 +338,7 @@ public class VoteUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = SharedProto.VoteReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = SharedProto.VoteType.QuestionsOnSingleBallot,
         };
 
         customizer?.Invoke(request);
@@ -347,6 +364,7 @@ public class VoteUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                 EnforceResultEntryForCountingCircles = true,
                 ReviewProcedure = SharedProto.VoteReviewProcedure.Electronically,
                 EnforceReviewProcedureForCountingCircles = true,
+                Type = SharedProto.VoteType.QuestionsOnSingleBallot,
             },
         };
 

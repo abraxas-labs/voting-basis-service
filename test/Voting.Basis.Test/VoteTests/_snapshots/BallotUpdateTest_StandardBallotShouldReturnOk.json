@@ -29,12 +29,16 @@
             "it": "Frage 1 it",
             "rm": "Frage 1 rm"
           },
-          "Type": 1
+          "Type": 1,
+          "FederalIdentification": 29348929
         }
       ],
       "VoteId": "96d8275f-f1f8-4933-a097-5c0c19f54567",
       "HasTieBreakQuestions": false,
-      "TieBreakQuestions": []
+      "TieBreakQuestions": [],
+      "SubType": 0,
+      "OfficialDescription": {},
+      "ShortDescription": {}
     }
   }
 }

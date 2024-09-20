@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -90,6 +90,8 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
 
     public bool EnforceCandidateCheckDigitForCountingCircles { get; private set; }
 
+    public int? FederalIdentification { get; set; }
+
     public void CreateFrom(ProportionalElection proportionalElection)
     {
         if (proportionalElection.Id == default)
@@ -144,6 +146,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         ValidationUtils.EnsureNotModified(ReviewProcedure, proportionalElection.ReviewProcedure);
         ValidationUtils.EnsureNotModified(EnforceReviewProcedureForCountingCircles, proportionalElection.EnforceReviewProcedureForCountingCircles);
         ValidationUtils.EnsureNotModified(EnforceCandidateCheckDigitForCountingCircles, proportionalElection.EnforceCandidateCheckDigitForCountingCircles);
+        ValidationUtils.EnsureNotModified(FederalIdentification, proportionalElection.FederalIdentification);
 
         var ev = new ProportionalElectionAfterTestingPhaseUpdated
         {
@@ -835,7 +838,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     private void Apply(ProportionalElectionListUnionMainListUpdated ev)
     {
         var existingListUnion = FindListUnion(GuidParser.Parse(ev.ProportionalElectionListUnionId));
-        existingListUnion.ProportionalElectionMainListId = GuidParser.Parse(ev.ProportionalElectionMainListId);
+        existingListUnion.ProportionalElectionMainListId = GuidParser.ParseNullable(ev.ProportionalElectionMainListId);
     }
 
     private void Apply(ProportionalElectionCandidateCreated ev)

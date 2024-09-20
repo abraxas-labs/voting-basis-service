@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -20,6 +20,7 @@ public class UpdateDomainOfInfluenceForAdminRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => x.Name = RandomStringUtil.GenerateSimpleSingleLineText(100));
         yield return NewValidRequest(x => x.ShortName = RandomStringUtil.GenerateSimpleSingleLineText(1));
         yield return NewValidRequest(x => x.ShortName = RandomStringUtil.GenerateSimpleSingleLineText(50));
+        yield return NewValidRequest(x => x.ShortName = string.Empty);
         yield return NewValidRequest(x => x.AuthorityName = RandomStringUtil.GenerateSimpleSingleLineText(1));
         yield return NewValidRequest(x => x.AuthorityName = RandomStringUtil.GenerateSimpleSingleLineText(100));
         yield return NewValidRequest(x => x.SecureConnectId = RandomStringUtil.GenerateNumeric(18));
@@ -30,8 +31,8 @@ public class UpdateDomainOfInfluenceForAdminRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => x.Bfs = RandomStringUtil.GenerateAlphanumericWhitespace(1));
         yield return NewValidRequest(x => x.Bfs = RandomStringUtil.GenerateAlphanumericWhitespace(8));
         yield return NewValidRequest(x => x.Code = string.Empty);
-        yield return NewValidRequest(x => x.Code = RandomStringUtil.GenerateAlphanumericWhitespace(1));
-        yield return NewValidRequest(x => x.Code = RandomStringUtil.GenerateAlphanumericWhitespace(12));
+        yield return NewValidRequest(x => x.Code = RandomStringUtil.GenerateSimpleSingleLineText(1));
+        yield return NewValidRequest(x => x.Code = RandomStringUtil.GenerateSimpleSingleLineText(20));
         yield return NewValidRequest(x => x.SortNumber = 0);
         yield return NewValidRequest(x => x.SortNumber = 1000);
         yield return NewValidRequest(x => x.ExportConfigurations.Clear());
@@ -45,6 +46,7 @@ public class UpdateDomainOfInfluenceForAdminRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => x.SapCustomerOrderNumber = RandomStringUtil.GenerateNumeric(20));
         yield return NewValidRequest(x => x.NameForProtocol = string.Empty);
         yield return NewValidRequest(x => x.NameForProtocol = RandomStringUtil.GenerateComplexSingleLineText(100));
+        yield return NewValidRequest(x => x.PlausibilisationConfiguration = null);
     }
 
     protected override IEnumerable<UpdateDomainOfInfluenceForAdminRequest> NotOkMessages()
@@ -54,7 +56,6 @@ public class UpdateDomainOfInfluenceForAdminRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => x.Name = string.Empty);
         yield return NewValidRequest(x => x.Name = RandomStringUtil.GenerateSimpleSingleLineText(101));
         yield return NewValidRequest(x => x.Name = "Bezirk\n Uzwil");
-        yield return NewValidRequest(x => x.ShortName = string.Empty);
         yield return NewValidRequest(x => x.ShortName = RandomStringUtil.GenerateSimpleSingleLineText(51));
         yield return NewValidRequest(x => x.ShortName = "BZ\n Uz");
         yield return NewValidRequest(x => x.AuthorityName = string.Empty);
@@ -70,11 +71,10 @@ public class UpdateDomainOfInfluenceForAdminRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => x.ContactPerson = null);
         yield return NewValidRequest(x => x.Bfs = RandomStringUtil.GenerateAlphanumericWhitespace(9));
         yield return NewValidRequest(x => x.Bfs = "1234-56");
-        yield return NewValidRequest(x => x.Code = RandomStringUtil.GenerateAlphanumericWhitespace(13));
-        yield return NewValidRequest(x => x.Code = "1234-56");
+        yield return NewValidRequest(x => x.Code = RandomStringUtil.GenerateSimpleSingleLineText(21));
+        yield return NewValidRequest(x => x.Code = "1234_56");
         yield return NewValidRequest(x => x.SortNumber = -1);
         yield return NewValidRequest(x => x.SortNumber = 1001);
-        yield return NewValidRequest(x => x.PlausibilisationConfiguration = null);
         yield return NewValidRequest(x => x.ExternalPrintingCenterEaiMessageType = RandomStringUtil.GenerateNumeric(6));
         yield return NewValidRequest(x => x.ExternalPrintingCenterEaiMessageType = RandomStringUtil.GenerateNumeric(8));
         yield return NewValidRequest(x => x.ExternalPrintingCenterEaiMessageType = RandomStringUtil.GenerateAlphabetic(7));

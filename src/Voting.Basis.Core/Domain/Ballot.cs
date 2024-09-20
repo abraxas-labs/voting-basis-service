@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -31,4 +31,10 @@ public class Ballot
     public bool HasTieBreakQuestions { get; internal set; }
 
     public List<TieBreakQuestion> TieBreakQuestions { get; internal set; } = new();
+
+    public BallotSubType SubType { get; internal set; }
+
+    public Dictionary<string, string> OfficialDescription { get; set; } = new();
+
+    public Dictionary<string, string> ShortDescription { get; set; } = new();
 }

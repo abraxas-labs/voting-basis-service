@@ -1,4 +1,4 @@
-# ✨ Changelog (`v2.12.1`)
+# ✨ Changelog (`v2.28.0`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,227 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v2.12.1
-Previous version ---- v1.68.0
+This version -------- v2.28.0
+Previous version ---- v2.12.1
 Initial version ----- v1.27.15
-Total commits ------- 31
+Total commits ------- 37
 ```
+
+## [v2.28.0] - 2024-09-12
+
+### 🔄 Changed
+
+- consider testing phase in testDeliveryFlag
+
+## [v2.27.1] - 2024-09-11
+
+### 🔄 Changed
+
+- move federal identification to ballot question
+
+## [v2.27.0] - 2024-09-06
+
+### 🆕 Added
+
+- add federal identification
+
+## [v2.26.2] - 2024-09-04
+
+### 🔄 Changed
+
+- migrate from gcr to harbor
+
+## [v2.26.1] - 2024-09-02
+
+### 🔄 Changed
+
+- update simple secondary majority election correctly
+
+## [v2.26.0] - 2024-08-28
+
+### 🆕 Added
+
+- optional individual candidates on majority elections
+
+## [v2.25.3] - 2024-08-28
+
+### 🔄 Changed
+
+- counting circle change listener
+
+## [v2.25.2] - 2024-08-28
+
+🔄 Changed
+
+update bug bounty template reference
+patch ci-cd template version, align with new defaults
+
+## [v2.25.1] - 2024-08-22
+
+### 🔄 Changed
+
+- move environment specific app settings out of default file
+
+## [v2.25.0] - 2024-08-22
+
+### 🆕 Added
+
+- add counting circle and proportional election list change listener
+
+## [v2.24.1] - 2024-08-20
+
+### 🔄 Changed
+
+- ensure swagger generator can be disabled completely
+
+## [v2.24.0] - 2024-08-19
+
+### 🔄 Changed
+
+- apply CORS allowed origin least privilege
+
+## [v2.23.4] - 2024-08-15
+
+### 🔄 Changed
+
+- delete candidate throws if candidate is in a ballot group
+
+## [v2.23.3] - 2024-08-14
+
+### 🔄 Changed
+
+- proportional election union main list optional
+
+## [v2.23.2] - 2024-08-14
+
+### 🔄 Changed
+
+- include only domain of influences on municipality level for duplicated bfs validation
+
+## [v2.23.1] - 2024-08-13
+
+### 🔄 Changed
+
+- Updated the VotingLibVersion property in the Common.props file from 12.10.1 to 12.10.5. This update includes improvements for the proto string validation for better error reporting.
+
+## [v2.23.0] - 2024-08-13
+
+### 🔄 Changed
+
+- Change validation type of DOI/counting circle code from "alphanumeric whitespace" to "simple single line text"
+
+## [v2.22.0] - 2024-08-13
+
+### 🔄 Changed
+
+- update proto version
+
+### 🆕 Added
+
+- add party to proportional election list
+
+## [v2.21.2] - 2024-08-12
+
+### 🔄 Changed
+
+- deprecated sex type undefined
+
+## [v2.21.1] - 2024-08-08
+
+### :arrows_counterclockwise: Changed
+
+- correctly track vote sub type when active state is updated
+
+## [v2.21.0] - 2024-08-07
+
+### :new: Added
+
+- added political business sub type
+
+## [v2.20.1] - 2024-08-06
+
+### :x: Removed
+
+- remove canton settings update same tenant permission
+
+## [v2.20.0] - 2024-07-29
+
+### :new: Added
+
+- support variant vote on multiple ballots
+
+## [v2.19.0] - 2024-07-26
+
+### 🔄 Changed
+
+- Make DOI short name optional
+- Increase max length of DOI/counting circle code to 20 from 12
+
+## [v2.18.0] - 2024-07-19
+
+### 🆕 Added
+
+- canton settings with publish results before audited tentatively
+
+## [v2.17.1] - 2024-07-18
+
+### 🔄 Changed
+
+- schedule the counting circle e-voting activation correctly
+
+## [v2.17.0] - 2024-07-16
+
+### 🔄 Changed
+
+- set counting circle e-voting at a specific date
+
+## [v2.16.1] - 2024-07-15
+
+### 🔒 Security
+
+- upgrade npgsql to fix vulnerability CVE-2024-0057
+
+## [v2.16.0] - 2024-07-11
+
+### 🆕 Added
+
+- add role ApiReaderDoi
+
+## [v2.15.2] - 2024-07-04
+
+### 🔄 Changed
+
+- update voting library to implement case-insensitivity for headers as per RFC-2616
+
+## [v2.15.1] - 2024-07-01
+
+### 🔄 Changed
+
+- fix internal plausibilisation error for publisher
+
+## [v2.15.0] - 2024-06-27
+
+### 🆕 Added
+
+- add internal plausibilisation canton settings
+
+## [v2.14.1] - 2024-06-25
+
+### 🔄 Changed
+
+- create zip file with time zone info
+
+## [v2.14.0] - 2024-06-25
+
+### 🆕 Added
+
+- add create contest on highest hierarchical level canton settings
+
+## [v2.13.0] - 2024-06-21
+
+### 🆕 Added
+
+- add political business finalize canton settings
 
 ## [v2.12.1] - 2024-05-29
 
@@ -92,19 +308,13 @@ Total commits ------- 31
 
 - add state plausibilised disabled canton setting
 
-## [v2.4.0] - 2024-04-18
-
 ### 🆕 Added
 
 - add counting circle result state descriptions
 
-## [v2.3.0] - 2024-04-17
-
 ### :new: Added
 
 - added domain of influence voting card color
-
-## [v2.2.0] - 2024-04-15
 
 ### :new: Added
 
@@ -112,19 +322,13 @@ Total commits ------- 31
 
 - added view partial counting circle results flag to domain of influence
 
-## [v2.1.1] - 2024-04-08
-
 ### 🔄 Changed
 
 - admin management service contains the return address of dois now
 
-## [v2.1.0] - 2024-04-08
-
 ### 🆕 Added
 
 - add evoting counting circle
-
-## [v2.0.0] - 2024-03-15
 
 ### 🆕 Added
 
@@ -169,115 +373,77 @@ BREAKING CHANGE: Updated service to .NET 8 LTS.
 
 - added canton to counting circle
 
-## [v1.68.1] - 2024-03-12
-
 ### 🔄 Changed
 
 - update voting library with extended validation rule set.
-
-## [v1.68.0] - 2024-02-19
 
 ### 🆕 Added
 
 - Add proportional wabsti exports with a single political business
 
-## [v1.67.4] - 2024-02-14
-
 ### 🔒 Security
 
 - Validate export configurations on domain of influence create and update
-
-## [v1.67.3] - 2024-02-14
 
 ### 🔄 Changed
 
 - update voting library with extended validation rule set.
 
-## [v1.67.2] - 2024-02-07
-
 ### 🔄 Changed
 
 - Group lists in proportional election unions
-
-## [v1.67.1] - 2024-02-06
 
 ### 🔄 Changed
 
 - Standardized proportional election mandate algorithms in unions
 
-## [v1.67.0] - 2024-02-06
-
 ### 🆕 Added
 
 - Double proportional election mandate algorithms
-
-## [v1.66.0] - 2024-02-05
 
 ### 🆕 Added
 
 - database query monitoring
 
-## [v1.65.1] - 2024-01-31
-
 ### :arrows_counterclockwise: Changed
 
 - remove domain of influence type hierarchy checks
-
-## [v1.65.0] - 2024-01-31
 
 ### 🆕 Added
 
 - Add counting circle electorate
 
-## [v1.64.1] - 2024-01-29
-
 ### 🔄 Changed
 
 - define default metrics port
-
-## [v1.64.0] - 2024-01-26
 
 ### 🆕 Added
 
 - add candidate check digit
 
-## [v1.63.1] - 2024-01-23
-
 ### 🔄 Changed
 
 - Cascade delete of candidates when a domain of influence with parties is deleted
-
-## [v1.63.0] - 2024-01-10
 
 ### :new: Added
 
 - added permission service
 
-## [v1.62.0] - 2024-01-04
-
 ### 🆕 Added
 
 - add new zh features flag
-
-## [v1.61.1] - 2023-12-21
 
 ### 🔄 Changed
 
 - update lib with configurable malware scanner
 
-## [v1.61.0] - 2023-12-20
-
 ### :lock: Security
 
 - rework authentication system to use permissions instead of roles
 
-## [v1.60.0] - 2023-12-20
-
 ### 🆕 Added
 
 - Add counting machine flag to canton settings
-
-## [v1.59.0] - 2023-12-20
 
 ### 🆕 Added
 
@@ -643,6 +809,197 @@ BREAKING CHANGE: Updated service to .NET 8 LTS.
 - extend evoting date with time
 
 The readmodel needs to be recreated after this MR.
+
+## [v2.4.0] - 2024-04-18
+
+### 🆕 Added
+
+- add counting circle result state descriptions
+
+## [v2.3.0] - 2024-04-17
+
+### :new: Added
+
+- added domain of influence voting card color
+
+## [v2.2.0] - 2024-04-15
+
+### :new: Added
+
+- added election supporter role
+
+- added view partial counting circle results flag to domain of influence
+
+## [v2.1.1] - 2024-04-08
+
+### 🔄 Changed
+
+- admin management service contains the return address of dois now
+
+## [v2.1.0] - 2024-04-08
+
+### 🆕 Added
+
+- add evoting counting circle
+
+## [v2.0.0] - 2024-03-15
+
+### 🆕 Added
+
+- add virtual top level domain of influence
+
+### :lock: Security
+
+- dependency and runtime patch policy
+- use latest dotnet runtime v8.0.3
+
+### :arrows_counterclockwise: Changed
+
+- update input validation for vote attribute
+
+### 🔄 Changed
+
+- update voting library with extended validation rule set.
+
+### 🆕 Added
+
+- add vote result algorithm popular and counting circle majority
+
+### 🔄 Changed
+
+- change file names of eCH exports
+
+### 🆕 Added
+
+- add political assembly
+
+BREAKING CHANGE: Updated service to .NET 8 LTS.
+
+### :arrows_counterclockwise: Changed
+
+- update to dotnet 8
+
+### :lock: Security
+
+- apply patch policy
+
+### :new: Added
+
+- added canton to counting circle
+
+## [v1.68.1] - 2024-03-12
+
+### 🔄 Changed
+
+- update voting library with extended validation rule set.
+
+## [v1.68.0] - 2024-02-19
+
+### 🆕 Added
+
+- Add proportional wabsti exports with a single political business
+
+## [v1.67.4] - 2024-02-14
+
+### 🔒 Security
+
+- Validate export configurations on domain of influence create and update
+
+## [v1.67.3] - 2024-02-14
+
+### 🔄 Changed
+
+- update voting library with extended validation rule set.
+
+## [v1.67.2] - 2024-02-07
+
+### 🔄 Changed
+
+- Group lists in proportional election unions
+
+## [v1.67.1] - 2024-02-06
+
+### 🔄 Changed
+
+- Standardized proportional election mandate algorithms in unions
+
+## [v1.67.0] - 2024-02-06
+
+### 🆕 Added
+
+- Double proportional election mandate algorithms
+
+## [v1.66.0] - 2024-02-05
+
+### 🆕 Added
+
+- database query monitoring
+
+## [v1.65.1] - 2024-01-31
+
+### :arrows_counterclockwise: Changed
+
+- remove domain of influence type hierarchy checks
+
+## [v1.65.0] - 2024-01-31
+
+### 🆕 Added
+
+- Add counting circle electorate
+
+## [v1.64.1] - 2024-01-29
+
+### 🔄 Changed
+
+- define default metrics port
+
+## [v1.64.0] - 2024-01-26
+
+### 🆕 Added
+
+- add candidate check digit
+
+## [v1.63.1] - 2024-01-23
+
+### 🔄 Changed
+
+- Cascade delete of candidates when a domain of influence with parties is deleted
+
+## [v1.63.0] - 2024-01-10
+
+### :new: Added
+
+- added permission service
+
+## [v1.62.0] - 2024-01-04
+
+### 🆕 Added
+
+- add new zh features flag
+
+## [v1.61.1] - 2023-12-21
+
+### 🔄 Changed
+
+- update lib with configurable malware scanner
+
+## [v1.61.0] - 2023-12-20
+
+### :lock: Security
+
+- rework authentication system to use permissions instead of roles
+
+## [v1.60.0] - 2023-12-20
+
+### 🆕 Added
+
+- Add counting machine flag to canton settings
+
+## [v1.59.0] - 2023-12-20
+
+### 🆕 Added
+
+- add eCH from voting lib
 
 ## [v1.58.0] - 2023-12-19
 

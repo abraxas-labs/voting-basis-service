@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -81,6 +81,7 @@ public class ProportionalElectionCreateTest : BaseGrpcTest<ProportionalElectionS
                     EnforceReviewProcedureForCountingCircles = true,
                     CandidateCheckDigit = false,
                     EnforceCandidateCheckDigitForCountingCircles = true,
+                    FederalIdentification = 29348929,
                 },
             },
             new ProportionalElectionCreated
@@ -298,6 +299,7 @@ public class ProportionalElectionCreateTest : BaseGrpcTest<ProportionalElectionS
             ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
             EnforceCandidateCheckDigitForCountingCircles = true,
+            FederalIdentification = 29348929,
         };
 
         customizer?.Invoke(request);

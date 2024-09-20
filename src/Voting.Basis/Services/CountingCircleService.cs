@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -128,5 +128,16 @@ public class CountingCircleService : ServiceBase
     {
         var data = await _countingCircleReader.ListMergers(request.Merged);
         return _mapper.Map<CountingCirclesMergers>(data);
+    }
+
+    [AuthorizeAnyPermission(Permissions.CountingCircle.Read, Permissions.CountingCircle.ReadSameCanton, Permissions.CountingCircle.ReadAll)]
+    public override Task GetChanges(
+        GetCountingCircleChangesRequest request,
+        IServerStreamWriter<CountingCircleChangeMessage> responseStream,
+        ServerCallContext context)
+    {
+        return _countingCircleReader.ListenToCountingCircleChanges(
+            e => responseStream.WriteAsync(_mapper.Map<CountingCircleChangeMessage>(e)),
+            context.CancellationToken);
     }
 }

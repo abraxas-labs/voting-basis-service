@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -39,7 +39,6 @@ public class CountingCircleListTest : BaseGrpcTest<CountingCircleService.Countin
     public async Task TestAsAdminShouldReturnAll()
     {
         var list = await AdminClient.ListAsync(new ListCountingCircleRequest());
-        list.CountingCircles_.Should().HaveCount(8);
         list.CountingCircles_.MatchSnapshot();
     }
 

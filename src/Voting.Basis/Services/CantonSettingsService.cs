@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Threading.Tasks;
@@ -43,7 +43,7 @@ public class CantonSettingsService : ServiceBase
         return new IdValue { Id = data.Id.ToString() };
     }
 
-    [AuthorizeAnyPermission(Permissions.CantonSettings.UpdateSameTenant, Permissions.CantonSettings.UpdateAll)]
+    [AuthorizePermission(Permissions.CantonSettings.UpdateAll)]
     public override async Task<Empty> Update(
         UpdateCantonSettingsRequest request,
         ServerCallContext context)

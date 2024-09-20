@@ -45,7 +45,11 @@
       "NameForProtocol": "Stadt Gossau",
       "Electorates": [],
       "Canton": 1,
-      "EVoting": true
+      "EVoting": true,
+      "EVotingActiveFrom": {
+        "Seconds": 1546300800,
+        "Nanos": 0
+      }
     },
     {
       "Id": "3ec3d50c-6cb7-4ba1-bd1a-2882153834b0",
@@ -92,7 +96,8 @@
       "NameForProtocol": "Stadt Jona",
       "Electorates": [],
       "Canton": 1,
-      "EVoting": false
+      "EVoting": false,
+      "EVotingActiveFrom": null
     },
     {
       "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a4e",
@@ -139,7 +144,8 @@
       "NameForProtocol": "Kirche Uzwil",
       "Electorates": [],
       "Canton": 1,
-      "EVoting": false
+      "EVoting": false,
+      "EVotingActiveFrom": null
     },
     {
       "Id": "c375f97a-0ba2-4a93-8c76-08a0661d9962",
@@ -186,7 +192,8 @@
       "NameForProtocol": "Kirche Uzwil Andere",
       "Electorates": [],
       "Canton": 1,
-      "EVoting": false
+      "EVoting": false,
+      "EVotingActiveFrom": null
     },
     {
       "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e",
@@ -233,7 +240,50 @@
       "NameForProtocol": "Stadt Uzwil",
       "Electorates": [],
       "Canton": 1,
-      "EVoting": false
+      "EVoting": false,
+      "EVotingActiveFrom": null
+    },
+    {
+      "Id": "5f6726d6-05e4-4dc3-9283-a48fce74615b",
+      "Name": "Zürich",
+      "Bfs": "1234",
+      "ResponsibleAuthority": {
+        "SecureConnectId": "zürich-sec-id",
+        "Name": "Zürich",
+        "Street": "WerkstrasseX",
+        "Zip": "9000",
+        "City": "MyCityX",
+        "Phone": "071 123 12 20",
+        "Email": "zh@abraxas.ch"
+      },
+      "ContactPersonDuringEvent": {
+        "FirstName": "Hans-zh",
+        "FamilyName": "Muster-zh",
+        "Phone": "071 123 12 21",
+        "MobilePhone": "071 123 12 31",
+        "Email": "zh@abraxas.ch"
+      },
+      "ContactPersonSameDuringEventAsAfter": true,
+      "ContactPersonAfterEvent": null,
+      "State": 1,
+      "Info": {
+        "CreatedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "ModifiedOn": {
+          "Seconds": 1514764800,
+          "Nanos": 0
+        },
+        "DeletedOn": null
+      },
+      "Code": "1234c",
+      "SortNumber": 9000,
+      "NameForProtocol": "Zürich",
+      "Electorates": [],
+      "Canton": 3,
+      "EVoting": false,
+      "EVotingActiveFrom": null
     }
   ]
 }

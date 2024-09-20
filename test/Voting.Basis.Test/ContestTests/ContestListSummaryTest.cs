@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -58,8 +58,8 @@ public class ContestListSummaryTest : BaseGrpcTest<ContestService.ContestService
                 },
         });
         response.ContestSummaries_.Count(x => x.State == SharedProto.ContestState.Archived).Should().Be(1);
-        response.ContestSummaries_.Count(x => x.State == SharedProto.ContestState.TestingPhase).Should().Be(6);
-        response.ContestSummaries_.Should().HaveCount(7);
+        response.ContestSummaries_.Count(x => x.State == SharedProto.ContestState.TestingPhase).Should().Be(7);
+        response.ContestSummaries_.Should().HaveCount(8);
     }
 
     [Fact]

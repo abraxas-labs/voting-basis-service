@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -118,6 +118,9 @@ public class SecondaryMajorityElectionUpdateTest : BaseGrpcTest<MajorityElection
         });
         majorityElection.MatchSnapshot("event");
 
+        var simplePb = await RunOnDb(db => db.SimplePoliticalBusiness.SingleAsync(x => x.Id == secondaryElectionId));
+        simplePb.MatchSnapshot("simple-political-business");
+
         var ballotGroup1 =
             await RunOnDb(db => db.MajorityElectionBallotGroups.Include(x => x.Entries).SingleAsync(x => x.Id == ballotGroupOkNowNotAfterUpdate));
         ballotGroup1.Entries.Single().CandidateCountOk.Should().BeFalse();
@@ -196,6 +199,7 @@ public class SecondaryMajorityElectionUpdateTest : BaseGrpcTest<MajorityElection
             {
                 o.Id = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund;
                 o.PrimaryMajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund;
+                o.IndividualCandidatesDisabled = false;
             })),
             StatusCode.FailedPrecondition,
             "ModificationNotAllowedException: Some modifications are not allowed because the testing phase has ended.");
@@ -223,6 +227,19 @@ public class SecondaryMajorityElectionUpdateTest : BaseGrpcTest<MajorityElection
             StatusCode.AlreadyExists);
     }
 
+    [Fact]
+    public async Task DisableIndividualVotesWithExistingBallotGroupIndividualVotesShouldThrow()
+    {
+        await AssertStatus(
+            async () => await ElectionAdminUzwilClient.UpdateSecondaryMajorityElectionAsync(NewValidRequest(x =>
+            {
+                x.Id = MajorityElectionMockedData.SecondaryElectionIdUzwilMajorityElectionInContestStGallen;
+                x.PrimaryMajorityElectionId = MajorityElectionMockedData.IdUzwilMajorityElectionInContestStGallen;
+            })),
+            StatusCode.InvalidArgument,
+            "Cannot disable individual candidates when there are individual candidates vote count defined on ballot group entries");
+    }
+
     protected override IEnumerable<string> AuthorizedRoles()
     {
         yield return Roles.Admin;
@@ -248,6 +265,7 @@ public class SecondaryMajorityElectionUpdateTest : BaseGrpcTest<MajorityElection
             AllowedCandidates = SharedProto.SecondaryMajorityElectionAllowedCandidates.MayExistInPrimaryElection,
             PrimaryMajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund,
             Active = true,
+            IndividualCandidatesDisabled = true,
         };
 
         customizer?.Invoke(request);
@@ -269,6 +287,7 @@ public class SecondaryMajorityElectionUpdateTest : BaseGrpcTest<MajorityElection
                 AllowedCandidates = SharedProto.SecondaryMajorityElectionAllowedCandidates.MayExistInPrimaryElection,
                 PrimaryMajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund,
                 Active = true,
+                IndividualCandidatesDisabled = true,
             },
         };
 

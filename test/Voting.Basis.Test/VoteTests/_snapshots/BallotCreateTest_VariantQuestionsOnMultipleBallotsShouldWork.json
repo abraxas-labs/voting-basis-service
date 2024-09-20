@@ -1,0 +1,54 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "zürich-sec-id",
+        "Name": ""
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Ballot": {
+      "Id": "",
+      "Position": 4,
+      "BallotType": 1,
+      "BallotQuestions": [
+        {
+          "Number": 1,
+          "Question": {
+            "de": "Stichfrage 2 de",
+            "fr": "Stichfrage 2 fr",
+            "it": "Stichfrage 2 it",
+            "rm": "Stichfrage 2 rm"
+          },
+          "Type": 1,
+          "FederalIdentification": null
+        }
+      ],
+      "VoteId": "daf1dc06-3b08-4a24-9c76-e25e05b9d0ef",
+      "HasTieBreakQuestions": false,
+      "TieBreakQuestions": [],
+      "SubType": 7,
+      "OfficialDescription": {
+        "de": "Stichfrage 2 de",
+        "fr": "Stichfrage 2 fr",
+        "it": "Stichfrage 2 it",
+        "rm": "Stichfrage 2 rm"
+      },
+      "ShortDescription": {
+        "de": "Stichfrage 2 de",
+        "fr": "Stichfrage 2 fr",
+        "it": "Stichfrage 2 it",
+        "rm": "Stichfrage 2 rm"
+      }
+    }
+  }
+}

@@ -32,12 +32,16 @@
               "it": "Frage 1 St.Gallen it",
               "rm": "Frage 1 St.Gallen rm"
             },
-            "Type": 1
+            "Type": 1,
+            "FederalIdentification": null
           }
         ],
         "VoteId": "96d8275f-f1f8-4933-a097-5c0c19f54567",
         "HasTieBreakQuestions": false,
-        "TieBreakQuestions": []
+        "TieBreakQuestions": [],
+        "SubType": 0,
+        "OfficialDescription": {},
+        "ShortDescription": {}
       }
     ],
     "ReportDomainOfInfluenceLevel": 0,
@@ -47,6 +51,7 @@
     "AutomaticBallotBundleNumberGeneration": false,
     "EnforceResultEntryForCountingCircles": true,
     "ReviewProcedure": 1,
-    "EnforceReviewProcedureForCountingCircles": true
+    "EnforceReviewProcedureForCountingCircles": true,
+    "Type": 1
   }
 }

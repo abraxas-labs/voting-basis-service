@@ -29,7 +29,8 @@
       "BallotBundleSampleSize": 1,
       "ReviewProcedure": 1,
       "EnforceReviewProcedureForCountingCircles": true,
-      "EnforceCandidateCheckDigitForCountingCircles": true
+      "EnforceCandidateCheckDigitForCountingCircles": true,
+      "FederalIdentification": null
     },
     {
       "Id": "fa69e964-0a02-4d16-b417-247e8987021a",
@@ -60,7 +61,8 @@
       "BallotBundleSampleSize": 1,
       "ReviewProcedure": 1,
       "EnforceReviewProcedureForCountingCircles": true,
-      "EnforceCandidateCheckDigitForCountingCircles": false
+      "EnforceCandidateCheckDigitForCountingCircles": false,
+      "FederalIdentification": null
     },
     {
       "Id": "06f7ecb7-e175-4c3b-9ea5-cfc138d08278",
@@ -91,7 +93,8 @@
       "BallotBundleSampleSize": 3,
       "ReviewProcedure": 1,
       "EnforceReviewProcedureForCountingCircles": true,
-      "EnforceCandidateCheckDigitForCountingCircles": true
+      "EnforceCandidateCheckDigitForCountingCircles": true,
+      "FederalIdentification": null
     }
   ]
 }

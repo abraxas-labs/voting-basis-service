@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -12,6 +12,7 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
@@ -45,6 +46,27 @@ public class VoteCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
         eventData.Vote.Id.Should().Be(response.Id);
         eventData.MatchSnapshot("event", d => d.Vote.Id);
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
+    }
+
+    [Fact]
+    public async Task TestWithVariantQuestionsOnMultipleBallots()
+    {
+        var response = await AdminClient.CreateAsync(NewValidRequest(x => x.Type = SharedProto.VoteType.VariantQuestionsOnMultipleBallots));
+
+        var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<VoteCreated, EventSignatureBusinessMetadata>();
+
+        eventData.Vote.Id.Should().Be(response.Id);
+        eventData.MatchSnapshot("event", d => d.Vote.Id);
+        eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
+
+        await RunEvents<VoteCreated>();
+        var id = Guid.Parse(eventData.Vote.Id);
+        var simplePb = await RunOnDb(db => db.SimplePoliticalBusiness.FirstAsync(x => x.Id == id));
+        simplePb.BusinessSubType.Should().Be(PoliticalBusinessSubType.VoteVariantBallot);
+
+        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
+            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id, EntityState.Added)
+                 && x.PoliticalBusiness!.Data!.BusinessSubType == PoliticalBusinessSubType.VoteVariantBallot);
     }
 
     [Fact]
@@ -116,7 +138,11 @@ public class VoteCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
         await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
             x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id1, EntityState.Added));
         await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id2, EntityState.Added));
+            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id2, EntityState.Added)
+                 && x.PoliticalBusiness!.Data!.BusinessSubType == PoliticalBusinessSubType.Unspecified);
+
+        var simplePb = await RunOnDb(db => db.SimplePoliticalBusiness.FirstAsync(x => x.Id == id1));
+        simplePb.BusinessSubType.Should().Be(PoliticalBusinessSubType.Unspecified);
     }
 
     [Fact]
@@ -205,7 +231,7 @@ public class VoteCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
     {
         var reportLevel = 1; // the St. Gallen domain of influence has 1 child level, so this should be ok
 
-        var response = await AdminClient.CreateAsync(NewValidRequest(v => v.ReportDomainOfInfluenceLevel = reportLevel));
+        await AdminClient.CreateAsync(NewValidRequest(v => v.ReportDomainOfInfluenceLevel = reportLevel));
         var ev = EventPublisherMock.GetSinglePublishedEvent<VoteCreated>();
 
         ev.Vote.ReportDomainOfInfluenceLevel.Should().Be(reportLevel);
@@ -282,6 +308,7 @@ public class VoteCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = SharedProto.VoteReviewProcedure.Physically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = SharedProto.VoteType.QuestionsOnSingleBallot,
         };
 
         customizer?.Invoke(request);

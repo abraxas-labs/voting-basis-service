@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -35,6 +35,7 @@ public static class DomainOfInfluenceMockedData
     public const string IdKirchgemeinde = "22949a1e-fb09-47ec-9e9f-d26675676565";
     public const string IdKirchgemeindeAndere = "692be088-00e2-490c-b1fd-828adc38571d";
     public const string IdThurgau = "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752";
+    public const string IdZurich = "8af17c9d-6bae-45bf-a85b-b77239f2eefb";
     public const string IdGenf = "ade30989-5e28-40c7-918c-2c9408f853ba";
     public const string IdInvalid = "22949a1e";
     public const string IdNotExisting = "67674a69-4fdd-496a-bc83-a6585fc1419b";
@@ -63,6 +64,7 @@ public static class DomainOfInfluenceMockedData
     public static readonly Guid GuidKirchgemeinde = Guid.Parse(IdKirchgemeinde);
     public static readonly Guid GuidKirchgemeindeAndere = Guid.Parse(IdKirchgemeindeAndere);
     public static readonly Guid GuidThurgau = Guid.Parse(IdThurgau);
+    public static readonly Guid GuidZurich = Guid.Parse(IdZurich);
     public static readonly Guid GuidGenf = Guid.Parse(IdGenf);
 
     public static DomainOfInfluence Bund
@@ -307,6 +309,26 @@ public static class DomainOfInfluenceMockedData
             PlausibilisationConfiguration = BuildDataPlausibilisationConfiguration(),
         };
 
+    public static DomainOfInfluence Zurich
+        => new DomainOfInfluence
+        {
+            Id = GuidZurich,
+            Name = "Zürich",
+            NameForProtocol = "Kanton Zürich",
+            ShortName = "ZH",
+            SecureConnectId = "zürich-sec-id",
+            Type = DomainOfInfluenceType.Ct,
+            Canton = DomainOfInfluenceCanton.Zh,
+            ContactPerson = new ContactPerson
+            {
+                Email = "hans@muster.com",
+                Phone = "071 123 12 12",
+                FamilyName = "Muster",
+                FirstName = "Hans",
+                MobilePhone = "079 123 12 12",
+            },
+        };
+
     public static DomainOfInfluence Thurgau
         => new DomainOfInfluence
         {
@@ -343,6 +365,7 @@ public static class DomainOfInfluenceMockedData
             yield return Uzwil;
             yield return Kirchgemeinde;
             yield return Thurgau;
+            yield return Zurich;
             yield return Genf;
             yield return KirchgemeindeAndere;
         }

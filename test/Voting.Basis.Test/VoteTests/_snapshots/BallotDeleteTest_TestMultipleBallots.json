@@ -1,0 +1,20 @@
+{
+  "EventInfo": {
+    "User": {
+      "Id": "default-user-id",
+      "Username": "default username",
+      "FirstName": "default user firstname",
+      "LastName": "default user lastname"
+    },
+    "Tenant": {
+      "Id": "zürich-sec-id",
+      "Name": ""
+    },
+    "Timestamp": {
+      "Seconds": 1578661930,
+      "Nanos": 200000000
+    }
+  },
+  "BallotId": "44063379-53b3-48dc-9bbd-f84ff2d35ae2",
+  "VoteId": "daf1dc06-3b08-4a24-9c76-e25e05b9d0ef"
+}

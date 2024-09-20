@@ -31,7 +31,8 @@
             "it": "Frage 1 Gossau it",
             "rm": "Frage 1 Gossau rm"
           },
-          "Type": 1
+          "Type": 1,
+          "FederalIdentification": null
         },
         {
           "Number": 2,
@@ -41,7 +42,8 @@
             "it": "Frage 2 Gossau it",
             "rm": "Frage 2 Gossau rm"
           },
-          "Type": 2
+          "Type": 2,
+          "FederalIdentification": null
         }
       ],
       "VoteId": "8076dee2-f19b-4af9-80b1-69b0c7b1402b",
@@ -56,9 +58,13 @@
             "rm": "Stichfrage 1 Gossau (Frage 1 vs Frage 2) rm"
           },
           "Question1Number": 1,
-          "Question2Number": 2
+          "Question2Number": 2,
+          "FederalIdentification": null
         }
-      ]
+      ],
+      "SubType": 0,
+      "OfficialDescription": {},
+      "ShortDescription": {}
     }
   ],
   "ReportDomainOfInfluenceLevel": 0,
@@ -68,5 +74,6 @@
   "AutomaticBallotBundleNumberGeneration": true,
   "EnforceResultEntryForCountingCircles": false,
   "ReviewProcedure": 1,
-  "EnforceReviewProcedureForCountingCircles": true
+  "EnforceReviewProcedureForCountingCircles": true,
+  "Type": 1
 }

@@ -1,8 +1,9 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
@@ -117,6 +118,45 @@ public class SecondaryMajorityElectionCandidateCreateTest : BaseGrpcTest<Majorit
             SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
         });
         candidates.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task TestProcessorWithDeprecatedSexType()
+    {
+        await TestEventPublisher.Publish(
+            new SecondaryMajorityElectionCandidateCreated
+            {
+                SecondaryMajorityElectionCandidate = new MajorityElectionCandidateEventData
+                {
+                    Id = "5b8ca432-50d3-464f-abcf-37d51fa22b3b",
+                    MajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+                    Position = 3,
+                    FirstName = "firstName",
+                    LastName = "lastName",
+                    PoliticalFirstName = "pol first name",
+                    PoliticalLastName = "pol last name",
+                    Occupation = { LanguageUtil.MockAllLanguages("occupation") },
+                    OccupationTitle = { LanguageUtil.MockAllLanguages("occupation title") },
+                    DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
+                    Incumbent = true,
+                    Locality = "locality",
+                    Number = "number1",
+                    Sex = SharedProto.SexType.Undefined,
+                    Title = "title",
+                    ZipCode = "zip code",
+                    Party = { LanguageUtil.MockAllLanguages("SP") },
+                    Origin = "origin",
+                    CheckDigit = 9,
+                },
+            });
+
+        var candidates = await AdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
+        {
+            SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+        });
+
+        var candidate = candidates.Candidates.Select(x => x.Candidate).Single(x => x.Id == "5b8ca432-50d3-464f-abcf-37d51fa22b3b");
+        candidate.Sex.Should().Be(SharedProto.SexType.Female);
     }
 
     [Fact]

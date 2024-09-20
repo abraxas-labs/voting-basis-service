@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -10,12 +10,16 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Extensions;
+using Voting.Basis.Core.Messaging.Extensions;
+using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
 using Voting.Lib.Common;
 using Voting.Lib.Database.Repositories;
+using Voting.Lib.Messaging;
+using EntityState = Voting.Basis.Core.Messaging.Messages.EntityState;
 
 namespace Voting.Basis.Core.EventProcessors;
 
@@ -46,6 +50,7 @@ public class ProportionalElectionProcessor :
 {
     private readonly IDbRepository<DataContext, ProportionalElection> _repo;
     private readonly SimplePoliticalBusinessBuilder<ProportionalElection> _simplePoliticalBusinessBuilder;
+    private readonly MessageProducerBuffer _messageProducerBuffer;
     private readonly ProportionalElectionListRepo _listRepo;
     private readonly IDbRepository<DataContext, ProportionalElectionListUnion> _listUnionRepo;
     private readonly IDbRepository<DataContext, ProportionalElectionCandidate> _candidateRepo;
@@ -65,7 +70,8 @@ public class ProportionalElectionProcessor :
         ProportionalElectionListBuilder listBuilder,
         ProportionalElectionUnionListBuilder unionListBuilder,
         EventLoggerAdapter eventLogger,
-        SimplePoliticalBusinessBuilder<ProportionalElection> simplePoliticalBusinessBuilder)
+        SimplePoliticalBusinessBuilder<ProportionalElection> simplePoliticalBusinessBuilder,
+        MessageProducerBuffer messageProducerBuffer)
     {
         _repo = repo;
         _listRepo = listRepo;
@@ -76,6 +82,7 @@ public class ProportionalElectionProcessor :
         _unionListBuilder = unionListBuilder;
         _eventLogger = eventLogger;
         _simplePoliticalBusinessBuilder = simplePoliticalBusinessBuilder;
+        _messageProducerBuffer = messageProducerBuffer;
         _listBuilder = listBuilder;
     }
 
@@ -169,7 +176,9 @@ public class ProportionalElectionProcessor :
         var model = _mapper.Map<ProportionalElectionList>(eventData.ProportionalElectionList);
         await _listRepo.Create(model);
         await _unionListBuilder.RebuildForProportionalElection(model.ProportionalElectionId);
-        await _eventLogger.LogProportionalElectionListEvent(eventData, await GetList(model.Id));
+        var proportionalElection = await GetElection(model.ProportionalElectionId);
+        await _eventLogger.LogProportionalElectionListEvent(eventData, model, proportionalElection.ContestId);
+        PublishProportionalElectionListEventMessage(model, EntityState.Added);
     }
 
     public async Task Process(ProportionalElectionListUpdated eventData)
@@ -195,6 +204,7 @@ public class ProportionalElectionProcessor :
         }
 
         await _eventLogger.LogProportionalElectionListEvent(eventData, model, existingModel.ProportionalElection.ContestId);
+        PublishProportionalElectionListEventMessage(model, EntityState.Modified);
     }
 
     public async Task Process(ProportionalElectionListAfterTestingPhaseUpdated eventData)
@@ -212,6 +222,7 @@ public class ProportionalElectionProcessor :
         }
 
         await _eventLogger.LogProportionalElectionListEvent(eventData, list, list.ProportionalElection.ContestId);
+        PublishProportionalElectionListEventMessage(list, EntityState.Modified);
     }
 
     public async Task Process(ProportionalElectionListsReordered eventData)
@@ -267,6 +278,10 @@ public class ProportionalElectionProcessor :
         await _listBuilder.UpdateListUnionDescriptions(touchedListIds);
 
         await _eventLogger.LogProportionalElectionListEvent(eventData, existingList);
+
+        // remove self referencing loop
+        existingList.ProportionalElection.ProportionalElectionLists = null!;
+        PublishProportionalElectionListEventMessage(existingList, EntityState.Deleted);
     }
 
     public async Task Process(ProportionalElectionListUnionCreated eventData)
@@ -603,5 +618,11 @@ public class ProportionalElectionProcessor :
             .Include(c => c.ProportionalElectionList.ProportionalElection)
             .FirstOrDefaultAsync(c => c.Id == candidateId)
             ?? throw new EntityNotFoundException(candidateId);
+    }
+
+    private void PublishProportionalElectionListEventMessage(ProportionalElectionList list, EntityState state)
+    {
+        // Publish a proportional election list change message, so that other service instances can refresh their in-memory cache.
+        _messageProducerBuffer.Add(new ProportionalElectionListChangeMessage(list.CreateBaseEntityEvent(state)));
     }
 }

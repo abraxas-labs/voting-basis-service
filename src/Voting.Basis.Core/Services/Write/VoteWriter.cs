@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -166,14 +166,12 @@ public class VoteWriter
     private async Task EnsureMultipleVoteBallotsEnabled(Guid doiId)
     {
         var doi = await _doiRepository.GetByKey(doiId)
-                  ?? throw new EntityNotFoundException(nameof(DomainOfInfluence), doiId);
+            ?? throw new EntityNotFoundException(nameof(DomainOfInfluence), doiId);
 
-        if (doi.CantonDefaults.MultipleVoteBallotsEnabled)
+        if (!doi.CantonDefaults.MultipleVoteBallotsEnabled)
         {
-            return;
+            throw new ValidationException("Multiple vote ballots are not enabled for this canton.");
         }
-
-        throw new ValidationException("Multiple vote ballots are not enabled for this canton.");
     }
 
     private void EnsureIsContinuousBallotPosition(int ballotPosition, int ballotsCount)

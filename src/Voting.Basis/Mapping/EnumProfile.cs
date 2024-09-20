@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -21,7 +21,6 @@ public class EnumProfile : Profile
 {
     public EnumProfile()
     {
-        CreateEnumMap<SharedProto.SexType, SexType>();
         CreateEnumMap<SharedProto.ExportEntityType, EntityType>();
         CreateEnumMap<SharedProto.BallotNumberGeneration, BallotNumberGeneration>();
         CreateEnumMap<SharedProto.CantonMajorityElectionAbsoluteMajorityAlgorithm, CantonMajorityElectionAbsoluteMajorityAlgorithm>();
@@ -55,6 +54,13 @@ public class EnumProfile : Profile
                 .MapByName()
                 .MapValue(SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum, ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum)
                 .MapValue(SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim0Quorum, ProportionalElectionMandateAlgorithm.DoubleProportional1Doi0DoiQuorum))
+            .ReverseMap();
+
+        // explicitly map deprecated values to the corresponding new value.
+        CreateMap<SharedProto.SexType, SexType>()
+            .ConvertUsingEnumMapping(opt => opt
+                .MapByName()
+                .MapValue(SharedProto.SexType.Undefined, SexType.Female))
             .ReverseMap();
     }
 

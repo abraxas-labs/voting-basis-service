@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Linq;
@@ -67,7 +67,10 @@ public class ContestService : ServiceBase
     public override async Task<Contest> Get(
         GetContestRequest request,
         ServerCallContext context)
-        => _mapper.Map<Contest>(await _contestReader.Get(GuidParser.Parse(request.Id)));
+    {
+        var contest = await _contestReader.Get(GuidParser.Parse(request.Id));
+        return _mapper.Map<Contest>(contest);
+    }
 
     [AuthorizeAnyPermission(Permissions.Contest.ReadTenantHierarchy, Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll)]
     public override async Task<ContestSummaries> ListSummaries(ListContestSummariesRequest request, ServerCallContext context)

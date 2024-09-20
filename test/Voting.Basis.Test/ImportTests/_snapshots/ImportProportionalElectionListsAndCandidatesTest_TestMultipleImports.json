@@ -88,6 +88,8 @@
         "ProportionalElectionListUnionEntries": [],
         "ProportionalElectionMainListUnions": [],
         "ProportionalElectionUnionListEntries": [],
+        "PartyId": null,
+        "Party": null,
         "Id": "00000000-0000-0000-0000-000000000000"
       },
       {
@@ -152,6 +154,8 @@
         "ProportionalElectionListUnionEntries": [],
         "ProportionalElectionMainListUnions": [],
         "ProportionalElectionUnionListEntries": [],
+        "PartyId": null,
+        "Party": null,
         "Id": "00000000-0000-0000-0000-000000000000"
       },
       {
@@ -256,6 +260,8 @@
         "ProportionalElectionListUnionEntries": [],
         "ProportionalElectionMainListUnions": [],
         "ProportionalElectionUnionListEntries": [],
+        "PartyId": null,
+        "Party": null,
         "Id": "00000000-0000-0000-0000-000000000000"
       },
       {
@@ -294,7 +300,7 @@
             "PoliticalFirstName": "Kim",
             "PoliticalLastName": "Ilge",
             "DateOfBirth": "2001-05-11T00:00:00Z",
-            "Sex": 3,
+            "Sex": 2,
             "Occupation": {},
             "Title": "",
             "OccupationTitle": {},
@@ -310,6 +316,8 @@
         "ProportionalElectionListUnionEntries": [],
         "ProportionalElectionMainListUnions": [],
         "ProportionalElectionUnionListEntries": [],
+        "PartyId": null,
+        "Party": null,
         "Id": "00000000-0000-0000-0000-000000000000"
       },
       {
@@ -449,6 +457,8 @@
         "ProportionalElectionListUnionEntries": [],
         "ProportionalElectionMainListUnions": [],
         "ProportionalElectionUnionListEntries": [],
+        "PartyId": null,
+        "Party": null,
         "Id": "00000000-0000-0000-0000-000000000000"
       }
     ]

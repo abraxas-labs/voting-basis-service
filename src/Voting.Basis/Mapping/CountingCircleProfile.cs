@@ -1,9 +1,10 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using AutoMapper;
+using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Authority = Voting.Basis.Core.Domain.Authority;
 using CountingCircle = Voting.Basis.Core.Domain.CountingCircle;
@@ -52,5 +53,8 @@ public sealed class CountingCircleProfile : Profile
         CreateMap<Data.Models.CountingCirclesMerger, ProtoModels.CountingCirclesMerger>();
         CreateMap<IEnumerable<Data.Models.CountingCirclesMerger>, ProtoModels.CountingCirclesMergers>()
             .ForMember(dst => dst.Mergers, opt => opt.MapFrom(x => x));
+
+        CreateMap<BaseEntityMessage<Data.Models.CountingCircle>, ProtoModels.CountingCircleMessage>();
+        CreateMap<CountingCircleChangeMessage, ProtoModels.CountingCircleChangeMessage>();
     }
 }

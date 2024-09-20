@@ -1,6 +1,7 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System;
 using Ech0010_6_0;
 using Ech0044_4_1;
 using DataModels = Voting.Basis.Data.Models;
@@ -32,7 +33,7 @@ internal static class SexMapping
         {
             SexType.Item1 => DataModels.SexType.Male,
             SexType.Item2 => DataModels.SexType.Female,
-            _ => DataModels.SexType.Undefined,
+            _ => throw new ArgumentException($"Sex type {sex} is not valid."),
         };
     }
 }

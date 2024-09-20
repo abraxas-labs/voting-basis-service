@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -95,6 +95,19 @@ public class SecondaryMajorityElectionCandidateDeleteTest : BaseGrpcTest<Majorit
                 Id = MajorityElectionMockedData.SecondaryElectionCandidateIdKircheMajorityElectionInContestKirche,
             }),
             StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task CandidateInBallotGroupShouldThrow()
+    {
+        var candidateId = MajorityElectionMockedData.SecondaryElectionCandidateId2GossauMajorityElectionInContestBund;
+        await AssertStatus(
+            async () => await ElectionAdminClient.DeleteSecondaryMajorityElectionCandidateAsync(new DeleteSecondaryMajorityElectionCandidateRequest
+            {
+                Id = candidateId,
+            }),
+            StatusCode.FailedPrecondition,
+            $"Candidate {candidateId} is in a ballot group");
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

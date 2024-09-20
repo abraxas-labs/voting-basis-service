@@ -28,6 +28,7 @@
     "BallotBundleSampleSize": 0,
     "ReviewProcedure": 1,
     "EnforceReviewProcedureForCountingCircles": true,
-    "EnforceCandidateCheckDigitForCountingCircles": true
+    "EnforceCandidateCheckDigitForCountingCircles": true,
+    "FederalIdentification": 29348929
   }
 }

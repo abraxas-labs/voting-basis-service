@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -65,6 +65,8 @@ public class VoteAggregate : BaseHasContestAggregate
 
     public bool EnforceReviewProcedureForCountingCircles { get; private set; }
 
+    public VoteType Type { get; private set; }
+
     public void CreateFrom(Vote vote)
     {
         if (vote.Id == default)
@@ -109,6 +111,7 @@ public class VoteAggregate : BaseHasContestAggregate
         ValidationUtils.EnsureNotModified(ResultAlgorithm, vote.ResultAlgorithm);
         ValidationUtils.EnsureNotModified(ReviewProcedure, vote.ReviewProcedure);
         ValidationUtils.EnsureNotModified(EnforceReviewProcedureForCountingCircles, vote.EnforceReviewProcedureForCountingCircles);
+        ValidationUtils.EnsureNotModified(Type, vote.Type);
 
         var ev = new VoteAfterTestingPhaseUpdated
         {
@@ -127,6 +130,8 @@ public class VoteAggregate : BaseHasContestAggregate
     public void UpdateActiveState(bool active)
     {
         EnsureNotDeleted();
+        EnsureValidBallots();
+
         var ev = new VoteActiveStateUpdated
         {
             VoteId = Id.ToString(),
@@ -191,6 +196,7 @@ public class VoteAggregate : BaseHasContestAggregate
         _ballotValidator.ValidateAndThrow(ballot);
 
         ValidationUtils.EnsureNotModified(existingBallot.BallotType, ballot.BallotType);
+        ValidationUtils.EnsureNotModified(existingBallot.SubType, ballot.SubType);
         ValidationUtils.EnsureNotModified(existingBallot.Position, ballot.Position);
         ValidationUtils.EnsureNotModified(existingBallot.BallotQuestions.Count, ballot.BallotQuestions.Count);
         ValidationUtils.EnsureNotModified(existingBallot.HasTieBreakQuestions, ballot.HasTieBreakQuestions);
@@ -321,6 +327,11 @@ public class VoteAggregate : BaseHasContestAggregate
             ev.Vote.ReviewProcedure = Abraxas.Voting.Basis.Shared.V1.VoteReviewProcedure.Electronically;
         }
 
+        if (ev.Vote.Type == Abraxas.Voting.Basis.Shared.V1.VoteType.Unspecified)
+        {
+            ev.Vote.Type = Abraxas.Voting.Basis.Shared.V1.VoteType.QuestionsOnSingleBallot;
+        }
+
         _mapper.Map(ev.Vote, this);
     }
 
@@ -330,6 +341,11 @@ public class VoteAggregate : BaseHasContestAggregate
         if (ev.Vote.ReviewProcedure == Abraxas.Voting.Basis.Shared.V1.VoteReviewProcedure.Unspecified)
         {
             ev.Vote.ReviewProcedure = Abraxas.Voting.Basis.Shared.V1.VoteReviewProcedure.Electronically;
+        }
+
+        if (ev.Vote.Type == Abraxas.Voting.Basis.Shared.V1.VoteType.Unspecified)
+        {
+            ev.Vote.Type = Abraxas.Voting.Basis.Shared.V1.VoteType.QuestionsOnSingleBallot;
         }
 
         _mapper.Map(ev.Vote, this);
@@ -382,7 +398,10 @@ public class VoteAggregate : BaseHasContestAggregate
 
     private void EnsureValidResultEntry()
     {
-        var resultEntryDetailedAllowed = Ballots.Count == 1 && Ballots[0].BallotType == BallotType.VariantsBallot;
+        var resultEntryDetailedAllowed = Ballots.Count == 1
+            && Ballots[0].BallotType == BallotType.VariantsBallot
+            && Type != VoteType.VariantQuestionsOnMultipleBallots;
+
         if (resultEntryDetailedAllowed)
         {
             return;
@@ -397,6 +416,47 @@ public class VoteAggregate : BaseHasContestAggregate
         {
             throw new ValidationException(
                 "since the detailed result entry is not allowed for this vote, final result entry must be enforced");
+        }
+    }
+
+    private void EnsureValidBallots()
+    {
+        if (Ballots.Count == 0)
+        {
+            throw new ValidationException("The vote does not have a ballot");
+        }
+
+        if (Type == VoteType.QuestionsOnSingleBallot)
+        {
+            if (Ballots.Count > 1)
+            {
+                throw new ValidationException("A vote with all questions on a single ballot cannot have multiple ballots");
+            }
+
+            if (Ballots.Any(x => x.SubType != BallotSubType.Unspecified))
+            {
+                throw new ValidationException("A vote with all questions on a single ballot cannot have a ballot sub type");
+            }
+        }
+
+        if (Type == VoteType.VariantQuestionsOnMultipleBallots)
+        {
+            var lastSubType = BallotSubType.Unspecified;
+            foreach (var ballot in Ballots.OrderBy(x => x.Position))
+            {
+                var subType = ballot.SubType;
+                if (subType == BallotSubType.Unspecified)
+                {
+                    throw new ValidationException("A vote with all questions on separate ballots must have ballot sub types");
+                }
+
+                if (subType <= lastSubType)
+                {
+                    throw new ValidationException("The order of ballot sub types isn't correct");
+                }
+
+                lastSubType = subType;
+            }
         }
     }
 }

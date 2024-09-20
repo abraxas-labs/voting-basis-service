@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 namespace Voting.Basis.Core.Auth;
@@ -19,6 +19,9 @@ public static class Permissions
     private const string ReadSameCantonSuffix = ReadSuffix + "-same-canton";
     private const string UpdateSameCantonSuffix = UpdateSuffix + "-same-canton";
     private const string DeleteSameCantonSuffix = DeleteSuffix + "-same-canton";
+
+    // This suffix allows to access admin management resources
+    private const string ReadAdminManagementSuffix = ReadSuffix + "-admin-management";
 
     // Used when the "normal" permission (ex. 'read') allows access only to specific resources, while the  '-all' allows access to all resources
     private const string CreateAllSuffix = CreateSuffix + "-all";
@@ -46,6 +49,7 @@ public static class Permissions
     {
         public const string ReadSameTenant = Prefix + ReadSameTenantSuffix;
         public const string ReadSameCanton = Prefix + ReadSameCantonSuffix;
+        public const string ReadAdminManagement = Prefix + ReadAdminManagementSuffix;
         public const string ReadAll = Prefix + ReadAllSuffix;
         public const string UpdateSameCanton = Prefix + UpdateSameCantonSuffix;
         public const string UpdateAll = Prefix + UpdateAllSuffix;
@@ -66,7 +70,6 @@ public static class Permissions
     {
         public const string Create = Prefix + CreateSuffix;
         public const string UpdateAll = Prefix + UpdateAllSuffix;
-        public const string UpdateSameTenant = Prefix + UpdateSameTenantSuffix;
         public const string ReadSameTenant = Prefix + ReadSameTenantSuffix;
         public const string ReadAll = Prefix + ReadAllSuffix;
 

@@ -1,0 +1,79 @@
+{
+  "ccUpdated": {
+    "EventInfo": {
+      "User": {
+        "Id": "386095419505026491",
+        "Username": "",
+        "FirstName": "",
+        "LastName": ""
+      },
+      "Tenant": {
+        "Id": "380590188826699143",
+        "Name": ""
+      },
+      "Timestamp": {
+        "Seconds": 1578921130,
+        "Nanos": 200000000
+      }
+    },
+    "CountingCircle": {
+      "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e",
+      "Name": "Uzwil",
+      "Bfs": "1234",
+      "ResponsibleAuthority": {
+        "SecureConnectId": "000000000000000000",
+        "Name": "Default",
+        "Street": "WerkstrasseX2",
+        "Zip": "9002",
+        "City": "MyCityX2",
+        "Phone": "072 123 12 20",
+        "Email": "uzwil-test2@abraxas.ch"
+      },
+      "ContactPersonDuringEvent": {
+        "FirstName": "EVoting",
+        "FamilyName": "Muster2",
+        "Phone": "072 123 12 21",
+        "MobilePhone": "072 123 12 31",
+        "Email": "uzwil-test2@abraxas.ch"
+      },
+      "ContactPersonSameDuringEventAsAfter": false,
+      "ContactPersonAfterEvent": {
+        "FirstName": "EVoting",
+        "FamilyName": "Wichtig2",
+        "Phone": "072 123 12 22",
+        "MobilePhone": "072 123 12 33",
+        "Email": "uzwil-test22@abraxas.ch"
+      },
+      "Code": "1234c",
+      "SortNumber": 92,
+      "NameForProtocol": "Stadt Uzwil",
+      "Electorates": [
+        {
+          "Id": "01231c9f-3bc4-544b-a722-7d039b6ec696",
+          "DomainOfInfluenceTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "Id": "0d524e28-17d8-5f95-9e5d-483048632794",
+          "DomainOfInfluenceTypes": [
+            5
+          ]
+        },
+        {
+          "Id": "bceaa700-3c11-5da4-9364-4f060f6515a9",
+          "DomainOfInfluenceTypes": [
+            10
+          ]
+        }
+      ],
+      "Canton": 1,
+      "EVoting": true,
+      "EVotingActiveFrom": {
+        "Seconds": 1578873600,
+        "Nanos": 0
+      }
+    }
+  }
+}

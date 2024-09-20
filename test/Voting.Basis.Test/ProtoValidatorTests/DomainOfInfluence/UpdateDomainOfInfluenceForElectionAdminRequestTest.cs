@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -24,6 +24,7 @@ public class UpdateDomainOfInfluenceForElectionAdminRequestTest : ProtoValidator
         yield return NewValidRequest(x => x.ExternalPrintingCenterEaiMessageType = RandomStringUtil.GenerateNumeric(7));
         yield return NewValidRequest(x => x.SapCustomerOrderNumber = string.Empty);
         yield return NewValidRequest(x => x.SapCustomerOrderNumber = RandomStringUtil.GenerateNumeric(20));
+        yield return NewValidRequest(x => x.PlausibilisationConfiguration = null);
     }
 
     protected override IEnumerable<UpdateDomainOfInfluenceForElectionAdminRequest> NotOkMessages()
@@ -31,7 +32,6 @@ public class UpdateDomainOfInfluenceForElectionAdminRequestTest : ProtoValidator
         yield return NewValidRequest(x => x.Id = "invalid-guid");
         yield return NewValidRequest(x => x.Id = string.Empty);
         yield return NewValidRequest(x => x.ContactPerson = null);
-        yield return NewValidRequest(x => x.PlausibilisationConfiguration = null);
         yield return NewValidRequest(x => x.ExternalPrintingCenterEaiMessageType = RandomStringUtil.GenerateNumeric(6));
         yield return NewValidRequest(x => x.ExternalPrintingCenterEaiMessageType = RandomStringUtil.GenerateNumeric(8));
         yield return NewValidRequest(x => x.ExternalPrintingCenterEaiMessageType = RandomStringUtil.GenerateAlphabetic(7));

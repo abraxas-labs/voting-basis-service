@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -230,6 +230,14 @@ public class ContestWriter
             return;
         }
 
+        var doi = await _doiRepo.GetByKey(contest.DomainOfInfluenceId)
+                  ?? throw new EntityNotFoundException(nameof(DomainOfInfluence), contest.DomainOfInfluenceId);
+
+        if (doi.CantonDefaults.InternalPlausibilisationDisabled)
+        {
+            throw new ValidationException("internal plausibilisation are disabled for this canton");
+        }
+
         var pastContests = await _contestReader.ListPast(contest.Date, contest.DomainOfInfluenceId);
 
         if (pastContests.All(c => c.Id != contest.PreviousContestId))
@@ -243,14 +251,16 @@ public class ContestWriter
         var doi = await _doiRepo.GetByKey(contest.DomainOfInfluenceId)
                   ?? throw new EntityNotFoundException(nameof(DomainOfInfluence), contest.DomainOfInfluenceId);
 
-        if (doi.ParentId != null)
+        if (!doi.CantonDefaults.CreateContestOnHighestHierarchicalLevelEnabled || doi.ParentId == null)
         {
-            var tenantId = _auth.Tenant.Id;
-            var hasRootDomainOfInfluences = await _doiRepo.Query().AnyAsync(x => x.SecureConnectId == tenantId && x.ParentId == null);
-            if (hasRootDomainOfInfluences)
-            {
-                throw new ValidationException("tenant has root domain of influences, so one must be selected");
-            }
+            return;
+        }
+
+        var tenantId = _auth.Tenant.Id;
+        var hasRootDomainOfInfluences = await _doiRepo.Query().AnyAsync(x => x.SecureConnectId == tenantId && x.ParentId == null);
+        if (hasRootDomainOfInfluences)
+        {
+            throw new ValidationException("tenant has root domain of influences, so one must be selected");
         }
     }
 }

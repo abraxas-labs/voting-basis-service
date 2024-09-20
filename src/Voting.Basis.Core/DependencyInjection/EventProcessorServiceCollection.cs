@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using Voting.Basis.Core.Configuration;
@@ -21,7 +21,6 @@ internal static class EventProcessorServiceCollection
         return services
             .AddScoped<ProportionalElectionUnionListBuilder>()
             .AddScoped<ProportionalElectionListBuilder>()
-            .AddScoped<DomainOfInfluenceCantonDefaultsBuilder>()
             .AddScoped<DomainOfInfluenceHierarchyBuilder>()
             .AddScoped<DomainOfInfluenceCountingCircleInheritanceBuilder>()
             .AddScoped(typeof(SimplePoliticalBusinessBuilder<>))

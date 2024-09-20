@@ -632,7 +632,7 @@
             </candidateTextInfo>
           </candidateText>
           <dateOfBirth xmlns="http://www.ech.ch/xmlns/eCH-0155/4">1940-01-13</dateOfBirth>
-          <sex xmlns="http://www.ech.ch/xmlns/eCH-0155/4">3</sex>
+          <sex xmlns="http://www.ech.ch/xmlns/eCH-0155/4">2</sex>
           <occupationalTitle xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
             <occupationalTitleInfo>
               <language>de</language>

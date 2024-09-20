@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using Microsoft.EntityFrameworkCore;
@@ -51,5 +51,10 @@ public class CountingCircleSnapshotModelBuilder : IEntityTypeConfiguration<Count
 
         builder
             .HasQueryFilter(cc => cc.State != CountingCircleState.Inactive);
+
+        builder
+            .Property(d => d.EVotingActiveFrom)
+            .HasDateType()
+            .HasUtcConversion();
     }
 }

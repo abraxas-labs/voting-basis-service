@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using Voting.Basis.Core.Messaging.Messages;
@@ -19,6 +19,7 @@ public static class PoliticalBusinessExtensions
                 DomainOfInfluenceId = pb.DomainOfInfluenceId,
                 DomainOfInfluence = new() { Id = pb.DomainOfInfluenceId },
                 BusinessType = pb.PoliticalBusinessType,
+                BusinessSubType = pb.PoliticalBusinessSubType,
             },
             entityState);
     }

@@ -38,7 +38,8 @@
         "SortNumber": 0,
         "NameForProtocol": "",
         "Canton": 1,
-        "EVoting": false
+        "EVoting": false,
+        "EVotingActiveFrom": null
       }
     ]
   },
@@ -81,7 +82,8 @@
         "SortNumber": 0,
         "NameForProtocol": "",
         "Canton": 1,
-        "EVoting": false
+        "EVoting": false,
+        "EVotingActiveFrom": null
       }
     ]
   }

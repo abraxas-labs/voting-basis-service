@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using Voting.Basis.Data.Models;
@@ -15,4 +15,6 @@ public class ProportionalElection : Election
     /// Gets or sets a value indicating whether counting circles can override the <see cref="ReviewProcedure"/> setting.
     /// </summary>
     public bool EnforceReviewProcedureForCountingCircles { get; set; }
+
+    public int? FederalIdentification { get; set; }
 }

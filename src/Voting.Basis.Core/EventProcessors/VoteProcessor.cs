@@ -1,7 +1,8 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using AutoMapper;
@@ -58,11 +59,7 @@ public class VoteProcessor :
     {
         var model = _mapper.Map<Vote>(eventData.Vote);
 
-        // Set default review procedure value since the old eventData (before introducing the review procedure) can contain the unspecified value.
-        if (model.ReviewProcedure == VoteReviewProcedure.Unspecified)
-        {
-            model.ReviewProcedure = VoteReviewProcedure.Electronically;
-        }
+        PatchOldEventIfNecessary(model);
 
         await _repo.Create(model);
         await _simplePoliticalBusinessBuilder.Create(model);
@@ -74,11 +71,8 @@ public class VoteProcessor :
     {
         var model = _mapper.Map<Vote>(eventData.Vote);
 
-        // Set default review procedure value since the old eventData (before introducing the review procedure) can contain the unspecified value.
-        if (model.ReviewProcedure == VoteReviewProcedure.Unspecified)
-        {
-            model.ReviewProcedure = VoteReviewProcedure.Electronically;
-        }
+        PatchOldEventIfNecessary(model);
+        await CalculateSubTypeForVoteWithoutFetchedBallots(model);
 
         await _repo.Update(model);
         await _simplePoliticalBusinessBuilder.Update(model);
@@ -92,6 +86,8 @@ public class VoteProcessor :
             ?? throw new EntityNotFoundException(id);
 
         _mapper.Map(eventData, vote);
+        await CalculateSubTypeForVoteWithoutFetchedBallots(vote);
+
         await _repo.Update(vote);
         await _simplePoliticalBusinessBuilder.Update(vote);
         await _eventLogger.LogVoteEvent(eventData, vote);
@@ -113,6 +109,9 @@ public class VoteProcessor :
         var existingModel = await GetVote(voteId);
 
         existingModel.ContestId = GuidParser.Parse(eventData.NewContestId);
+
+        await CalculateSubTypeForVoteWithoutFetchedBallots(existingModel);
+
         await _repo.Update(existingModel);
         await _simplePoliticalBusinessBuilder.Update(existingModel);
         await _eventLogger.LogVoteEvent(eventData, existingModel);
@@ -126,6 +125,7 @@ public class VoteProcessor :
 
         await _ballotRepo.Create(model);
         await _eventLogger.LogBallotEvent(eventData, await GetBallot(model.Id));
+        await UpdateVoteSubTypeIfNecessary(model.VoteId);
     }
 
     public async Task Process(BallotUpdated eventData)
@@ -141,6 +141,7 @@ public class VoteProcessor :
         await _ballotRepo.Update(model);
 
         await _eventLogger.LogBallotEvent(eventData, model, existingModel.Vote.ContestId);
+        await UpdateVoteSubTypeIfNecessary(existingModel.VoteId);
     }
 
     public async Task Process(BallotAfterTestingPhaseUpdated eventData)
@@ -156,6 +157,7 @@ public class VoteProcessor :
         await _ballotRepo.Update(ballot);
 
         await _eventLogger.LogBallotEvent(eventData, ballot, ballot.Vote.ContestId);
+        await UpdateVoteSubTypeIfNecessary(ballot.VoteId);
     }
 
     public async Task Process(BallotDeleted eventData)
@@ -165,6 +167,7 @@ public class VoteProcessor :
 
         await _ballotRepo.DeleteByKey(ballotId);
         await _eventLogger.LogBallotEvent(eventData, ballot);
+        await UpdateVoteSubTypeIfNecessary(ballot.VoteId);
     }
 
     public async Task Process(VoteActiveStateUpdated eventData)
@@ -173,9 +176,30 @@ public class VoteProcessor :
         var existingModel = await GetVote(voteId);
 
         existingModel.Active = eventData.Active;
+        await CalculateSubTypeForVoteWithoutFetchedBallots(existingModel);
         await _repo.Update(existingModel);
         await _simplePoliticalBusinessBuilder.Update(existingModel);
         await _eventLogger.LogVoteEvent(eventData, existingModel);
+    }
+
+    private void PatchOldEventIfNecessary(Vote vote)
+    {
+        if (vote.ReviewProcedure == VoteReviewProcedure.Unspecified)
+        {
+            vote.ReviewProcedure = VoteReviewProcedure.Electronically;
+        }
+
+        if (vote.Type == VoteType.Unspecified)
+        {
+            vote.Type = VoteType.QuestionsOnSingleBallot;
+        }
+    }
+
+    private async Task CalculateSubTypeForVoteWithoutFetchedBallots(Vote vote)
+    {
+        var hasBallotWithVariantBallotType = await _ballotRepo.Query()
+            .AnyAsync(x => x.VoteId == vote.Id && x.BallotType == BallotType.VariantsBallot);
+        vote.UpdateSubTypeManually(hasBallotWithVariantBallotType);
     }
 
     private async Task<Vote> GetVote(Guid id)
@@ -190,6 +214,20 @@ public class VoteProcessor :
             .Include(b => b.Vote)
             .FirstOrDefaultAsync(b => b.Id == id)
             ?? throw new EntityNotFoundException(id);
+    }
+
+    private async Task UpdateVoteSubTypeIfNecessary(Guid voteId)
+    {
+        var voteInfo = await _repo.Query()
+            .Where(x => x.Id == voteId)
+            .Select(x => new
+            {
+                Vote = x,
+                HasBallotWithVariantBallotType = x.Ballots.Any(b => b.BallotType == BallotType.VariantsBallot),
+            })
+            .FirstAsync();
+        voteInfo.Vote.UpdateSubTypeManually(voteInfo.HasBallotWithVariantBallotType);
+        await _simplePoliticalBusinessBuilder.UpdateSubTypeIfNecessary(voteInfo.Vote);
     }
 
     private void SetDefaultValues(Ballot ballot)

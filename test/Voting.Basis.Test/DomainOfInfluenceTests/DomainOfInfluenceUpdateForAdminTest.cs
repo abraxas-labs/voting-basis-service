@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -350,6 +350,13 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
     [Fact]
     public async Task DuplicatedBfsForMunicipalityShouldTrow()
     {
+        await RunOnDb(async db =>
+        {
+            var doi = await db.DomainOfInfluences.AsTracking().SingleAsync(d => d.Name == DomainOfInfluenceMockedData.Gossau.Name);
+            doi.Type = DomainOfInfluenceType.Mu;
+            await db.SaveChangesAsync();
+        });
+
         var req = NewValidRequest(x =>
         {
             x.Type = SharedProto.DomainOfInfluenceType.Mu;
@@ -361,13 +368,6 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
             StatusCode.AlreadyExists,
             "The bfs 3443 is already taken");
     }
-
-    [Fact]
-    public Task ShouldThrowNoPlausibilisationConfiguration()
-        => AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o => o.PlausibilisationConfiguration = null)),
-            StatusCode.InvalidArgument,
-            "PlausibilisationConfiguration");
 
     [Theory]
     [InlineData(SharedProto.VotingCardShippingFranking.Unspecified)]
@@ -572,6 +572,36 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
             async () => await AdminClient.UpdateAsync(req),
             StatusCode.InvalidArgument,
             "electoral registration");
+    }
+
+    [Fact]
+    public async Task InternalPlausibilisationDisabledShouldThrow()
+    {
+        await ModifyDbEntities<DomainOfInfluence>(x => x.Id == DomainOfInfluenceMockedData.GuidUzwil, x => x.CantonDefaults.InternalPlausibilisationDisabled = true);
+
+        await AssertStatus(
+            async () => await AdminClient.UpdateAsync(NewValidRequest()),
+            StatusCode.InvalidArgument,
+            "internal plausibilisation is disabled for this canton");
+    }
+
+    [Fact]
+    public async Task NoPlausibilisationConfigurationShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.UpdateAsync(NewValidRequest(x => x.PlausibilisationConfiguration = null)),
+            StatusCode.InvalidArgument,
+            "plausibilisation configuration is required");
+    }
+
+    [Fact]
+    public async Task NoPlausibilisationConfigurationWithDisabledCantonSettingsShouldReturnOk()
+    {
+        await ModifyDbEntities<DomainOfInfluence>(x => x.Id == DomainOfInfluenceMockedData.GuidUzwil, x => x.CantonDefaults.InternalPlausibilisationDisabled = true);
+
+        await AdminClient.UpdateAsync(NewValidRequest(x => x.PlausibilisationConfiguration = null));
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<DomainOfInfluenceUpdated>();
+        eventData.MatchSnapshot("event", d => d.DomainOfInfluence.Id);
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -124,7 +124,6 @@ public class PermissionProvider : IPermissionProvider
         };
         _permissionsPerRole[Roles.CantonAdmin] = new HashSet<string>
         {
-            Permissions.CantonSettings.UpdateSameTenant,
             Permissions.CantonSettings.ReadSameTenant,
 
             Permissions.DomainOfInfluenceLogo.Update,
@@ -428,6 +427,10 @@ public class PermissionProvider : IPermissionProvider
         _permissionsPerRole[Roles.ApiReader] = new HashSet<string>
         {
             Permissions.DomainOfInfluenceHierarchy.ReadAll,
+        };
+        _permissionsPerRole[Roles.ApiReaderDoi] = new HashSet<string>
+        {
+            Permissions.DomainOfInfluenceHierarchy.ReadAdminManagement,
         };
     }
 

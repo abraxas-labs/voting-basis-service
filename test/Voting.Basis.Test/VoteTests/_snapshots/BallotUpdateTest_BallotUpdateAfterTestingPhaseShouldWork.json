@@ -26,7 +26,8 @@
           "it": "Frage 1 Gossau (geändert) it",
           "rm": "Frage 1 Gossau (geändert) rm"
         },
-        "Type": 1
+        "Type": 1,
+        "FederalIdentification": null
       },
       {
         "Number": 2,
@@ -36,7 +37,8 @@
           "it": "Frage 2 Gossau (geändert) it",
           "rm": "Frage 2 Gossau (geändert) rm"
         },
-        "Type": 3
+        "Type": 3,
+        "FederalIdentification": null
       }
     ],
     "TieBreakQuestions": [
@@ -49,7 +51,8 @@
           "rm": "Stichfrage 1 Gossau (Frage 1 vs Frage 2), geändert rm"
         },
         "Question1Number": 1,
-        "Question2Number": 2
+        "Question2Number": 2,
+        "FederalIdentification": null
       }
     ],
     "VoteId": "76d9b4bd-52e6-462e-9613-f344f7b860df"
@@ -87,7 +90,8 @@
               "it": "Frage 1 Gossau (geändert) it",
               "rm": "Frage 1 Gossau (geändert) rm"
             },
-            "Type": 1
+            "Type": 1,
+            "FederalIdentification": null
           },
           {
             "Number": 2,
@@ -97,7 +101,8 @@
               "it": "Frage 2 Gossau (geändert) it",
               "rm": "Frage 2 Gossau (geändert) rm"
             },
-            "Type": 3
+            "Type": 3,
+            "FederalIdentification": null
           }
         ],
         "VoteId": "76d9b4bd-52e6-462e-9613-f344f7b860df",
@@ -112,9 +117,13 @@
               "rm": "Stichfrage 1 Gossau (Frage 1 vs Frage 2), geändert rm"
             },
             "Question1Number": 1,
-            "Question2Number": 2
+            "Question2Number": 2,
+            "FederalIdentification": null
           }
-        ]
+        ],
+        "SubType": 0,
+        "OfficialDescription": {},
+        "ShortDescription": {}
       }
     ],
     "ReportDomainOfInfluenceLevel": 0,
@@ -124,6 +133,7 @@
     "AutomaticBallotBundleNumberGeneration": true,
     "EnforceResultEntryForCountingCircles": true,
     "ReviewProcedure": 1,
-    "EnforceReviewProcedureForCountingCircles": true
+    "EnforceReviewProcedureForCountingCircles": true,
+    "Type": 1
   }
 }

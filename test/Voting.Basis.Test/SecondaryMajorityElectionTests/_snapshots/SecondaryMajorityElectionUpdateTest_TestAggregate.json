@@ -17,6 +17,32 @@
     "NumberOfMandates": 2,
     "AllowedCandidates": 2,
     "PrimaryMajorityElectionId": "b0da46f8-a721-4e1a-ac36-25284d68f34b",
-    "Active": true
+    "Active": true,
+    "IndividualCandidatesDisabled": true
+  },
+  "simple-political-business": {
+    "PoliticalBusinessType": 4,
+    "PoliticalBusinessSubType": 0,
+    "BusinessType": 4,
+    "BusinessSubType": 0,
+    "PoliticalBusinessNumber": "10546",
+    "OfficialDescription": {
+      "de": "Update Nebenwahl de",
+      "fr": "Update Nebenwahl fr",
+      "it": "Update Nebenwahl it",
+      "rm": "Update Nebenwahl rm"
+    },
+    "ShortDescription": {
+      "de": "Update Nebenwahl de",
+      "fr": "Update Nebenwahl fr",
+      "it": "Update Nebenwahl it",
+      "rm": "Update Nebenwahl rm"
+    },
+    "Active": true,
+    "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+    "DomainOfInfluence": null,
+    "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
+    "Contest": null,
+    "Id": "0741da26-add2-4c4c-960d-7e251b82e91b"
   }
 }

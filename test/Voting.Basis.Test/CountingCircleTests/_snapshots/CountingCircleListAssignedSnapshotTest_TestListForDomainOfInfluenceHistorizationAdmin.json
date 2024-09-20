@@ -38,7 +38,8 @@
         "SortNumber": 0,
         "NameForProtocol": "",
         "Canton": 2,
-        "EVoting": false
+        "EVoting": false,
+        "EVotingActiveFrom": null
       },
       {
         "Id": "736ec87f-9953-4946-8459-1d03bc237aa1",
@@ -74,7 +75,8 @@
         "SortNumber": 0,
         "NameForProtocol": "",
         "Canton": 1,
-        "EVoting": false
+        "EVoting": false,
+        "EVotingActiveFrom": null
       }
     ]
   },
@@ -114,7 +116,8 @@
         "SortNumber": 0,
         "NameForProtocol": "",
         "Canton": 2,
-        "EVoting": false
+        "EVoting": false,
+        "EVotingActiveFrom": null
       }
     ]
   },
@@ -154,7 +157,8 @@
         "SortNumber": 0,
         "NameForProtocol": "",
         "Canton": 2,
-        "EVoting": false
+        "EVoting": false,
+        "EVotingActiveFrom": null
       },
       {
         "Id": "14451d15-cd48-46d1-bfed-6d069d160886",
@@ -190,7 +194,8 @@
         "SortNumber": 0,
         "NameForProtocol": "",
         "Canton": 0,
-        "EVoting": false
+        "EVoting": false,
+        "EVotingActiveFrom": null
       },
       {
         "Id": "736ec87f-9953-4946-8459-1d03bc237aa1",
@@ -226,7 +231,8 @@
         "SortNumber": 0,
         "NameForProtocol": "",
         "Canton": 1,
-        "EVoting": false
+        "EVoting": false,
+        "EVotingActiveFrom": null
       }
     ]
   },
@@ -266,7 +272,8 @@
         "SortNumber": 0,
         "NameForProtocol": "",
         "Canton": 2,
-        "EVoting": false
+        "EVoting": false,
+        "EVotingActiveFrom": null
       }
     ]
   }

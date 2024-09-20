@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -283,5 +283,16 @@ public class ProportionalElectionService : ServiceBase
     {
         await _proportionalElectionWriter.DeleteCandidate(GuidParser.Parse(request.Id));
         return ProtobufEmpty.Instance;
+    }
+
+    [AuthorizeAnyPermission(Permissions.ProportionalElectionList.Read)]
+    public override Task GetListChanges(
+        GetProportionalElectionListChangesRequest request,
+        IServerStreamWriter<ProtoModels.ProportionalElectionListChangeMessage> responseStream,
+        ServerCallContext context)
+    {
+        return _proportionalElectionReader.ListenToListChanges(
+            e => responseStream.WriteAsync(_mapper.Map<ProtoModels.ProportionalElectionListChangeMessage>(e)),
+            context.CancellationToken);
     }
 }

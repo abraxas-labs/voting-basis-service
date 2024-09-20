@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -153,6 +153,10 @@ public static class CantonSettingsMockedData
                 },
             },
             StatePlausibilisedDisabled = true,
+            EndResultFinalizeDisabled = true,
+            CreateContestOnHighestHierarchicalLevelEnabled = true,
+            InternalPlausibilisationDisabled = true,
+            PublishResultsBeforeAuditedTentatively = true,
         };
 
     public static IEnumerable<CantonSettings> All

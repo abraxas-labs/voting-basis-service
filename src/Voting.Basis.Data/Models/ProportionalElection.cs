@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -27,6 +27,8 @@ public class ProportionalElection : PoliticalBusiness
 
     public override PoliticalBusinessType PoliticalBusinessType => PoliticalBusinessType.ProportionalElection;
 
+    public override PoliticalBusinessSubType PoliticalBusinessSubType => PoliticalBusinessSubType.Unspecified;
+
     public ICollection<ProportionalElectionList> ProportionalElectionLists { get; set; } = new HashSet<ProportionalElectionList>();
 
     public ICollection<ProportionalElectionListUnion> ProportionalElectionListUnions { get; set; } = new HashSet<ProportionalElectionListUnion>();
@@ -38,4 +40,6 @@ public class ProportionalElection : PoliticalBusiness
     public bool EnforceReviewProcedureForCountingCircles { get; set; }
 
     public bool EnforceCandidateCheckDigitForCountingCircles { get; set; }
+
+    public int? FederalIdentification { get; set; }
 }

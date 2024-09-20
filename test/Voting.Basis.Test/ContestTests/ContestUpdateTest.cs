@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -275,6 +275,19 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
             })),
             StatusCode.InvalidArgument,
             "The testing phase must end at the earliest 4.00:00:00 before the contest date");
+    }
+
+    [Fact]
+    public async Task InternalPlausibilisationDisabledShouldThrow()
+    {
+        await ModifyDbEntities<DomainOfInfluence>(
+            x => x.Id == DomainOfInfluenceMockedData.GuidGossau,
+            x => x.CantonDefaults.InternalPlausibilisationDisabled = true);
+
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(x => x.PreviousContestId = ContestMockedData.IdBundContest)),
+            StatusCode.InvalidArgument,
+            "internal plausibilisation are disabled for this canton");
     }
 
     [Fact]

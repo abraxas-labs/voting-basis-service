@@ -35,7 +35,8 @@
       "NumberOfMandates": 5,
       "AllowedCandidates": 2,
       "PrimaryMajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
-      "Active": true
+      "Active": true,
+      "IndividualCandidatesDisabled": true
     }
   }
 }

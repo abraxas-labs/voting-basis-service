@@ -1,9 +1,10 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
@@ -15,9 +16,13 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Jobs;
+using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Test.MockedData;
+using Voting.Basis.Test.Mocks;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing;
+using Voting.Lib.Testing.Mocks;
 using Voting.Lib.Testing.Utils;
 using Xunit;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
@@ -27,7 +32,6 @@ namespace Voting.Basis.Test.CountingCircleTests;
 public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.CountingCircleServiceClient>
 {
     private const string IdNotFound = "eae2cfaf-c787-48b9-a108-c975b0addddd";
-    private const string IdInvalid = "eae2xxxx";
 
     public CountingCircleUpdateTest(TestApplicationFactory factory)
         : base(factory)
@@ -136,11 +140,16 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
                 EventInfo = GetMockedEventInfo(),
             });
         var countingCircles = await AdminClient.ListAsync(new ListCountingCircleRequest());
-        countingCircles.CountingCircles_.Should().HaveCount(8);
         countingCircles.MatchSnapshot();
 
         var electorateExists = await RunOnDb(db => db.CountingCircleElectorates.AnyAsync(e => e.Id == electorateChId));
         electorateExists.Should().BeTrue();
+
+        await AssertHasPublishedMessage<CountingCircleChangeMessage>(
+            x => x.CountingCircle.HasEqualIdAndNewEntityState(CountingCircleMockedData.Uzwil.Id, EntityState.Modified));
+
+        await AssertHasPublishedMessage<CountingCircleChangeMessage>(
+            x => x.CountingCircle.HasEqualIdAndNewEntityState(CountingCircleMockedData.StGallen.Id, EntityState.Modified));
     }
 
     [Fact]
@@ -228,6 +237,33 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
     }
 
     [Fact]
+    public async Task MissingEVotingActiveFromShouldSetEVotingFalse()
+    {
+        await AdminClient.UpdateAsync(NewValidRequest(
+            x => x.EVotingActiveFrom = null));
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<CountingCircleUpdated>();
+        eventData.CountingCircle.EVoting.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task EVotingActiveFromInFutureShouldSetEVotingFalse()
+    {
+        await AdminClient.UpdateAsync(NewValidRequest(
+            x => x.EVotingActiveFrom = MockedClock.GetTimestampDate(1)));
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<CountingCircleUpdated>();
+        eventData.CountingCircle.EVoting.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task EVotingActiveFromInPastShouldSetEVotingTrue()
+    {
+        await AdminClient.UpdateAsync(NewValidRequest(
+            x => x.EVotingActiveFrom = MockedClock.GetTimestampDate(-1)));
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<CountingCircleUpdated>();
+        eventData.CountingCircle.EVoting.Should().BeTrue();
+    }
+
+    [Fact]
     public Task InvalidSecureConnectTenant()
         => AssertStatus(
             async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
@@ -264,6 +300,30 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
                 NewValidRequest(o => o.Id = IdNotFound)),
             StatusCode.NotFound);
 
+    [Fact]
+    public async Task JobShouldActivateEVoting()
+    {
+        var ccId = Guid.Parse(CountingCircleMockedData.IdUzwil);
+
+        await SeedEVotingActivateFrom(ccId);
+        var countingCircle = await RunOnDb(db => db.CountingCircles.SingleAsync(cc => cc.Id == ccId));
+        countingCircle.EVoting.Should().BeFalse();
+        countingCircle.EVotingActiveFrom.Should().NotBeNull();
+
+        AdjustableMockedClock.OverrideUtcNow = MockedClock.GetDate(3);
+        await RunScoped<ActivateCountingCircleEVotingJob>(job => job.Run(CancellationToken.None));
+        AdjustableMockedClock.OverrideUtcNow = null;
+
+        var ccUpdatedEvent = EventPublisherMock.GetSinglePublishedEvent<CountingCircleUpdated>();
+        ccUpdatedEvent.MatchSnapshot("ccUpdated");
+
+        await TestEventPublisher.Publish(1, ccUpdatedEvent);
+
+        countingCircle = await RunOnDb(db => db.CountingCircles.SingleAsync(cc => cc.Id == ccId));
+        countingCircle.EVoting.Should().BeTrue();
+        countingCircle.EVotingActiveFrom.Should().NotBeNull();
+    }
+
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
         => await new CountingCircleService.CountingCircleServiceClient(channel)
             .UpdateAsync(NewValidRequest());
@@ -274,6 +334,25 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;
+    }
+
+    private async Task SeedEVotingActivateFrom(Guid countingCircleId)
+    {
+        await AdminClient.UpdateAsync(NewValidRequest(o =>
+        {
+            o.Id = countingCircleId.ToString();
+            o.EVotingActiveFrom = MockedClock.GetTimestampDate(3);
+            o.ContactPersonAfterEvent.FirstName = "EVoting";
+            o.ContactPersonDuringEvent.FirstName = "EVoting";
+            o.Electorates.Add(new ProtoModels.CountingCircleElectorate
+            {
+                DomainOfInfluenceTypes = { DomainOfInfluenceType.An },
+            });
+        }));
+
+        var ev = EventPublisherMock.GetSinglePublishedEvent<CountingCircleUpdated>();
+        EventPublisherMock.Clear();
+        await TestEventPublisher.Publish(ev);
     }
 
     private UpdateCountingCircleRequest NewValidRequest(

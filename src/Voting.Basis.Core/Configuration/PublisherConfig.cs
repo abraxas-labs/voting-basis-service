@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -48,6 +48,11 @@ public class PublisherConfig
     };
 
     public JobConfig ActivateCountingCirclesMergeJob { get; set; } = new()
+    {
+        Interval = TimeSpan.FromHours(1),
+    };
+
+    public JobConfig ActivateCountingCircleEVotingJob { get; set; } = new()
     {
         Interval = TimeSpan.FromHours(1),
     };

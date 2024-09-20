@@ -46,7 +46,11 @@
       "MajorityElectionUseCandidateCheckDigit": false,
       "CountingCircleResultStateDescriptions": [],
       "StatePlausibilisedDisabled": false,
-      "PublishResultsEnabled": true
+      "PublishResultsEnabled": true,
+      "EndResultFinalizeDisabled": false,
+      "CreateContestOnHighestHierarchicalLevelEnabled": false,
+      "InternalPlausibilisationDisabled": false,
+      "PublishResultsBeforeAuditedTentatively": false
     }
   ]
 }

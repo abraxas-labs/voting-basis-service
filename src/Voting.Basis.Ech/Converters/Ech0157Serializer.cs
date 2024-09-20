@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -48,11 +48,13 @@ public class Ech0157Serializer
             .Select(m => m.ToEchElectionGroup())
             .ToList();
 
-        var delivery = WrapInDelivery(new EventInitialDelivery
-        {
-            Contest = contestType,
-            ElectionGroupBallot = electionGroups,
-        });
+        var delivery = WrapInDelivery(
+            new EventInitialDelivery
+            {
+                Contest = contestType,
+                ElectionGroupBallot = electionGroups,
+            },
+            contest);
 
         return ToXmlBytes(delivery);
     }
@@ -80,19 +82,21 @@ public class Ech0157Serializer
             .Select(p => p.ToEchElectionGroup())
             .ToList();
 
-        var delivery = WrapInDelivery(new EventInitialDelivery
-        {
-            Contest = contestType,
-            ElectionGroupBallot = electionGroups,
-        });
+        var delivery = WrapInDelivery(
+            new EventInitialDelivery
+            {
+                Contest = contestType,
+                ElectionGroupBallot = electionGroups,
+            },
+            contest);
 
         return ToXmlBytes(delivery);
     }
 
-    private Delivery WrapInDelivery(EventInitialDelivery data)
+    private Delivery WrapInDelivery(EventInitialDelivery data, Contest contest)
         => new Delivery
         {
-            DeliveryHeader = _deliveryHeaderProvider.BuildHeader(),
+            DeliveryHeader = _deliveryHeaderProvider.BuildHeader(!contest.TestingPhaseEnded),
             InitialDelivery = data,
         };
 

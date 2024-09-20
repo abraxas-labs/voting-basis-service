@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -11,6 +11,7 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -208,7 +209,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     public async Task CantonAdminWithDifferentCantonRootDoiShouldThrow()
     {
         await AssertStatus(
-            async () => await CantonAdminClient.CreateAsync(NewValidRootDoiRequest(req => req.Canton = SharedProto.DomainOfInfluenceCanton.Zh)),
+            async () => await CantonAdminClient.CreateAsync(NewValidRootDoiRequest(req => req.Canton = SharedProto.DomainOfInfluenceCanton.Tg)),
             StatusCode.PermissionDenied);
     }
 
@@ -287,7 +288,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
         await AssertStatus(
             async () => await AdminClient.CreateAsync(NewValidRootDoiRequest(o => o.Canton = SharedProto.DomainOfInfluenceCanton.Unspecified)),
             StatusCode.InvalidArgument,
-            "Canton");
+            "canton is required to load canton settings for root doi");
     }
 
     [Fact]
@@ -308,6 +309,13 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public async Task DuplicatedBfsForMunicipalityShouldThrow()
     {
+        await RunOnDb(async db =>
+        {
+            var doi = await db.DomainOfInfluences.AsTracking().SingleAsync(d => d.Name == DomainOfInfluenceMockedData.Uzwil.Name);
+            doi.Type = DomainOfInfluenceType.Mu;
+            await db.SaveChangesAsync();
+        });
+
         var req = NewValidRequest(o =>
         {
             o.Type = SharedProto.DomainOfInfluenceType.Mu;
@@ -517,6 +525,49 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
             async () => await AdminClient.CreateAsync(req),
             StatusCode.InvalidArgument,
             "electoral registration");
+    }
+
+    [Fact]
+    public async Task InternalPlausibilisationDisabledShouldThrow()
+    {
+        await ModifyDbEntities<CantonSettings>(x => x.Canton == DomainOfInfluenceCanton.Sg, x => x.InternalPlausibilisationDisabled = true);
+
+        await AssertStatus(
+            async () => await AdminClient.CreateAsync(NewValidRequest()),
+            StatusCode.InvalidArgument,
+            "internal plausibilisation is disabled for this canton");
+    }
+
+    [Fact]
+    public async Task InternalPlausibilisationDisabledAsRootDoiShouldThrow()
+    {
+        await ModifyDbEntities<CantonSettings>(x => x.Canton == DomainOfInfluenceCanton.Sg, x => x.InternalPlausibilisationDisabled = true);
+
+        await AssertStatus(
+            async () => await AdminClient.CreateAsync(NewValidRootDoiRequest()),
+            StatusCode.InvalidArgument,
+            "internal plausibilisation is disabled for this canton");
+    }
+
+    [Fact]
+    public async Task NoPlausibilisationConfigurationShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.CreateAsync(NewValidRequest(x => x.PlausibilisationConfiguration = null)),
+            StatusCode.InvalidArgument,
+            "plausibilisation configuration is required");
+    }
+
+    [Fact]
+    public async Task NoPlausibilisationConfigurationWithDisabledCantonSettingsShouldReturnOk()
+    {
+        await ModifyDbEntities<CantonSettings>(x => x.Canton == DomainOfInfluenceCanton.Sg, x => x.InternalPlausibilisationDisabled = true);
+
+        var response = await AdminClient.CreateAsync(NewValidRequest(x => x.PlausibilisationConfiguration = null));
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<DomainOfInfluenceCreated>();
+
+        eventData.DomainOfInfluence.Id.Should().Be(response.Id);
+        eventData.MatchSnapshot("event", d => d.DomainOfInfluence.Id);
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

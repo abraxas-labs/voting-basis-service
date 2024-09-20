@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +48,11 @@ public class CountingCircleModelBuilder : IEntityTypeConfiguration<CountingCircl
 
         builder
             .HasQueryFilter(cc => cc.State == CountingCircleState.Active);
+
+        builder
+            .Property(d => d.EVotingActiveFrom)
+            .HasDateType()
+            .HasUtcConversion();
     }
 
     public void Configure(EntityTypeBuilder<CountingCirclesMerger> builder)

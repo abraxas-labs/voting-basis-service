@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -55,6 +55,7 @@ internal readonly struct ExceptionMapping
             DuplicatedBfsException => new(StatusCode.AlreadyExists, StatusCodes.Status424FailedDependency, true),
             DuplicatedPoliticalBusinessNumberException => new(StatusCode.AlreadyExists, StatusCodes.Status424FailedDependency, true),
             MajorityElectionWithExistingSecondaryElectionsException => new(StatusCode.FailedPrecondition, StatusCodes.Status424FailedDependency, true),
+            MajorityElectionCandidateIsInBallotGroupException => new(StatusCode.FailedPrecondition, StatusCodes.Status424FailedDependency, true),
             ContestTestingPhaseEndedException => new(StatusCode.FailedPrecondition, StatusCodes.Status424FailedDependency),
             ModificationNotAllowedException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed),
             ContestWithExistingPoliticalBusinessesException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),

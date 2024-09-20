@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -34,6 +34,7 @@ public static class VoteMockedData
     public const string IdUzwilVoteInContestUzwilWithoutChilds = "7de846be-9e60-45c7-81e3-51441ff37592";
     public const string IdGenfVoteInContestBundWithoutChilds = "b751e349-0d2c-482c-b5f9-780608cca9f8";
     public const string IdKircheVoteInContestKircheWithoutChilds = "bfd3a5ba-a9e5-4cdd-9b81-16a181cf53cb";
+    public const string IdZurichVoteInContestZurich = "daf1dc06-3b08-4a24-9c76-e25e05b9d0ef";
 
     public const string BallotIdBundVoteInContestBund = "b7ba9fef-27f9-46c4-8046-955e874561a7";
     public const string BallotIdStGallenVoteInContestBund = "60dd6c2c-e73a-467e-99e1-902f973a5d8e";
@@ -44,6 +45,9 @@ public static class VoteMockedData
     public const string BallotIdStGallenVoteInContestStGallen = "0ed26aad-e169-4d55-b9a9-90475ba81a02";
     public const string BallotIdGossauVoteInContestGossau = "a2aa6f61-752b-446f-94b4-002a95111c7a";
     public const string BallotIdUzwilVoteInContestUzwil = "7ad05ec9-0ad9-4490-8b97-368f7175a7f0";
+    public const string BallotId1ZurichVoteInContestZurich = "b8c09df7-54a8-4d52-88eb-a469c81e4264";
+    public const string BallotId2ZurichVoteInContestZurich = "d5609342-d3e8-4f76-9208-971ff85f5c38";
+    public const string BallotId3ZurichVoteInContestZurich = "44063379-53b3-48dc-9bbd-f84ff2d35ae2";
 
     public static Vote BundVoteInContestBund
         => new Vote
@@ -63,6 +67,7 @@ public static class VoteMockedData
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = VoteReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = VoteType.QuestionsOnSingleBallot,
             Ballots = new List<Ballot>
             {
                     new Ballot
@@ -102,6 +107,7 @@ public static class VoteMockedData
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = VoteReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = VoteType.QuestionsOnSingleBallot,
             Ballots = new List<Ballot>
             {
                     new Ballot
@@ -141,6 +147,7 @@ public static class VoteMockedData
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = VoteReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = VoteType.QuestionsOnSingleBallot,
             Ballots = new List<Ballot>
             {
                     new Ballot
@@ -180,6 +187,7 @@ public static class VoteMockedData
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = VoteReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = VoteType.QuestionsOnSingleBallot,
             Ballots = new List<Ballot>
             {
                     new Ballot
@@ -220,6 +228,7 @@ public static class VoteMockedData
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = VoteReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = VoteType.QuestionsOnSingleBallot,
             Ballots = new List<Ballot>
             {
                     new Ballot
@@ -259,6 +268,7 @@ public static class VoteMockedData
             EnforceResultEntryForCountingCircles = false,
             ReviewProcedure = VoteReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = VoteType.QuestionsOnSingleBallot,
             Ballots = new List<Ballot>
             {
                     new Ballot
@@ -317,6 +327,7 @@ public static class VoteMockedData
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = VoteReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = VoteType.QuestionsOnSingleBallot,
             Ballots = new List<Ballot>
             {
                     new Ballot
@@ -375,6 +386,7 @@ public static class VoteMockedData
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = VoteReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = VoteType.QuestionsOnSingleBallot,
         };
 
     public static Vote GossauVoteInContestGossau
@@ -395,6 +407,7 @@ public static class VoteMockedData
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = VoteReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = VoteType.QuestionsOnSingleBallot,
             Ballots = new List<Ballot>
             {
                     new Ballot
@@ -434,6 +447,7 @@ public static class VoteMockedData
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = VoteReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = VoteType.QuestionsOnSingleBallot,
             Ballots = new List<Ballot>
             {
                     new Ballot
@@ -473,6 +487,7 @@ public static class VoteMockedData
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = VoteReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = VoteType.QuestionsOnSingleBallot,
         };
 
     public static Vote GenfVoteInContestBundWithoutChilds
@@ -493,6 +508,7 @@ public static class VoteMockedData
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = VoteReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = VoteType.QuestionsOnSingleBallot,
         };
 
     public static Vote KircheVoteInContestKircheWithoutChilds
@@ -513,6 +529,86 @@ public static class VoteMockedData
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = VoteReviewProcedure.Physically,
             EnforceReviewProcedureForCountingCircles = false,
+            Type = VoteType.QuestionsOnSingleBallot,
+        };
+
+    public static Vote ZurichVoteInContestZurich
+        => new Vote
+        {
+            Id = Guid.Parse(IdZurichVoteInContestZurich),
+            PoliticalBusinessNumber = "1",
+            OfficialDescription = LanguageUtil.MockAllLanguages("Variantenabstimmumg Zürich"),
+            ShortDescription = LanguageUtil.MockAllLanguages("Abst ZH"),
+            InternalDescription = "Variantenabstimmumg Zürich auf mehreren Wahlzetteln",
+            DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidZurich,
+            ContestId = ContestMockedData.ZurichContest.Id,
+            ResultAlgorithm = VoteResultAlgorithm.PopularMajority,
+            Active = true,
+            ResultEntry = VoteResultEntry.FinalResults,
+            EnforceResultEntryForCountingCircles = true,
+            ReviewProcedure = VoteReviewProcedure.Electronically,
+            EnforceReviewProcedureForCountingCircles = true,
+            Type = VoteType.VariantQuestionsOnMultipleBallots,
+            Ballots = new List<Ballot>
+            {
+                new Ballot
+                {
+                    Id = Guid.Parse(BallotId1ZurichVoteInContestZurich),
+                    Position = 1,
+                    BallotType = BallotType.StandardBallot,
+                    SubType = BallotSubType.MainBallot,
+                    ShortDescription = LanguageUtil.MockAllLanguages("Hauptvorlage"),
+                    OfficialDescription = LanguageUtil.MockAllLanguages("Abstimmung Hauptvorlage"),
+                    BallotQuestions = new List<BallotQuestion>
+                    {
+                        new BallotQuestion
+                        {
+                            Number = 1,
+                            Id = Guid.Parse("ed43da33-4f46-4966-b76b-a8d49b0e057d"),
+                            Question = LanguageUtil.MockAllLanguages("Hauptvorlage"),
+                            Type = BallotQuestionType.MainBallot,
+                        },
+                    },
+                },
+                new Ballot
+                {
+                    Id = Guid.Parse(BallotId2ZurichVoteInContestZurich),
+                    Position = 2,
+                    BallotType = BallotType.StandardBallot,
+                    SubType = BallotSubType.CounterProposal1,
+                    ShortDescription = LanguageUtil.MockAllLanguages("Gegenvorschlag"),
+                    OfficialDescription = LanguageUtil.MockAllLanguages("Abstimmung Gegenvorschlag"),
+                    BallotQuestions = new List<BallotQuestion>
+                    {
+                        new BallotQuestion
+                        {
+                            Number = 1,
+                            Id = Guid.Parse("cb002085-461c-45eb-8881-320873f5902c"),
+                            Question = LanguageUtil.MockAllLanguages("Gegenvorschlag"),
+                            Type = BallotQuestionType.MainBallot,
+                        },
+                    },
+                },
+                new Ballot
+                {
+                    Id = Guid.Parse(BallotId3ZurichVoteInContestZurich),
+                    Position = 3,
+                    BallotType = BallotType.StandardBallot,
+                    SubType = BallotSubType.TieBreak1,
+                    ShortDescription = LanguageUtil.MockAllLanguages("Stichfrage"),
+                    OfficialDescription = LanguageUtil.MockAllLanguages("Abstimmung Stichfrage"),
+                    BallotQuestions = new List<BallotQuestion>
+                    {
+                        new BallotQuestion
+                        {
+                            Number = 1,
+                            Id = Guid.Parse("dd565ebc-70a5-4fc5-8718-6714b436e343"),
+                            Question = LanguageUtil.MockAllLanguages("Stichfrage"),
+                            Type = BallotQuestionType.MainBallot,
+                        },
+                    },
+                },
+            },
         };
 
     public static IEnumerable<Vote> All
@@ -531,6 +627,7 @@ public static class VoteMockedData
             yield return UzwilVoteInContestBundWithoutChilds;
             yield return GenfVoteInContestBundWithoutChilds;
             yield return KircheVoteInContestKircheWithoutChilds;
+            yield return ZurichVoteInContestZurich;
         }
     }
 

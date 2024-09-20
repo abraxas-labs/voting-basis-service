@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -43,14 +43,6 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
         await AdminClient.UpdateAsync(NewValidRequest());
         var eventData = EventPublisherMock.GetSinglePublishedEvent<CantonSettingsUpdated>();
         eventData.MatchSnapshot("event", c => c.CantonSettings.Id);
-    }
-
-    [Fact]
-    public async Task TestCantonAdminOtherCantonShouldThrow()
-    {
-        await AssertStatus(
-            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(req => req.Id = CantonSettingsMockedData.IdZurich)),
-            StatusCode.PermissionDenied);
     }
 
     [Fact]
@@ -109,6 +101,8 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
                     CountingMachineEnabled = true,
                     StatePlausibilisedDisabled = true,
                     PublishResultsEnabled = true,
+                    EndResultFinalizeDisabled = true,
+                    PublishResultsBeforeAuditedTentatively = true,
                 },
                 EventInfo = GetMockedEventInfo(),
             });
@@ -205,7 +199,6 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
     protected override IEnumerable<string> AuthorizedRoles()
     {
         yield return Roles.Admin;
-        yield return Roles.CantonAdmin;
     }
 
     private UpdateCantonSettingsRequest NewValidRequest(
@@ -267,6 +260,8 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
             },
             StatePlausibilisedDisabled = true,
             PublishResultsEnabled = true,
+            EndResultFinalizeDisabled = true,
+            PublishResultsBeforeAuditedTentatively = true,
         };
         customizer?.Invoke(request);
         return request;

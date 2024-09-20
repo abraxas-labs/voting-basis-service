@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using FluentValidation;
@@ -133,6 +133,7 @@ internal static class PublisherServiceCollection
             .AddScheduledJob<PastLockedContestJob>(config.ContestStateSetPastJob)
             .AddScheduledJob<ArchiveContestJob>(config.ContestStateArchiveJob)
             .AddScheduledJob<ActivateCountingCirclesMergeJob>(config.ActivateCountingCirclesMergeJob)
+            .AddScheduledJob<ActivateCountingCircleEVotingJob>(config.ActivateCountingCircleEVotingJob)
             .AddScheduledJob<StopContestEventSignatureJob>(config.StopContestEventSignatureJob);
     }
 

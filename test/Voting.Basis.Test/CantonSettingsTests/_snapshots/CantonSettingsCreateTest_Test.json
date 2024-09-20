@@ -66,7 +66,11 @@
         }
       ],
       "StatePlausibilisedDisabled": true,
-      "PublishResultsEnabled": true
+      "PublishResultsEnabled": true,
+      "EndResultFinalizeDisabled": true,
+      "CreateContestOnHighestHierarchicalLevelEnabled": false,
+      "InternalPlausibilisationDisabled": false,
+      "PublishResultsBeforeAuditedTentatively": true
     }
   }
 }

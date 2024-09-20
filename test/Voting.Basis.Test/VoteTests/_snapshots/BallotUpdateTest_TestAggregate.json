@@ -31,7 +31,8 @@
             "it": "Frage 1 update it",
             "rm": "Frage 1 update rm"
           },
-          "Type": 1
+          "Type": 1,
+          "FederalIdentification": null
         },
         {
           "Number": 2,
@@ -41,7 +42,8 @@
             "it": "Frage 2 update it",
             "rm": "Frage 2 update rm"
           },
-          "Type": 2
+          "Type": 2,
+          "FederalIdentification": null
         }
       ],
       "VoteId": "8fbba43a-cd73-407a-b490-df13c41cc5ee",
@@ -56,9 +58,13 @@
             "rm": "TieBreak 1 Updated rm"
           },
           "Question1Number": 1,
-          "Question2Number": 2
+          "Question2Number": 2,
+          "FederalIdentification": null
         }
-      ]
+      ],
+      "SubType": 0,
+      "OfficialDescription": {},
+      "ShortDescription": {}
     }
   ],
   "ReportDomainOfInfluenceLevel": 0,
@@ -68,5 +74,6 @@
   "AutomaticBallotBundleNumberGeneration": false,
   "EnforceResultEntryForCountingCircles": true,
   "ReviewProcedure": 1,
-  "EnforceReviewProcedureForCountingCircles": true
+  "EnforceReviewProcedureForCountingCircles": true,
+  "Type": 1
 }

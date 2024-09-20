@@ -42,7 +42,8 @@
       "AutomaticBallotBundleNumberGeneration": true,
       "EnforceResultEntryForCountingCircles": true,
       "ReviewProcedure": 1,
-      "EnforceReviewProcedureForCountingCircles": true
+      "EnforceReviewProcedureForCountingCircles": true,
+      "Type": 1
     }
   }
 }

@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -93,6 +93,46 @@ public class SecondaryMajorityElectionCandidateUpdateTest : BaseGrpcTest<Majorit
     }
 
     [Fact]
+    public async Task TestProcessorWithDeprecatedSexType()
+    {
+        await TestEventPublisher.Publish(
+            new SecondaryMajorityElectionCandidateUpdated
+            {
+                SecondaryMajorityElectionCandidate = new MajorityElectionCandidateEventData
+                {
+                    Id = MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund,
+                    MajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+                    FirstName = "new first name",
+                    LastName = "new last name",
+                    PoliticalFirstName = "new pol first name",
+                    PoliticalLastName = "new pol last name",
+                    Occupation = { LanguageUtil.MockAllLanguages("new occupation") },
+                    OccupationTitle = { LanguageUtil.MockAllLanguages("new occupation title") },
+                    DateOfBirth = new DateTime(1961, 8, 6, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
+                    Incumbent = false,
+                    Position = 1,
+                    Locality = "locality",
+                    Number = "numberNew",
+                    Sex = SharedProto.SexType.Undefined,
+                    Title = "new title",
+                    ZipCode = "new zip code",
+                    Party = { LanguageUtil.MockAllLanguages("NEW") },
+                    Origin = "origin",
+                    CheckDigit = 0,
+                },
+            });
+
+        var candidates = await AdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
+        {
+            SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+        });
+
+        var candidate = candidates.Candidates.Select(x => x.Candidate)
+            .Single(x => x.Id == MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund);
+        candidate.Sex.Should().Be(SharedProto.SexType.Female);
+    }
+
+    [Fact]
     public async Task ForeignSecondaryMajorityElectionCandidateShouldThrow()
     {
         await AssertStatus(
@@ -148,6 +188,39 @@ public class SecondaryMajorityElectionCandidateUpdateTest : BaseGrpcTest<Majorit
             .Single(c => c.Candidate.Id == MajorityElectionMockedData.SecondaryElectionCandidateId2GossauMajorityElectionInContestBund)
             .Candidate;
         candidate.MatchSnapshot("response");
+    }
+
+    [Fact]
+    public async Task TestProcessorUpdateAfterTestingPhaseWithDeprecatedSexType()
+    {
+        await TestEventPublisher.Publish(
+            new SecondaryMajorityElectionCandidateAfterTestingPhaseUpdated
+            {
+                Id = MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund,
+                FirstName = "new first name",
+                LastName = "new last name",
+                PoliticalFirstName = "new pol first name",
+                PoliticalLastName = "new pol last name",
+                Occupation = { LanguageUtil.MockAllLanguages("new occupation") },
+                OccupationTitle = { LanguageUtil.MockAllLanguages("new occupation title") },
+                DateOfBirth = new DateTime(1961, 8, 6, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
+                Incumbent = false,
+                Locality = "locality",
+                Sex = SharedProto.SexType.Undefined,
+                Title = "new title",
+                ZipCode = "new zip code",
+                Party = { LanguageUtil.MockAllLanguages("NEW") },
+                Origin = "origin",
+            });
+
+        var candidates = await AdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
+        {
+            SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+        });
+
+        var candidate = candidates.Candidates.Select(x => x.Candidate)
+            .Single(x => x.Id == MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund);
+        candidate.Sex.Should().Be(SharedProto.SexType.Female);
     }
 
     [Fact]

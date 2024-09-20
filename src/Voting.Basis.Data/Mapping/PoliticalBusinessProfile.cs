@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using AutoMapper;
@@ -11,6 +11,7 @@ public class PoliticalBusinessProfile : Profile
     public PoliticalBusinessProfile()
     {
         CreateMap<PoliticalBusiness, SimplePoliticalBusiness>()
-            .ForMember(dst => dst.BusinessType, opt => opt.MapFrom(src => src.PoliticalBusinessType));
+            .ForMember(dst => dst.BusinessType, opt => opt.MapFrom(src => src.PoliticalBusinessType))
+            .ForMember(dst => dst.BusinessSubType, opt => opt.MapFrom(src => src.PoliticalBusinessSubType));
     }
 }

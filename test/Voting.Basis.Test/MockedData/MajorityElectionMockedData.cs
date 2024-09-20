@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -383,7 +383,7 @@ public static class MajorityElectionMockedData
                         Party = LanguageUtil.MockAllLanguages("SVP"),
                         Locality = "locality 2",
                         Number = "number2",
-                        Sex = SexType.Undefined,
+                        Sex = SexType.Female,
                         Title = "title2",
                         ZipCode = "zip code2",
                         Origin = "origin 2",
@@ -641,7 +641,7 @@ public static class MajorityElectionMockedData
                         Party = LanguageUtil.MockAllLanguages("CVP"),
                         Locality = "locality 2",
                         Number = "number2",
-                        Sex = SexType.Undefined,
+                        Sex = SexType.Female,
                         Title = "title 2",
                         Origin = "origin 2",
                         CheckDigit = 7,
@@ -923,7 +923,7 @@ public static class MajorityElectionMockedData
                                     new MajorityElectionBallotGroupEntryCandidate
                                     {
                                         Id = Guid.Parse("77a31b50-3c24-49a2-94c2-9ee2900f3a13"),
-                                        SecondaryElectionCandidateId = Guid.Parse(SecondaryElectionCandidateId1GossauMajorityElectionInContestBund),
+                                        SecondaryElectionCandidateId = Guid.Parse(SecondaryElectionCandidateId2GossauMajorityElectionInContestBund),
                                     },
                                 },
                             },

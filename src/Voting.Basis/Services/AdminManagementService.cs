@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Threading.Tasks;
@@ -40,7 +40,7 @@ public class AdminManagementService : ServiceBase
     /// <param name="request">The request object.</param>
     /// <param name="context">The request context.</param>
     /// <returns>List of domain of influences.</returns>
-    [AuthorizePermission(Permissions.DomainOfInfluenceHierarchy.ReadAll)]
+    [AuthorizeAnyPermission(Permissions.DomainOfInfluenceHierarchy.ReadAll, Permissions.DomainOfInfluenceHierarchy.ReadAdminManagement)]
     public override async Task<PoliticalDomainOfInfluenceHierarchies> GetPoliticalDomainOfInfluenceHierarchy(
         GetPoliticalDomainOfInfluenceHierarchyRequest request,
         ServerCallContext context)

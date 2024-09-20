@@ -1,6 +1,5 @@
 {
   "Permission": [
-    "CantonSettings:update-same-tenant",
     "CantonSettings:read-same-tenant",
     "DomainOfInfluence.Logo:update",
     "DomainOfInfluence.Logo:read",

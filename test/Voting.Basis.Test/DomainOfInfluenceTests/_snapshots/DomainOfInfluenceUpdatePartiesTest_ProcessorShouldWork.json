@@ -17,6 +17,7 @@
       "DomainOfInfluence": null,
       "ProportionalElectionCandidates": [],
       "Deleted": false,
+      "ProportionalElectionLists": [],
       "Id": "7808f2f5-80ca-48ec-84ee-a0b376d5bf54"
     },
     {
@@ -36,6 +37,7 @@
       "DomainOfInfluence": null,
       "ProportionalElectionCandidates": [],
       "Deleted": false,
+      "ProportionalElectionLists": [],
       "Id": "e6697ba9-9c7a-4dba-8640-9575dfcc3e09"
     }
   ]

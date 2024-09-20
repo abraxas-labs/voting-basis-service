@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -43,6 +43,8 @@ public class SecondaryMajorityElection
     public List<MajorityElectionCandidateReference> CandidateReferences { get; private set; }
 
     public Guid PrimaryMajorityElectionId { get; set; }
+
+    public bool IndividualCandidatesDisabled { get; private set; }
 
     internal MajorityElectionCandidate GetCandidate(Guid candidateId)
     {

@@ -1,0 +1,54 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "zürich-sec-id",
+        "Name": ""
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Ballot": {
+      "Id": "d5609342-d3e8-4f76-9208-971ff85f5c38",
+      "Position": 2,
+      "BallotType": 1,
+      "BallotQuestions": [
+        {
+          "Number": 1,
+          "Question": {
+            "de": "Variante de",
+            "fr": "Variante fr",
+            "it": "Variante it",
+            "rm": "Variante rm"
+          },
+          "Type": 1,
+          "FederalIdentification": null
+        }
+      ],
+      "VoteId": "daf1dc06-3b08-4a24-9c76-e25e05b9d0ef",
+      "HasTieBreakQuestions": false,
+      "TieBreakQuestions": [],
+      "SubType": 4,
+      "OfficialDescription": {
+        "de": "Abstimmung Variante de",
+        "fr": "Abstimmung Variante fr",
+        "it": "Abstimmung Variante it",
+        "rm": "Abstimmung Variante rm"
+      },
+      "ShortDescription": {
+        "de": "Variante de",
+        "fr": "Variante fr",
+        "it": "Variante it",
+        "rm": "Variante rm"
+      }
+    }
+  }
+}

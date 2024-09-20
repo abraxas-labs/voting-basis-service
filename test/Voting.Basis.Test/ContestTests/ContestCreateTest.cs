@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -455,10 +455,37 @@ public class ContestCreateTest : BaseGrpcTest<ContestService.ContestServiceClien
     [Fact]
     public async Task NotRootDoiShouldThrow()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            x => x.Id == DomainOfInfluenceMockedData.KirchgemeindeAndere.Id,
+            x => x.CantonDefaults.CreateContestOnHighestHierarchicalLevelEnabled = true);
+
         await AssertStatus(
             async () => await ElectionAdminUzwilClient.CreateAsync(NewValidRequest(x => x.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdKirchgemeindeAndere)),
             StatusCode.InvalidArgument,
             "tenant has root domain of influences, so one must be selected");
+    }
+
+    [Fact]
+    public async Task NotRootDoiShouldWithEnabledCantonSettingShouldWork()
+    {
+        var response = await ElectionAdminUzwilClient.CreateAsync(NewValidRequest(x => x.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdKirchgemeindeAndere));
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<ContestCreated>();
+
+        eventData.Contest.Id.Should().Be(response.Id);
+        eventData.MatchSnapshot("event", d => d.Contest.Id);
+    }
+
+    [Fact]
+    public async Task InternalPlausibilisationDisabledShouldThrow()
+    {
+        await ModifyDbEntities<DomainOfInfluence>(
+            x => x.Id == DomainOfInfluenceMockedData.GuidGossau,
+            x => x.CantonDefaults.InternalPlausibilisationDisabled = true);
+
+        await AssertStatus(
+            async () => await AdminClient.CreateAsync(NewValidRequest(x => x.PreviousContestId = ContestMockedData.IdBundContest)),
+            StatusCode.InvalidArgument,
+            "internal plausibilisation are disabled for this canton");
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -40,6 +40,26 @@ public class BallotValidator : AbstractValidator<Ballot>
                 .Must(b => ContainsQuestionNumberOnlyOnceWithNoGaps(b.Select(bb => bb.Number))).WithMessage("Numbers of the {PropertyName} have gaps.")
                 .Must(HasATieBreakQuestionForEachQuestionPair).WithMessage("{PropertyName} does not have the correct count.")
                 .When(x => x.HasTieBreakQuestions);
+        });
+
+        When(x => x.SubType == BallotSubType.Unspecified, () =>
+        {
+            RuleFor(b => b.ShortDescription)
+                .Must(b => b.Count == 0).WithMessage("A normal ballot does not need a short description.");
+            RuleFor(b => b.OfficialDescription)
+                .Must(b => b.Count == 0).WithMessage("A normal ballot does not need an official description.");
+        });
+
+        When(x => x.SubType != BallotSubType.Unspecified, () =>
+        {
+            RuleFor(v => v.ShortDescription).SetValidator(new TranslationValidator());
+            RuleFor(v => v.OfficialDescription).SetValidator(new TranslationValidator());
+            RuleFor(b => b.BallotQuestions)
+                .Must(b => b.Count == 1).WithMessage("A ballot with a sub type must have exactly one question");
+            RuleFor(b => b.BallotQuestions)
+                .Must(b => b.All(x => x.Type == BallotQuestionType.MainBallot)).WithMessage("A ballot with a sub type must have a main ballot question");
+            RuleFor(b => b.TieBreakQuestions)
+                .Must(b => b.Count == 0).WithMessage("A ballot with a sub type cannot have a tie break question");
         });
     }
 

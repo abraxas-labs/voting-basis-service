@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -110,6 +110,10 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
     public bool EnforceCandidateCheckDigitForCountingCircles { get; private set; }
 
+    public bool IndividualCandidatesDisabled { get; private set; }
+
+    public int? FederalIdentification { get; private set; }
+
     public void CreateFrom(MajorityElection majorityElection)
     {
         if (majorityElection.Id == default)
@@ -165,6 +169,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         ValidationUtils.EnsureNotModified(ReviewProcedure, majorityElection.ReviewProcedure);
         ValidationUtils.EnsureNotModified(EnforceReviewProcedureForCountingCircles, majorityElection.EnforceReviewProcedureForCountingCircles);
         ValidationUtils.EnsureNotModified(EnforceCandidateCheckDigitForCountingCircles, majorityElection.EnforceCandidateCheckDigitForCountingCircles);
+        ValidationUtils.EnsureNotModified(IndividualCandidatesDisabled, majorityElection.IndividualCandidatesDisabled);
+        ValidationUtils.EnsureNotModified(FederalIdentification, majorityElection.FederalIdentification);
 
         var ev = new MajorityElectionAfterTestingPhaseUpdated
         {
@@ -338,6 +344,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     {
         EnsureNotDeleted();
         EnsureCandidateExists(candidateId);
+        EnsureIsNotInBallotGroup(candidateId);
 
         foreach (var secondaryMajorityElection in SecondaryMajorityElections)
         {
@@ -578,18 +585,20 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void DeleteSecondaryMajorityElectionCandidate(Guid secondaryMajorityElectionId, Guid id)
+    public void DeleteSecondaryMajorityElectionCandidate(Guid secondaryMajorityElectionId, Guid candidateId)
     {
         EnsureNotDeleted();
 
         var sme = GetSecondaryMajorityElection(secondaryMajorityElectionId);
 
         // ensure candidate exists
-        sme.GetCandidate(id);
+        sme.GetCandidate(candidateId);
+
+        EnsureIsNotInBallotGroup(candidateId);
 
         var ev = new SecondaryMajorityElectionCandidateDeleted
         {
-            SecondaryMajorityElectionCandidateId = id.ToString(),
+            SecondaryMajorityElectionCandidateId = candidateId.ToString(),
             SecondaryMajorityElectionId = sme.Id.ToString(),
             PrimaryMajorityElectionId = Id.ToString(),
             EventInfo = _eventInfoProvider.NewEventInfo(),
@@ -664,16 +673,17 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void DeleteCandidateReference(Guid secondaryMajorityElectionId, Guid id)
+    public void DeleteCandidateReference(Guid secondaryMajorityElectionId, Guid candidateId)
     {
         EnsureNotDeleted();
+        EnsureIsNotInBallotGroup(candidateId);
 
         var sme = GetSecondaryMajorityElection(secondaryMajorityElectionId);
-        sme.GetCandidateReference(id);
+        sme.GetCandidateReference(candidateId);
 
         var ev = new SecondaryMajorityElectionCandidateReferenceDeleted
         {
-            SecondaryMajorityElectionCandidateReferenceId = id.ToString(),
+            SecondaryMajorityElectionCandidateReferenceId = candidateId.ToString(),
             EventInfo = _eventInfoProvider.NewEventInfo(),
         };
 
@@ -1349,6 +1359,17 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         if (string.IsNullOrEmpty(candidate.Origin) && !doiType.IsCommunal())
         {
             throw new ValidationException("Candidate origin is required for non communal political businesses");
+        }
+    }
+
+    private void EnsureIsNotInBallotGroup(Guid candidateId)
+    {
+        var allCandidateIdsInBallotGroups = BallotGroups
+            .SelectMany(x => x.Entries)
+            .SelectMany(x => x.CandidateIds);
+        if (allCandidateIdsInBallotGroups.Any(x => x == candidateId.ToString()))
+        {
+            throw new MajorityElectionCandidateIsInBallotGroupException(candidateId);
         }
     }
 }

@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -26,7 +26,6 @@ public class EnumTest : BaseTest
     }
 
     [Theory]
-    [InlineData(typeof(SexType), typeof(SharedProto.SexType))]
     [InlineData(typeof(EntityType), typeof(SharedProto.ExportEntityType))]
     [InlineData(typeof(BallotNumberGeneration), typeof(SharedProto.BallotNumberGeneration))]
     [InlineData(typeof(CantonMajorityElectionAbsoluteMajorityAlgorithm), typeof(SharedProto.CantonMajorityElectionAbsoluteMajorityAlgorithm))]
@@ -111,6 +110,52 @@ public class EnumTest : BaseTest
 
             var dataEnum = Enum.ToObject(dataEnumType, dataEnumArray[i]);
             var protoEnum = Enum.ToObject(protoEnumType, protoEnumArray[i + deprecatedCounter]);
+
+            var mappedProtoValue = _mapper.Map(dataEnum, dataEnumType, protoEnumType);
+            mappedProtoValue.Should().Be(protoEnum);
+        }
+    }
+
+    [Fact]
+    public void ShouldMapSexType()
+    {
+        var dataEnumType = typeof(SexType);
+        var protoEnumType = typeof(SharedProto.SexType);
+        var dataEnumArray = (int[])Enum.GetValues(dataEnumType);
+        var protoEnumArray = (int[])Enum.GetValues(protoEnumType);
+
+        // 1 deprecated proto enum values which aren't used in data anymore.
+        dataEnumArray.Length.Should().Be(protoEnumArray.Length - 1);
+
+        // data enum is a subset of the proto enum.
+        foreach (var value in dataEnumArray)
+        {
+            var dataEnumName = Enum.GetName(dataEnumType, value);
+            var protoEnumName = Enum.GetName(protoEnumType, value);
+            dataEnumName.Should().Be(protoEnumName);
+        }
+
+        var expectedProtoEnumMappingResult = new[]
+        {
+            SexType.Unspecified,
+            SexType.Male,
+            SexType.Female,
+            SexType.Female, // for deprecated Undefined
+        };
+
+        for (var i = 0; i < protoEnumArray.Length; i++)
+        {
+            var dataEnum = Enum.ToObject(dataEnumType, expectedProtoEnumMappingResult[i]);
+            var protoEnum = Enum.ToObject(protoEnumType, protoEnumArray[i]);
+
+            var mappedDataValue = _mapper.Map(protoEnum, protoEnumType, dataEnumType);
+            mappedDataValue.Should().Be(dataEnum);
+        }
+
+        for (var i = 0; i < dataEnumArray.Length; i++)
+        {
+            var dataEnum = Enum.ToObject(dataEnumType, dataEnumArray[i]);
+            var protoEnum = Enum.ToObject(protoEnumType, protoEnumArray[i]);
 
             var mappedProtoValue = _mapper.Map(dataEnum, dataEnumType, protoEnumType);
             mappedProtoValue.Should().Be(protoEnum);

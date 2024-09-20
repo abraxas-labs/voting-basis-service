@@ -20,7 +20,23 @@
     "CountOfCandidates": 0,
     "CandidateCountOk": false,
     "ListUnionDescription": {},
-    "SubListUnionDescription": {}
+    "SubListUnionDescription": {},
+    "Party": {
+      "Id": "6fe8af5a-9f98-4457-90e7-49657a3df14f",
+      "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+      "Name": {
+        "de": "Andere de",
+        "fr": "Andere fr",
+        "it": "Andere it",
+        "rm": "Andere rm"
+      },
+      "ShortDescription": {
+        "de": "AN de",
+        "fr": "AN fr",
+        "it": "AN it",
+        "rm": "AN rm"
+      }
+    }
   },
   "2": {
     "Id": "c995e944-5b49-40f8-a75b-814a10ebc0f0",
@@ -38,6 +54,7 @@
     "CountOfCandidates": 0,
     "CandidateCountOk": false,
     "ListUnionDescription": {},
-    "SubListUnionDescription": {}
+    "SubListUnionDescription": {},
+    "Party": null
   }
 }

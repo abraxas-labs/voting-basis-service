@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -33,6 +33,7 @@ public static class ContestMockedData
     public const string IdGossau = "bfd88d88-77f2-4172-a73d-56b1ca5442b3";
     public const string IdUzwilEvoting = "cc70fe43-8f4e-4bc6-a461-b808907bc996";
     public const string IdKirche = "a091a5cc-735b-4bf4-a30d-f4c907c9fc10";
+    public const string IdZurichContest = "2d98b9a1-404e-44b7-b217-f496949a7639";
     public const string IdThurgauNoPoliticalBusinesses = "dc0f4940-10c2-4a33-b752-3e5d761c0009";
 
     public static Contest ArchivedContest
@@ -135,6 +136,16 @@ public static class ContestMockedData
             EVotingTo = new DateTime(2020, 3, 1, 0, 0, 0, DateTimeKind.Utc),
         };
 
+    public static Contest ZurichContest
+        => new Contest
+        {
+            Id = Guid.Parse(IdZurichContest),
+            Date = new DateTime(2027, 3, 3, 0, 0, 0, DateTimeKind.Utc),
+            Description = LanguageUtil.MockAllLanguages("Zürich Urnengang"),
+            DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidZurich,
+            EndOfTestingPhase = new DateTime(2027, 3, 1, 12, 1, 0, DateTimeKind.Utc),
+        };
+
     public static Contest KirchenContest
         => new Contest
         {
@@ -167,6 +178,7 @@ public static class ContestMockedData
             yield return StGallenEvotingContest;
             yield return GossauContest;
             yield return UzwilEvotingContest;
+            yield return ZurichContest;
             yield return KirchenContest;
             yield return ThurgauNoPoliticalBusinessesContest;
         }

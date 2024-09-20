@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -19,6 +19,7 @@ using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Extensions;
 using Voting.Basis.Core.ObjectStorage;
 using Voting.Basis.Core.Services.Permission;
+using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
@@ -29,12 +30,12 @@ using Voting.Lib.Iam.Exceptions;
 using Voting.Lib.Iam.Services;
 using Voting.Lib.Iam.Store;
 using Voting.Lib.MalwareScanner.Services;
+using CantonSettings = Voting.Basis.Data.Models.CantonSettings;
 using CountingCircle = Voting.Basis.Data.Models.CountingCircle;
 using DomainOfInfluence = Voting.Basis.Data.Models.DomainOfInfluence;
 using DomainOfInfluenceCountingCircle = Voting.Basis.Data.Models.DomainOfInfluenceCountingCircle;
 using DomainOfInfluenceParty = Voting.Basis.Data.Models.DomainOfInfluenceParty;
 using ExportConfiguration = Voting.Basis.Data.Models.ExportConfiguration;
-using PlausibilisationConfiguration = Voting.Basis.Core.Domain.PlausibilisationConfiguration;
 
 namespace Voting.Basis.Core.Services.Write;
 
@@ -50,12 +51,14 @@ public class DomainOfInfluenceWriter
     private readonly DomainOfInfluenceHierarchyRepo _hierarchyRepo;
     private readonly IDbRepository<DataContext, DomainOfInfluenceParty> _doiPartyRepo;
     private readonly IDbRepository<DataContext, ExportConfiguration> _exportConfigRepo;
+    private readonly IDbRepository<DataContext, CantonSettings> _cantonSettingsRepo;
     private readonly IAuth _auth;
     private readonly ITenantService _tenantService;
     private readonly PermissionService _permissionService;
     private readonly DomainOfInfluenceLogoStorage _logoStorage;
     private readonly AppConfig _appConfig;
     private readonly IMalwareScannerService _malwareScannerService;
+    private readonly DomainOfInfluenceCantonDefaultsBuilder _domainOfInfluenceCantonDefaultsBuilder;
 
     public DomainOfInfluenceWriter(
         IAggregateRepository aggregateRepository,
@@ -66,12 +69,14 @@ public class DomainOfInfluenceWriter
         DomainOfInfluenceHierarchyRepo hierarchyRepo,
         IDbRepository<DataContext, DomainOfInfluenceParty> doiPartyRepo,
         IDbRepository<DataContext, ExportConfiguration> exportConfigRepo,
+        IDbRepository<DataContext, CantonSettings> cantonSettingsRepo,
         IAuth auth,
         ITenantService tenantService,
         PermissionService permissionService,
         DomainOfInfluenceLogoStorage logoStorage,
         AppConfig appConfig,
-        IMalwareScannerService malwareScannerService)
+        IMalwareScannerService malwareScannerService,
+        DomainOfInfluenceCantonDefaultsBuilder domainOfInfluenceCantonDefaultsBuilder)
     {
         _aggregateRepository = aggregateRepository;
         _aggregateFactory = aggregateFactory;
@@ -81,12 +86,14 @@ public class DomainOfInfluenceWriter
         _hierarchyRepo = hierarchyRepo;
         _doiPartyRepo = doiPartyRepo;
         _exportConfigRepo = exportConfigRepo;
+        _cantonSettingsRepo = cantonSettingsRepo;
         _auth = auth;
         _tenantService = tenantService;
         _permissionService = permissionService;
         _logoStorage = logoStorage;
         _appConfig = appConfig;
         _malwareScannerService = malwareScannerService;
+        _domainOfInfluenceCantonDefaultsBuilder = domainOfInfluenceCantonDefaultsBuilder;
     }
 
     public async Task Create(Domain.DomainOfInfluence data)
@@ -95,7 +102,7 @@ public class DomainOfInfluenceWriter
         var parent = await ValidateHierarchy(data);
         await ValidateUniqueBfs(data);
         await SetAuthorityTenant(data);
-        await ValidatePlausibilisationConfig(null, data.PlausibilisationConfiguration);
+        await ValidatePlausibilisationConfig(data);
         await ValidateParties(null, data.Parties);
         await ValidateExportConfigurations(null, data.ExportConfigurations);
         await EnsureCanCreate(data, parent);
@@ -114,7 +121,7 @@ public class DomainOfInfluenceWriter
         await ValidateUniqueBfs(data);
         await SetAuthorityTenant(data);
 
-        await ValidatePlausibilisationConfig(data.Id, data.PlausibilisationConfiguration);
+        await ValidatePlausibilisationConfig(data);
         await ValidateParties(data.Id, data.Parties);
         await ValidateExportConfigurations(data.Id, data.ExportConfigurations);
 
@@ -135,16 +142,11 @@ public class DomainOfInfluenceWriter
     public async Task UpdateForElectionAdmin(Domain.DomainOfInfluence data)
     {
         await ValidateUniqueBfs(data);
-        await ValidatePlausibilisationConfig(data.Id, data.PlausibilisationConfiguration);
+        await ValidatePlausibilisationConfig(data);
         await ValidateParties(data.Id, data.Parties);
         await EnsureCanEdit(data.Id);
 
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(data.Id);
-
-        if (data.PlausibilisationConfiguration == null)
-        {
-            throw new ValidationException("PlausibilisationConfiguration must not be null");
-        }
 
         if (data.ContactPerson == null)
         {
@@ -158,7 +160,10 @@ public class DomainOfInfluenceWriter
 
         domainOfInfluence.UpdateContactPerson(data.ContactPerson);
         domainOfInfluence.UpdateParties(data.Parties);
-        domainOfInfluence.UpdatePlausibilisationConfiguration(data.PlausibilisationConfiguration);
+        if (data.PlausibilisationConfiguration != null)
+        {
+            domainOfInfluence.UpdatePlausibilisationConfiguration(data.PlausibilisationConfiguration);
+        }
 
         if (domainOfInfluence.ResponsibleForVotingCards)
         {
@@ -270,7 +275,7 @@ public class DomainOfInfluenceWriter
 
         var anotherExists = await _repo
             .Query()
-            .AnyAsync(x => x.Bfs == data.Bfs && x.Id != data.Id);
+            .AnyAsync(x => x.Type == DomainOfInfluenceType.Mu && x.Bfs == data.Bfs && x.Id != data.Id);
         if (anotherExists)
         {
             throw new DuplicatedBfsException(data.Bfs);
@@ -328,17 +333,26 @@ public class DomainOfInfluenceWriter
         }
     }
 
-    private async Task ValidatePlausibilisationConfig(
-        Guid? doiId,
-        PlausibilisationConfiguration? plausiConfig)
+    private async Task ValidatePlausibilisationConfig(Domain.DomainOfInfluence doi)
     {
-        if (plausiConfig == null)
+        var internalPlausibilisationDisabled = await LoadInternalPlausibilisationDisabled(doi);
+        if (doi.PlausibilisationConfiguration == null)
         {
+            if (!internalPlausibilisationDisabled)
+            {
+                throw new ValidationException("plausibilisation configuration is required");
+            }
+
             return;
         }
 
-        var isNew = doiId == null;
-        var ccEntries = plausiConfig.ComparisonCountOfVotersCountingCircleEntries;
+        if (internalPlausibilisationDisabled)
+        {
+            throw new ValidationException("internal plausibilisation is disabled for this canton");
+        }
+
+        var isNew = doi.Id == Guid.Empty;
+        var ccEntries = doi.PlausibilisationConfiguration.ComparisonCountOfVotersCountingCircleEntries;
         if (isNew && ccEntries.Count > 0)
         {
             throw new ValidationException("Comparison count of voters counting circle entries only allowed on update");
@@ -355,7 +369,7 @@ public class DomainOfInfluenceWriter
 
         var doiCcIds = await _doiCcRepo
             .Query()
-            .Where(doiCc => doiCc.DomainOfInfluenceId == doiId)
+            .Where(doiCc => doiCc.DomainOfInfluenceId == doi.Id)
             .Select(doiCc => doiCc.CountingCircleId)
             .ToListAsync();
 
@@ -499,5 +513,24 @@ public class DomainOfInfluenceWriter
         }
 
         throw new ForbiddenException();
+    }
+
+    private async Task<bool> LoadInternalPlausibilisationDisabled(Domain.DomainOfInfluence doi)
+    {
+        if (doi.Id == Guid.Empty)
+        {
+            if (doi.Canton == DomainOfInfluenceCanton.Unspecified && doi.ParentId == null)
+            {
+                throw new ValidationException("canton is required to load canton settings for root doi");
+            }
+
+            var cantonSettings = await _domainOfInfluenceCantonDefaultsBuilder.LoadCantonSettings(doi.Canton, doi.ParentId);
+            return cantonSettings.InternalPlausibilisationDisabled;
+        }
+
+        var existingDoi = await _repo.GetByKey(doi.Id)
+                          ?? throw new EntityNotFoundException(nameof(DomainOfInfluence), doi.Id);
+
+        return existingDoi.CantonDefaults.InternalPlausibilisationDisabled;
     }
 }

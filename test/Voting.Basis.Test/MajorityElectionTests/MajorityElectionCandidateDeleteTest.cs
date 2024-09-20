@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -120,6 +120,19 @@ public class MajorityElectionCandidateDeleteTest : BaseGrpcTest<MajorityElection
             }),
             StatusCode.FailedPrecondition,
             "Testing phase ended, cannot modify the contest");
+    }
+
+    [Fact]
+    public async Task CandidateInBallotGroupShouldThrow()
+    {
+        var candidateId = MajorityElectionMockedData.CandidateId1GossauMajorityElectionInContestBund;
+        await AssertStatus(
+            async () => await ElectionAdminClient.DeleteCandidateAsync(new DeleteMajorityElectionCandidateRequest
+            {
+                Id = candidateId,
+            }),
+            StatusCode.FailedPrecondition,
+            $"Candidate {candidateId} is in a ballot group");
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

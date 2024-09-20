@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -213,7 +213,7 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : BaseGrpcTest<Majo
                         },
                         new ProtoModels.MajorityElectionBallotGroupEntryCandidates
                         {
-                            BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId21GossauMajorityElectionInContestBund,
+                            BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId12GossauMajorityElectionInContestBund,
                             CandidateIds =
                             {
                                 MajorityElectionMockedData.SecondaryElectionCandidateId1GossauMajorityElectionInContestBund,
@@ -223,6 +223,19 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : BaseGrpcTest<Majo
             }),
             StatusCode.FailedPrecondition,
             "Contest is past locked or archived");
+    }
+
+    [Fact]
+    public async Task SetNonZeroIndividualVotesOnElectionWithDisableIndividualVotesShouldThrow()
+    {
+        await ModifyDbEntities<MajorityElection>(
+            x => x.Id == Guid.Parse(MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund),
+            x => x.IndividualCandidatesDisabled = true);
+
+        await AssertStatus(
+            async () => await AdminClient.UpdateBallotGroupCandidatesAsync(NewValidRequest(x => x.EntryCandidates[0].IndividualCandidatesVoteCount = 1)),
+            StatusCode.InvalidArgument,
+            "Individual candidates vote count not enabled on ballot group entry");
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

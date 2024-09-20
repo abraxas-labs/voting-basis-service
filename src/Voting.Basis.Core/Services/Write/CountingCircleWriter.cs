@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -128,6 +128,12 @@ public class CountingCircleWriter
         return await TryActivateMergeIfOverdue(countingCircle);
     }
 
+    internal async Task<bool> TryActivateEVoting(Guid countingCircleId)
+    {
+        var countingCircle = await _aggregateRepository.GetById<CountingCircleAggregate>(countingCircleId);
+        return await TryActivateEVotingIfOverdue(countingCircle);
+    }
+
     private async Task SetResponsibleAuthorityTenant(Domain.CountingCircle data)
     {
         if (string.IsNullOrEmpty(data.ResponsibleAuthority?.SecureConnectId))
@@ -215,6 +221,22 @@ public class CountingCircleWriter
             await _aggregateRepository.Save(aggregate);
         }
 
+        return true;
+    }
+
+    private async Task<bool> TryActivateEVotingIfOverdue(CountingCircleAggregate countingCircle)
+    {
+        if (!countingCircle.EVotingActivationOverdue)
+        {
+            return false;
+        }
+
+        if (!countingCircle.TryActivateEVoting())
+        {
+            return false;
+        }
+
+        await _aggregateRepository.Save(countingCircle);
         return true;
     }
 

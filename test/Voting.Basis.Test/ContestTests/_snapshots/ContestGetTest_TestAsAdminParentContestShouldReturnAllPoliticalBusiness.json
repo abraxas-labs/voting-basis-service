@@ -131,6 +131,7 @@
         "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 2,
+      "PoliticalBusinessSubType": 0,
       "Active": true
     },
     {
@@ -197,6 +198,7 @@
         "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 3,
+      "PoliticalBusinessSubType": 0,
       "Active": true
     },
     {
@@ -263,6 +265,7 @@
         "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 1,
+      "PoliticalBusinessSubType": 0,
       "Active": true
     },
     {
@@ -329,6 +332,7 @@
         "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 2,
+      "PoliticalBusinessSubType": 0,
       "Active": true
     },
     {
@@ -395,6 +399,7 @@
         "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 3,
+      "PoliticalBusinessSubType": 0,
       "Active": true
     },
     {
@@ -461,6 +466,7 @@
         "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 1,
+      "PoliticalBusinessSubType": 0,
       "Active": false
     },
     {
@@ -527,6 +533,7 @@
         "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 2,
+      "PoliticalBusinessSubType": 0,
       "Active": false
     },
     {
@@ -593,6 +600,7 @@
         "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 3,
+      "PoliticalBusinessSubType": 0,
       "Active": false
     },
     {
@@ -659,6 +667,7 @@
         "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 4,
+      "PoliticalBusinessSubType": 0,
       "Active": false
     },
     {
@@ -741,6 +750,7 @@
         "ElectoralRegistrationEnabled": true
       },
       "PoliticalBusinessType": 2,
+      "PoliticalBusinessSubType": 0,
       "Active": true
     },
     {
@@ -823,6 +833,7 @@
         "ElectoralRegistrationEnabled": true
       },
       "PoliticalBusinessType": 1,
+      "PoliticalBusinessSubType": 1,
       "Active": true
     },
     {
@@ -905,6 +916,7 @@
         "ElectoralRegistrationEnabled": true
       },
       "PoliticalBusinessType": 3,
+      "PoliticalBusinessSubType": 0,
       "Active": true
     },
     {
@@ -971,6 +983,7 @@
         "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 1,
+      "PoliticalBusinessSubType": 0,
       "Active": false
     },
     {
@@ -1037,6 +1050,7 @@
         "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 2,
+      "PoliticalBusinessSubType": 0,
       "Active": false
     },
     {
@@ -1103,6 +1117,7 @@
         "ElectoralRegistrationEnabled": false
       },
       "PoliticalBusinessType": 3,
+      "PoliticalBusinessSubType": 0,
       "Active": false
     },
     {
@@ -1185,6 +1200,7 @@
         "ElectoralRegistrationEnabled": true
       },
       "PoliticalBusinessType": 4,
+      "PoliticalBusinessSubType": 0,
       "Active": false
     }
   ],

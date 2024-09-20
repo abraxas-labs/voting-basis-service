@@ -49,5 +49,9 @@
     }
   ],
   "StatePlausibilisedDisabled": true,
-  "PublishResultsEnabled": false
+  "PublishResultsEnabled": false,
+  "EndResultFinalizeDisabled": true,
+  "CreateContestOnHighestHierarchicalLevelEnabled": true,
+  "InternalPlausibilisationDisabled": true,
+  "PublishResultsBeforeAuditedTentatively": true
 }

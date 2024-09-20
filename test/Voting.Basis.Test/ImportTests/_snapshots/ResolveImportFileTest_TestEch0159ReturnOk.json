@@ -68,12 +68,16 @@
                   "it": "Frage Bund1",
                   "rm": "Frage Bund1"
                 },
-                "Type": 1
+                "Type": 1,
+                "FederalIdentification": null
               }
             ],
             "VoteId": "",
             "HasTieBreakQuestions": false,
-            "TieBreakQuestions": []
+            "TieBreakQuestions": [],
+            "SubType": 0,
+            "OfficialDescription": {},
+            "ShortDescription": {}
           }
         ],
         "ReportDomainOfInfluenceLevel": 0,
@@ -83,7 +87,8 @@
         "AutomaticBallotBundleNumberGeneration": false,
         "EnforceResultEntryForCountingCircles": true,
         "ReviewProcedure": 1,
-        "EnforceReviewProcedureForCountingCircles": false
+        "EnforceReviewProcedureForCountingCircles": false,
+        "Type": 1
       }
     },
     {
@@ -120,12 +125,16 @@
                   "it": "Frage Bund2",
                   "rm": "Frage Bund2"
                 },
-                "Type": 1
+                "Type": 1,
+                "FederalIdentification": null
               }
             ],
             "VoteId": "",
             "HasTieBreakQuestions": false,
-            "TieBreakQuestions": []
+            "TieBreakQuestions": [],
+            "SubType": 0,
+            "OfficialDescription": {},
+            "ShortDescription": {}
           }
         ],
         "ReportDomainOfInfluenceLevel": 0,
@@ -135,7 +144,8 @@
         "AutomaticBallotBundleNumberGeneration": false,
         "EnforceResultEntryForCountingCircles": true,
         "ReviewProcedure": 1,
-        "EnforceReviewProcedureForCountingCircles": false
+        "EnforceReviewProcedureForCountingCircles": false,
+        "Type": 1
       }
     },
     {
@@ -172,12 +182,16 @@
                   "it": "Frage Kanton",
                   "rm": "Frage Kanton"
                 },
-                "Type": 1
+                "Type": 1,
+                "FederalIdentification": null
               }
             ],
             "VoteId": "",
             "HasTieBreakQuestions": false,
-            "TieBreakQuestions": []
+            "TieBreakQuestions": [],
+            "SubType": 0,
+            "OfficialDescription": {},
+            "ShortDescription": {}
           }
         ],
         "ReportDomainOfInfluenceLevel": 0,
@@ -187,7 +201,8 @@
         "AutomaticBallotBundleNumberGeneration": false,
         "EnforceResultEntryForCountingCircles": true,
         "ReviewProcedure": 1,
-        "EnforceReviewProcedureForCountingCircles": false
+        "EnforceReviewProcedureForCountingCircles": false,
+        "Type": 1
       }
     }
   ]

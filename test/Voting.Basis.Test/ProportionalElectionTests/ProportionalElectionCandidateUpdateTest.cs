@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -90,6 +90,44 @@ public class ProportionalElectionCandidateUpdateTest : BaseGrpcTest<Proportional
             Id = ProportionalElectionMockedData.CandidateIdStGallenProportionalElectionInContestStGallen,
         });
         candidate.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task TestProcessorWithDeprecatedSexType()
+    {
+        await TestEventPublisher.Publish(
+            new ProportionalElectionCandidateUpdated
+            {
+                ProportionalElectionCandidate = new ProportionalElectionCandidateEventData
+                {
+                    Id = ProportionalElectionMockedData.CandidateIdStGallenProportionalElectionInContestStGallen,
+                    ProportionalElectionListId = ProportionalElectionMockedData.ListIdStGallenProportionalElectionInContestStGallen,
+                    FirstName = "new first name",
+                    LastName = "new last name",
+                    PoliticalFirstName = "new pol first name",
+                    PoliticalLastName = "new pol last name",
+                    Occupation = { LanguageUtil.MockAllLanguages("new occupation") },
+                    OccupationTitle = { LanguageUtil.MockAllLanguages("new occupation title") },
+                    DateOfBirth = new DateTime(1961, 2, 26, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
+                    Incumbent = false,
+                    Position = 1,
+                    Accumulated = false,
+                    Locality = "locality",
+                    Number = "numberNew",
+                    Sex = SharedProto.SexType.Undefined,
+                    Title = "new title",
+                    ZipCode = "new zip code",
+                    PartyId = DomainOfInfluenceMockedData.PartyIdStGallenSP,
+                    Origin = "origin",
+                    CheckDigit = 9,
+                },
+            });
+
+        var candidate = await AdminClient.GetCandidateAsync(new GetProportionalElectionCandidateRequest
+        {
+            Id = ProportionalElectionMockedData.CandidateIdStGallenProportionalElectionInContestStGallen,
+        });
+        candidate.Sex.Should().Be(SharedProto.SexType.Female);
     }
 
     [Fact]
@@ -240,6 +278,36 @@ public class ProportionalElectionCandidateUpdateTest : BaseGrpcTest<Proportional
             Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionInContestBund,
         });
         election.MatchSnapshot("response");
+    }
+
+    [Fact]
+    public async Task TestProcessorUpdateAfterTestingPhaseWithDeprecatedSexType()
+    {
+        await TestEventPublisher.Publish(
+            new ProportionalElectionCandidateAfterTestingPhaseUpdated
+            {
+                Id = ProportionalElectionMockedData.CandidateIdStGallenProportionalElectionInContestStGallen,
+                ProportionalElectionListId = ProportionalElectionMockedData.ListIdStGallenProportionalElectionInContestStGallen,
+                FirstName = "new first name",
+                LastName = "new last name",
+                PoliticalFirstName = "new pol first name",
+                PoliticalLastName = "new pol last name",
+                Occupation = { LanguageUtil.MockAllLanguages("new occupation") },
+                OccupationTitle = { LanguageUtil.MockAllLanguages("new occupation title") },
+                DateOfBirth = new DateTime(1961, 2, 26, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
+                Incumbent = false,
+                Locality = "locality",
+                Sex = SharedProto.SexType.Undefined,
+                Title = "new title",
+                ZipCode = "new zip code",
+                Origin = "origin",
+            });
+
+        var candidate = await AdminClient.GetCandidateAsync(new GetProportionalElectionCandidateRequest
+        {
+            Id = ProportionalElectionMockedData.CandidateIdStGallenProportionalElectionInContestStGallen,
+        });
+        candidate.Sex.Should().Be(SharedProto.SexType.Female);
     }
 
     [Fact]

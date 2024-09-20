@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -9,6 +9,7 @@ using Voting.Basis.Controllers.Models;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Export;
 using Voting.Basis.Core.Extensions;
+using Voting.Lib.Common;
 using Voting.Lib.Iam.Authorization;
 using Voting.Lib.Rest.Files;
 
@@ -19,10 +20,12 @@ namespace Voting.Basis.Controllers;
 public class ExportController : ControllerBase
 {
     private readonly ExportService _exportService;
+    private readonly IClock _clock;
 
-    public ExportController(ExportService exportService)
+    public ExportController(ExportService exportService, IClock clock)
     {
         _exportService = exportService;
+        _clock = clock;
     }
 
     [AuthorizePermission(Permissions.Export.ExportData)]
@@ -37,7 +40,7 @@ public class ExportController : ControllerBase
         if (isMultiExport)
         {
             var fileName = await _exportService.GetZipFileName(request.EntityId);
-            return SingleFileResult.CreateZipFile(files, fileName, ct);
+            return SingleFileResult.CreateZipFile(files, fileName, _clock.UtcNow.ConvertUtcTimeToSwissTime(), ct);
         }
 
         var enumerator = files.GetAsyncEnumerator(ct);

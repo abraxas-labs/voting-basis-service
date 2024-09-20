@@ -55,5 +55,6 @@
     }
   ],
   "Canton": 1,
-  "EVoting": false
+  "EVoting": false,
+  "EVotingActiveFrom": null
 }

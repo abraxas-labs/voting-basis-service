@@ -21,7 +21,8 @@
       "CountOfCandidates": 0,
       "CandidateCountOk": false,
       "ListUnionDescription": {},
-      "SubListUnionDescription": {}
+      "SubListUnionDescription": {},
+      "Party": null
     },
     {
       "Id": "9091a3b6-3785-4adc-a486-f486e686503e",
@@ -44,7 +45,8 @@
       "CountOfCandidates": 0,
       "CandidateCountOk": false,
       "ListUnionDescription": {},
-      "SubListUnionDescription": {}
+      "SubListUnionDescription": {},
+      "Party": null
     },
     {
       "Id": "bfe54c2a-6bdf-41a3-bf11-321203c380d3",
@@ -67,7 +69,8 @@
       "CountOfCandidates": 0,
       "CandidateCountOk": false,
       "ListUnionDescription": {},
-      "SubListUnionDescription": {}
+      "SubListUnionDescription": {},
+      "Party": null
     }
   ]
 }

@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -261,6 +261,8 @@ public class CantonSettingsCreateTest : BaseGrpcTest<CantonSettingsService.Canto
             },
             StatePlausibilisedDisabled = true,
             PublishResultsEnabled = true,
+            EndResultFinalizeDisabled = true,
+            PublishResultsBeforeAuditedTentatively = true,
         };
         customizer?.Invoke(request);
         return request;

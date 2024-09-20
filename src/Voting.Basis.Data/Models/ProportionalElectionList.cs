@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -42,6 +42,10 @@ public class ProportionalElectionList : BaseEntity
 
     public ICollection<ProportionalElectionUnionListEntry> ProportionalElectionUnionListEntries { get; set; }
         = new HashSet<ProportionalElectionUnionListEntry>();
+
+    public Guid? PartyId { get; set; }
+
+    public DomainOfInfluenceParty? Party { get; set; }
 
     /// <summary>
     /// Checks whether the number of mandates equals the sum of <see cref="BlankRowCount"/> and <see cref="CountOfCandidates"/>.

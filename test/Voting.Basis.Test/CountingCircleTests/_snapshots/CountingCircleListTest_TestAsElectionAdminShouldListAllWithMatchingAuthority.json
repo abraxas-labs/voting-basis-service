@@ -45,7 +45,11 @@
       "NameForProtocol": "Stadt Gossau",
       "Electorates": [],
       "Canton": 1,
-      "EVoting": true
+      "EVoting": true,
+      "EVotingActiveFrom": {
+        "Seconds": 1546300800,
+        "Nanos": 0
+      }
     },
     {
       "Id": "2a3a799a-2437-47da-86fe-06decf70a267",
@@ -92,7 +96,8 @@
       "NameForProtocol": "Stadt Rapperswil",
       "Electorates": [],
       "Canton": 1,
-      "EVoting": false
+      "EVoting": false,
+      "EVotingActiveFrom": null
     },
     {
       "Id": "1e2e062e-288d-4347-9f22-224e69b95bed",
@@ -139,7 +144,8 @@
       "NameForProtocol": "Stadt St. Gallen",
       "Electorates": [],
       "Canton": 1,
-      "EVoting": false
+      "EVoting": false,
+      "EVotingActiveFrom": null
     },
     {
       "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e",
@@ -198,7 +204,8 @@
         }
       ],
       "Canton": 1,
-      "EVoting": false
+      "EVoting": false,
+      "EVotingActiveFrom": null
     }
   ]
 }

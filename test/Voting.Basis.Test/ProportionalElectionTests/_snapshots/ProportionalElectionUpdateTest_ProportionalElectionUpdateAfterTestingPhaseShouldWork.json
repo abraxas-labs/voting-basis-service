@@ -62,6 +62,7 @@
     "BallotBundleSampleSize": 1,
     "ReviewProcedure": 1,
     "EnforceReviewProcedureForCountingCircles": true,
-    "EnforceCandidateCheckDigitForCountingCircles": false
+    "EnforceCandidateCheckDigitForCountingCircles": false,
+    "FederalIdentification": null
   }
 }

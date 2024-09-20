@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -17,6 +17,7 @@ using Voting.Basis.Controllers.Models;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
+using Voting.Lib.Ech;
 using Voting.Lib.Ech.Ech0157_4_0.Schemas;
 using Voting.Lib.Ech.Ech0159_4_0.Schemas;
 using Voting.Lib.Testing.Utils;
@@ -89,6 +90,32 @@ public class ExportGenerateTest : BaseRestTest
     }
 
     [Fact]
+    public async Task TestVoteEch0159_TestDeliveryFlag()
+    {
+        await RunOnDb(async db =>
+        {
+            var contest = await db.Contests.AsTracking().SingleAsync(c => c.Id == ContestMockedData.GossauContest.Id);
+            contest.State = ContestState.Active;
+            await db.SaveChangesAsync();
+        });
+
+        var response = await AssertStatus(
+            () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(VoteMockedData.IdGossauVoteInContestGossau),
+                Key = BasisXmlVoteTemplates.Ech0159.Key,
+            }),
+            HttpStatusCode.OK);
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
+
+        var xml = await response.Content.ReadAsStringAsync();
+        var schemaSet = Ech0159Schemas.LoadEch0159Schemas();
+        var delivery = new EchDeserializer().DeserializeXml<Ech0159_4_0.Delivery>(xml, schemaSet);
+
+        delivery.DeliveryHeader.TestDeliveryFlag.Should().BeFalse();
+    }
+
+    [Fact]
     public async Task TestMajorityElectionEch0157()
     {
         await RunOnDb(async db =>
@@ -112,6 +139,36 @@ public class ExportGenerateTest : BaseRestTest
     }
 
     [Fact]
+    public async Task TestMajorityElectionEch0157_TestDeliveryFlag()
+    {
+        await RunOnDb(async db =>
+        {
+            var doi = await db.DomainOfInfluences.AsTracking().SingleAsync(c => c.Id == DomainOfInfluenceMockedData.GuidGossau);
+            doi.CantonDefaults.Canton = DomainOfInfluenceCanton.Tg;
+
+            var contest = await db.Contests.AsTracking().SingleAsync(c => c.Id == ContestMockedData.GossauContest.Id);
+            contest.State = ContestState.Active;
+
+            await db.SaveChangesAsync();
+        });
+
+        var response = await AssertStatus(
+            () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(MajorityElectionMockedData.IdGossauMajorityElectionInContestGossau),
+                Key = BasisXmlMajorityElectionTemplates.Ech0157.Key,
+            }),
+            HttpStatusCode.OK);
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
+
+        var xml = await response.Content.ReadAsStringAsync();
+        var schemaSet = Ech0157Schemas.LoadEch0157Schemas();
+        var delivery = new EchDeserializer().DeserializeXml<Ech0157_4_0.Delivery>(xml, schemaSet);
+
+        delivery.DeliveryHeader.TestDeliveryFlag.Should().BeFalse();
+    }
+
+    [Fact]
     public async Task TestProportionalElectionEch0157()
     {
         var response = await AssertStatus(
@@ -125,6 +182,32 @@ public class ExportGenerateTest : BaseRestTest
 
         var xml = await response.Content.ReadAsStringAsync();
         VerifyXml(xml, nameof(TestProportionalElectionEch0157), Ech0157Schemas.LoadEch0157Schemas());
+    }
+
+    [Fact]
+    public async Task TestProportionalElectionEch0157_TestDeliveryFlag()
+    {
+        await RunOnDb(async db =>
+        {
+            var contest = await db.Contests.AsTracking().SingleAsync(c => c.Id == ContestMockedData.BundContest.Id);
+            contest.State = ContestState.Active;
+            await db.SaveChangesAsync();
+        });
+
+        var response = await AssertStatus(
+            () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund),
+                Key = BasisXmlProportionalElectionTemplates.Ech0157.Key,
+            }),
+            HttpStatusCode.OK);
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
+
+        var xml = await response.Content.ReadAsStringAsync();
+        var schemaSet = Ech0157Schemas.LoadEch0157Schemas();
+        var delivery = new EchDeserializer().DeserializeXml<Ech0157_4_0.Delivery>(xml, schemaSet);
+
+        delivery.DeliveryHeader.TestDeliveryFlag.Should().BeFalse();
     }
 
     [Fact]

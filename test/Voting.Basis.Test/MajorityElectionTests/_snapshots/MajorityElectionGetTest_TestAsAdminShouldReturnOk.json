@@ -30,5 +30,7 @@
   "ReportDomainOfInfluenceLevel": 0,
   "ReviewProcedure": 1,
   "EnforceReviewProcedureForCountingCircles": true,
-  "EnforceCandidateCheckDigitForCountingCircles": false
+  "EnforceCandidateCheckDigitForCountingCircles": false,
+  "IndividualCandidatesDisabled": false,
+  "FederalIdentification": null
 }

@@ -41,7 +41,8 @@
         "NameForProtocol": "",
         "Electorates": [],
         "Canton": 1,
-        "EVoting": false
+        "EVoting": false,
+        "EVotingActiveFrom": null
       },
       "MergedCountingCircles": [
         {
@@ -83,7 +84,8 @@
           "NameForProtocol": "Stadt Jona",
           "Electorates": [],
           "Canton": 1,
-          "EVoting": false
+          "EVoting": false,
+          "EVotingActiveFrom": null
         },
         {
           "Id": "2a3a799a-2437-47da-86fe-06decf70a267",
@@ -124,7 +126,8 @@
           "NameForProtocol": "Stadt Rapperswil",
           "Electorates": [],
           "Canton": 1,
-          "EVoting": false
+          "EVoting": false,
+          "EVotingActiveFrom": null
         }
       ],
       "CopyFromCountingCircleId": "2a3a799a-2437-47da-86fe-06decf70a267",

@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using Microsoft.EntityFrameworkCore;
@@ -81,6 +81,14 @@ public class ProportionalElectionModelBuilder :
         builder
             .Property(x => x.SubListUnionDescription)
             .HasJsonConversion();
+
+        // OnDelete.SetNull is required for domain of influence delete events, because it hard deletes the party.
+        // If a party is separately removed, it soft deletes the party.
+        builder
+            .HasOne(x => x.Party)
+            .WithMany(x => x.ProportionalElectionLists)
+            .OnDelete(DeleteBehavior.SetNull)
+            .IsRequired(false);
     }
 
     public void Configure(EntityTypeBuilder<ProportionalElectionUnionListEntry> builder)

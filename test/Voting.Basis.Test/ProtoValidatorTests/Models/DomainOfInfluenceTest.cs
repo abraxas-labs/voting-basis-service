@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -50,6 +50,7 @@ public class DomainOfInfluenceTest : ProtoValidatorBaseTest<ProtoModels.DomainOf
         yield return NewValid();
         yield return NewValid(x => x.Name = RandomStringUtil.GenerateSimpleSingleLineText(1));
         yield return NewValid(x => x.Name = RandomStringUtil.GenerateSimpleSingleLineText(100));
+        yield return NewValid(x => x.ShortName = string.Empty);
         yield return NewValid(x => x.ShortName = RandomStringUtil.GenerateSimpleSingleLineText(1));
         yield return NewValid(x => x.ShortName = RandomStringUtil.GenerateSimpleSingleLineText(50));
         yield return NewValid(x => x.AuthorityName = RandomStringUtil.GenerateSimpleSingleLineText(1));
@@ -63,8 +64,8 @@ public class DomainOfInfluenceTest : ProtoValidatorBaseTest<ProtoModels.DomainOf
         yield return NewValid(x => x.Bfs = RandomStringUtil.GenerateAlphanumericWhitespace(1));
         yield return NewValid(x => x.Bfs = RandomStringUtil.GenerateAlphanumericWhitespace(8));
         yield return NewValid(x => x.Code = string.Empty);
-        yield return NewValid(x => x.Code = RandomStringUtil.GenerateAlphanumericWhitespace(1));
-        yield return NewValid(x => x.Code = RandomStringUtil.GenerateAlphanumericWhitespace(12));
+        yield return NewValid(x => x.Code = RandomStringUtil.GenerateSimpleSingleLineText(1));
+        yield return NewValid(x => x.Code = RandomStringUtil.GenerateSimpleSingleLineText(20));
         yield return NewValid(x => x.SortNumber = 0);
         yield return NewValid(x => x.SortNumber = 1000);
         yield return NewValid(x => x.ExportConfigurations.Clear());
@@ -79,6 +80,7 @@ public class DomainOfInfluenceTest : ProtoValidatorBaseTest<ProtoModels.DomainOf
         yield return NewValid(x => x.SapCustomerOrderNumber = RandomStringUtil.GenerateNumeric(20));
         yield return NewValid(x => x.NameForProtocol = string.Empty);
         yield return NewValid(x => x.NameForProtocol = RandomStringUtil.GenerateComplexSingleLineText(100));
+        yield return NewValid(x => x.PlausibilisationConfiguration = null);
     }
 
     protected override IEnumerable<ProtoModels.DomainOfInfluence> NotOkMessages()
@@ -86,7 +88,6 @@ public class DomainOfInfluenceTest : ProtoValidatorBaseTest<ProtoModels.DomainOf
         yield return NewValid(x => x.Name = string.Empty);
         yield return NewValid(x => x.Name = RandomStringUtil.GenerateSimpleSingleLineText(101));
         yield return NewValid(x => x.Name = "Bezirk\n Uzwil");
-        yield return NewValid(x => x.ShortName = string.Empty);
         yield return NewValid(x => x.ShortName = RandomStringUtil.GenerateSimpleSingleLineText(51));
         yield return NewValid(x => x.ShortName = "BZ\n Uz");
         yield return NewValid(x => x.AuthorityName = string.Empty);
@@ -103,11 +104,10 @@ public class DomainOfInfluenceTest : ProtoValidatorBaseTest<ProtoModels.DomainOf
         yield return NewValid(x => x.ContactPerson = null);
         yield return NewValid(x => x.Bfs = RandomStringUtil.GenerateAlphanumericWhitespace(9));
         yield return NewValid(x => x.Bfs = "1234-56");
-        yield return NewValid(x => x.Code = RandomStringUtil.GenerateAlphanumericWhitespace(13));
-        yield return NewValid(x => x.Code = "1234-56");
+        yield return NewValid(x => x.Code = RandomStringUtil.GenerateSimpleSingleLineText(21));
+        yield return NewValid(x => x.Code = "1234_56");
         yield return NewValid(x => x.SortNumber = -1);
         yield return NewValid(x => x.SortNumber = 1001);
-        yield return NewValid(x => x.PlausibilisationConfiguration = null);
         yield return NewValid(x => x.ExternalPrintingCenterEaiMessageType = RandomStringUtil.GenerateNumeric(6));
         yield return NewValid(x => x.ExternalPrintingCenterEaiMessageType = RandomStringUtil.GenerateNumeric(8));
         yield return NewValid(x => x.ExternalPrintingCenterEaiMessageType = RandomStringUtil.GenerateAlphabetic(7));

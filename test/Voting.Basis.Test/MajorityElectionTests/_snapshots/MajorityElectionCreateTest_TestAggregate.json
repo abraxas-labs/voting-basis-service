@@ -31,7 +31,9 @@
     "ReportDomainOfInfluenceLevel": 0,
     "ReviewProcedure": 1,
     "EnforceReviewProcedureForCountingCircles": true,
-    "EnforceCandidateCheckDigitForCountingCircles": true
+    "EnforceCandidateCheckDigitForCountingCircles": true,
+    "IndividualCandidatesDisabled": true,
+    "FederalIdentification": 92834984
   },
   "2": {
     "Id": "a60c5616-c576-47d4-8ef4-4aa9b347ee60",
@@ -65,6 +67,8 @@
     "ReportDomainOfInfluenceLevel": 0,
     "ReviewProcedure": 2,
     "EnforceReviewProcedureForCountingCircles": false,
-    "EnforceCandidateCheckDigitForCountingCircles": false
+    "EnforceCandidateCheckDigitForCountingCircles": false,
+    "IndividualCandidatesDisabled": false,
+    "FederalIdentification": null
   }
 }

@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ public static class Roles
     public const string ElectionAdmin = "Wahlverwalter";
     public const string ElectionSupporter = "Wahlunterstützer";
     public const string ApiReader = "ApiReader";
+    public const string ApiReaderDoi = "ApiReaderDoi";
 
     public static IEnumerable<string> All()
     {
@@ -20,5 +21,6 @@ public static class Roles
         yield return ElectionAdmin;
         yield return ElectionSupporter;
         yield return ApiReader;
+        yield return ApiReaderDoi;
     }
 }

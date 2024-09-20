@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -9,12 +9,16 @@ using Abraxas.Voting.Basis.Events.V1;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Exceptions;
+using Voting.Basis.Core.Messaging.Extensions;
+using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
 using Voting.Lib.Common;
 using Voting.Lib.Database.Repositories;
+using Voting.Lib.Messaging;
+using EntityState = Voting.Basis.Core.Messaging.Messages.EntityState;
 
 namespace Voting.Basis.Core.EventProcessors;
 
@@ -35,6 +39,7 @@ public class CountingCircleProcessor :
     private readonly IMapper _mapper;
     private readonly EventLoggerAdapter _eventLogger;
     private readonly IDbRepository<DataContext, CountingCircleElectorate> _electorateRepo;
+    private readonly MessageProducerBuffer _messageProducerBuffer;
 
     public CountingCircleProcessor(
         CountingCircleRepo repo,
@@ -43,7 +48,8 @@ public class CountingCircleProcessor :
         DomainOfInfluencePermissionBuilder permissionBuilder,
         IMapper mapper,
         EventLoggerAdapter eventLogger,
-        IDbRepository<DataContext, CountingCircleElectorate> electorateRepo)
+        IDbRepository<DataContext, CountingCircleElectorate> electorateRepo,
+        MessageProducerBuffer messageProducerBuffer)
     {
         _repo = repo;
         _ccMergeRepo = ccMergeRepo;
@@ -52,6 +58,7 @@ public class CountingCircleProcessor :
         _permissionBuilder = permissionBuilder;
         _eventLogger = eventLogger;
         _electorateRepo = electorateRepo;
+        _messageProducerBuffer = messageProducerBuffer;
     }
 
     public async Task Process(CountingCircleCreated eventData)
@@ -60,6 +67,7 @@ public class CountingCircleProcessor :
         await _repo.Create(model, eventData.EventInfo.Timestamp.ToDateTime());
         await _permissionBuilder.RebuildPermissionTree();
         await _eventLogger.LogCountingCircleEvent(eventData, model);
+        PublishCountingCircleEventMessage(model, EntityState.Added);
     }
 
     public async Task Process(CountingCircleUpdated eventData)
@@ -89,6 +97,7 @@ public class CountingCircleProcessor :
         await _repo.Update(model, eventData.EventInfo.Timestamp.ToDateTime());
         await _permissionBuilder.RebuildPermissionTree();
         await _eventLogger.LogCountingCircleEvent(eventData, model);
+        PublishCountingCircleEventMessage(model, EntityState.Modified);
     }
 
     public async Task Process(CountingCircleDeleted eventData)
@@ -105,6 +114,7 @@ public class CountingCircleProcessor :
         await _repo.Delete(existing, eventData.EventInfo.Timestamp.ToDateTime());
         await _permissionBuilder.RebuildPermissionTree();
         await _eventLogger.LogCountingCircleEvent(eventData, existing);
+        PublishCountingCircleEventMessage(existing, EntityState.Deleted);
     }
 
     public async Task Process(CountingCirclesMergerScheduled eventData)
@@ -269,5 +279,11 @@ public class CountingCircleProcessor :
         }
 
         await _electorateRepo.CreateRange(electorates);
+    }
+
+    private void PublishCountingCircleEventMessage(CountingCircle countingCircle, EntityState state)
+    {
+        // Publish a counting circle change message, so that other service instances can refresh their in-memory cache.
+        _messageProducerBuffer.Add(new CountingCircleChangeMessage(countingCircle.CreateBaseEntityEvent(state)));
     }
 }

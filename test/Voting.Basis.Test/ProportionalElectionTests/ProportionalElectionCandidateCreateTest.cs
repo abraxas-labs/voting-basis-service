@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -124,6 +124,44 @@ public class ProportionalElectionCandidateCreateTest : BaseGrpcTest<Proportional
         });
         candidate1.MatchSnapshot("1");
         candidate2.MatchSnapshot("2");
+    }
+
+    [Fact]
+    public async Task TestProcessorWithDeprecatedSexType()
+    {
+        await TestEventPublisher.Publish(
+            new ProportionalElectionCandidateCreated
+            {
+                ProportionalElectionCandidate = new ProportionalElectionCandidateEventData
+                {
+                    Id = "420f11f8-82bf-4f39-a2b9-d76e8c9dab08",
+                    ProportionalElectionListId = ProportionalElectionMockedData.ListIdStGallenProportionalElectionInContestStGallen,
+                    Position = 2,
+                    FirstName = "firstName",
+                    LastName = "lastName",
+                    PoliticalFirstName = "pol first name",
+                    PoliticalLastName = "pol last name",
+                    Occupation = { LanguageUtil.MockAllLanguages("occupation") },
+                    OccupationTitle = { LanguageUtil.MockAllLanguages("occupation title") },
+                    DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
+                    Incumbent = true,
+                    Accumulated = false,
+                    Locality = "locality",
+                    Number = "number1",
+                    Sex = SharedProto.SexType.Undefined,
+                    Title = "title",
+                    ZipCode = "zip code",
+                    PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
+                    Origin = "origin",
+                    CheckDigit = 6,
+                },
+            });
+
+        var candidate = await AdminClient.GetCandidateAsync(new GetProportionalElectionCandidateRequest
+        {
+            Id = "420f11f8-82bf-4f39-a2b9-d76e8c9dab08",
+        });
+        candidate.Sex.Should().Be(SharedProto.SexType.Female);
     }
 
     [Fact]

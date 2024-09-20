@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -13,6 +13,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing.Utils;
@@ -141,6 +142,9 @@ public class CountingCircleDeleteTest : BaseGrpcTest<CountingCircleService.Count
         var idGuid = Guid.Parse(idUzwil);
         (await RunOnDb(db => db.CountingCircles.CountAsync(cc => cc.Id == idGuid)))
             .Should().Be(0);
+
+        await AssertHasPublishedMessage<CountingCircleChangeMessage>(
+            x => x.CountingCircle.HasEqualIdAndNewEntityState(idGuid, EntityState.Deleted));
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

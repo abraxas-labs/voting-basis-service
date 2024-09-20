@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -14,8 +14,10 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
+using Voting.Lib.Testing.Mocks;
 using Voting.Lib.Testing.Utils;
 using Xunit;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
@@ -58,6 +60,9 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
     {
         var electorateBzId = Guid.Parse("fbf2386a-4354-46d8-a393-6b2ec3e475b4");
 
+        var countingCircleId1 = Guid.Parse("eae2cfaf-c787-48b9-a108-c975b0a580da");
+        var countingCircleId2 = Guid.Parse("eae2cfaf-c787-48b9-a108-c975b0a580db");
+
         await TestEventPublisher.Publish(
             new CountingCircleCreated
             {
@@ -66,7 +71,7 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
                     Name = "Uzwil",
                     Bfs = "1234",
                     Code = "Code1234",
-                    Id = "eae2cfaf-c787-48b9-a108-c975b0a580da",
+                    Id = countingCircleId1.ToString(),
                     ResponsibleAuthority = new AuthorityEventData
                     {
                         Name = "Uzwil",
@@ -118,7 +123,7 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
                 {
                     Name = "St. Gallen",
                     Bfs = "5500",
-                    Id = "eae2cfaf-c787-48b9-a108-c975b0a580db",
+                    Id = countingCircleId2.ToString(),
                     ResponsibleAuthority = new AuthorityEventData
                     {
                         Name = "St. Gallen",
@@ -157,6 +162,11 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
 
         var electorateExists = await RunOnDb(db => db.CountingCircleElectorates.AnyAsync(e => e.Id == electorateBzId));
         electorateExists.Should().BeTrue();
+
+        await AssertHasPublishedMessage<CountingCircleChangeMessage>(
+            x => x.CountingCircle.HasEqualIdAndNewEntityState(countingCircleId1, EntityState.Added));
+        await AssertHasPublishedMessage<CountingCircleChangeMessage>(
+            x => x.CountingCircle.HasEqualIdAndNewEntityState(countingCircleId2, EntityState.Added));
     }
 
     [Fact]
@@ -198,6 +208,33 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
         await AssertStatus(
             async () => await CantonAdminClient.CreateAsync(NewValidRequest(req => req.Canton = DomainOfInfluenceCanton.Zh)),
             StatusCode.PermissionDenied);
+    }
+
+    [Fact]
+    public async Task MissingEVotingActiveFromShouldSetEVotingFalse()
+    {
+        await AdminClient.CreateAsync(NewValidRequest(
+            x => x.EVotingActiveFrom = null));
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<CountingCircleCreated>();
+        eventData.CountingCircle.EVoting.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task EVotingActiveFromInFutureShouldSetEVotingFalse()
+    {
+        await AdminClient.CreateAsync(NewValidRequest(
+            x => x.EVotingActiveFrom = MockedClock.GetTimestampDate(1)));
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<CountingCircleCreated>();
+        eventData.CountingCircle.EVoting.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task EVotingActiveFromInPastShouldSetEVotingTrue()
+    {
+        await AdminClient.CreateAsync(NewValidRequest(
+            x => x.EVotingActiveFrom = MockedClock.GetTimestampDate(-1)));
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<CountingCircleCreated>();
+        eventData.CountingCircle.EVoting.Should().BeTrue();
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

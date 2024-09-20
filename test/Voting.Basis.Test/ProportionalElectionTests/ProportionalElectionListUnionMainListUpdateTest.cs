@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -129,6 +129,15 @@ public class ProportionalElectionListUnionMainListUpdateTest : BaseGrpcTest<Prop
         await AdminClient.UpdateListUnionMainListAsync(NewValidRequest());
         var eventData = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionListUnionMainListUpdated>();
         eventData.MatchSnapshot("event");
+    }
+
+    [Fact]
+    public async Task ListUnionNoMainListShouldReturnOk()
+    {
+        await AdminClient.UpdateListUnionMainListAsync(NewValidRequest(l => l.ProportionalElectionMainListId = string.Empty));
+        var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionListUnionMainListUpdated, EventSignatureBusinessMetadata>();
+        eventData.MatchSnapshot("event");
+        eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
     }
 
     [Fact]

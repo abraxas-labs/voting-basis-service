@@ -1,10 +1,11 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
 using System.Linq;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using AutoMapper;
+using Voting.Basis.Core.Messaging.Messages;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 
 namespace Voting.Basis.Mapping;
@@ -30,7 +31,10 @@ public class ProportionalElectionProfile : Profile
         CreateMap<IEnumerable<Data.Models.ProportionalElection>, ProtoModels.ProportionalElections>()
             .ForMember(dst => dst.ProportionalElections_, opts => opts.MapFrom(src => src));
 
-        CreateMap<Data.Models.ProportionalElectionList, ProtoModels.ProportionalElectionList>();
+        CreateMap<Data.Models.ProportionalElectionList, ProtoModels.ProportionalElectionList>()
+            .ForMember(dst => dst.Party, opts => opts.MapFrom(src => src.Party != null
+                ? src.Party
+                : src.PartyId == null ? null : new Data.Models.DomainOfInfluenceParty { Id = src.PartyId.Value }));
         CreateMap<IEnumerable<Data.Models.ProportionalElectionList>, ProtoModels.ProportionalElectionLists>()
             .ForMember(dst => dst.Lists, opts => opts.MapFrom(src => src));
 
@@ -47,5 +51,8 @@ public class ProportionalElectionProfile : Profile
                 : src.PartyId == null ? null : new Data.Models.DomainOfInfluenceParty { Id = src.PartyId.Value }));
         CreateMap<IEnumerable<Data.Models.ProportionalElectionCandidate>, ProtoModels.ProportionalElectionCandidates>()
             .ForMember(dst => dst.Candidates, opts => opts.MapFrom(src => src));
+
+        CreateMap<BaseEntityMessage<Data.Models.ProportionalElectionList>, ProtoModels.ProportionalElectionListMessage>();
+        CreateMap<ProportionalElectionListChangeMessage, ProtoModels.ProportionalElectionListChangeMessage>();
     }
 }

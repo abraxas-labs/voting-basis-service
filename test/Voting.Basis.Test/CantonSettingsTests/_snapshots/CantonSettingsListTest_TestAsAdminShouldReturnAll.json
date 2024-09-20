@@ -46,7 +46,11 @@
       "MajorityElectionUseCandidateCheckDigit": false,
       "CountingCircleResultStateDescriptions": [],
       "StatePlausibilisedDisabled": false,
-      "PublishResultsEnabled": true
+      "PublishResultsEnabled": true,
+      "EndResultFinalizeDisabled": false,
+      "CreateContestOnHighestHierarchicalLevelEnabled": false,
+      "InternalPlausibilisationDisabled": false,
+      "PublishResultsBeforeAuditedTentatively": false
     },
     {
       "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -99,7 +103,11 @@
         }
       ],
       "StatePlausibilisedDisabled": true,
-      "PublishResultsEnabled": false
+      "PublishResultsEnabled": false,
+      "EndResultFinalizeDisabled": true,
+      "CreateContestOnHighestHierarchicalLevelEnabled": true,
+      "InternalPlausibilisationDisabled": true,
+      "PublishResultsBeforeAuditedTentatively": true
     }
   ]
 }

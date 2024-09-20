@@ -19,5 +19,6 @@
   "CountOfCandidates": 0,
   "CandidateCountOk": false,
   "ListUnionDescription": {},
-  "SubListUnionDescription": {}
+  "SubListUnionDescription": {},
+  "Party": null
 }

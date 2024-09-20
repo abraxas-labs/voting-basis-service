@@ -47,7 +47,11 @@
         "MajorityElectionUseCandidateCheckDigit": false,
         "CountingCircleResultStateDescriptions": [],
         "StatePlausibilisedDisabled": false,
-        "PublishResultsEnabled": true
+        "PublishResultsEnabled": true,
+        "EndResultFinalizeDisabled": false,
+        "CreateContestOnHighestHierarchicalLevelEnabled": false,
+        "InternalPlausibilisationDisabled": false,
+        "PublishResultsBeforeAuditedTentatively": false
       },
       {
         "Id": "2d203a3c-40ba-4b53-a57e-38909d71390c",
@@ -91,7 +95,11 @@
         "MajorityElectionUseCandidateCheckDigit": false,
         "CountingCircleResultStateDescriptions": [],
         "StatePlausibilisedDisabled": false,
-        "PublishResultsEnabled": false
+        "PublishResultsEnabled": false,
+        "EndResultFinalizeDisabled": false,
+        "CreateContestOnHighestHierarchicalLevelEnabled": false,
+        "InternalPlausibilisationDisabled": false,
+        "PublishResultsBeforeAuditedTentatively": false
       },
       {
         "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -144,7 +152,11 @@
           }
         ],
         "StatePlausibilisedDisabled": true,
-        "PublishResultsEnabled": false
+        "PublishResultsEnabled": false,
+        "EndResultFinalizeDisabled": true,
+        "CreateContestOnHighestHierarchicalLevelEnabled": true,
+        "InternalPlausibilisationDisabled": true,
+        "PublishResultsBeforeAuditedTentatively": true
       }
     ]
   },
@@ -176,7 +188,9 @@
           ],
           "MultipleVoteBallotsEnabled": false,
           "ProportionalElectionUseCandidateCheckDigit": false,
-          "MajorityElectionUseCandidateCheckDigit": false
+          "MajorityElectionUseCandidateCheckDigit": false,
+          "CreateContestOnHighestHierarchicalLevelEnabled": false,
+          "InternalPlausibilisationDisabled": false
         },
         "LogoRef": null,
         "HasLogo": false,

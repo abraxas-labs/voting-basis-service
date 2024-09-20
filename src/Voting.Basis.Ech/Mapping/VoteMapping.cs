@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -89,6 +89,7 @@ internal static class VoteMapping
                 ResultEntry = DataModels.VoteResultEntry.FinalResults,
                 ResultAlgorithm = DataModels.VoteResultAlgorithm.PopularMajority,
                 ReviewProcedure = DataModels.VoteReviewProcedure.Electronically,
+                Type = DataModels.VoteType.QuestionsOnSingleBallot,
 
                 // see https://jira.abraxas-tools.ch/jira/browse/VOTING-1169?focusedCommentId=640226&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-640226
                 EnforceResultEntryForCountingCircles = basisBallot.BallotType == DataModels.BallotType.StandardBallot,
@@ -98,15 +99,21 @@ internal static class VoteMapping
 
     private static BallotType ToEchBallot(this DataModels.Ballot ballot, int positionOffset)
     {
-        // Use the description from the vote instead of the ballot, since ballot descriptions are optional in VOTING.
+        // Use the description from the vote instead of the ballot if necessary, since ballot descriptions are optional in VOTING.
         // At least in the cantons SG and TG, they are never filled, since they use a separate vote per ballot.
         var vote = ballot.Vote;
-        var descriptionInfos = vote.OfficialDescription
+        var officialDescription = ballot.OfficialDescription.Count > 0
+            ? ballot.OfficialDescription
+            : vote.OfficialDescription;
+        var shortDescription = ballot.ShortDescription.Count > 0
+            ? ballot.ShortDescription
+            : vote.ShortDescription;
+        var descriptionInfos = officialDescription
             .Select(d => new BallotDescriptionInformationTypeBallotDescriptionInfo
             {
                 Language = d.Key,
                 BallotDescriptionLong = d.Value,
-                BallotDescriptionShort = vote.ShortDescription.GetValueOrDefault(d.Key),
+                BallotDescriptionShort = shortDescription.GetValueOrDefault(d.Key),
             })
             .ToList();
         var ballotPosition = ballot.Position + positionOffset;

@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -317,6 +317,19 @@ public class MajorityElectionUpdateTest : BaseGrpcTest<MajorityElectionService.M
             StatusCode.AlreadyExists);
     }
 
+    [Fact]
+    public async Task DisableIndividualVotesWithExistingBallotGroupIndividualVotesShouldThrow()
+    {
+        await AssertStatus(
+            async () => await ElectionAdminUzwilClient.UpdateAsync(NewValidRequest(x =>
+            {
+                x.Id = MajorityElectionMockedData.IdUzwilMajorityElectionInContestStGallen;
+                x.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdUzwil;
+            })),
+            StatusCode.InvalidArgument,
+            "Cannot disable individual candidates when there are individual candidates vote count defined on ballot group entries");
+    }
+
     protected override IEnumerable<string> AuthorizedRoles()
     {
         yield return Roles.Admin;
@@ -355,6 +368,8 @@ public class MajorityElectionUpdateTest : BaseGrpcTest<MajorityElectionService.M
             ReviewProcedure = SharedProto.MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
             EnforceCandidateCheckDigitForCountingCircles = true,
+            IndividualCandidatesDisabled = true,
+            FederalIdentification = 92834984,
         };
 
         customizer?.Invoke(request);
@@ -389,6 +404,8 @@ public class MajorityElectionUpdateTest : BaseGrpcTest<MajorityElectionService.M
                 ReviewProcedure = SharedProto.MajorityElectionReviewProcedure.Electronically,
                 EnforceReviewProcedureForCountingCircles = true,
                 EnforceCandidateCheckDigitForCountingCircles = true,
+                IndividualCandidatesDisabled = true,
+                FederalIdentification = 92834984,
             },
         };
 

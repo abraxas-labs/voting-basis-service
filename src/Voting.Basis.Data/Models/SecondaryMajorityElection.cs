@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -18,6 +18,8 @@ public class SecondaryMajorityElection : PoliticalBusiness
 
     public override PoliticalBusinessType PoliticalBusinessType => PoliticalBusinessType.SecondaryMajorityElection;
 
+    public override PoliticalBusinessSubType PoliticalBusinessSubType => PoliticalBusinessSubType.Unspecified;
+
     public Guid ElectionGroupId { get; set; }
 
     public ElectionGroup ElectionGroup { get; set; } = null!; // set by EF
@@ -25,6 +27,8 @@ public class SecondaryMajorityElection : PoliticalBusiness
     public ICollection<SecondaryMajorityElectionCandidate> Candidates { get; set; } = new HashSet<SecondaryMajorityElectionCandidate>();
 
     public ICollection<MajorityElectionBallotGroupEntry> BallotGroupEntries { get; set; } = new HashSet<MajorityElectionBallotGroupEntry>();
+
+    public bool IndividualCandidatesDisabled { get; set; }
 
     public override Guid DomainOfInfluenceId
     {

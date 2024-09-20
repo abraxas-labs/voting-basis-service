@@ -50,6 +50,7 @@
     "CreatedOn": "2020-07-17T10:07:56Z",
     "Canton": 1,
     "EVoting": false,
+    "EVotingActiveFrom": null,
     "Id": "102defb7-9fe7-426a-ad87-9127a650b79f"
   }
 }

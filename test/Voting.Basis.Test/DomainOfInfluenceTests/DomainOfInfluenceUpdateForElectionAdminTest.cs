@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -13,6 +13,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Exceptions;
+using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing.Utils;
@@ -283,6 +284,43 @@ public class DomainOfInfluenceUpdateForElectionAdminTest : BaseGrpcTest<DomainOf
                 })),
             StatusCode.InvalidArgument,
             "domain of influence party can only be provided exactly once");
+    }
+
+    [Fact]
+    public async Task InternalPlausibilisationDisabledShouldThrow()
+    {
+        await ModifyDbEntities<DomainOfInfluence>(x => x.Id == DomainOfInfluenceMockedData.GuidUzwil, x => x.CantonDefaults.InternalPlausibilisationDisabled = true);
+
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest()),
+            StatusCode.InvalidArgument,
+            "internal plausibilisation is disabled for this canton");
+    }
+
+    [Fact]
+    public async Task NoPlausibilisationConfigurationShouldThrow()
+    {
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(x => x.PlausibilisationConfiguration = null)),
+            StatusCode.InvalidArgument,
+            "plausibilisation configuration is required");
+    }
+
+    [Fact]
+    public async Task NoPlausibilisationConfigurationWithDisabledCantonSettingsShouldReturnOk()
+    {
+        await ModifyDbEntities<DomainOfInfluence>(x => x.Id == DomainOfInfluenceMockedData.GuidUzwil, x => x.CantonDefaults.InternalPlausibilisationDisabled = true);
+
+        await ElectionAdminUzwilClient.UpdateAsync(NewValidRequest(x => x.PlausibilisationConfiguration = null));
+
+        var plausiConfigUpdated = EventPublisherMock.GetPublishedEvents<DomainOfInfluencePlausibilisationConfigurationUpdated>();
+        plausiConfigUpdated.Should().BeEmpty();
+
+        var contactPersonUpdated = EventPublisherMock.GetSinglePublishedEvent<DomainOfInfluenceContactPersonUpdated>();
+        contactPersonUpdated.MatchSnapshot("contactPersonUpdated");
+
+        var partyCreated = EventPublisherMock.GetSinglePublishedEvent<DomainOfInfluencePartyCreated>();
+        partyCreated.MatchSnapshot("partyCreated", x => x.Party.Id);
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

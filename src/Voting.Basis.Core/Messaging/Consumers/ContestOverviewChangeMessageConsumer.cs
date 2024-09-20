@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Threading.Tasks;
@@ -40,7 +40,7 @@ public class ContestOverviewChangeMessageConsumer : MessageConsumer<ContestOverv
 
         contest = await _contestRepo.Query()
             .Include(c => c.DomainOfInfluence)
-            .FirstOrDefaultAsync(c => c.Id == contest.Id);
+            .FirstOrDefaultAsync(c => c.Id == contestId);
 
         if (contest != null)
         {

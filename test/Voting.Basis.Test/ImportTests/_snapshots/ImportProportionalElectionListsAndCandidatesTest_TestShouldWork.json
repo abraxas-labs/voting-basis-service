@@ -35,7 +35,8 @@
             "fr": "CVP",
             "it": "CVP",
             "rm": "CVP"
-          }
+          },
+          "PartyId": ""
         }
       },
       {
@@ -72,7 +73,8 @@
             "fr": "CVP Senioren",
             "it": "CVP Senioren",
             "rm": "CVP Senioren"
-          }
+          },
+          "PartyId": ""
         }
       },
       {
@@ -109,7 +111,8 @@
             "fr": "SP",
             "it": "SP",
             "rm": "SP"
-          }
+          },
+          "PartyId": ""
         }
       },
       {
@@ -146,7 +149,8 @@
             "fr": "CVP Junioren",
             "it": "CVP Junioren",
             "rm": "CVP Junioren"
-          }
+          },
+          "PartyId": ""
         }
       },
       {
@@ -183,7 +187,8 @@
             "fr": "SVP",
             "it": "SVP",
             "rm": "SVP"
-          }
+          },
+          "PartyId": ""
         }
       }
     ]
@@ -499,7 +504,7 @@
             "Seconds": 989539200,
             "Nanos": 0
           },
-          "Sex": 3,
+          "Sex": 2,
           "Occupation": {},
           "Title": "",
           "OccupationTitle": {},

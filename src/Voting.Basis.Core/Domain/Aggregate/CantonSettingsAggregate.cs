@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -76,6 +76,12 @@ public class CantonSettingsAggregate : BaseEventSourcingAggregate
     public bool ProportionalElectionUseCandidateCheckDigit { get; private set; }
 
     public bool MajorityElectionUseCandidateCheckDigit { get; private set; }
+
+    public bool CreateContestOnHighestHierarchicalLevelEnabled { get; private set; }
+
+    public bool InternalPlausibilisationDisabled { get; private set; }
+
+    public bool PublishResultsBeforeAuditedTentatively { get; private set; }
 
     public void CreateFrom(CantonSettings cantonSettings)
     {

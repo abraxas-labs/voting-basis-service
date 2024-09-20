@@ -51,7 +51,9 @@
       "ReportDomainOfInfluenceLevel": 0,
       "ReviewProcedure": 1,
       "EnforceReviewProcedureForCountingCircles": true,
-      "EnforceCandidateCheckDigitForCountingCircles": true
+      "EnforceCandidateCheckDigitForCountingCircles": true,
+      "IndividualCandidatesDisabled": true,
+      "FederalIdentification": 92834984
     }
   }
 }

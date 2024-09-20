@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -117,6 +117,7 @@ public static class ProportionalElectionMockedData
                         OrderNumber = "1a",
                         Description = LanguageUtil.MockAllLanguages("Liste 1 der Partei SVP"),
                         ShortDescription = LanguageUtil.MockAllLanguages("Liste 1"),
+                        PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                         ProportionalElectionCandidates = new List<ProportionalElectionCandidate>
                         {
                             new ProportionalElectionCandidate
@@ -297,7 +298,7 @@ public static class ProportionalElectionMockedData
                                 Position = 3,
                                 Locality = "locality 2",
                                 Number = "number2",
-                                Sex = SexType.Undefined,
+                                Sex = SexType.Female,
                                 Title = "title2",
                                 ZipCode = "zip code2",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
@@ -530,7 +531,7 @@ public static class ProportionalElectionMockedData
                                 Accumulated = false,
                                 Locality = "locality 2",
                                 Number = "number2",
-                                Sex = SexType.Undefined,
+                                Sex = SexType.Female,
                                 Title = "title 2",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyGossauDeleted,
                                 Origin = "origin 2",
@@ -750,7 +751,7 @@ public static class ProportionalElectionMockedData
                                 Accumulated = false,
                                 Locality = "locality 2",
                                 Number = "number2",
-                                Sex = SexType.Undefined,
+                                Sex = SexType.Female,
                                 Title = "title 2",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyStGallenSVP,
                                 Origin = "origin 2",

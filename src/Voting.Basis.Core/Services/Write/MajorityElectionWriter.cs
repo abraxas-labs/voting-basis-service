@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -103,6 +103,11 @@ public class MajorityElectionWriter
         if (existingMajorityElection.ContestId != data.ContestId)
         {
             throw new ValidationException($"{nameof(existingMajorityElection.ContestId)} is immutable.");
+        }
+
+        if (data.IndividualCandidatesDisabled)
+        {
+            await EnsureNoPrimaryElectionIndividualCandidates(data.Id);
         }
 
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(data.Id);
@@ -229,6 +234,11 @@ public class MajorityElectionWriter
             majorityElection.DomainOfInfluenceId,
             data.PoliticalBusinessNumber);
         var contestState = await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
+
+        if (data.IndividualCandidatesDisabled)
+        {
+            await EnsureNoSecondaryElectionIndividualCandidates(data.Id);
+        }
 
         if (contestState.TestingPhaseEnded())
         {
@@ -401,8 +411,15 @@ public class MajorityElectionWriter
     // Note: Ballot group candidates may be updated at any time if the candidate count is not ok
     public async Task UpdateBallotGroupCandidates(MajorityElectionBallotGroupCandidates data)
     {
-        var ballotGroup = await _ballotGroupRepo.GetByKey(data.BallotGroupId)
+        var ballotGroup = await _ballotGroupRepo.Query()
+            .Include(x => x.Entries)
+            .ThenInclude(x => x.PrimaryMajorityElection)
+            .Include(x => x.Entries)
+            .ThenInclude(x => x.SecondaryMajorityElection)
+            .FirstOrDefaultAsync(x => x.Id == data.BallotGroupId)
             ?? throw new ValidationException($"Ballot group does not exist: {data.BallotGroupId}");
+
+        EnsureValidIndividualCandidatesVoteCount(ballotGroup, data);
 
         var electionId = ballotGroup.MajorityElectionId;
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(electionId);
@@ -436,5 +453,47 @@ public class MajorityElectionWriter
             ?? throw new EntityNotFoundException(nameof(Domain.SecondaryMajorityElection), id);
 
         return await _aggregateRepository.GetById<MajorityElectionAggregate>(secondaryMajorityElection.PrimaryMajorityElectionId);
+    }
+
+    private void EnsureValidIndividualCandidatesVoteCount(MajorityElectionBallotGroup ballotGroup, MajorityElectionBallotGroupCandidates data)
+    {
+        foreach (var entry in data.EntryCandidates)
+        {
+            var ballotGroupEntry = ballotGroup.Entries.FirstOrDefault(e => e.Id == entry.BallotGroupEntryId)
+                ?? throw new ValidationException($"Ballot group entry with id {entry.BallotGroupEntryId} not found");
+
+            var individualCandidatesDisabled = ballotGroupEntry.PrimaryMajorityElection?.IndividualCandidatesDisabled ?? ballotGroupEntry.SecondaryMajorityElection!.IndividualCandidatesDisabled;
+
+            if (individualCandidatesDisabled && entry.IndividualCandidatesVoteCount > 0)
+            {
+                throw new ValidationException($"Individual candidates vote count not enabled on ballot group entry {entry.BallotGroupEntryId}");
+            }
+        }
+    }
+
+    private async Task EnsureNoPrimaryElectionIndividualCandidates(Guid id)
+    {
+        var election = await _majorityElectionRepo.Query()
+            .Include(me => me.BallotGroupEntries)
+            .FirstOrDefaultAsync(me => me.Id == id)
+            ?? throw new EntityNotFoundException(id);
+
+        if (election.BallotGroupEntries.Any(e => e.IndividualCandidatesVoteCount > 0))
+        {
+            throw new ValidationException("Cannot disable individual candidates when there are individual candidates vote count defined on ballot group entries");
+        }
+    }
+
+    private async Task EnsureNoSecondaryElectionIndividualCandidates(Guid id)
+    {
+        var election = await _secondaryMajorityElectionRepo.Query()
+            .Include(me => me.BallotGroupEntries)
+            .FirstOrDefaultAsync(me => me.Id == id)
+            ?? throw new EntityNotFoundException(id);
+
+        if (election.BallotGroupEntries.Any(e => e.IndividualCandidatesVoteCount > 0))
+        {
+            throw new ValidationException("Cannot disable individual candidates when there are individual candidates vote count defined on ballot group entries");
+        }
     }
 }

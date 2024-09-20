@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -14,6 +14,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -84,6 +85,9 @@ public class ProportionalElectionListDeleteTest : BaseGrpcTest<ProportionalElect
         var idGuid = Guid.Parse(id);
         (await RunOnDb(db => db.ProportionalElectionLists.CountAsync(c => c.Id == idGuid)))
             .Should().Be(0);
+
+        await AssertHasPublishedMessage<ProportionalElectionListChangeMessage>(
+            x => x.List.HasEqualIdAndNewEntityState(idGuid, EntityState.Deleted));
     }
 
     [Fact]

@@ -106,6 +106,18 @@
       "Type": 7,
       "Canton": 1,
       "ReturnAddress": null
+    },
+    {
+      "Id": "8af17c9d-6bae-45bf-a85b-b77239f2eefb",
+      "ParentId": "",
+      "Children": [],
+      "Name": "Zürich",
+      "Bfs": "",
+      "TenantName": "",
+      "TenantId": "zürich-sec-id",
+      "Type": 2,
+      "Canton": 3,
+      "ReturnAddress": null
     }
   ]
 }

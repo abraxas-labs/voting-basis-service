@@ -17,7 +17,8 @@
     "NumberOfMandates": 2,
     "AllowedCandidates": 1,
     "PrimaryMajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
-    "Active": true
+    "Active": true,
+    "IndividualCandidatesDisabled": true
   },
   "2": {
     "Id": "348f2f1a-063d-49ce-955a-81b464fcc256",
@@ -37,6 +38,7 @@
     "NumberOfMandates": 4,
     "AllowedCandidates": 3,
     "PrimaryMajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
-    "Active": false
+    "Active": false,
+    "IndividualCandidatesDisabled": false
   }
 }

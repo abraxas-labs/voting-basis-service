@@ -28,7 +28,8 @@
     "BallotBundleSampleSize": 0,
     "ReviewProcedure": 1,
     "EnforceReviewProcedureForCountingCircles": true,
-    "EnforceCandidateCheckDigitForCountingCircles": true
+    "EnforceCandidateCheckDigitForCountingCircles": true,
+    "FederalIdentification": 29348929
   },
   "2": {
     "Id": "53235b83-3dc3-4b72-a94d-871044168062",
@@ -59,6 +60,7 @@
     "BallotBundleSampleSize": 0,
     "ReviewProcedure": 2,
     "EnforceReviewProcedureForCountingCircles": false,
-    "EnforceCandidateCheckDigitForCountingCircles": false
+    "EnforceCandidateCheckDigitForCountingCircles": false,
+    "FederalIdentification": null
   }
 }

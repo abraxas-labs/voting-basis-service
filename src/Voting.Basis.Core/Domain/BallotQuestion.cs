@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -18,4 +18,6 @@ public class BallotQuestion
     public Dictionary<string, string> Question { get; private set; }
 
     public BallotQuestionType Type { get; private set; }
+
+    public int? FederalIdentification { get; private set; }
 }

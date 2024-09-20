@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -8,6 +8,8 @@ namespace Voting.Basis.Core.Domain;
 
 public class Vote : PoliticalBusiness
 {
+    public VoteType Type { get; set; }
+
     /// <summary>
     /// Gets or sets the domain of influence aggregation level for reports. It is "relative" to the domain of influence of this vote,
     /// meaning that 0 equals the same level as the domain of influence. 1 would mean the child domain of influences and so on.

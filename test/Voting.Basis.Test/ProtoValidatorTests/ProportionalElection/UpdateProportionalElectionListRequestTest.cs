@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -25,6 +25,7 @@ public class UpdateProportionalElectionListRequestTest : ProtoValidatorBaseTest<
         yield return NewValidRequest(x => x.Position = 100);
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Description, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Description, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(100)));
+        yield return NewValidRequest(x => x.PartyId = string.Empty);
     }
 
     protected override IEnumerable<UpdateProportionalElectionListRequest> NotOkMessages()
@@ -50,6 +51,7 @@ public class UpdateProportionalElectionListRequestTest : ProtoValidatorBaseTest<
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Description, RandomStringUtil.GenerateAlphabetic(3), "test"));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Description, "de", string.Empty));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Description, "de", RandomStringUtil.GenerateComplexSingleLineText(101)));
+        yield return NewValidRequest(x => x.PartyId = "invalid-guid");
     }
 
     private UpdateProportionalElectionListRequest NewValidRequest(Action<UpdateProportionalElectionListRequest>? action = null)
@@ -63,6 +65,7 @@ public class UpdateProportionalElectionListRequestTest : ProtoValidatorBaseTest<
             BlankRowCount = 0,
             Position = 1,
             Description = { LanguageUtil.MockAllLanguages("Created list") },
+            PartyId = "75b9cee0-f4c2-4463-be32-2a026a7d6508",
         };
 
         action?.Invoke(request);

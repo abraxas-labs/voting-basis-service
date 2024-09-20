@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -29,6 +29,7 @@ public static class CountingCircleMockedData
     public const string IdRorschach = "eae2cfaf-c787-48b9-a108-c975b0a580dc";
     public const string IdUzwilKirche = "ca7be031-d4ce-4bb6-9538-b5e5d19e5a4e";
     public const string IdUzwilKircheAndere = "c375f97a-0ba2-4a93-8c76-08a0661d9962";
+    public const string IdZurich = "5f6726d6-05e4-4dc3-9283-a48fce74615b";
 
     public const string IdJona = "3ec3d50c-6cb7-4ba1-bd1a-2882153834b0";
     public const string IdRapperswil = "2a3a799a-2437-47da-86fe-06decf70a267";
@@ -109,6 +110,7 @@ public static class CountingCircleMockedData
             ContactPersonAfterEvent = new CountingCircleContactPerson(),
             Canton = DomainOfInfluenceCanton.Sg,
             EVoting = true,
+            EVotingActiveFrom = new DateTime(2019, 1, 1, 0, 0, 0, DateTimeKind.Utc),
         };
 
     public static CountingCircle Uzwil
@@ -228,6 +230,37 @@ public static class CountingCircleMockedData
             Canton = DomainOfInfluenceCanton.Sg,
         };
 
+    public static CountingCircle Zurich
+        => new CountingCircle
+        {
+            Id = Guid.Parse(IdZurich),
+            Name = "Zürich",
+            NameForProtocol = "Zürich",
+            Bfs = "1234",
+            Code = "1234c",
+            SortNumber = 9000,
+            ResponsibleAuthority = new Authority
+            {
+                Name = "Zürich",
+                Email = "zh@abraxas.ch",
+                Phone = "071 123 12 20",
+                Street = "WerkstrasseX",
+                City = "MyCityX",
+                Zip = "9000",
+                SecureConnectId = "zürich-sec-id",
+            },
+            ContactPersonSameDuringEventAsAfter = true,
+            ContactPersonDuringEvent = new CountingCircleContactPerson
+            {
+                Email = "zh@abraxas.ch",
+                Phone = "071 123 12 21",
+                MobilePhone = "071 123 12 31",
+                FamilyName = "Muster-zh",
+                FirstName = "Hans-zh",
+            },
+            Canton = DomainOfInfluenceCanton.Zh,
+        };
+
     public static CountingCircle Rapperswil
         => new CountingCircle
         {
@@ -289,6 +322,7 @@ public static class CountingCircleMockedData
             yield return Gossau;
             yield return Jona;
             yield return Rapperswil;
+            yield return Zurich;
         }
     }
 

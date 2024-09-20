@@ -1,4 +1,4 @@
-// (c) Copyright 2024 by Abraxas Informatik AG
+// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -32,6 +32,7 @@ public class UpdateVoteRequestTest : ProtoValidatorBaseTest<UpdateVoteRequest>
         yield return NewValidRequest(x => x.AutomaticBallotBundleNumberGeneration = false);
         yield return NewValidRequest(x => x.EnforceResultEntryForCountingCircles = false);
         yield return NewValidRequest(x => x.EnforceReviewProcedureForCountingCircles = false);
+        yield return NewValidRequest(x => x.Type = VoteType.VariantQuestionsOnMultipleBallots);
     }
 
     protected override IEnumerable<UpdateVoteRequest> NotOkMessages()
@@ -67,6 +68,8 @@ public class UpdateVoteRequestTest : ProtoValidatorBaseTest<UpdateVoteRequest>
         yield return NewValidRequest(x => x.BallotBundleSampleSizePercent = 101);
         yield return NewValidRequest(x => x.ReviewProcedure = VoteReviewProcedure.Unspecified);
         yield return NewValidRequest(x => x.ReviewProcedure = (VoteReviewProcedure)10);
+        yield return NewValidRequest(x => x.Type = VoteType.Unspecified);
+        yield return NewValidRequest(x => x.Type = (VoteType)10);
     }
 
     private UpdateVoteRequest NewValidRequest(Action<UpdateVoteRequest>? action = null)
@@ -89,6 +92,7 @@ public class UpdateVoteRequestTest : ProtoValidatorBaseTest<UpdateVoteRequest>
             EnforceResultEntryForCountingCircles = true,
             ReviewProcedure = VoteReviewProcedure.Physically,
             EnforceReviewProcedureForCountingCircles = true,
+            Type = VoteType.QuestionsOnSingleBallot,
         };
 
         action?.Invoke(request);

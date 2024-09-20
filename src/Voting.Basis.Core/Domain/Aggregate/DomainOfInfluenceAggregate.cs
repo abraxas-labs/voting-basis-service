@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System;
@@ -544,7 +544,11 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
     private void UpdateChildrenFrom(DomainOfInfluence domainOfInfluence)
     {
         UpdateContactPerson(domainOfInfluence.ContactPerson);
-        UpdatePlausibilisationConfiguration(domainOfInfluence.PlausibilisationConfiguration ?? throw new ValidationException(nameof(domainOfInfluence.PlausibilisationConfiguration) + " must be set"));
+        if (domainOfInfluence.PlausibilisationConfiguration != null)
+        {
+            UpdatePlausibilisationConfiguration(domainOfInfluence.PlausibilisationConfiguration);
+        }
+
         SyncExportConfigurations(domainOfInfluence.ExportConfigurations);
         SyncParties(domainOfInfluence.Parties);
 

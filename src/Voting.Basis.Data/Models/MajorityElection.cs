@@ -1,4 +1,4 @@
-﻿// (c) Copyright 2024 by Abraxas Informatik AG
+﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
 using System.Collections.Generic;
@@ -33,6 +33,8 @@ public class MajorityElection : PoliticalBusiness
 
     public override PoliticalBusinessType PoliticalBusinessType => PoliticalBusinessType.MajorityElection;
 
+    public override PoliticalBusinessSubType PoliticalBusinessSubType => PoliticalBusinessSubType.Unspecified;
+
     public ICollection<MajorityElectionCandidate> MajorityElectionCandidates { get; set; } = new HashSet<MajorityElectionCandidate>();
 
     public ICollection<SecondaryMajorityElection> SecondaryMajorityElections { get; set; } = new HashSet<SecondaryMajorityElection>();
@@ -50,4 +52,8 @@ public class MajorityElection : PoliticalBusiness
     public bool EnforceReviewProcedureForCountingCircles { get; set; }
 
     public bool EnforceCandidateCheckDigitForCountingCircles { get; set; }
+
+    public bool IndividualCandidatesDisabled { get; set; }
+
+    public int? FederalIdentification { get; set; }
 }
