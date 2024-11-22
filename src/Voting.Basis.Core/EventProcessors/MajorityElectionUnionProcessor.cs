@@ -1,6 +1,8 @@
 ﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
@@ -64,7 +66,13 @@ public class MajorityElectionUnionProcessor :
 
         await _repo.Update(model);
         await _eventLogger.LogMajorityElectionUnionEvent(eventData, model);
-        PublishContestDetailsChangeMessage(model, EntityState.Modified);
+
+        var electionIds = _entriesRepo.Query()
+            .Where(x => x.MajorityElectionUnionId == model.Id)
+            .Select(x => x.MajorityElectionId)
+            .ToList();
+
+        PublishContestDetailsChangeMessage(model, EntityState.Modified, electionIds);
     }
 
     public async Task Process(MajorityElectionUnionEntriesUpdated eventData)
@@ -83,6 +91,9 @@ public class MajorityElectionUnionProcessor :
 
         await _entriesRepo.Replace(majorityElectionUnionId, models);
         await _eventLogger.LogMajorityElectionUnionEvent(eventData, existingModel);
+
+        var electionIds = models.ConvertAll(x => x.MajorityElectionId);
+        PublishContestDetailsChangeMessage(existingModel, EntityState.Modified, electionIds);
     }
 
     public async Task Process(MajorityElectionUnionDeleted eventData)
@@ -109,8 +120,8 @@ public class MajorityElectionUnionProcessor :
         await _eventLogger.LogMajorityElectionUnionEvent(eventData, existingModel);
     }
 
-    private void PublishContestDetailsChangeMessage(MajorityElectionUnion majorityElectionUnion, EntityState state)
+    private void PublishContestDetailsChangeMessage(MajorityElectionUnion majorityElectionUnion, EntityState state, List<Guid>? electionIds = null)
     {
-        _messageProducerBuffer.Add(new ContestDetailsChangeMessage(politicalBusinessUnion: majorityElectionUnion.CreateBaseEntityEvent(state)));
+        _messageProducerBuffer.Add(new ContestDetailsChangeMessage(politicalBusinessUnion: majorityElectionUnion.CreateBaseEntityEvent(state, electionIds)));
     }
 }

@@ -20,7 +20,7 @@ using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 
 namespace Voting.Basis.Test.SecondaryMajorityElectionTests;
 
-public class SecondaryMajorityElectionCandidateReorderTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class SecondaryMajorityElectionCandidateReorderTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     public SecondaryMajorityElectionCandidateReorderTest(TestApplicationFactory factory)
         : base(factory)
@@ -63,15 +63,6 @@ public class SecondaryMajorityElectionCandidateReorderTest : BaseGrpcTest<Majori
             SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
         });
         candidates.MatchSnapshot();
-    }
-
-    [Fact]
-    public async Task ForeignProportionalElectionListShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.ReorderSecondaryMajorityElectionCandidatesAsync(NewValidRequest(l =>
-                l.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdKircheMajorityElectionInContestKirche)),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

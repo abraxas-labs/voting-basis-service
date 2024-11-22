@@ -78,10 +78,18 @@ public class DomainOfInfluence
 
     public bool ViewCountingCirclePartialResults { get; set; }
 
+    public bool HasForeignerVoters { get; set; }
+
+    public bool HasMinorVoters { get; set; }
+
     public VotingCardColor VotingCardColor { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether VOTING Stimmregister is enabled.
     /// </summary>
     public bool ElectoralRegistrationEnabled { get; set; }
+
+    public Guid? SuperiorAuthorityDomainOfInfluenceId { get; set; }
+
+    public bool StistatMunicipality { get; set; }
 }

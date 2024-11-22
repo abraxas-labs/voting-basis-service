@@ -17,14 +17,13 @@ using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
-using Voting.Lib.Common;
 using Voting.Lib.Testing.Utils;
 using Xunit;
 using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
-public class ProportionalElectionListUnionEntriesUpdateTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
+public class ProportionalElectionListUnionEntriesUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     public ProportionalElectionListUnionEntriesUpdateTest(TestApplicationFactory factory)
         : base(factory)
@@ -68,15 +67,15 @@ public class ProportionalElectionListUnionEntriesUpdateTest : BaseGrpcTest<Propo
                 .OrderBy(x => x.ProportionalElectionList.Position)
                 .Where(x => x.ProportionalElectionListUnionId == listUnionId).ToListAsync());
         lists.Should().HaveCount(3);
-        lists[0].ProportionalElectionList.ListUnionDescription[Languages.German]
+        lists[0].ProportionalElectionList.ListUnionDescription
             .Should()
-            .Be("<span><span>Liste 1 de</span>, <span>Liste 2 de</span>, <span>Liste 3 de</span>, <span>…</span></span>");
-        lists[1].ProportionalElectionList.ListUnionDescription[Languages.German]
+            .Be("<span><span>1a</span>, <span>1a</span>, <span>2</span>, <span>2</span>, <span>3a</span>, <span>3a</span></span>");
+        lists[1].ProportionalElectionList.ListUnionDescription
             .Should()
-            .Be("<span><span>Liste 1 de</span>, <span>Liste 2 de</span>, <span>Liste 3 de</span>, <span>…</span></span>");
-        lists[2].ProportionalElectionList.ListUnionDescription[Languages.German]
+            .Be("<span><span>1a</span>, <span>1a</span>, <span>2</span>, <span>2</span>, <span>3a</span>, <span>3a</span></span>");
+        lists[2].ProportionalElectionList.ListUnionDescription
             .Should()
-            .Be("<span><span>Liste 1 de</span>, <span>Liste 2 de</span>, <span>Liste 3 de</span>, <span>…</span></span>");
+            .Be("<span><span>1a</span>, <span>1a</span>, <span>2</span>, <span>2</span>, <span>3a</span>, <span>3a</span></span>");
     }
 
     [Fact]

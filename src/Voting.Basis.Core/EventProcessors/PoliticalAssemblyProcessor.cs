@@ -4,7 +4,7 @@
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using AutoMapper;
-using Voting.Basis.Core.Exceptions;
+using Microsoft.Extensions.Logging;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
@@ -21,12 +21,15 @@ public class PoliticalAssemblyProcessor :
     private readonly IDbRepository<DataContext, PoliticalAssembly> _repo;
     private readonly IMapper _mapper;
     private readonly EventLoggerAdapter _eventLogger;
+    private readonly ILogger<PoliticalAssemblyProcessor> _logger;
 
     public PoliticalAssemblyProcessor(
+        ILogger<PoliticalAssemblyProcessor> logger,
         IMapper mapper,
         IDbRepository<DataContext, PoliticalAssembly> repo,
         EventLoggerAdapter eventLogger)
     {
+        _logger = logger;
         _mapper = mapper;
         _repo = repo;
         _eventLogger = eventLogger;
@@ -49,8 +52,13 @@ public class PoliticalAssemblyProcessor :
     public async Task Process(PoliticalAssemblyDeleted eventData)
     {
         var id = GuidParser.Parse(eventData.PoliticalAssemblyId);
-        var existing = await _repo.GetByKey(id)
-            ?? throw new EntityNotFoundException(id);
+        var existing = await _repo.GetByKey(id);
+        if (existing is null)
+        {
+            // skip event processing to prevent race condition if political assembly was deleted from other process.
+            _logger.LogWarning("event 'PoliticalAssemblyDeleted' skipped. political assembly {id} has already been deleted", id);
+            return;
+        }
 
         await _repo.DeleteByKey(id);
         await _eventLogger.LogPoliticalAssemblyEvent(eventData, existing);

@@ -22,7 +22,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.MajorityElectionTests;
 
-public class MajorityElectionCandidateDeleteTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class MajorityElectionCandidateDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
     private string? _authTestCandidateId;
@@ -85,28 +85,6 @@ public class MajorityElectionCandidateDeleteTest : BaseGrpcTest<MajorityElection
         var idGuid = Guid.Parse(id);
         (await RunOnDb(db => db.MajorityElectionCandidates.CountAsync(c => c.Id == idGuid)))
             .Should().Be(0);
-    }
-
-    [Fact]
-    public async Task MajorityElectionOtherTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.DeleteCandidateAsync(new DeleteMajorityElectionCandidateRequest
-            {
-                Id = MajorityElectionMockedData.CandidateIdUzwilMajorityElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestParentMajorityElectionShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.DeleteCandidateAsync(new DeleteMajorityElectionCandidateRequest
-            {
-                Id = MajorityElectionMockedData.CandidateId1BundMajorityElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

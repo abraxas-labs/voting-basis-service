@@ -18,15 +18,15 @@ public class UpdateSecondaryMajorityElectionCandidateRequestTest : ProtoValidato
     {
         yield return NewValidRequest();
         yield return NewValidRequest(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(1));
-        yield return NewValidRequest(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(100));
-        yield return NewValidRequest(x => x.FirstName = RandomStringUtil.GenerateSimpleSingleLineText(1));
-        yield return NewValidRequest(x => x.FirstName = RandomStringUtil.GenerateSimpleSingleLineText(100));
-        yield return NewValidRequest(x => x.LastName = RandomStringUtil.GenerateSimpleSingleLineText(1));
-        yield return NewValidRequest(x => x.LastName = RandomStringUtil.GenerateSimpleSingleLineText(100));
-        yield return NewValidRequest(x => x.PoliticalFirstName = RandomStringUtil.GenerateSimpleSingleLineText(1));
-        yield return NewValidRequest(x => x.PoliticalFirstName = RandomStringUtil.GenerateSimpleSingleLineText(100));
-        yield return NewValidRequest(x => x.PoliticalLastName = RandomStringUtil.GenerateSimpleSingleLineText(1));
-        yield return NewValidRequest(x => x.PoliticalLastName = RandomStringUtil.GenerateSimpleSingleLineText(100));
+        yield return NewValidRequest(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(10));
+        yield return NewValidRequest(x => x.FirstName = RandomStringUtil.GenerateComplexSingleLineText(1));
+        yield return NewValidRequest(x => x.FirstName = RandomStringUtil.GenerateComplexSingleLineText(100));
+        yield return NewValidRequest(x => x.LastName = RandomStringUtil.GenerateComplexSingleLineText(1));
+        yield return NewValidRequest(x => x.LastName = RandomStringUtil.GenerateComplexSingleLineText(100));
+        yield return NewValidRequest(x => x.PoliticalFirstName = RandomStringUtil.GenerateComplexSingleLineText(1));
+        yield return NewValidRequest(x => x.PoliticalFirstName = RandomStringUtil.GenerateComplexSingleLineText(100));
+        yield return NewValidRequest(x => x.PoliticalLastName = RandomStringUtil.GenerateComplexSingleLineText(1));
+        yield return NewValidRequest(x => x.PoliticalLastName = RandomStringUtil.GenerateComplexSingleLineText(100));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Occupation, RandomStringUtil.GenerateAlphabetic(2), string.Empty));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Occupation, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Occupation, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(250)));
@@ -59,7 +59,7 @@ public class UpdateSecondaryMajorityElectionCandidateRequestTest : ProtoValidato
         yield return NewValidRequest(x => x.SecondaryMajorityElectionId = "invalid-guid");
         yield return NewValidRequest(x => x.SecondaryMajorityElectionId = string.Empty);
         yield return NewValidRequest(x => x.Number = string.Empty);
-        yield return NewValidRequest(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(101));
+        yield return NewValidRequest(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(11));
         yield return NewValidRequest(x => x.Number = "number-2");
         yield return NewValidRequest(x => x.FirstName = string.Empty);
         yield return NewValidRequest(x => x.FirstName = RandomStringUtil.GenerateSimpleSingleLineText(101));

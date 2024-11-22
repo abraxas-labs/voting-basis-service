@@ -46,7 +46,7 @@ public class MajorityElectionCandidateTest : ProtoValidatorBaseTest<ProtoModels.
     {
         yield return NewValid();
         yield return NewValid(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(1));
-        yield return NewValid(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(100));
+        yield return NewValid(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(10));
         yield return NewValid(x => x.FirstName = RandomStringUtil.GenerateSimpleSingleLineText(1));
         yield return NewValid(x => x.FirstName = RandomStringUtil.GenerateSimpleSingleLineText(100));
         yield return NewValid(x => x.LastName = RandomStringUtil.GenerateSimpleSingleLineText(1));
@@ -87,7 +87,7 @@ public class MajorityElectionCandidateTest : ProtoValidatorBaseTest<ProtoModels.
         yield return NewValid(x => x.MajorityElectionId = "invalid-guid");
         yield return NewValid(x => x.MajorityElectionId = string.Empty);
         yield return NewValid(x => x.Number = string.Empty);
-        yield return NewValid(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(101));
+        yield return NewValid(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(11));
         yield return NewValid(x => x.Number = "number-2");
         yield return NewValid(x => x.FirstName = string.Empty);
         yield return NewValid(x => x.FirstName = RandomStringUtil.GenerateSimpleSingleLineText(101));

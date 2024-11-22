@@ -73,7 +73,11 @@
     "VirtualTopLevel": false,
     "ViewCountingCirclePartialResults": false,
     "VotingCardColor": 0,
-    "ElectoralRegistrationEnabled": true
+    "ElectoralRegistrationEnabled": true,
+    "HasForeignerVoters": false,
+    "HasMinorVoters": false,
+    "SuperiorAuthorityDomainOfInfluence": null,
+    "StistatMunicipality": true
   },
   "EVoting": false
 }

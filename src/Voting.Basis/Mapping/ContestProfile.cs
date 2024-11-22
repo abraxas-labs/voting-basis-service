@@ -29,6 +29,11 @@ public sealed class ContestProfile : Profile
         CreateMap<IEnumerable<Core.Models.ContestSummary>, ProtoModels.ContestSummaries>()
             .ForMember(dst => dst.ContestSummaries_, opts => opts.MapFrom(src => src));
 
+        CreateMap<Core.Models.PoliticalBusinessSummary, ProtoModels.PoliticalBusinessSummary>()
+            .IncludeMembers(src => src.PoliticalBusiness);
+        CreateMap<IEnumerable<Core.Models.PoliticalBusinessSummary>, ProtoModels.PoliticalBusinessSummaries>()
+            .ForMember(dst => dst.PoliticalBusinessSummaries_, opts => opts.MapFrom(src => src));
+
         CreateMap<Data.Models.PreconfiguredContestDate, ProtoModels.PreconfiguredContestDate>()
             .ForMember(dst => dst.Date, opts => opts.MapFrom(src => src.Id));
         CreateMap<IEnumerable<Data.Models.PreconfiguredContestDate>, ProtoModels.PreconfiguredContestDates>()
@@ -40,6 +45,7 @@ public sealed class ContestProfile : Profile
         CreateMap<Data.Models.PoliticalBusinessUnion, ProtoModels.PoliticalBusinessUnion>();
 
         CreateMap<Data.Models.Contest, ProtoModels.ContestSummary>();
+        CreateMap<Data.Models.PoliticalBusiness, ProtoModels.PoliticalBusinessSummary>();
 
         CreateMap<Data.Models.SimplePoliticalBusiness, ProtoModels.PoliticalBusiness>();
         CreateMap<SimplePoliticalBusinessUnion, ProtoModels.PoliticalBusinessUnion>();

@@ -22,8 +22,8 @@
           },
           "CountOfCandidates": 0,
           "CandidateCountOk": false,
-          "ListUnionDescription": {},
-          "SubListUnionDescription": {},
+          "ListUnionDescription": "",
+          "SubListUnionDescription": "",
           "Party": null
         },
         "NewEntityState": 1
@@ -51,8 +51,8 @@
           },
           "CountOfCandidates": 0,
           "CandidateCountOk": false,
-          "ListUnionDescription": {},
-          "SubListUnionDescription": {},
+          "ListUnionDescription": "",
+          "SubListUnionDescription": "",
           "Party": null
         },
         "NewEntityState": 1
@@ -80,8 +80,8 @@
           },
           "CountOfCandidates": 0,
           "CandidateCountOk": false,
-          "ListUnionDescription": {},
-          "SubListUnionDescription": {},
+          "ListUnionDescription": "",
+          "SubListUnionDescription": "",
           "Party": null
         },
         "NewEntityState": 2
@@ -99,8 +99,8 @@
           "Description": {},
           "CountOfCandidates": 0,
           "CandidateCountOk": false,
-          "ListUnionDescription": {},
-          "SubListUnionDescription": {},
+          "ListUnionDescription": "",
+          "SubListUnionDescription": "",
           "Party": null
         },
         "NewEntityState": 3

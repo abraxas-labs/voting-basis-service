@@ -21,7 +21,7 @@ using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
-public class ProportionalElectionCandidateReorderTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
+public class ProportionalElectionCandidateReorderTest : PoliticalBusinessAuthorizationGrpcBaseTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     public ProportionalElectionCandidateReorderTest(TestApplicationFactory factory)
         : base(factory)
@@ -64,15 +64,6 @@ public class ProportionalElectionCandidateReorderTest : BaseGrpcTest<Proportiona
             ProportionalElectionListId = ProportionalElectionMockedData.ListId1GossauProportionalElectionInContestStGallen,
         });
         candidates.MatchSnapshot();
-    }
-
-    [Fact]
-    public async Task ForeignProportionalElectionListShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.ReorderCandidatesAsync(NewValidRequest(l =>
-                l.ProportionalElectionListId = ProportionalElectionMockedData.ListIdBundProportionalElectionInContestBund)),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

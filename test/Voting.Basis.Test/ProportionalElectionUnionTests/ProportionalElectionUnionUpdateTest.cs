@@ -23,7 +23,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.ProportionalElectionUnionTests;
 
-public class ProportionalElectionUnionUpdateTest : BaseGrpcTest<ProportionalElectionUnionService.ProportionalElectionUnionServiceClient>
+public class ProportionalElectionUnionUpdateTest : PoliticalBusinessUnionAuthorizationGrpcBaseTest<ProportionalElectionUnionService.ProportionalElectionUnionServiceClient>
 {
     public ProportionalElectionUnionUpdateTest(TestApplicationFactory factory)
         : base(factory)
@@ -80,15 +80,6 @@ public class ProportionalElectionUnionUpdateTest : BaseGrpcTest<ProportionalElec
 
         await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
             x => x.PoliticalBusinessUnion.HasEqualIdAndNewEntityState(id, EntityState.Modified));
-    }
-
-    [Fact]
-    public async Task UnionOfDifferentTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(x => x.Id = ProportionalElectionUnionMockedData.IdStGallenDifferentTenant)),
-            StatusCode.PermissionDenied,
-            "Only owner of the political business union can edit");
     }
 
     [Fact]

@@ -140,7 +140,6 @@ public static class CantonSettingsMockedData
             ProtocolDomainOfInfluenceSortType = ProtocolDomainOfInfluenceSortType.Alphabetical,
             MultipleVoteBallotsEnabled = true,
             CountingMachineEnabled = true,
-            NewZhFeaturesEnabled = true,
             ProportionalElectionUseCandidateCheckDigit = true,
             MajorityElectionUseCandidateCheckDigit = true,
             CountingCircleResultStateDescriptions =
@@ -157,6 +156,8 @@ public static class CantonSettingsMockedData
             CreateContestOnHighestHierarchicalLevelEnabled = true,
             InternalPlausibilisationDisabled = true,
             PublishResultsBeforeAuditedTentatively = true,
+            CandidateLocalityRequired = true,
+            CandidateOriginRequired = true,
         };
 
     public static IEnumerable<CantonSettings> All

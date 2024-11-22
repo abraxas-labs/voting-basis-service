@@ -157,7 +157,7 @@ public class ProportionalElectionReader : PoliticalBusinessReader<ProportionalEl
 
     private async Task EnsureAllowedToRead(Guid proportionalElectionDomainOfInfluenceId)
     {
-        await PermissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElectionDomainOfInfluenceId);
+        await PermissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElectionDomainOfInfluenceId);
     }
 
     private void OrderListUnion(ProportionalElectionListUnion listUnion)

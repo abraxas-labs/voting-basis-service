@@ -116,6 +116,22 @@ public class ExportGenerateTest : BaseRestTest
     }
 
     [Fact]
+    public async Task TestVoteEch0159VariantQuestionsOnMultipleBallots()
+    {
+        var response = await AssertStatus(
+            () => ZurichCantonAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(VoteMockedData.IdZurichVoteInContestZurich),
+                Key = BasisXmlVoteTemplates.Ech0159.Key,
+            }),
+            HttpStatusCode.OK);
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
+
+        var xml = await response.Content.ReadAsStringAsync();
+        VerifyXml(xml, nameof(TestVoteEch0159VariantQuestionsOnMultipleBallots), Ech0159Schemas.LoadEch0159Schemas());
+    }
+
+    [Fact]
     public async Task TestMajorityElectionEch0157()
     {
         await RunOnDb(async db =>

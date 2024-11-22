@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Voting.Basis.Core.Domain;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.EventProcessors;
+using Voting.Basis.Core.Models;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData.Mapping;
@@ -1347,6 +1348,7 @@ public static class MajorityElectionMockedData
         var aggregate = aggregateFactory.New<MajorityElectionAggregate>();
         var domainElection = mapper.Map<Core.Domain.MajorityElection>(majorityElection);
         var doi = DomainOfInfluenceMockedData.All.First(x => x.Id == domainElection.DomainOfInfluenceId);
+        var candidateValidationParams = new CandidateValidationParams(doi);
 
         aggregate.CreateFrom(domainElection);
 
@@ -1354,7 +1356,7 @@ public static class MajorityElectionMockedData
         {
             candidate.MajorityElectionId = aggregate.Id;
             var domainCandidate = mapper.Map<Core.Domain.MajorityElectionCandidate>(candidate);
-            aggregate.CreateCandidateFrom(domainCandidate, doi.Type);
+            aggregate.CreateCandidateFrom(domainCandidate, candidateValidationParams);
         }
 
         if (majorityElection.ElectionGroup != null)
@@ -1388,7 +1390,7 @@ public static class MajorityElectionMockedData
                 {
                     var domainCandidate = mapper.Map<Core.Domain.MajorityElectionCandidate>(candidate);
                     domainCandidate.MajorityElectionId = domainSecondaryElection.Id;
-                    aggregate.CreateSecondaryMajorityElectionCandidateFrom(domainCandidate, doi.Type);
+                    aggregate.CreateSecondaryMajorityElectionCandidateFrom(domainCandidate, candidateValidationParams);
                 }
             }
         }

@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Voting.Basis.Core.Domain;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
+using Voting.Basis.Core.Models;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Read;
 using Voting.Lib.Eventing.Persistence;
+using MajorityElectionCandidate = Voting.Basis.Core.Domain.MajorityElectionCandidate;
 
 namespace Voting.Basis.Core.Import;
 
@@ -38,9 +39,10 @@ public class MajorityElectionCandidatesImportService
         IEnumerable<MajorityElectionCandidate> candidates)
     {
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(majorityElectionId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(majorityElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(majorityElection.DomainOfInfluenceId);
 
         var doi = await _domainOfInfluenceReader.Get(majorityElection.DomainOfInfluenceId);
+        var candidateValidationParams = new CandidateValidationParams(doi);
         var contest = await _contestReader.Get(majorityElection.ContestId);
         if (contest.TestingPhaseEnded)
         {
@@ -59,7 +61,7 @@ public class MajorityElectionCandidatesImportService
             {
                 candidate.Position = ++currentCandidatePosition;
                 candidate.MajorityElectionId = majorityElectionId;
-                majorityElection.CreateCandidateFrom(candidate, doi.Type);
+                majorityElection.CreateCandidateFrom(candidate, candidateValidationParams);
                 idVerifier.EnsureUnique(candidate.Id);
             }
         }

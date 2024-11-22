@@ -13,7 +13,6 @@ using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Converters;
 using Voting.Lib.Database.Repositories;
-using Voting.Lib.Iam.Exceptions;
 using Voting.Lib.VotingExports.Models;
 using Voting.Lib.VotingExports.Repository.Basis;
 
@@ -50,11 +49,7 @@ public class MajorityElectionEchExportGenerator : IExportGenerator
             .FirstOrDefaultAsync()
             ?? throw new EntityNotFoundException(electionId);
 
-        var doiHierarchyGroups = await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups();
-        if (!doiHierarchyGroups.TenantAndChildDoiIds.Contains(majorityElection.DomainOfInfluenceId))
-        {
-            throw new ForbiddenException();
-        }
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(majorityElection.DomainOfInfluenceId);
 
         var xmlBytes = _ech0157Serializer.ToDelivery(majorityElection.Contest, majorityElection);
         var electionDescription = LanguageUtil.GetInCurrentLanguage(majorityElection.ShortDescription);

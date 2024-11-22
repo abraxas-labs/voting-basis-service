@@ -74,14 +74,6 @@ public class ProportionalElectionModelBuilder :
             .Property(x => x.ShortDescription)
             .HasJsonConversion();
 
-        builder
-            .Property(x => x.ListUnionDescription)
-            .HasJsonConversion();
-
-        builder
-            .Property(x => x.SubListUnionDescription)
-            .HasJsonConversion();
-
         // OnDelete.SetNull is required for domain of influence delete events, because it hard deletes the party.
         // If a party is separately removed, it soft deletes the party.
         builder

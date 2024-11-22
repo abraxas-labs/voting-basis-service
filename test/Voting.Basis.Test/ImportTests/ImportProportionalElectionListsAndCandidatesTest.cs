@@ -21,7 +21,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.ImportTests;
 
-public class ImportProportionalElectionListsAndCandidatesTest : BaseImportTest
+public class ImportProportionalElectionListsAndCandidatesTest : BaseImportPoliticalBusinessAuthorizationTest
 {
     public ImportProportionalElectionListsAndCandidatesTest(TestApplicationFactory factory)
         : base(factory)
@@ -104,18 +104,6 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportTest
             async () => await AdminClient.ImportProportionalElectionListsAndCandidatesAsync(request),
             StatusCode.InvalidArgument,
             "This id is not unique");
-    }
-
-    [Fact]
-    public async Task TestNotOwnDomainOfInfluenceShouldThrow()
-    {
-        var request = await CreateValidRequest();
-        var adminClientDifferentTenant = new ImportService.ImportServiceClient(
-            CreateGrpcChannel(tenant: DomainOfInfluenceMockedData.IdStGallen, roles: Roles.Admin));
-
-        await AssertStatus(
-            async () => await adminClientDifferentTenant.ImportProportionalElectionListsAndCandidatesAsync(request),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

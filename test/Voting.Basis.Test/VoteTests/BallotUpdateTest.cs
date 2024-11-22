@@ -24,7 +24,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.VoteTests;
 
-public class BallotUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
+public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteService.VoteServiceClient>
 {
     public BallotUpdateTest(TestApplicationFactory factory)
         : base(factory)

@@ -9,7 +9,6 @@ using Abraxas.Voting.Basis.Events.V1.Metadata;
 using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
-using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Test.MockedData;
@@ -18,7 +17,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.SecondaryMajorityElectionTests;
 
-public class SecondaryMajorityElectionActiveStateUpdateTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class SecondaryMajorityElectionActiveStateUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     public SecondaryMajorityElectionActiveStateUpdateTest(TestApplicationFactory factory)
         : base(factory)
@@ -61,17 +60,6 @@ public class SecondaryMajorityElectionActiveStateUpdateTest : BaseGrpcTest<Major
             });
         var response = await AdminClient.GetSecondaryMajorityElectionAsync(new GetSecondaryMajorityElectionRequest { Id = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund });
         response.MatchSnapshot();
-    }
-
-    [Fact]
-    public async Task SecondaryMajorityElectionFromOtherTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.UpdateSecondaryMajorityElectionActiveStateAsync(NewValidRequest(o =>
-            {
-                o.Id = MajorityElectionMockedData.SecondaryElectionIdKircheMajorityElectionInContestKirche;
-            })),
-            StatusCode.InvalidArgument);
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

@@ -2,6 +2,7 @@
 // For license information see LICENSE file
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -30,7 +31,7 @@ public class DomainOfInfluenceRepo : HasSnapshotDbRepository<DomainOfInfluence, 
             $@"
                 WITH RECURSIVE parents_or_self AS (
                     SELECT {idColumnName}, {parentIdColumnName}, {cantonColumnName}
-                    FROM {DelimitedSchemaAndTableName} 
+                    FROM {DelimitedSchemaAndTableName}
                     WHERE {idColumnName} = {{0}}
                     UNION
                     SELECT x.{idColumnName}, x.{parentIdColumnName}, x.{cantonColumnName}
@@ -42,5 +43,28 @@ public class DomainOfInfluenceRepo : HasSnapshotDbRepository<DomainOfInfluence, 
             domainOfInfluenceId)
             .Select(doi => doi.Canton)
             .ToListAsync()).FirstOrDefault();
+    }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "EF1002:Risk of vulnerability to SQL injection.", Justification = "Referencing hardened inerpolated string parameters.")]
+    public async Task<List<Guid>> GetHierarchicalLowerOrSelfDomainOfInfluenceIds(Guid domainOfInfluenceId)
+    {
+        var idColumnName = GetDelimitedColumnName(x => x.Id);
+        var parentIdColumnName = GetDelimitedColumnName(x => x.ParentId);
+
+        return await Context.DomainOfInfluences.FromSqlRaw(
+                $@"
+                WITH RECURSIVE children_or_self AS (
+                    SELECT {idColumnName}, {parentIdColumnName}
+                    FROM {DelimitedSchemaAndTableName}
+                    WHERE {idColumnName} = {{0}}
+                    UNION
+                    SELECT x.{idColumnName}, x.{parentIdColumnName}
+                    FROM {DelimitedSchemaAndTableName} x
+                    JOIN children_or_self c ON x.{parentIdColumnName} = c.{idColumnName}
+                )
+                SELECT * FROM children_or_self",
+                domainOfInfluenceId)
+            .Select(doi => doi.Id)
+            .ToListAsync();
     }
 }

@@ -70,8 +70,8 @@ public class ContestDetailsChangeMessageConsumer : MessageConsumer<ContestDetail
         }
 
         var existingPbUnion = isProportionalElectionUnion
-            ? _mapper.Map<SimplePoliticalBusinessUnion>(await _proportionalElectionUnionRepo.GetByKey(messagePbUnion.Id))
-            : _mapper.Map<SimplePoliticalBusinessUnion>(await _majorityElectionUnionRepo.GetByKey(messagePbUnion.Id));
+            ? _mapper.Map<SimplePoliticalBusinessUnion>(await _proportionalElectionUnionRepo.Query().Include(x => x.ProportionalElectionUnionEntries).FirstAsync(x => x.Id == messagePbUnion.Id))
+            : _mapper.Map<SimplePoliticalBusinessUnion>(await _majorityElectionUnionRepo.Query().Include(x => x.MajorityElectionUnionEntries).FirstAsync(x => x.Id == messagePbUnion.Id));
 
         if (existingPbUnion != null)
         {

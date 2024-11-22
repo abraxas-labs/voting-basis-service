@@ -42,7 +42,6 @@
         "ProtocolCountingCircleSortType": 1,
         "MultipleVoteBallotsEnabled": false,
         "CountingMachineEnabled": false,
-        "NewZhFeaturesEnabled": false,
         "ProportionalElectionUseCandidateCheckDigit": false,
         "MajorityElectionUseCandidateCheckDigit": false,
         "CountingCircleResultStateDescriptions": [],
@@ -51,7 +50,9 @@
         "EndResultFinalizeDisabled": false,
         "CreateContestOnHighestHierarchicalLevelEnabled": false,
         "InternalPlausibilisationDisabled": false,
-        "PublishResultsBeforeAuditedTentatively": false
+        "PublishResultsBeforeAuditedTentatively": false,
+        "CandidateLocalityRequired": false,
+        "CandidateOriginRequired": false
       },
       {
         "Id": "2d203a3c-40ba-4b53-a57e-38909d71390c",
@@ -90,7 +91,6 @@
         "ProtocolCountingCircleSortType": 2,
         "MultipleVoteBallotsEnabled": false,
         "CountingMachineEnabled": false,
-        "NewZhFeaturesEnabled": false,
         "ProportionalElectionUseCandidateCheckDigit": false,
         "MajorityElectionUseCandidateCheckDigit": false,
         "CountingCircleResultStateDescriptions": [],
@@ -99,7 +99,9 @@
         "EndResultFinalizeDisabled": false,
         "CreateContestOnHighestHierarchicalLevelEnabled": false,
         "InternalPlausibilisationDisabled": false,
-        "PublishResultsBeforeAuditedTentatively": false
+        "PublishResultsBeforeAuditedTentatively": false,
+        "CandidateLocalityRequired": false,
+        "CandidateOriginRequired": false
       },
       {
         "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -142,7 +144,6 @@
         "ProtocolCountingCircleSortType": 2,
         "MultipleVoteBallotsEnabled": true,
         "CountingMachineEnabled": true,
-        "NewZhFeaturesEnabled": true,
         "ProportionalElectionUseCandidateCheckDigit": true,
         "MajorityElectionUseCandidateCheckDigit": true,
         "CountingCircleResultStateDescriptions": [
@@ -156,7 +157,9 @@
         "EndResultFinalizeDisabled": true,
         "CreateContestOnHighestHierarchicalLevelEnabled": true,
         "InternalPlausibilisationDisabled": true,
-        "PublishResultsBeforeAuditedTentatively": true
+        "PublishResultsBeforeAuditedTentatively": true,
+        "CandidateLocalityRequired": true,
+        "CandidateOriginRequired": true
       }
     ]
   },
@@ -190,12 +193,19 @@
           "ProportionalElectionUseCandidateCheckDigit": false,
           "MajorityElectionUseCandidateCheckDigit": false,
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
-          "InternalPlausibilisationDisabled": false
+          "InternalPlausibilisationDisabled": false,
+          "CandidateLocalityRequired": false,
+          "CandidateOriginRequired": false
         },
         "LogoRef": null,
         "HasLogo": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
         "PlausibilisationConfiguration": null,
         "Parties": [],
+        "SuperiorAuthorityDomainOfInfluenceId": null,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "SubAuthorityDomainOfInfluences": [],
         "Name": "",
         "ShortName": "",
         "SecureConnectId": "",
@@ -225,6 +235,7 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "StistatMunicipality": false,
         "Id": "e84a3f1e-c2ea-422c-904e-130b822aad64"
       }
     ]

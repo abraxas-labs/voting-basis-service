@@ -30,4 +30,8 @@ public class DomainOfInfluenceCantonDefaults
     public bool CreateContestOnHighestHierarchicalLevelEnabled { get; set; }
 
     public bool InternalPlausibilisationDisabled { get; set; }
+
+    public bool CandidateLocalityRequired { get; set; }
+
+    public bool CandidateOriginRequired { get; set; }
 }

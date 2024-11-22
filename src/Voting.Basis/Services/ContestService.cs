@@ -1,6 +1,7 @@
 ﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Services.V1.Models;
@@ -136,5 +137,12 @@ public class ContestService : ServiceBase
             GuidParser.Parse(request.Id),
             e => responseStream.WriteAsync(_mapper.Map<ContestDetailsChangeMessage>(e)),
             context.CancellationToken);
+    }
+
+    [AuthorizeAnyPermission(Permissions.Contest.ReadTenantHierarchy, Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll)]
+    public override async Task<PoliticalBusinessSummaries> ListPoliticalBusinessSummaries(ListPoliticalBusinessSummariesRequest request, ServerCallContext context)
+    {
+        var politicalBusinessSummaries = await _contestReader.ListPoliticalBusinessSummaries(Guid.Parse(request.ContestId));
+        return _mapper.Map<PoliticalBusinessSummaries>(politicalBusinessSummaries);
     }
 }

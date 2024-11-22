@@ -1,0 +1,57 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "ProportionalElectionCandidate": {
+      "Id": "",
+      "ProportionalElectionListId": "6eedf849-0ecc-4a02-a43b-99ef4b11d795",
+      "Number": "number1",
+      "FirstName": "new first name",
+      "LastName": "new last name",
+      "PoliticalFirstName": "pol first name",
+      "PoliticalLastName": "pol last name",
+      "DateOfBirth": {
+        "Seconds": -314582400,
+        "Nanos": 0
+      },
+      "Sex": 2,
+      "Occupation": {
+        "de": "occupation de",
+        "fr": "occupation fr",
+        "it": "occupation it",
+        "rm": "occupation rm"
+      },
+      "Title": "title",
+      "OccupationTitle": {
+        "de": "occupation title de",
+        "fr": "occupation title fr",
+        "it": "occupation title it",
+        "rm": "occupation title rm"
+      },
+      "Incumbent": true,
+      "ZipCode": "zip code",
+      "Locality": "locality",
+      "Position": 1,
+      "Accumulated": true,
+      "AccumulatedPosition": 2,
+      "PartyId": "d42d9fb1-4e68-4c4a-8d1f-7cf846c8304f",
+      "ProportionalElectionId": "8fd00ee5-cc68-4b33-86b0-cc9c58dc1b1f",
+      "Origin": "",
+      "CheckDigit": 6
+    }
+  }
+}

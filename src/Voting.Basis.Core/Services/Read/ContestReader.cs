@@ -242,6 +242,106 @@ public class ContestReader
             cancellationToken);
     }
 
+    public async Task<IEnumerable<PoliticalBusinessSummary>> ListPoliticalBusinessSummaries(Guid contestId)
+    {
+        var query = _repo.Query().AsSplitQuery();
+
+        if (_auth.HasAnyPermission(Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll))
+        {
+            query = query
+                .Include(x => x.Votes)
+                .ThenInclude(x => x.DomainOfInfluence)
+                .Include(x => x.MajorityElections)
+                .ThenInclude(x => x.DomainOfInfluence)
+                .Include(x => x.MajorityElections)
+                .ThenInclude(x => x.MajorityElectionUnionEntries)
+                .ThenInclude(x => x.MajorityElectionUnion)
+                .Include(x => x.MajorityElections)
+                .ThenInclude(x => x.ElectionGroup)
+                .Include(x => x.MajorityElections)
+                .ThenInclude(x => x.SecondaryMajorityElections)
+                .ThenInclude(x => x.ElectionGroup)
+                .Include(x => x.ProportionalElections)
+                .ThenInclude(x => x.DomainOfInfluence)
+                .Include(x => x.ProportionalElections)
+                .ThenInclude(x => x.ProportionalElectionUnionEntries)
+                .ThenInclude(x => x.ProportionalElectionUnion);
+        }
+        else
+        {
+            var doiHierarchyGroups = await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups();
+            query = query
+                .Where(x => doiHierarchyGroups.TenantAndParentDoiIds.Contains(x.DomainOfInfluenceId))
+                .Include(x => x.Votes
+                    .Where(pb => doiHierarchyGroups.AccessibleDoiIds.Contains(pb.DomainOfInfluenceId)))
+                .ThenInclude(x => x.DomainOfInfluence)
+                .Include(x => x.MajorityElections
+                    .Where(pb => doiHierarchyGroups.AccessibleDoiIds.Contains(pb.DomainOfInfluenceId)))
+                .ThenInclude(x => x.DomainOfInfluence)
+                .Include(x => x.MajorityElections
+                    .Where(pb => doiHierarchyGroups.AccessibleDoiIds.Contains(pb.DomainOfInfluenceId)))
+                .ThenInclude(x => x.MajorityElectionUnionEntries)
+                .ThenInclude(x => x.MajorityElectionUnion)
+                .Include(x => x.MajorityElections
+                    .Where(pb => doiHierarchyGroups.AccessibleDoiIds.Contains(pb.DomainOfInfluenceId)))
+                .ThenInclude(x => x.ElectionGroup)
+                .Include(x => x.MajorityElections
+                    .Where(pb => doiHierarchyGroups.AccessibleDoiIds.Contains(pb.DomainOfInfluenceId)))
+                .ThenInclude(x => x.SecondaryMajorityElections)
+                .ThenInclude(x => x.ElectionGroup)
+                .Include(x => x.ProportionalElections
+                    .Where(pb => doiHierarchyGroups.AccessibleDoiIds.Contains(pb.DomainOfInfluenceId)))
+                .ThenInclude(x => x.DomainOfInfluence)
+                .Include(x => x.ProportionalElections
+                    .Where(pb => doiHierarchyGroups.AccessibleDoiIds.Contains(pb.DomainOfInfluenceId)))
+                .ThenInclude(x => x.ProportionalElectionUnionEntries)
+                .ThenInclude(x => x.ProportionalElectionUnion);
+        }
+
+        var contest = await query
+            .Include(c => c.DomainOfInfluence)
+            .FirstOrDefaultAsync(x => x.Id == contestId)
+            ?? throw new EntityNotFoundException(nameof(Contest), contestId);
+
+        if (_auth.HasPermission(Permissions.Contest.ReadSameCanton)
+            && !_auth.HasPermission(Permissions.Contest.ReadAll)
+            && !await _permissionService.IsOwnerOfCanton(contest.DomainOfInfluence.Canton))
+        {
+            throw new EntityNotFoundException(nameof(Contest), contestId);
+        }
+
+        var majorityElectionSummaries = contest.MajorityElections.Select(x => new PoliticalBusinessSummary
+        {
+            PoliticalBusiness = x,
+            PoliticalBusinessUnionDescription = x.MajorityElectionUnionEntries.FirstOrDefault()?.MajorityElectionUnion.Description ?? string.Empty,
+            PoliticalBusinessUnionId = x.MajorityElectionUnionEntries.FirstOrDefault()?.MajorityElectionUnionId,
+            ElectionGroupNumber = x.ElectionGroup?.Number.ToString() ?? string.Empty,
+            ElectionGroupId = x.ElectionGroup?.Id,
+        }).ToList();
+
+        var secondaryMajorityElectionSummaries = contest.MajorityElections.SelectMany(x => x.SecondaryMajorityElections).Select(x => new PoliticalBusinessSummary
+        {
+            PoliticalBusiness = x,
+            ElectionGroupNumber = x.ElectionGroup.Number.ToString(),
+            ElectionGroupId = x.ElectionGroupId,
+        }).ToList();
+
+        var proportionalElectionSummaries = contest.ProportionalElections.Select(x => new PoliticalBusinessSummary
+        {
+            PoliticalBusiness = x,
+            PoliticalBusinessUnionDescription = x.ProportionalElectionUnionEntries.FirstOrDefault()?.ProportionalElectionUnion.Description ?? string.Empty,
+            PoliticalBusinessUnionId = x.ProportionalElectionUnionEntries.FirstOrDefault()?.ProportionalElectionUnionId,
+        }).ToList();
+
+        var voteSummaries = contest.Votes.Select(x => new PoliticalBusinessSummary { PoliticalBusiness = x }).ToList();
+        var politicalBusinesses = majorityElectionSummaries.Concat(secondaryMajorityElectionSummaries).Concat(proportionalElectionSummaries).Concat(voteSummaries);
+        return politicalBusinesses
+            .OrderBy(x => x.PoliticalBusiness.DomainOfInfluence!.Type)
+            .ThenBy(x => x.PoliticalBusiness.PoliticalBusinessNumber)
+            .ThenBy(x => x.PoliticalBusiness.PoliticalBusinessType)
+            .ThenBy(x => x.PoliticalBusiness.Id);
+    }
+
     internal async Task<(SharedProto.ContestDateAvailability Availability, IEnumerable<Contest> Contests)> CheckAvailabilityInternal(
         DateTime date,
         Guid doiId)

@@ -61,7 +61,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -144,7 +148,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": true
+        "ElectoralRegistrationEnabled": true,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": true
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,

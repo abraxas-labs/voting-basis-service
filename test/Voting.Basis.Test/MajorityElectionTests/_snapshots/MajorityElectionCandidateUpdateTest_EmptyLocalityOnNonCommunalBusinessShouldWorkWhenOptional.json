@@ -1,0 +1,59 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "MajorityElectionCandidate": {
+      "Id": "",
+      "MajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
+      "Number": "number1",
+      "FirstName": "new first name",
+      "LastName": "new last name",
+      "PoliticalFirstName": "pol first name",
+      "PoliticalLastName": "pol last name",
+      "DateOfBirth": {
+        "Seconds": -314582400,
+        "Nanos": 0
+      },
+      "Sex": 2,
+      "Occupation": {
+        "de": "occupation de",
+        "fr": "occupation fr",
+        "it": "occupation it",
+        "rm": "occupation rm"
+      },
+      "Title": "title",
+      "OccupationTitle": {
+        "de": "occupation title de",
+        "fr": "occupation title fr",
+        "it": "occupation title it",
+        "rm": "occupation title rm"
+      },
+      "Party": {
+        "de": "Test de",
+        "fr": "Test fr",
+        "it": "Test it",
+        "rm": "Test rm"
+      },
+      "Incumbent": true,
+      "ZipCode": "zip code",
+      "Locality": "",
+      "Position": 1,
+      "Origin": "origin",
+      "CheckDigit": 9
+    }
+  }
+}

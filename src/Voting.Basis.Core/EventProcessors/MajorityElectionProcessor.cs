@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Messaging.Extensions;
 using Voting.Basis.Core.Messaging.Messages;
@@ -42,8 +43,10 @@ public class MajorityElectionProcessor :
     private readonly MajorityElectionBallotGroupEntryRepo _electionBallotGroupEntryRepo;
     private readonly EventLoggerAdapter _eventLogger;
     private readonly MessageProducerBuffer _messageProducerBuffer;
+    private readonly ILogger<MajorityElectionProcessor> _logger;
 
     public MajorityElectionProcessor(
+        ILogger<MajorityElectionProcessor> logger,
         IDbRepository<DataContext, MajorityElection> repo,
         IDbRepository<DataContext, MajorityElectionCandidate> candidateRepo,
         IDbRepository<DataContext, SecondaryMajorityElectionCandidate> secondaryMajorityCandidateRepo,
@@ -53,6 +56,7 @@ public class MajorityElectionProcessor :
         SimplePoliticalBusinessBuilder<MajorityElection> simplePoliticalBusinessBuilder,
         MessageProducerBuffer messageProducerBuffer)
     {
+        _logger = logger;
         _repo = repo;
         _candidateRepo = candidateRepo;
         _secondaryMajorityCandidateRepo = secondaryMajorityCandidateRepo;
@@ -118,11 +122,18 @@ public class MajorityElectionProcessor :
     public async Task Process(MajorityElectionDeleted eventData)
     {
         var id = GuidParser.Parse(eventData.MajorityElectionId);
-        var existingModel = await GetMajorityElection(id);
-
-        await _repo.DeleteByKey(id);
-        await _simplePoliticalBusinessBuilder.Delete(existingModel);
-        await _eventLogger.LogMajorityElectionEvent(eventData, existingModel);
+        try
+        {
+            var existingModel = await GetMajorityElection(id);
+            await _repo.DeleteByKey(id);
+            await _simplePoliticalBusinessBuilder.Delete(existingModel);
+            await _eventLogger.LogMajorityElectionEvent(eventData, existingModel);
+        }
+        catch (EntityNotFoundException)
+        {
+            // skip event processing to prevent race condition if majority election was deleted from other process.
+            _logger.LogWarning("event 'MajorityElectionDeleted' skipped. majority election {id} has already been deleted", id);
+        }
     }
 
     public async Task Process(MajorityElectionToNewContestMoved eventData)
@@ -150,6 +161,8 @@ public class MajorityElectionProcessor :
     public async Task Process(MajorityElectionCandidateCreated eventData)
     {
         var model = _mapper.Map<MajorityElectionCandidate>(eventData.MajorityElectionCandidate);
+        TruncateCandidateNumber(model);
+
         await _candidateRepo.Create(model);
         await _eventLogger.LogMajorityElectionCandidateEvent(eventData, await GetMajorityElectionCandidate(model.Id));
     }
@@ -157,6 +170,7 @@ public class MajorityElectionProcessor :
     public async Task Process(MajorityElectionCandidateUpdated eventData)
     {
         var model = _mapper.Map<MajorityElectionCandidate>(eventData.MajorityElectionCandidate);
+        TruncateCandidateNumber(model);
         var existingModel = await GetMajorityElectionCandidate(model.Id);
 
         await _candidateRepo.Update(model);
@@ -201,22 +215,28 @@ public class MajorityElectionProcessor :
     public async Task Process(MajorityElectionCandidateDeleted eventData)
     {
         var id = GuidParser.Parse(eventData.MajorityElectionCandidateId);
-        var existingCandidate = await GetMajorityElectionCandidate(id);
-
-        await _candidateRepo.DeleteByKey(id);
-
-        var candidatesToUpdate = await _candidateRepo.Query()
-            .Where(c => c.MajorityElectionId == existingCandidate.MajorityElectionId
-                && c.Position > existingCandidate.Position)
-            .ToListAsync();
-
-        foreach (var candidate in candidatesToUpdate)
+        try
         {
-            candidate.Position--;
-        }
+            var existingCandidate = await GetMajorityElectionCandidate(id);
+            await _candidateRepo.DeleteByKey(id);
+            var candidatesToUpdate = await _candidateRepo.Query()
+                .Where(c => c.MajorityElectionId == existingCandidate.MajorityElectionId
+                    && c.Position > existingCandidate.Position)
+                .ToListAsync();
 
-        await _candidateRepo.UpdateRange(candidatesToUpdate);
-        await _eventLogger.LogMajorityElectionCandidateEvent(eventData, existingCandidate);
+            foreach (var candidate in candidatesToUpdate)
+            {
+                candidate.Position--;
+            }
+
+            await _candidateRepo.UpdateRange(candidatesToUpdate);
+            await _eventLogger.LogMajorityElectionCandidateEvent(eventData, existingCandidate);
+        }
+        catch (EntityNotFoundException)
+        {
+            // skip event processing to prevent race condition if majority election candidate was deleted from other process.
+            _logger.LogWarning("event 'MajorityElectionCandidateDeleted' skipped. majority election candidate {id} has already been deleted", id);
+        }
     }
 
     private async Task<MajorityElection> GetMajorityElection(Guid id)
@@ -274,5 +294,16 @@ public class MajorityElectionProcessor :
         // if a me is updated it will affect the text of a election group as well,
         // but since we only work with generic pbs in messages we don't have the relation info between them, so we emit an additional message.
         _messageProducerBuffer.Add(new ContestDetailsChangeMessage(electionGroup: me.ElectionGroup.CreateBaseEntityEvent(EntityState.Modified)));
+    }
+
+    private void TruncateCandidateNumber(MajorityElectionCandidate candidate)
+    {
+        if (candidate.Number.Length <= 10)
+        {
+            return;
+        }
+
+        // old events can contain a number which is longer than 10 chars
+        candidate.Number = candidate.Number[..10];
     }
 }

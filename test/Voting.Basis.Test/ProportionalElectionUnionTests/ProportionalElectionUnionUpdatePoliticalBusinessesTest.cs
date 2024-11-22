@@ -21,7 +21,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.ProportionalElectionUnionTests;
 
-public class ProportionalElectionUnionUpdatePoliticalBusinessesTest : BaseGrpcTest<ProportionalElectionUnionService.ProportionalElectionUnionServiceClient>
+public class ProportionalElectionUnionUpdatePoliticalBusinessesTest : PoliticalBusinessUnionAuthorizationGrpcBaseTest<ProportionalElectionUnionService.ProportionalElectionUnionServiceClient>
 {
     public ProportionalElectionUnionUpdatePoliticalBusinessesTest(TestApplicationFactory factory)
         : base(factory)

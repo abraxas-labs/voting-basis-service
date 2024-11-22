@@ -1,6 +1,8 @@
 ﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
@@ -67,7 +69,13 @@ public class ProportionalElectionUnionProcessor :
 
         await _repo.Update(model);
         await _eventLogger.LogProportionalElectionUnionEvent(eventData, model);
-        PublishContestDetailsChangeMessage(model, EntityState.Modified);
+
+        var electionIds = _entriesRepo.Query()
+            .Where(x => x.ProportionalElectionUnionId == model.Id)
+            .Select(x => x.ProportionalElectionId)
+            .ToList();
+
+        PublishContestDetailsChangeMessage(model, EntityState.Modified, electionIds);
     }
 
     public async Task Process(ProportionalElectionUnionEntriesUpdated eventData)
@@ -84,11 +92,14 @@ public class ProportionalElectionUnionProcessor :
                 ProportionalElectionId = GuidParser.Parse(electionId),
             }).ToList();
 
+        var electionIds = models.ConvertAll(e => e.ProportionalElectionId);
+
         await _entriesRepo.Replace(proportionalElectionUnionId, models);
         await _unionListBuilder.RebuildLists(
             proportionalElectionUnionId,
-            models.ConvertAll(e => e.ProportionalElectionId));
+            electionIds);
         await _eventLogger.LogProportionalElectionUnionEvent(eventData, existingModel);
+        PublishContestDetailsChangeMessage(existingModel, EntityState.Modified, electionIds);
     }
 
     public async Task Process(ProportionalElectionUnionDeleted eventData)
@@ -115,8 +126,8 @@ public class ProportionalElectionUnionProcessor :
         await _eventLogger.LogProportionalElectionUnionEvent(eventData, existingModel);
     }
 
-    private void PublishContestDetailsChangeMessage(ProportionalElectionUnion proportionalElectionUnion, EntityState state)
+    private void PublishContestDetailsChangeMessage(ProportionalElectionUnion proportionalElectionUnion, EntityState state, List<Guid>? electionIds = null)
     {
-        _messageProducerBuffer.Add(new ContestDetailsChangeMessage(politicalBusinessUnion: proportionalElectionUnion.CreateBaseEntityEvent(state)));
+        _messageProducerBuffer.Add(new ContestDetailsChangeMessage(politicalBusinessUnion: proportionalElectionUnion.CreateBaseEntityEvent(state, electionIds)));
     }
 }

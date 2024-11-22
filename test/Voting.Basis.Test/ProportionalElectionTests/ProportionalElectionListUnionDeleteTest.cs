@@ -21,7 +21,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
-public class ProportionalElectionListUnionDeleteTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
+public class ProportionalElectionListUnionDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
     private string? _authTestListUnionId;
@@ -85,28 +85,6 @@ public class ProportionalElectionListUnionDeleteTest : BaseGrpcTest<Proportional
         var idGuid = Guid.Parse(id);
         (await RunOnDb(db => db.ProportionalElectionListUnions.CountAsync(c => c.Id == idGuid || c.ProportionalElectionRootListUnionId == idGuid)))
             .Should().Be(0);
-    }
-
-    [Fact]
-    public async Task ProportionalElectionOtherTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.DeleteListUnionAsync(new DeleteProportionalElectionListUnionRequest
-            {
-                Id = ProportionalElectionMockedData.ListIdUzwilProportionalElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestParentProportionalElectionShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.DeleteListUnionAsync(new DeleteProportionalElectionListUnionRequest
-            {
-                Id = ProportionalElectionMockedData.ListIdBundProportionalElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

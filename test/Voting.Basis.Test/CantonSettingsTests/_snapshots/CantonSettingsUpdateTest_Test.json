@@ -53,7 +53,6 @@
       "ProtocolCountingCircleSortType": 1,
       "MultipleVoteBallotsEnabled": false,
       "CountingMachineEnabled": true,
-      "NewZhFeaturesEnabled": false,
       "ProportionalElectionUseCandidateCheckDigit": false,
       "MajorityElectionUseCandidateCheckDigit": false,
       "CountingCircleResultStateDescriptions": [
@@ -71,7 +70,9 @@
       "EndResultFinalizeDisabled": true,
       "CreateContestOnHighestHierarchicalLevelEnabled": false,
       "InternalPlausibilisationDisabled": false,
-      "PublishResultsBeforeAuditedTentatively": true
+      "PublishResultsBeforeAuditedTentatively": true,
+      "CandidateLocalityRequired": false,
+      "CandidateOriginRequired": false
     }
   }
 }

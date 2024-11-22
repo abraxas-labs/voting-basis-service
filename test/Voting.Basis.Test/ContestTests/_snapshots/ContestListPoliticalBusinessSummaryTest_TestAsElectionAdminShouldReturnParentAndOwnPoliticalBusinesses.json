@@ -1,0 +1,625 @@
+{
+  "PoliticalBusinessSummaries_": [
+    {
+      "Id": "7566c420-3774-4c57-9b31-9702fac37543",
+      "PoliticalBusinessNumber": "100",
+      "ShortDescription": {
+        "de": "Proporzwahl Bund de",
+        "fr": "Proporzwahl Bund fr",
+        "it": "Proporzwahl Bund it",
+        "rm": "Proporzwahl Bund rm"
+      },
+      "DomainOfInfluence": {
+        "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Name": "Bund",
+        "ShortName": "Bund",
+        "AuthorityName": "",
+        "SecureConnectId": "random",
+        "Type": 1,
+        "ParentId": "",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
+      },
+      "PoliticalBusinessType": 2,
+      "PoliticalBusinessSubType": 0,
+      "Active": true,
+      "PoliticalBusinessUnionDescription": "",
+      "PoliticalBusinessUnionId": "",
+      "ElectionGroupNumber": "",
+      "ElectionGroupId": ""
+    },
+    {
+      "Id": "053d1197-ddb2-4906-8c90-b9baa45a40fb",
+      "PoliticalBusinessNumber": "100",
+      "ShortDescription": {
+        "de": "Proporzwahl Bund de",
+        "fr": "Proporzwahl Bund fr",
+        "it": "Proporzwahl Bund it",
+        "rm": "Proporzwahl Bund rm"
+      },
+      "DomainOfInfluence": {
+        "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Name": "Bund",
+        "ShortName": "Bund",
+        "AuthorityName": "",
+        "SecureConnectId": "random",
+        "Type": 1,
+        "ParentId": "",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
+      },
+      "PoliticalBusinessType": 3,
+      "PoliticalBusinessSubType": 0,
+      "Active": true,
+      "PoliticalBusinessUnionDescription": "",
+      "PoliticalBusinessUnionId": "",
+      "ElectionGroupNumber": "",
+      "ElectionGroupId": ""
+    },
+    {
+      "Id": "7550e7c2-27e3-4602-a928-6f9c2afd2289",
+      "PoliticalBusinessNumber": "200",
+      "ShortDescription": {
+        "de": "Abstimmung Bund de",
+        "fr": "Abstimmung Bund fr",
+        "it": "Abstimmung Bund it",
+        "rm": "Abstimmung Bund rm"
+      },
+      "DomainOfInfluence": {
+        "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Name": "Bund",
+        "ShortName": "Bund",
+        "AuthorityName": "",
+        "SecureConnectId": "random",
+        "Type": 1,
+        "ParentId": "",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": "",
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
+      },
+      "PoliticalBusinessType": 1,
+      "PoliticalBusinessSubType": 0,
+      "Active": true,
+      "PoliticalBusinessUnionDescription": "",
+      "PoliticalBusinessUnionId": "",
+      "ElectionGroupNumber": "",
+      "ElectionGroupId": ""
+    },
+    {
+      "Id": "b0da46f8-a721-4e1a-ac36-25284d68f34b",
+      "PoliticalBusinessNumber": "201",
+      "ShortDescription": {
+        "de": "Majorzwahl SG de",
+        "fr": "Majorzwahl SG fr",
+        "it": "Majorzwahl SG it",
+        "rm": "Majorzwahl SG rm"
+      },
+      "DomainOfInfluence": {
+        "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Name": "St. Gallen",
+        "ShortName": "SG",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 2,
+        "ParentId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "Hans",
+          "FamilyName": "Muster",
+          "Phone": "071 123 12 12",
+          "MobilePhone": "079 123 12 12",
+          "Email": "hans@muster.com"
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": "Kanton St. Gallen",
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
+      },
+      "PoliticalBusinessType": 2,
+      "PoliticalBusinessSubType": 0,
+      "Active": true,
+      "PoliticalBusinessUnionDescription": "Bund Union",
+      "PoliticalBusinessUnionId": "04047657-8204-4baa-91be-45c0bb63d8d1",
+      "ElectionGroupNumber": "1",
+      "ElectionGroupId": "63bf2387-08e0-45ed-96e6-263f85500e28"
+    },
+    {
+      "Id": "3a832f45-34c0-47ce-b1e3-db27b97948ba",
+      "PoliticalBusinessNumber": "201",
+      "ShortDescription": {
+        "de": "Proporzwahl SG de",
+        "fr": "Proporzwahl SG fr",
+        "it": "Proporzwahl SG it",
+        "rm": "Proporzwahl SG rm"
+      },
+      "DomainOfInfluence": {
+        "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Name": "St. Gallen",
+        "ShortName": "SG",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 2,
+        "ParentId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "Hans",
+          "FamilyName": "Muster",
+          "Phone": "071 123 12 12",
+          "MobilePhone": "079 123 12 12",
+          "Email": "hans@muster.com"
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": "Kanton St. Gallen",
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
+      },
+      "PoliticalBusinessType": 3,
+      "PoliticalBusinessSubType": 0,
+      "Active": true,
+      "PoliticalBusinessUnionDescription": "Bund Union",
+      "PoliticalBusinessUnionId": "10c37ad2-4d62-4662-8aff-57a07112621c",
+      "ElectionGroupNumber": "",
+      "ElectionGroupId": ""
+    },
+    {
+      "Id": "0741da26-add2-4c4c-960d-7e251b82e91b",
+      "PoliticalBusinessNumber": "n1",
+      "ShortDescription": {
+        "de": "Nebenwahl SG de",
+        "fr": "Nebenwahl SG fr",
+        "it": "Nebenwahl SG it",
+        "rm": "Nebenwahl SG rm"
+      },
+      "DomainOfInfluence": {
+        "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Name": "St. Gallen",
+        "ShortName": "SG",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 2,
+        "ParentId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "Hans",
+          "FamilyName": "Muster",
+          "Phone": "071 123 12 12",
+          "MobilePhone": "079 123 12 12",
+          "Email": "hans@muster.com"
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": "Kanton St. Gallen",
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
+      },
+      "PoliticalBusinessType": 4,
+      "PoliticalBusinessSubType": 0,
+      "Active": false,
+      "PoliticalBusinessUnionDescription": "",
+      "PoliticalBusinessUnionId": "",
+      "ElectionGroupNumber": "1",
+      "ElectionGroupId": "63bf2387-08e0-45ed-96e6-263f85500e28"
+    },
+    {
+      "Id": "6b4c7f11-9860-4468-ace9-78baec913a8d",
+      "PoliticalBusinessNumber": "714",
+      "ShortDescription": {
+        "de": "Abstimmung Uzwil de",
+        "fr": "Abstimmung Uzwil fr",
+        "it": "Abstimmung Uzwil it",
+        "rm": "Abstimmung Uzwil rm"
+      },
+      "DomainOfInfluence": {
+        "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
+        "Name": "Uzwil",
+        "ShortName": "UZW",
+        "AuthorityName": "",
+        "SecureConnectId": "100100100100100100",
+        "Type": 5,
+        "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "3408",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": "Stadt Uzwil",
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
+      },
+      "PoliticalBusinessType": 1,
+      "PoliticalBusinessSubType": 0,
+      "Active": false,
+      "PoliticalBusinessUnionDescription": "",
+      "PoliticalBusinessUnionId": "",
+      "ElectionGroupNumber": "",
+      "ElectionGroupId": ""
+    },
+    {
+      "Id": "7ae77f44-1083-470a-bb66-64f921bc6945",
+      "PoliticalBusinessNumber": "714",
+      "ShortDescription": {
+        "de": "Proporzwahl Uzwil de",
+        "fr": "Proporzwahl Uzwil fr",
+        "it": "Proporzwahl Uzwil it",
+        "rm": "Proporzwahl Uzwil rm"
+      },
+      "DomainOfInfluence": {
+        "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
+        "Name": "Uzwil",
+        "ShortName": "UZW",
+        "AuthorityName": "",
+        "SecureConnectId": "100100100100100100",
+        "Type": 5,
+        "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "3408",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": "Stadt Uzwil",
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
+      },
+      "PoliticalBusinessType": 2,
+      "PoliticalBusinessSubType": 0,
+      "Active": false,
+      "PoliticalBusinessUnionDescription": "Bund Union different Tenant",
+      "PoliticalBusinessUnionId": "02ac19a5-4253-424a-9ae2-c7bdf8ceceaf",
+      "ElectionGroupNumber": "",
+      "ElectionGroupId": ""
+    },
+    {
+      "Id": "a73b1bf3-7bbe-44fb-9b65-8f5e1734ad72",
+      "PoliticalBusinessNumber": "714",
+      "ShortDescription": {
+        "de": "Proporzwahl Uzwil de",
+        "fr": "Proporzwahl Uzwil fr",
+        "it": "Proporzwahl Uzwil it",
+        "rm": "Proporzwahl Uzwil rm"
+      },
+      "DomainOfInfluence": {
+        "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
+        "Name": "Uzwil",
+        "ShortName": "UZW",
+        "AuthorityName": "",
+        "SecureConnectId": "100100100100100100",
+        "Type": 5,
+        "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "3408",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": "Stadt Uzwil",
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
+      },
+      "PoliticalBusinessType": 3,
+      "PoliticalBusinessSubType": 0,
+      "Active": false,
+      "PoliticalBusinessUnionDescription": "Bund Union different Tenant",
+      "PoliticalBusinessUnionId": "b0389a7d-77cf-4032-b1b2-0fa2d7cde028",
+      "ElectionGroupNumber": "",
+      "ElectionGroupId": ""
+    }
+  ]
+}

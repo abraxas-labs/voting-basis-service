@@ -63,8 +63,6 @@
     "SecondaryMajorityElection.Candidate:update",
     "SecondaryMajorityElection.Candidate:read",
     "SecondaryMajorityElection.Candidate:delete",
-    "ElectionGroup:update",
-    "ElectionGroup:read",
     "EventLog:read-same-tenant",
     "Import:import",
     "Export:export"

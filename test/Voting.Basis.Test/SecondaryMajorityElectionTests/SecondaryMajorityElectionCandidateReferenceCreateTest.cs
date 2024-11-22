@@ -20,7 +20,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.SecondaryMajorityElectionTests;
 
-public class SecondaryMajorityElectionCandidateReferenceCreateTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class SecondaryMajorityElectionCandidateReferenceCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     public SecondaryMajorityElectionCandidateReferenceCreateTest(TestApplicationFactory factory)
         : base(factory)
@@ -86,15 +86,6 @@ public class SecondaryMajorityElectionCandidateReferenceCreateTest : BaseGrpcTes
             async () => await AdminClient.CreateMajorityElectionCandidateReferenceAsync(NewValidRequest()),
             StatusCode.FailedPrecondition,
             "Contest is past locked or archived");
-    }
-
-    [Fact]
-    public async Task ForeignSecondaryMajorityElectionShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.CreateMajorityElectionCandidateReferenceAsync(NewValidRequest(c =>
-                c.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdKircheMajorityElectionInContestKirche)),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

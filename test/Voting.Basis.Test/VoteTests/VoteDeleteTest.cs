@@ -22,7 +22,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.VoteTests;
 
-public class VoteDeleteTest : BaseGrpcTest<VoteService.VoteServiceClient>
+public class VoteDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteService.VoteServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
     private string? _authTestVoteId;
@@ -88,28 +88,6 @@ public class VoteDeleteTest : BaseGrpcTest<VoteService.VoteServiceClient>
 
         await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
             x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(idGuid, EntityState.Deleted));
-    }
-
-    [Fact]
-    public async Task VoteOtherTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteVoteRequest
-            {
-                Id = VoteMockedData.IdUzwilVoteInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestParentVoteShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.DeleteAsync(new DeleteVoteRequest
-            {
-                Id = VoteMockedData.IdBundVoteInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

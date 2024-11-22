@@ -7,9 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Domain;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
+using Voting.Basis.Core.Models;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Validation;
@@ -18,6 +20,7 @@ using Voting.Basis.Data.Models;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
+using Voting.Lib.Iam.Exceptions;
 using Voting.Lib.Iam.Store;
 using DomainOfInfluence = Voting.Basis.Data.Models.DomainOfInfluence;
 using ProportionalElection = Voting.Basis.Data.Models.ProportionalElection;
@@ -42,6 +45,7 @@ public class ProportionalElectionWriter
     private readonly IDbRepository<DataContext, DomainOfInfluence> _doiRepo;
     private readonly DomainOfInfluenceReader _doiReader;
     private readonly IAuth _auth;
+    private readonly IDbRepository<DataContext, Data.Models.CantonSettings> _cantonSettingsRepo;
 
     public ProportionalElectionWriter(
         IAggregateRepository aggregateRepository,
@@ -55,7 +59,8 @@ public class ProportionalElectionWriter
         IDbRepository<DataContext, ProportionalElectionUnion> proportionalElectionUnionRepo,
         IDbRepository<DataContext, DomainOfInfluence> doiRepo,
         DomainOfInfluenceReader doiReader,
-        IAuth auth)
+        IAuth auth,
+        IDbRepository<DataContext, Data.Models.CantonSettings> cantonSettingsRepo)
     {
         _aggregateRepository = aggregateRepository;
         _aggregateFactory = aggregateFactory;
@@ -69,11 +74,12 @@ public class ProportionalElectionWriter
         _doiRepo = doiRepo;
         _doiReader = doiReader;
         _auth = auth;
+        _cantonSettingsRepo = cantonSettingsRepo;
     }
 
     public async Task Create(Domain.ProportionalElection data)
     {
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(data.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(data.DomainOfInfluenceId);
         await _politicalBusinessValidationService.EnsureValidEditData(
             data.Id,
             data.ContestId,
@@ -91,7 +97,7 @@ public class ProportionalElectionWriter
 
     public async Task Update(Domain.ProportionalElection data)
     {
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(data.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(data.DomainOfInfluenceId);
         await _politicalBusinessValidationService.EnsureValidEditData(
             data.Id,
             data.ContestId,
@@ -135,7 +141,7 @@ public class ProportionalElectionWriter
     {
         var proportionalElection = await _aggregateRepository.GetById<ProportionalElectionAggregate>(proportionalElectionId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
         proportionalElection.UpdateActiveState(active);
@@ -146,7 +152,7 @@ public class ProportionalElectionWriter
     {
         var proportionalElection = await _aggregateRepository.GetById<ProportionalElectionAggregate>(proportionalElectionId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
         proportionalElection.Delete();
@@ -157,7 +163,7 @@ public class ProportionalElectionWriter
     {
         var proportionalElection = await _aggregateRepository.GetById<ProportionalElectionAggregate>(data.ProportionalElectionId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
         proportionalElection.CreateListFrom(data);
@@ -167,7 +173,7 @@ public class ProportionalElectionWriter
     public async Task UpdateList(ProportionalElectionList data)
     {
         var proportionalElection = await _aggregateRepository.GetById<ProportionalElectionAggregate>(data.ProportionalElectionId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         var contestState = await _contestValidationService.EnsureNotLocked(proportionalElection.ContestId);
 
         if (contestState.TestingPhaseEnded())
@@ -185,7 +191,7 @@ public class ProportionalElectionWriter
     public async Task ReorderLists(Guid electionId, IReadOnlyCollection<EntityOrder> orders)
     {
         var proportionalElection = await _aggregateRepository.GetById<ProportionalElectionAggregate>(electionId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
         proportionalElection.ReorderLists(orders);
@@ -195,7 +201,7 @@ public class ProportionalElectionWriter
     public async Task DeleteList(Guid proportionalElectionListId)
     {
         var proportionalElection = await GetAggregateFromListId(proportionalElectionListId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
         proportionalElection.DeleteList(proportionalElectionListId);
@@ -205,7 +211,7 @@ public class ProportionalElectionWriter
     public async Task CreateListUnion(ProportionalElectionListUnion data)
     {
         var proportionalElection = await _aggregateRepository.GetById<ProportionalElectionAggregate>(data.ProportionalElectionId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
         proportionalElection.CreateListUnionFrom(data);
@@ -215,7 +221,7 @@ public class ProportionalElectionWriter
     public async Task UpdateListUnion(ProportionalElectionListUnion data)
     {
         var proportionalElection = await _aggregateRepository.GetById<ProportionalElectionAggregate>(data.ProportionalElectionId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
         proportionalElection.UpdateListUnionFrom(data);
@@ -225,7 +231,7 @@ public class ProportionalElectionWriter
     public async Task UpdateListUnionEntries(ProportionalElectionListUnionEntries data)
     {
         var proportionalElection = await GetAggregateFromListUnionId(data.ProportionalElectionListUnionId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
         proportionalElection.UpdateListUnionEntriesFrom(data);
@@ -235,7 +241,7 @@ public class ProportionalElectionWriter
     public async Task UpdateListUnionMainList(Guid unionId, Guid? mainListId)
     {
         var proportionalElection = await GetAggregateFromListUnionId(unionId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
         proportionalElection.UpdateListUnionMainList(unionId, mainListId);
@@ -248,7 +254,7 @@ public class ProportionalElectionWriter
         IReadOnlyCollection<EntityOrder> orders)
     {
         var proportionalElection = await _aggregateRepository.GetById<ProportionalElectionAggregate>(electionId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
         proportionalElection.ReorderListUnions(rootListUnionId, orders);
@@ -258,7 +264,7 @@ public class ProportionalElectionWriter
     public async Task DeleteListUnion(Guid proportionalElectionListUnionId)
     {
         var proportionalElection = await GetAggregateFromListUnionId(proportionalElectionListUnionId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
         proportionalElection.DeleteListUnion(proportionalElectionListUnionId);
@@ -268,24 +274,26 @@ public class ProportionalElectionWriter
     public async Task CreateCandidate(Domain.ProportionalElectionCandidate data)
     {
         var proportionalElection = await GetAggregateFromListId(data.ProportionalElectionListId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
         var doi = await _doiRepo.GetByKey(proportionalElection.DomainOfInfluenceId)
                   ?? throw new EntityNotFoundException(proportionalElection.DomainOfInfluenceId);
+        var candidateValidationParams = new CandidateValidationParams(doi);
 
         await EnsureValidParty(data, proportionalElection.DomainOfInfluenceId);
 
-        proportionalElection.CreateCandidateFrom(data, doi.Type);
+        proportionalElection.CreateCandidateFrom(data, candidateValidationParams);
         await _aggregateRepository.Save(proportionalElection);
     }
 
     public async Task UpdateCandidate(Domain.ProportionalElectionCandidate data)
     {
         var proportionalElection = await GetAggregateFromListId(data.ProportionalElectionListId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         var contestState = await _contestValidationService.EnsureNotLocked(proportionalElection.ContestId);
         var doi = await _doiRepo.GetByKey(proportionalElection.DomainOfInfluenceId)
             ?? throw new EntityNotFoundException(proportionalElection.DomainOfInfluenceId);
+        var candidateValidationParams = new CandidateValidationParams(doi);
 
         await EnsureValidParty(
             data,
@@ -294,11 +302,11 @@ public class ProportionalElectionWriter
 
         if (contestState.TestingPhaseEnded())
         {
-            proportionalElection.UpdateCandidateAfterTestingPhaseEnded(data, doi.Type);
+            proportionalElection.UpdateCandidateAfterTestingPhaseEnded(data, candidateValidationParams);
         }
         else
         {
-            proportionalElection.UpdateCandidateFrom(data, doi.Type);
+            proportionalElection.UpdateCandidateFrom(data, candidateValidationParams);
         }
 
         await _aggregateRepository.Save(proportionalElection);
@@ -307,7 +315,7 @@ public class ProportionalElectionWriter
     public async Task ReorderCandidates(Guid proportionalElectionListId, IEnumerable<EntityOrder> orders)
     {
         var proportionalElection = await GetAggregateFromListId(proportionalElectionListId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
         proportionalElection.ReorderCandidates(proportionalElectionListId, orders);
@@ -320,7 +328,7 @@ public class ProportionalElectionWriter
             ?? throw new ValidationException($"Proportional election candidate does not exist: {candidateId}");
 
         var proportionalElection = await GetAggregateFromListId(candidate.ProportionalElectionListId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
         proportionalElection.DeleteCandidate(candidate.ProportionalElectionListId, candidateId);
@@ -335,20 +343,38 @@ public class ProportionalElectionWriter
         }
 
         var unions = await _proportionalElectionUnionRepo.Query()
+            .Include(x => x.Contest.DomainOfInfluence)
             .Include(x => x.ProportionalElectionUnionEntries)
             .ThenInclude(x => x.ProportionalElection.DomainOfInfluence)
             .Where(x => unionIds.Contains(x.Id))
             .ToListAsync();
 
+        var cantonSettingsList = await _cantonSettingsRepo.Query().ToListAsync();
+        var tenantId = _auth.Tenant.Id;
+
         foreach (var union in unions)
         {
-            await _contestValidationService.EnsureInTestingPhase(union.ContestId);
+            _contestValidationService.EnsureInTestingPhase(union.Contest);
+
             foreach (var proportionalElection in union.ProportionalElectionUnionEntries.Select(x => x.ProportionalElection))
             {
                 EnsureValidProportionalElectionMandateAlgorithm(mandateAlgorithm, proportionalElection.DomainOfInfluence!);
-                if (proportionalElection.DomainOfInfluence!.SecureConnectId != _auth.Tenant.Id)
+
+                var hasPermission = false;
+
+                if (_auth.HasPermission(Permissions.PoliticalBusinessUnion.ActionsTenantSameCanton))
                 {
-                    throw new ValidationException($"Domain of influence with id {proportionalElection.DomainOfInfluence!.Id} does not belong to this tenant");
+                    var canton = union.Contest.DomainOfInfluence.Canton;
+                    hasPermission = cantonSettingsList.Any(c => c.SecureConnectId == tenantId && c.Canton == canton);
+                }
+                else
+                {
+                    hasPermission = proportionalElection.DomainOfInfluence!.SecureConnectId == tenantId;
+                }
+
+                if (!hasPermission)
+                {
+                    throw new ForbiddenException("Insufficient permissions for the political business union update");
                 }
             }
         }

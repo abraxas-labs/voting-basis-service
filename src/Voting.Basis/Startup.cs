@@ -156,7 +156,6 @@ public class Startup
         endpoints.MapGrpcService<VoteService>();
         endpoints.MapGrpcService<ProportionalElectionService>();
         endpoints.MapGrpcService<MajorityElectionService>();
-        endpoints.MapGrpcService<ElectionGroupService>();
         endpoints.MapGrpcService<ProportionalElectionUnionService>();
         endpoints.MapGrpcService<MajorityElectionUnionService>();
         endpoints.MapGrpcService<ExportService>();

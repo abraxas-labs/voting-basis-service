@@ -12,6 +12,7 @@ using Voting.Basis.Core.Domain;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.EventSignature;
 using Voting.Basis.Core.Exceptions;
+using Voting.Basis.Core.Models;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Write;
@@ -20,6 +21,7 @@ using Voting.Lib.Common;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
 using Voting.Lib.MalwareScanner.Services;
+using VoteResultEntry = Voting.Basis.Data.Models.VoteResultEntry;
 
 namespace Voting.Basis.Core.Import;
 
@@ -161,7 +163,7 @@ public class ImportService
             contestDomainOfInfluenceId,
             politicalBusinessDomainOfInfluenceIds.ToArray());
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluences(politicalBusinessDomainOfInfluenceIds);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluencesOrHasAdminPermissions(politicalBusinessDomainOfInfluenceIds);
 
         return result;
     }
@@ -192,11 +194,12 @@ public class ImportService
         var electionId = electionImport.Election.Id;
         idVerifier.EnsureUnique(electionId);
         var doi = await _domainOfInfluenceReader.Get(majorityElection.DomainOfInfluenceId);
+        var candidateValidationParams = new CandidateValidationParams(doi);
 
         foreach (var candidate in electionImport.Candidates)
         {
             candidate.MajorityElectionId = electionId;
-            majorityElection.CreateCandidateFrom(candidate, doi.Type);
+            majorityElection.CreateCandidateFrom(candidate, candidateValidationParams);
             idVerifier.EnsureUnique(candidate.Id);
         }
 
@@ -211,6 +214,7 @@ public class ImportService
         var electionId = electionImport.Election.Id;
         idVerifier.EnsureUnique(electionId);
         var doi = await _domainOfInfluenceReader.Get(proportionalElection.DomainOfInfluenceId);
+        var candidateValidationParams = new CandidateValidationParams(doi);
 
         foreach (var list in electionImport.Lists)
         {
@@ -223,7 +227,7 @@ public class ImportService
             foreach (var candidate in list.Candidates)
             {
                 candidate.ProportionalElectionListId = listId;
-                proportionalElection.CreateCandidateFrom(candidate, doi.Type);
+                proportionalElection.CreateCandidateFrom(candidate, candidateValidationParams);
                 idVerifier.EnsureUnique(candidate.Id);
             }
         }
@@ -258,12 +262,14 @@ public class ImportService
     private VoteAggregate CreateVoteAggregate(VoteImport voteImport, IdVerifier idVerifier)
     {
         var enforceResultEntryForCountingCircles = voteImport.Vote.EnforceResultEntryForCountingCircles;
+        var resultEntry = voteImport.Vote.ResultEntry;
         var vote = _aggregateFactory.New<VoteAggregate>();
 
         // since there are no ballots yet, only enforced final result entry is allowed,
         // to match the specification the vote is updated after the creation of the ballots
         // with an according EnforceResultEntryForCountingCircles value.
         voteImport.Vote.EnforceResultEntryForCountingCircles = true;
+        voteImport.Vote.ResultEntry = VoteResultEntry.FinalResults;
         vote.CreateFrom(voteImport.Vote);
 
         var voteId = voteImport.Vote.Id;
@@ -276,9 +282,21 @@ public class ImportService
             idVerifier.EnsureUnique(ballot.Id);
         }
 
+        var needsUpdate = false;
         if (!enforceResultEntryForCountingCircles)
         {
             voteImport.Vote.EnforceResultEntryForCountingCircles = false;
+            needsUpdate = true;
+        }
+
+        if (resultEntry != VoteResultEntry.FinalResults)
+        {
+            voteImport.Vote.ResultEntry = resultEntry;
+            needsUpdate = true;
+        }
+
+        if (needsUpdate)
+        {
             vote.UpdateFrom(voteImport.Vote);
         }
 

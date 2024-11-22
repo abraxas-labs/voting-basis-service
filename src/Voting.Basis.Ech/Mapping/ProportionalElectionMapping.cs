@@ -173,6 +173,7 @@ internal static class ProportionalElectionMapping
             TotalPositionsOnList = list.ProportionalElectionCandidates.Sum(c => c.Accumulated ? 2 : 1).ToString(),
             CandidatePosition = candidatePositions,
             EmptyListPositions = list.BlankRowCount.ToString(),
+            ListUnionBallotText = null,
         };
     }
 
@@ -198,6 +199,7 @@ internal static class ProportionalElectionMapping
             ListOrderOfPrecedence = EmptyListPosition,
             TotalPositionsOnList = "0",
             EmptyListPositions = proportionalElection.NumberOfMandates.ToString(),
+            ListUnionBallotText = null,
         };
     }
 

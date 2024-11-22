@@ -108,6 +108,49 @@
             </ballotQuestionInfo>
           </ballotQuestion>
         </standardBallot>
+        <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+          <BallotExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
+            <voteId>7550e7c2-27e3-4602-a928-6f9c2afd2289</voteId>
+            <voteType>QuestionsOnSingleBallot</voteType>
+            <voteOfficialDescription>
+              <Key>de</Key>
+              <Value>Abstimmung Bund de</Value>
+            </voteOfficialDescription>
+            <voteOfficialDescription>
+              <Key>fr</Key>
+              <Value>Abstimmung Bund fr</Value>
+            </voteOfficialDescription>
+            <voteOfficialDescription>
+              <Key>it</Key>
+              <Value>Abstimmung Bund it</Value>
+            </voteOfficialDescription>
+            <voteOfficialDescription>
+              <Key>rm</Key>
+              <Value>Abstimmung Bund rm</Value>
+            </voteOfficialDescription>
+            <voteShortDescription>
+              <Key>de</Key>
+              <Value>Abstimmung Bund de</Value>
+            </voteShortDescription>
+            <voteShortDescription>
+              <Key>fr</Key>
+              <Value>Abstimmung Bund fr</Value>
+            </voteShortDescription>
+            <voteShortDescription>
+              <Key>it</Key>
+              <Value>Abstimmung Bund it</Value>
+            </voteShortDescription>
+            <voteShortDescription>
+              <Key>rm</Key>
+              <Value>Abstimmung Bund rm</Value>
+            </voteShortDescription>
+            <voteResultEntry>FinalResults</voteResultEntry>
+            <voteResultAlgorithm>CountingCircleMajority</voteResultAlgorithm>
+            <voteReviewProcedure>Electronically</voteReviewProcedure>
+            <voteEnforceResultEntryForCountingCircles>true</voteEnforceResultEntryForCountingCircles>
+            <ballotSubType>Unspecified</ballotSubType>
+          </BallotExtension>
+        </extension>
       </ballot>
     </voteInformation>
     <voteInformation>
@@ -237,6 +280,49 @@
             <referencedQuestion2>690c36d8-dd09-4464-91ce-73c48df176a1_n_2</referencedQuestion2>
           </tieBreakInformation>
         </variantBallot>
+        <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+          <BallotExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
+            <voteId>76d9b4bd-52e6-462e-9613-f344f7b860df</voteId>
+            <voteType>QuestionsOnSingleBallot</voteType>
+            <voteOfficialDescription>
+              <Key>de</Key>
+              <Value>Abstimmung Gossau de</Value>
+            </voteOfficialDescription>
+            <voteOfficialDescription>
+              <Key>fr</Key>
+              <Value>Abstimmung Gossau fr</Value>
+            </voteOfficialDescription>
+            <voteOfficialDescription>
+              <Key>it</Key>
+              <Value>Abstimmung Gossau it</Value>
+            </voteOfficialDescription>
+            <voteOfficialDescription>
+              <Key>rm</Key>
+              <Value>Abstimmung Gossau rm</Value>
+            </voteOfficialDescription>
+            <voteShortDescription>
+              <Key>de</Key>
+              <Value>Abstimmung Gossau de</Value>
+            </voteShortDescription>
+            <voteShortDescription>
+              <Key>fr</Key>
+              <Value>Abstimmung Gossau fr</Value>
+            </voteShortDescription>
+            <voteShortDescription>
+              <Key>it</Key>
+              <Value>Abstimmung Gossau it</Value>
+            </voteShortDescription>
+            <voteShortDescription>
+              <Key>rm</Key>
+              <Value>Abstimmung Gossau rm</Value>
+            </voteShortDescription>
+            <voteResultEntry>Detailed</voteResultEntry>
+            <voteResultAlgorithm>PopularMajority</voteResultAlgorithm>
+            <voteReviewProcedure>Electronically</voteReviewProcedure>
+            <voteEnforceResultEntryForCountingCircles>true</voteEnforceResultEntryForCountingCircles>
+            <ballotSubType>Unspecified</ballotSubType>
+          </BallotExtension>
+        </extension>
       </ballot>
     </voteInformation>
   </initialDelivery>

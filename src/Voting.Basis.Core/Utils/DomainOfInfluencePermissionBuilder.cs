@@ -136,7 +136,7 @@ public class DomainOfInfluencePermissionBuilder
                 IsParent = !hasDirectAccess,
                 TenantId = tenantId,
                 DomainOfInfluenceId = doi.Id,
-                CountingCircleIds = filteredCountingCircles.ConvertAll(c => c.CountingCircleId),
+                CountingCircleIds = filteredCountingCircles.Select(c => c.CountingCircleId).Distinct().ToList(),
             };
 
             permissionEntries[(tenantId, doi.Id)] = entry;

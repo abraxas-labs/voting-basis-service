@@ -20,7 +20,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.VoteTests;
 
-public class VoteActiveStateUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
+public class VoteActiveStateUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteService.VoteServiceClient>
 {
     public VoteActiveStateUpdateTest(TestApplicationFactory factory)
         : base(factory)
@@ -68,17 +68,6 @@ public class VoteActiveStateUpdateTest : BaseGrpcTest<VoteService.VoteServiceCli
 
         await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
             x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id, EntityState.Modified));
-    }
-
-    [Fact]
-    public async Task VoteFromOtherTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.UpdateActiveStateAsync(NewValidRequest(o =>
-            {
-                o.Id = VoteMockedData.IdUzwilVoteInContestBund;
-            })),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

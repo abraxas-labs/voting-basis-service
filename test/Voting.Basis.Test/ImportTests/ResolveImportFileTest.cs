@@ -54,6 +54,21 @@ public class ResolveImportFileTest : BaseImportTest
     }
 
     [Fact]
+    public async Task TestEch0159WithAllTypesReturnOk()
+    {
+        var xml = await GetTestEch0159AllTypesFile();
+
+        var response = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
+        {
+            ImportType = SharedProto.ImportType.Ech159,
+            FileContent = xml,
+        });
+
+        IgnoreGeneratedFields(response);
+        response.MatchSnapshot(x => x.Contest.Id, x => x.Contest.EndOfTestingPhase);
+    }
+
+    [Fact]
     public async Task TestInvalidEch0159ShouldThrow()
     {
         var xml = await GetTestInvalidEch0159File();

@@ -22,7 +22,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
-public class ProportionalElectionCandidateCreateTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
+public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     public ProportionalElectionCandidateCreateTest(TestApplicationFactory factory)
         : base(factory)
@@ -165,12 +165,41 @@ public class ProportionalElectionCandidateCreateTest : BaseGrpcTest<Proportional
     }
 
     [Fact]
-    public async Task ForeignProportionalElectionShouldThrow()
+    public async Task TestProcessorShouldTruncateCandidateNumber()
     {
-        await AssertStatus(
-            async () => await AdminClient.CreateCandidateAsync(NewValidRequest(l =>
-                l.ProportionalElectionListId = ProportionalElectionMockedData.ListIdKircheProportionalElectionInContestKirche)),
-            StatusCode.InvalidArgument);
+        await TestEventPublisher.Publish(
+            new ProportionalElectionCandidateCreated
+            {
+                ProportionalElectionCandidate = new ProportionalElectionCandidateEventData
+                {
+                    Id = "420f11f8-82bf-4f39-a2b9-d76e8c9dab08",
+                    ProportionalElectionListId = ProportionalElectionMockedData.ListIdStGallenProportionalElectionInContestStGallen,
+                    Position = 2,
+                    FirstName = "firstName",
+                    LastName = "lastName",
+                    PoliticalFirstName = "pol first name",
+                    PoliticalLastName = "pol last name",
+                    Occupation = { LanguageUtil.MockAllLanguages("occupation") },
+                    OccupationTitle = { LanguageUtil.MockAllLanguages("occupation title") },
+                    DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
+                    Incumbent = true,
+                    Accumulated = false,
+                    Locality = "locality",
+                    Number = "number1toolong",
+                    Sex = SharedProto.SexType.Female,
+                    Title = "title",
+                    ZipCode = "zip code",
+                    PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
+                    Origin = "origin",
+                    CheckDigit = 6,
+                },
+            });
+
+        var candidate = await AdminClient.GetCandidateAsync(new GetProportionalElectionCandidateRequest
+        {
+            Id = "420f11f8-82bf-4f39-a2b9-d76e8c9dab08",
+        });
+        candidate.Number.Should().Be("number1too");
     }
 
     [Fact]
@@ -285,6 +314,10 @@ public class ProportionalElectionCandidateCreateTest : BaseGrpcTest<Proportional
     [Fact]
     public async Task EmptyLocalityShouldThrow()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateLocalityRequired = true);
+
         await AssertStatus(
             async () => await AdminClient.CreateCandidateAsync(NewValidRequest(o => o.Locality = string.Empty)),
             StatusCode.InvalidArgument);
@@ -293,6 +326,10 @@ public class ProportionalElectionCandidateCreateTest : BaseGrpcTest<Proportional
     [Fact]
     public async Task EmptyOriginShouldThrow()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateOriginRequired = true);
+
         await AssertStatus(
             async () => await AdminClient.CreateCandidateAsync(NewValidRequest(o => o.Origin = string.Empty)),
             StatusCode.InvalidArgument);
@@ -301,6 +338,10 @@ public class ProportionalElectionCandidateCreateTest : BaseGrpcTest<Proportional
     [Fact]
     public async Task EmptyLocalityOnCommunalBusinessShouldWork()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateLocalityRequired = true);
+
         var response = await AdminClient.CreateCandidateAsync(NewValidRequest(o =>
         {
             o.ProportionalElectionListId = ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestBund;
@@ -312,11 +353,29 @@ public class ProportionalElectionCandidateCreateTest : BaseGrpcTest<Proportional
     [Fact]
     public async Task EmptyOriginOnCommunalBusinessShouldWork()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateOriginRequired = true);
+
         var response = await AdminClient.CreateCandidateAsync(NewValidRequest(o =>
         {
             o.ProportionalElectionListId = ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestBund;
             o.Origin = string.Empty;
         }));
+        response.Id.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task EmptyLocalityOnNonCommunalBusinessShouldWorkWhenOptional()
+    {
+        var response = await AdminClient.CreateCandidateAsync(NewValidRequest(o => o.Locality = string.Empty));
+        response.Id.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task EmptyOriginOnCommunalNonBusinessShouldWorkWhenOptional()
+    {
+        var response = await AdminClient.CreateCandidateAsync(NewValidRequest(o => o.Origin = string.Empty));
         response.Id.Should().NotBeNull();
     }
 

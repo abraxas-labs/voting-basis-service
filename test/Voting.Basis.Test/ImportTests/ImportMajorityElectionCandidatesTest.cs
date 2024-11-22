@@ -20,7 +20,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.ImportTests;
 
-public class ImportMajorityElectionCandidatesTest : BaseImportTest
+public class ImportMajorityElectionCandidatesTest : BaseImportPoliticalBusinessAuthorizationTest
 {
     public ImportMajorityElectionCandidatesTest(TestApplicationFactory factory)
         : base(factory)
@@ -37,18 +37,6 @@ public class ImportMajorityElectionCandidatesTest : BaseImportTest
     {
         var request = await CreateValidRequest();
         await AdminClient.ImportMajorityElectionCandidatesAsync(request);
-    }
-
-    [Fact]
-    public async Task TestNotOwnDomainOfInfluenceShouldThrow()
-    {
-        var request = await CreateValidRequest();
-        var adminClientDifferentTenant = new ImportService.ImportServiceClient(
-            CreateGrpcChannel(tenant: DomainOfInfluenceMockedData.IdGossau, roles: Roles.Admin));
-
-        await AssertStatus(
-            async () => await adminClientDifferentTenant.ImportMajorityElectionCandidatesAsync(request),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

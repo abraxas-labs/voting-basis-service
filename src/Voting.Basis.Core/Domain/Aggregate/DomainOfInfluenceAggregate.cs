@@ -109,10 +109,16 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
 
     public bool ViewCountingCirclePartialResults { get; private set; }
 
+    public bool HasForeignerVoters { get; private set; }
+
+    public bool HasMinorVoters { get; private set; }
+
     /// <summary>
     /// Gets a value indicating whether VOTING Stimmregister is enabled.
     /// </summary>
     public bool ElectoralRegistrationEnabled { get; private set; }
+
+    public bool StistatMunicipality { get; private set; }
 
     public void CreateFrom(DomainOfInfluence domainOfInfluence)
     {
@@ -123,6 +129,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
 
         _validator.ValidateAndThrow(domainOfInfluence);
         ValidateCanton(domainOfInfluence);
+        ValidateSuperiorAuthority(domainOfInfluence);
 
         var ev = new DomainOfInfluenceCreated
         {
@@ -139,6 +146,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         EnsureNotDeleted();
         _validator.ValidateAndThrow(domainOfInfluence);
         ValidateCanton(domainOfInfluence);
+        ValidateSuperiorAuthority(domainOfInfluence);
 
         if (domainOfInfluence.Type != Type)
         {
@@ -203,7 +211,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         string externalPrintingCenterEaiMessageType,
         string sapCustomerOrderNumber,
         DomainOfInfluenceVotingCardSwissPostData? swissPostData,
-        VotingCardColor votingCardColor)
+        VotingCardColor votingCardColor,
+        bool stistatMunicipality)
     {
         EnsureNotDeleted();
 
@@ -230,6 +239,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
             ExternalPrintingCenterEaiMessageType = externalPrintingCenterEaiMessageType,
             SapCustomerOrderNumber = sapCustomerOrderNumber,
             VotingCardColor = _mapper.Map<SharedProto.VotingCardColor>(votingCardColor),
+            StistatMunicipality = stistatMunicipality,
         };
 
         RaiseEvent(ev);
@@ -541,6 +551,14 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         }
     }
 
+    private void ValidateSuperiorAuthority(DomainOfInfluence doi)
+    {
+        if (doi.Id == doi.SuperiorAuthorityDomainOfInfluenceId)
+        {
+            throw new ValidationException("Cannot explicitly set the own domain of influence as a superior authority");
+        }
+    }
+
     private void UpdateChildrenFrom(DomainOfInfluence domainOfInfluence)
     {
         UpdateContactPerson(domainOfInfluence.ContactPerson);
@@ -561,7 +579,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
                 domainOfInfluence.ExternalPrintingCenterEaiMessageType,
                 domainOfInfluence.SapCustomerOrderNumber,
                 domainOfInfluence.SwissPostData ?? throw new ValidationException(nameof(domainOfInfluence.SwissPostData) + " must be set"),
-                domainOfInfluence.VotingCardColor);
+                domainOfInfluence.VotingCardColor,
+                domainOfInfluence.StistatMunicipality);
         }
     }
 }

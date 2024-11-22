@@ -42,7 +42,6 @@
         "ProtocolCountingCircleSortType": 1,
         "MultipleVoteBallotsEnabled": false,
         "CountingMachineEnabled": true,
-        "NewZhFeaturesEnabled": false,
         "ProportionalElectionUseCandidateCheckDigit": false,
         "MajorityElectionUseCandidateCheckDigit": false,
         "CountingCircleResultStateDescriptions": [],
@@ -51,7 +50,9 @@
         "EndResultFinalizeDisabled": true,
         "CreateContestOnHighestHierarchicalLevelEnabled": false,
         "InternalPlausibilisationDisabled": false,
-        "PublishResultsBeforeAuditedTentatively": true
+        "PublishResultsBeforeAuditedTentatively": true,
+        "CandidateLocalityRequired": false,
+        "CandidateOriginRequired": false
       },
       {
         "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -94,7 +95,6 @@
         "ProtocolCountingCircleSortType": 2,
         "MultipleVoteBallotsEnabled": true,
         "CountingMachineEnabled": true,
-        "NewZhFeaturesEnabled": true,
         "ProportionalElectionUseCandidateCheckDigit": true,
         "MajorityElectionUseCandidateCheckDigit": true,
         "CountingCircleResultStateDescriptions": [
@@ -108,7 +108,9 @@
         "EndResultFinalizeDisabled": true,
         "CreateContestOnHighestHierarchicalLevelEnabled": true,
         "InternalPlausibilisationDisabled": true,
-        "PublishResultsBeforeAuditedTentatively": true
+        "PublishResultsBeforeAuditedTentatively": true,
+        "CandidateLocalityRequired": true,
+        "CandidateOriginRequired": true
       }
     ]
   },
@@ -143,12 +145,19 @@
           "ProportionalElectionUseCandidateCheckDigit": false,
           "MajorityElectionUseCandidateCheckDigit": false,
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
-          "InternalPlausibilisationDisabled": false
+          "InternalPlausibilisationDisabled": false,
+          "CandidateLocalityRequired": false,
+          "CandidateOriginRequired": false
         },
         "LogoRef": null,
         "HasLogo": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
         "PlausibilisationConfiguration": null,
         "Parties": [],
+        "SuperiorAuthorityDomainOfInfluenceId": null,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "SubAuthorityDomainOfInfluences": [],
         "Name": "St. Gallen",
         "ShortName": "SG",
         "SecureConnectId": "000000000000000000",
@@ -178,6 +187,7 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "StistatMunicipality": false,
         "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79"
       },
       {
@@ -209,12 +219,19 @@
           "ProportionalElectionUseCandidateCheckDigit": false,
           "MajorityElectionUseCandidateCheckDigit": false,
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
-          "InternalPlausibilisationDisabled": false
+          "InternalPlausibilisationDisabled": false,
+          "CandidateLocalityRequired": false,
+          "CandidateOriginRequired": false
         },
         "LogoRef": null,
         "HasLogo": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
         "PlausibilisationConfiguration": null,
         "Parties": [],
+        "SuperiorAuthorityDomainOfInfluenceId": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "SubAuthorityDomainOfInfluences": [],
         "Name": "Kirchgemeinde Oberuzwil",
         "ShortName": "KOBZ",
         "SecureConnectId": "100100100100100100",
@@ -244,6 +261,7 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "StistatMunicipality": false,
         "Id": "22949a1e-fb09-47ec-9e9f-d26675676565"
       },
       {
@@ -275,12 +293,19 @@
           "ProportionalElectionUseCandidateCheckDigit": false,
           "MajorityElectionUseCandidateCheckDigit": false,
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
-          "InternalPlausibilisationDisabled": false
+          "InternalPlausibilisationDisabled": false,
+          "CandidateLocalityRequired": false,
+          "CandidateOriginRequired": false
         },
         "LogoRef": null,
         "HasLogo": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
         "PlausibilisationConfiguration": null,
         "Parties": [],
+        "SuperiorAuthorityDomainOfInfluenceId": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "SubAuthorityDomainOfInfluences": [],
         "Name": "Oberuzwil Kirche andere",
         "ShortName": "OUKA",
         "SecureConnectId": "100100100100100100",
@@ -310,6 +335,7 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "StistatMunicipality": false,
         "Id": "692be088-00e2-490c-b1fd-828adc38571d"
       },
       {
@@ -341,12 +367,19 @@
           "ProportionalElectionUseCandidateCheckDigit": false,
           "MajorityElectionUseCandidateCheckDigit": false,
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
-          "InternalPlausibilisationDisabled": false
+          "InternalPlausibilisationDisabled": false,
+          "CandidateLocalityRequired": false,
+          "CandidateOriginRequired": false
         },
         "LogoRef": null,
         "HasLogo": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
         "PlausibilisationConfiguration": null,
         "Parties": [],
+        "SuperiorAuthorityDomainOfInfluenceId": null,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "SubAuthorityDomainOfInfluences": [],
         "Name": "Thurgau",
         "ShortName": "TG",
         "SecureConnectId": "000000000000000000",
@@ -376,6 +409,7 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "StistatMunicipality": false,
         "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752"
       },
       {
@@ -407,12 +441,19 @@
           "ProportionalElectionUseCandidateCheckDigit": false,
           "MajorityElectionUseCandidateCheckDigit": false,
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
-          "InternalPlausibilisationDisabled": false
+          "InternalPlausibilisationDisabled": false,
+          "CandidateLocalityRequired": false,
+          "CandidateOriginRequired": false
         },
         "LogoRef": null,
         "HasLogo": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
         "PlausibilisationConfiguration": null,
         "Parties": [],
+        "SuperiorAuthorityDomainOfInfluenceId": null,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "SubAuthorityDomainOfInfluences": [],
         "Name": "Gossau",
         "ShortName": "GOS",
         "SecureConnectId": "000000000000000000",
@@ -458,6 +499,7 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": true,
+        "StistatMunicipality": true,
         "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd"
       },
       {
@@ -489,12 +531,19 @@
           "ProportionalElectionUseCandidateCheckDigit": false,
           "MajorityElectionUseCandidateCheckDigit": false,
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
-          "InternalPlausibilisationDisabled": false
+          "InternalPlausibilisationDisabled": false,
+          "CandidateLocalityRequired": false,
+          "CandidateOriginRequired": false
         },
         "LogoRef": null,
         "HasLogo": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
         "PlausibilisationConfiguration": null,
         "Parties": [],
+        "SuperiorAuthorityDomainOfInfluenceId": null,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "SubAuthorityDomainOfInfluences": [],
         "Name": "Genf",
         "ShortName": "Genf",
         "SecureConnectId": "random",
@@ -524,6 +573,7 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "StistatMunicipality": false,
         "Id": "ade30989-5e28-40c7-918c-2c9408f853ba"
       },
       {
@@ -555,12 +605,19 @@
           "ProportionalElectionUseCandidateCheckDigit": false,
           "MajorityElectionUseCandidateCheckDigit": false,
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
-          "InternalPlausibilisationDisabled": false
+          "InternalPlausibilisationDisabled": false,
+          "CandidateLocalityRequired": false,
+          "CandidateOriginRequired": false
         },
         "LogoRef": null,
         "HasLogo": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
         "PlausibilisationConfiguration": null,
         "Parties": [],
+        "SuperiorAuthorityDomainOfInfluenceId": null,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "SubAuthorityDomainOfInfluences": [],
         "Name": "Uzwil",
         "ShortName": "UZW",
         "SecureConnectId": "100100100100100100",
@@ -590,6 +647,7 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "StistatMunicipality": false,
         "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b"
       },
       {
@@ -621,12 +679,19 @@
           "ProportionalElectionUseCandidateCheckDigit": false,
           "MajorityElectionUseCandidateCheckDigit": false,
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
-          "InternalPlausibilisationDisabled": false
+          "InternalPlausibilisationDisabled": false,
+          "CandidateLocalityRequired": false,
+          "CandidateOriginRequired": false
         },
         "LogoRef": null,
         "HasLogo": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
         "PlausibilisationConfiguration": null,
         "Parties": [],
+        "SuperiorAuthorityDomainOfInfluenceId": null,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "SubAuthorityDomainOfInfluences": [],
         "Name": "Bund",
         "ShortName": "Bund",
         "SecureConnectId": "random",
@@ -656,6 +721,7 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "StistatMunicipality": false,
         "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da"
       }
     ]

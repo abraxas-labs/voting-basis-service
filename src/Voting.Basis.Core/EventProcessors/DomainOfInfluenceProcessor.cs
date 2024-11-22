@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
+using Voting.Basis.Data.Extensions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
 using Voting.Lib.Common;
@@ -35,6 +36,7 @@ public class DomainOfInfluenceProcessor :
 {
     private readonly DomainOfInfluenceRepo _repo;
     private readonly DomainOfInfluenceCountingCircleRepo _domainOfInfluenceCountingCircleRepo;
+    private readonly DomainOfInfluenceCountingCircleRepo _doiCcRepo;
     private readonly IDbRepository<DataContext, PlausibilisationConfiguration> _plausiRepo;
     private readonly DomainOfInfluencePermissionBuilder _permissionBuilder;
     private readonly DomainOfInfluenceHierarchyBuilder _hierarchyBuilder;
@@ -56,7 +58,8 @@ public class DomainOfInfluenceProcessor :
         DomainOfInfluenceHierarchyRepo hierarchyRepo,
         EventLoggerAdapter eventLogger,
         IDbRepository<DataContext, PlausibilisationConfiguration> plausiRepo,
-        DomainOfInfluenceCountingCircleRepo domainOfInfluenceCountingCircleRepo)
+        DomainOfInfluenceCountingCircleRepo domainOfInfluenceCountingCircleRepo,
+        DomainOfInfluenceCountingCircleRepo doiCcRepo)
     {
         _mapper = mapper;
         _repo = repo;
@@ -69,6 +72,7 @@ public class DomainOfInfluenceProcessor :
         _hierarchyRepo = hierarchyRepo;
         _plausiRepo = plausiRepo;
         _domainOfInfluenceCountingCircleRepo = domainOfInfluenceCountingCircleRepo;
+        _doiCcRepo = doiCcRepo;
     }
 
     public async Task Process(DomainOfInfluenceCreated eventData)
@@ -131,7 +135,8 @@ public class DomainOfInfluenceProcessor :
             .ToList();
 
         var nonInheritedCountingCircleIds = await _domainOfInfluenceCountingCircleRepo.Query()
-            .Where(x => x.DomainOfInfluenceId == domainOfInfluenceId && !x.Inherited)
+            .Where(x => x.DomainOfInfluenceId == domainOfInfluenceId)
+            .WhereIsNotInherited()
             .Select(x => x.CountingCircleId)
             .ToListAsync();
 
@@ -159,26 +164,19 @@ public class DomainOfInfluenceProcessor :
         var existingDoi = doisById.GetValueOrDefault(id)
             ?? throw new EntityNotFoundException(id);
 
-        var assignedOrInheritedCountingCircleIds = await _repo.Query()
-            .Where(x => x.Id == id)
-            .SelectMany(x => x.CountingCircles)
-            .Select(x => x.CountingCircleId)
-            .ToListAsync();
-
         // load children into the existingDoi
         DomainOfInfluenceTreeBuilder.BuildTree(dois);
 
         // remove inherited assigned counting circles
-        var hierarchicalGreaterOrSelfDoiIds = GetFlattenParentsInclSelf(existingDoi).Select(x => x.Id).ToList();
-        await _doiCcInheritanceBuilder.BuildInheritanceForCountingCircles(
-            id,
-            hierarchicalGreaterOrSelfDoiIds,
-            new List<Guid>(),
-            assignedOrInheritedCountingCircleIds,
-            eventData.EventInfo.Timestamp.ToDateTime());
+        var doisToRemove = GetFlattenChildrenInclSelf(existingDoi).ToList();
+        var doiIdsToRemove = doisToRemove.ConvertAll(x => x.Id);
+        var existingEntries = await _doiCcRepo.Query()
+            .Where(doiCc => doiIdsToRemove.Contains(doiCc.SourceDomainOfInfluenceId))
+            .ToListAsync();
+
+        await _doiCcRepo.DeleteRange(existingEntries, eventData.EventInfo.Timestamp.ToDateTime());
 
         // ensures that it will create a delete snapshot for all childs of the deleted doi
-        var doisToRemove = GetFlattenChildrenInclSelf(existingDoi).ToList();
         await _repo.DeleteRange(doisToRemove, eventData.EventInfo.Timestamp.ToDateTime());
 
         foreach (var doi in doisToRemove)

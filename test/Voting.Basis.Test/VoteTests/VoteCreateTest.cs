@@ -23,7 +23,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.VoteTests;
 
-public class VoteCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
+public class VoteCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteService.VoteServiceClient>
 {
     public VoteCreateTest(TestApplicationFactory factory)
         : base(factory)
@@ -154,7 +154,8 @@ public class VoteCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                 v.ContestId = ContestMockedData.IdGossau;
                 v.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen;
             })),
-            StatusCode.InvalidArgument);
+            StatusCode.InvalidArgument,
+            "some ids are not children of the parent node");
     }
 
     [Fact]
@@ -181,19 +182,8 @@ public class VoteCreateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                 v.ContestId = ContestMockedData.IdStGallenEvoting;
                 v.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdThurgau;
             })),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public Task ChildDoiWithDifferentTenantShouldThrow()
-    {
-        return AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(v =>
-            {
-                v.ContestId = ContestMockedData.IdStGallenEvoting;
-                v.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdUzwil;
-            })),
-            StatusCode.InvalidArgument);
+            StatusCode.InvalidArgument,
+            "some ids are not children of the parent node");
     }
 
     [Fact]

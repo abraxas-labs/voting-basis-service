@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Extensions;
 using Voting.Basis.Core.Messaging.Extensions;
@@ -59,8 +60,10 @@ public class ProportionalElectionProcessor :
     private readonly ProportionalElectionUnionListBuilder _unionListBuilder;
     private readonly ProportionalElectionListBuilder _listBuilder;
     private readonly EventLoggerAdapter _eventLogger;
+    private readonly ILogger<ProportionalElectionProcessor> _logger;
 
     public ProportionalElectionProcessor(
+        ILogger<ProportionalElectionProcessor> logger,
         IMapper mapper,
         IDbRepository<DataContext, ProportionalElection> repo,
         ProportionalElectionListRepo listRepo,
@@ -73,6 +76,7 @@ public class ProportionalElectionProcessor :
         SimplePoliticalBusinessBuilder<ProportionalElection> simplePoliticalBusinessBuilder,
         MessageProducerBuffer messageProducerBuffer)
     {
+        _logger = logger;
         _repo = repo;
         _listRepo = listRepo;
         _candidateRepo = candidateRepo;
@@ -141,12 +145,19 @@ public class ProportionalElectionProcessor :
     public async Task Process(ProportionalElectionDeleted eventData)
     {
         var id = GuidParser.Parse(eventData.ProportionalElectionId);
-        var existingModel = await GetElection(id);
-
-        await _repo.DeleteByKey(id);
-        await _simplePoliticalBusinessBuilder.Delete(existingModel);
-        await _unionListBuilder.RemoveListsWithNoEntries();
-        await _eventLogger.LogProportionalElectionEvent(eventData, existingModel);
+        try
+        {
+            var existingModel = await GetElection(id);
+            await _repo.DeleteByKey(id);
+            await _simplePoliticalBusinessBuilder.Delete(existingModel);
+            await _unionListBuilder.RemoveListsWithNoEntries();
+            await _eventLogger.LogProportionalElectionEvent(eventData, existingModel);
+        }
+        catch (EntityNotFoundException)
+        {
+            // skip event processing to prevent race condition if proportional election was deleted from other process.
+            _logger.LogWarning("event 'ProportionalElectionDeleted' skipped. proportional election {id} has already been deleted", id);
+        }
     }
 
     public async Task Process(ProportionalElectionToNewContestMoved eventData)
@@ -257,6 +268,13 @@ public class ProportionalElectionProcessor :
                                .ThenInclude(l => l.ProportionalElectionListUnion.ProportionalElectionListUnionEntries)
                                .FirstOrDefaultAsync(l => l.Id == id)
                            ?? throw new EntityNotFoundException(id);
+        if (existingList is null)
+        {
+            // skip event processing to prevent race condition if proportional election list was deleted from other process.
+            _logger.LogWarning("event 'ProportionalElectionListDeleted' skipped. proportional election list {id} has already been deleted", id);
+            return;
+        }
+
         await _listRepo.DeleteByKey(id);
 
         var listsToUpdate = await _listRepo.Query()
@@ -340,6 +358,12 @@ public class ProportionalElectionProcessor :
             .Include(x => x.ProportionalElectionListUnionEntries)
             .FirstOrDefaultAsync(lu => lu.Id == id)
             ?? throw new EntityNotFoundException(id);
+        if (existingListUnion is null)
+        {
+            // skip event processing to prevent race condition if proportional election list union was deleted from other process.
+            _logger.LogWarning("event 'ProportionalElectionListUnionDeleted' skipped. proportional election list union {id} has already been deleted", id);
+            return;
+        }
 
         await _listUnionRepo.DeleteByKey(id);
 
@@ -429,6 +453,7 @@ public class ProportionalElectionProcessor :
     public async Task Process(ProportionalElectionCandidateCreated eventData)
     {
         var model = _mapper.Map<ProportionalElectionCandidate>(eventData.ProportionalElectionCandidate);
+        TruncateCandidateNumber(model);
         await _candidateRepo.Create(model);
 
         var candidate = await GetCandidate(model.Id);
@@ -439,6 +464,7 @@ public class ProportionalElectionProcessor :
     public async Task Process(ProportionalElectionCandidateUpdated eventData)
     {
         var model = _mapper.Map<ProportionalElectionCandidate>(eventData.ProportionalElectionCandidate);
+        TruncateCandidateNumber(model);
         var existingCandidate = await GetCandidate(model.Id);
         var list = existingCandidate.ProportionalElectionList;
 
@@ -513,23 +539,29 @@ public class ProportionalElectionProcessor :
     public async Task Process(ProportionalElectionCandidateDeleted eventData)
     {
         var id = GuidParser.Parse(eventData.ProportionalElectionCandidateId);
-        var existingCandidate = await GetCandidate(id);
-
-        await UpdateListCandidateCount(existingCandidate.ProportionalElectionList, false, existingCandidate.Accumulated);
-        await _candidateRepo.DeleteByKey(id);
-
-        var candidatesToUpdate = await _candidateRepo.Query()
-            .Where(c => c.ProportionalElectionListId == existingCandidate.ProportionalElectionListId
-                && c.Position > existingCandidate.Position)
-            .ToListAsync();
-        DecreaseCandidatePositions(candidatesToUpdate, existingCandidate.Position);
-        if (existingCandidate.Accumulated)
+        try
         {
-            DecreaseCandidatePositions(candidatesToUpdate, existingCandidate.AccumulatedPosition);
-        }
+            var existingCandidate = await GetCandidate(id);
+            await UpdateListCandidateCount(existingCandidate.ProportionalElectionList, false, existingCandidate.Accumulated);
+            await _candidateRepo.DeleteByKey(id);
+            var candidatesToUpdate = await _candidateRepo.Query()
+                .Where(c => c.ProportionalElectionListId == existingCandidate.ProportionalElectionListId
+                    && c.Position > existingCandidate.Position)
+                .ToListAsync();
+            DecreaseCandidatePositions(candidatesToUpdate, existingCandidate.Position);
+            if (existingCandidate.Accumulated)
+            {
+                DecreaseCandidatePositions(candidatesToUpdate, existingCandidate.AccumulatedPosition);
+            }
 
-        await _candidateRepo.UpdateRange(candidatesToUpdate);
-        await _eventLogger.LogProportionalElectionCandidateEvent(eventData, existingCandidate);
+            await _candidateRepo.UpdateRange(candidatesToUpdate);
+            await _eventLogger.LogProportionalElectionCandidateEvent(eventData, existingCandidate);
+        }
+        catch (EntityNotFoundException)
+        {
+            // skip event processing to prevent race condition if proportional election candidate was deleted from other process.
+            _logger.LogWarning("event 'ProportionalElectionCandidateDeleted' skipped. proportional election candidate {id} has already been deleted", id);
+        }
     }
 
     public async Task Process(ProportionalElectionMandateAlgorithmUpdated eventData)
@@ -624,5 +656,16 @@ public class ProportionalElectionProcessor :
     {
         // Publish a proportional election list change message, so that other service instances can refresh their in-memory cache.
         _messageProducerBuffer.Add(new ProportionalElectionListChangeMessage(list.CreateBaseEntityEvent(state)));
+    }
+
+    private void TruncateCandidateNumber(ProportionalElectionCandidate candidate)
+    {
+        if (candidate.Number.Length <= 10)
+        {
+            return;
+        }
+
+        // old events can contain a number which is longer than 10 chars
+        candidate.Number = candidate.Number[..10];
     }
 }

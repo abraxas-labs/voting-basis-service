@@ -14,7 +14,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.SecondaryMajorityElectionTests;
 
-public class SecondaryMajorityElectionGetTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class SecondaryMajorityElectionGetTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     private const string IdNotFound = "146ab41f-41c9-42d7-a7ff-d6e5f311d548";
 
@@ -47,39 +47,6 @@ public class SecondaryMajorityElectionGetTest : BaseGrpcTest<MajorityElectionSer
             Id = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
         });
         response.MatchSnapshot();
-    }
-
-    [Fact]
-    public async Task TestAsAdminChildDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.GetSecondaryMajorityElectionAsync(new GetSecondaryMajorityElectionRequest
-            {
-                Id = MajorityElectionMockedData.SecondaryElectionIdUzwilMajorityElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestAsElectionAdminChildDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.GetSecondaryMajorityElectionAsync(new GetSecondaryMajorityElectionRequest
-            {
-                Id = MajorityElectionMockedData.SecondaryElectionIdUzwilMajorityElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestForeignDoiShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.GetSecondaryMajorityElectionAsync(new GetSecondaryMajorityElectionRequest
-            {
-                Id = MajorityElectionMockedData.SecondaryElectionIdKircheMajorityElectionInContestKirche,
-            }),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

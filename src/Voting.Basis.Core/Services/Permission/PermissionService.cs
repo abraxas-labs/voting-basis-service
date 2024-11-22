@@ -93,6 +93,74 @@ public class PermissionService
         }
     }
 
+    public async Task EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(Guid domainOfInfluenceId)
+    {
+        var tenantId = _auth.Tenant.Id;
+
+        if (_auth.HasPermission(Permissions.PoliticalBusiness.ActionsTenantSameCanton))
+        {
+            var doi = await _doiRepo.Query()
+                .FirstOrDefaultAsync(doi => doi.Id == domainOfInfluenceId);
+
+            var doiBelongsToCanton = doi != null && await _cantonSettingsRepo.Query()
+                .AnyAsync(c => c.SecureConnectId == tenantId && doi.Canton == c.Canton);
+
+            if (!doiBelongsToCanton)
+            {
+                throw new ForbiddenException("Invalid domain of influence, does not belong to any owning canton");
+            }
+
+            return;
+        }
+
+        var doiBelongsToThisTenant = await _doiRepo.Query()
+            .AnyAsync(doi => doi.Id == domainOfInfluenceId && doi.SecureConnectId == tenantId);
+
+        if (!doiBelongsToThisTenant)
+        {
+            throw new ForbiddenException("Invalid domain of influence, does not belong to this tenant");
+        }
+    }
+
+    public async Task EnsureIsOwnerOfDomainOfInfluencesOrHasAdminPermissions(IEnumerable<Guid> domainOfInfluenceIds)
+    {
+        var tenantId = _auth.Tenant.Id;
+        var doiIds = domainOfInfluenceIds.ToHashSet();
+
+        if (_auth.HasPermission(Permissions.PoliticalBusiness.ActionsTenantSameCanton))
+        {
+            var authorizedCantons = await _cantonSettingsRepo.Query()
+                .Where(c => c.SecureConnectId == tenantId)
+                .Select(c => c.Canton)
+                .ToListAsync();
+
+            var cantons = await _doiRepo.Query()
+                .Where(doi => doiIds.Contains(doi.Id))
+                .Select(doi => doi.Canton)
+                .ToListAsync();
+
+            var doisBelongsToCanton = cantons.Count > 0 && cantons.All(authorizedCantons.Contains);
+            if (!doisBelongsToCanton)
+            {
+                throw new ForbiddenException("Invalid domain of influence, does not belong to any owning canton");
+            }
+
+            return;
+        }
+
+        var doiIdsOfThisTenant = await _doiRepo.Query()
+            .Where(doi => doi.SecureConnectId == tenantId)
+            .Select(doi => doi.Id)
+            .ToListAsync();
+
+        doiIds.ExceptWith(doiIdsOfThisTenant);
+
+        if (doiIds.FirstOrDefault() is var doiId && doiId != default)
+        {
+            throw new ForbiddenException("Invalid domain of influence, does not belong to this tenant");
+        }
+    }
+
     /// <summary>
     /// Ensures that a list of domain of influences are children of a domain of influence or the domain of influence itself.
     /// </summary>

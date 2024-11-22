@@ -136,6 +136,6 @@ public class MajorityElectionReader : PoliticalBusinessReader<MajorityElection>
 
     private async Task EnsureAllowedToRead(Guid majorityElectionDomainOfInfluenceId)
     {
-        await PermissionService.EnsureIsOwnerOfDomainOfInfluence(majorityElectionDomainOfInfluenceId);
+        await PermissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(majorityElectionDomainOfInfluenceId);
     }
 }

@@ -11,6 +11,7 @@ using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data;
+using Voting.Basis.Data.Extensions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
 using Voting.Lib.Database.Repositories;
@@ -96,9 +97,11 @@ public class CountingCircleReader
             query = query.Where(doiCc => doiPermission.CountingCircleIds.Contains(doiCc.CountingCircleId));
         }
 
-        return await query
+        var doiCcs = await query
             .OrderBy(doiCc => doiCc.CountingCircle.Name)
             .ToListAsync();
+
+        return doiCcs.DistinctBy(x => new { x.CountingCircleId, x.DomainOfInfluenceId }).ToList();
     }
 
     public async Task<List<CountingCircle>> GetAssignableListForDomainOfInfluence(Guid domainOfInfluenceId)
@@ -110,14 +113,18 @@ public class CountingCircleReader
 
         var hierarchicalGreaterNonInheritedCcIds = await _doiCcRepo
             .Query()
-            .Where(doiCc => doiHierarchy.ParentIds.Contains(doiCc.DomainOfInfluenceId) && !doiCc.Inherited)
+            .Where(doiCc => doiHierarchy.ParentIds.Contains(doiCc.DomainOfInfluenceId))
+            .WhereIsNotInherited()
             .Select(doiCc => doiCc.CountingCircleId)
+            .Distinct()
             .ToListAsync();
 
         var inheritedCcIds = await _doiCcRepo
             .Query()
-            .Where(doiCc => doiCc.DomainOfInfluenceId == domainOfInfluenceId && doiCc.Inherited)
+            .Where(doiCc => doiCc.DomainOfInfluenceId == domainOfInfluenceId)
+            .WhereIsInherited()
             .Select(doiCc => doiCc.CountingCircleId)
+            .Distinct()
             .ToListAsync();
 
         var query = _repo.Query();

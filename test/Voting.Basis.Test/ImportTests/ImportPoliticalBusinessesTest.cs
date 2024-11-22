@@ -14,7 +14,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.ImportTests;
 
-public class ImportPoliticalBusinessesTest : BaseImportTest
+public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthorizationTest
 {
     public ImportPoliticalBusinessesTest(TestApplicationFactory factory)
         : base(factory)
@@ -34,6 +34,29 @@ public class ImportPoliticalBusinessesTest : BaseImportTest
     }
 
     [Fact]
+    public async Task TestAllTypesOfVotesShouldWork()
+    {
+        var contest = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
+        {
+            ImportType = SharedProto.ImportType.Ech159,
+            FileContent = await GetTestEch0159AllTypesFile(),
+        });
+
+        for (var i = 0; i < contest.Votes.Count; i++)
+        {
+            contest.Votes[i].Vote.PoliticalBusinessNumber = $"Vote {i + 1}";
+            contest.Votes[i].Vote.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
+        }
+
+        var request = new ImportPoliticalBusinessesRequest
+        {
+            ContestId = ContestMockedData.IdGossau,
+            Votes = { contest.Votes },
+        };
+        await AdminClient.ImportPoliticalBusinessesAsync(request);
+    }
+
+    [Fact]
     public async Task TestDomainOfInfluenceNotInParentShouldThrow()
     {
         var request = await CreateValidRequest(DomainOfInfluenceMockedData.IdGenf);
@@ -41,16 +64,6 @@ public class ImportPoliticalBusinessesTest : BaseImportTest
             async () => await AdminClient.ImportPoliticalBusinessesAsync(request),
             StatusCode.InvalidArgument,
             "Invalid domain of influence(s), some ids are not children of the parent node");
-    }
-
-    [Fact]
-    public async Task TestDomainOfInfluenceOtherTenantShouldThrow()
-    {
-        var request = await CreateValidRequest(DomainOfInfluenceMockedData.IdUzwil, ContestMockedData.IdBundContest);
-        await AssertStatus(
-            async () => await AdminClient.ImportPoliticalBusinessesAsync(request),
-            StatusCode.InvalidArgument,
-            $"Domain of influence with id {DomainOfInfluenceMockedData.IdUzwil} does not belong to this tenant");
     }
 
     [Fact]
@@ -73,6 +86,34 @@ public class ImportPoliticalBusinessesTest : BaseImportTest
             async () => await AdminClient.ImportPoliticalBusinessesAsync(request),
             StatusCode.InvalidArgument,
             "This id is not unique");
+    }
+
+    [Fact]
+    public override async Task AuthorizedOtherTenantAsElectionAdminShouldThrow()
+    {
+        var channel = CreateGrpcChannel(
+            tenant: DomainOfInfluenceMockedData.Bund.SecureConnectId,
+            roles: Roles.ElectionAdmin);
+
+        await AssertStatus(
+            async () => await AuthorizationTestCall(channel),
+            StatusCode.NotFound);
+    }
+
+    [Fact]
+    public override async Task AuthorizedOtherTenantAndDifferentCantonAsCantonAdminShouldThrow()
+    {
+        await ModifyDbEntities<Data.Models.DomainOfInfluence>(
+            doi => true,
+            doi => doi.Canton = Data.Models.DomainOfInfluenceCanton.Gr);
+
+        var channel = CreateGrpcChannel(
+            tenant: DomainOfInfluenceMockedData.Bund.SecureConnectId,
+            roles: Roles.CantonAdmin);
+
+        await AssertStatus(
+            async () => await AuthorizationTestCall(channel),
+            StatusCode.NotFound);
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Validation;
@@ -22,10 +23,13 @@ public abstract class PoliticalBusinessUnionWriter<TPoliticalBusiness, TPolitica
     where TPoliticalBusiness : PoliticalBusiness, new()
     where TPoliticalBusinessUnion : PoliticalBusinessUnion, new()
 {
+    private readonly IDbRepository<DataContext, CantonSettings> _cantonSettingsRepo;
+
     protected PoliticalBusinessUnionWriter(
         IDbRepository<DataContext, TPoliticalBusinessUnion> repo,
         IDbRepository<DataContext, TPoliticalBusiness> politicalBusinessRepo,
         IDbRepository<DataContext, Contest> contestRepo,
+        IDbRepository<DataContext, CantonSettings> cantonSettingsRepo,
         IAuth auth,
         ContestValidationService contestValidationService,
         PermissionService permissionService)
@@ -33,6 +37,7 @@ public abstract class PoliticalBusinessUnionWriter<TPoliticalBusiness, TPolitica
         Repo = repo;
         PoliticalBusinessRepo = politicalBusinessRepo;
         ContestRepo = contestRepo;
+        _cantonSettingsRepo = cantonSettingsRepo;
         Auth = auth;
         ContestValidationService = contestValidationService;
         PermissionService = permissionService;
@@ -70,29 +75,44 @@ public abstract class PoliticalBusinessUnionWriter<TPoliticalBusiness, TPolitica
 
     protected async Task EnsureCanModifyPoliticalBusinessUnion(Guid politicalBusinessUnionId)
     {
-        var politicalBusinessUnion = await Repo.GetByKey(politicalBusinessUnionId)
+        var tenantId = Auth.Tenant.Id;
+        var politicalBusinessUnion = await Repo.Query()
+            .Include(x => x.Contest.DomainOfInfluence)
+            .FirstOrDefaultAsync(x => x.Id == politicalBusinessUnionId)
             ?? throw new EntityNotFoundException(politicalBusinessUnionId);
 
         await ContestValidationService.EnsureInTestingPhase(politicalBusinessUnion.ContestId);
 
-        if (politicalBusinessUnion.SecureConnectId != Auth.Tenant.Id)
+        var hasPermission = false;
+
+        if (Auth.HasPermission(Permissions.PoliticalBusinessUnion.ActionsTenantSameCanton))
         {
-            throw new ForbiddenException("Only owner of the political business union can edit");
+            var canton = politicalBusinessUnion.Contest.DomainOfInfluence.Canton;
+            hasPermission = await _cantonSettingsRepo.Query()
+                .AnyAsync(c => c.SecureConnectId == tenantId && c.Canton == canton);
+        }
+        else
+        {
+            hasPermission = politicalBusinessUnion.SecureConnectId == tenantId;
+        }
+
+        if (!hasPermission)
+        {
+            throw new ForbiddenException("Insufficient permissions for the political business union update");
         }
     }
 
-    protected async Task EnsureValidPoliticalBusinessIds(Guid contestId, List<Guid> politicalBusinessIds)
+    protected async Task EnsureValidPoliticalBusinessIds(Guid contestId, List<Guid> politicalBusinessIds, string unionSecureConnectId)
     {
         if (politicalBusinessIds.Distinct().Count() != politicalBusinessIds.Count)
         {
             throw new ValidationException("duplicate political business id");
         }
 
-        var tenantId = Auth.Tenant.Id;
         var anyPbFromDifferentTenantOrDifferentContest = await PoliticalBusinessRepo.Query()
             .Include(pb => pb.DomainOfInfluence)
             .Where(pb => politicalBusinessIds.Contains(pb.Id))
-            .AnyAsync(pb => pb.DomainOfInfluence!.SecureConnectId != tenantId || pb.ContestId != contestId);
+            .AnyAsync(pb => pb.DomainOfInfluence!.SecureConnectId != unionSecureConnectId || pb.ContestId != contestId);
 
         if (anyPbFromDifferentTenantOrDifferentContest)
         {

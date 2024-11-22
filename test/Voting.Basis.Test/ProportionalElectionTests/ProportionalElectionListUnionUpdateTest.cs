@@ -21,7 +21,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
-public class ProportionalElectionListUnionUpdateTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
+public class ProportionalElectionListUnionUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     public ProportionalElectionListUnionUpdateTest(TestApplicationFactory factory)
         : base(factory)
@@ -154,21 +154,13 @@ public class ProportionalElectionListUnionUpdateTest : BaseGrpcTest<Proportional
     }
 
     [Fact]
-    public async Task ForeignProportionalElectionListUnionShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.UpdateListUnionAsync(NewValidRequest(l =>
-                l.Id = ProportionalElectionMockedData.ListUnionIdStGallenProportionalElectionInContestBund)),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
     public async Task ChangeProportionalElectionIdShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateListUnionAsync(NewValidRequest(l =>
-                l.ProportionalElectionId = ProportionalElectionMockedData.IdKircheProportionalElectionInContestKircheWithoutChilds)),
-            StatusCode.InvalidArgument);
+            async () => await ElectionAdminClient.UpdateListUnionAsync(NewValidRequest(l =>
+                l.ProportionalElectionId = ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallen)),
+            StatusCode.InvalidArgument,
+            "ListUnion 16892ba3-9b8c-42c7-914e-4b4692d170f4 does not exist");
     }
 
     [Fact]

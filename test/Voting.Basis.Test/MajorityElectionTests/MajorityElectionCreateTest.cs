@@ -22,7 +22,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.MajorityElectionTests;
 
-public class MajorityElectionCreateTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     public MajorityElectionCreateTest(TestApplicationFactory factory)
         : base(factory)
@@ -126,7 +126,8 @@ public class MajorityElectionCreateTest : BaseGrpcTest<MajorityElectionService.M
                  pe.ContestId = ContestMockedData.IdGossau;
                  pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen;
              })),
-            StatusCode.InvalidArgument);
+            StatusCode.InvalidArgument,
+            "some ids are not children of the parent node");
     }
 
     [Fact]
@@ -155,20 +156,8 @@ public class MajorityElectionCreateTest : BaseGrpcTest<MajorityElectionService.M
                   pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdThurgau;
                   pe.ReportDomainOfInfluenceLevel = 0;
               })),
-              StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task ChildDoiWithDifferentTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(pe =>
-            {
-                pe.ContestId = ContestMockedData.IdStGallenEvoting;
-                pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdUzwil;
-                pe.ReportDomainOfInfluenceLevel = 0;
-            })),
-            StatusCode.InvalidArgument);
+              StatusCode.InvalidArgument,
+              "some ids are not children of the parent node");
     }
 
     [Fact]

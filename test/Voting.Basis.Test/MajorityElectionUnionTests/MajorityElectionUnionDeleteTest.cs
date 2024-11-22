@@ -24,7 +24,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.MajorityElectionUnionTests;
 
-public class MajorityElectionUnionDeleteTest : BaseGrpcTest<MajorityElectionUnionService.MajorityElectionUnionServiceClient>
+public class MajorityElectionUnionDeleteTest : PoliticalBusinessUnionAuthorizationGrpcBaseTest<MajorityElectionUnionService.MajorityElectionUnionServiceClient>
 {
     private string? _authTestUnionId;
 
@@ -91,18 +91,6 @@ public class MajorityElectionUnionDeleteTest : BaseGrpcTest<MajorityElectionUnio
                 Id = "b4e22024-113b-49ac-8460-2bf1c4a074b1",
             }),
             StatusCode.NotFound);
-    }
-
-    [Fact]
-    public async Task FromDifferentTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteMajorityElectionUnionRequest
-            {
-                Id = MajorityElectionUnionMockedData.IdStGallenDifferentTenant,
-            }),
-            StatusCode.PermissionDenied,
-            "Only owner of the political business union can edit");
     }
 
     [Fact]

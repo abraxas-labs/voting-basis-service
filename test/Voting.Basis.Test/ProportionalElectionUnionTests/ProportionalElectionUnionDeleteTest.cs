@@ -21,7 +21,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.ProportionalElectionUnionTests;
 
-public class ProportionalElectionUnionDeleteTest : BaseGrpcTest<ProportionalElectionUnionService.ProportionalElectionUnionServiceClient>
+public class ProportionalElectionUnionDeleteTest : PoliticalBusinessUnionAuthorizationGrpcBaseTest<ProportionalElectionUnionService.ProportionalElectionUnionServiceClient>
 {
     private string? _authTestUnionId;
 
@@ -87,18 +87,6 @@ public class ProportionalElectionUnionDeleteTest : BaseGrpcTest<ProportionalElec
                 Id = "b4e22024-113b-49ac-8460-2bf1c4a074b1",
             }),
             StatusCode.NotFound);
-    }
-
-    [Fact]
-    public async Task FromDifferentTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteProportionalElectionUnionRequest
-            {
-                Id = ProportionalElectionUnionMockedData.IdStGallenDifferentTenant,
-            }),
-            StatusCode.PermissionDenied,
-            "Only owner of the political business union can edit");
     }
 
     [Fact]

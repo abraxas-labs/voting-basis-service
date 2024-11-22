@@ -60,6 +60,7 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
                 InvoiceReferenceNumber = "505964478",
                 FrankingLicenceReturnNumber = "965333145",
             },
+            StistatMunicipality = true,
             EventInfo = GetMockedEventInfo(),
         });
 
@@ -71,5 +72,6 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
         protoDoi.ExternalPrintingCenter.Should().BeTrue();
         protoDoi.ExternalPrintingCenterEaiMessageType.Should().Be("GOSSAU-Updated");
         protoDoi.SapCustomerOrderNumber.Should().Be("915421");
+        protoDoi.StistatMunicipality.Should().BeTrue();
     }
 }

@@ -21,7 +21,7 @@ using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 
 namespace Voting.Basis.Test.MajorityElectionBallotGroupTests;
 
-public class MajorityElectionBallotGroupDeleteTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class MajorityElectionBallotGroupDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
     private string? _authTestBallotGroupId;
@@ -71,17 +71,6 @@ public class MajorityElectionBallotGroupDeleteTest : BaseGrpcTest<MajorityElecti
         var idGuid = Guid.Parse(id);
         (await RunOnDb(db => db.MajorityElectionBallotGroups.CountAsync(c => c.Id == idGuid)))
             .Should().Be(0);
-    }
-
-    [Fact]
-    public async Task SecondaryMajorityElectionOtherTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.DeleteBallotGroupAsync(new DeleteMajorityElectionBallotGroupRequest
-            {
-                Id = MajorityElectionMockedData.BallotGroupIdKircheMajorityElectionInContestKirche,
-            }),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

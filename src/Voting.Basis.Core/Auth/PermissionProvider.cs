@@ -111,10 +111,6 @@ public class PermissionProvider : IPermissionProvider
             Permissions.SecondaryMajorityElectionCandidate.Read,
             Permissions.SecondaryMajorityElectionCandidate.Delete,
 
-            Permissions.ElectionGroup.Update,
-            Permissions.ElectionGroup.Read,
-            Permissions.ElectionGroup.ReadAll,
-
             Permissions.EventLog.ReadAll,
 
             Permissions.Import.ImportData,
@@ -153,6 +149,9 @@ public class PermissionProvider : IPermissionProvider
             Permissions.PoliticalAssembly.Update,
             Permissions.PoliticalAssembly.Delete,
             Permissions.PoliticalAssembly.ReadSameCanton,
+
+            Permissions.PoliticalBusiness.ActionsTenantSameCanton,
+            Permissions.PoliticalBusinessUnion.ActionsTenantSameCanton,
 
             Permissions.Vote.Create,
             Permissions.Vote.Update,
@@ -218,10 +217,6 @@ public class PermissionProvider : IPermissionProvider
             Permissions.SecondaryMajorityElectionCandidate.Update,
             Permissions.SecondaryMajorityElectionCandidate.Read,
             Permissions.SecondaryMajorityElectionCandidate.Delete,
-
-            Permissions.ElectionGroup.Update,
-            Permissions.ElectionGroup.Read,
-            Permissions.ElectionGroup.ReadAll,
 
             Permissions.EventLog.ReadSameTenant,
 
@@ -321,9 +316,6 @@ public class PermissionProvider : IPermissionProvider
             Permissions.SecondaryMajorityElectionCandidate.Read,
             Permissions.SecondaryMajorityElectionCandidate.Delete,
 
-            Permissions.ElectionGroup.Update,
-            Permissions.ElectionGroup.Read,
-
             Permissions.EventLog.ReadSameTenant,
 
             Permissions.Import.ImportData,
@@ -414,9 +406,6 @@ public class PermissionProvider : IPermissionProvider
             Permissions.SecondaryMajorityElectionCandidate.Update,
             Permissions.SecondaryMajorityElectionCandidate.Read,
             Permissions.SecondaryMajorityElectionCandidate.Delete,
-
-            Permissions.ElectionGroup.Update,
-            Permissions.ElectionGroup.Read,
 
             Permissions.EventLog.ReadSameTenant,
 

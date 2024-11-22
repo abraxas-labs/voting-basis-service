@@ -23,7 +23,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.SecondaryMajorityElectionTests;
 
-public class SecondaryMajorityElectionCandidateCreateTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     public SecondaryMajorityElectionCandidateCreateTest(TestApplicationFactory factory)
         : base(factory)
@@ -160,6 +160,45 @@ public class SecondaryMajorityElectionCandidateCreateTest : BaseGrpcTest<Majorit
     }
 
     [Fact]
+    public async Task TestProcessorShouldTruncateCandidateNumber()
+    {
+        await TestEventPublisher.Publish(
+            new SecondaryMajorityElectionCandidateCreated
+            {
+                SecondaryMajorityElectionCandidate = new MajorityElectionCandidateEventData
+                {
+                    Id = "5b8ca432-50d3-464f-abcf-37d51fa22b3b",
+                    MajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+                    Position = 3,
+                    FirstName = "firstName",
+                    LastName = "lastName",
+                    PoliticalFirstName = "pol first name",
+                    PoliticalLastName = "pol last name",
+                    Occupation = { LanguageUtil.MockAllLanguages("occupation") },
+                    OccupationTitle = { LanguageUtil.MockAllLanguages("occupation title") },
+                    DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
+                    Incumbent = true,
+                    Locality = "locality",
+                    Number = "number1toolong",
+                    Sex = SharedProto.SexType.Female,
+                    Title = "title",
+                    ZipCode = "zip code",
+                    Party = { LanguageUtil.MockAllLanguages("SP") },
+                    Origin = "origin",
+                    CheckDigit = 9,
+                },
+            });
+
+        var candidates = await AdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
+        {
+            SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+        });
+
+        var candidate = candidates.Candidates.Select(x => x.Candidate).Single(x => x.Id == "5b8ca432-50d3-464f-abcf-37d51fa22b3b");
+        candidate.Number.Should().Be("number1too");
+    }
+
+    [Fact]
     public async Task ContestLockedShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastLocked);
@@ -167,15 +206,6 @@ public class SecondaryMajorityElectionCandidateCreateTest : BaseGrpcTest<Majorit
             async () => await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest()),
             StatusCode.FailedPrecondition,
             "Contest is past locked or archived");
-    }
-
-    [Fact]
-    public async Task ForeignSecondaryMajorityElectionShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(c =>
-                c.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdKircheMajorityElectionInContestKirche)),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]
@@ -230,6 +260,10 @@ public class SecondaryMajorityElectionCandidateCreateTest : BaseGrpcTest<Majorit
     [Fact]
     public async Task EmptyLocalityShouldThrow()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateLocalityRequired = true);
+
         await AssertStatus(
             async () => await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Locality = string.Empty)),
             StatusCode.InvalidArgument);
@@ -238,6 +272,10 @@ public class SecondaryMajorityElectionCandidateCreateTest : BaseGrpcTest<Majorit
     [Fact]
     public async Task EmptyOriginShouldThrow()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateOriginRequired = true);
+
         await AssertStatus(
             async () => await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Origin = string.Empty)),
             StatusCode.InvalidArgument);
@@ -246,6 +284,10 @@ public class SecondaryMajorityElectionCandidateCreateTest : BaseGrpcTest<Majorit
     [Fact]
     public async Task EmptyLocalityOnCommunalBusinessShouldWork()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateLocalityRequired = true);
+
         var response = await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o =>
         {
             o.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund;
@@ -257,11 +299,29 @@ public class SecondaryMajorityElectionCandidateCreateTest : BaseGrpcTest<Majorit
     [Fact]
     public async Task EmptyOriginOnCommunalBusinessShouldWork()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateOriginRequired = true);
+
         var response = await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o =>
         {
             o.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund;
             o.Origin = string.Empty;
         }));
+        response.Id.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task EmptyLocalityOnNonCommunalBusinessShouldWorkWhenOptional()
+    {
+        var response = await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Locality = string.Empty));
+        response.Id.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task EmptyOriginOnNonCommunalBusinessShouldWorkWhenOptional()
+    {
+        var response = await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Origin = string.Empty));
         response.Id.Should().NotBeNull();
     }
 

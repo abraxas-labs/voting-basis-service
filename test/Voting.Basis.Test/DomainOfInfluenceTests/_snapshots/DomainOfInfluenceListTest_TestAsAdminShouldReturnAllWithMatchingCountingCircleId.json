@@ -46,7 +46,11 @@
       "VirtualTopLevel": false,
       "ViewCountingCirclePartialResults": false,
       "VotingCardColor": 0,
-      "ElectoralRegistrationEnabled": false
+      "ElectoralRegistrationEnabled": false,
+      "HasForeignerVoters": false,
+      "HasMinorVoters": false,
+      "SuperiorAuthorityDomainOfInfluence": null,
+      "StistatMunicipality": false
     },
     {
       "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
@@ -94,7 +98,11 @@
       "VirtualTopLevel": false,
       "ViewCountingCirclePartialResults": false,
       "VotingCardColor": 0,
-      "ElectoralRegistrationEnabled": false
+      "ElectoralRegistrationEnabled": false,
+      "HasForeignerVoters": false,
+      "HasMinorVoters": false,
+      "SuperiorAuthorityDomainOfInfluence": null,
+      "StistatMunicipality": false
     }
   ]
 }

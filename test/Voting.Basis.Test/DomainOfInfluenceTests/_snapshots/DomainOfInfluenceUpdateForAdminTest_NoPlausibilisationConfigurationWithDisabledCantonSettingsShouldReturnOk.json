@@ -32,7 +32,10 @@
       "NameForProtocol": "Bezirk Uzwil",
       "VirtualTopLevel": false,
       "ViewCountingCirclePartialResults": false,
-      "ElectoralRegistrationEnabled": false
+      "ElectoralRegistrationEnabled": false,
+      "HasForeignerVoters": true,
+      "HasMinorVoters": true,
+      "SuperiorAuthorityDomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79"
     }
   }
 }

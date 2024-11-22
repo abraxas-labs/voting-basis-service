@@ -23,6 +23,9 @@
     <None Update="ImportTests\TestFiles\eCH0159_invalid.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="ImportTests\TestFiles\eCH0159_all_types.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

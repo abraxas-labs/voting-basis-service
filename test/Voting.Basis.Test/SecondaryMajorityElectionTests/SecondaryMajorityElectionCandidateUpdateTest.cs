@@ -23,7 +23,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.SecondaryMajorityElectionTests;
 
-public class SecondaryMajorityElectionCandidateUpdateTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     public SecondaryMajorityElectionCandidateUpdateTest(TestApplicationFactory factory)
         : base(factory)
@@ -133,12 +133,43 @@ public class SecondaryMajorityElectionCandidateUpdateTest : BaseGrpcTest<Majorit
     }
 
     [Fact]
-    public async Task ForeignSecondaryMajorityElectionCandidateShouldThrow()
+    public async Task TestProcessorShouldTruncateCandidateNumber()
     {
-        await AssertStatus(
-            async () => await AdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequest(l =>
-                l.Id = MajorityElectionMockedData.SecondaryElectionCandidateIdKircheMajorityElectionInContestKirche)),
-            StatusCode.InvalidArgument);
+        await TestEventPublisher.Publish(
+            new SecondaryMajorityElectionCandidateUpdated
+            {
+                SecondaryMajorityElectionCandidate = new MajorityElectionCandidateEventData
+                {
+                    Id = MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund,
+                    MajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+                    FirstName = "new first name",
+                    LastName = "new last name",
+                    PoliticalFirstName = "new pol first name",
+                    PoliticalLastName = "new pol last name",
+                    Occupation = { LanguageUtil.MockAllLanguages("new occupation") },
+                    OccupationTitle = { LanguageUtil.MockAllLanguages("new occupation title") },
+                    DateOfBirth = new DateTime(1961, 8, 6, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
+                    Incumbent = false,
+                    Position = 1,
+                    Locality = "locality",
+                    Number = "numberNewtoolong",
+                    Sex = SharedProto.SexType.Male,
+                    Title = "new title",
+                    ZipCode = "new zip code",
+                    Party = { LanguageUtil.MockAllLanguages("NEW") },
+                    Origin = "origin",
+                    CheckDigit = 0,
+                },
+            });
+
+        var candidates = await AdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
+        {
+            SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+        });
+
+        var candidate = candidates.Candidates.Select(x => x.Candidate)
+            .Single(x => x.Id == MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund);
+        candidate.Number.Should().Be("numberNewt");
     }
 
     [Fact]
@@ -226,6 +257,10 @@ public class SecondaryMajorityElectionCandidateUpdateTest : BaseGrpcTest<Majorit
     [Fact]
     public async Task SecondaryMajorityElectionCandidateUpdateAfterTestingPhaseWithEmptyLocalityShouldThrow()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateLocalityRequired = true);
+
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
             async () => await AdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequestAfterTestingPhase(x =>
@@ -240,6 +275,10 @@ public class SecondaryMajorityElectionCandidateUpdateTest : BaseGrpcTest<Majorit
     [Fact]
     public async Task SecondaryMajorityElectionCandidateUpdateAfterTestingPhaseWithEmptyOriginShouldThrow()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateOriginRequired = true);
+
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
             async () => await AdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequestAfterTestingPhase(x =>
@@ -254,6 +293,10 @@ public class SecondaryMajorityElectionCandidateUpdateTest : BaseGrpcTest<Majorit
     [Fact]
     public async Task SecondaryMajorityElectionCandidateUpdateAfterTestingPhaseWithEmptyLocalityOnCommunalBusinessShouldWork()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateLocalityRequired = true);
+
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequestAfterTestingPhase(x => x.Locality = string.Empty));
 
@@ -274,6 +317,10 @@ public class SecondaryMajorityElectionCandidateUpdateTest : BaseGrpcTest<Majorit
     [Fact]
     public async Task SecondaryMajorityElectionCandidateUpdateAfterTestingPhaseWithEmptyOriginOnCommunalBusinessShouldWork()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateOriginRequired = true);
+
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequestAfterTestingPhase(x => x.Origin = string.Empty));
 
@@ -287,6 +334,58 @@ public class SecondaryMajorityElectionCandidateUpdateTest : BaseGrpcTest<Majorit
         });
         var candidate = candidates.Candidates
             .Single(c => c.Candidate.Id == MajorityElectionMockedData.SecondaryElectionCandidateId2GossauMajorityElectionInContestBund)
+            .Candidate;
+        candidate.MatchSnapshot("response");
+    }
+
+    [Fact]
+    public async Task SecondaryMajorityElectionCandidateUpdateAfterTestingPhaseWithEmptyLocalityOnNonCommunalBusinessShouldWorkWhenOptional()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await AdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequestAfterTestingPhase(x =>
+        {
+            x.Id = MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund;
+            x.SecondaryMajorityElectionId =
+                MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund;
+            x.Locality = string.Empty;
+        }));
+
+        var ev = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateAfterTestingPhaseUpdated>();
+        ev.MatchSnapshot("event");
+
+        await TestEventPublisher.Publish(ev);
+        var candidates = await AdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
+        {
+            SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+        });
+        var candidate = candidates.Candidates
+            .Single(c => c.Candidate.Id == MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund)
+            .Candidate;
+        candidate.MatchSnapshot("response");
+    }
+
+    [Fact]
+    public async Task SecondaryMajorityElectionCandidateUpdateAfterTestingPhaseWithEmptyOriginOnNonCommunalBusinessShouldWorkWhenOptional()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await AdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequestAfterTestingPhase(x =>
+        {
+            x.Id = MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund;
+            x.SecondaryMajorityElectionId =
+                MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund;
+            x.Origin = string.Empty;
+        }));
+
+        var ev = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateAfterTestingPhaseUpdated>();
+        ev.MatchSnapshot("event");
+
+        await TestEventPublisher.Publish(ev);
+        var candidates = await AdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
+        {
+            SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+        });
+        var candidate = candidates.Candidates
+            .Single(c => c.Candidate.Id == MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund)
             .Candidate;
         candidate.MatchSnapshot("response");
     }
@@ -323,6 +422,10 @@ public class SecondaryMajorityElectionCandidateUpdateTest : BaseGrpcTest<Majorit
     [Fact]
     public async Task EmptyLocalityShouldThrow()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateLocalityRequired = true);
+
         await AssertStatus(
             async () => await AdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Locality = string.Empty)),
             StatusCode.InvalidArgument);
@@ -331,6 +434,10 @@ public class SecondaryMajorityElectionCandidateUpdateTest : BaseGrpcTest<Majorit
     [Fact]
     public async Task EmptyOriginShouldThrow()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateOriginRequired = true);
+
         await AssertStatus(
             async () => await AdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Origin = string.Empty)),
             StatusCode.InvalidArgument);
@@ -339,6 +446,10 @@ public class SecondaryMajorityElectionCandidateUpdateTest : BaseGrpcTest<Majorit
     [Fact]
     public async Task EmptyLocalityOnCommunalBusinessShouldWork()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateLocalityRequired = true);
+
         var request = NewValidRequest(o =>
         {
             o.Id = MajorityElectionMockedData.SecondaryElectionCandidateId2GossauMajorityElectionInContestBund;
@@ -354,12 +465,35 @@ public class SecondaryMajorityElectionCandidateUpdateTest : BaseGrpcTest<Majorit
     [Fact]
     public async Task EmptyOriginOnCommunalBusinessShouldWork()
     {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => true,
+            doi => doi.CantonDefaults.CandidateOriginRequired = true);
+
         var request = NewValidRequest(o =>
         {
             o.Id = MajorityElectionMockedData.SecondaryElectionCandidateId2GossauMajorityElectionInContestBund;
             o.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund;
             o.Origin = string.Empty;
         });
+        await AdminClient.UpdateSecondaryMajorityElectionCandidateAsync(request);
+        var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateUpdated, EventSignatureBusinessMetadata>();
+        eventData.MatchSnapshot("event");
+        eventMetadata!.ContestId.Should().Be(ContestMockedData.IdBundContest);
+    }
+
+    [Fact]
+    public async Task EmptyLocalityOnNonCommunalBusinessShouldWorkWhenOptional()
+    {
+        var request = NewValidRequest(o => o.Locality = string.Empty);
+        await AdminClient.UpdateSecondaryMajorityElectionCandidateAsync(request);
+        var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateUpdated, EventSignatureBusinessMetadata>();
+        eventData.MatchSnapshot("event");
+    }
+
+    [Fact]
+    public async Task EmptyOriginOnNonCommunalBusinessShouldWorkWhenOptional()
+    {
+        var request = NewValidRequest(o => o.Origin = string.Empty);
         await AdminClient.UpdateSecondaryMajorityElectionCandidateAsync(request);
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateUpdated, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");

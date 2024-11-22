@@ -14,7 +14,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
-public class ProportionalElectionGetTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
+public class ProportionalElectionGetTest : PoliticalBusinessAuthorizationGrpcBaseTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     private const string IdNotFound = "eae2cfaf-c787-48b9-a108-c975b0addddd";
 
@@ -47,61 +47,6 @@ public class ProportionalElectionGetTest : BaseGrpcTest<ProportionalElectionServ
             Id = ProportionalElectionMockedData.IdGossauProportionalElectionInContestStGallen,
         });
         response.MatchSnapshot();
-    }
-
-    [Fact]
-    public async Task TestAsAdminParentDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.GetAsync(new GetProportionalElectionRequest
-            {
-                Id = ProportionalElectionMockedData.IdBundProportionalElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestAsElectionAdminParentDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.GetAsync(new GetProportionalElectionRequest
-            {
-                Id = ProportionalElectionMockedData.IdBundProportionalElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestAsAdminChildDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.GetAsync(new GetProportionalElectionRequest
-            {
-                Id = ProportionalElectionMockedData.IdUzwilProportionalElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestAsElectionAdminChildDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.GetAsync(new GetProportionalElectionRequest
-            {
-                Id = ProportionalElectionMockedData.IdUzwilProportionalElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestForeignDoiShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.GetAsync(new GetProportionalElectionRequest
-            {
-                Id = ProportionalElectionMockedData.IdKircheProportionalElectionInContestKircheWithoutChilds,
-            }),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

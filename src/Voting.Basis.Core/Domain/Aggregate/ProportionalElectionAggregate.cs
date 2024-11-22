@@ -12,6 +12,7 @@ using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Extensions;
+using Voting.Basis.Core.Models;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data.Models;
 using Voting.Lib.Common;
@@ -227,6 +228,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     {
         EnsureNotDeleted();
 
+        var existingList = FindList(list.Id);
         EnsureUniqueListPosition(list);
 
         if (list.BlankRowCount > NumberOfMandates)
@@ -234,7 +236,6 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
             throw new ValidationException("The BlankRowCount can't be greater than the NumberOfMandates");
         }
 
-        var existingList = FindList(list.Id);
         if (list.Position != existingList.Position)
         {
             throw new ValidationException("Cannot change the list position via an update");
@@ -469,7 +470,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void CreateCandidateFrom(ProportionalElectionCandidate candidate, DomainOfInfluenceType doiType)
+    public void CreateCandidateFrom(ProportionalElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
         if (candidate.Id == default)
@@ -478,7 +479,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         }
 
         _candidateValidator.ValidateAndThrow(candidate);
-        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, doiType);
+        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, candidateValidationParams);
 
         var list = FindList(candidate.ProportionalElectionListId);
         EnsureUniqueCandidatePosition(list, candidate);
@@ -499,11 +500,11 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateCandidateFrom(ProportionalElectionCandidate candidate, DomainOfInfluenceType doiType)
+    public void UpdateCandidateFrom(ProportionalElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
         _candidateValidator.ValidateAndThrow(candidate);
-        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, doiType);
+        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, candidateValidationParams);
 
         var list = FindList(candidate.ProportionalElectionListId);
         EnsureCandidateExists(list, candidate.Id);
@@ -525,11 +526,11 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateCandidateAfterTestingPhaseEnded(ProportionalElectionCandidate candidate, DomainOfInfluenceType doiType)
+    public void UpdateCandidateAfterTestingPhaseEnded(ProportionalElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
         _candidateValidator.ValidateAndThrow(candidate);
-        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, doiType);
+        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, candidateValidationParams);
 
         var list = FindList(candidate.ProportionalElectionListId);
         candidate.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(list.OrderNumber + candidate.Number);
@@ -1029,14 +1030,14 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         }
     }
 
-    private void EnsureLocalityAndOriginIsSetForNonCommunalDoiType(ProportionalElectionCandidate candidate, DomainOfInfluenceType doiType)
+    private void EnsureLocalityAndOriginIsSetForNonCommunalDoiType(ProportionalElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
-        if (string.IsNullOrEmpty(candidate.Locality) && !doiType.IsCommunal())
+        if (candidateValidationParams.IsLocalityRequired && string.IsNullOrEmpty(candidate.Locality) && !candidateValidationParams.DoiType.IsCommunal())
         {
             throw new ValidationException("Candidate locality is required for non communal political businesses");
         }
 
-        if (string.IsNullOrEmpty(candidate.Origin) && !doiType.IsCommunal())
+        if (candidateValidationParams.IsOriginRequired && string.IsNullOrEmpty(candidate.Origin) && !candidateValidationParams.DoiType.IsCommunal())
         {
             throw new ValidationException("Candidate origin is required for non communal political businesses");
         }

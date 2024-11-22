@@ -374,14 +374,6 @@ public sealed class ContestAggregate : BaseDeletableAggregate
         }
     }
 
-    private void EnsureNotLocked()
-    {
-        if (State.IsLocked())
-        {
-            throw new ContestLockedException();
-        }
-    }
-
     private void NormalizeAndValidateDates(Contest contest)
     {
         contest.Date = contest.Date.Date;

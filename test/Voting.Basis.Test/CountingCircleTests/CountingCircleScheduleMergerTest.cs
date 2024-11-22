@@ -120,6 +120,7 @@ public class CountingCircleScheduleMergerTest : BaseGrpcTest<CountingCircleServi
 
         var assignedDoiIds = rapperswilJona!.DomainOfInfluences
             .Select(doiCc => doiCc.DomainOfInfluenceId)
+            .Distinct()
             .OrderBy(id => id)
             .ToList();
 

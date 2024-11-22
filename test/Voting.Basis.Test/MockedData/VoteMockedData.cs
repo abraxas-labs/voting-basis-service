@@ -31,7 +31,7 @@ public static class VoteMockedData
     public const string IdStGallenVoteInContestStGallen = "96d8275f-f1f8-4933-a097-5c0c19f54567";
     public const string IdStGallenVoteInContestStGallenWithoutChilds = "607a9dbc-250a-4bbf-ab31-73c81f6556ba";
     public const string IdGossauVoteInContestGossau = "8fbba43a-cd73-407a-b490-df13c41cc5ee";
-    public const string IdUzwilVoteInContestUzwilWithoutChilds = "7de846be-9e60-45c7-81e3-51441ff37592";
+    public const string IdUzwilVoteInContestUzwil = "7de846be-9e60-45c7-81e3-51441ff37592";
     public const string IdGenfVoteInContestBundWithoutChilds = "b751e349-0d2c-482c-b5f9-780608cca9f8";
     public const string IdKircheVoteInContestKircheWithoutChilds = "bfd3a5ba-a9e5-4cdd-9b81-16a181cf53cb";
     public const string IdZurichVoteInContestZurich = "daf1dc06-3b08-4a24-9c76-e25e05b9d0ef";
@@ -432,7 +432,7 @@ public static class VoteMockedData
     public static Vote UzwilVoteInContestUzwil
         => new Vote
         {
-            Id = Guid.Parse(IdUzwilVoteInContestUzwilWithoutChilds),
+            Id = Guid.Parse(IdUzwilVoteInContestUzwil),
             PoliticalBusinessNumber = "412",
             OfficialDescription = LanguageUtil.MockAllLanguages("Abstimmung Uzwil"),
             ShortDescription = LanguageUtil.MockAllLanguages("Abstimmung Uzwil"),

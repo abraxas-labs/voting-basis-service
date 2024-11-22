@@ -24,6 +24,7 @@ public abstract class BaseRestTest : RestAuthorizationBaseTest<TestApplicationFa
     private readonly Lazy<HttpClient> _adminClient;
     private readonly Lazy<HttpClient> _cantonAdminClient;
     private readonly Lazy<HttpClient> _electionAdminClient;
+    private readonly Lazy<HttpClient> _zurichCantonAdminClient;
 
     protected BaseRestTest(TestApplicationFactory factory)
         : base(factory)
@@ -39,6 +40,7 @@ public abstract class BaseRestTest : RestAuthorizationBaseTest<TestApplicationFa
         _adminClient = new Lazy<HttpClient>(() => CreateHttpClient(Roles.Admin));
         _cantonAdminClient = new Lazy<HttpClient>(() => CreateHttpClient(Roles.CantonAdmin));
         _electionAdminClient = new Lazy<HttpClient>(() => CreateHttpClient(Roles.ElectionAdmin));
+        _zurichCantonAdminClient = new Lazy<HttpClient>(() => CreateHttpClient(true, "zürich-sec-id", roles: Roles.CantonAdmin));
     }
 
     protected EventPublisherMock EventPublisherMock { get; }
@@ -52,6 +54,8 @@ public abstract class BaseRestTest : RestAuthorizationBaseTest<TestApplicationFa
     protected HttpClient CantonAdminClient => _cantonAdminClient.Value;
 
     protected HttpClient ElectionAdminClient => _electionAdminClient.Value;
+
+    protected HttpClient ZurichCantonAdminClient => _zurichCantonAdminClient.Value;
 
     /// <summary>
     /// Authorized roles should have access to the method.

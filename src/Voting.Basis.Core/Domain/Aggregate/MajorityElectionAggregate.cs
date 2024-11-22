@@ -13,10 +13,10 @@ using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Extensions;
+using Voting.Basis.Core.Models;
 using Voting.Basis.Core.Utils;
 using Voting.Lib.Common;
 using BallotNumberGeneration = Voting.Basis.Data.Models.BallotNumberGeneration;
-using DomainOfInfluenceType = Voting.Basis.Data.Models.DomainOfInfluenceType;
 using MajorityElectionMandateAlgorithm = Voting.Basis.Data.Models.MajorityElectionMandateAlgorithm;
 using MajorityElectionResultEntry = Voting.Basis.Data.Models.MajorityElectionResultEntry;
 using MajorityElectionReviewProcedure = Voting.Basis.Data.Models.MajorityElectionReviewProcedure;
@@ -218,7 +218,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void CreateCandidateFrom(MajorityElectionCandidate candidate, DomainOfInfluenceType doiType)
+    public void CreateCandidateFrom(MajorityElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
         if (candidate.Id == default)
@@ -233,7 +233,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             throw new ValidationException("Candidate position should be continuous");
         }
 
-        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, doiType);
+        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, candidateValidationParams);
         EnsureUniqueCandidatePosition(candidate);
         EnsureUniqueCandidateNumber(candidate);
 
@@ -248,7 +248,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateCandidateFrom(MajorityElectionCandidate candidate, DomainOfInfluenceType doiType)
+    public void UpdateCandidateFrom(MajorityElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
         _candidateValidator.ValidateAndThrow(candidate);
@@ -259,7 +259,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             throw new ValidationException("Cannot change the candidate position via an update");
         }
 
-        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, doiType);
+        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, candidateValidationParams);
         EnsureUniqueCandidatePosition(candidate);
         EnsureUniqueCandidateNumber(candidate);
 
@@ -274,17 +274,17 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateCandidateAfterTestingPhaseEnded(MajorityElectionCandidate candidate, DomainOfInfluenceType doiType)
+    public void UpdateCandidateAfterTestingPhaseEnded(MajorityElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
         _candidateValidator.ValidateAndThrow(candidate);
 
         candidate.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(candidate.Number);
 
-        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, doiType);
+        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, candidateValidationParams);
 
         var existingCandidate = FindCandidate(candidate.Id)
-            ?? throw new ValidationException($"Candidate {candidate.Id} does not exist");
+                                ?? throw new ValidationException($"Candidate {candidate.Id} does not exist");
 
         ValidationUtils.EnsureNotModified(existingCandidate.Number, candidate.Number);
         ValidationUtils.EnsureNotModified(existingCandidate.CheckDigit, candidate.CheckDigit);
@@ -477,7 +477,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void CreateSecondaryMajorityElectionCandidateFrom(MajorityElectionCandidate data, DomainOfInfluenceType doiType)
+    public void CreateSecondaryMajorityElectionCandidateFrom(MajorityElectionCandidate data, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
 
@@ -487,7 +487,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         }
 
         _candidateValidator.ValidateAndThrow(data);
-        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(data, doiType);
+        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(data, candidateValidationParams);
 
         var sme = GetSecondaryMajorityElection(data.MajorityElectionId);
 
@@ -497,7 +497,9 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         }
 
         if (sme.AllowedCandidates == SecondaryMajorityElectionAllowedCandidates.MustNotExistInPrimaryElection
-            && Candidates.Any(c => c.FirstName == data.FirstName && c.LastName == data.LastName && c.DateOfBirth.Date == data.DateOfBirth.Date))
+            && Candidates.Any(c =>
+                c.FirstName == data.FirstName && c.LastName == data.LastName &&
+                c.DateOfBirth.Date == data.DateOfBirth.Date))
         {
             throw new ValidationException("Candidate must not exist in primary election");
         }
@@ -518,11 +520,11 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateSecondaryMajorityElectionCandidateFrom(MajorityElectionCandidate data, DomainOfInfluenceType doiType)
+    public void UpdateSecondaryMajorityElectionCandidateFrom(MajorityElectionCandidate data, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
         _candidateValidator.ValidateAndThrow(data);
-        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(data, doiType);
+        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(data, candidateValidationParams);
 
         var sme = GetSecondaryMajorityElection(data.MajorityElectionId);
 
@@ -544,12 +546,12 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateSecondaryMajorityElectionCandidateAfterTestingPhaseEnded(MajorityElectionCandidate data, DomainOfInfluenceType doiType)
+    public void UpdateSecondaryMajorityElectionCandidateAfterTestingPhaseEnded(MajorityElectionCandidate data, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
         _candidateValidator.ValidateAndThrow(data);
 
-        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(data, doiType);
+        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(data, candidateValidationParams);
 
         data.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
 
@@ -871,31 +873,6 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateElectionGroupDescription(string description)
-    {
-        EnsureNotDeleted();
-
-        if (string.IsNullOrEmpty(description))
-        {
-            throw new ValidationException("Election group description cannot be empty");
-        }
-
-        if (ElectionGroup == null)
-        {
-            throw new ValidationException("Election group does not exist");
-        }
-
-        var ev = new ElectionGroupUpdated
-        {
-            ElectionGroupId = ElectionGroup.Id.ToString(),
-            PrimaryMajorityElectionId = Id.ToString(),
-            Description = description,
-            EventInfo = _eventInfoProvider.NewEventInfo(),
-        };
-
-        RaiseEvent(ev);
-    }
-
     public void DeleteElectionGroup()
     {
         EnsureNotDeleted();
@@ -973,9 +950,6 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
                 Apply(e);
                 break;
             case ElectionGroupCreated e:
-                Apply(e);
-                break;
-            case ElectionGroupUpdated e:
                 Apply(e);
                 break;
             case ElectionGroupDeleted _:
@@ -1114,11 +1088,6 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     private void Apply(ElectionGroupCreated ev)
     {
         ElectionGroup = _mapper.Map<ElectionGroup>(ev.ElectionGroup);
-    }
-
-    private void Apply(ElectionGroupUpdated ev)
-    {
-        ElectionGroup!.Description = ev.Description;
     }
 
     private void Apply(MajorityElectionBallotGroupCreated ev)
@@ -1349,14 +1318,14 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         throw new ValidationException("The candidate count for this ballot group is correct, modifications aren't allowed anymore.");
     }
 
-    private void EnsureLocalityAndOriginIsSetForNonCommunalDoiType(MajorityElectionCandidate candidate, DomainOfInfluenceType doiType)
+    private void EnsureLocalityAndOriginIsSetForNonCommunalDoiType(MajorityElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
-        if (string.IsNullOrEmpty(candidate.Locality) && !doiType.IsCommunal())
+        if (candidateValidationParams.IsLocalityRequired && string.IsNullOrEmpty(candidate.Locality) && !candidateValidationParams.DoiType.IsCommunal())
         {
             throw new ValidationException("Candidate locality is required for non communal political businesses");
         }
 
-        if (string.IsNullOrEmpty(candidate.Origin) && !doiType.IsCommunal())
+        if (candidateValidationParams.IsOriginRequired && string.IsNullOrEmpty(candidate.Origin) && !candidateValidationParams.DoiType.IsCommunal())
         {
             throw new ValidationException("Candidate origin is required for non communal political businesses");
         }

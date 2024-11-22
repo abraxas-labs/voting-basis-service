@@ -32,7 +32,10 @@
       "NameForProtocol": "Uzwil",
       "VirtualTopLevel": false,
       "ViewCountingCirclePartialResults": false,
-      "ElectoralRegistrationEnabled": false
+      "ElectoralRegistrationEnabled": false,
+      "HasForeignerVoters": true,
+      "HasMinorVoters": true,
+      "SuperiorAuthorityDomainOfInfluenceId": "d9f5e161-37f8-4c76-921d-c0237c54dc5b"
     }
   },
   "exportConfigCreated": {

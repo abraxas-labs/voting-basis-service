@@ -39,6 +39,7 @@
       "InvoiceReferenceNumber": "505964478",
       "FrankingLicenceReturnNumber": "965333145"
     },
-    "VotingCardColor": 8
+    "VotingCardColor": 8,
+    "StistatMunicipality": true
   }
 }

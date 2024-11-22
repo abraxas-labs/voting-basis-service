@@ -14,7 +14,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.MajorityElectionBallotGroupTests;
 
-public class MajorityElectionBallotGroupCandidatesListTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class MajorityElectionBallotGroupCandidatesListTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     private const string IdNotFound = "eae2cfaf-c787-48b9-a108-c975b0addddd";
 
@@ -47,39 +47,6 @@ public class MajorityElectionBallotGroupCandidatesListTest : BaseGrpcTest<Majori
             BallotGroupId = MajorityElectionMockedData.BallotGroupIdStGallenMajorityElectionInContestBund,
         });
         response.MatchSnapshot();
-    }
-
-    [Fact]
-    public async Task TestAsAdminChildDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.ListBallotGroupCandidatesAsync(new ListMajorityElectionBallotGroupCandidatesRequest
-            {
-                BallotGroupId = MajorityElectionMockedData.BallotGroupIdUzwilMajorityElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestAsElectionAdminChildDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.ListBallotGroupCandidatesAsync(new ListMajorityElectionBallotGroupCandidatesRequest
-            {
-                BallotGroupId = MajorityElectionMockedData.BallotGroupIdUzwilMajorityElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestForeignDoiShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.ListBallotGroupCandidatesAsync(new ListMajorityElectionBallotGroupCandidatesRequest
-            {
-                BallotGroupId = MajorityElectionMockedData.BallotGroupIdKircheMajorityElectionInContestKirche,
-            }),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

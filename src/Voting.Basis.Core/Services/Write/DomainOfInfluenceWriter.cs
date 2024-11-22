@@ -21,6 +21,7 @@ using Voting.Basis.Core.ObjectStorage;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
+using Voting.Basis.Data.Extensions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
 using Voting.Lib.Database.Repositories;
@@ -105,6 +106,7 @@ public class DomainOfInfluenceWriter
         await ValidatePlausibilisationConfig(data);
         await ValidateParties(null, data.Parties);
         await ValidateExportConfigurations(null, data.ExportConfigurations);
+        await ValidateSuperiorAuthority(data, parent?.Canton ?? data.Canton);
         await EnsureCanCreate(data, parent);
 
         var domainOfInfluence = _aggregateFactory.New<DomainOfInfluenceAggregate>();
@@ -117,13 +119,15 @@ public class DomainOfInfluenceWriter
     {
         await EnsureCanEdit(data.Id, false);
         ValidateElectoralRegistration(data);
-        await ValidateHierarchy(data);
+        var parent = await ValidateHierarchy(data);
         await ValidateUniqueBfs(data);
         await SetAuthorityTenant(data);
 
         await ValidatePlausibilisationConfig(data);
         await ValidateParties(data.Id, data.Parties);
         await ValidateExportConfigurations(data.Id, data.ExportConfigurations);
+
+        await ValidateSuperiorAuthority(data, parent?.Canton ?? data.Canton);
 
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(data.Id);
 
@@ -174,7 +178,8 @@ public class DomainOfInfluenceWriter
                 data.ExternalPrintingCenterEaiMessageType,
                 data.SapCustomerOrderNumber,
                 null,
-                data.VotingCardColor);
+                data.VotingCardColor,
+                data.StistatMunicipality);
         }
 
         await _aggregateRepository.Save(domainOfInfluence);
@@ -307,7 +312,7 @@ public class DomainOfInfluenceWriter
             throw new EntityNotFoundException(missingId);
         }
 
-        await EnsureCountingCircleOnlyOnceInTree(domainOfInfluence.Id, countingCircleIds);
+        await EnsureCountingCircleIsNotAlreadyInheritedInTree(domainOfInfluence.Id, countingCircleIds);
     }
 
     private async Task SetAuthorityTenant(Domain.DomainOfInfluence data)
@@ -318,18 +323,20 @@ public class DomainOfInfluenceWriter
         data.AuthorityName = tenant.Name;
     }
 
-    private async Task EnsureCountingCircleOnlyOnceInTree(Guid domainOfInfluenceId, IReadOnlyCollection<Guid> countingCircleIds)
+    private async Task EnsureCountingCircleIsNotAlreadyInheritedInTree(Guid domainOfInfluenceId, IReadOnlyCollection<Guid> countingCircleIds)
     {
         // validation to prevent events with inherited CcIds
         var inheritedCcIds = await _doiCcRepo
             .Query()
-            .Where(doiCc => doiCc.DomainOfInfluenceId == domainOfInfluenceId && doiCc.Inherited)
+            .Where(doiCc => doiCc.DomainOfInfluenceId == domainOfInfluenceId)
+            .WhereIsInherited()
             .Select(doiCc => doiCc.CountingCircleId)
+            .Distinct()
             .ToListAsync();
 
         if (inheritedCcIds.Any(inheritedDoiCcId => countingCircleIds.Contains(inheritedDoiCcId)))
         {
-            throw new ValidationException("A CountingCircle cannot be added twice in the same DomainOfInfluence Tree");
+            throw new ValidationException("A CountingCircle cannot be added if he is already inherited in the DomainOfInfluence Tree");
         }
     }
 
@@ -371,6 +378,7 @@ public class DomainOfInfluenceWriter
             .Query()
             .Where(doiCc => doiCc.DomainOfInfluenceId == doi.Id)
             .Select(doiCc => doiCc.CountingCircleId)
+            .Distinct()
             .ToListAsync();
 
         if (ccIds.Any(ccId => !doiCcIds.Contains(ccId)))
@@ -532,5 +540,26 @@ public class DomainOfInfluenceWriter
                           ?? throw new EntityNotFoundException(nameof(DomainOfInfluence), doi.Id);
 
         return existingDoi.CantonDefaults.InternalPlausibilisationDisabled;
+    }
+
+    private async Task ValidateSuperiorAuthority(Domain.DomainOfInfluence doi, DomainOfInfluenceCanton canton)
+    {
+        if (!doi.SuperiorAuthorityDomainOfInfluenceId.HasValue)
+        {
+            return;
+        }
+
+        if (canton == DomainOfInfluenceCanton.Unspecified)
+        {
+            throw new ArgumentException($"Canton must not be {nameof(DomainOfInfluenceCanton.Unspecified)}");
+        }
+
+        var superiorAuthorityDoi = await _repo.GetByKey(doi.SuperiorAuthorityDomainOfInfluenceId.Value)
+            ?? throw new EntityNotFoundException(doi.SuperiorAuthorityDomainOfInfluenceId);
+
+        if (superiorAuthorityDoi.Canton != canton)
+        {
+            throw new ValidationException("Cannot set a domain of influence from a different canton as superior authority");
+        }
     }
 }

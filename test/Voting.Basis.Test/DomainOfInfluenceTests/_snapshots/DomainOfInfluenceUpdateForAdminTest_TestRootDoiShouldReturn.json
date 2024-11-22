@@ -32,7 +32,10 @@
       "NameForProtocol": "",
       "VirtualTopLevel": false,
       "ViewCountingCirclePartialResults": false,
-      "ElectoralRegistrationEnabled": false
+      "ElectoralRegistrationEnabled": false,
+      "HasForeignerVoters": false,
+      "HasMinorVoters": false,
+      "SuperiorAuthorityDomainOfInfluenceId": ""
     }
   },
   "exportConfigCreated": {

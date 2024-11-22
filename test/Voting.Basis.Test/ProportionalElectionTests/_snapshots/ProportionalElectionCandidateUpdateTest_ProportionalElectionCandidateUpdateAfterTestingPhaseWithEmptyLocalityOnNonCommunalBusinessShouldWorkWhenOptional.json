@@ -1,0 +1,90 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Id": "bba39596-a5f6-4729-a56f-e63871b30acc",
+    "FirstName": "update first name",
+    "LastName": "updated last name",
+    "PoliticalFirstName": "updated p. first name",
+    "PoliticalLastName": "updated p. last name",
+    "DateOfBirth": {
+      "Seconds": 639301503,
+      "Nanos": 0
+    },
+    "Sex": 1,
+    "Occupation": {
+      "de": "occupation updated de",
+      "fr": "occupation updated fr",
+      "it": "occupation updated it",
+      "rm": "occupation updated rm"
+    },
+    "Title": "",
+    "OccupationTitle": {},
+    "Incumbent": false,
+    "ZipCode": "",
+    "Locality": "",
+    "ProportionalElectionId": "3a832f45-34c0-47ce-b1e3-db27b97948ba",
+    "ProportionalElectionListId": "6fa5262f-bf27-4eb9-81d4-23bb1a49d031",
+    "Origin": "origin"
+  },
+  "response": {
+    "Id": "bba39596-a5f6-4729-a56f-e63871b30acc",
+    "ProportionalElectionListId": "6fa5262f-bf27-4eb9-81d4-23bb1a49d031",
+    "Number": "number1",
+    "FirstName": "update first name",
+    "LastName": "updated last name",
+    "PoliticalFirstName": "updated p. first name",
+    "PoliticalLastName": "updated p. last name",
+    "DateOfBirth": {
+      "Seconds": 639273600,
+      "Nanos": 0
+    },
+    "Sex": 1,
+    "Occupation": {
+      "de": "occupation updated de",
+      "fr": "occupation updated fr",
+      "it": "occupation updated it",
+      "rm": "occupation updated rm"
+    },
+    "Title": "",
+    "OccupationTitle": {},
+    "Incumbent": false,
+    "ZipCode": "",
+    "Locality": "",
+    "Position": 1,
+    "Accumulated": true,
+    "AccumulatedPosition": 2,
+    "Party": {
+      "Id": "d42d9fb1-4e68-4c4a-8d1f-7cf846c8304f",
+      "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+      "Name": {
+        "de": "Sozialdemokratische Partei de",
+        "fr": "Sozialdemokratische Partei fr",
+        "it": "Sozialdemokratische Partei it",
+        "rm": "Sozialdemokratische Partei rm"
+      },
+      "ShortDescription": {
+        "de": "SP de",
+        "fr": "SP fr",
+        "it": "SP it",
+        "rm": "SP rm"
+      }
+    },
+    "Origin": "origin",
+    "CheckDigit": 6
+  }
+}

@@ -18,13 +18,12 @@ using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
-using Voting.Lib.Common;
 using Voting.Lib.Testing.Utils;
 using Xunit;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
-public class ProportionalElectionListUpdateTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
+public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     public ProportionalElectionListUpdateTest(TestApplicationFactory factory)
         : base(factory)
@@ -93,38 +92,22 @@ public class ProportionalElectionListUpdateTest : BaseGrpcTest<ProportionalElect
             .OrderBy(x => x.Position)
             .ToListAsync());
         lists.Should().HaveCount(5);
-        lists.Select(x => x.ListUnionDescription[Languages.German])
+        lists.Select(x => x.ListUnionDescription)
             .Should()
             .BeEquivalentTo(
-                "<span><span>Liste 1 de</span>, <span>Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; de</span>, <span>Liste 2 de</span></span>",
-                "<span><span>Liste 1 de</span>, <span>Liste 1 de</span>, <span>Liste 2 de</span>, <span>…</span></span>",
-                "<span><span>Liste 1 de</span>, <span>Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; de</span>, <span>Liste 2 de</span></span>",
-                "<span><span>Liste 1 de</span>, <span>Liste 1 de</span>, <span>Liste 2 de</span>, <span>…</span></span>",
-                "<span><span>Liste 1 de</span>, <span>Liste 1 de</span>, <span>Liste 2 de</span>, <span>…</span></span>");
-        lists.Select(x => x.SubListUnionDescription[Languages.German])
+                "<span><span>1a</span>, <span>o2</span>, <span>2</span></span>",
+                "<span><span>1a</span>, <span>1a</span>, <span>o2</span>, <span>2</span>, <span>2</span></span>",
+                "<span><span>1a</span>, <span>o2</span>, <span>2</span></span>",
+                "<span><span>1a</span>, <span>1a</span>, <span>o2</span>, <span>2</span>, <span>2</span></span>",
+                "<span><span>1a</span>, <span>1a</span>, <span>o2</span>, <span>2</span>, <span>2</span></span>");
+        lists.Select(x => x.SubListUnionDescription)
             .Should()
             .BeEquivalentTo(
-                "<span><span class=\"main-list\">Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; de</span>, <span>Liste 2 de</span></span>",
-                "<span><span class=\"main-list\">Liste 1 de</span>, <span class=\"main-list\">Liste 1 de</span>, <span>Liste 2 de</span>, <span>…</span></span>",
-                "<span><span class=\"main-list\">Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; de</span>, <span>Liste 2 de</span></span>",
-                "<span><span class=\"main-list\">Liste 1 de</span>, <span class=\"main-list\">Liste 1 de</span>, <span>Liste 2 de</span>, <span>…</span></span>",
-                "<span><span class=\"main-list\">Liste 1 de</span>, <span class=\"main-list\">Liste 1 de</span>, <span>Liste 2 de</span>, <span>…</span></span>");
-        lists.Select(x => x.ListUnionDescription[Languages.French])
-            .Should()
-            .BeEquivalentTo(
-                "<span><span>Liste 1 fr</span>, <span>Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; fr</span>, <span>Liste 2 fr</span></span>",
-                "<span><span>Liste 1 fr</span>, <span>Liste 1 fr</span>, <span>Liste 2 fr</span>, <span>…</span></span>",
-                "<span><span>Liste 1 fr</span>, <span>Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; fr</span>, <span>Liste 2 fr</span></span>",
-                "<span><span>Liste 1 fr</span>, <span>Liste 1 fr</span>, <span>Liste 2 fr</span>, <span>…</span></span>",
-                "<span><span>Liste 1 fr</span>, <span>Liste 1 fr</span>, <span>Liste 2 fr</span>, <span>…</span></span>");
-        lists.Select(x => x.SubListUnionDescription[Languages.French])
-            .Should()
-            .BeEquivalentTo(
-                "<span><span class=\"main-list\">Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; fr</span>, <span>Liste 2 fr</span></span>",
-                "<span><span class=\"main-list\">Liste 1 fr</span>, <span class=\"main-list\">Liste 1 fr</span>, <span>Liste 2 fr</span>, <span>…</span></span>",
-                "<span><span class=\"main-list\">Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; fr</span>, <span>Liste 2 fr</span></span>",
-                "<span><span class=\"main-list\">Liste 1 fr</span>, <span class=\"main-list\">Liste 1 fr</span>, <span>Liste 2 fr</span>, <span>…</span></span>",
-                "<span><span class=\"main-list\">Liste 1 fr</span>, <span class=\"main-list\">Liste 1 fr</span>, <span>Liste 2 fr</span>, <span>…</span></span>");
+                "<span><span class=\"main-list\">o2</span>, <span>2</span></span>",
+                "<span><span class=\"main-list\">1a</span>, <span class=\"main-list\">1a</span>, <span>2</span>, <span>2</span></span>",
+                "<span><span class=\"main-list\">o2</span>, <span>2</span></span>",
+                "<span><span class=\"main-list\">1a</span>, <span class=\"main-list\">1a</span>, <span class=\"main-list\">o2</span>, <span>2</span>, <span>2</span>, <span>2</span>, <span class=\"main-list\">2</span></span>",
+                "<span><span class=\"main-list\">1a</span>, <span class=\"main-list\">1a</span>, <span class=\"main-list\">o2</span>, <span>2</span>, <span>2</span>, <span>2</span>, <span class=\"main-list\">2</span></span>");
 
         await AssertHasPublishedMessage<ProportionalElectionListChangeMessage>(
             x => x.List.HasEqualIdAndNewEntityState(listId, EntityState.Modified));
@@ -157,21 +140,13 @@ public class ProportionalElectionListUpdateTest : BaseGrpcTest<ProportionalElect
     }
 
     [Fact]
-    public async Task ForeignProportionalElectionListShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.UpdateListAsync(NewValidRequest(l =>
-                l.Id = ProportionalElectionMockedData.ListIdBundProportionalElectionInContestBund)),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
     public async Task ChangeProportionalElectionIdShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateListAsync(NewValidRequest(l =>
-                l.ProportionalElectionId = ProportionalElectionMockedData.IdKircheProportionalElectionInContestKircheWithoutChilds)),
-            StatusCode.InvalidArgument);
+            async () => await ElectionAdminClient.UpdateListAsync(NewValidRequest(l =>
+                l.ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestStGallen)),
+            StatusCode.InvalidArgument,
+            "List 6eedf849-0ecc-4a02-a43b-99ef4b11d795 does not exist");
     }
 
     [Fact]

@@ -6,7 +6,6 @@ using System.Linq;
 using FluentAssertions;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data.Models;
-using Voting.Lib.Common;
 using Voting.Lib.Testing.Utils;
 using Xunit;
 
@@ -17,21 +16,21 @@ public class ProportionalListUnionDescriptionBuilderTest
     [Fact]
     public void ShouldWork()
     {
-        var descriptions = ProportionalListUnionDescriptionBuilder.BuildListUnionDescription(NewDummyList(), false);
+        var description = ProportionalListUnionDescriptionBuilder.BuildListUnionDescription(NewDummyList(), false);
 
-        descriptions[Languages.German]
+        description
             .Should()
-            .Be("<span><span>01 de</span>, <span class=\"main-list\">02 de</span>, <span>03 de</span></span>");
+            .Be("<span><span>01</span>, <span class=\"main-list\">02</span>, <span>03</span></span>");
     }
 
     [Fact]
     public void ShouldWorkForSubListUnions()
     {
-        var descriptions = ProportionalListUnionDescriptionBuilder.BuildListUnionDescription(NewDummyList(), true);
+        var description = ProportionalListUnionDescriptionBuilder.BuildListUnionDescription(NewDummyList(), true);
 
-        descriptions[Languages.German]
+        description
             .Should()
-            .Be("<span><span>04 de</span>, <span>05 de</span>, <span class=\"main-list\">06 de</span></span>");
+            .Be("<span><span>04</span>, <span>05</span>, <span class=\"main-list\">06</span></span>");
     }
 
     [Fact]
@@ -42,33 +41,39 @@ public class ProportionalListUnionDescriptionBuilderTest
             .ProportionalElectionListUnion
             .ProportionalElectionMainListId = null;
 
-        var descriptions = ProportionalListUnionDescriptionBuilder.BuildListUnionDescription(l, false);
+        var description = ProportionalListUnionDescriptionBuilder.BuildListUnionDescription(l, false);
 
-        descriptions[Languages.German]
+        description
             .Should()
-            .Be("<span><span>01 de</span>, <span>02 de</span>, <span>03 de</span></span>");
+            .Be("<span><span>01</span>, <span>02</span>, <span>03</span></span>");
     }
 
     [Fact]
     public void ShouldTruncateAndPriorizeMainList()
     {
         var l = NewDummyList();
-        l.ProportionalElectionListUnionEntries.First()
+        var listUnionEntries = l.ProportionalElectionListUnionEntries.First()
             .ProportionalElectionListUnion
-            .ProportionalElectionListUnionEntries
-            .Add(new ProportionalElectionListUnionEntry
+            .ProportionalElectionListUnionEntries;
+        for (var i = 0; i < 5; i++)
+        {
+            listUnionEntries.Add(new ProportionalElectionListUnionEntry
             {
                 ProportionalElectionList = new ProportionalElectionList
                 {
-                    ShortDescription = LanguageUtil.MockAllLanguages("99"),
+                    Id = Guid.NewGuid(),
+                    ShortDescription = LanguageUtil.MockAllLanguages((99 - i).ToString()),
+                    OrderNumber = (99 - i).ToString(),
                     Position = 1,
                 },
             });
-        var descriptions = ProportionalListUnionDescriptionBuilder.BuildListUnionDescription(l, false);
+        }
 
-        descriptions[Languages.German]
+        var description = ProportionalListUnionDescriptionBuilder.BuildListUnionDescription(l, false);
+
+        description
             .Should()
-            .Be("<span><span>01 de</span>, <span>99 de</span>, <span class=\"main-list\">02 de</span>, <span>…</span></span>");
+            .Be("<span><span>01</span>, <span>99</span>, <span>98</span>, <span>97</span>, <span>96</span>, <span>95</span>, <span class=\"main-list\">02</span>, <span>…</span></span>");
     }
 
     [Fact]
@@ -79,43 +84,13 @@ public class ProportionalListUnionDescriptionBuilderTest
             .ProportionalElectionListUnion
             .ProportionalElectionListUnionEntries.First()
             .ProportionalElectionList
-            .ShortDescription = LanguageUtil.MockAllLanguages("<script>alert('hi');</script>");
+            .OrderNumber = "<script>alert('hi');</script>";
 
-        var descriptions = ProportionalListUnionDescriptionBuilder.BuildListUnionDescription(l, false);
+        var description = ProportionalListUnionDescriptionBuilder.BuildListUnionDescription(l, false);
 
-        descriptions[Languages.German]
+        description
             .Should()
-            .Be("<span><span>&lt;script&gt;alert(&#x27;hi&#x27;);&lt;/script&gt; de</span>, <span class=\"main-list\">02 de</span>, <span>03 de</span></span>");
-    }
-
-    [Fact]
-    public void ShouldWorkWithMultipleLanguages()
-    {
-        var l = NewDummyList();
-        l.ProportionalElectionListUnionEntries.First()
-            .ProportionalElectionListUnion
-            .ProportionalElectionListUnionEntries
-            .Add(new ProportionalElectionListUnionEntry
-            {
-                ProportionalElectionList = new ProportionalElectionList
-                {
-                    ShortDescription =
-                    {
-                            [Languages.German] = "1g",
-                            [Languages.French] = "1f",
-                    },
-                    Position = 1,
-                },
-            });
-        var descriptions = ProportionalListUnionDescriptionBuilder.BuildListUnionDescription(l, false);
-
-        descriptions[Languages.German]
-            .Should()
-            .Be("<span><span>01 de</span>, <span>1g</span>, <span class=\"main-list\">02 de</span>, <span>…</span></span>");
-
-        descriptions[Languages.French]
-            .Should()
-            .Be("<span><span>01 fr</span>, <span>1f</span>, <span class=\"main-list\">02 fr</span>, <span>…</span></span>");
+            .Be("<span><span>&lt;script&gt;alert(&#x27;hi&#x27;);&lt;/script&gt;</span>, <span class=\"main-list\">02</span>, <span>03</span></span>");
     }
 
     private static ProportionalElectionList NewDummyList()
@@ -145,6 +120,7 @@ public class ProportionalListUnionDescriptionBuilderTest
                                     ProportionalElectionList = new ProportionalElectionList
                                     {
                                         ShortDescription = LanguageUtil.MockAllLanguages("01"),
+                                        OrderNumber = "01",
                                         Id = list1Id,
                                         Position = 1,
                                     },
@@ -155,6 +131,7 @@ public class ProportionalListUnionDescriptionBuilderTest
                                     ProportionalElectionList = new ProportionalElectionList
                                     {
                                         ShortDescription = LanguageUtil.MockAllLanguages("02"),
+                                        OrderNumber = "02",
                                         Id = list2Id,
                                         Position = 2,
                                     },
@@ -165,6 +142,7 @@ public class ProportionalListUnionDescriptionBuilderTest
                                     ProportionalElectionList = new ProportionalElectionList
                                     {
                                         ShortDescription = LanguageUtil.MockAllLanguages("03"),
+                                        OrderNumber = "03",
                                         Id = list3Id,
                                         Position = 3,
                                     },
@@ -186,6 +164,7 @@ public class ProportionalListUnionDescriptionBuilderTest
                                     ProportionalElectionList = new ProportionalElectionList
                                     {
                                         ShortDescription = LanguageUtil.MockAllLanguages("04"),
+                                        OrderNumber = "04",
                                         Id = list4Id,
                                         Position = 4,
                                     },
@@ -196,6 +175,7 @@ public class ProportionalListUnionDescriptionBuilderTest
                                     ProportionalElectionList = new ProportionalElectionList
                                     {
                                         ShortDescription = LanguageUtil.MockAllLanguages("05"),
+                                        OrderNumber = "05",
                                         Id = list5Id,
                                         Position = 5,
                                     },
@@ -206,6 +186,7 @@ public class ProportionalListUnionDescriptionBuilderTest
                                     ProportionalElectionList = new ProportionalElectionList
                                     {
                                         ShortDescription = LanguageUtil.MockAllLanguages("06"),
+                                        OrderNumber = "06",
                                         Id = list6Id,
                                         Position = 6,
                                     },

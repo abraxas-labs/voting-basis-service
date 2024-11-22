@@ -24,7 +24,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.SecondaryMajorityElectionTests;
 
-public class SecondaryMajorityElectionUpdateTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class SecondaryMajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     public SecondaryMajorityElectionUpdateTest(TestApplicationFactory factory)
         : base(factory)
@@ -134,18 +134,6 @@ public class SecondaryMajorityElectionUpdateTest : BaseGrpcTest<MajorityElection
 
         await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
             x => x.ElectionGroup.HasEqualIdAndNewEntityState(Guid.Parse(MajorityElectionMockedData.ElectionGroupIdStGallenMajorityElectionInContestBund), EntityState.Modified));
-    }
-
-    [Fact]
-    public async Task MajorityElectionFromDifferentDoiShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.UpdateSecondaryMajorityElectionAsync(NewValidRequest(pe =>
-            {
-                pe.Id = MajorityElectionMockedData.SecondaryElectionIdKircheMajorityElectionInContestKirche;
-                pe.PrimaryMajorityElectionId = MajorityElectionMockedData.IdKircheMajorityElectionInContestKirche;
-            })),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

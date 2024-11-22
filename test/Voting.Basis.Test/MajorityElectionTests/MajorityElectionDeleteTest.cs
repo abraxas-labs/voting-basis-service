@@ -23,7 +23,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.MajorityElectionTests;
 
-public class MajorityElectionDeleteTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class MajorityElectionDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
     private string? _authTestElectionId;
@@ -112,28 +112,6 @@ public class MajorityElectionDeleteTest : BaseGrpcTest<MajorityElectionService.M
             }),
             StatusCode.FailedPrecondition,
             "Majority election with existing secondary elections cannot be deleted");
-    }
-
-    [Fact]
-    public async Task MajorityElectionOtherTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteMajorityElectionRequest
-            {
-                Id = MajorityElectionMockedData.IdUzwilMajorityElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestParentMajorityElectionShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.DeleteAsync(new DeleteMajorityElectionRequest
-            {
-                Id = MajorityElectionMockedData.IdBundMajorityElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

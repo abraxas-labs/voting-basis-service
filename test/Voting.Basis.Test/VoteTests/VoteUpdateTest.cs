@@ -25,7 +25,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.VoteTests;
 
-public class VoteUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
+public class VoteUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteService.VoteServiceClient>
 {
     private readonly TestMapper _mapper;
 
@@ -89,7 +89,8 @@ public class VoteUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                 v.ContestId = ContestMockedData.IdGossau;
                 v.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen;
             })),
-            StatusCode.InvalidArgument);
+            StatusCode.InvalidArgument,
+            "some ids are not children of the parent node");
     }
 
     [Fact]
@@ -115,19 +116,8 @@ public class VoteUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
                 v.ContestId = ContestMockedData.IdStGallenEvoting;
                 v.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdThurgau;
             })),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task ChildDoiWithDifferentTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(v =>
-            {
-                v.ContestId = ContestMockedData.IdStGallenEvoting;
-                v.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdUzwil;
-            })),
-            StatusCode.InvalidArgument);
+            StatusCode.InvalidArgument,
+            "some ids are not children of the parent node");
     }
 
     [Fact]
@@ -252,6 +242,29 @@ public class VoteUpdateTest : BaseGrpcTest<VoteService.VoteServiceClient>
 
         await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
             x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id, EntityState.Modified));
+    }
+
+    [Fact]
+    public async Task VoteUpdateAfterTestingPhaseJobNotYetRunShouldWork()
+    {
+        await ModifyDbEntities<Contest>(
+            c => c.Id == ContestMockedData.BundContest.Id,
+            c => c.EndOfTestingPhase = DateTime.MinValue);
+
+        var id = Guid.Parse(VoteMockedData.IdGossauVoteInContestBund);
+        await AdminClient.UpdateAsync(NewValidRequest(o =>
+        {
+            o.Id = id.ToString();
+            o.ContestId = ContestMockedData.IdBundContest;
+            o.DomainOfInfluenceId = VoteMockedData.GossauVoteInContestBund.DomainOfInfluenceId.ToString();
+            o.Active = VoteMockedData.GossauVoteInContestBund.Active;
+            o.ResultAlgorithm = _mapper.Map<SharedProto.VoteResultAlgorithm>(VoteMockedData.GossauVoteInContestBund.ResultAlgorithm);
+            o.ReportDomainOfInfluenceLevel = 0;
+            o.PoliticalBusinessNumber = "1661new";
+        }));
+
+        EventPublisherMock.GetPublishedEvents<VoteAfterTestingPhaseUpdated>().Should().HaveCount(1);
+        EventPublisherMock.GetPublishedEvents<VoteUpdated>().Should().HaveCount(0);
     }
 
     [Fact]

@@ -50,7 +50,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -98,7 +102,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       }
     ]
   },
@@ -153,7 +161,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -201,7 +213,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       }
     ]
   },
@@ -256,7 +272,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -304,7 +324,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       }
     ]
   },

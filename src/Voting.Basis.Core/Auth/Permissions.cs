@@ -118,6 +118,20 @@ public static class Permissions
         private const string Prefix = "PoliticalAssembly";
     }
 
+    public static class PoliticalBusiness
+    {
+        public const string ActionsTenantSameCanton = Prefix + ":actions-tenant-same-canton";
+
+        private const string Prefix = "PoliticalBusiness";
+    }
+
+    public static class PoliticalBusinessUnion
+    {
+        public const string ActionsTenantSameCanton = Prefix + ":actions-tenant-same-canton";
+
+        private const string Prefix = "PoliticalBusinessUnion";
+    }
+
     public static class Vote
     {
         public const string Create = Prefix + CreateSuffix;
@@ -246,15 +260,6 @@ public static class Permissions
         public const string Delete = Prefix + DeleteSuffix;
 
         private const string Prefix = "SecondaryMajorityElection.Candidate";
-    }
-
-    public static class ElectionGroup
-    {
-        public const string Update = Prefix + UpdateSuffix;
-        public const string Read = Prefix + ReadSuffix;
-        public const string ReadAll = Prefix + ReadAllSuffix;
-
-        private const string Prefix = "ElectionGroup";
     }
 
     public static class EventLog

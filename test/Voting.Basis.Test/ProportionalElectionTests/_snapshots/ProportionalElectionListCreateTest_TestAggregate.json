@@ -19,8 +19,8 @@
     },
     "CountOfCandidates": 0,
     "CandidateCountOk": false,
-    "ListUnionDescription": {},
-    "SubListUnionDescription": {},
+    "ListUnionDescription": "",
+    "SubListUnionDescription": "",
     "Party": {
       "Id": "6fe8af5a-9f98-4457-90e7-49657a3df14f",
       "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
@@ -53,8 +53,8 @@
     },
     "CountOfCandidates": 0,
     "CandidateCountOk": false,
-    "ListUnionDescription": {},
-    "SubListUnionDescription": {},
+    "ListUnionDescription": "",
+    "SubListUnionDescription": "",
     "Party": null
   }
 }

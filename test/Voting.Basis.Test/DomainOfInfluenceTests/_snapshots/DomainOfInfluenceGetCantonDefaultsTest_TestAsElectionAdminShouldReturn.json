@@ -12,5 +12,7 @@
   "ProportionalElectionUseCandidateCheckDigit": false,
   "MajorityElectionUseCandidateCheckDigit": false,
   "CreateContestOnHighestHierarchicalLevelEnabled": false,
-  "InternalPlausibilisationDisabled": false
+  "InternalPlausibilisationDisabled": false,
+  "CandidateLocalityRequired": false,
+  "CandidateOriginRequired": false
 }

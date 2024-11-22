@@ -21,7 +21,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.SecondaryMajorityElectionTests;
 
-public class SecondaryMajorityElectionDeleteTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class SecondaryMajorityElectionDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
     private string? _authTestElectionId;
@@ -90,17 +90,6 @@ public class SecondaryMajorityElectionDeleteTest : BaseGrpcTest<MajorityElection
 
         await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
             x => x.ElectionGroup.HasEqualIdAndNewEntityState(Guid.Parse(MajorityElectionMockedData.ElectionGroupIdStGallenMajorityElectionInContestBund), EntityState.Modified));
-    }
-
-    [Fact]
-    public async Task SecondaryMajorityElectionOtherTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.DeleteSecondaryMajorityElectionAsync(new DeleteSecondaryMajorityElectionRequest
-            {
-                Id = MajorityElectionMockedData.SecondaryElectionIdKircheMajorityElectionInContestKirche,
-            }),
-            StatusCode.InvalidArgument);
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

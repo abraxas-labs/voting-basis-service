@@ -132,12 +132,117 @@ public class DomainOfInfluenceUpdateCountingCirclesTest : BaseGrpcTest<DomainOfI
     }
 
     [Fact]
-    public async Task AlreadyExistingInTreeShouldThrow()
+    public async Task TestProcessorWithSameCountingCircleInDoiTree()
+    {
+        await TestEventPublisher.Publish(
+            new DomainOfInfluenceCountingCircleEntriesUpdated
+            {
+                DomainOfInfluenceCountingCircleEntries = new DomainOfInfluenceCountingCircleEntriesEventData
+                {
+                    Id = DomainOfInfluenceMockedData.IdGossau,
+                    CountingCircleIds =
+                    {
+                        CountingCircleMockedData.IdGossau,
+                        CountingCircleMockedData.IdUzwilKirche,
+                    },
+                },
+                EventInfo = GetMockedEventInfo(),
+            },
+            new DomainOfInfluenceCountingCircleEntriesUpdated
+            {
+                DomainOfInfluenceCountingCircleEntries = new DomainOfInfluenceCountingCircleEntriesEventData
+                {
+                    Id = DomainOfInfluenceMockedData.IdUzwil,
+                    CountingCircleIds =
+                    {
+                        CountingCircleMockedData.IdUzwil,
+                        CountingCircleMockedData.IdUzwilKirche,
+                    },
+                },
+                EventInfo = GetMockedEventInfo(),
+            });
+
+        var parentDoiCcs = await RunOnDb(db => db.DomainOfInfluenceCountingCircles
+            .Where(doiCc => doiCc.DomainOfInfluenceId == DomainOfInfluenceMockedData.GuidStGallen)
+            .ToListAsync());
+
+        var uzwilDoiCcs = await RunOnDb(db => db.DomainOfInfluenceCountingCircles
+            .Where(doiCc => doiCc.DomainOfInfluenceId == DomainOfInfluenceMockedData.GuidUzwil)
+            .ToListAsync());
+
+        var gossauDoiCcs = await RunOnDb(db => db.DomainOfInfluenceCountingCircles
+            .Where(doiCc => doiCc.DomainOfInfluenceId == DomainOfInfluenceMockedData.GuidGossau)
+            .ToListAsync());
+
+        var parentDoiUzwilKircheCcs = parentDoiCcs.Where(doiCc => doiCc.CountingCircleId == CountingCircleMockedData.UzwilKirche.Id).ToList();
+        var uzwilDoiUzwilKircheCc = uzwilDoiCcs.First(doiCc => doiCc.CountingCircleId == CountingCircleMockedData.UzwilKirche.Id);
+        var gossauDoiUzwilKircheCc = gossauDoiCcs.First(doiCc => doiCc.CountingCircleId == CountingCircleMockedData.UzwilKirche.Id);
+
+        parentDoiCcs.Should().HaveCount(6);
+        uzwilDoiCcs.Should().HaveCount(2);
+        gossauDoiCcs.Should().HaveCount(2);
+
+        parentDoiUzwilKircheCcs.Should().HaveCount(2);
+        foreach (var doiCc in parentDoiUzwilKircheCcs)
+        {
+            doiCc.Inherited.Should().BeTrue();
+        }
+
+        uzwilDoiUzwilKircheCc.Should().NotBeNull();
+        uzwilDoiUzwilKircheCc.Inherited.Should().BeFalse();
+
+        gossauDoiUzwilKircheCc.Should().NotBeNull();
+        gossauDoiUzwilKircheCc.Inherited.Should().BeFalse();
+
+        await TestEventPublisher.Publish(
+            new DomainOfInfluenceCountingCircleEntriesUpdated
+            {
+                DomainOfInfluenceCountingCircleEntries = new DomainOfInfluenceCountingCircleEntriesEventData
+                {
+                    Id = DomainOfInfluenceMockedData.IdGossau,
+                    CountingCircleIds =
+                    {
+                        CountingCircleMockedData.IdGossau,
+                    },
+                },
+                EventInfo = GetMockedEventInfo(),
+            });
+
+        parentDoiCcs = await RunOnDb(db => db.DomainOfInfluenceCountingCircles
+            .Where(doiCc => doiCc.DomainOfInfluenceId == DomainOfInfluenceMockedData.GuidStGallen)
+            .ToListAsync());
+
+        uzwilDoiCcs = await RunOnDb(db => db.DomainOfInfluenceCountingCircles
+            .Where(doiCc => doiCc.DomainOfInfluenceId == DomainOfInfluenceMockedData.GuidUzwil)
+            .ToListAsync());
+
+        gossauDoiCcs = await RunOnDb(db => db.DomainOfInfluenceCountingCircles
+            .Where(doiCc => doiCc.DomainOfInfluenceId == DomainOfInfluenceMockedData.GuidGossau)
+            .ToListAsync());
+
+        var parentDoiUzwilKircheCc = parentDoiCcs.Single(doiCc => doiCc.CountingCircleId == CountingCircleMockedData.UzwilKirche.Id);
+        uzwilDoiUzwilKircheCc = uzwilDoiCcs.First(doiCc => doiCc.CountingCircleId == CountingCircleMockedData.UzwilKirche.Id);
+        gossauDoiUzwilKircheCc = gossauDoiCcs.Find(doiCc => doiCc.CountingCircleId == CountingCircleMockedData.UzwilKirche.Id);
+
+        parentDoiCcs.Should().HaveCount(5);
+        uzwilDoiCcs.Should().HaveCount(2);
+        gossauDoiCcs.Should().HaveCount(1);
+
+        parentDoiUzwilKircheCc.Inherited.Should().BeTrue();
+
+        uzwilDoiUzwilKircheCc.Should().NotBeNull();
+        uzwilDoiUzwilKircheCc.Inherited.Should().BeFalse();
+
+        gossauDoiUzwilKircheCc.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task AlreadyInheritedInTreeShouldThrow()
     {
         await AssertStatus(
             async () => await AdminClient.UpdateCountingCircleEntriesAsync(NewValidRequest(x => x.CountingCircleIds.Add(CountingCircleMockedData.IdUzwil))),
             StatusCode.InvalidArgument,
-            "A CountingCircle cannot be added twice in the same DomainOfInfluence Tree");
+            "A CountingCircle cannot be added if he is already inherited in the DomainOfInfluence Tree");
     }
 
     [Fact]

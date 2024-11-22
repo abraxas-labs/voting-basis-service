@@ -8,10 +8,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Voting.Basis.Core.Domain;
 using Voting.Basis.Core.Domain.Aggregate;
+using Voting.Basis.Core.Models;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Validation;
-using Voting.Basis.Data.Models;
 using Voting.Lib.Eventing.Persistence;
 using ProportionalElectionCandidate = Voting.Basis.Core.Domain.ProportionalElectionCandidate;
 using ProportionalElectionList = Voting.Basis.Core.Domain.ProportionalElectionList;
@@ -45,7 +45,7 @@ public class ProportionalElectionListsAndCandidatesImportService
     {
         var proportionalElection = await _aggregateRepository.GetById<ProportionalElectionAggregate>(proportionalElectionId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
         var partyIds = await _domainOfInfluenceReader.GetPartyIds(proportionalElection.DomainOfInfluenceId);
@@ -102,7 +102,7 @@ public class ProportionalElectionListsAndCandidatesImportService
 
             proportionalElection.CreateListFrom(list);
             idVerifier.EnsureUnique(list.Id);
-            ImportCandidates(listImport.Candidates, proportionalElection, list, doi.Type, partyIds, idVerifier);
+            ImportCandidates(listImport.Candidates, proportionalElection, list, doi, partyIds, idVerifier);
         }
     }
 
@@ -110,10 +110,12 @@ public class ProportionalElectionListsAndCandidatesImportService
         IReadOnlyCollection<ProportionalElectionCandidate> candidates,
         ProportionalElectionAggregate proportionalElection,
         ProportionalElectionList list,
-        DomainOfInfluenceType doiType,
+        Data.Models.DomainOfInfluence doi,
         IReadOnlySet<Guid> partyIds,
         IdVerifier idVerifier)
     {
+        var candidateValidationParams = new CandidateValidationParams(doi);
+
         foreach (var candidate in candidates)
         {
             if (candidate.PartyId.HasValue && !partyIds.Contains(candidate.PartyId.Value))
@@ -122,7 +124,7 @@ public class ProportionalElectionListsAndCandidatesImportService
             }
 
             candidate.ProportionalElectionListId = list.Id;
-            proportionalElection.CreateCandidateFrom(candidate, doiType);
+            proportionalElection.CreateCandidateFrom(candidate, candidateValidationParams);
             idVerifier.EnsureUnique(candidate.Id);
         }
     }

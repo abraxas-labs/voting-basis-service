@@ -22,7 +22,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.VoteTests;
 
-public class BallotDeleteTest : BaseGrpcTest<VoteService.VoteServiceClient>
+public class BallotDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteService.VoteServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
     private string? _authTestBallotId;
@@ -94,23 +94,6 @@ public class BallotDeleteTest : BaseGrpcTest<VoteService.VoteServiceClient>
         await AssertStatus(
             async () => await AdminClient.DeleteBallotAsync(NewValidRequest(b => b.Id = IdNotFound)),
             StatusCode.NotFound);
-    }
-
-    [Fact]
-    public async Task VoteFromOtherTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.DeleteBallotAsync(NewValidRequest(b => b.VoteId = VoteMockedData.IdUzwilVoteInContestStGallen)),
-            StatusCode.InvalidArgument,
-            "tenant");
-    }
-
-    [Fact]
-    public async Task ParentVoteShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.DeleteBallotAsync(NewValidRequest(b => b.VoteId = VoteMockedData.IdBundVoteInContestStGallen)),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

@@ -39,7 +39,6 @@
   "ProtocolCountingCircleSortType": 2,
   "MultipleVoteBallotsEnabled": true,
   "CountingMachineEnabled": true,
-  "NewZhFeaturesEnabled": true,
   "ProportionalElectionUseCandidateCheckDigit": true,
   "MajorityElectionUseCandidateCheckDigit": true,
   "CountingCircleResultStateDescriptions": [
@@ -53,5 +52,7 @@
   "EndResultFinalizeDisabled": true,
   "CreateContestOnHighestHierarchicalLevelEnabled": true,
   "InternalPlausibilisationDisabled": true,
-  "PublishResultsBeforeAuditedTentatively": true
+  "PublishResultsBeforeAuditedTentatively": true,
+  "CandidateLocalityRequired": true,
+  "CandidateOriginRequired": true
 }

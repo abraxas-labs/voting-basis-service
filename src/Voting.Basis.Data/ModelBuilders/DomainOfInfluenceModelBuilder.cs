@@ -23,6 +23,12 @@ public class DomainOfInfluenceModelBuilder :
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
+            .HasOne(doi => doi.SuperiorAuthorityDomainOfInfluence)
+            .WithMany(doi => doi.SubAuthorityDomainOfInfluences)
+            .HasForeignKey(doi => doi.SuperiorAuthorityDomainOfInfluenceId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder
             .Property(cc => cc.CreatedOn)
             .HasUtcConversion();
 
@@ -62,7 +68,7 @@ public class DomainOfInfluenceModelBuilder :
             .IsRequired();
 
         builder
-            .HasIndex(x => new { x.CountingCircleId, x.DomainOfInfluenceId })
+            .HasIndex(x => new { x.CountingCircleId, x.DomainOfInfluenceId, x.SourceDomainOfInfluenceId })
             .IsUnique();
     }
 

@@ -152,6 +152,7 @@ public class SecondaryMajorityElectionProcessor :
     public async Task Process(SecondaryMajorityElectionCandidateCreated eventData)
     {
         var model = _mapper.Map<SecondaryMajorityElectionCandidate>(eventData.SecondaryMajorityElectionCandidate);
+        TruncateCandidateNumber(model);
         await _candidateRepo.Create(model);
 
         await _eventLogger.LogSecondaryMajorityElectionCandidateEvent(eventData, await GetCandidate(model.Id));
@@ -160,6 +161,7 @@ public class SecondaryMajorityElectionProcessor :
     public async Task Process(SecondaryMajorityElectionCandidateUpdated eventData)
     {
         var model = _mapper.Map<SecondaryMajorityElectionCandidate>(eventData.SecondaryMajorityElectionCandidate);
+        TruncateCandidateNumber(model);
         var existingModel = await GetCandidate(model.Id);
 
         await _candidateRepo.Update(model);
@@ -281,5 +283,16 @@ public class SecondaryMajorityElectionProcessor :
         // but since we only work with generic pbs in messages we don't have the relation info between them, so we emit an additional message.
         sme.ElectionGroup.PrimaryMajorityElection ??= sme.PrimaryMajorityElection;
         _messageProducerBuffer.Add(new ContestDetailsChangeMessage(electionGroup: sme.ElectionGroup.CreateBaseEntityEvent(EntityState.Modified)));
+    }
+
+    private void TruncateCandidateNumber(SecondaryMajorityElectionCandidate candidate)
+    {
+        if (candidate.Number.Length <= 10)
+        {
+            return;
+        }
+
+        // old events can contain a number which is longer than 10 chars
+        candidate.Number = candidate.Number[..10];
     }
 }

@@ -20,8 +20,8 @@
       },
       "CountOfCandidates": 0,
       "CandidateCountOk": false,
-      "ListUnionDescription": {},
-      "SubListUnionDescription": {},
+      "ListUnionDescription": "",
+      "SubListUnionDescription": "",
       "Party": null
     },
     {
@@ -44,8 +44,8 @@
       },
       "CountOfCandidates": 0,
       "CandidateCountOk": false,
-      "ListUnionDescription": {},
-      "SubListUnionDescription": {},
+      "ListUnionDescription": "",
+      "SubListUnionDescription": "",
       "Party": null
     },
     {
@@ -68,8 +68,8 @@
       },
       "CountOfCandidates": 0,
       "CandidateCountOk": false,
-      "ListUnionDescription": {},
-      "SubListUnionDescription": {},
+      "ListUnionDescription": "",
+      "SubListUnionDescription": "",
       "Party": null
     }
   ]

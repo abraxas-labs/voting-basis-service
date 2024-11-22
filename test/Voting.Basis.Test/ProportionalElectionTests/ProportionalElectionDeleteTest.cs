@@ -23,7 +23,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
-public class ProportionalElectionDeleteTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
+public class ProportionalElectionDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
     private string? _authTestElectionId;
@@ -103,28 +103,6 @@ public class ProportionalElectionDeleteTest : BaseGrpcTest<ProportionalElectionS
                 .Select(l => new { l.OrderNumber, l.ShortDescription })
                 .OrderBy(x => x.OrderNumber)
                 .ToListAsync())).MatchSnapshot();
-    }
-
-    [Fact]
-    public async Task ProportionalElectionOtherTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteProportionalElectionRequest
-            {
-                Id = ProportionalElectionMockedData.IdUzwilProportionalElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestParentProportionalElectionShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.DeleteAsync(new DeleteProportionalElectionRequest
-            {
-                Id = ProportionalElectionMockedData.IdBundProportionalElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

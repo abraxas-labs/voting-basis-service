@@ -41,9 +41,19 @@ public class DomainOfInfluence : BaseDomainOfInfluence, IHasSnapshotEntity<Domai
 
     public bool HasLogo => LogoRef != null;
 
+    public bool HasForeignerVoters { get; set; }
+
+    public bool HasMinorVoters { get; set; }
+
     public PlausibilisationConfiguration? PlausibilisationConfiguration { get; set; }
 
     public ICollection<DomainOfInfluenceParty> Parties { get; set; } = new HashSet<DomainOfInfluenceParty>();
+
+    public Guid? SuperiorAuthorityDomainOfInfluenceId { get; set; }
+
+    public DomainOfInfluence? SuperiorAuthorityDomainOfInfluence { get; set; }
+
+    public ICollection<DomainOfInfluence> SubAuthorityDomainOfInfluences { get; set; } = new HashSet<DomainOfInfluence>();
 
     public void SortExportConfigurations()
     {

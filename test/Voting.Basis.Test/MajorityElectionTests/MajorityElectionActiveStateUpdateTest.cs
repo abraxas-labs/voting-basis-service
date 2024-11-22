@@ -20,7 +20,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.MajorityElectionTests;
 
-public class MajorityElectionActiveStateUpdateTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class MajorityElectionActiveStateUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     public MajorityElectionActiveStateUpdateTest(TestApplicationFactory factory)
         : base(factory)
@@ -68,17 +68,6 @@ public class MajorityElectionActiveStateUpdateTest : BaseGrpcTest<MajorityElecti
 
         await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
             x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id, EntityState.Modified));
-    }
-
-    [Fact]
-    public async Task MajorityElectionFromOtherTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.UpdateActiveStateAsync(NewValidRequest(o =>
-            {
-                o.Id = MajorityElectionMockedData.IdUzwilMajorityElectionInContestBund;
-            })),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

@@ -20,7 +20,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
-public class ProportionalElectionListUnionCreateTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
+public class ProportionalElectionListUnionCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     public ProportionalElectionListUnionCreateTest(TestApplicationFactory factory)
         : base(factory)
@@ -119,15 +119,6 @@ public class ProportionalElectionListUnionCreateTest : BaseGrpcTest<Proportional
             })),
             StatusCode.InvalidArgument,
             "SubListUnion");
-    }
-
-    [Fact]
-    public async Task ForeignProportionalElectionShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.CreateListUnionAsync(NewValidRequest(l =>
-                l.ProportionalElectionId = ProportionalElectionMockedData.IdKircheProportionalElectionInContestKircheWithoutChilds)),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

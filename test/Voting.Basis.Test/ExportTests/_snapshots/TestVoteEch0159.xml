@@ -108,6 +108,49 @@
             </ballotQuestionInfo>
           </ballotQuestion>
         </standardBallot>
+        <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+          <BallotExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
+            <voteId>8fbba43a-cd73-407a-b490-df13c41cc5ee</voteId>
+            <voteType>QuestionsOnSingleBallot</voteType>
+            <voteOfficialDescription>
+              <Key>de</Key>
+              <Value>Abstimmung Gossau de</Value>
+            </voteOfficialDescription>
+            <voteOfficialDescription>
+              <Key>fr</Key>
+              <Value>Abstimmung Gossau fr</Value>
+            </voteOfficialDescription>
+            <voteOfficialDescription>
+              <Key>it</Key>
+              <Value>Abstimmung Gossau it</Value>
+            </voteOfficialDescription>
+            <voteOfficialDescription>
+              <Key>rm</Key>
+              <Value>Abstimmung Gossau rm</Value>
+            </voteOfficialDescription>
+            <voteShortDescription>
+              <Key>de</Key>
+              <Value>Abstimmung Gossau de</Value>
+            </voteShortDescription>
+            <voteShortDescription>
+              <Key>fr</Key>
+              <Value>Abstimmung Gossau fr</Value>
+            </voteShortDescription>
+            <voteShortDescription>
+              <Key>it</Key>
+              <Value>Abstimmung Gossau it</Value>
+            </voteShortDescription>
+            <voteShortDescription>
+              <Key>rm</Key>
+              <Value>Abstimmung Gossau rm</Value>
+            </voteShortDescription>
+            <voteResultEntry>FinalResults</voteResultEntry>
+            <voteResultAlgorithm>PopularMajority</voteResultAlgorithm>
+            <voteReviewProcedure>Electronically</voteReviewProcedure>
+            <voteEnforceResultEntryForCountingCircles>true</voteEnforceResultEntryForCountingCircles>
+            <ballotSubType>Unspecified</ballotSubType>
+          </BallotExtension>
+        </extension>
       </ballot>
     </voteInformation>
   </initialDelivery>

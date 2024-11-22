@@ -68,6 +68,7 @@ public class DomainOfInfluenceReader
             .Include(x => x.PlausibilisationConfiguration)
                 .ThenInclude(x => x!.ComparisonVotingChannelConfigurations
                     .OrderBy(y => y.VotingChannel))
+            .Include(x => x.SuperiorAuthorityDomainOfInfluence)
             .AsQueryable();
 
         if (_auth.HasAnyPermission(Permissions.DomainOfInfluence.ReadAll, Permissions.DomainOfInfluence.ReadSameCanton))

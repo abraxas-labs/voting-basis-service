@@ -90,12 +90,19 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
                 SecureConnectId = SecureConnectTestDefaults.MockedTenantUzwil.Id,
                 ParentId = DomainOfInfluenceMockedData.IdUzwil,
                 Type = SharedProto.DomainOfInfluenceType.Bz,
+                HasForeignerVoters = true,
+                HasMinorVoters = true,
+                SuperiorAuthorityDomainOfInfluenceId = DomainOfInfluenceMockedData.IdUzwil,
             },
             EventInfo = GetMockedEventInfo(),
         });
 
         var domainOfInfluences = await AdminClient.ListTreeAsync(new ListTreeDomainOfInfluenceRequest());
         domainOfInfluences.MatchSnapshot("domainOfInfluences");
+
+        var doi = await AdminClient.GetAsync(new GetDomainOfInfluenceRequest { Id = newId.ToString() });
+        doi.SuperiorAuthorityDomainOfInfluence.Should().NotBeNull();
+        doi.SuperiorAuthorityDomainOfInfluence.Id.Should().Be(DomainOfInfluenceMockedData.IdUzwil);
 
         var dbData = await RunOnDb(async db => await db.FindAsync<DomainOfInfluence>(newId));
         dbData!.CantonDefaults.MatchSnapshot("cantonDefaults");
@@ -570,6 +577,23 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
         eventData.MatchSnapshot("event", d => d.DomainOfInfluence.Id);
     }
 
+    [Fact]
+    public async Task ForeignCantonSuperiorAuthorityShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.CreateAsync(NewValidRequest(x => x.SuperiorAuthorityDomainOfInfluenceId = DomainOfInfluenceMockedData.IdZurich)),
+            StatusCode.InvalidArgument,
+            "Cannot set a domain of influence from a different canton as superior authority");
+    }
+
+    [Fact]
+    public async Task NotExistingSuperiorAuthorityShouldThrow()
+    {
+        await AssertStatus(
+            async () => await AdminClient.CreateAsync(NewValidRequest(x => x.SuperiorAuthorityDomainOfInfluenceId = Guid.Empty.ToString())),
+            StatusCode.NotFound);
+    }
+
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
         => await new DomainOfInfluenceService.DomainOfInfluenceServiceClient(channel)
             .CreateAsync(NewValidRequest());
@@ -621,6 +645,8 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
             Type = SharedProto.DomainOfInfluenceType.Bz,
             ParentId = DomainOfInfluenceMockedData.IdStGallen,
             ResponsibleForVotingCards = false,
+            HasForeignerVoters = true,
+            HasMinorVoters = true,
             ContactPerson = new ProtoModels.ContactPerson
             {
                 Email = "hans@muster.com",
@@ -648,6 +674,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
                 x.ComparisonCountOfVotersConfigurations[0].ThresholdPercent = 9.91;
                 x.ComparisonVotingChannelConfigurations[0].ThresholdPercent = 0.15;
             }),
+            SuperiorAuthorityDomainOfInfluenceId = DomainOfInfluenceMockedData.IdUzwil,
         };
         customizer?.Invoke(request);
         return request;
@@ -714,6 +741,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
                 FrankingLicenceReturnNumber = "965333145",
             },
             ElectoralRegistrationEnabled = true,
+            StistatMunicipality = true,
         };
         customizer?.Invoke(request);
         return request;

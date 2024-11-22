@@ -39,7 +39,7 @@ public abstract class PoliticalBusinessReader<TPoliticalBusiness>
         var politicalBusiness = await QueryById(id)
             ?? throw new EntityNotFoundException(id);
 
-        await PermissionService.EnsureIsOwnerOfDomainOfInfluence(politicalBusiness.DomainOfInfluenceId);
+        await PermissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(politicalBusiness.DomainOfInfluenceId);
         return politicalBusiness;
     }
 

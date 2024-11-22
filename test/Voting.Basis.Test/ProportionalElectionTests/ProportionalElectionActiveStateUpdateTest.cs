@@ -20,7 +20,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
-public class ProportionalElectionActiveStateUpdateTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
+public class ProportionalElectionActiveStateUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     public ProportionalElectionActiveStateUpdateTest(TestApplicationFactory factory)
         : base(factory)
@@ -68,17 +68,6 @@ public class ProportionalElectionActiveStateUpdateTest : BaseGrpcTest<Proportion
 
         await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
             x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id, EntityState.Modified));
-    }
-
-    [Fact]
-    public async Task ProportionalElectionFromOtherTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.UpdateActiveStateAsync(NewValidRequest(o =>
-            {
-                o.Id = ProportionalElectionMockedData.IdUzwilProportionalElectionInContestBund;
-            })),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

@@ -1,0 +1,448 @@
+{
+  "Contest": {
+    "Id": "",
+    "Date": {
+      "Seconds": 1732406400,
+      "Nanos": 0
+    },
+    "Description": {
+      "de": "TestSKs",
+      "fr": "TestSKs",
+      "it": "TestSKs",
+      "rm": "TestSKs"
+    },
+    "EndOfTestingPhase": {
+      "Seconds": 0,
+      "Nanos": 0
+    },
+    "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+    "DomainOfInfluence": null,
+    "EVoting": true,
+    "EVotingFrom": {
+      "Seconds": 1711666800,
+      "Nanos": 0
+    },
+    "EVotingTo": {
+      "Seconds": 1729895400,
+      "Nanos": 0
+    },
+    "PoliticalBusinesses": [],
+    "PoliticalBusinessUnions": [],
+    "State": 1,
+    "PreviousContestId": ""
+  },
+  "MajorityElections": [],
+  "ProportionalElections": [],
+  "Votes": [
+    {
+      "Vote": {
+        "Id": "",
+        "PoliticalBusinessNumber": "",
+        "OfficialDescription": {
+          "de": "Abstimmung Standard 1 Frage",
+          "fr": "Abstimmung Standard 1 Frage",
+          "it": "Abstimmung Standard 1 Frage",
+          "rm": "Abstimmung Standard 1 Frage"
+        },
+        "ShortDescription": {
+          "de": "Abst Standard",
+          "fr": "Abst Standard",
+          "it": "Abst Standard",
+          "rm": "Abst Standard"
+        },
+        "InternalDescription": "",
+        "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+        "ContestId": "00000000-0000-0000-0000-000000000000",
+        "Active": false,
+        "Ballots": [
+          {
+            "Id": "",
+            "Position": 1,
+            "BallotType": 1,
+            "BallotQuestions": [
+              {
+                "Number": 1,
+                "Question": {
+                  "de": "Frage 1",
+                  "fr": "Frage 1",
+                  "it": "Frage 1",
+                  "rm": "Frage 1"
+                },
+                "Type": 1,
+                "FederalIdentification": null
+              }
+            ],
+            "VoteId": "",
+            "HasTieBreakQuestions": false,
+            "TieBreakQuestions": [],
+            "SubType": 0,
+            "OfficialDescription": {},
+            "ShortDescription": {}
+          }
+        ],
+        "ReportDomainOfInfluenceLevel": 0,
+        "ResultAlgorithm": 1,
+        "ResultEntry": 1,
+        "BallotBundleSampleSizePercent": 0,
+        "AutomaticBallotBundleNumberGeneration": false,
+        "EnforceResultEntryForCountingCircles": true,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": false,
+        "Type": 1
+      }
+    },
+    {
+      "Vote": {
+        "Id": "",
+        "PoliticalBusinessNumber": "",
+        "OfficialDescription": {
+          "de": "Variante-Vorlage auf einem Stimmzettel",
+          "fr": "Variante-Vorlage auf einem Stimmzettel",
+          "it": "Variante-Vorlage auf einem Stimmzettel",
+          "rm": "Variante-Vorlage auf einem Stimmzettel"
+        },
+        "ShortDescription": {
+          "de": "Variante 1 Stimmzettel",
+          "fr": "Variante 1 Stimmzettel",
+          "it": "Variante 1 Stimmzettel",
+          "rm": "Variante 1 Stimmzettel"
+        },
+        "InternalDescription": "",
+        "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+        "ContestId": "00000000-0000-0000-0000-000000000000",
+        "Active": false,
+        "Ballots": [
+          {
+            "Id": "",
+            "Position": 1,
+            "BallotType": 2,
+            "BallotQuestions": [
+              {
+                "Number": 1,
+                "Question": {
+                  "de": "Frage Hauptvorlage",
+                  "fr": "Frage Hauptvorlage",
+                  "it": "Frage Hauptvorlage",
+                  "rm": "Frage Hauptvorlage"
+                },
+                "Type": 1,
+                "FederalIdentification": null
+              },
+              {
+                "Number": 2,
+                "Question": {
+                  "de": "Frage Gegenvorschlag",
+                  "fr": "Frage Gegenvorschlag",
+                  "it": "Frage Gegenvorschlag",
+                  "rm": "Frage Gegenvorschlag"
+                },
+                "Type": 2,
+                "FederalIdentification": null
+              },
+              {
+                "Number": 3,
+                "Question": {
+                  "de": "Frage Gegenvorschlag 2",
+                  "fr": "Frage Gegenvorschlag 2",
+                  "it": "Frage Gegenvorschlag 2",
+                  "rm": "Frage Gegenvorschlag 2"
+                },
+                "Type": 2,
+                "FederalIdentification": null
+              }
+            ],
+            "VoteId": "",
+            "HasTieBreakQuestions": true,
+            "TieBreakQuestions": [
+              {
+                "Number": 1,
+                "Question": {
+                  "de": "Stichfrage 1",
+                  "fr": "Stichfrage 1",
+                  "it": "Stichfrage 1",
+                  "rm": "Stichfrage 1"
+                },
+                "Question1Number": 1,
+                "Question2Number": 2,
+                "FederalIdentification": null
+              },
+              {
+                "Number": 2,
+                "Question": {
+                  "de": "Frage Stichfrage 2",
+                  "fr": "Frage Stichfrage 2",
+                  "it": "Frage Stichfrage 2",
+                  "rm": "Frage Stichfrage 2"
+                },
+                "Question1Number": 1,
+                "Question2Number": 3,
+                "FederalIdentification": null
+              },
+              {
+                "Number": 3,
+                "Question": {
+                  "de": "Stichfrage 3",
+                  "fr": "Stichfrage 3",
+                  "it": "Stichfrage 3",
+                  "rm": "Stichfrage 3"
+                },
+                "Question1Number": 2,
+                "Question2Number": 3,
+                "FederalIdentification": null
+              }
+            ],
+            "SubType": 0,
+            "OfficialDescription": {},
+            "ShortDescription": {}
+          }
+        ],
+        "ReportDomainOfInfluenceLevel": 0,
+        "ResultAlgorithm": 1,
+        "ResultEntry": 2,
+        "BallotBundleSampleSizePercent": 0,
+        "AutomaticBallotBundleNumberGeneration": false,
+        "EnforceResultEntryForCountingCircles": false,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": false,
+        "Type": 1
+      }
+    },
+    {
+      "Vote": {
+        "Id": "",
+        "PoliticalBusinessNumber": "",
+        "OfficialDescription": {
+          "de": "Varianten-Vorlage auf mehreren Stimmzetteln",
+          "fr": "Varianten-Vorlage auf mehreren Stimmzetteln",
+          "it": "Varianten-Vorlage auf mehreren Stimmzetteln",
+          "rm": "Varianten-Vorlage auf mehreren Stimmzetteln"
+        },
+        "ShortDescription": {
+          "de": "Variante mehrere Stimmzettel",
+          "fr": "Variante mehrere Stimmzettel",
+          "it": "Variante mehrere Stimmzettel",
+          "rm": "Variante mehrere Stimmzettel"
+        },
+        "InternalDescription": "",
+        "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+        "ContestId": "00000000-0000-0000-0000-000000000000",
+        "Active": false,
+        "Ballots": [
+          {
+            "Id": "",
+            "Position": 1,
+            "BallotType": 1,
+            "BallotQuestions": [
+              {
+                "Number": 1,
+                "Question": {
+                  "de": "Frage von Hauptvorlage",
+                  "fr": "Frage von Hauptvorlage",
+                  "it": "Frage von Hauptvorlage",
+                  "rm": "Frage von Hauptvorlage"
+                },
+                "Type": 1,
+                "FederalIdentification": null
+              }
+            ],
+            "VoteId": "",
+            "HasTieBreakQuestions": false,
+            "TieBreakQuestions": [],
+            "SubType": 1,
+            "OfficialDescription": {
+              "de": "Offizielle Bez. Hauptvorlage",
+              "fr": "Offizielle Bez. Hauptvorlage",
+              "it": "Offizielle Bez. Hauptvorlage",
+              "rm": "Offizielle Bez. Hauptvorlage"
+            },
+            "ShortDescription": {
+              "de": "Hauptvorlage",
+              "fr": "Hauptvorlage",
+              "it": "Hauptvorlage",
+              "rm": "Hauptvorlage"
+            }
+          },
+          {
+            "Id": "",
+            "Position": 2,
+            "BallotType": 1,
+            "BallotQuestions": [
+              {
+                "Number": 1,
+                "Question": {
+                  "de": "Frage Gegenvorschlag 1",
+                  "fr": "Frage Gegenvorschlag 1",
+                  "it": "Frage Gegenvorschlag 1",
+                  "rm": "Frage Gegenvorschlag 1"
+                },
+                "Type": 1,
+                "FederalIdentification": null
+              }
+            ],
+            "VoteId": "",
+            "HasTieBreakQuestions": false,
+            "TieBreakQuestions": [],
+            "SubType": 2,
+            "OfficialDescription": {
+              "de": "Gegenvorschlag 1",
+              "fr": "Gegenvorschlag 1",
+              "it": "Gegenvorschlag 1",
+              "rm": "Gegenvorschlag 1"
+            },
+            "ShortDescription": {
+              "de": "Gegenvor. 1",
+              "fr": "Gegenvor. 1",
+              "it": "Gegenvor. 1",
+              "rm": "Gegenvor. 1"
+            }
+          },
+          {
+            "Id": "",
+            "Position": 3,
+            "BallotType": 1,
+            "BallotQuestions": [
+              {
+                "Number": 1,
+                "Question": {
+                  "de": "Frage Variante 2",
+                  "fr": "Frage Variante 2",
+                  "it": "Frage Variante 2",
+                  "rm": "Frage Variante 2"
+                },
+                "Type": 1,
+                "FederalIdentification": null
+              }
+            ],
+            "VoteId": "",
+            "HasTieBreakQuestions": false,
+            "TieBreakQuestions": [],
+            "SubType": 5,
+            "OfficialDescription": {
+              "de": "Off. Variante 2",
+              "fr": "Off. Variante 2",
+              "it": "Off. Variante 2",
+              "rm": "Off. Variante 2"
+            },
+            "ShortDescription": {
+              "de": "Variante 2",
+              "fr": "Variante 2",
+              "it": "Variante 2",
+              "rm": "Variante 2"
+            }
+          },
+          {
+            "Id": "",
+            "Position": 4,
+            "BallotType": 1,
+            "BallotQuestions": [
+              {
+                "Number": 1,
+                "Question": {
+                  "de": "Frage S 1",
+                  "fr": "Frage S 1",
+                  "it": "Frage S 1",
+                  "rm": "Frage S 1"
+                },
+                "Type": 1,
+                "FederalIdentification": null
+              }
+            ],
+            "VoteId": "",
+            "HasTieBreakQuestions": false,
+            "TieBreakQuestions": [],
+            "SubType": 6,
+            "OfficialDescription": {
+              "de": "Stichfrage 1 A oder B",
+              "fr": "Stichfrage 1 A oder B",
+              "it": "Stichfrage 1 A oder B",
+              "rm": "Stichfrage 1 A oder B"
+            },
+            "ShortDescription": {
+              "de": "Stichfrage 1",
+              "fr": "Stichfrage 1",
+              "it": "Stichfrage 1",
+              "rm": "Stichfrage 1"
+            }
+          },
+          {
+            "Id": "",
+            "Position": 5,
+            "BallotType": 1,
+            "BallotQuestions": [
+              {
+                "Number": 1,
+                "Question": {
+                  "de": "stichfrage 2",
+                  "fr": "stichfrage 2",
+                  "it": "stichfrage 2",
+                  "rm": "stichfrage 2"
+                },
+                "Type": 1,
+                "FederalIdentification": null
+              }
+            ],
+            "VoteId": "",
+            "HasTieBreakQuestions": false,
+            "TieBreakQuestions": [],
+            "SubType": 7,
+            "OfficialDescription": {
+              "de": "Stichfrage 2 A oder C",
+              "fr": "Stichfrage 2 A oder C",
+              "it": "Stichfrage 2 A oder C",
+              "rm": "Stichfrage 2 A oder C"
+            },
+            "ShortDescription": {
+              "de": "SF 2",
+              "fr": "SF 2",
+              "it": "SF 2",
+              "rm": "SF 2"
+            }
+          },
+          {
+            "Id": "",
+            "Position": 6,
+            "BallotType": 1,
+            "BallotQuestions": [
+              {
+                "Number": 1,
+                "Question": {
+                  "de": "Stichfrage 3",
+                  "fr": "Stichfrage 3",
+                  "it": "Stichfrage 3",
+                  "rm": "Stichfrage 3"
+                },
+                "Type": 1,
+                "FederalIdentification": null
+              }
+            ],
+            "VoteId": "",
+            "HasTieBreakQuestions": false,
+            "TieBreakQuestions": [],
+            "SubType": 8,
+            "OfficialDescription": {
+              "de": "Stichfrage 3 B oder C",
+              "fr": "Stichfrage 3 B oder C",
+              "it": "Stichfrage 3 B oder C",
+              "rm": "Stichfrage 3 B oder C"
+            },
+            "ShortDescription": {
+              "de": "SF 3",
+              "fr": "SF 3",
+              "it": "SF 3",
+              "rm": "SF 3"
+            }
+          }
+        ],
+        "ReportDomainOfInfluenceLevel": 0,
+        "ResultAlgorithm": 1,
+        "ResultEntry": 1,
+        "BallotBundleSampleSizePercent": 0,
+        "AutomaticBallotBundleNumberGeneration": false,
+        "EnforceResultEntryForCountingCircles": true,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": false,
+        "Type": 2
+      }
+    }
+  ]
+}

@@ -25,6 +25,8 @@ public abstract class BaseImportTest : BaseGrpcTest<ImportService.ImportServiceC
 
     protected Task<string> GetTestEch0159File() => ReadTestFile("eCH0159.xml");
 
+    protected Task<string> GetTestEch0159AllTypesFile() => ReadTestFile("eCH0159_all_types.xml");
+
     protected Task<string> GetTestInvalidEch0159File() => ReadTestFile("eCH0159_invalid.xml");
 
     private async Task<string> ReadTestFile(string fileName)

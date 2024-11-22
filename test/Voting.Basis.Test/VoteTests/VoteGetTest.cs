@@ -14,7 +14,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.VoteTests;
 
-public class VoteGetTest : BaseGrpcTest<VoteService.VoteServiceClient>
+public class VoteGetTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteService.VoteServiceClient>
 {
     private const string IdNotFound = "eae2cfaf-c787-48b9-a108-c975b0addddd";
 
@@ -57,61 +57,6 @@ public class VoteGetTest : BaseGrpcTest<VoteService.VoteServiceClient>
             Id = VoteMockedData.IdZurichVoteInContestZurich,
         });
         response.MatchSnapshot();
-    }
-
-    [Fact]
-    public async Task TestAsAdminParentDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.GetAsync(new GetVoteRequest
-            {
-                Id = VoteMockedData.IdBundVoteInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestAsElectionAdminParentDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.GetAsync(new GetVoteRequest
-            {
-                Id = VoteMockedData.IdBundVoteInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestAsAdminChildDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.GetAsync(new GetVoteRequest
-            {
-                Id = VoteMockedData.IdUzwilVoteInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestAsElectionAdminChildDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.GetAsync(new GetVoteRequest
-            {
-                Id = VoteMockedData.IdUzwilVoteInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestForeignDoiShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.GetAsync(new GetVoteRequest
-            {
-                Id = VoteMockedData.IdKircheVoteInContestKircheWithoutChilds,
-            }),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

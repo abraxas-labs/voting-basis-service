@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
@@ -36,8 +37,10 @@ public class VoteProcessor :
     private readonly TieBreakQuestionRepo _tieBreakQuestionRepo;
     private readonly IMapper _mapper;
     private readonly EventLoggerAdapter _eventLogger;
+    private readonly ILogger<VoteProcessor> _logger;
 
     public VoteProcessor(
+        ILogger<VoteProcessor> logger,
         IDbRepository<DataContext, Vote> repo,
         IDbRepository<DataContext, Ballot> ballotRepo,
         BallotQuestionRepo ballotQuestionRepo,
@@ -46,6 +49,7 @@ public class VoteProcessor :
         EventLoggerAdapter eventLogger,
         SimplePoliticalBusinessBuilder<Vote> simplePoliticalBusinessBuilder)
     {
+        _logger = logger;
         _repo = repo;
         _ballotRepo = ballotRepo;
         _ballotQuestionRepo = ballotQuestionRepo;
@@ -96,11 +100,18 @@ public class VoteProcessor :
     public async Task Process(VoteDeleted eventData)
     {
         var id = GuidParser.Parse(eventData.VoteId);
-        var vote = await GetVote(id);
-
-        await _repo.DeleteByKey(id);
-        await _simplePoliticalBusinessBuilder.Delete(vote);
-        await _eventLogger.LogVoteEvent(eventData, vote);
+        try
+        {
+            var vote = await GetVote(id);
+            await _repo.DeleteByKey(id);
+            await _simplePoliticalBusinessBuilder.Delete(vote);
+            await _eventLogger.LogVoteEvent(eventData, vote);
+        }
+        catch (EntityNotFoundException)
+        {
+            // skip event processing to prevent race condition if vote was deleted from other process.
+            _logger.LogWarning("event 'VoteDeleted' skipped. vote {id} has already been deleted", id);
+        }
     }
 
     public async Task Process(VoteToNewContestMoved eventData)
@@ -163,11 +174,18 @@ public class VoteProcessor :
     public async Task Process(BallotDeleted eventData)
     {
         var ballotId = GuidParser.Parse(eventData.BallotId);
-        var ballot = await GetBallot(ballotId);
-
-        await _ballotRepo.DeleteByKey(ballotId);
-        await _eventLogger.LogBallotEvent(eventData, ballot);
-        await UpdateVoteSubTypeIfNecessary(ballot.VoteId);
+        try
+        {
+            var ballot = await GetBallot(ballotId);
+            await _ballotRepo.DeleteByKey(ballotId);
+            await _eventLogger.LogBallotEvent(eventData, ballot);
+            await UpdateVoteSubTypeIfNecessary(ballot.VoteId);
+        }
+        catch (EntityNotFoundException)
+        {
+            // skip event processing to prevent race condition if ballot was deleted from other process.
+            _logger.LogWarning("event 'BallotDeleted' skipped. ballot {id} has already been deleted", ballotId);
+        }
     }
 
     public async Task Process(VoteActiveStateUpdated eventData)

@@ -96,6 +96,8 @@ public class DomainOfInfluenceCantonDefaultsBuilder
             MajorityElectionUseCandidateCheckDigit = cantonSettings.MajorityElectionUseCandidateCheckDigit,
             CreateContestOnHighestHierarchicalLevelEnabled = cantonSettings.CreateContestOnHighestHierarchicalLevelEnabled,
             InternalPlausibilisationDisabled = cantonSettings.InternalPlausibilisationDisabled,
+            CandidateLocalityRequired = cantonSettings.CandidateLocalityRequired,
+            CandidateOriginRequired = cantonSettings.CandidateOriginRequired,
         };
     }
 

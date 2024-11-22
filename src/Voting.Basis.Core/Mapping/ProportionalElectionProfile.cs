@@ -1,6 +1,7 @@
 ﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System.Linq;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
 using AutoMapper;
@@ -25,7 +26,8 @@ public class ProportionalElectionProfile : Profile
         CreateMap<ProportionalElectionUnionEventData, ProportionalElectionUnion>();
         CreateMap<ProportionalElectionListUnionEventData, ProportionalElectionListUnion>();
         CreateMap<ProportionalElectionUnion, SimplePoliticalBusinessUnion>()
-            .ForMember(dst => dst.UnionType, opts => opts.MapFrom(src => src.Type));
+            .ForMember(dst => dst.UnionType, opts => opts.MapFrom(src => src.Type))
+            .ForMember(dst => dst.PoliticalBusinessIds, opts => opts.MapFrom(src => src.ProportionalElectionUnionEntries.Select(x => x.ProportionalElectionId)));
         CreateMap<ProportionalElectionCandidateAfterTestingPhaseUpdated, ProportionalElectionCandidate>(MemberList.Source)
             .ForSourceMember(src => src.EventInfo, opts => opts.DoNotValidate());
     }

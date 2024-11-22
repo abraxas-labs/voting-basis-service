@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Voting.Basis.Core.Domain;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.EventProcessors;
+using Voting.Basis.Core.Models;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData.Mapping;
@@ -1179,6 +1180,7 @@ public static class ProportionalElectionMockedData
         var aggregate = aggregateFactory.New<ProportionalElectionAggregate>();
         var election = mapper.Map<Core.Domain.ProportionalElection>(proportionalElection);
         var doi = DomainOfInfluenceMockedData.All.First(x => x.Id == proportionalElection.DomainOfInfluenceId);
+        var candidateValidationParams = new CandidateValidationParams(doi);
 
         aggregate.CreateFrom(election);
 
@@ -1192,7 +1194,7 @@ public static class ProportionalElectionMockedData
             {
                 var protoCandidate = mapper.Map<Core.Domain.ProportionalElectionCandidate>(candidate);
                 protoCandidate.ProportionalElectionListId = protoList.Id;
-                aggregate.CreateCandidateFrom(protoCandidate, doi.Type);
+                aggregate.CreateCandidateFrom(protoCandidate, candidateValidationParams);
             }
         }
 

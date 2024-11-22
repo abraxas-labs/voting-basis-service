@@ -1,0 +1,974 @@
+<?xml version="1.0" encoding="utf-8"?>
+<delivery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+          xmlns="http://www.ech.ch/xmlns/eCH-0159/4">
+    <deliveryHeader>
+        <senderId xmlns="http://www.ech.ch/xmlns/eCH-0058/5">ABX-VOTING</senderId>
+        <messageId xmlns="http://www.ech.ch/xmlns/eCH-0058/5">32ade6e50479421ebdf9d628adea7a6c</messageId>
+        <messageType xmlns="http://www.ech.ch/xmlns/eCH-0058/5">1710967</messageType>
+        <sendingApplication xmlns="http://www.ech.ch/xmlns/eCH-0058/5">
+            <manufacturer>Abraxas Informatik AG</manufacturer>
+            <product>Voting.Basis</product>
+            <productVersion>0.0.0.1+c8</productVersion>
+        </sendingApplication>
+        <messageDate xmlns="http://www.ech.ch/xmlns/eCH-0058/5">2024-09-11T09:07:05.7216141Z</messageDate>
+        <action xmlns="http://www.ech.ch/xmlns/eCH-0058/5">1</action>
+        <testDeliveryFlag xmlns="http://www.ech.ch/xmlns/eCH-0058/5">true</testDeliveryFlag>
+    </deliveryHeader>
+    <initialDelivery>
+        <contest>
+            <contestIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">59eb6c4a-1bf6-4dde-a6c6-9eb327291c07
+            </contestIdentification>
+            <contestDate xmlns="http://www.ech.ch/xmlns/eCH-0155/4">2024-11-24</contestDate>
+            <contestDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                <contestDescriptionInfo>
+                    <language>de</language>
+                    <contestDescription>TestSKs</contestDescription>
+                </contestDescriptionInfo>
+                <contestDescriptionInfo>
+                    <language>fr</language>
+                    <contestDescription>TestSKs</contestDescription>
+                </contestDescriptionInfo>
+                <contestDescriptionInfo>
+                    <language>it</language>
+                    <contestDescription>TestSKs</contestDescription>
+                </contestDescriptionInfo>
+                <contestDescriptionInfo>
+                    <language>rm</language>
+                    <contestDescription>TestSKs</contestDescription>
+                </contestDescriptionInfo>
+            </contestDescription>
+            <eVotingPeriod xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                <eVotingPeriodFrom>2024-03-28T23:00:00Z</eVotingPeriodFrom>
+                <eVotingPeriodTill>2024-10-25T22:30:00Z</eVotingPeriodTill>
+            </eVotingPeriod>
+        </contest>
+        <voteInformation>
+            <vote>
+                <voteIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">a1a7c190-b5b1-4bb4-ad4f-782841736e19
+                </voteIdentification>
+                <domainOfInfluenceIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    3fecdcca-0c0d-48f9-a684-5b211a17e3a0
+                </domainOfInfluenceIdentification>
+                <voteDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <voteDescriptionInfo>
+                        <language>de</language>
+                        <voteDescription>Eidgenössische Volksabstimmung vom 24.11.2024</voteDescription>
+                    </voteDescriptionInfo>
+                    <voteDescriptionInfo>
+                        <language>fr</language>
+                        <voteDescription>Votation populaire fédérale du 24.11.2024</voteDescription>
+                    </voteDescriptionInfo>
+                    <voteDescriptionInfo>
+                        <language>it</language>
+                        <voteDescription>Votazione popolare federale del 24.11.2024</voteDescription>
+                    </voteDescriptionInfo>
+                    <voteDescriptionInfo>
+                        <language>rm</language>
+                        <voteDescription>Votaziun federala dal pievel dals 24.11.2024</voteDescription>
+                    </voteDescriptionInfo>
+                </voteDescription>
+            </vote>
+            <ballot>
+                <ballotIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">26ac9eb8-a205-4792-9c05-c88633b801e8
+                </ballotIdentification>
+                <ballotPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/4">1</ballotPosition>
+                <ballotDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <ballotDescriptionInfo>
+                        <language>de</language>
+                        <ballotDescriptionLong>Abstimmung Standard 1 Frage</ballotDescriptionLong>
+                        <ballotDescriptionShort>Abst Standard</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>fr</language>
+                        <ballotDescriptionLong>Abstimmung Standard 1 Frage</ballotDescriptionLong>
+                        <ballotDescriptionShort>Abst Standard</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>it</language>
+                        <ballotDescriptionLong>Abstimmung Standard 1 Frage</ballotDescriptionLong>
+                        <ballotDescriptionShort>Abst Standard</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>rm</language>
+                        <ballotDescriptionLong>Abstimmung Standard 1 Frage</ballotDescriptionLong>
+                        <ballotDescriptionShort>Abst Standard</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                </ballotDescription>
+                <standardBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <questionIdentification>26ac9eb8-a205-4792-9c05-c88633b801e8_n_1</questionIdentification>
+                    <ballotQuestionNumber>1</ballotQuestionNumber>
+                    <answerInformation>
+                        <answerType>2</answerType>
+                    </answerInformation>
+                    <ballotQuestion>
+                        <ballotQuestionInfo>
+                            <language>de</language>
+                            <ballotQuestion>Frage 1</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>fr</language>
+                            <ballotQuestion>Frage 1</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>it</language>
+                            <ballotQuestion>Frage 1</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>rm</language>
+                            <ballotQuestion>Frage 1</ballotQuestion>
+                        </ballotQuestionInfo>
+                    </ballotQuestion>
+                </standardBallot>
+                <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <BallotExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
+                        <voteId>a1a7c190-b5b1-4bb4-ad4f-782841736e19</voteId>
+                        <voteType>QuestionsOnSingleBallot</voteType>
+                        <voteOfficialDescription>
+                            <Key>de</Key>
+                            <Value>Abstimmung Standard 1 Frage</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>fr</Key>
+                            <Value>Abstimmung Standard 1 Frage</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>it</Key>
+                            <Value>Abstimmung Standard 1 Frage</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>rm</Key>
+                            <Value>Abstimmung Standard 1 Frage</Value>
+                        </voteOfficialDescription>
+                        <voteShortDescription>
+                            <Key>de</Key>
+                            <Value>Abst Standard</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>fr</Key>
+                            <Value>Abst Standard</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>it</Key>
+                            <Value>Abst Standard</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>rm</Key>
+                            <Value>Abst Standard</Value>
+                        </voteShortDescription>
+                        <voteResultEntry>FinalResults</voteResultEntry>
+                        <voteResultAlgorithm>PopularMajority</voteResultAlgorithm>
+                        <voteReviewProcedure>Electronically</voteReviewProcedure>
+                        <voteEnforceResultEntryForCountingCircles>true</voteEnforceResultEntryForCountingCircles>
+                        <ballotSubType>Unspecified</ballotSubType>
+                    </BallotExtension>
+                </extension>
+            </ballot>
+            <ballot>
+                <ballotIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">d7d4a559-4042-4003-b1ca-f50c16079db8
+                </ballotIdentification>
+                <ballotPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/4">2</ballotPosition>
+                <ballotDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <ballotDescriptionInfo>
+                        <language>de</language>
+                        <ballotDescriptionLong>Variante-Vorlage auf einem Stimmzettel</ballotDescriptionLong>
+                        <ballotDescriptionShort>Variante 1 Stimmzettel</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>fr</language>
+                        <ballotDescriptionLong>Variante-Vorlage auf einem Stimmzettel</ballotDescriptionLong>
+                        <ballotDescriptionShort>Variante 1 Stimmzettel</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>it</language>
+                        <ballotDescriptionLong>Variante-Vorlage auf einem Stimmzettel</ballotDescriptionLong>
+                        <ballotDescriptionShort>Variante 1 Stimmzettel</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>rm</language>
+                        <ballotDescriptionLong>Variante-Vorlage auf einem Stimmzettel</ballotDescriptionLong>
+                        <ballotDescriptionShort>Variante 1 Stimmzettel</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                </ballotDescription>
+                <variantBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <questionInformation>
+                        <questionIdentification>d7d4a559-4042-4003-b1ca-f50c16079db8_n_1</questionIdentification>
+                        <ballotQuestionNumber>2a</ballotQuestionNumber>
+                        <answerInformation>
+                            <answerType>2</answerType>
+                        </answerInformation>
+                        <ballotQuestion>
+                            <ballotQuestionInfo>
+                                <language>de</language>
+                                <ballotQuestion>Frage Hauptvorlage</ballotQuestion>
+                            </ballotQuestionInfo>
+                            <ballotQuestionInfo>
+                                <language>fr</language>
+                                <ballotQuestion>Frage Hauptvorlage</ballotQuestion>
+                            </ballotQuestionInfo>
+                            <ballotQuestionInfo>
+                                <language>it</language>
+                                <ballotQuestion>Frage Hauptvorlage</ballotQuestion>
+                            </ballotQuestionInfo>
+                            <ballotQuestionInfo>
+                                <language>rm</language>
+                                <ballotQuestion>Frage Hauptvorlage</ballotQuestion>
+                            </ballotQuestionInfo>
+                        </ballotQuestion>
+                    </questionInformation>
+                    <questionInformation>
+                        <questionIdentification>d7d4a559-4042-4003-b1ca-f50c16079db8_n_2</questionIdentification>
+                        <ballotQuestionNumber>2b</ballotQuestionNumber>
+                        <answerInformation>
+                            <answerType>2</answerType>
+                        </answerInformation>
+                        <ballotQuestion>
+                            <ballotQuestionInfo>
+                                <language>de</language>
+                                <ballotQuestion>Frage Gegenvorschlag</ballotQuestion>
+                            </ballotQuestionInfo>
+                            <ballotQuestionInfo>
+                                <language>fr</language>
+                                <ballotQuestion>Frage Gegenvorschlag</ballotQuestion>
+                            </ballotQuestionInfo>
+                            <ballotQuestionInfo>
+                                <language>it</language>
+                                <ballotQuestion>Frage Gegenvorschlag</ballotQuestion>
+                            </ballotQuestionInfo>
+                            <ballotQuestionInfo>
+                                <language>rm</language>
+                                <ballotQuestion>Frage Gegenvorschlag</ballotQuestion>
+                            </ballotQuestionInfo>
+                        </ballotQuestion>
+                    </questionInformation>
+                    <questionInformation>
+                        <questionIdentification>d7d4a559-4042-4003-b1ca-f50c16079db8_n_3</questionIdentification>
+                        <ballotQuestionNumber>2c</ballotQuestionNumber>
+                        <answerInformation>
+                            <answerType>2</answerType>
+                        </answerInformation>
+                        <ballotQuestion>
+                            <ballotQuestionInfo>
+                                <language>de</language>
+                                <ballotQuestion>Frage Gegenvorschlag 2</ballotQuestion>
+                            </ballotQuestionInfo>
+                            <ballotQuestionInfo>
+                                <language>fr</language>
+                                <ballotQuestion>Frage Gegenvorschlag 2</ballotQuestion>
+                            </ballotQuestionInfo>
+                            <ballotQuestionInfo>
+                                <language>it</language>
+                                <ballotQuestion>Frage Gegenvorschlag 2</ballotQuestion>
+                            </ballotQuestionInfo>
+                            <ballotQuestionInfo>
+                                <language>rm</language>
+                                <ballotQuestion>Frage Gegenvorschlag 2</ballotQuestion>
+                            </ballotQuestionInfo>
+                        </ballotQuestion>
+                    </questionInformation>
+                    <tieBreakInformation>
+                        <answerInformation>
+                            <answerType>4</answerType>
+                        </answerInformation>
+                        <questionIdentification>d7d4a559-4042-4003-b1ca-f50c16079db8_t_1</questionIdentification>
+                        <tieBreakQuestionNumber>2d</tieBreakQuestionNumber>
+                        <tieBreakQuestion>
+                            <tieBreakQuestionInfo>
+                                <language>de</language>
+                                <tieBreakQuestion>Stichfrage 1</tieBreakQuestion>
+                            </tieBreakQuestionInfo>
+                            <tieBreakQuestionInfo>
+                                <language>fr</language>
+                                <tieBreakQuestion>Stichfrage 1</tieBreakQuestion>
+                            </tieBreakQuestionInfo>
+                            <tieBreakQuestionInfo>
+                                <language>it</language>
+                                <tieBreakQuestion>Stichfrage 1</tieBreakQuestion>
+                            </tieBreakQuestionInfo>
+                            <tieBreakQuestionInfo>
+                                <language>rm</language>
+                                <tieBreakQuestion>Stichfrage 1</tieBreakQuestion>
+                            </tieBreakQuestionInfo>
+                        </tieBreakQuestion>
+                        <referencedQuestion1>d7d4a559-4042-4003-b1ca-f50c16079db8_n_1</referencedQuestion1>
+                        <referencedQuestion2>d7d4a559-4042-4003-b1ca-f50c16079db8_n_2</referencedQuestion2>
+                    </tieBreakInformation>
+                    <tieBreakInformation>
+                        <answerInformation>
+                            <answerType>4</answerType>
+                        </answerInformation>
+                        <questionIdentification>d7d4a559-4042-4003-b1ca-f50c16079db8_t_2</questionIdentification>
+                        <tieBreakQuestionNumber>2e</tieBreakQuestionNumber>
+                        <tieBreakQuestion>
+                            <tieBreakQuestionInfo>
+                                <language>de</language>
+                                <tieBreakQuestion>Frage Stichfrage 2</tieBreakQuestion>
+                            </tieBreakQuestionInfo>
+                            <tieBreakQuestionInfo>
+                                <language>fr</language>
+                                <tieBreakQuestion>Frage Stichfrage 2</tieBreakQuestion>
+                            </tieBreakQuestionInfo>
+                            <tieBreakQuestionInfo>
+                                <language>it</language>
+                                <tieBreakQuestion>Frage Stichfrage 2</tieBreakQuestion>
+                            </tieBreakQuestionInfo>
+                            <tieBreakQuestionInfo>
+                                <language>rm</language>
+                                <tieBreakQuestion>Frage Stichfrage 2</tieBreakQuestion>
+                            </tieBreakQuestionInfo>
+                        </tieBreakQuestion>
+                        <referencedQuestion1>d7d4a559-4042-4003-b1ca-f50c16079db8_n_1</referencedQuestion1>
+                        <referencedQuestion2>d7d4a559-4042-4003-b1ca-f50c16079db8_n_3</referencedQuestion2>
+                    </tieBreakInformation>
+                    <tieBreakInformation>
+                        <answerInformation>
+                            <answerType>4</answerType>
+                        </answerInformation>
+                        <questionIdentification>d7d4a559-4042-4003-b1ca-f50c16079db8_t_3</questionIdentification>
+                        <tieBreakQuestionNumber>2f</tieBreakQuestionNumber>
+                        <tieBreakQuestion>
+                            <tieBreakQuestionInfo>
+                                <language>de</language>
+                                <tieBreakQuestion>Stichfrage 3</tieBreakQuestion>
+                            </tieBreakQuestionInfo>
+                            <tieBreakQuestionInfo>
+                                <language>fr</language>
+                                <tieBreakQuestion>Stichfrage 3</tieBreakQuestion>
+                            </tieBreakQuestionInfo>
+                            <tieBreakQuestionInfo>
+                                <language>it</language>
+                                <tieBreakQuestion>Stichfrage 3</tieBreakQuestion>
+                            </tieBreakQuestionInfo>
+                            <tieBreakQuestionInfo>
+                                <language>rm</language>
+                                <tieBreakQuestion>Stichfrage 3</tieBreakQuestion>
+                            </tieBreakQuestionInfo>
+                        </tieBreakQuestion>
+                        <referencedQuestion1>d7d4a559-4042-4003-b1ca-f50c16079db8_n_2</referencedQuestion1>
+                        <referencedQuestion2>d7d4a559-4042-4003-b1ca-f50c16079db8_n_3</referencedQuestion2>
+                    </tieBreakInformation>
+                </variantBallot>
+                <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <BallotExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
+                        <voteId>ce419b5b-26c0-4231-8001-469f9c4cf852</voteId>
+                        <voteType>QuestionsOnSingleBallot</voteType>
+                        <voteOfficialDescription>
+                            <Key>de</Key>
+                            <Value>Variante-Vorlage auf einem Stimmzettel</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>fr</Key>
+                            <Value>Variante-Vorlage auf einem Stimmzettel</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>it</Key>
+                            <Value>Variante-Vorlage auf einem Stimmzettel</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>rm</Key>
+                            <Value>Variante-Vorlage auf einem Stimmzettel</Value>
+                        </voteOfficialDescription>
+                        <voteShortDescription>
+                            <Key>de</Key>
+                            <Value>Variante 1 Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>fr</Key>
+                            <Value>Variante 1 Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>it</Key>
+                            <Value>Variante 1 Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>rm</Key>
+                            <Value>Variante 1 Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteResultEntry>Detailed</voteResultEntry>
+                        <voteResultAlgorithm>PopularMajority</voteResultAlgorithm>
+                        <voteReviewProcedure>Electronically</voteReviewProcedure>
+                        <voteEnforceResultEntryForCountingCircles>false</voteEnforceResultEntryForCountingCircles>
+                        <ballotSubType>Unspecified</ballotSubType>
+                    </BallotExtension>
+                </extension>
+            </ballot>
+            <ballot>
+                <ballotIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">a74e5e40-b485-4e3a-ac69-9c39884e254e
+                </ballotIdentification>
+                <ballotPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/4">3</ballotPosition>
+                <ballotDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <ballotDescriptionInfo>
+                        <language>de</language>
+                        <ballotDescriptionLong>Offizielle Bez. Hauptvorlage</ballotDescriptionLong>
+                        <ballotDescriptionShort>Hauptvorlage</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>fr</language>
+                        <ballotDescriptionLong>Offizielle Bez. Hauptvorlage</ballotDescriptionLong>
+                        <ballotDescriptionShort>Hauptvorlage</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>it</language>
+                        <ballotDescriptionLong>Offizielle Bez. Hauptvorlage</ballotDescriptionLong>
+                        <ballotDescriptionShort>Hauptvorlage</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>rm</language>
+                        <ballotDescriptionLong>Offizielle Bez. Hauptvorlage</ballotDescriptionLong>
+                        <ballotDescriptionShort>Hauptvorlage</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                </ballotDescription>
+                <standardBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <questionIdentification>a74e5e40-b485-4e3a-ac69-9c39884e254e_n_1</questionIdentification>
+                    <ballotQuestionNumber>3</ballotQuestionNumber>
+                    <answerInformation>
+                        <answerType>2</answerType>
+                    </answerInformation>
+                    <ballotQuestion>
+                        <ballotQuestionInfo>
+                            <language>de</language>
+                            <ballotQuestion>Frage von Hauptvorlage</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>fr</language>
+                            <ballotQuestion>Frage von Hauptvorlage</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>it</language>
+                            <ballotQuestion>Frage von Hauptvorlage</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>rm</language>
+                            <ballotQuestion>Frage von Hauptvorlage</ballotQuestion>
+                        </ballotQuestionInfo>
+                    </ballotQuestion>
+                </standardBallot>
+                <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <BallotExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
+                        <voteId>4382820a-f1fc-4b59-9efc-c4bb9ed4044e</voteId>
+                        <voteType>VariantQuestionsOnMultipleBallots</voteType>
+                        <voteOfficialDescription>
+                            <Key>de</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>fr</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>it</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>rm</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteShortDescription>
+                            <Key>de</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>fr</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>it</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>rm</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteResultEntry>FinalResults</voteResultEntry>
+                        <voteResultAlgorithm>PopularMajority</voteResultAlgorithm>
+                        <voteReviewProcedure>Electronically</voteReviewProcedure>
+                        <voteEnforceResultEntryForCountingCircles>true</voteEnforceResultEntryForCountingCircles>
+                        <ballotSubType>MainBallot</ballotSubType>
+                    </BallotExtension>
+                </extension>
+            </ballot>
+            <ballot>
+                <ballotIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">d0f9e98f-ea98-4df1-b7ab-34f06175a53a
+                </ballotIdentification>
+                <ballotPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/4">5</ballotPosition>
+                <ballotDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <ballotDescriptionInfo>
+                        <language>de</language>
+                        <ballotDescriptionLong>Gegenvorschlag 1</ballotDescriptionLong>
+                        <ballotDescriptionShort>Gegenvor. 1</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>fr</language>
+                        <ballotDescriptionLong>Gegenvorschlag 1</ballotDescriptionLong>
+                        <ballotDescriptionShort>Gegenvor. 1</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>it</language>
+                        <ballotDescriptionLong>Gegenvorschlag 1</ballotDescriptionLong>
+                        <ballotDescriptionShort>Gegenvor. 1</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>rm</language>
+                        <ballotDescriptionLong>Gegenvorschlag 1</ballotDescriptionLong>
+                        <ballotDescriptionShort>Gegenvor. 1</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                </ballotDescription>
+                <standardBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <questionIdentification>d0f9e98f-ea98-4df1-b7ab-34f06175a53a_n_1</questionIdentification>
+                    <ballotQuestionNumber>5</ballotQuestionNumber>
+                    <answerInformation>
+                        <answerType>2</answerType>
+                    </answerInformation>
+                    <ballotQuestion>
+                        <ballotQuestionInfo>
+                            <language>de</language>
+                            <ballotQuestion>Frage Gegenvorschlag 1</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>fr</language>
+                            <ballotQuestion>Frage Gegenvorschlag 1</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>it</language>
+                            <ballotQuestion>Frage Gegenvorschlag 1</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>rm</language>
+                            <ballotQuestion>Frage Gegenvorschlag 1</ballotQuestion>
+                        </ballotQuestionInfo>
+                    </ballotQuestion>
+                </standardBallot>
+                <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <BallotExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
+                        <voteId>4382820a-f1fc-4b59-9efc-c4bb9ed4044e</voteId>
+                        <voteType>VariantQuestionsOnMultipleBallots</voteType>
+                        <voteOfficialDescription>
+                            <Key>de</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>fr</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>it</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>rm</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteShortDescription>
+                            <Key>de</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>fr</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>it</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>rm</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteResultEntry>FinalResults</voteResultEntry>
+                        <voteResultAlgorithm>PopularMajority</voteResultAlgorithm>
+                        <voteReviewProcedure>Electronically</voteReviewProcedure>
+                        <voteEnforceResultEntryForCountingCircles>true</voteEnforceResultEntryForCountingCircles>
+                        <ballotSubType>CounterProposal1</ballotSubType>
+                    </BallotExtension>
+                </extension>
+            </ballot>
+            <ballot>
+                <ballotIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">e5fab769-5a22-4cb0-ac39-a709efcffc78
+                </ballotIdentification>
+                <ballotPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/4">7</ballotPosition>
+                <ballotDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <ballotDescriptionInfo>
+                        <language>de</language>
+                        <ballotDescriptionLong>Off. Variante 2</ballotDescriptionLong>
+                        <ballotDescriptionShort>Variante 2</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>fr</language>
+                        <ballotDescriptionLong>Off. Variante 2</ballotDescriptionLong>
+                        <ballotDescriptionShort>Variante 2</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>it</language>
+                        <ballotDescriptionLong>Off. Variante 2</ballotDescriptionLong>
+                        <ballotDescriptionShort>Variante 2</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>rm</language>
+                        <ballotDescriptionLong>Off. Variante 2</ballotDescriptionLong>
+                        <ballotDescriptionShort>Variante 2</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                </ballotDescription>
+                <standardBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <questionIdentification>e5fab769-5a22-4cb0-ac39-a709efcffc78_n_1</questionIdentification>
+                    <ballotQuestionNumber>7</ballotQuestionNumber>
+                    <answerInformation>
+                        <answerType>2</answerType>
+                    </answerInformation>
+                    <ballotQuestion>
+                        <ballotQuestionInfo>
+                            <language>de</language>
+                            <ballotQuestion>Frage Variante 2</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>fr</language>
+                            <ballotQuestion>Frage Variante 2</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>it</language>
+                            <ballotQuestion>Frage Variante 2</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>rm</language>
+                            <ballotQuestion>Frage Variante 2</ballotQuestion>
+                        </ballotQuestionInfo>
+                    </ballotQuestion>
+                </standardBallot>
+                <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <BallotExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
+                        <voteId>4382820a-f1fc-4b59-9efc-c4bb9ed4044e</voteId>
+                        <voteType>VariantQuestionsOnMultipleBallots</voteType>
+                        <voteOfficialDescription>
+                            <Key>de</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>fr</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>it</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>rm</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteShortDescription>
+                            <Key>de</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>fr</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>it</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>rm</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteResultEntry>FinalResults</voteResultEntry>
+                        <voteResultAlgorithm>PopularMajority</voteResultAlgorithm>
+                        <voteReviewProcedure>Electronically</voteReviewProcedure>
+                        <voteEnforceResultEntryForCountingCircles>true</voteEnforceResultEntryForCountingCircles>
+                        <ballotSubType>Variant2</ballotSubType>
+                    </BallotExtension>
+                </extension>
+            </ballot>
+            <ballot>
+                <ballotIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">381b540d-707f-4109-8289-994c2e7eb966
+                </ballotIdentification>
+                <ballotPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/4">9</ballotPosition>
+                <ballotDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <ballotDescriptionInfo>
+                        <language>de</language>
+                        <ballotDescriptionLong>Stichfrage 1 A oder B</ballotDescriptionLong>
+                        <ballotDescriptionShort>Stichfrage 1</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>fr</language>
+                        <ballotDescriptionLong>Stichfrage 1 A oder B</ballotDescriptionLong>
+                        <ballotDescriptionShort>Stichfrage 1</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>it</language>
+                        <ballotDescriptionLong>Stichfrage 1 A oder B</ballotDescriptionLong>
+                        <ballotDescriptionShort>Stichfrage 1</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>rm</language>
+                        <ballotDescriptionLong>Stichfrage 1 A oder B</ballotDescriptionLong>
+                        <ballotDescriptionShort>Stichfrage 1</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                </ballotDescription>
+                <standardBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <questionIdentification>381b540d-707f-4109-8289-994c2e7eb966_n_1</questionIdentification>
+                    <ballotQuestionNumber>9</ballotQuestionNumber>
+                    <answerInformation>
+                        <answerType>2</answerType>
+                    </answerInformation>
+                    <ballotQuestion>
+                        <ballotQuestionInfo>
+                            <language>de</language>
+                            <ballotQuestion>Frage S 1</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>fr</language>
+                            <ballotQuestion>Frage S 1</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>it</language>
+                            <ballotQuestion>Frage S 1</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>rm</language>
+                            <ballotQuestion>Frage S 1</ballotQuestion>
+                        </ballotQuestionInfo>
+                    </ballotQuestion>
+                </standardBallot>
+                <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <BallotExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
+                        <voteId>4382820a-f1fc-4b59-9efc-c4bb9ed4044e</voteId>
+                        <voteType>VariantQuestionsOnMultipleBallots</voteType>
+                        <voteOfficialDescription>
+                            <Key>de</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>fr</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>it</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>rm</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteShortDescription>
+                            <Key>de</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>fr</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>it</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>rm</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteResultEntry>FinalResults</voteResultEntry>
+                        <voteResultAlgorithm>PopularMajority</voteResultAlgorithm>
+                        <voteReviewProcedure>Electronically</voteReviewProcedure>
+                        <voteEnforceResultEntryForCountingCircles>true</voteEnforceResultEntryForCountingCircles>
+                        <ballotSubType>TieBreak1</ballotSubType>
+                    </BallotExtension>
+                </extension>
+            </ballot>
+            <ballot>
+                <ballotIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">773b05bf-5f4a-443b-9f84-fca4b4f4f883
+                </ballotIdentification>
+                <ballotPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/4">11</ballotPosition>
+                <ballotDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <ballotDescriptionInfo>
+                        <language>de</language>
+                        <ballotDescriptionLong>Stichfrage 2 A oder C</ballotDescriptionLong>
+                        <ballotDescriptionShort>SF 2</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>fr</language>
+                        <ballotDescriptionLong>Stichfrage 2 A oder C</ballotDescriptionLong>
+                        <ballotDescriptionShort>SF 2</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>it</language>
+                        <ballotDescriptionLong>Stichfrage 2 A oder C</ballotDescriptionLong>
+                        <ballotDescriptionShort>SF 2</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>rm</language>
+                        <ballotDescriptionLong>Stichfrage 2 A oder C</ballotDescriptionLong>
+                        <ballotDescriptionShort>SF 2</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                </ballotDescription>
+                <standardBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <questionIdentification>773b05bf-5f4a-443b-9f84-fca4b4f4f883_n_1</questionIdentification>
+                    <ballotQuestionNumber>11</ballotQuestionNumber>
+                    <answerInformation>
+                        <answerType>2</answerType>
+                    </answerInformation>
+                    <ballotQuestion>
+                        <ballotQuestionInfo>
+                            <language>de</language>
+                            <ballotQuestion>stichfrage 2</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>fr</language>
+                            <ballotQuestion>stichfrage 2</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>it</language>
+                            <ballotQuestion>stichfrage 2</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>rm</language>
+                            <ballotQuestion>stichfrage 2</ballotQuestion>
+                        </ballotQuestionInfo>
+                    </ballotQuestion>
+                </standardBallot>
+                <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <BallotExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
+                        <voteId>4382820a-f1fc-4b59-9efc-c4bb9ed4044e</voteId>
+                        <voteType>VariantQuestionsOnMultipleBallots</voteType>
+                        <voteOfficialDescription>
+                            <Key>de</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>fr</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>it</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>rm</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteShortDescription>
+                            <Key>de</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>fr</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>it</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>rm</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteResultEntry>FinalResults</voteResultEntry>
+                        <voteResultAlgorithm>PopularMajority</voteResultAlgorithm>
+                        <voteReviewProcedure>Electronically</voteReviewProcedure>
+                        <voteEnforceResultEntryForCountingCircles>true</voteEnforceResultEntryForCountingCircles>
+                        <ballotSubType>TieBreak2</ballotSubType>
+                    </BallotExtension>
+                </extension>
+            </ballot>
+            <ballot>
+                <ballotIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">cc087df7-cad5-4af1-ba25-32eb7a89541f
+                </ballotIdentification>
+                <ballotPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/4">13</ballotPosition>
+                <ballotDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <ballotDescriptionInfo>
+                        <language>de</language>
+                        <ballotDescriptionLong>Stichfrage 3 B oder C</ballotDescriptionLong>
+                        <ballotDescriptionShort>SF 3</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>fr</language>
+                        <ballotDescriptionLong>Stichfrage 3 B oder C</ballotDescriptionLong>
+                        <ballotDescriptionShort>SF 3</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>it</language>
+                        <ballotDescriptionLong>Stichfrage 3 B oder C</ballotDescriptionLong>
+                        <ballotDescriptionShort>SF 3</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                    <ballotDescriptionInfo>
+                        <language>rm</language>
+                        <ballotDescriptionLong>Stichfrage 3 B oder C</ballotDescriptionLong>
+                        <ballotDescriptionShort>SF 3</ballotDescriptionShort>
+                    </ballotDescriptionInfo>
+                </ballotDescription>
+                <standardBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <questionIdentification>cc087df7-cad5-4af1-ba25-32eb7a89541f_n_1</questionIdentification>
+                    <ballotQuestionNumber>13</ballotQuestionNumber>
+                    <answerInformation>
+                        <answerType>2</answerType>
+                    </answerInformation>
+                    <ballotQuestion>
+                        <ballotQuestionInfo>
+                            <language>de</language>
+                            <ballotQuestion>Stichfrage 3</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>fr</language>
+                            <ballotQuestion>Stichfrage 3</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>it</language>
+                            <ballotQuestion>Stichfrage 3</ballotQuestion>
+                        </ballotQuestionInfo>
+                        <ballotQuestionInfo>
+                            <language>rm</language>
+                            <ballotQuestion>Stichfrage 3</ballotQuestion>
+                        </ballotQuestionInfo>
+                    </ballotQuestion>
+                </standardBallot>
+                <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+                    <BallotExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
+                        <voteId>4382820a-f1fc-4b59-9efc-c4bb9ed4044e</voteId>
+                        <voteType>VariantQuestionsOnMultipleBallots</voteType>
+                        <voteOfficialDescription>
+                            <Key>de</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>fr</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>it</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteOfficialDescription>
+                            <Key>rm</Key>
+                            <Value>Varianten-Vorlage auf mehreren Stimmzetteln</Value>
+                        </voteOfficialDescription>
+                        <voteShortDescription>
+                            <Key>de</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>fr</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>it</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteShortDescription>
+                            <Key>rm</Key>
+                            <Value>Variante mehrere Stimmzettel</Value>
+                        </voteShortDescription>
+                        <voteResultEntry>FinalResults</voteResultEntry>
+                        <voteResultAlgorithm>PopularMajority</voteResultAlgorithm>
+                        <voteReviewProcedure>Electronically</voteReviewProcedure>
+                        <voteEnforceResultEntryForCountingCircles>true</voteEnforceResultEntryForCountingCircles>
+                        <ballotSubType>TieBreak3</ballotSubType>
+                    </BallotExtension>
+                </extension>
+            </ballot>
+        </voteInformation>
+    </initialDelivery>
+</delivery>

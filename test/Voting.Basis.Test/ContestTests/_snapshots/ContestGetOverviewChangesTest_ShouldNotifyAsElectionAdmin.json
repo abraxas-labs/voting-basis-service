@@ -65,7 +65,11 @@
             "VirtualTopLevel": false,
             "ViewCountingCirclePartialResults": false,
             "VotingCardColor": 0,
-            "ElectoralRegistrationEnabled": false
+            "ElectoralRegistrationEnabled": false,
+            "HasForeignerVoters": false,
+            "HasMinorVoters": false,
+            "SuperiorAuthorityDomainOfInfluence": null,
+            "StistatMunicipality": false
           },
           "EVoting": false,
           "EVotingFrom": null,
@@ -143,7 +147,11 @@
             "VirtualTopLevel": false,
             "ViewCountingCirclePartialResults": false,
             "VotingCardColor": 0,
-            "ElectoralRegistrationEnabled": false
+            "ElectoralRegistrationEnabled": false,
+            "HasForeignerVoters": false,
+            "HasMinorVoters": false,
+            "SuperiorAuthorityDomainOfInfluence": null,
+            "StistatMunicipality": false
           },
           "EVoting": false,
           "EVotingFrom": null,
@@ -216,7 +224,11 @@
             "VirtualTopLevel": false,
             "ViewCountingCirclePartialResults": false,
             "VotingCardColor": 0,
-            "ElectoralRegistrationEnabled": false
+            "ElectoralRegistrationEnabled": false,
+            "HasForeignerVoters": false,
+            "HasMinorVoters": false,
+            "SuperiorAuthorityDomainOfInfluence": null,
+            "StistatMunicipality": false
           },
           "EVoting": false,
           "EVotingFrom": null,

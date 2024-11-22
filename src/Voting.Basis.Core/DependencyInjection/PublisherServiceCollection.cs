@@ -82,7 +82,6 @@ internal static class PublisherServiceCollection
             .AddScoped<VoteWriter>()
             .AddScoped<ProportionalElectionWriter>()
             .AddScoped<MajorityElectionWriter>()
-            .AddScoped<ElectionGroupWriter>()
             .AddScoped<ProportionalElectionUnionWriter>()
             .AddScoped<MajorityElectionUnionWriter>()
             .AddScoped<CantonSettingsWriter>()
@@ -108,7 +107,6 @@ internal static class PublisherServiceCollection
             .AddScoped<VoteReader>()
             .AddScoped<ProportionalElectionReader>()
             .AddScoped<MajorityElectionReader>()
-            .AddScoped<ElectionGroupReader>()
             .AddScoped<ProportionalElectionUnionReader>()
             .AddScoped<EventLogReader>()
             .AddScoped<PoliticalAssemblyReader>();

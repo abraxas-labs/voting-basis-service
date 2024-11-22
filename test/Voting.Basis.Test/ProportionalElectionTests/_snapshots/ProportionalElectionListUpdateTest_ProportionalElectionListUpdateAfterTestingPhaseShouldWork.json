@@ -51,8 +51,8 @@
     },
     "CountOfCandidates": 0,
     "CandidateCountOk": false,
-    "ListUnionDescription": {},
-    "SubListUnionDescription": {},
+    "ListUnionDescription": "",
+    "SubListUnionDescription": "",
     "Party": null
   }
 }

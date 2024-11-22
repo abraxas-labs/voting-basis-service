@@ -14,7 +14,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.MajorityElectionTests;
 
-public class MajorityElectionCandidateGetTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class MajorityElectionCandidateGetTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     private const string IdNotFound = "eae2cfaf-c787-48b9-a108-c975b0addddd";
 
@@ -47,61 +47,6 @@ public class MajorityElectionCandidateGetTest : BaseGrpcTest<MajorityElectionSer
             Id = MajorityElectionMockedData.CandidateIdGossauMajorityElectionInContestGossau,
         });
         response.MatchSnapshot();
-    }
-
-    [Fact]
-    public async Task TestAsAdminParentDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.GetCandidateAsync(new GetMajorityElectionCandidateRequest
-            {
-                Id = MajorityElectionMockedData.CandidateId1BundMajorityElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestAsElectionAdminParentDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.GetCandidateAsync(new GetMajorityElectionCandidateRequest
-            {
-                Id = MajorityElectionMockedData.CandidateId1BundMajorityElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestAsAdminChildDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.GetCandidateAsync(new GetMajorityElectionCandidateRequest
-            {
-                Id = MajorityElectionMockedData.CandidateIdUzwilMajorityElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestAsElectionAdminChildDomainOfInfluenceShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.GetCandidateAsync(new GetMajorityElectionCandidateRequest
-            {
-                Id = MajorityElectionMockedData.CandidateIdUzwilMajorityElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestForeignDoiShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.GetCandidateAsync(new GetMajorityElectionCandidateRequest
-            {
-                Id = MajorityElectionMockedData.CandidateIdKircheMajorityElectionInContestKirche,
-            }),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

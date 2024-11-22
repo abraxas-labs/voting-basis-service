@@ -21,7 +21,6 @@ namespace Voting.Basis.Core.EventProcessors;
 
 public class ElectionGroupProcessor :
     IEventProcessor<ElectionGroupCreated>,
-    IEventProcessor<ElectionGroupUpdated>,
     IEventProcessor<ElectionGroupDeleted>
 {
     private readonly IDbRepository<DataContext, ElectionGroup> _repo;
@@ -49,17 +48,6 @@ public class ElectionGroupProcessor :
         var existingElectionGroup = await GetElectionGroup(model.Id);
         await _eventLogger.LogElectionGroupEvent(eventData, existingElectionGroup);
         PublishContestDetailsChangeMessage(existingElectionGroup, EntityState.Added);
-    }
-
-    public async Task Process(ElectionGroupUpdated eventData)
-    {
-        var id = GuidParser.Parse(eventData.ElectionGroupId);
-        var existingModel = await GetElectionGroup(id);
-
-        existingModel.Description = eventData.Description;
-        await _repo.Update(existingModel);
-        await _eventLogger.LogElectionGroupEvent(eventData, existingModel);
-        PublishContestDetailsChangeMessage(existingModel, EntityState.Modified);
     }
 
     public async Task Process(ElectionGroupDeleted eventData)

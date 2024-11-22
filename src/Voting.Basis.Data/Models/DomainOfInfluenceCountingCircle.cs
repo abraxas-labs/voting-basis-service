@@ -19,12 +19,17 @@ public class DomainOfInfluenceCountingCircle : BaseEntity, IHasSnapshotEntity<Do
 
     public ComparisonCountOfVotersCategory ComparisonCountOfVotersCategory { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the relation is inherited by a Child DomainOfInfluence or not.
-    /// </summary>
-    public bool Inherited { get; set; }
-
     public DateTime CreatedOn { get; set; }
 
     public DateTime ModifiedOn { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating the source domain of influence to which counting circle was assigned.
+    /// </summary>
+    public Guid SourceDomainOfInfluenceId { get; set; }
+
+    /// <summary>
+    /// Gets a value indicating whether the relation is inherited by a Child DomainOfInfluence or not.
+    /// </summary>
+    public bool Inherited => DomainOfInfluenceId != SourceDomainOfInfluenceId;
 }

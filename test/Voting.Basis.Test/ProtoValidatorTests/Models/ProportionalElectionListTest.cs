@@ -25,8 +25,8 @@ public class ProportionalElectionListTest : ProtoValidatorBaseTest<ProtoModels.P
             Description = { LanguageUtil.MockAllLanguages("Created list") },
             CountOfCandidates = 27,
             CandidateCountOk = true,
-            ListUnionDescription = { LanguageUtil.MockAllLanguages("Created list") },
-            SubListUnionDescription = { LanguageUtil.MockAllLanguages("Created list") },
+            ListUnionDescription = "01 / 02",
+            SubListUnionDescription = "03 / 04",
         };
 
         action?.Invoke(proportionalElectionList);
@@ -49,10 +49,12 @@ public class ProportionalElectionListTest : ProtoValidatorBaseTest<ProtoModels.P
         yield return NewValid(x => x.CountOfCandidates = 0);
         yield return NewValid(x => x.CountOfCandidates = 100);
         yield return NewValid(x => x.CandidateCountOk = false);
-        yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ListUnionDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
-        yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ListUnionDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(255)));
-        yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.SubListUnionDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
-        yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.SubListUnionDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(255)));
+        yield return NewValid(x => x.ListUnionDescription = string.Empty);
+        yield return NewValid(x => x.ListUnionDescription = RandomStringUtil.GenerateComplexSingleLineText(1));
+        yield return NewValid(x => x.ListUnionDescription = RandomStringUtil.GenerateComplexSingleLineText(255));
+        yield return NewValid(x => x.SubListUnionDescription = string.Empty);
+        yield return NewValid(x => x.SubListUnionDescription = RandomStringUtil.GenerateComplexSingleLineText(1));
+        yield return NewValid(x => x.SubListUnionDescription = RandomStringUtil.GenerateComplexSingleLineText(255));
     }
 
     protected override IEnumerable<ProtoModels.ProportionalElectionList> NotOkMessages()
@@ -80,15 +82,7 @@ public class ProportionalElectionListTest : ProtoValidatorBaseTest<ProtoModels.P
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.Description, "de", RandomStringUtil.GenerateComplexSingleLineText(101)));
         yield return NewValid(x => x.CountOfCandidates = -1);
         yield return NewValid(x => x.CountOfCandidates = 101);
-        yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ListUnionDescription, string.Empty, "test"));
-        yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ListUnionDescription, RandomStringUtil.GenerateAlphabetic(1), "test"));
-        yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ListUnionDescription, RandomStringUtil.GenerateAlphabetic(3), "test"));
-        yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ListUnionDescription, "de", string.Empty));
-        yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ListUnionDescription, "de", RandomStringUtil.GenerateComplexSingleLineText(256)));
-        yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.SubListUnionDescription, string.Empty, "test"));
-        yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.SubListUnionDescription, RandomStringUtil.GenerateAlphabetic(1), "test"));
-        yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.SubListUnionDescription, RandomStringUtil.GenerateAlphabetic(3), "test"));
-        yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.SubListUnionDescription, "de", string.Empty));
-        yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.SubListUnionDescription, "de", RandomStringUtil.GenerateComplexSingleLineText(256)));
+        yield return NewValid(x => x.ListUnionDescription = RandomStringUtil.GenerateComplexSingleLineText(256));
+        yield return NewValid(x => x.SubListUnionDescription = RandomStringUtil.GenerateComplexSingleLineText(256));
     }
 }

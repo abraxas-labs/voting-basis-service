@@ -32,8 +32,9 @@ public class ProportionalElectionUnionWriter : PoliticalBusinessUnionWriter<Prop
         IAggregateRepository aggregateRepository,
         IAggregateFactory aggregateFactory,
         ContestValidationService contestValidationService,
-        PermissionService permissionService)
-        : base(repo, proportionalElectionRepo, contestRepo, auth, contestValidationService, permissionService)
+        PermissionService permissionService,
+        IDbRepository<DataContext, CantonSettings> cantonSettingsRepo)
+        : base(repo, proportionalElectionRepo, contestRepo, cantonSettingsRepo, auth, contestValidationService, permissionService)
     {
         _aggregateRepository = aggregateRepository;
         _aggregateFactory = aggregateFactory;
@@ -68,7 +69,7 @@ public class ProportionalElectionUnionWriter : PoliticalBusinessUnionWriter<Prop
         await EnsureCanModifyPoliticalBusinessUnion(proportionalElectionUnionId);
 
         var proportionalElectionUnion = await _aggregateRepository.GetById<ProportionalElectionUnionAggregate>(proportionalElectionUnionId);
-        await EnsureValidPoliticalBusinessIds(proportionalElectionUnion.ContestId, proportionalElectionIds);
+        await EnsureValidPoliticalBusinessIds(proportionalElectionUnion.ContestId, proportionalElectionIds, proportionalElectionUnion.SecureConnectId);
         await EnsureDistinctMandateAlgorithm(proportionalElectionIds);
 
         proportionalElectionUnion.UpdateEntries(proportionalElectionIds);

@@ -23,7 +23,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
-public class ProportionalElectionListCreateTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
+public class ProportionalElectionListCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     public ProportionalElectionListCreateTest(TestApplicationFactory factory)
         : base(factory)
@@ -133,15 +133,6 @@ public class ProportionalElectionListCreateTest : BaseGrpcTest<ProportionalElect
                 .Select(l => new { l.OrderNumber, l.ShortDescription })
                 .OrderBy(d => d.OrderNumber)
                 .ToListAsync())).MatchSnapshot();
-    }
-
-    [Fact]
-    public async Task ForeignProportionalElectionShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.CreateListAsync(NewValidRequest(l =>
-                l.ProportionalElectionId = ProportionalElectionMockedData.IdKircheProportionalElectionInContestKircheWithoutChilds)),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

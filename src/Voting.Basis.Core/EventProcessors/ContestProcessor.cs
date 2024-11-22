@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using AutoMapper;
 using Google.Protobuf;
+using Microsoft.Extensions.Logging;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Messaging.Extensions;
 using Voting.Basis.Core.Messaging.Messages;
@@ -34,13 +35,16 @@ public class ContestProcessor :
     private readonly IMapper _mapper;
     private readonly EventLoggerAdapter _eventLogger;
     private readonly MessageProducerBuffer _messageProducerBuffer;
+    private readonly ILogger<ContestProcessor> _logger;
 
     public ContestProcessor(
+        ILogger<ContestProcessor> logger,
         IMapper mapper,
         IDbRepository<DataContext, Contest> repo,
         EventLoggerAdapter eventLogger,
         MessageProducerBuffer messageProducerBuffer)
     {
+        _logger = logger;
         _mapper = mapper;
         _repo = repo;
         _eventLogger = eventLogger;
@@ -68,20 +72,24 @@ public class ContestProcessor :
     public async Task Process(ContestDeleted eventData)
     {
         var id = GuidParser.Parse(eventData.ContestId);
-        var existing = await _repo.GetByKey(id)
-            ?? throw new EntityNotFoundException(id);
-
-        await _repo.DeleteByKey(id);
-        await _eventLogger.LogContestEvent(eventData, existing);
-        PublishContestEventMessage(existing, EntityState.Deleted);
+        try
+        {
+            var existing = await GetContest(id);
+            await _repo.DeleteByKey(id);
+            await _eventLogger.LogContestEvent(eventData, existing);
+            PublishContestEventMessage(existing, EntityState.Deleted);
+        }
+        catch (EntityNotFoundException)
+        {
+            // skip event processing to prevent race condition if contest was deleted from other process.
+            _logger.LogWarning("event 'ContestDeleted' skipped. contest {id} has already been deleted", id);
+        }
     }
 
     public async Task Process(ContestsMerged eventData)
     {
         var id = GuidParser.Parse(eventData.MergedId);
-        var contest = await _repo.GetByKey(id)
-            ?? throw new EntityNotFoundException(id);
-
+        var contest = await GetContest(id);
         await _eventLogger.LogContestEvent(eventData, contest);
     }
 
@@ -116,22 +124,21 @@ public class ContestProcessor :
     public async Task Process(ContestArchiveDateUpdated eventData)
     {
         var id = GuidParser.Parse(eventData.ContestId);
-
-        var contest = await _repo.GetByKey(id)
-                      ?? throw new EntityNotFoundException(id);
+        var contest = await GetContest(id);
 
         contest.ArchivePer = eventData.ArchivePer?.ToDateTime();
         await _repo.Update(contest);
         await _eventLogger.LogContestEvent(eventData, contest);
     }
 
+    private async Task<Contest> GetContest(Guid id) => await _repo.GetByKey(id)
+            ?? throw new EntityNotFoundException(id);
+
     private async Task UpdateState<T>(string key, ContestState newState, T eventData, Action<Contest>? customizer = null)
         where T : IMessage<T>
     {
         var id = GuidParser.Parse(key);
-
-        var contest = await _repo.GetByKey(id)
-                      ?? throw new EntityNotFoundException(id);
+        var contest = await GetContest(id);
 
         contest.State = newState;
         customizer?.Invoke(contest);

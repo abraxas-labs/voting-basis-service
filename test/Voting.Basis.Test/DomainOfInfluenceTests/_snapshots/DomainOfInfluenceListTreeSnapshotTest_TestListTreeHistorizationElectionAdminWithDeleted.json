@@ -62,7 +62,11 @@
             "VirtualTopLevel": false,
             "ViewCountingCirclePartialResults": false,
             "VotingCardColor": 0,
-            "ElectoralRegistrationEnabled": false
+            "ElectoralRegistrationEnabled": false,
+            "HasForeignerVoters": false,
+            "HasMinorVoters": false,
+            "SuperiorAuthorityDomainOfInfluence": null,
+            "StistatMunicipality": false
           }
         ],
         "Canton": 1,
@@ -102,7 +106,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       }
     ]
   },
@@ -163,7 +171,11 @@
             "VirtualTopLevel": false,
             "ViewCountingCirclePartialResults": false,
             "VotingCardColor": 0,
-            "ElectoralRegistrationEnabled": false
+            "ElectoralRegistrationEnabled": false,
+            "HasForeignerVoters": false,
+            "HasMinorVoters": false,
+            "SuperiorAuthorityDomainOfInfluence": null,
+            "StistatMunicipality": false
           }
         ],
         "Canton": 1,
@@ -203,7 +215,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       }
     ]
   },
@@ -267,7 +283,11 @@
             "VirtualTopLevel": false,
             "ViewCountingCirclePartialResults": false,
             "VotingCardColor": 0,
-            "ElectoralRegistrationEnabled": false
+            "ElectoralRegistrationEnabled": false,
+            "HasForeignerVoters": false,
+            "HasMinorVoters": false,
+            "SuperiorAuthorityDomainOfInfluence": null,
+            "StistatMunicipality": false
           }
         ],
         "Canton": 1,
@@ -307,7 +327,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       }
     ]
   },
@@ -371,7 +395,11 @@
             "VirtualTopLevel": false,
             "ViewCountingCirclePartialResults": false,
             "VotingCardColor": 0,
-            "ElectoralRegistrationEnabled": false
+            "ElectoralRegistrationEnabled": false,
+            "HasForeignerVoters": false,
+            "HasMinorVoters": false,
+            "SuperiorAuthorityDomainOfInfluence": null,
+            "StistatMunicipality": false
           }
         ],
         "Canton": 1,
@@ -414,7 +442,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       }
     ]
   }

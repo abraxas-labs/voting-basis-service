@@ -22,7 +22,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
-public class ProportionalElectionListDeleteTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
+public class ProportionalElectionListDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     private const string IdNotFound = "bfe2cfaf-c787-48b9-a108-c975b0addddd";
     private string? _authTestListId;
@@ -102,28 +102,6 @@ public class ProportionalElectionListDeleteTest : BaseGrpcTest<ProportionalElect
                 .Select(l => new { l.OrderNumber, l.ShortDescription })
                 .OrderBy(x => x.OrderNumber)
                 .ToListAsync())).MatchSnapshot();
-    }
-
-    [Fact]
-    public async Task ProportionalElectionOtherTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.DeleteListAsync(new DeleteProportionalElectionListRequest
-            {
-                Id = ProportionalElectionMockedData.ListIdUzwilProportionalElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task TestParentProportionalElectionShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.DeleteListAsync(new DeleteProportionalElectionListRequest
-            {
-                Id = ProportionalElectionMockedData.ListIdBundProportionalElectionInContestStGallen,
-            }),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

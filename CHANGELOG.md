@@ -1,4 +1,4 @@
-# ✨ Changelog (`v2.28.0`)
+# ✨ Changelog (`v2.35.2`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,113 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v2.28.0
-Previous version ---- v2.12.1
+This version -------- v2.35.2
+Previous version ---- v2.28.0
 Initial version ----- v1.27.15
-Total commits ------- 37
+Total commits ------- 19
 ```
+
+## [v2.35.2] - 2024-10-31
+
+### :arrows_counterclockwise: Changed
+
+- update eCH library
+
+## [v2.35.1] - 2024-10-28
+
+### 🔒 Security
+
+- remove admin tenant all permissions
+
+## [v2.35.0] - 2024-10-24
+
+### 🆕 Added
+
+- add political business summaries
+
+## [v2.34.2] - 2024-10-24
+
+### :arrows_counterclockwise: Changed
+
+- check contest end of testing phase date in addition to state
+
+## [v2.34.1] - 2024-10-24
+
+### 🔄 Changed
+
+- Eventprocessors: ContestProcessor, MajorityElectonProcessor, PoliticalAssemblyProcessor, ProportionalElectionProcessor, Voteprocessor on deletion assume that object was already deleted if id was not found. In this case scip event processing.
+
+## [v2.34.0] - 2024-10-18
+
+### 🆕 Added
+
+- add STISTAT municipality flag to domain of influence
+
+## [v2.33.0] - 2024-10-15
+
+### 🔄 Changed
+
+- allow candicate locality and origin to be optional
+
+## [v2.32.0] - 2024-10-15
+
+### 🆕 Added
+
+- superior authority domain of influence
+
+## [v2.31.3] - 2024-10-11
+
+### 🔄 Changed
+
+- change list union descriptions
+
+## [v2.31.2] - 2024-10-10
+
+### 🔄 Changed
+
+- inherited cc should not be deleted when multiple cc's exists on same doi tree
+
+## [v2.31.1] - 2024-10-07
+
+### 🔄 Changed
+
+- rename political business and political business union tenant permissions
+
+## [v2.31.0] - 2024-10-07
+
+### 🔒 Security
+
+- enable modifications for all political business and political business unions as admin and canton admin
+
+## [v2.30.2] - 2024-10-04
+
+### 🔄 Changed
+
+- update proto version to apply new name input validation
+
+## [v2.30.1] - 2024-10-03
+
+### ❌ Removed
+
+- remove zh feature flag
+
+## [v2.30.0] - 2024-09-25
+
+### 🆕 Added
+
+- foreigner and minor voters
+
+## [v2.29.0] - 2024-09-23
+
+### 🔄 Changed
+
+- truncate election candidate number
+
+### 🔄 Changed
+
+- consider testing phase in testDeliveryFlag
+
+- add extension to correctly import and export votes via eCH-0159
 
 ## [v2.28.0] - 2024-09-12
 
@@ -194,115 +296,77 @@ patch ci-cd template version, align with new defaults
 
 - add role ApiReaderDoi
 
-## [v2.15.2] - 2024-07-04
-
 ### 🔄 Changed
 
 - update voting library to implement case-insensitivity for headers as per RFC-2616
-
-## [v2.15.1] - 2024-07-01
 
 ### 🔄 Changed
 
 - fix internal plausibilisation error for publisher
 
-## [v2.15.0] - 2024-06-27
-
 ### 🆕 Added
 
 - add internal plausibilisation canton settings
-
-## [v2.14.1] - 2024-06-25
 
 ### 🔄 Changed
 
 - create zip file with time zone info
 
-## [v2.14.0] - 2024-06-25
-
 ### 🆕 Added
 
 - add create contest on highest hierarchical level canton settings
-
-## [v2.13.0] - 2024-06-21
 
 ### 🆕 Added
 
 - add political business finalize canton settings
 
-## [v2.12.1] - 2024-05-29
-
 ### 🔄 Changed
 
 - split ech-0252 election to majority and proportional election export
-
-## [v2.12.0] - 2024-05-29
 
 ### 🆕 Added
 
 - add publish results enabled canton setting
 
-## [v2.11.0] - 2024-05-22
-
 ### 🆕 Added
 
 - add ballot question type
-
-## [v2.10.3] - 2024-05-15
 
 ### 🆕 Added
 
 - new voting-lib reference for expanded special character validation
 
-## [v2.10.2] - 2024-05-15
-
 ### :lock: Security
 
 - correctly apply permissions when user has both admin and canton-admin permissions
-
-## [v2.10.1] - 2024-05-15
 
 ### :arrows_counterclockwise: Changed
 
 - detect duplicated ids during import
 
-## [v2.10.0] - 2024-05-08
-
 ### :arrows_counterclockwise: Changed
 
 - update voting lib
-
-## [v2.9.0] - 2024-05-07
 
 ### 🔄 Changed
 
 - allow to add same counting circle in domain of influence trees
 
-## [v2.8.0] - 2024-05-07
-
 ### 🆕 Added
 
 - update mandate algorithm for proportional elections in unions
-
-## [v2.7.0] - 2024-05-04
 
 ### 🔄 Changed
 
 - move Stimmregister flag from canton settings to DOI
 
-## [v2.6.1] - 2024-04-25
-
 ### 🔄 Changed
 
 - only root domain of influences should be used for contest creation
 
-## [v2.6.0] - 2024-04-24
-
 ### :new: Added
 
 - check for unique political business number
-
-## [v2.5.0] - 2024-04-19
 
 ### 🆕 Added
 
@@ -809,6 +873,120 @@ BREAKING CHANGE: Updated service to .NET 8 LTS.
 - extend evoting date with time
 
 The readmodel needs to be recreated after this MR.
+
+## [v2.15.2] - 2024-07-04
+
+### 🔄 Changed
+
+- update voting library to implement case-insensitivity for headers as per RFC-2616
+
+## [v2.15.1] - 2024-07-01
+
+### 🔄 Changed
+
+- fix internal plausibilisation error for publisher
+
+## [v2.15.0] - 2024-06-27
+
+### 🆕 Added
+
+- add internal plausibilisation canton settings
+
+## [v2.14.1] - 2024-06-25
+
+### 🔄 Changed
+
+- create zip file with time zone info
+
+## [v2.14.0] - 2024-06-25
+
+### 🆕 Added
+
+- add create contest on highest hierarchical level canton settings
+
+## [v2.13.0] - 2024-06-21
+
+### 🆕 Added
+
+- add political business finalize canton settings
+
+## [v2.12.1] - 2024-05-29
+
+### 🔄 Changed
+
+- split ech-0252 election to majority and proportional election export
+
+## [v2.12.0] - 2024-05-29
+
+### 🆕 Added
+
+- add publish results enabled canton setting
+
+## [v2.11.0] - 2024-05-22
+
+### 🆕 Added
+
+- add ballot question type
+
+## [v2.10.3] - 2024-05-15
+
+### 🆕 Added
+
+- new voting-lib reference for expanded special character validation
+
+## [v2.10.2] - 2024-05-15
+
+### :lock: Security
+
+- correctly apply permissions when user has both admin and canton-admin permissions
+
+## [v2.10.1] - 2024-05-15
+
+### :arrows_counterclockwise: Changed
+
+- detect duplicated ids during import
+
+## [v2.10.0] - 2024-05-08
+
+### :arrows_counterclockwise: Changed
+
+- update voting lib
+
+## [v2.9.0] - 2024-05-07
+
+### 🔄 Changed
+
+- allow to add same counting circle in domain of influence trees
+
+## [v2.8.0] - 2024-05-07
+
+### 🆕 Added
+
+- update mandate algorithm for proportional elections in unions
+
+## [v2.7.0] - 2024-05-04
+
+### 🔄 Changed
+
+- move Stimmregister flag from canton settings to DOI
+
+## [v2.6.1] - 2024-04-25
+
+### 🔄 Changed
+
+- only root domain of influences should be used for contest creation
+
+## [v2.6.0] - 2024-04-24
+
+### :new: Added
+
+- check for unique political business number
+
+## [v2.5.0] - 2024-04-19
+
+### 🆕 Added
+
+- add state plausibilised disabled canton setting
 
 ## [v2.4.0] - 2024-04-18
 

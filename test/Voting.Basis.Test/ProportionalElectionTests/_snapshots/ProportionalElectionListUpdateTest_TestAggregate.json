@@ -18,18 +18,8 @@
   },
   "CountOfCandidates": 0,
   "CandidateCountOk": false,
-  "ListUnionDescription": {
-    "de": "<span><span>Liste 1 de</span>, <span>Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; de</span>, <span>Liste 2 de</span></span>",
-    "fr": "<span><span>Liste 1 fr</span>, <span>Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; fr</span>, <span>Liste 2 fr</span></span>",
-    "it": "<span><span>Liste 1 it</span>, <span>Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; it</span>, <span>Liste 2 it</span></span>",
-    "rm": "<span><span>Liste 1 rm</span>, <span>Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; rm</span>, <span>Liste 2 rm</span></span>"
-  },
-  "SubListUnionDescription": {
-    "de": "<span><span class=\"main-list\">Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; de</span>, <span>Liste 2 de</span></span>",
-    "fr": "<span><span class=\"main-list\">Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; fr</span>, <span>Liste 2 fr</span></span>",
-    "it": "<span><span class=\"main-list\">Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; it</span>, <span>Liste 2 it</span></span>",
-    "rm": "<span><span class=\"main-list\">Updated s.d. &lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt; rm</span>, <span>Liste 2 rm</span></span>"
-  },
+  "ListUnionDescription": "<span><span>1a</span>, <span>o2</span>, <span>2</span></span>",
+  "SubListUnionDescription": "<span><span class=\"main-list\">o2</span>, <span>2</span></span>",
   "Party": {
     "Id": "6fe8af5a-9f98-4457-90e7-49657a3df14f",
     "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",

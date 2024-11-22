@@ -41,7 +41,6 @@
       "ProtocolCountingCircleSortType": 1,
       "MultipleVoteBallotsEnabled": false,
       "CountingMachineEnabled": false,
-      "NewZhFeaturesEnabled": false,
       "ProportionalElectionUseCandidateCheckDigit": false,
       "MajorityElectionUseCandidateCheckDigit": false,
       "CountingCircleResultStateDescriptions": [],
@@ -50,7 +49,9 @@
       "EndResultFinalizeDisabled": false,
       "CreateContestOnHighestHierarchicalLevelEnabled": false,
       "InternalPlausibilisationDisabled": false,
-      "PublishResultsBeforeAuditedTentatively": false
+      "PublishResultsBeforeAuditedTentatively": false,
+      "CandidateLocalityRequired": false,
+      "CandidateOriginRequired": false
     },
     {
       "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -93,7 +94,6 @@
       "ProtocolCountingCircleSortType": 2,
       "MultipleVoteBallotsEnabled": true,
       "CountingMachineEnabled": true,
-      "NewZhFeaturesEnabled": true,
       "ProportionalElectionUseCandidateCheckDigit": true,
       "MajorityElectionUseCandidateCheckDigit": true,
       "CountingCircleResultStateDescriptions": [
@@ -107,7 +107,9 @@
       "EndResultFinalizeDisabled": true,
       "CreateContestOnHighestHierarchicalLevelEnabled": true,
       "InternalPlausibilisationDisabled": true,
-      "PublishResultsBeforeAuditedTentatively": true
+      "PublishResultsBeforeAuditedTentatively": true,
+      "CandidateLocalityRequired": true,
+      "CandidateOriginRequired": true
     }
   ]
 }

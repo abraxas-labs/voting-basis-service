@@ -23,9 +23,9 @@ public class ProportionalElectionList : BaseEntity
 
     public bool CandidateCountOk { get; set; }
 
-    public Dictionary<string, string> ListUnionDescription { get; set; } = new Dictionary<string, string>();
+    public string ListUnionDescription { get; set; } = string.Empty;
 
-    public Dictionary<string, string> SubListUnionDescription { get; set; } = new Dictionary<string, string>();
+    public string SubListUnionDescription { get; set; } = string.Empty;
 
     public Guid ProportionalElectionId { get; set; }
 

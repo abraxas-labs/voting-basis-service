@@ -8,20 +8,19 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Exceptions;
-using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
-using Voting.Lib.Database.Repositories;
+using Voting.Basis.Data.Repositories;
 using Voting.Lib.Iam.Store;
 
 namespace Voting.Basis.Core.Services.Read;
 
 public class CantonSettingsReader
 {
-    private readonly IDbRepository<DataContext, CantonSettings> _repo;
+    private readonly CantonSettingsRepo _repo;
     private readonly IAuth _auth;
 
     public CantonSettingsReader(
-        IDbRepository<DataContext, CantonSettings> repo,
+        CantonSettingsRepo repo,
         IAuth auth)
     {
         _repo = repo;
@@ -32,6 +31,12 @@ public class CantonSettingsReader
     {
         return await Query().FirstOrDefaultAsync(c => c.Id == id)
             ?? throw new EntityNotFoundException(id);
+    }
+
+    public async Task<CantonSettings> Get(DomainOfInfluenceCanton canton)
+    {
+        return await _repo.GetByDomainOfInfluenceCanton(canton)
+            ?? new CantonSettings { Canton = canton };
     }
 
     public async Task<IEnumerable<CantonSettings>> List()

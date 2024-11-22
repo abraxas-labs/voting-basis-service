@@ -147,6 +147,12 @@ namespace Voting.Basis.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("CandidateLocalityRequired")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CandidateOriginRequired")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("Canton")
                         .HasColumnType("integer");
 
@@ -176,9 +182,6 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<bool>("MultipleVoteBallotsEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("NewZhFeaturesEnabled")
                         .HasColumnType("boolean");
 
                     b.Property<int[]>("ProportionalElectionMandateAlgorithms")
@@ -575,6 +578,12 @@ namespace Voting.Basis.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("HasForeignerVoters")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("HasMinorVoters")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LogoRef")
                         .HasColumnType("text");
 
@@ -610,6 +619,12 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<int>("SortNumber")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("StistatMunicipality")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("SuperiorAuthorityDomainOfInfluenceId")
+                        .HasColumnType("uuid");
+
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
@@ -625,6 +640,8 @@ namespace Voting.Basis.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
+
+                    b.HasIndex("SuperiorAuthorityDomainOfInfluenceId");
 
                     b.ToTable("DomainOfInfluences");
                 });
@@ -647,17 +664,17 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<Guid>("DomainOfInfluenceId")
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("Inherited")
-                        .HasColumnType("boolean");
-
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("SourceDomainOfInfluenceId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DomainOfInfluenceId");
 
-                    b.HasIndex("CountingCircleId", "DomainOfInfluenceId")
+                    b.HasIndex("CountingCircleId", "DomainOfInfluenceId", "SourceDomainOfInfluenceId")
                         .IsUnique();
 
                     b.ToTable("DomainOfInfluenceCountingCircles");
@@ -1462,7 +1479,7 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<string>("ListUnionDescription")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("text");
 
                     b.Property<string>("OrderNumber")
                         .IsRequired()
@@ -1483,7 +1500,7 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<string>("SubListUnionDescription")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -2072,6 +2089,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<int>("SortNumber")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("StistatMunicipality")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
@@ -2357,6 +2377,11 @@ namespace Voting.Basis.Data.Migrations
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("Voting.Basis.Data.Models.DomainOfInfluence", "SuperiorAuthorityDomainOfInfluence")
+                        .WithMany("SubAuthorityDomainOfInfluences")
+                        .HasForeignKey("SuperiorAuthorityDomainOfInfluenceId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.OwnsOne("Voting.Basis.Data.Models.ContactPerson", "ContactPerson", b1 =>
                         {
                             b1.Property<Guid>("DomainOfInfluenceId")
@@ -2482,6 +2507,12 @@ namespace Voting.Basis.Data.Migrations
                             b1.Property<Guid>("DomainOfInfluenceId")
                                 .HasColumnType("uuid");
 
+                            b1.Property<bool>("CandidateLocalityRequired")
+                                .HasColumnType("boolean");
+
+                            b1.Property<bool>("CandidateOriginRequired")
+                                .HasColumnType("boolean");
+
                             b1.Property<int>("Canton")
                                 .HasColumnType("integer");
 
@@ -2536,6 +2567,8 @@ namespace Voting.Basis.Data.Migrations
                     b.Navigation("PrintData");
 
                     b.Navigation("ReturnAddress");
+
+                    b.Navigation("SuperiorAuthorityDomainOfInfluence");
 
                     b.Navigation("SwissPostData");
                 });
@@ -3236,6 +3269,8 @@ namespace Voting.Basis.Data.Migrations
                     b.Navigation("ProportionalElections");
 
                     b.Navigation("SimplePoliticalBusinesses");
+
+                    b.Navigation("SubAuthorityDomainOfInfluences");
 
                     b.Navigation("Votes");
                 });

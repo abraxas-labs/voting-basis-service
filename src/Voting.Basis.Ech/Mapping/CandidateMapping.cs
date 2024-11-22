@@ -71,6 +71,7 @@ internal static class CandidateMapping
             MrMrs = candidate.Sex.ToEchMrMrsType(),
             LanguageOfCorrespondence = Languages.German,
             PartyAffiliation = partyInfos,
+            Role = null,
         };
     }
 

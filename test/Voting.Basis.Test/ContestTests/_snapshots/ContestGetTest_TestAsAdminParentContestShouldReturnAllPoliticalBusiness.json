@@ -61,7 +61,11 @@
     "VirtualTopLevel": false,
     "ViewCountingCirclePartialResults": false,
     "VotingCardColor": 0,
-    "ElectoralRegistrationEnabled": false
+    "ElectoralRegistrationEnabled": false,
+    "HasForeignerVoters": false,
+    "HasMinorVoters": false,
+    "SuperiorAuthorityDomainOfInfluence": null,
+    "StistatMunicipality": false
   },
   "EVoting": false,
   "EVotingFrom": null,
@@ -128,7 +132,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -195,7 +203,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -262,7 +274,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -329,7 +345,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -396,7 +416,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -463,7 +487,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -530,7 +558,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -597,7 +629,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -664,7 +700,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       "PoliticalBusinessType": 4,
       "PoliticalBusinessSubType": 0,
@@ -747,7 +787,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": true
+        "ElectoralRegistrationEnabled": true,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": true
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -830,7 +874,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": true
+        "ElectoralRegistrationEnabled": true,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": true
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 1,
@@ -913,7 +961,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": true
+        "ElectoralRegistrationEnabled": true,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": true
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -980,7 +1032,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -1047,7 +1103,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -1114,7 +1174,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": false
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -1197,7 +1261,11 @@
         "VirtualTopLevel": false,
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
-        "ElectoralRegistrationEnabled": true
+        "ElectoralRegistrationEnabled": true,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": true
       },
       "PoliticalBusinessType": 4,
       "PoliticalBusinessSubType": 0,
@@ -1210,28 +1278,32 @@
       "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
       "Description": "Bund Union",
       "SecureConnectId": "000000000000000000",
-      "Type": 1
+      "Type": 1,
+      "PoliticalBusinessIds": []
     },
     {
       "Id": "04047657-8204-4baa-91be-45c0bb63d8d1",
       "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
       "Description": "Bund Union",
       "SecureConnectId": "000000000000000000",
-      "Type": 2
+      "Type": 2,
+      "PoliticalBusinessIds": []
     },
     {
       "Id": "b0389a7d-77cf-4032-b1b2-0fa2d7cde028",
       "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
       "Description": "Bund Union different Tenant",
       "SecureConnectId": "100100100100100100",
-      "Type": 1
+      "Type": 1,
+      "PoliticalBusinessIds": []
     },
     {
       "Id": "02ac19a5-4253-424a-9ae2-c7bdf8ceceaf",
       "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
       "Description": "Bund Union different Tenant",
       "SecureConnectId": "100100100100100100",
-      "Type": 2
+      "Type": 2,
+      "PoliticalBusinessIds": []
     }
   ],
   "State": 1,

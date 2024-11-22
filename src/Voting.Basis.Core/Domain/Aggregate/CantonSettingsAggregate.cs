@@ -71,8 +71,6 @@ public class CantonSettingsAggregate : BaseEventSourcingAggregate
     /// </summary>
     public bool CountingMachineEnabled { get; private set; }
 
-    public bool NewZhFeaturesEnabled { get; private set; }
-
     public bool ProportionalElectionUseCandidateCheckDigit { get; private set; }
 
     public bool MajorityElectionUseCandidateCheckDigit { get; private set; }

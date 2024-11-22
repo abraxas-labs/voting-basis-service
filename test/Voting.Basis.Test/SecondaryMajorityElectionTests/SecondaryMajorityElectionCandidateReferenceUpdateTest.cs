@@ -19,7 +19,7 @@ using Xunit;
 
 namespace Voting.Basis.Test.SecondaryMajorityElectionTests;
 
-public class SecondaryMajorityElectionCandidateReferenceUpdateTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class SecondaryMajorityElectionCandidateReferenceUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     public SecondaryMajorityElectionCandidateReferenceUpdateTest(TestApplicationFactory factory)
         : base(factory)
@@ -72,15 +72,6 @@ public class SecondaryMajorityElectionCandidateReferenceUpdateTest : BaseGrpcTes
             SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
         });
         candidates.MatchSnapshot();
-    }
-
-    [Fact]
-    public async Task ForeignSecondaryMajorityElectionShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest(l =>
-                l.Id = MajorityElectionMockedData.SecondaryElectionCandidateIdKircheMajorityElectionInContestKirche)),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

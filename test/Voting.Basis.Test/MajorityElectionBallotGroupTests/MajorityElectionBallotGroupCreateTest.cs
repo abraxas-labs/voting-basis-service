@@ -22,7 +22,7 @@ using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 
 namespace Voting.Basis.Test.MajorityElectionBallotGroupTests;
 
-public class MajorityElectionBallotGroupCreateTest : BaseGrpcTest<MajorityElectionService.MajorityElectionServiceClient>
+public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<MajorityElectionService.MajorityElectionServiceClient>
 {
     private int _authTestPosition = 1;
 
@@ -126,17 +126,6 @@ public class MajorityElectionBallotGroupCreateTest : BaseGrpcTest<MajorityElecti
         entry.CountOfCandidates.Should().Be(0);
         entry.BlankRowCount.Should().Be(5);
         entry.CandidateCountOk.Should().BeTrue();
-    }
-
-    [Fact]
-    public async Task MajorityElectionFromOtherDoiShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.CreateBallotGroupAsync(NewValidRequest(pe =>
-             {
-                 pe.MajorityElectionId = MajorityElectionMockedData.IdUzwilMajorityElectionInContestBund;
-             })),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]

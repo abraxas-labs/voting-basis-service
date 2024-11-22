@@ -29,8 +29,9 @@ public class MajorityElectionUnionWriter : PoliticalBusinessUnionWriter<Majority
         IAggregateRepository aggregateRepository,
         IAggregateFactory aggregateFactory,
         ContestValidationService contestValidationService,
-        PermissionService permissionService)
-        : base(repo, majorityElectionRepo, contestRepo, auth, contestValidationService, permissionService)
+        PermissionService permissionService,
+        IDbRepository<DataContext, CantonSettings> cantonSettingsRepo)
+        : base(repo, majorityElectionRepo, contestRepo, cantonSettingsRepo, auth, contestValidationService, permissionService)
     {
         _aggregateRepository = aggregateRepository;
         _aggregateFactory = aggregateFactory;
@@ -65,7 +66,7 @@ public class MajorityElectionUnionWriter : PoliticalBusinessUnionWriter<Majority
         await EnsureCanModifyPoliticalBusinessUnion(majorityElectionUnionId);
 
         var majorityElectionUnion = await _aggregateRepository.GetById<MajorityElectionUnionAggregate>(majorityElectionUnionId);
-        await EnsureValidPoliticalBusinessIds(majorityElectionUnion.ContestId, majorityElectionIds);
+        await EnsureValidPoliticalBusinessIds(majorityElectionUnion.ContestId, majorityElectionIds, majorityElectionUnion.SecureConnectId);
 
         majorityElectionUnion.UpdateEntries(majorityElectionIds);
         await _aggregateRepository.Save(majorityElectionUnion);

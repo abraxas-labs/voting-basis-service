@@ -4,10 +4,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
+using System.Xml;
+using System.Xml.Serialization;
 using Ech0155_4_0;
 using Ech0159_4_0;
+using Voting.Basis.Ech.Models;
 using Voting.Lib.Common;
 using Voting.Lib.Ech.Utils;
 using DataModels = Voting.Basis.Data.Models;
@@ -69,30 +73,39 @@ internal static class VoteMapping
 
     internal static IEnumerable<DataModels.Vote> ToBasisVotes(this EventInitialDeliveryVoteInformation vote, IdLookup idLookup)
     {
-        // eCH votes correspond to VOTING ballots
-        for (var i = 0; i < vote.Ballot.Count; i++)
-        {
-            var ballot = vote.Ballot[i];
+        var voteGroups = vote.Ballot
+            .Select(x => new
+            {
+                Ballot = x,
+                Extension = TryDeserializeFromXmlElement<BallotExtension>(x.Extension?.Any.FirstOrDefault(), out var extension) ? extension : null,
+            })
+            .GroupBy(x => x.Extension?.VoteId ?? Guid.NewGuid());
 
+        foreach (var group in voteGroups)
+        {
             var voteId = Guid.NewGuid();
-            var descriptionInfos = ballot.BallotDescription;
-            var longDescription = descriptionInfos.ToLanguageDictionary(x => x.Language, x => x.BallotDescriptionLong, ballot.BallotIdentification);
-            var shortDescription = descriptionInfos.ToLanguageDictionary(x => x.Language, x => x.BallotDescriptionShort, ballot.BallotIdentification);
-            var basisBallot = ballot.ToBasisBallot(voteId, idLookup, i);
+            var echBallots = group.ToList();
+            var voteExtension = echBallots[0].Extension;
+
+            var ballots = echBallots
+                .OrderBy(x => int.Parse(x.Ballot.BallotPosition))
+                .Select((x, i) => x.Ballot.ToBasisBallot(voteId, x.Extension?.BallotSubType ?? DataModels.BallotSubType.Unspecified, idLookup, i + 1))
+                .ToList();
 
             yield return new DataModels.Vote
             {
                 Id = voteId,
-                OfficialDescription = longDescription,
-                ShortDescription = shortDescription,
-                Ballots = new[] { basisBallot },
-                ResultEntry = DataModels.VoteResultEntry.FinalResults,
-                ResultAlgorithm = DataModels.VoteResultAlgorithm.PopularMajority,
-                ReviewProcedure = DataModels.VoteReviewProcedure.Electronically,
-                Type = DataModels.VoteType.QuestionsOnSingleBallot,
-
-                // see https://jira.abraxas-tools.ch/jira/browse/VOTING-1169?focusedCommentId=640226&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-640226
-                EnforceResultEntryForCountingCircles = basisBallot.BallotType == DataModels.BallotType.StandardBallot,
+                OfficialDescription = voteExtension?.VoteOfficicalDescription.ToDictionary(x => x.Key, x => x.Value)
+                    ?? echBallots[0].Ballot.BallotDescription.ToLanguageDictionary(x => x.Language, x => x.BallotDescriptionLong, voteId.ToString()),
+                ShortDescription = voteExtension?.VoteShortDescription.ToDictionary(x => x.Key, x => x.Value)
+                    ?? echBallots[0].Ballot.BallotDescription.ToLanguageDictionary(x => x.Language, x => x.BallotDescriptionShort, voteId.ToString()),
+                Ballots = ballots,
+                ResultEntry = voteExtension?.VoteResultEntry ?? DataModels.VoteResultEntry.FinalResults,
+                ResultAlgorithm = voteExtension?.VoteResultAlgorithm ?? DataModels.VoteResultAlgorithm.PopularMajority,
+                ReviewProcedure = voteExtension?.VoteReviewProcedure ?? DataModels.VoteReviewProcedure.Electronically,
+                Type = voteExtension?.VoteType ?? DataModels.VoteType.QuestionsOnSingleBallot,
+                EnforceResultEntryForCountingCircles = voteExtension?.VoteEnforceResultEntryForCountingCircles
+                    ?? ballots.Count > 1 || ballots[0].BallotType == DataModels.BallotType.StandardBallot,
             };
         }
     }
@@ -122,6 +135,25 @@ internal static class VoteMapping
             BallotIdentification = ballot.Id.ToString(),
             BallotPosition = ballotPosition.ToString(),
             BallotDescription = descriptionInfos,
+            BallotGroup = null,
+            Extension = new ExtensionType
+            {
+                Any =
+                {
+                    SerializeToXmlElement(new BallotExtension
+                    {
+                        VoteId = ballot.VoteId,
+                        VoteType = ballot.Vote.Type,
+                        VoteOfficicalDescription = vote.OfficialDescription.Select(x => new XmlKeyValuePair(x.Key, x.Value)).ToList(),
+                        VoteShortDescription = vote.ShortDescription.Select(x => new XmlKeyValuePair(x.Key, x.Value)).ToList(),
+                        VoteResultAlgorithm = vote.ResultAlgorithm,
+                        VoteResultEntry = vote.ResultEntry,
+                        VoteReviewProcedure = vote.ReviewProcedure,
+                        VoteEnforceResultEntryForCountingCircles = vote.EnforceResultEntryForCountingCircles,
+                        BallotSubType = ballot.SubType,
+                    }),
+                },
+            },
         };
 
         if (ballot.BallotType == DataModels.BallotType.StandardBallot)
@@ -223,7 +255,7 @@ internal static class VoteMapping
         };
     }
 
-    private static DataModels.Ballot ToBasisBallot(this BallotType ballot, Guid voteId, IdLookup idLookup, int positionOffset)
+    private static DataModels.Ballot ToBasisBallot(this BallotType ballot, Guid voteId, DataModels.BallotSubType subType, IdLookup idLookup, int position)
     {
         var ballotId = idLookup.GuidForId(ballot.BallotIdentification);
         var ballotType = DataModels.BallotType.StandardBallot;
@@ -245,15 +277,25 @@ internal static class VoteMapping
             }
         }
 
+        var shortDescription = subType == DataModels.BallotSubType.Unspecified
+            ? new Dictionary<string, string>()
+            : ballot.BallotDescription.ToLanguageDictionary(x => x.Language, x => x.BallotDescriptionShort, ballotId.ToString());
+        var officialDescription = subType == DataModels.BallotSubType.Unspecified
+            ? new Dictionary<string, string>()
+            : ballot.BallotDescription.ToLanguageDictionary(x => x.Language, x => x.BallotDescriptionLong, ballotId.ToString());
+
         return new DataModels.Ballot
         {
             Id = ballotId,
             VoteId = voteId,
-            Position = int.Parse(ballot.BallotPosition) - positionOffset,
+            Position = position,
             BallotType = ballotType,
+            SubType = subType,
             BallotQuestions = questions,
             TieBreakQuestions = tieBreakQuestions,
             HasTieBreakQuestions = tieBreakQuestions.Count > 0,
+            ShortDescription = shortDescription,
+            OfficialDescription = officialDescription,
         };
     }
 
@@ -325,5 +367,39 @@ internal static class VoteMapping
 
         // 1 = a, 2 = b, ...
         return (char)(number + 96);
+    }
+
+    private static XmlElement SerializeToXmlElement<T>(T value)
+    {
+        var doc = new XmlDocument();
+
+        using (var writer = doc.CreateNavigator()!.AppendChild())
+        {
+            new XmlSerializer(typeof(T)).Serialize(writer, value);
+        }
+
+        return doc.DocumentElement!;
+    }
+
+    private static bool TryDeserializeFromXmlElement<T>(XmlElement? element, [NotNullWhen(true)] out T? value)
+    {
+        value = default;
+
+        if (element == null)
+        {
+            return false;
+        }
+
+        var serializer = new XmlSerializer(typeof(T));
+
+        try
+        {
+            value = (T)serializer.Deserialize(new XmlNodeReader(element))!;
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

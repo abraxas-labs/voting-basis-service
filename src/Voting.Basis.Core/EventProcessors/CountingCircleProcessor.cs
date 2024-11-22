@@ -141,7 +141,7 @@ public class CountingCircleProcessor :
         // copy domain of influence counting circles
         var newDoiCcs = copyFromCc.DomainOfInfluences.Select(doiCc => new DomainOfInfluenceCountingCircle
         {
-            Inherited = doiCc.Inherited,
+            SourceDomainOfInfluenceId = doiCc.SourceDomainOfInfluenceId,
             DomainOfInfluenceId = doiCc.DomainOfInfluenceId,
             CountingCircleId = newCcId,
         }).ToList();
@@ -199,7 +199,7 @@ public class CountingCircleProcessor :
             x => x.DomainOfInfluenceId,
             x => new DomainOfInfluenceCountingCircle
             {
-                Inherited = x.Inherited,
+                SourceDomainOfInfluenceId = x.SourceDomainOfInfluenceId,
                 DomainOfInfluenceId = x.DomainOfInfluenceId,
                 CountingCircleId = merger.NewCountingCircle.Id,
             });

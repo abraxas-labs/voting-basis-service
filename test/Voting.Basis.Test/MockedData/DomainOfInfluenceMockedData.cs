@@ -277,6 +277,7 @@ public static class DomainOfInfluenceMockedData
                 FrankingLicenceReturnNumber = "562984257",
             },
             ElectoralRegistrationEnabled = true,
+            StistatMunicipality = true,
         };
 
     public static DomainOfInfluence Kirchgemeinde
@@ -294,6 +295,7 @@ public static class DomainOfInfluenceMockedData
             {
                     PartyKirchgemeindeEVP,
             },
+            SuperiorAuthorityDomainOfInfluenceId = GuidUzwil,
         };
 
     public static DomainOfInfluence KirchgemeindeAndere
@@ -307,6 +309,7 @@ public static class DomainOfInfluenceMockedData
             Type = DomainOfInfluenceType.An,
             ParentId = Guid.Parse(IdKirchgemeinde),
             PlausibilisationConfiguration = BuildDataPlausibilisationConfiguration(),
+            SuperiorAuthorityDomainOfInfluenceId = GuidUzwil,
         };
 
     public static DomainOfInfluence Zurich
@@ -427,91 +430,98 @@ public static class DomainOfInfluenceMockedData
             Id = Guid.Parse("ab32b5c3-48db-4242-90b6-16a13e94f8d9"),
             DomainOfInfluenceId = Guid.Parse(IdBund),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdBund),
+            SourceDomainOfInfluenceId = Guid.Parse(IdBund),
         };
         yield return new DomainOfInfluenceCountingCircle
         {
             Id = Guid.Parse("b8d29bd5-a828-4783-807a-a3813e24144c"),
             DomainOfInfluenceId = Guid.Parse(IdBund),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdStGallen),
-            Inherited = true,
+            SourceDomainOfInfluenceId = Guid.Parse(IdStGallen),
         };
         yield return new DomainOfInfluenceCountingCircle
         {
             Id = Guid.Parse("22c686ca-b3ee-4be6-af94-20ce03784416"),
             DomainOfInfluenceId = Guid.Parse(IdBund),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdRapperswil),
-            Inherited = true,
+            SourceDomainOfInfluenceId = Guid.Parse(IdStGallen),
         };
         yield return new DomainOfInfluenceCountingCircle
         {
             Id = Guid.Parse("52e1ae3b-23af-4536-996d-41cc5cedb445"),
             DomainOfInfluenceId = Guid.Parse(IdBund),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdGossau),
-            Inherited = true,
+            SourceDomainOfInfluenceId = Guid.Parse(IdGossau),
         };
         yield return new DomainOfInfluenceCountingCircle
         {
             Id = Guid.Parse("085cdabd-c2d3-4d9e-b558-58706026d374"),
             DomainOfInfluenceId = Guid.Parse(IdBund),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdUzwil),
-            Inherited = true,
+            SourceDomainOfInfluenceId = Guid.Parse(IdUzwil),
         };
         yield return new DomainOfInfluenceCountingCircle
         {
             Id = Guid.Parse("dbf7dea8-3739-4e15-9e67-37f2f2fd6f1f"),
             DomainOfInfluenceId = Guid.Parse(IdStGallen),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdStGallen),
+            SourceDomainOfInfluenceId = Guid.Parse(IdStGallen),
         };
         yield return new DomainOfInfluenceCountingCircle
         {
             Id = Guid.Parse("b6bd656e-c2d8-4912-bab9-dfdbdbaacd0f"),
             DomainOfInfluenceId = Guid.Parse(IdStGallen),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdUzwil),
-            Inherited = true,
+            SourceDomainOfInfluenceId = Guid.Parse(IdUzwil),
         };
         yield return new DomainOfInfluenceCountingCircle
         {
             Id = Guid.Parse("bfb20b67-93e6-4da5-8cd3-1d679333631f"),
             DomainOfInfluenceId = Guid.Parse(IdStGallen),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdRapperswil),
+            SourceDomainOfInfluenceId = Guid.Parse(IdStGallen),
         };
         yield return new DomainOfInfluenceCountingCircle
         {
             Id = Guid.Parse("260ca8b9-3967-4d76-b382-e3349b215055"),
             DomainOfInfluenceId = Guid.Parse(IdStGallen),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdGossau),
-            Inherited = true,
+            SourceDomainOfInfluenceId = Guid.Parse(IdGossau),
         };
         yield return new DomainOfInfluenceCountingCircle
         {
             Id = Guid.Parse("ae8b1e0f-7ba0-4ec6-a25a-7acbcb42778f"),
             DomainOfInfluenceId = Guid.Parse(IdGossau),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdGossau),
+            SourceDomainOfInfluenceId = Guid.Parse(IdGossau),
         };
         yield return new DomainOfInfluenceCountingCircle
         {
             Id = Guid.Parse("458a7b20-3eb3-42ba-bc9c-adeed71527d6"),
             DomainOfInfluenceId = Guid.Parse(IdUzwil),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdUzwil),
+            SourceDomainOfInfluenceId = Guid.Parse(IdUzwil),
         };
         yield return new DomainOfInfluenceCountingCircle
         {
             Id = Guid.Parse("a23b7b20-3eb3-42ba-bc9c-adeed71555c3"),
             DomainOfInfluenceId = Guid.Parse(IdKirchgemeinde),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdUzwilKirche),
+            SourceDomainOfInfluenceId = Guid.Parse(IdKirchgemeinde),
         };
         yield return new DomainOfInfluenceCountingCircle
         {
             Id = Guid.Parse("e5c3b361-cfdb-41bc-8f13-c057c58d857b"),
             DomainOfInfluenceId = Guid.Parse(IdKirchgemeinde),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdUzwilKircheAndere),
-            Inherited = true,
+            SourceDomainOfInfluenceId = Guid.Parse(IdKirchgemeindeAndere),
         };
         yield return new DomainOfInfluenceCountingCircle
         {
             Id = Guid.Parse("c8ba7cb5-9155-4f1a-a232-3b44f014cf9d"),
             DomainOfInfluenceId = Guid.Parse(IdKirchgemeindeAndere),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdUzwilKircheAndere),
+            SourceDomainOfInfluenceId = Guid.Parse(IdKirchgemeindeAndere),
         };
     }
 

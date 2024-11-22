@@ -19,8 +19,8 @@
         "Position": 1,
         "CountOfCandidates": 3,
         "CandidateCountOk": true,
-        "ListUnionDescription": {},
-        "SubListUnionDescription": {},
+        "ListUnionDescription": "",
+        "SubListUnionDescription": "",
         "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
         "ProportionalElection": null,
         "ProportionalElectionCandidates": [
@@ -110,18 +110,8 @@
         "Position": 2,
         "CountOfCandidates": 1,
         "CandidateCountOk": true,
-        "ListUnionDescription": {
-          "de": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
-          "fr": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
-          "it": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
-          "rm": "<span><span>CVP Senioren</span>, <span>SVP</span></span>"
-        },
-        "SubListUnionDescription": {
-          "de": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
-          "fr": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
-          "it": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
-          "rm": "<span><span>CVP Senioren</span>, <span>SVP</span></span>"
-        },
+        "ListUnionDescription": "<span><span>1b</span>, <span>3</span></span>",
+        "SubListUnionDescription": "<span><span>1b</span>, <span>3</span></span>",
         "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
         "ProportionalElection": null,
         "ProportionalElectionCandidates": [
@@ -176,8 +166,8 @@
         "Position": 3,
         "CountOfCandidates": 3,
         "CandidateCountOk": true,
-        "ListUnionDescription": {},
-        "SubListUnionDescription": {},
+        "ListUnionDescription": "",
+        "SubListUnionDescription": "",
         "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
         "ProportionalElection": null,
         "ProportionalElectionCandidates": [
@@ -282,8 +272,8 @@
         "Position": 4,
         "CountOfCandidates": 2,
         "CandidateCountOk": true,
-        "ListUnionDescription": {},
-        "SubListUnionDescription": {},
+        "ListUnionDescription": "",
+        "SubListUnionDescription": "",
         "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
         "ProportionalElection": null,
         "ProportionalElectionCandidates": [
@@ -338,18 +328,8 @@
         "Position": 5,
         "CountOfCandidates": 5,
         "CandidateCountOk": true,
-        "ListUnionDescription": {
-          "de": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
-          "fr": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
-          "it": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
-          "rm": "<span><span>CVP Senioren</span>, <span>SVP</span></span>"
-        },
-        "SubListUnionDescription": {
-          "de": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
-          "fr": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
-          "it": "<span><span>CVP Senioren</span>, <span>SVP</span></span>",
-          "rm": "<span><span>CVP Senioren</span>, <span>SVP</span></span>"
-        },
+        "ListUnionDescription": "<span><span>1b</span>, <span>3</span></span>",
+        "SubListUnionDescription": "<span><span>1b</span>, <span>3</span></span>",
         "ProportionalElectionId": "81880186-febc-4fd7-bb82-62c446430027",
         "ProportionalElection": null,
         "ProportionalElectionCandidates": [

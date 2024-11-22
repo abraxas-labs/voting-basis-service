@@ -22,7 +22,7 @@ using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
-public class ProportionalElectionListUnionReorderTest : BaseGrpcTest<ProportionalElectionService.ProportionalElectionServiceClient>
+public class ProportionalElectionListUnionReorderTest : PoliticalBusinessAuthorizationGrpcBaseTest<ProportionalElectionService.ProportionalElectionServiceClient>
 {
     public ProportionalElectionListUnionReorderTest(TestApplicationFactory factory)
         : base(factory)
@@ -78,15 +78,6 @@ public class ProportionalElectionListUnionReorderTest : BaseGrpcTest<Proportiona
             ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestStGallen,
         });
         tree.MatchSnapshot();
-    }
-
-    [Fact]
-    public async Task ForeignProportionalElectionShouldThrow()
-    {
-        await AssertStatus(
-            async () => await AdminClient.ReorderListUnionsAsync(NewValidRequest(l =>
-                l.ProportionalElectionId = ProportionalElectionMockedData.IdBundProportionalElectionInContestBund)),
-            StatusCode.InvalidArgument);
     }
 
     [Fact]
