@@ -39,7 +39,7 @@ public class DomainOfInfluenceService : ServiceBase
         _mapper = mapper;
     }
 
-    [AuthorizeAnyPermission(Permissions.DomainOfInfluence.CreateSameCanton, Permissions.DomainOfInfluence.CreateAll)]
+    [AuthorizePermission(Permissions.DomainOfInfluence.CreateSameCanton)]
     public override async Task<IdValue> Create(
         CreateDomainOfInfluenceRequest request,
         ServerCallContext context)
@@ -49,7 +49,7 @@ public class DomainOfInfluenceService : ServiceBase
         return new IdValue { Id = data.Id.ToString() };
     }
 
-    [AuthorizeAnyPermission(Permissions.DomainOfInfluence.UpdateSameTenant, Permissions.DomainOfInfluence.UpdateSameCanton, Permissions.DomainOfInfluence.UpdateAll)]
+    [AuthorizeAnyPermission(Permissions.DomainOfInfluence.UpdateSameTenant, Permissions.DomainOfInfluence.UpdateSameCanton)]
     public override async Task<Empty> Update(
         UpdateDomainOfInfluenceRequest request,
         ServerCallContext context)
@@ -69,7 +69,7 @@ public class DomainOfInfluenceService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
-    [AuthorizeAnyPermission(Permissions.DomainOfInfluence.DeleteSameCanton, Permissions.DomainOfInfluence.DeleteAll)]
+    [AuthorizePermission(Permissions.DomainOfInfluence.DeleteSameCanton)]
     public override async Task<Empty> Delete(DeleteDomainOfInfluenceRequest request, ServerCallContext context)
     {
         await _domainOfInfluenceWriter.Delete(GuidParser.Parse(request.Id));
@@ -104,7 +104,7 @@ public class DomainOfInfluenceService : ServiceBase
         ServerCallContext context)
         => _mapper.Map<DomainOfInfluences>(await _domainOfInfluenceReader.ListTree());
 
-    [AuthorizeAnyPermission(Permissions.DomainOfInfluenceHierarchy.UpdateSameCanton, Permissions.DomainOfInfluenceHierarchy.UpdateAll)]
+    [AuthorizePermission(Permissions.DomainOfInfluenceHierarchy.UpdateSameCanton)]
     public override async Task<Empty> UpdateCountingCircleEntries(
         UpdateDomainOfInfluenceCountingCircleEntriesRequest request,
         ServerCallContext context)

@@ -35,7 +35,9 @@
       "ElectoralRegistrationEnabled": false,
       "HasForeignerVoters": false,
       "HasMinorVoters": false,
-      "SuperiorAuthorityDomainOfInfluenceId": ""
+      "SuperiorAuthorityDomainOfInfluenceId": "",
+      "PublishResultsDisabled": false,
+      "HideLowerDomainOfInfluencesInReports": false
     }
   }
 }

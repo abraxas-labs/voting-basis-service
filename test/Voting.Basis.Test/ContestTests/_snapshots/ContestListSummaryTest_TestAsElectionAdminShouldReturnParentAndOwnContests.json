@@ -66,7 +66,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -154,7 +157,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -264,7 +270,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": true
+        "StistatMunicipality": true,
+        "PublishResultsDisabled": true,
+        "VotingCardFlatRateDisabled": true,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -344,7 +353,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -419,7 +431,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -500,7 +515,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -581,7 +599,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -678,7 +699,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": true
+        "StistatMunicipality": true,
+        "PublishResultsDisabled": true,
+        "VotingCardFlatRateDisabled": true,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "EVoting": false,
       "EVotingFrom": null,

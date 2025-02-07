@@ -39,7 +39,7 @@ public class DomainOfInfluenceSetLogoTest : BaseRestTest
     public async Task ShouldStoreLogo()
     {
         using var content = BuildSimpleContent();
-        using var resp = await AdminClient.PostAsync(BuildUrl(DomainOfInfluenceMockedData.IdStGallen), content);
+        using var resp = await ElectionAdminClient.PostAsync(BuildUrl(DomainOfInfluenceMockedData.IdStGallen), content);
         resp.EnsureSuccessStatusCode();
 
         var storedContent = GetService<ObjectStorageClientMock>()
@@ -147,7 +147,6 @@ public class DomainOfInfluenceSetLogoTest : BaseRestTest
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

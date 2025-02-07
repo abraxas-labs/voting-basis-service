@@ -53,7 +53,7 @@ public class CantonSettings : BaseEntity
 
     public bool StatePlausibilisedDisabled { get; set; }
 
-    public bool PublishResultsEnabled { get; set; }
+    public bool ManualPublishResultsEnabled { get; set; }
 
     public bool EndResultFinalizeDisabled { get; set; }
 
@@ -66,4 +66,8 @@ public class CantonSettings : BaseEntity
     public bool CandidateLocalityRequired { get; set; }
 
     public bool CandidateOriginRequired { get; set; }
+
+    public bool DomainOfInfluencePublishResultsOptionEnabled { get; set; }
+
+    public bool SecondaryMajorityElectionOnSeparateBallot { get; set; }
 }

@@ -13,6 +13,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Test.ImportTests.TestFiles;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -36,7 +37,7 @@ public class ImportMajorityElectionCandidatesTest : BaseImportPoliticalBusinessA
     public async Task TestShouldWork()
     {
         var request = await CreateValidRequest();
-        await AdminClient.ImportMajorityElectionCandidatesAsync(request);
+        await CantonAdminClient.ImportMajorityElectionCandidatesAsync(request);
     }
 
     [Fact]
@@ -45,7 +46,7 @@ public class ImportMajorityElectionCandidatesTest : BaseImportPoliticalBusinessA
         var request = await CreateValidRequest();
         request.Candidates[0].Id = request.Candidates[1].Id;
         await AssertStatus(
-            async () => await AdminClient.ImportMajorityElectionCandidatesAsync(request),
+            async () => await CantonAdminClient.ImportMajorityElectionCandidatesAsync(request),
             StatusCode.InvalidArgument,
             "This id is not unique");
     }
@@ -55,12 +56,12 @@ public class ImportMajorityElectionCandidatesTest : BaseImportPoliticalBusinessA
     {
         var request = await CreateValidRequest();
 
-        await AdminClient.ImportMajorityElectionCandidatesAsync(request);
+        await CantonAdminClient.ImportMajorityElectionCandidatesAsync(request);
         var createCandidateEvents1 = EventPublisherMock.GetPublishedEvents<MajorityElectionCandidateCreated>().ToList();
         await TestEventPublisher.Publish(createCandidateEvents1.ToArray());
         EventPublisherMock.Clear();
 
-        await AdminClient.ImportMajorityElectionCandidatesAsync(request);
+        await CantonAdminClient.ImportMajorityElectionCandidatesAsync(request);
         var createCandidateEvents2 = EventPublisherMock.GetPublishedEvents<MajorityElectionCandidateCreated>().ToList();
 
         createCandidateEvents1.Should().HaveCountGreaterThan(0);
@@ -81,7 +82,6 @@ public class ImportMajorityElectionCandidatesTest : BaseImportPoliticalBusinessA
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;
@@ -89,11 +89,7 @@ public class ImportMajorityElectionCandidatesTest : BaseImportPoliticalBusinessA
 
     private async Task<ImportMajorityElectionCandidatesRequest> CreateValidRequest()
     {
-        var contest = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
-        {
-            ImportType = SharedProto.ImportType.Ech157,
-            FileContent = await GetTestEch0157File(),
-        });
+        var contest = await LoadContestImport(SharedProto.ImportType.Ech157, EchTestFiles.GetTestFilePath(EchTestFiles.Ech0157FileName));
 
         var majorityElectionImport = contest.MajorityElections[0];
 

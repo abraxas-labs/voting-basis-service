@@ -40,7 +40,7 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
     public async Task Test()
     {
         var request = NewValidRequest();
-        var response = await AdminClient.UpdateListAsync(request);
+        var response = await CantonAdminClient.UpdateListAsync(request);
 
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionListUpdated, EventSignatureBusinessMetadata>();
 
@@ -54,7 +54,7 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.UpdateListAsync(NewValidRequest());
+            await CantonAdminClient.UpdateListAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<ProportionalElectionListUpdated>();
         });
     }
@@ -79,7 +79,7 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
                 },
             });
 
-        var list = await AdminClient.GetListAsync(new GetProportionalElectionListRequest
+        var list = await CantonAdminClient.GetListAsync(new GetProportionalElectionListRequest
         {
             Id = ProportionalElectionMockedData.ListId3GossauProportionalElectionInContestStGallen,
         });
@@ -153,7 +153,7 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
     public async Task MoreBlankRowsThanNumberOfMandatesShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateListAsync(NewValidRequest(o => o.BlankRowCount = 564)),
+            async () => await CantonAdminClient.UpdateListAsync(NewValidRequest(o => o.BlankRowCount = 564)),
             StatusCode.InvalidArgument);
     }
 
@@ -161,7 +161,7 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
     public async Task ChangePositionShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateListAsync(NewValidRequest(o => o.Position = 2)),
+            async () => await CantonAdminClient.UpdateListAsync(NewValidRequest(o => o.Position = 2)),
             StatusCode.InvalidArgument);
     }
 
@@ -170,7 +170,7 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
     {
         var listId = Guid.Parse(ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestBund);
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
-        await AdminClient.UpdateListAsync(new UpdateProportionalElectionListRequest
+        await CantonAdminClient.UpdateListAsync(new UpdateProportionalElectionListRequest
         {
             ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund,
             Id = listId.ToString(),
@@ -185,7 +185,7 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
         ev.MatchSnapshot("event");
 
         await TestEventPublisher.Publish(ev);
-        var election = await AdminClient.GetListAsync(new GetProportionalElectionListRequest
+        var election = await CantonAdminClient.GetListAsync(new GetProportionalElectionListRequest
         {
             Id = listId.ToString(),
         });
@@ -200,7 +200,7 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.UpdateListAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.UpdateListAsync(NewValidRequest(o =>
             {
                 o.ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
                 o.Id = ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestBund;
@@ -215,7 +215,7 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastLocked);
         await AssertStatus(
-            async () => await AdminClient.UpdateListAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.UpdateListAsync(NewValidRequest(o =>
             {
                 o.ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
                 o.Id = ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestBund;
@@ -227,7 +227,6 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

@@ -13,6 +13,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Utils;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -35,7 +36,7 @@ public class SecondaryMajorityElectionCandidateReferenceUpdateTest : PoliticalBu
     [Fact]
     public async Task Test()
     {
-        await AdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest());
+        await CantonAdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest());
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateReferenceUpdated, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdBundContest);
@@ -46,7 +47,7 @@ public class SecondaryMajorityElectionCandidateReferenceUpdateTest : PoliticalBu
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdBundContest, async () =>
         {
-            await AdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest());
+            await CantonAdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<SecondaryMajorityElectionCandidateReferenceUpdated>();
         });
     }
@@ -64,10 +65,12 @@ public class SecondaryMajorityElectionCandidateReferenceUpdateTest : PoliticalBu
                     CandidateId = MajorityElectionMockedData.CandidateId1StGallenMajorityElectionInContestBund,
                     Incumbent = true,
                     Position = 1,
+                    Number = "2.1",
+                    CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit("2.1"),
                 },
             });
 
-        var candidates = await AdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
+        var candidates = await CantonAdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
         {
             SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
         });
@@ -78,7 +81,7 @@ public class SecondaryMajorityElectionCandidateReferenceUpdateTest : PoliticalBu
     public async Task NonContinuousPositionShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest(o =>
             {
                 o.Position = 5;
             })),
@@ -87,7 +90,6 @@ public class SecondaryMajorityElectionCandidateReferenceUpdateTest : PoliticalBu
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;
@@ -106,6 +108,7 @@ public class SecondaryMajorityElectionCandidateReferenceUpdateTest : PoliticalBu
             SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
             CandidateId = MajorityElectionMockedData.CandidateId1StGallenMajorityElectionInContestBund,
             Incumbent = true,
+            Number = "3.2",
             Position = 1,
         };
 

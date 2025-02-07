@@ -38,7 +38,7 @@ public class ProportionalElectionListUnionReorderTest : PoliticalBusinessAuthori
     [Fact]
     public async Task Test()
     {
-        await AdminClient.ReorderListUnionsAsync(NewValidRequest());
+        await CantonAdminClient.ReorderListUnionsAsync(NewValidRequest());
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionListUnionsReordered, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
@@ -49,7 +49,7 @@ public class ProportionalElectionListUnionReorderTest : PoliticalBusinessAuthori
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.ReorderListUnionsAsync(NewValidRequest());
+            await CantonAdminClient.ReorderListUnionsAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<ProportionalElectionListUnionsReordered>();
         });
     }
@@ -60,7 +60,7 @@ public class ProportionalElectionListUnionReorderTest : PoliticalBusinessAuthori
         await TestEventPublisher.Publish(NewValidEventListUnion());
         await TestEventPublisher.Publish(1, NewValidEventListUnion());
 
-        var tree = await AdminClient.GetListUnionsAsync(new GetProportionalElectionListUnionsRequest
+        var tree = await CantonAdminClient.GetListUnionsAsync(new GetProportionalElectionListUnionsRequest
         {
             ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestStGallen,
         });
@@ -73,7 +73,7 @@ public class ProportionalElectionListUnionReorderTest : PoliticalBusinessAuthori
         await TestEventPublisher.Publish(NewValidEventSubListUnion());
         await TestEventPublisher.Publish(1, NewValidEventSubListUnion());
 
-        var tree = await AdminClient.GetListUnionsAsync(new GetProportionalElectionListUnionsRequest
+        var tree = await CantonAdminClient.GetListUnionsAsync(new GetProportionalElectionListUnionsRequest
         {
             ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestStGallen,
         });
@@ -84,7 +84,7 @@ public class ProportionalElectionListUnionReorderTest : PoliticalBusinessAuthori
     public async Task NonSequentialPositionsShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.ReorderListUnionsAsync(NewValidRequest(l =>
+            async () => await CantonAdminClient.ReorderListUnionsAsync(NewValidRequest(l =>
                 l.Orders.Orders[2].Position = 4)),
             StatusCode.InvalidArgument);
     }
@@ -94,7 +94,7 @@ public class ProportionalElectionListUnionReorderTest : PoliticalBusinessAuthori
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.ReorderListUnionsAsync(new ReorderProportionalElectionListUnionsRequest
+            async () => await CantonAdminClient.ReorderListUnionsAsync(new ReorderProportionalElectionListUnionsRequest
             {
                 ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund,
                 ProportionalElectionRootListUnionId = ProportionalElectionMockedData.ListUnionIdGossauProportionalElectionInContestBund,
@@ -137,7 +137,6 @@ public class ProportionalElectionListUnionReorderTest : PoliticalBusinessAuthori
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

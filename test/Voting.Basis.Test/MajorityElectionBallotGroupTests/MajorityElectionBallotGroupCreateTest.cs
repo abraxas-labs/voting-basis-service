@@ -40,7 +40,7 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
     [Fact]
     public async Task Test()
     {
-        var response = await AdminClient.CreateBallotGroupAsync(NewValidRequest());
+        var response = await ElectionAdminClient.CreateBallotGroupAsync(NewValidRequest());
 
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionBallotGroupCreated, EventSignatureBusinessMetadata>();
 
@@ -83,7 +83,7 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
         });
         await TestEventPublisher.Publish(ev);
 
-        var ballotGroups = await AdminClient.ListBallotGroupsAsync(new ListMajorityElectionBallotGroupsRequest
+        var ballotGroups = await ElectionAdminClient.ListBallotGroupsAsync(new ListMajorityElectionBallotGroupsRequest
         {
             MajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen,
         });
@@ -116,7 +116,7 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
         };
         await TestEventPublisher.Publish(ev);
 
-        var ballotGroups = await AdminClient.ListBallotGroupsAsync(new ListMajorityElectionBallotGroupsRequest
+        var ballotGroups = await ElectionAdminClient.ListBallotGroupsAsync(new ListMajorityElectionBallotGroupsRequest
         {
             MajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen,
         });
@@ -132,7 +132,7 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
     public async Task NonContinuousPositionShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateBallotGroupAsync(NewValidRequest(o => o.Position = 18)),
+            async () => await ElectionAdminClient.CreateBallotGroupAsync(NewValidRequest(o => o.Position = 18)),
             StatusCode.InvalidArgument);
     }
 
@@ -140,7 +140,7 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
     public async Task MoreBlankRowCountThanNumberOfMandatesShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateBallotGroupAsync(NewValidRequest(o => o.Entries[0].BlankRowCount = 24)),
+            async () => await ElectionAdminClient.CreateBallotGroupAsync(NewValidRequest(o => o.Entries[0].BlankRowCount = 24)),
             StatusCode.InvalidArgument);
     }
 
@@ -148,7 +148,7 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
     public async Task MissingEntriesShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateBallotGroupAsync(NewValidRequest(o => o.Entries.Clear())),
+            async () => await ElectionAdminClient.CreateBallotGroupAsync(NewValidRequest(o => o.Entries.Clear())),
             StatusCode.InvalidArgument);
     }
 
@@ -156,7 +156,7 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
     public async Task DuplicateEntriesShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateBallotGroupAsync(NewValidRequest(o => o.Entries.Add(o.Entries[0]))),
+            async () => await ElectionAdminClient.CreateBallotGroupAsync(NewValidRequest(o => o.Entries.Add(o.Entries[0]))),
             StatusCode.InvalidArgument);
     }
 
@@ -164,7 +164,7 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
     public async Task NonRelatedEntryShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateBallotGroupAsync(NewValidRequest(o =>
+            async () => await ElectionAdminClient.CreateBallotGroupAsync(NewValidRequest(o =>
             o.Entries.Add(new ProtoModels.MajorityElectionBallotGroupEntry
             {
                 BlankRowCount = 0,
@@ -177,7 +177,7 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
     public async Task MajorityElectionInPastContestShouldWork()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
-        await AdminClient.CreateBallotGroupAsync(new CreateMajorityElectionBallotGroupRequest
+        await ElectionAdminClient.CreateBallotGroupAsync(new CreateMajorityElectionBallotGroupRequest
         {
             Description = "past",
             Position = 3,
@@ -204,7 +204,7 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastLocked);
         await AssertStatus(
-            async () => await AdminClient.CreateBallotGroupAsync(new CreateMajorityElectionBallotGroupRequest
+            async () => await ElectionAdminClient.CreateBallotGroupAsync(new CreateMajorityElectionBallotGroupRequest
             {
                 Description = "past",
                 Position = 2,
@@ -225,7 +225,6 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

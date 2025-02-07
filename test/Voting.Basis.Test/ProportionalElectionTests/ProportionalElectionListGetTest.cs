@@ -30,16 +30,6 @@ public class ProportionalElectionListGetTest : PoliticalBusinessAuthorizationGrp
     }
 
     [Fact]
-    public async Task TestAsAdminShouldReturnOk()
-    {
-        var response = await AdminClient.GetListAsync(new GetProportionalElectionListRequest
-        {
-            Id = ProportionalElectionMockedData.ListIdGossauProportionalElectionInContestGossau,
-        });
-        response.MatchSnapshot();
-    }
-
-    [Fact]
     public async Task TestAsElectionAdminShouldReturnOk()
     {
         var response = await ElectionAdminClient.GetListAsync(new GetProportionalElectionListRequest
@@ -53,7 +43,7 @@ public class ProportionalElectionListGetTest : PoliticalBusinessAuthorizationGrp
     public async Task TestNotFound()
     {
         await AssertStatus(
-            async () => await AdminClient.GetListAsync(new GetProportionalElectionListRequest
+            async () => await CantonAdminClient.GetListAsync(new GetProportionalElectionListRequest
             {
                 Id = IdNotFound,
             }),
@@ -71,9 +61,10 @@ public class ProportionalElectionListGetTest : PoliticalBusinessAuthorizationGrp
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
+        yield return Roles.CantonAdminReadOnly;
         yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
     }
 }

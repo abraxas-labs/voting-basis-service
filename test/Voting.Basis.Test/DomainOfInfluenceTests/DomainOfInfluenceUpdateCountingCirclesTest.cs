@@ -36,7 +36,7 @@ public class DomainOfInfluenceUpdateCountingCirclesTest : BaseGrpcTest<DomainOfI
     [Fact]
     public async Task AddCountingCircleShouldReturnOk()
     {
-        await AdminClient.UpdateCountingCircleEntriesAsync(NewValidRequest(x =>
+        await CantonAdminClient.UpdateCountingCircleEntriesAsync(NewValidRequest(x =>
         {
             x.CountingCircleIds.Add(CountingCircleMockedData.IdStGallen);
             x.CountingCircleIds.Add(CountingCircleMockedData.IdUzwilKirche);
@@ -62,7 +62,7 @@ public class DomainOfInfluenceUpdateCountingCirclesTest : BaseGrpcTest<DomainOfI
             EventInfo = GetMockedEventInfo(),
         });
 
-        var response = await AdminClient.GetAsync(new GetDomainOfInfluenceRequest
+        var response = await CantonAdminClient.GetAsync(new GetDomainOfInfluenceRequest
         {
             Id = DomainOfInfluenceMockedData.IdStGallen,
         });
@@ -107,7 +107,7 @@ public class DomainOfInfluenceUpdateCountingCirclesTest : BaseGrpcTest<DomainOfI
             EventInfo = GetMockedEventInfo(),
         });
 
-        var response = await AdminClient.GetAsync(new GetDomainOfInfluenceRequest
+        var response = await CantonAdminClient.GetAsync(new GetDomainOfInfluenceRequest
         {
             Id = DomainOfInfluenceMockedData.IdStGallen,
         });
@@ -240,7 +240,7 @@ public class DomainOfInfluenceUpdateCountingCirclesTest : BaseGrpcTest<DomainOfI
     public async Task AlreadyInheritedInTreeShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateCountingCircleEntriesAsync(NewValidRequest(x => x.CountingCircleIds.Add(CountingCircleMockedData.IdUzwil))),
+            async () => await CantonAdminClient.UpdateCountingCircleEntriesAsync(NewValidRequest(x => x.CountingCircleIds.Add(CountingCircleMockedData.IdUzwil))),
             StatusCode.InvalidArgument,
             "A CountingCircle cannot be added if he is already inherited in the DomainOfInfluence Tree");
     }
@@ -248,7 +248,7 @@ public class DomainOfInfluenceUpdateCountingCirclesTest : BaseGrpcTest<DomainOfI
     [Fact]
     public async Task RemoveCountingCircleShouldReturnOk()
     {
-        await AdminClient.UpdateCountingCircleEntriesAsync(NewValidRequest());
+        await CantonAdminClient.UpdateCountingCircleEntriesAsync(NewValidRequest());
         var eventData = EventPublisherMock.GetSinglePublishedEvent<DomainOfInfluenceCountingCircleEntriesUpdated>();
         eventData.MatchSnapshot("event");
     }
@@ -256,13 +256,13 @@ public class DomainOfInfluenceUpdateCountingCirclesTest : BaseGrpcTest<DomainOfI
     [Fact]
     public async Task InvalidGuid()
         => await AssertStatus(
-            async () => await AdminClient.UpdateCountingCircleEntriesAsync(NewValidRequest(x => x.Id = DomainOfInfluenceMockedData.IdInvalid)),
+            async () => await CantonAdminClient.UpdateCountingCircleEntriesAsync(NewValidRequest(x => x.Id = DomainOfInfluenceMockedData.IdInvalid)),
             StatusCode.InvalidArgument);
 
     [Fact]
     public async Task NonExistingCountingCircleGuid()
         => await AssertStatus(
-            async () => await AdminClient.UpdateCountingCircleEntriesAsync(NewValidRequest(x =>
+            async () => await CantonAdminClient.UpdateCountingCircleEntriesAsync(NewValidRequest(x =>
             {
                 x.CountingCircleIds.Add(CountingCircleMockedData.IdBund);
                 x.CountingCircleIds.Add(CountingCircleMockedData.IdNotExisting);
@@ -275,7 +275,6 @@ public class DomainOfInfluenceUpdateCountingCirclesTest : BaseGrpcTest<DomainOfI
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
     }
 

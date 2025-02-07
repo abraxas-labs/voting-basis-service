@@ -23,7 +23,6 @@ using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Extensions;
 using Voting.Basis.Data.Models;
-using Voting.Basis.Data.Repositories;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
@@ -31,7 +30,6 @@ using Voting.Lib.Iam.Exceptions;
 using Voting.Lib.Iam.Services;
 using Voting.Lib.Iam.Store;
 using Voting.Lib.MalwareScanner.Services;
-using CantonSettings = Voting.Basis.Data.Models.CantonSettings;
 using CountingCircle = Voting.Basis.Data.Models.CountingCircle;
 using DomainOfInfluence = Voting.Basis.Data.Models.DomainOfInfluence;
 using DomainOfInfluenceCountingCircle = Voting.Basis.Data.Models.DomainOfInfluenceCountingCircle;
@@ -49,10 +47,8 @@ public class DomainOfInfluenceWriter
     private readonly IDbRepository<DataContext, DomainOfInfluence> _repo;
     private readonly IDbRepository<DataContext, CountingCircle> _countingCircleRepo;
     private readonly IDbRepository<DataContext, DomainOfInfluenceCountingCircle> _doiCcRepo;
-    private readonly DomainOfInfluenceHierarchyRepo _hierarchyRepo;
     private readonly IDbRepository<DataContext, DomainOfInfluenceParty> _doiPartyRepo;
     private readonly IDbRepository<DataContext, ExportConfiguration> _exportConfigRepo;
-    private readonly IDbRepository<DataContext, CantonSettings> _cantonSettingsRepo;
     private readonly IAuth _auth;
     private readonly ITenantService _tenantService;
     private readonly PermissionService _permissionService;
@@ -67,10 +63,8 @@ public class DomainOfInfluenceWriter
         IDbRepository<DataContext, DomainOfInfluence> repo,
         IDbRepository<DataContext, CountingCircle> countingCircleRepo,
         IDbRepository<DataContext, DomainOfInfluenceCountingCircle> doiCcRepo,
-        DomainOfInfluenceHierarchyRepo hierarchyRepo,
         IDbRepository<DataContext, DomainOfInfluenceParty> doiPartyRepo,
         IDbRepository<DataContext, ExportConfiguration> exportConfigRepo,
-        IDbRepository<DataContext, CantonSettings> cantonSettingsRepo,
         IAuth auth,
         ITenantService tenantService,
         PermissionService permissionService,
@@ -84,10 +78,8 @@ public class DomainOfInfluenceWriter
         _repo = repo;
         _countingCircleRepo = countingCircleRepo;
         _doiCcRepo = doiCcRepo;
-        _hierarchyRepo = hierarchyRepo;
         _doiPartyRepo = doiPartyRepo;
         _exportConfigRepo = exportConfigRepo;
-        _cantonSettingsRepo = cantonSettingsRepo;
         _auth = auth;
         _tenantService = tenantService;
         _permissionService = permissionService;
@@ -101,12 +93,15 @@ public class DomainOfInfluenceWriter
     {
         ValidateElectoralRegistration(data);
         var parent = await ValidateHierarchy(data);
+        var cantonDefaults = await LoadCantonDefaults(data);
+
         await ValidateUniqueBfs(data);
         await SetAuthorityTenant(data);
-        await ValidatePlausibilisationConfig(data);
+        await ValidatePlausibilisationConfig(data, cantonDefaults.InternalPlausibilisationDisabled);
         await ValidateParties(null, data.Parties);
         await ValidateExportConfigurations(null, data.ExportConfigurations);
         await ValidateSuperiorAuthority(data, parent?.Canton ?? data.Canton);
+        ValidatePublishResults(data, cantonDefaults.DomainOfInfluencePublishResultsOptionEnabled);
         await EnsureCanCreate(data, parent);
 
         var domainOfInfluence = _aggregateFactory.New<DomainOfInfluenceAggregate>();
@@ -120,14 +115,16 @@ public class DomainOfInfluenceWriter
         await EnsureCanEdit(data.Id, false);
         ValidateElectoralRegistration(data);
         var parent = await ValidateHierarchy(data);
+        var cantonDefaults = await LoadCantonDefaults(data);
         await ValidateUniqueBfs(data);
         await SetAuthorityTenant(data);
 
-        await ValidatePlausibilisationConfig(data);
+        await ValidatePlausibilisationConfig(data, cantonDefaults.InternalPlausibilisationDisabled);
         await ValidateParties(data.Id, data.Parties);
         await ValidateExportConfigurations(data.Id, data.ExportConfigurations);
 
         await ValidateSuperiorAuthority(data, parent?.Canton ?? data.Canton);
+        ValidatePublishResults(data, cantonDefaults.DomainOfInfluencePublishResultsOptionEnabled);
 
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(data.Id);
 
@@ -145,8 +142,10 @@ public class DomainOfInfluenceWriter
 
     public async Task UpdateForElectionAdmin(Domain.DomainOfInfluence data)
     {
+        var cantonDefaults = await LoadCantonDefaults(data);
+
         await ValidateUniqueBfs(data);
-        await ValidatePlausibilisationConfig(data);
+        await ValidatePlausibilisationConfig(data, cantonDefaults.InternalPlausibilisationDisabled);
         await ValidateParties(data.Id, data.Parties);
         await EnsureCanEdit(data.Id);
 
@@ -179,7 +178,8 @@ public class DomainOfInfluenceWriter
                 data.SapCustomerOrderNumber,
                 null,
                 data.VotingCardColor,
-                data.StistatMunicipality);
+                data.StistatMunicipality,
+                data.VotingCardFlatRateDisabled);
         }
 
         await _aggregateRepository.Save(domainOfInfluence);
@@ -340,9 +340,8 @@ public class DomainOfInfluenceWriter
         }
     }
 
-    private async Task ValidatePlausibilisationConfig(Domain.DomainOfInfluence doi)
+    private async Task ValidatePlausibilisationConfig(Domain.DomainOfInfluence doi, bool internalPlausibilisationDisabled)
     {
-        var internalPlausibilisationDisabled = await LoadInternalPlausibilisationDisabled(doi);
         if (doi.PlausibilisationConfiguration == null)
         {
             if (!internalPlausibilisationDisabled)
@@ -461,11 +460,6 @@ public class DomainOfInfluenceWriter
 
     private async Task EnsureCanCreate(Domain.DomainOfInfluence domainOfInfluence, DomainOfInfluence? parent)
     {
-        if (_auth.HasPermission(Permissions.DomainOfInfluence.CreateAll))
-        {
-            return;
-        }
-
         // Either this is a root DOI with the same canton or the parent has the same canton
         var canton = parent?.Canton ?? domainOfInfluence.Canton;
         if (await _permissionService.IsOwnerOfCanton(canton))
@@ -486,11 +480,6 @@ public class DomainOfInfluenceWriter
 
     private async Task EnsureCanEdit(string doiTenantId, DomainOfInfluenceCanton canton, bool allowSameTenant = true)
     {
-        if (_auth.HasPermission(Permissions.DomainOfInfluence.UpdateAll))
-        {
-            return;
-        }
-
         if (allowSameTenant && _auth.HasPermission(Permissions.DomainOfInfluence.UpdateSameTenant) && _auth.Tenant.Id == doiTenantId)
         {
             return;
@@ -510,11 +499,6 @@ public class DomainOfInfluenceWriter
         var doi = await _repo.GetByKey(domainOfInfluenceId)
             ?? throw new EntityNotFoundException(domainOfInfluenceId);
 
-        if (_auth.HasPermission(Permissions.DomainOfInfluence.DeleteAll))
-        {
-            return;
-        }
-
         if (_auth.HasPermission(Permissions.DomainOfInfluence.DeleteSameCanton) && await _permissionService.IsOwnerOfCanton(doi.Canton))
         {
             return;
@@ -523,7 +507,7 @@ public class DomainOfInfluenceWriter
         throw new ForbiddenException();
     }
 
-    private async Task<bool> LoadInternalPlausibilisationDisabled(Domain.DomainOfInfluence doi)
+    private async Task<DomainOfInfluenceCantonDefaults> LoadCantonDefaults(Domain.DomainOfInfluence doi)
     {
         if (doi.Id == Guid.Empty)
         {
@@ -533,13 +517,13 @@ public class DomainOfInfluenceWriter
             }
 
             var cantonSettings = await _domainOfInfluenceCantonDefaultsBuilder.LoadCantonSettings(doi.Canton, doi.ParentId);
-            return cantonSettings.InternalPlausibilisationDisabled;
+            return _domainOfInfluenceCantonDefaultsBuilder.BuildCantonDefaults(cantonSettings, doi.Type);
         }
 
         var existingDoi = await _repo.GetByKey(doi.Id)
                           ?? throw new EntityNotFoundException(nameof(DomainOfInfluence), doi.Id);
 
-        return existingDoi.CantonDefaults.InternalPlausibilisationDisabled;
+        return existingDoi.CantonDefaults;
     }
 
     private async Task ValidateSuperiorAuthority(Domain.DomainOfInfluence doi, DomainOfInfluenceCanton canton)
@@ -560,6 +544,29 @@ public class DomainOfInfluenceWriter
         if (superiorAuthorityDoi.Canton != canton)
         {
             throw new ValidationException("Cannot set a domain of influence from a different canton as superior authority");
+        }
+
+        if (superiorAuthorityDoi.Type > DomainOfInfluenceType.Mu)
+        {
+            throw new ValidationException("The selected superior authority domain of influence has an invalid type");
+        }
+    }
+
+    private void ValidatePublishResults(Domain.DomainOfInfluence doi, bool domainOfInfluencePublishResultsOptionEnabled)
+    {
+        if (!doi.PublishResultsDisabled)
+        {
+            return;
+        }
+
+        if (!domainOfInfluencePublishResultsOptionEnabled)
+        {
+            throw new ValidationException("Canton does not allow to disable publish results");
+        }
+
+        if (!doi.Type.IsCommunal())
+        {
+            throw new ValidationException("Cannot disable publish results on non-communal domain of influence");
         }
     }
 }

@@ -65,7 +65,10 @@
     "HasForeignerVoters": false,
     "HasMinorVoters": false,
     "SuperiorAuthorityDomainOfInfluence": null,
-    "StistatMunicipality": false
+    "StistatMunicipality": false,
+    "PublishResultsDisabled": false,
+    "VotingCardFlatRateDisabled": false,
+    "HideLowerDomainOfInfluencesInReports": false
   },
   "EVoting": false,
   "EVotingFrom": null,
@@ -136,7 +139,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -207,7 +213,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -278,7 +287,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -349,7 +361,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -420,7 +435,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -491,7 +509,84 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
+      },
+      "PoliticalBusinessType": 4,
+      "PoliticalBusinessSubType": 0,
+      "Active": false
+    },
+    {
+      "Id": "3e44e6bf-e910-423c-8346-180640ae459c",
+      "PoliticalBusinessNumber": "n2",
+      "OfficialDescription": {
+        "de": "Nebenwahl on separate ballot St. Gallen de",
+        "fr": "Nebenwahl on separate ballot St. Gallen fr",
+        "it": "Nebenwahl on separate ballot St. Gallen it",
+        "rm": "Nebenwahl on separate ballot St. Gallen rm"
+      },
+      "ShortDescription": {
+        "de": "Nebenwahl on separate ballot SG de",
+        "fr": "Nebenwahl on separate ballot SG fr",
+        "it": "Nebenwahl on separate ballot SG it",
+        "rm": "Nebenwahl on separate ballot SG rm"
+      },
+      "DomainOfInfluence": {
+        "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Name": "St. Gallen",
+        "ShortName": "SG",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 2,
+        "ParentId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "Hans",
+          "FamilyName": "Muster",
+          "Phone": "071 123 12 12",
+          "MobilePhone": "079 123 12 12",
+          "Email": "hans@muster.com"
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": false,
+        "Bfs": "",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": null,
+        "PrintData": null,
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": false,
+        "ExternalPrintingCenterEaiMessageType": "",
+        "NameForProtocol": "Kanton St. Gallen",
+        "SapCustomerOrderNumber": "",
+        "SwissPostData": null,
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": false,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "PoliticalBusinessType": 4,
       "PoliticalBusinessSubType": 0,
@@ -578,7 +673,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": true
+        "StistatMunicipality": true,
+        "PublishResultsDisabled": true,
+        "VotingCardFlatRateDisabled": true,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -665,7 +763,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": true
+        "StistatMunicipality": true,
+        "PublishResultsDisabled": true,
+        "VotingCardFlatRateDisabled": true,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 1,
@@ -752,7 +853,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": true
+        "StistatMunicipality": true,
+        "PublishResultsDisabled": true,
+        "VotingCardFlatRateDisabled": true,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -823,7 +927,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -894,7 +1001,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -965,7 +1075,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -1052,7 +1165,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": true
+        "StistatMunicipality": true,
+        "PublishResultsDisabled": true,
+        "VotingCardFlatRateDisabled": true,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       "PoliticalBusinessType": 4,
       "PoliticalBusinessSubType": 0,

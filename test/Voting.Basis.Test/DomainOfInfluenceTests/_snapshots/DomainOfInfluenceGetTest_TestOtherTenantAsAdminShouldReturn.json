@@ -156,5 +156,8 @@
   "HasForeignerVoters": false,
   "HasMinorVoters": false,
   "SuperiorAuthorityDomainOfInfluence": null,
-  "StistatMunicipality": false
+  "StistatMunicipality": false,
+  "PublishResultsDisabled": false,
+  "VotingCardFlatRateDisabled": false,
+  "HideLowerDomainOfInfluencesInReports": false
 }

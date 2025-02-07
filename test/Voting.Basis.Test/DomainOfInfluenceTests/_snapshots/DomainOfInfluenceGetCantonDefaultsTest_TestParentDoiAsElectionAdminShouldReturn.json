@@ -14,5 +14,7 @@
   "CreateContestOnHighestHierarchicalLevelEnabled": false,
   "InternalPlausibilisationDisabled": false,
   "CandidateLocalityRequired": false,
-  "CandidateOriginRequired": false
+  "CandidateOriginRequired": false,
+  "DomainOfInfluencePublishResultsOptionEnabled": true,
+  "SecondaryMajorityElectionOnSeparateBallot": false
 }

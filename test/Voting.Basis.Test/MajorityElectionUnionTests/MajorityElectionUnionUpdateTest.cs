@@ -39,7 +39,7 @@ public class MajorityElectionUnionUpdateTest : PoliticalBusinessUnionAuthorizati
     [Fact]
     public async Task TestShouldReturnOk()
     {
-        await AdminClient.UpdateAsync(NewValidRequest());
+        await CantonAdminClient.UpdateAsync(NewValidRequest());
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionUnionUpdated, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
@@ -50,7 +50,7 @@ public class MajorityElectionUnionUpdateTest : PoliticalBusinessUnionAuthorizati
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.UpdateAsync(NewValidRequest());
+            await CantonAdminClient.UpdateAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<MajorityElectionUnionUpdated>();
         });
     }
@@ -84,7 +84,7 @@ public class MajorityElectionUnionUpdateTest : PoliticalBusinessUnionAuthorizati
     public async Task InvalidIdShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(x => x.Id = "b4e22024-113b-49ac-8460-2bf1c4a074b1")),
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(x => x.Id = "b4e22024-113b-49ac-8460-2bf1c4a074b1")),
             StatusCode.NotFound);
     }
 
@@ -100,7 +100,6 @@ public class MajorityElectionUnionUpdateTest : PoliticalBusinessUnionAuthorizati
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

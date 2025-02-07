@@ -162,6 +162,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("CreateContestOnHighestHierarchicalLevelEnabled")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("DomainOfInfluencePublishResultsOptionEnabled")
+                        .HasColumnType("boolean");
+
                     b.Property<int[]>("EnabledPoliticalBusinessUnionTypes")
                         .IsRequired()
                         .HasColumnType("integer[]");
@@ -179,6 +182,9 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<bool>("MajorityElectionUseCandidateCheckDigit")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("ManualPublishResultsEnabled")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("MultipleVoteBallotsEnabled")
@@ -200,7 +206,7 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("PublishResultsBeforeAuditedTentatively")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("PublishResultsEnabled")
+                    b.Property<bool>("SecondaryMajorityElectionOnSeparateBallot")
                         .HasColumnType("boolean");
 
                     b.Property<string>("SecureConnectId")
@@ -584,6 +590,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("HasMinorVoters")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("HideLowerDomainOfInfluencesInReports")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LogoRef")
                         .HasColumnType("text");
 
@@ -600,6 +609,9 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("PublishResultsDisabled")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("ResponsibleForVotingCards")
                         .HasColumnType("boolean");
@@ -636,6 +648,9 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<int>("VotingCardColor")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("VotingCardFlatRateDisabled")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -1128,7 +1143,7 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<int>("CheckDigit")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("date");
 
                     b.Property<string>("FirstName")
@@ -1663,13 +1678,13 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("AllowedCandidates")
-                        .HasColumnType("integer");
-
                     b.Property<Guid>("ElectionGroupId")
                         .HasColumnType("uuid");
 
                     b.Property<bool>("IndividualCandidatesDisabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsOnSeparateBallot")
                         .HasColumnType("boolean");
 
                     b.Property<int>("NumberOfMandates")
@@ -1711,7 +1726,7 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<int>("CheckDigit")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("date");
 
                     b.Property<string>("FirstName")
@@ -2063,6 +2078,9 @@ namespace Voting.Basis.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("HideLowerDomainOfInfluencesInReports")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -2070,6 +2088,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<string>("NameForProtocol")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("PublishResultsDisabled")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("ResponsibleForVotingCards")
                         .HasColumnType("boolean");
@@ -2109,6 +2130,9 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<int>("VotingCardColor")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("VotingCardFlatRateDisabled")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -2519,6 +2543,9 @@ namespace Voting.Basis.Data.Migrations
                             b1.Property<bool>("CreateContestOnHighestHierarchicalLevelEnabled")
                                 .HasColumnType("boolean");
 
+                            b1.Property<bool>("DomainOfInfluencePublishResultsOptionEnabled")
+                                .HasColumnType("boolean");
+
                             b1.Property<int[]>("EnabledPoliticalBusinessUnionTypes")
                                 .IsRequired()
                                 .HasColumnType("integer[]");
@@ -2543,6 +2570,9 @@ namespace Voting.Basis.Data.Migrations
                                 .HasColumnType("integer[]");
 
                             b1.Property<bool>("ProportionalElectionUseCandidateCheckDigit")
+                                .HasColumnType("boolean");
+
+                            b1.Property<bool>("SecondaryMajorityElectionOnSeparateBallot")
                                 .HasColumnType("boolean");
 
                             b1.Property<int>("SwissAbroadVotingRight")

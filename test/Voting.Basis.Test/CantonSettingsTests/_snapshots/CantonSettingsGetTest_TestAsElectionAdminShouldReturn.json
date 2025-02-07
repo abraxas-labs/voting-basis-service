@@ -43,11 +43,13 @@
   "MajorityElectionUseCandidateCheckDigit": false,
   "CountingCircleResultStateDescriptions": [],
   "StatePlausibilisedDisabled": false,
-  "PublishResultsEnabled": true,
+  "ManualPublishResultsEnabled": true,
   "EndResultFinalizeDisabled": false,
   "CreateContestOnHighestHierarchicalLevelEnabled": false,
   "InternalPlausibilisationDisabled": false,
   "PublishResultsBeforeAuditedTentatively": false,
   "CandidateLocalityRequired": false,
-  "CandidateOriginRequired": false
+  "CandidateOriginRequired": false,
+  "DomainOfInfluencePublishResultsOptionEnabled": true,
+  "SecondaryMajorityElectionOnSeparateBallot": false
 }

@@ -40,6 +40,7 @@
       "FrankingLicenceReturnNumber": "562984257"
     },
     "VotingCardColor": 0,
-    "StistatMunicipality": false
+    "StistatMunicipality": false,
+    "VotingCardFlatRateDisabled": false
   }
 }

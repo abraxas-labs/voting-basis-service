@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Abraxas.Voting.Basis.Shared.V1;
 using FluentValidation;
 using Voting.Basis.Core.Exceptions;
 
@@ -36,8 +35,6 @@ public class SecondaryMajorityElection
 
     public bool Active { get; internal set; }
 
-    public SecondaryMajorityElectionAllowedCandidates AllowedCandidates { get; private set; }
-
     public List<MajorityElectionCandidate> Candidates { get; private set; }
 
     public List<MajorityElectionCandidateReference> CandidateReferences { get; private set; }
@@ -45,6 +42,8 @@ public class SecondaryMajorityElection
     public Guid PrimaryMajorityElectionId { get; set; }
 
     public bool IndividualCandidatesDisabled { get; private set; }
+
+    public bool IsOnSeparateBallot { get; set; }
 
     internal MajorityElectionCandidate GetCandidate(Guid candidateId)
     {

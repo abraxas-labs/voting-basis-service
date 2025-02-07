@@ -18,6 +18,7 @@ using Voting.Basis.Core.Services.Validation;
 using Voting.Basis.Core.Services.Write;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Core.Validation;
+using Voting.Lib.Common;
 using Voting.Lib.Eventing;
 using Voting.Lib.Eventing.DependencyInjection;
 using Voting.Lib.Eventing.Persistence;
@@ -38,6 +39,7 @@ internal static class PublisherServiceCollection
         return services
             .AddScoped<PermissionService>()
             .AddSingleton<IPermissionProvider, PermissionProvider>()
+            .AddSingleton<AttributeValidator>()
             .AddObjectStorage(config.Publisher)
             .AddCryptography(config.Publisher)
             .AddWriterServices(config.Publisher)

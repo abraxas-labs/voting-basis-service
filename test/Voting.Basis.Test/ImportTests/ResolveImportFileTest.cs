@@ -3,21 +3,24 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Abraxas.Voting.Basis.Services.V1;
-using Abraxas.Voting.Basis.Services.V1.Requests;
-using Grpc.Core;
-using Grpc.Net.Client;
+using FluentAssertions;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Test.ImportTests.TestFiles;
 using Voting.Lib.Testing.Utils;
 using Xunit;
-using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
+using ContestImport = Abraxas.Voting.Basis.Services.V1.Models.ContestImport;
+using ResolveImportFileRequest = Voting.Basis.Controllers.Models.ResolveImportFileRequest;
 using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.ImportTests;
 
-public class ResolveImportFileTest : BaseImportTest
+public class ResolveImportFileTest : BaseRestTest
 {
+    private const string Url = "api/imports";
+
     public ResolveImportFileTest(TestApplicationFactory factory)
         : base(factory)
     {
@@ -26,14 +29,17 @@ public class ResolveImportFileTest : BaseImportTest
     [Fact]
     public async Task TestEch0157ReturnOk()
     {
-        var xml = await GetTestEch0157File();
-
-        var response = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
+        var request = new ResolveImportFileRequest
         {
             ImportType = SharedProto.ImportType.Ech157,
-            FileContent = xml,
-        });
+        };
 
+        var httpResponse = await HttpUtil.RequestWithFileAndData(
+            EchTestFiles.GetTestFilePath(EchTestFiles.Ech0157FileName),
+            request,
+            async content => await CantonAdminClient.PostAsync(Url, content));
+
+        var response = await DeserializeHttpResponse(httpResponse);
         IgnoreGeneratedFields(response);
         response.MatchSnapshot(x => x.Contest.Id, x => x.Contest.EndOfTestingPhase);
     }
@@ -41,14 +47,17 @@ public class ResolveImportFileTest : BaseImportTest
     [Fact]
     public async Task TestEch0159ReturnOk()
     {
-        var xml = await GetTestEch0159File();
-
-        var response = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
+        var request = new ResolveImportFileRequest
         {
             ImportType = SharedProto.ImportType.Ech159,
-            FileContent = xml,
-        });
+        };
 
+        var httpResponse = await HttpUtil.RequestWithFileAndData(
+            EchTestFiles.GetTestFilePath(EchTestFiles.Ech0159FileName),
+            request,
+            async content => await CantonAdminClient.PostAsync(Url, content));
+
+        var response = await DeserializeHttpResponse(httpResponse);
         IgnoreGeneratedFields(response);
         response.MatchSnapshot(x => x.Contest.Id, x => x.Contest.EndOfTestingPhase);
     }
@@ -56,14 +65,17 @@ public class ResolveImportFileTest : BaseImportTest
     [Fact]
     public async Task TestEch0159WithAllTypesReturnOk()
     {
-        var xml = await GetTestEch0159AllTypesFile();
-
-        var response = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
+        var request = new ResolveImportFileRequest
         {
             ImportType = SharedProto.ImportType.Ech159,
-            FileContent = xml,
-        });
+        };
 
+        var httpResponse = await HttpUtil.RequestWithFileAndData(
+            EchTestFiles.GetTestFilePath(EchTestFiles.Ech0159AllTypesFileName),
+            request,
+            async content => await CantonAdminClient.PostAsync(Url, content));
+
+        var response = await DeserializeHttpResponse(httpResponse);
         IgnoreGeneratedFields(response);
         response.MatchSnapshot(x => x.Contest.Id, x => x.Contest.EndOfTestingPhase);
     }
@@ -71,36 +83,42 @@ public class ResolveImportFileTest : BaseImportTest
     [Fact]
     public async Task TestInvalidEch0159ShouldThrow()
     {
-        var xml = await GetTestInvalidEch0159File();
+        var request = new ResolveImportFileRequest
+        {
+            ImportType = SharedProto.ImportType.Ech159,
+        };
 
-        await AssertStatus(
-            async () => await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
-            {
-                ImportType = SharedProto.ImportType.Ech159,
-                FileContent = xml,
-            }),
-            StatusCode.InvalidArgument);
+        var httpResponse = await HttpUtil.RequestWithFileAndData(
+            EchTestFiles.GetTestFilePath(EchTestFiles.Ech0159InvalidFileName),
+            request,
+            async content => await CantonAdminClient.PostAsync(Url, content));
+
+        httpResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
-    protected override async Task AuthorizationTestCall(GrpcChannel channel)
+    protected override async Task<HttpResponseMessage> AuthorizationTestCall(HttpClient httpClient)
     {
-        await new ImportService.ImportServiceClient(channel)
-            .ResolveImportFileAsync(new ResolveImportFileRequest
-            {
-                ImportType = SharedProto.ImportType.Ech157,
-                FileContent = await GetTestEch0157File(),
-            });
+        HttpResponseMessage? httpResponse = null;
+
+        var request = new ResolveImportFileRequest
+        {
+            ImportType = SharedProto.ImportType.Ech159,
+        };
+
+        return await HttpUtil.RequestWithFileAndData(
+            EchTestFiles.GetTestFilePath(EchTestFiles.Ech0159AllTypesFileName),
+            request,
+            async content => httpResponse = await httpClient.PostAsync(Url, content));
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;
     }
 
-    private void IgnoreGeneratedFields(ProtoModels.ContestImport contestImport)
+    private void IgnoreGeneratedFields(ContestImport contestImport)
     {
         foreach (var majorityElection in contestImport.MajorityElections)
         {
@@ -150,5 +168,11 @@ public class ResolveImportFileTest : BaseImportTest
                 ballot.VoteId = string.Empty;
             }
         }
+    }
+
+    private async Task<ContestImport> DeserializeHttpResponse(HttpResponseMessage response)
+    {
+        var responseByteArray = await response.Content.ReadAsByteArrayAsync();
+        return ContestImport.Parser.ParseFrom(responseByteArray);
     }
 }

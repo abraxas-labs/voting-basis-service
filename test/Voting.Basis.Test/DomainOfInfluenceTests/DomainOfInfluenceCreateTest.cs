@@ -40,7 +40,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public async Task TestShouldPublishAndReturnOk()
     {
-        var response = await AdminClient.CreateAsync(NewValidRequest(x =>
+        var response = await CantonAdminClient.CreateAsync(NewValidRequest(x =>
         {
             x.PlausibilisationConfiguration.ComparisonVoterParticipationConfigurations.Add(new ProtoModels.ComparisonVoterParticipationConfiguration
             {
@@ -65,7 +65,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public async Task TestRootDoiShouldReturnOk()
     {
-        var response = await AdminClient.CreateAsync(NewValidRootDoiRequest());
+        var response = await CantonAdminClient.CreateAsync(NewValidRootDoiRequest());
         var eventData = EventPublisherMock.GetSinglePublishedEvent<DomainOfInfluenceCreated>();
 
         eventData.DomainOfInfluence.Id.Should().Be(response.Id);
@@ -93,6 +93,8 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
                 HasForeignerVoters = true,
                 HasMinorVoters = true,
                 SuperiorAuthorityDomainOfInfluenceId = DomainOfInfluenceMockedData.IdUzwil,
+                PublishResultsDisabled = true,
+                HideLowerDomainOfInfluencesInReports = true,
             },
             EventInfo = GetMockedEventInfo(),
         });
@@ -100,7 +102,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
         var domainOfInfluences = await AdminClient.ListTreeAsync(new ListTreeDomainOfInfluenceRequest());
         domainOfInfluences.MatchSnapshot("domainOfInfluences");
 
-        var doi = await AdminClient.GetAsync(new GetDomainOfInfluenceRequest { Id = newId.ToString() });
+        var doi = await CantonAdminClient.GetAsync(new GetDomainOfInfluenceRequest { Id = newId.ToString() });
         doi.SuperiorAuthorityDomainOfInfluence.Should().NotBeNull();
         doi.SuperiorAuthorityDomainOfInfluence.Id.Should().Be(DomainOfInfluenceMockedData.IdUzwil);
 
@@ -139,7 +141,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public async Task ShouldCreateWithParties()
     {
-        var response = await AdminClient.CreateAsync(NewValidRequest(x =>
+        var response = await CantonAdminClient.CreateAsync(NewValidRequest(x =>
         {
             x.Parties.Add(new ProtoModels.DomainOfInfluenceParty
             {
@@ -169,11 +171,24 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     }
 
     [Fact]
+    public async Task ShouldCreateWithPublishResultsDisabled()
+    {
+        var response = await CantonAdminClient.CreateAsync(NewValidRequest(x =>
+        {
+            x.Type = SharedProto.DomainOfInfluenceType.Mu;
+            x.PublishResultsDisabled = true;
+        }));
+
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<DomainOfInfluenceCreated>();
+        eventData.DomainOfInfluence.PublishResultsDisabled.Should().BeTrue();
+    }
+
+    [Fact]
     public async Task DuplicatedPartyShouldThrow()
     {
         var partyId = "efd6fbe7-a874-4817-b416-aacd255d198a";
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(o =>
             {
                 o.Parties.Add(new ProtoModels.DomainOfInfluenceParty
                 {
@@ -193,9 +208,18 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     }
 
     [Fact]
+    public async Task VirtualTopLevelOnChildShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(o => o.VirtualTopLevel = true)),
+            StatusCode.InvalidArgument,
+            "VirtualTopLevel");
+    }
+
+    [Fact]
     public async Task NonPoliticalShouldPublishAndReturnOk()
     {
-        var response = await AdminClient.CreateAsync(NewValidRootDoiRequest(x => x.Type = SharedProto.DomainOfInfluenceType.Ki));
+        var response = await CantonAdminClient.CreateAsync(NewValidRootDoiRequest(x => x.Type = SharedProto.DomainOfInfluenceType.Ki));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<DomainOfInfluenceCreated>();
 
         eventData.DomainOfInfluence.Id.Should().Be(response.Id);
@@ -205,7 +229,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public async Task ResponsibleForVotingCardsShouldReturn()
     {
-        var response = await AdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest());
+        var response = await CantonAdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest());
         var votingCardDataUpdated = EventPublisherMock.GetSinglePublishedEvent<DomainOfInfluenceVotingCardDataUpdated>();
 
         votingCardDataUpdated.DomainOfInfluenceId.Should().Be(response.Id);
@@ -224,14 +248,14 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     public async Task InvalidParentShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(o => o.ParentId = DomainOfInfluenceMockedData.IdNotExisting)),
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(o => o.ParentId = DomainOfInfluenceMockedData.IdNotExisting)),
             StatusCode.NotFound);
     }
 
     [Fact]
     public async Task ParentNonPoliticalSelfNonPoliticalShouldReturnOk()
     {
-        var response = await AdminClient.CreateAsync(NewValidRequest(o =>
+        var response = await CantonAdminClient.CreateAsync(NewValidRequest(o =>
         {
             o.ParentId = DomainOfInfluenceMockedData.IdKirchgemeinde;
             o.Type = SharedProto.DomainOfInfluenceType.An;
@@ -245,7 +269,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public async Task ParentPoliticalTypeEqualSelfShouldReturnOk()
     {
-        var response = await AdminClient.CreateAsync(NewValidRequest(o =>
+        var response = await CantonAdminClient.CreateAsync(NewValidRequest(o =>
         {
             o.ParentId = DomainOfInfluenceMockedData.IdBund;
             o.Type = SharedProto.DomainOfInfluenceType.Ch;
@@ -259,7 +283,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public async Task ParentNonPoliticalTypeEqualSelfShouldReturnOk()
     {
-        var response = await AdminClient.CreateAsync(NewValidRequest(o =>
+        var response = await CantonAdminClient.CreateAsync(NewValidRequest(o =>
         {
             o.ParentId = DomainOfInfluenceMockedData.IdKirchgemeinde;
             o.Type = SharedProto.DomainOfInfluenceType.Ki;
@@ -274,7 +298,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     public async Task ParentTypeSmallerThanSelfShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(o => o.ParentId = DomainOfInfluenceMockedData.IdUzwil)),
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(o => o.ParentId = DomainOfInfluenceMockedData.IdUzwil)),
             StatusCode.InvalidArgument,
             "political hierarchical order");
     }
@@ -282,7 +306,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public async Task ParentTypeLargerThanSelfShouldReturnOk()
     {
-        var response = await AdminClient.CreateAsync(NewValidRequest(o => o.ParentId = DomainOfInfluenceMockedData.IdBund));
+        var response = await CantonAdminClient.CreateAsync(NewValidRequest(o => o.ParentId = DomainOfInfluenceMockedData.IdBund));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<DomainOfInfluenceCreated>();
 
         eventData.DomainOfInfluence.Id.Should().Be(response.Id);
@@ -293,7 +317,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     public async Task NoCantonOnRootShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRootDoiRequest(o => o.Canton = SharedProto.DomainOfInfluenceCanton.Unspecified)),
+            async () => await CantonAdminClient.CreateAsync(NewValidRootDoiRequest(o => o.Canton = SharedProto.DomainOfInfluenceCanton.Unspecified)),
             StatusCode.InvalidArgument,
             "canton is required to load canton settings for root doi");
     }
@@ -308,7 +332,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
         });
 
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(req),
+            async () => await CantonAdminClient.CreateAsync(req),
             StatusCode.InvalidArgument,
             "Bfs");
     }
@@ -330,7 +354,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
         });
 
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(req),
+            async () => await CantonAdminClient.CreateAsync(req),
             StatusCode.AlreadyExists,
             "The bfs 3408 is already taken");
     }
@@ -338,41 +362,41 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public Task ShouldThrowNotResponsibleForVotingCardsWithVotingCardData()
         => AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.ResponsibleForVotingCards = false)),
+            async () => await CantonAdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.ResponsibleForVotingCards = false)),
             StatusCode.InvalidArgument);
 
     [Fact]
     public Task ShouldThrowResponsibleForVotingCardsNoReturnAddress()
         => AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.ReturnAddress = null)),
+            async () => await CantonAdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.ReturnAddress = null)),
             StatusCode.InvalidArgument,
             "ReturnAddress");
 
     [Fact]
     public Task ShouldThrowResponsibleForVotingCardsNoPrintData()
         => AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.PrintData = null)),
+            async () => await CantonAdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.PrintData = null)),
             StatusCode.InvalidArgument,
             "PrintData");
 
     [Fact]
     public Task ShouldThrowResponsibleForVotingCardsNoSwissPostData()
         => AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.SwissPostData = null)),
+            async () => await CantonAdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.SwissPostData = null)),
             StatusCode.InvalidArgument,
             "SwissPostData");
 
     [Fact]
     public Task ShouldThrowNoExternalPrintingCenterEaiMessageTypeWithExternalPrintingCenterSet()
         => AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.ExternalPrintingCenterEaiMessageType = string.Empty)),
+            async () => await CantonAdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.ExternalPrintingCenterEaiMessageType = string.Empty)),
             StatusCode.InvalidArgument,
             "ExternalPrintingCenterEaiMessageType");
 
     [Fact]
     public Task ShouldThrowComparisonVoterParticipationConfigurationDuplicate()
         => AssertStatus(
-            async () => await AdminClient.CreateAsync(
+            async () => await CantonAdminClient.CreateAsync(
                 NewValidRequest(o =>
                 {
                     o.PlausibilisationConfiguration.ComparisonVoterParticipationConfigurations.Add(new ProtoModels.ComparisonVoterParticipationConfiguration
@@ -394,7 +418,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public Task ShouldThrowComparisonCountOfVotersConfigurationMissing()
         => AssertStatus(
-            async () => await AdminClient.CreateAsync(
+            async () => await CantonAdminClient.CreateAsync(
                 NewValidRequest(o => o.PlausibilisationConfiguration.ComparisonCountOfVotersConfigurations.RemoveAt(0))),
             StatusCode.InvalidArgument,
             "ComparisonCountOfVotersConfigurations");
@@ -402,7 +426,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public Task ShouldThrowComparisonCountOfVotersConfigurationDuplicate()
         => AssertStatus(
-            async () => await AdminClient.CreateAsync(
+            async () => await CantonAdminClient.CreateAsync(
                 NewValidRequest(o => o.PlausibilisationConfiguration.ComparisonCountOfVotersConfigurations[0].Category = SharedProto.ComparisonCountOfVotersCategory.C)),
             StatusCode.InvalidArgument,
             "ComparisonCountOfVotersConfigurations");
@@ -410,7 +434,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public Task ShouldThrowAnyComparisonCountOfVotersCc()
         => AssertStatus(
-            async () => await AdminClient.CreateAsync(
+            async () => await CantonAdminClient.CreateAsync(
                 NewValidRequest(o => o.PlausibilisationConfiguration.ComparisonCountOfVotersCountingCircleEntries.Add(new ProtoModels.ComparisonCountOfVotersCountingCircleEntry
                 {
                     Category = SharedProto.ComparisonCountOfVotersCategory.B,
@@ -422,7 +446,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public Task ShouldThrowComparisonVotingChannelConfigurationMissing()
         => AssertStatus(
-            async () => await AdminClient.CreateAsync(
+            async () => await CantonAdminClient.CreateAsync(
                 NewValidRequest(o => o.PlausibilisationConfiguration.ComparisonVotingChannelConfigurations.RemoveAt(0))),
             StatusCode.InvalidArgument,
             "ComparisonVotingChannelConfigurations");
@@ -430,7 +454,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public Task ShouldThrowComparisonVotingChannelConfigurationDuplicate()
         => AssertStatus(
-            async () => await AdminClient.CreateAsync(
+            async () => await CantonAdminClient.CreateAsync(
                 NewValidRequest(o => o.PlausibilisationConfiguration.ComparisonVotingChannelConfigurations[0].VotingChannel = SharedProto.VotingChannel.EVoting)),
             StatusCode.InvalidArgument,
             "ComparisonVotingChannelConfigurations");
@@ -442,7 +466,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [InlineData(SharedProto.VotingCardShippingFranking.WithoutFranking)]
     public Task ShouldThrowResponsibleForVotingCardsInvalidShippingAway(SharedProto.VotingCardShippingFranking franking)
         => AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.PrintData.ShippingAway = franking)),
+            async () => await CantonAdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.PrintData.ShippingAway = franking)),
             StatusCode.InvalidArgument,
             "ShippingAway");
 
@@ -453,7 +477,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [InlineData(SharedProto.VotingCardShippingFranking.A)]
     public Task ShouldThrowResponsibleForVotingCardsInvalidShippingReturn(SharedProto.VotingCardShippingFranking franking)
         => AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.PrintData.ShippingReturn = franking)),
+            async () => await CantonAdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(o => o.PrintData.ShippingReturn = franking)),
             StatusCode.InvalidArgument,
             "ShippingReturn");
 
@@ -461,7 +485,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     public async Task ShouldThrowForeignParty()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(o =>
             {
                 o.Parties.Add(new ProtoModels.DomainOfInfluenceParty
                 {
@@ -478,7 +502,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     public async Task ShouldThrowForeignExportConfiguration()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(o =>
             {
                 o.ExportConfigurations.Add(new ProtoModels.ExportConfiguration
                 {
@@ -498,7 +522,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
         var configId = "0c03d15a-ab0a-439d-a5bb-91fb17d17cf1";
 
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(o =>
             {
                 o.ExportConfigurations.Add(new ProtoModels.ExportConfiguration
                 {
@@ -529,7 +553,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
         });
 
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(req),
+            async () => await CantonAdminClient.CreateAsync(req),
             StatusCode.InvalidArgument,
             "electoral registration");
     }
@@ -540,7 +564,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
         await ModifyDbEntities<CantonSettings>(x => x.Canton == DomainOfInfluenceCanton.Sg, x => x.InternalPlausibilisationDisabled = true);
 
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest()),
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest()),
             StatusCode.InvalidArgument,
             "internal plausibilisation is disabled for this canton");
     }
@@ -551,7 +575,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
         await ModifyDbEntities<CantonSettings>(x => x.Canton == DomainOfInfluenceCanton.Sg, x => x.InternalPlausibilisationDisabled = true);
 
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRootDoiRequest()),
+            async () => await CantonAdminClient.CreateAsync(NewValidRootDoiRequest()),
             StatusCode.InvalidArgument,
             "internal plausibilisation is disabled for this canton");
     }
@@ -560,7 +584,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     public async Task NoPlausibilisationConfigurationShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(x => x.PlausibilisationConfiguration = null)),
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(x => x.PlausibilisationConfiguration = null)),
             StatusCode.InvalidArgument,
             "plausibilisation configuration is required");
     }
@@ -570,7 +594,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     {
         await ModifyDbEntities<CantonSettings>(x => x.Canton == DomainOfInfluenceCanton.Sg, x => x.InternalPlausibilisationDisabled = true);
 
-        var response = await AdminClient.CreateAsync(NewValidRequest(x => x.PlausibilisationConfiguration = null));
+        var response = await CantonAdminClient.CreateAsync(NewValidRequest(x => x.PlausibilisationConfiguration = null));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<DomainOfInfluenceCreated>();
 
         eventData.DomainOfInfluence.Id.Should().Be(response.Id);
@@ -581,17 +605,55 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     public async Task ForeignCantonSuperiorAuthorityShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(x => x.SuperiorAuthorityDomainOfInfluenceId = DomainOfInfluenceMockedData.IdZurich)),
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(x => x.SuperiorAuthorityDomainOfInfluenceId = DomainOfInfluenceMockedData.IdZurich)),
             StatusCode.InvalidArgument,
             "Cannot set a domain of influence from a different canton as superior authority");
+    }
+
+    [Fact]
+    public async Task InvalidSuperiorAuthorityTypeShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(x => x.SuperiorAuthorityDomainOfInfluenceId = DomainOfInfluenceMockedData.IdUzwil)),
+            StatusCode.InvalidArgument,
+            "The selected superior authority domain of influence has an invalid type");
     }
 
     [Fact]
     public async Task NotExistingSuperiorAuthorityShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(x => x.SuperiorAuthorityDomainOfInfluenceId = Guid.Empty.ToString())),
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(x => x.SuperiorAuthorityDomainOfInfluenceId = Guid.Empty.ToString())),
             StatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task DisablePublishResultsOnNonCommunalShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(x =>
+            {
+                x.PublishResultsDisabled = true;
+                x.Type = SharedProto.DomainOfInfluenceType.Ct;
+            })),
+            StatusCode.InvalidArgument,
+            "Cannot disable publish results on non-communal domain of influence");
+    }
+
+    [Fact]
+    public async Task DisablePublishResultsWhenCantonOptionDisabledShouldThrow()
+    {
+        await ModifyDbEntities<CantonSettings>(
+            c => c.Canton == DomainOfInfluenceCanton.Sg,
+            c => c.DomainOfInfluencePublishResultsOptionEnabled = false);
+
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(x =>
+            {
+                x.PublishResultsDisabled = true;
+            })),
+            StatusCode.InvalidArgument,
+            "Canton does not allow to disable publish results");
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
@@ -600,7 +662,6 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
     }
 
@@ -674,7 +735,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
                 x.ComparisonCountOfVotersConfigurations[0].ThresholdPercent = 9.91;
                 x.ComparisonVotingChannelConfigurations[0].ThresholdPercent = 0.15;
             }),
-            SuperiorAuthorityDomainOfInfluenceId = DomainOfInfluenceMockedData.IdUzwil,
+            SuperiorAuthorityDomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen,
         };
         customizer?.Invoke(request);
         return request;
@@ -742,6 +803,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
             },
             ElectoralRegistrationEnabled = true,
             StistatMunicipality = true,
+            VotingCardFlatRateDisabled = true,
         };
         customizer?.Invoke(request);
         return request;

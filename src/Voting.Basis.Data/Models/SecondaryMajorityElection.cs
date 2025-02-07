@@ -10,8 +10,6 @@ public class SecondaryMajorityElection : PoliticalBusiness
 {
     public int NumberOfMandates { get; set; }
 
-    public SecondaryMajorityElectionAllowedCandidate AllowedCandidates { get; set; }
-
     public Guid PrimaryMajorityElectionId { get; set; }
 
     public MajorityElection PrimaryMajorityElection { get; set; } = null!; // set by EF
@@ -29,6 +27,8 @@ public class SecondaryMajorityElection : PoliticalBusiness
     public ICollection<MajorityElectionBallotGroupEntry> BallotGroupEntries { get; set; } = new HashSet<MajorityElectionBallotGroupEntry>();
 
     public bool IndividualCandidatesDisabled { get; set; }
+
+    public bool IsOnSeparateBallot { get; set; }
 
     public override Guid DomainOfInfluenceId
     {

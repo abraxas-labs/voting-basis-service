@@ -45,13 +45,15 @@
       "MajorityElectionUseCandidateCheckDigit": false,
       "CountingCircleResultStateDescriptions": [],
       "StatePlausibilisedDisabled": false,
-      "PublishResultsEnabled": true,
+      "ManualPublishResultsEnabled": true,
       "EndResultFinalizeDisabled": false,
       "CreateContestOnHighestHierarchicalLevelEnabled": false,
       "InternalPlausibilisationDisabled": false,
       "PublishResultsBeforeAuditedTentatively": false,
       "CandidateLocalityRequired": false,
-      "CandidateOriginRequired": false
+      "CandidateOriginRequired": false,
+      "DomainOfInfluencePublishResultsOptionEnabled": true,
+      "SecondaryMajorityElectionOnSeparateBallot": false
     },
     {
       "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -103,13 +105,15 @@
         }
       ],
       "StatePlausibilisedDisabled": true,
-      "PublishResultsEnabled": false,
+      "ManualPublishResultsEnabled": false,
       "EndResultFinalizeDisabled": true,
       "CreateContestOnHighestHierarchicalLevelEnabled": true,
       "InternalPlausibilisationDisabled": true,
       "PublishResultsBeforeAuditedTentatively": true,
       "CandidateLocalityRequired": true,
-      "CandidateOriginRequired": true
+      "CandidateOriginRequired": true,
+      "DomainOfInfluencePublishResultsOptionEnabled": false,
+      "SecondaryMajorityElectionOnSeparateBallot": false
     }
   ]
 }

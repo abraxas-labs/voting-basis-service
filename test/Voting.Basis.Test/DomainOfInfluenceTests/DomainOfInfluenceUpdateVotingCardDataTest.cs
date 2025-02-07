@@ -61,6 +61,7 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
                 FrankingLicenceReturnNumber = "965333145",
             },
             StistatMunicipality = true,
+            VotingCardFlatRateDisabled = true,
             EventInfo = GetMockedEventInfo(),
         });
 

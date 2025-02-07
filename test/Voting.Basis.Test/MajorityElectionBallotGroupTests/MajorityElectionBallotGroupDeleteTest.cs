@@ -41,7 +41,7 @@ public class MajorityElectionBallotGroupDeleteTest : PoliticalBusinessAuthorizat
     public async Task TestNotFound()
     {
         await AssertStatus(
-            async () => await AdminClient.DeleteBallotGroupAsync(new DeleteMajorityElectionBallotGroupRequest
+            async () => await ElectionAdminClient.DeleteBallotGroupAsync(new DeleteMajorityElectionBallotGroupRequest
             {
                 Id = IdNotFound,
             }),
@@ -51,7 +51,7 @@ public class MajorityElectionBallotGroupDeleteTest : PoliticalBusinessAuthorizat
     [Fact]
     public async Task Test()
     {
-        await AdminClient.DeleteBallotGroupAsync(new DeleteMajorityElectionBallotGroupRequest
+        await ElectionAdminClient.DeleteBallotGroupAsync(new DeleteMajorityElectionBallotGroupRequest
         {
             Id = MajorityElectionMockedData.BallotGroupIdStGallenMajorityElectionInContestBund,
         });
@@ -78,7 +78,7 @@ public class MajorityElectionBallotGroupDeleteTest : PoliticalBusinessAuthorizat
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.DeleteBallotGroupAsync(new DeleteMajorityElectionBallotGroupRequest
+            async () => await ElectionAdminClient.DeleteBallotGroupAsync(new DeleteMajorityElectionBallotGroupRequest
             {
                 Id = MajorityElectionMockedData.BallotGroupId1GossauMajorityElectionInContestBund,
             }),
@@ -117,7 +117,6 @@ public class MajorityElectionBallotGroupDeleteTest : PoliticalBusinessAuthorizat
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

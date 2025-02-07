@@ -8,6 +8,7 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Test.ImportTests.TestFiles;
 using Voting.Basis.Test.MockedData;
 using Xunit;
 using SharedProto = Abraxas.Voting.Basis.Shared.V1;
@@ -30,17 +31,13 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
     public async Task TestShouldWork()
     {
         var request = await CreateValidRequest();
-        await AdminClient.ImportPoliticalBusinessesAsync(request);
+        await CantonAdminClient.ImportPoliticalBusinessesAsync(request);
     }
 
     [Fact]
     public async Task TestAllTypesOfVotesShouldWork()
     {
-        var contest = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
-        {
-            ImportType = SharedProto.ImportType.Ech159,
-            FileContent = await GetTestEch0159AllTypesFile(),
-        });
+        var contest = await LoadContestImport(SharedProto.ImportType.Ech159, EchTestFiles.GetTestFilePath(EchTestFiles.Ech0159AllTypesFileName));
 
         for (var i = 0; i < contest.Votes.Count; i++)
         {
@@ -53,7 +50,7 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
             ContestId = ContestMockedData.IdGossau,
             Votes = { contest.Votes },
         };
-        await AdminClient.ImportPoliticalBusinessesAsync(request);
+        await CantonAdminClient.ImportPoliticalBusinessesAsync(request);
     }
 
     [Fact]
@@ -61,7 +58,7 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
     {
         var request = await CreateValidRequest(DomainOfInfluenceMockedData.IdGenf);
         await AssertStatus(
-            async () => await AdminClient.ImportPoliticalBusinessesAsync(request),
+            async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
             StatusCode.InvalidArgument,
             "Invalid domain of influence(s), some ids are not children of the parent node");
     }
@@ -72,7 +69,7 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
         var request = await CreateValidRequest();
         request.ProportionalElections[0].Election.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportional1Doi0DoiQuorum;
         await AssertStatus(
-            async () => await AdminClient.ImportPoliticalBusinessesAsync(request),
+            async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
             StatusCode.InvalidArgument,
             "mandate algorithm");
     }
@@ -83,7 +80,7 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
         var request = await CreateValidRequest();
         request.ProportionalElections[0].Lists[0].Candidates[0].Candidate.Id = request.ProportionalElections[0].Lists[0].Candidates[1].Candidate.Id;
         await AssertStatus(
-            async () => await AdminClient.ImportPoliticalBusinessesAsync(request),
+            async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
             StatusCode.InvalidArgument,
             "This id is not unique");
     }
@@ -124,7 +121,6 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;
@@ -134,16 +130,8 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
         string doiId = DomainOfInfluenceMockedData.IdGossau,
         string contestId = ContestMockedData.IdGossau)
     {
-        var contest1 = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
-        {
-            ImportType = SharedProto.ImportType.Ech157,
-            FileContent = await GetTestEch0157File(),
-        });
-        var contest2 = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
-        {
-            ImportType = SharedProto.ImportType.Ech159,
-            FileContent = await GetTestEch0159File(),
-        });
+        var contest1 = await LoadContestImport(SharedProto.ImportType.Ech157, EchTestFiles.GetTestFilePath(EchTestFiles.Ech0157FileName));
+        var contest2 = await LoadContestImport(SharedProto.ImportType.Ech159, EchTestFiles.GetTestFilePath(EchTestFiles.Ech0159FileName));
 
         contest1.MajorityElections.AddRange(contest2.MajorityElections);
         contest1.ProportionalElections.AddRange(contest2.ProportionalElections);

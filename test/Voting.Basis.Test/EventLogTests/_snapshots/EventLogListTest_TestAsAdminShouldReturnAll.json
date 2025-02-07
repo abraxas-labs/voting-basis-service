@@ -71,7 +71,7 @@
       },
       {
         "EventName": "DomainOfInfluenceUpdated",
-        "EventContent": "{ \"domainOfInfluence\": { \"id\": \"3c3f3ae2-0439-4998-85ff-ae1f7eac94a3\", \"name\": \"Bezirk Uzwil Updated\", \"shortName\": \"BZ Uz\", \"authorityName\": \"\", \"secureConnectId\": \"100100100100100100\", \"type\": \"DOMAIN_OF_INFLUENCE_TYPE_BZ\", \"parentId\": \"\", \"canton\": \"DOMAIN_OF_INFLUENCE_CANTON_SG\", \"responsibleForVotingCards\": false, \"bfs\": \"\", \"code\": \"\", \"sortNumber\": 0, \"nameForProtocol\": \"\", \"virtualTopLevel\": false, \"viewCountingCirclePartialResults\": false, \"electoralRegistrationEnabled\": false, \"hasForeignerVoters\": false, \"hasMinorVoters\": false, \"superiorAuthorityDomainOfInfluenceId\": \"\" } }",
+        "EventContent": "{ \"domainOfInfluence\": { \"id\": \"3c3f3ae2-0439-4998-85ff-ae1f7eac94a3\", \"name\": \"Bezirk Uzwil Updated\", \"shortName\": \"BZ Uz\", \"authorityName\": \"\", \"secureConnectId\": \"100100100100100100\", \"type\": \"DOMAIN_OF_INFLUENCE_TYPE_BZ\", \"parentId\": \"\", \"canton\": \"DOMAIN_OF_INFLUENCE_CANTON_SG\", \"responsibleForVotingCards\": false, \"bfs\": \"\", \"code\": \"\", \"sortNumber\": 0, \"nameForProtocol\": \"\", \"virtualTopLevel\": false, \"viewCountingCirclePartialResults\": false, \"electoralRegistrationEnabled\": false, \"hasForeignerVoters\": false, \"hasMinorVoters\": false, \"superiorAuthorityDomainOfInfluenceId\": \"\", \"publishResultsDisabled\": false, \"hideLowerDomainOfInfluencesInReports\": false } }",
         "Timestamp": {
           "Seconds": 1600164476,
           "Nanos": 0
@@ -86,7 +86,7 @@
       },
       {
         "EventName": "DomainOfInfluenceCreated",
-        "EventContent": "{ \"domainOfInfluence\": { \"id\": \"3c3f3ae2-0439-4998-85ff-ae1f7eac94a3\", \"name\": \"Bezirk Uzwil\", \"shortName\": \"BZ Uz\", \"authorityName\": \"\", \"secureConnectId\": \"100100100100100100\", \"type\": \"DOMAIN_OF_INFLUENCE_TYPE_BZ\", \"parentId\": \"\", \"canton\": \"DOMAIN_OF_INFLUENCE_CANTON_SG\", \"responsibleForVotingCards\": false, \"bfs\": \"\", \"code\": \"\", \"sortNumber\": 0, \"nameForProtocol\": \"\", \"virtualTopLevel\": false, \"viewCountingCirclePartialResults\": false, \"electoralRegistrationEnabled\": false, \"hasForeignerVoters\": false, \"hasMinorVoters\": false, \"superiorAuthorityDomainOfInfluenceId\": \"\" } }",
+        "EventContent": "{ \"domainOfInfluence\": { \"id\": \"3c3f3ae2-0439-4998-85ff-ae1f7eac94a3\", \"name\": \"Bezirk Uzwil\", \"shortName\": \"BZ Uz\", \"authorityName\": \"\", \"secureConnectId\": \"100100100100100100\", \"type\": \"DOMAIN_OF_INFLUENCE_TYPE_BZ\", \"parentId\": \"\", \"canton\": \"DOMAIN_OF_INFLUENCE_CANTON_SG\", \"responsibleForVotingCards\": false, \"bfs\": \"\", \"code\": \"\", \"sortNumber\": 0, \"nameForProtocol\": \"\", \"virtualTopLevel\": false, \"viewCountingCirclePartialResults\": false, \"electoralRegistrationEnabled\": false, \"hasForeignerVoters\": false, \"hasMinorVoters\": false, \"superiorAuthorityDomainOfInfluenceId\": \"\", \"publishResultsDisabled\": false, \"hideLowerDomainOfInfluencesInReports\": false } }",
         "Timestamp": {
           "Seconds": 1597572476,
           "Nanos": 0

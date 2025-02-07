@@ -50,7 +50,7 @@ public class VoteEchExportGenerator : IExportGenerator
             .FirstOrDefaultAsync()
             ?? throw new EntityNotFoundException(voteId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId, true);
 
         var xmlBytes = _ech0159Serializer.ToEventInitialDelivery(vote.Contest, vote);
         var voteDescription = LanguageUtil.GetInCurrentLanguage(vote.ShortDescription);

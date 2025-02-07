@@ -100,9 +100,11 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
                     ProtocolCountingCircleSortType = SharedProto.ProtocolCountingCircleSortType.SortNumber,
                     CountingMachineEnabled = true,
                     StatePlausibilisedDisabled = true,
-                    PublishResultsEnabled = true,
+                    ManualPublishResultsEnabled = true,
                     EndResultFinalizeDisabled = true,
                     PublishResultsBeforeAuditedTentatively = true,
+                    DomainOfInfluencePublishResultsOptionEnabled = true,
+                    SecondaryMajorityElectionOnSeparateBallot = true,
                 },
                 EventInfo = GetMockedEventInfo(),
             });
@@ -259,9 +261,10 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
                 },
             },
             StatePlausibilisedDisabled = true,
-            PublishResultsEnabled = true,
+            ManualPublishResultsEnabled = true,
             EndResultFinalizeDisabled = true,
             PublishResultsBeforeAuditedTentatively = true,
+            DomainOfInfluencePublishResultsOptionEnabled = true,
         };
         customizer?.Invoke(request);
         return request;

@@ -219,7 +219,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
     [Fact]
     public async Task TestAsAdmin()
     {
-        await AdminClient.UpdateAsync(NewValidRequest(o =>
+        await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
         {
             o.Name = "updated-1";
             o.Bfs = "update2";
@@ -239,7 +239,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
     [Fact]
     public async Task MissingEVotingActiveFromShouldSetEVotingFalse()
     {
-        await AdminClient.UpdateAsync(NewValidRequest(
+        await CantonAdminClient.UpdateAsync(NewValidRequest(
             x => x.EVotingActiveFrom = null));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<CountingCircleUpdated>();
         eventData.CountingCircle.EVoting.Should().BeFalse();
@@ -248,7 +248,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
     [Fact]
     public async Task EVotingActiveFromInFutureShouldSetEVotingFalse()
     {
-        await AdminClient.UpdateAsync(NewValidRequest(
+        await CantonAdminClient.UpdateAsync(NewValidRequest(
             x => x.EVotingActiveFrom = MockedClock.GetTimestampDate(1)));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<CountingCircleUpdated>();
         eventData.CountingCircle.EVoting.Should().BeFalse();
@@ -257,7 +257,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
     [Fact]
     public async Task EVotingActiveFromInPastShouldSetEVotingTrue()
     {
-        await AdminClient.UpdateAsync(NewValidRequest(
+        await CantonAdminClient.UpdateAsync(NewValidRequest(
             x => x.EVotingActiveFrom = MockedClock.GetTimestampDate(-1)));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<CountingCircleUpdated>();
         eventData.CountingCircle.EVoting.Should().BeTrue();
@@ -266,7 +266,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
     [Fact]
     public Task InvalidSecureConnectTenant()
         => AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
                 o.ResponsibleAuthority.SecureConnectId = "123333333333333333")),
             StatusCode.InvalidArgument);
 
@@ -274,7 +274,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
     public async Task ElectorateWithDuplicateDoiTypesShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
                 o.Electorates.Add(new ProtoModels.CountingCircleElectorate
                 {
                     DomainOfInfluenceTypes = { DomainOfInfluenceType.Sk },
@@ -287,7 +287,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
     public async Task ElectorateWithNoDoiTypeShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
                 o.Electorates.Add(new ProtoModels.CountingCircleElectorate()))),
             StatusCode.InvalidArgument,
             "Cannot create an electorate without a domain of influence type");
@@ -296,7 +296,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
     [Fact]
     public Task NotFound()
         => AssertStatus(
-            async () => await AdminClient.UpdateAsync(
+            async () => await CantonAdminClient.UpdateAsync(
                 NewValidRequest(o => o.Id = IdNotFound)),
             StatusCode.NotFound);
 
@@ -330,7 +330,6 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;
@@ -338,7 +337,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
 
     private async Task SeedEVotingActivateFrom(Guid countingCircleId)
     {
-        await AdminClient.UpdateAsync(NewValidRequest(o =>
+        await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
         {
             o.Id = countingCircleId.ToString();
             o.EVotingActiveFrom = MockedClock.GetTimestampDate(3);

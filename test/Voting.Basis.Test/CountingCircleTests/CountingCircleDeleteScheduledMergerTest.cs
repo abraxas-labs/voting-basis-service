@@ -51,7 +51,7 @@ public class CountingCircleDeleteScheduledMergerTest : BaseGrpcTest<CountingCirc
     public async Task TestShouldPublishAndReturnOk()
     {
         await SeedScheduledMerge(1);
-        await AdminClient.DeleteScheduledMergerAsync(NewValidRequest());
+        await CantonAdminClient.DeleteScheduledMergerAsync(NewValidRequest());
         var eventData = EventPublisherMock.GetSinglePublishedEvent<CountingCirclesMergerScheduleDeleted>();
         eventData.MatchSnapshot();
     }
@@ -61,7 +61,7 @@ public class CountingCircleDeleteScheduledMergerTest : BaseGrpcTest<CountingCirc
     {
         await SeedScheduledMerge();
         await AssertStatus(
-            async () => await AdminClient.DeleteScheduledMergerAsync(NewValidRequest()),
+            async () => await CantonAdminClient.DeleteScheduledMergerAsync(NewValidRequest()),
             StatusCode.FailedPrecondition,
             "The merger is already active");
     }
@@ -69,7 +69,7 @@ public class CountingCircleDeleteScheduledMergerTest : BaseGrpcTest<CountingCirc
     [Fact]
     public Task NoActiveMergerShouldThrow()
         => AssertStatus(
-            async () => await AdminClient.DeleteScheduledMergerAsync(new DeleteScheduledCountingCirclesMergerRequest
+            async () => await CantonAdminClient.DeleteScheduledMergerAsync(new DeleteScheduledCountingCirclesMergerRequest
             {
                 NewCountingCircleId = CountingCircleMockedData.IdGossau,
             }),
@@ -119,7 +119,6 @@ public class CountingCircleDeleteScheduledMergerTest : BaseGrpcTest<CountingCirc
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
     }
 

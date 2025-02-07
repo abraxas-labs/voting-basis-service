@@ -15,10 +15,10 @@
       "rm": "Neue Neben-Majorzwahl rm"
     },
     "NumberOfMandates": 2,
-    "AllowedCandidates": 1,
     "PrimaryMajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
     "Active": true,
-    "IndividualCandidatesDisabled": true
+    "IndividualCandidatesDisabled": true,
+    "IsOnSeparateBallot": false
   },
   "2": {
     "Id": "348f2f1a-063d-49ce-955a-81b464fcc256",
@@ -36,9 +36,9 @@
       "rm": "Neue Neben-Majorzwahl 2 rm"
     },
     "NumberOfMandates": 4,
-    "AllowedCandidates": 3,
     "PrimaryMajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
     "Active": false,
-    "IndividualCandidatesDisabled": false
+    "IndividualCandidatesDisabled": false,
+    "IsOnSeparateBallot": false
   }
 }

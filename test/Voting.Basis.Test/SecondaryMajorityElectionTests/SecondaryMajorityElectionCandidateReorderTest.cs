@@ -36,7 +36,7 @@ public class SecondaryMajorityElectionCandidateReorderTest : PoliticalBusinessAu
     [Fact]
     public async Task Test()
     {
-        await AdminClient.ReorderSecondaryMajorityElectionCandidatesAsync(NewValidRequest());
+        await CantonAdminClient.ReorderSecondaryMajorityElectionCandidatesAsync(NewValidRequest());
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidatesReordered, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdBundContest);
@@ -47,7 +47,7 @@ public class SecondaryMajorityElectionCandidateReorderTest : PoliticalBusinessAu
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdBundContest, async () =>
         {
-            await AdminClient.ReorderSecondaryMajorityElectionCandidatesAsync(NewValidRequest());
+            await CantonAdminClient.ReorderSecondaryMajorityElectionCandidatesAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<SecondaryMajorityElectionCandidatesReordered>();
         });
     }
@@ -58,7 +58,7 @@ public class SecondaryMajorityElectionCandidateReorderTest : PoliticalBusinessAu
         await TestEventPublisher.Publish(NewValidEvent());
         await TestEventPublisher.Publish(1, NewValidEvent());
 
-        var candidates = await AdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
+        var candidates = await CantonAdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
         {
             SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
         });
@@ -69,14 +69,13 @@ public class SecondaryMajorityElectionCandidateReorderTest : PoliticalBusinessAu
     public async Task NonSequentialPositionsShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.ReorderSecondaryMajorityElectionCandidatesAsync(NewValidRequest(l =>
+            async () => await CantonAdminClient.ReorderSecondaryMajorityElectionCandidatesAsync(NewValidRequest(l =>
                 l.Orders.Orders[0].Position = 5)),
             StatusCode.InvalidArgument);
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

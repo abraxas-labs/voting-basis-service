@@ -17,7 +17,6 @@ using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
-using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.SecondaryMajorityElectionTests;
 
@@ -41,7 +40,7 @@ public class SecondaryMajorityElectionDeleteTest : PoliticalBusinessAuthorizatio
     public async Task TestNotFound()
     {
         await AssertStatus(
-            async () => await AdminClient.DeleteSecondaryMajorityElectionAsync(new DeleteSecondaryMajorityElectionRequest
+            async () => await CantonAdminClient.DeleteSecondaryMajorityElectionAsync(new DeleteSecondaryMajorityElectionRequest
             {
                 Id = IdNotFound,
             }),
@@ -51,7 +50,7 @@ public class SecondaryMajorityElectionDeleteTest : PoliticalBusinessAuthorizatio
     [Fact]
     public async Task Test()
     {
-        await AdminClient.DeleteSecondaryMajorityElectionAsync(new DeleteSecondaryMajorityElectionRequest
+        await CantonAdminClient.DeleteSecondaryMajorityElectionAsync(new DeleteSecondaryMajorityElectionRequest
         {
             Id = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
         });
@@ -67,7 +66,7 @@ public class SecondaryMajorityElectionDeleteTest : PoliticalBusinessAuthorizatio
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdBundContest, async () =>
         {
-            await AdminClient.DeleteSecondaryMajorityElectionAsync(new DeleteSecondaryMajorityElectionRequest
+            await CantonAdminClient.DeleteSecondaryMajorityElectionAsync(new DeleteSecondaryMajorityElectionRequest
             {
                 Id = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
             });
@@ -103,7 +102,6 @@ public class SecondaryMajorityElectionDeleteTest : PoliticalBusinessAuthorizatio
                 ShortDescription = { LanguageUtil.MockAllLanguages("Neue Neben-Majorzwahl") },
                 Active = true,
                 NumberOfMandates = 5,
-                AllowedCandidates = SharedProto.SecondaryMajorityElectionAllowedCandidates.MayExistInPrimaryElection,
                 PrimaryMajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallenWithoutChilds,
             });
             try
@@ -128,7 +126,6 @@ public class SecondaryMajorityElectionDeleteTest : PoliticalBusinessAuthorizatio
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

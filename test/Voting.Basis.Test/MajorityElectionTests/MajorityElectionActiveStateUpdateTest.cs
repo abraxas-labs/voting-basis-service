@@ -36,7 +36,7 @@ public class MajorityElectionActiveStateUpdateTest : PoliticalBusinessAuthorizat
     [Fact]
     public async Task Test()
     {
-        await AdminClient.UpdateActiveStateAsync(NewValidRequest());
+        await ElectionAdminClient.UpdateActiveStateAsync(NewValidRequest());
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionActiveStateUpdated, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
@@ -47,7 +47,7 @@ public class MajorityElectionActiveStateUpdateTest : PoliticalBusinessAuthorizat
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.UpdateActiveStateAsync(NewValidRequest());
+            await ElectionAdminClient.UpdateActiveStateAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<MajorityElectionActiveStateUpdated>();
         });
     }
@@ -63,7 +63,7 @@ public class MajorityElectionActiveStateUpdateTest : PoliticalBusinessAuthorizat
                 MajorityElectionId = id.ToString(),
                 Active = true,
             });
-        var response = await AdminClient.GetAsync(new GetMajorityElectionRequest { Id = MajorityElectionMockedData.IdGossauMajorityElectionInContestStGallen });
+        var response = await ElectionAdminClient.GetAsync(new GetMajorityElectionRequest { Id = MajorityElectionMockedData.IdGossauMajorityElectionInContestStGallen });
         response.MatchSnapshot();
 
         await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
@@ -75,7 +75,7 @@ public class MajorityElectionActiveStateUpdateTest : PoliticalBusinessAuthorizat
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.UpdateActiveStateAsync(NewValidRequest(o =>
+            async () => await ElectionAdminClient.UpdateActiveStateAsync(NewValidRequest(o =>
             {
                 o.Id = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund;
             })),
@@ -85,7 +85,6 @@ public class MajorityElectionActiveStateUpdateTest : PoliticalBusinessAuthorizat
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

@@ -176,7 +176,7 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateFrom(CountingCircle countingCircle, bool canUpdateAllFields, bool canUpdateCanton)
+    public void UpdateFrom(CountingCircle countingCircle, bool canUpdateAllFields)
     {
         EnsureNotDeletedOrMergedOrInactive();
 
@@ -228,12 +228,9 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
             }
         }
 
-        if (!canUpdateCanton)
+        if (Canton != countingCircle.Canton)
         {
-            if (Canton != countingCircle.Canton)
-            {
-                throw new ForbiddenException("only admins are allowed to update the canton");
-            }
+            throw new ForbiddenException("The canton cannot be updated");
         }
 
         ValidateElectorates(countingCircle.Electorates);

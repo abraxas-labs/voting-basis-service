@@ -79,7 +79,11 @@ public class CantonSettingsAggregate : BaseEventSourcingAggregate
 
     public bool InternalPlausibilisationDisabled { get; private set; }
 
+    public bool ManualPublishResultsEnabled { get; private set; }
+
     public bool PublishResultsBeforeAuditedTentatively { get; private set; }
+
+    public bool DomainOfInfluencePublishResultsOptionEnabled { get; set; }
 
     public void CreateFrom(CantonSettings cantonSettings)
     {

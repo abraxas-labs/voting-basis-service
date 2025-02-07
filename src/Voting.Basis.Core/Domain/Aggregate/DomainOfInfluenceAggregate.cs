@@ -120,6 +120,12 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
 
     public bool StistatMunicipality { get; private set; }
 
+    public bool PublishResultsDisabled { get; private set; }
+
+    public bool VotingCardFlatRateDisabled { get; private set; }
+
+    public bool HideLowerDomainOfInfluencesInReports { get; set; }
+
     public void CreateFrom(DomainOfInfluence domainOfInfluence)
     {
         if (domainOfInfluence.Id == default)
@@ -128,8 +134,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         }
 
         _validator.ValidateAndThrow(domainOfInfluence);
-        ValidateCanton(domainOfInfluence);
-        ValidateSuperiorAuthority(domainOfInfluence);
+        Validate(domainOfInfluence);
 
         var ev = new DomainOfInfluenceCreated
         {
@@ -145,8 +150,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
     {
         EnsureNotDeleted();
         _validator.ValidateAndThrow(domainOfInfluence);
-        ValidateCanton(domainOfInfluence);
-        ValidateSuperiorAuthority(domainOfInfluence);
+        Validate(domainOfInfluence);
 
         if (domainOfInfluence.Type != Type)
         {
@@ -212,7 +216,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         string sapCustomerOrderNumber,
         DomainOfInfluenceVotingCardSwissPostData? swissPostData,
         VotingCardColor votingCardColor,
-        bool stistatMunicipality)
+        bool stistatMunicipality,
+        bool votingCardFlatRateDisabled)
     {
         EnsureNotDeleted();
 
@@ -240,6 +245,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
             SapCustomerOrderNumber = sapCustomerOrderNumber,
             VotingCardColor = _mapper.Map<SharedProto.VotingCardColor>(votingCardColor),
             StistatMunicipality = stistatMunicipality,
+            VotingCardFlatRateDisabled = votingCardFlatRateDisabled,
         };
 
         RaiseEvent(ev);
@@ -531,6 +537,13 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         _parties.RemoveAll(x => x.Id == partyId);
     }
 
+    private void Validate(DomainOfInfluence doi)
+    {
+        ValidateCanton(doi);
+        ValidateSuperiorAuthority(doi);
+        ValidateVirtualTopLevel(doi);
+    }
+
     private void ValidateCanton(DomainOfInfluence doi)
     {
         // Update doesn't provide a ParentId, so we have to get it from the Aggregate
@@ -559,6 +572,14 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         }
     }
 
+    private void ValidateVirtualTopLevel(DomainOfInfluence doi)
+    {
+        if (doi.VirtualTopLevel && (doi.ParentId ?? ParentId).HasValue)
+        {
+            throw new ValidationException($"Cannot set {nameof(VirtualTopLevel)} on non-root domain of influence");
+        }
+    }
+
     private void UpdateChildrenFrom(DomainOfInfluence domainOfInfluence)
     {
         UpdateContactPerson(domainOfInfluence.ContactPerson);
@@ -580,7 +601,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
                 domainOfInfluence.SapCustomerOrderNumber,
                 domainOfInfluence.SwissPostData ?? throw new ValidationException(nameof(domainOfInfluence.SwissPostData) + " must be set"),
                 domainOfInfluence.VotingCardColor,
-                domainOfInfluence.StistatMunicipality);
+                domainOfInfluence.StistatMunicipality,
+                domainOfInfluence.VotingCardFlatRateDisabled);
         }
     }
 }

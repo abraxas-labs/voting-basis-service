@@ -37,8 +37,10 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
 {
     private readonly Lazy<TService> _adminClient;
     private readonly Lazy<TService> _electionAdminClient;
+    private readonly Lazy<TService> _electionAdminReadOnlyClient;
     private readonly Lazy<TService> _electionSupporterClient;
     private readonly Lazy<TService> _cantonAdminClient;
+    private readonly Lazy<TService> _cantonAdminReadOnlyClient;
     private readonly Lazy<TService> _electionAdminUzwilClient;
     private readonly Lazy<TService> _apiReaderClient;
     private readonly Lazy<TService> _apiReaderDoiClient;
@@ -58,7 +60,9 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
 
         _adminClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.Admin));
         _cantonAdminClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.CantonAdmin));
+        _cantonAdminReadOnlyClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.CantonAdminReadOnly));
         _electionAdminClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ElectionAdmin));
+        _electionAdminReadOnlyClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ElectionAdminReadOnly));
         _electionAdminUzwilClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantUzwil.Id, Roles.ElectionAdmin));
         _electionSupporterClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ElectionSupporter));
         _apiReaderClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ApiReader));
@@ -78,7 +82,11 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
 
     protected TService CantonAdminClient => _cantonAdminClient.Value;
 
+    protected TService CantonAdminReadOnlyClient => _cantonAdminReadOnlyClient.Value;
+
     protected TService ElectionAdminClient => _electionAdminClient.Value;
+
+    protected TService ElectionAdminReadOnlyClient => _electionAdminReadOnlyClient.Value;
 
     protected TService ElectionSupporterClient => _electionSupporterClient.Value;
 

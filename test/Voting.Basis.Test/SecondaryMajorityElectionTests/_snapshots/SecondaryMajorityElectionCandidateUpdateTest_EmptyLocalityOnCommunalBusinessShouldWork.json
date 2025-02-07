@@ -55,6 +55,7 @@
       "Origin": "origin",
       "CheckDigit": 6
     },
-    "PrimaryMajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf"
+    "PrimaryMajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
+    "IsOnSeparateBallot": false
   }
 }

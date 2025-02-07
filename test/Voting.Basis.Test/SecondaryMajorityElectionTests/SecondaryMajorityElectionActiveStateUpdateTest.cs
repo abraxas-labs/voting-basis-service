@@ -33,7 +33,7 @@ public class SecondaryMajorityElectionActiveStateUpdateTest : PoliticalBusinessA
     [Fact]
     public async Task Test()
     {
-        await AdminClient.UpdateSecondaryMajorityElectionActiveStateAsync(NewValidRequest());
+        await CantonAdminClient.UpdateSecondaryMajorityElectionActiveStateAsync(NewValidRequest());
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionActiveStateUpdated, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdBundContest);
@@ -44,7 +44,7 @@ public class SecondaryMajorityElectionActiveStateUpdateTest : PoliticalBusinessA
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdBundContest, async () =>
         {
-            await AdminClient.UpdateSecondaryMajorityElectionActiveStateAsync(NewValidRequest());
+            await CantonAdminClient.UpdateSecondaryMajorityElectionActiveStateAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<SecondaryMajorityElectionActiveStateUpdated>();
         });
     }
@@ -58,13 +58,12 @@ public class SecondaryMajorityElectionActiveStateUpdateTest : PoliticalBusinessA
                 SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
                 Active = true,
             });
-        var response = await AdminClient.GetSecondaryMajorityElectionAsync(new GetSecondaryMajorityElectionRequest { Id = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund });
+        var response = await CantonAdminClient.GetSecondaryMajorityElectionAsync(new GetSecondaryMajorityElectionRequest { Id = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund });
         response.MatchSnapshot();
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

@@ -18,6 +18,7 @@
     },
     "SecondaryMajorityElectionId": "0741da26-add2-4c4c-960d-7e251b82e91b",
     "Active": true,
-    "PrimaryMajorityElectionId": "b0da46f8-a721-4e1a-ac36-25284d68f34b"
+    "PrimaryMajorityElectionId": "b0da46f8-a721-4e1a-ac36-25284d68f34b",
+    "IsOnSeparateBallot": false
   }
 }

@@ -278,6 +278,8 @@ public static class DomainOfInfluenceMockedData
             },
             ElectoralRegistrationEnabled = true,
             StistatMunicipality = true,
+            PublishResultsDisabled = true,
+            VotingCardFlatRateDisabled = true,
         };
 
     public static DomainOfInfluence Kirchgemeinde

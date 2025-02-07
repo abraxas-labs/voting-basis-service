@@ -84,7 +84,8 @@ public static class CantonSettingsMockedData
             MultipleVoteBallotsEnabled = false,
             ProportionalElectionUseCandidateCheckDigit = false,
             MajorityElectionUseCandidateCheckDigit = false,
-            PublishResultsEnabled = true,
+            ManualPublishResultsEnabled = true,
+            DomainOfInfluencePublishResultsOptionEnabled = true,
         };
 
     public static CantonSettings Zurich

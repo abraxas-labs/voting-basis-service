@@ -45,7 +45,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
     public async Task Test()
     {
         var req = NewValidRequest();
-        await AdminClient.UpdateAsync(req);
+        await CantonAdminClient.UpdateAsync(req);
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ContestUpdated, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event", d => d.Contest.Id);
         eventMetadata!.ContestId.Should().Be(req.Id);
@@ -56,7 +56,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdGossau, async () =>
         {
-            await AdminClient.UpdateAsync(NewValidRequest());
+            await CantonAdminClient.UpdateAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<ContestUpdated>();
         });
     }
@@ -64,7 +64,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
     [Fact]
     public async Task TestWithEVoting()
     {
-        await AdminClient.UpdateAsync(NewValidRequest(x =>
+        await CantonAdminClient.UpdateAsync(NewValidRequest(x =>
         {
             x.EVoting = true;
             x.EVotingFrom = new DateTime(2020, 8, 23, 0, 0, 0, DateTimeKind.Utc).ToTimestamp();
@@ -78,7 +78,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
     [Fact]
     public async Task TestWithPreviousContestShouldWork()
     {
-        await AdminClient.UpdateAsync(NewValidRequest(x => x.PreviousContestId = ContestMockedData.IdPastLockedContestNoPoliticalBusinesses));
+        await CantonAdminClient.UpdateAsync(NewValidRequest(x => x.PreviousContestId = ContestMockedData.IdPastLockedContestNoPoliticalBusinesses));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<ContestUpdated>();
         eventData.MatchSnapshot("event", d => d.Contest.Id);
     }
@@ -99,7 +99,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
             },
         };
         await TestEventPublisher.Publish(ev);
-        var contest = await AdminClient.GetAsync(new GetContestRequest { Id = ContestMockedData.IdGossau });
+        var contest = await CantonAdminClient.GetAsync(new GetContestRequest { Id = ContestMockedData.IdGossau });
         contest.MatchSnapshot();
 
         var contestEntity = await RunOnDb(async db => await db.Contests.SingleAsync(c => c.Id == id));
@@ -113,7 +113,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
     public async Task NoDescriptionShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o => o.Description.Clear())),
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o => o.Description.Clear())),
             StatusCode.InvalidArgument,
             "Description");
     }
@@ -122,7 +122,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
     public async Task SameEndOfTestingPhaseAsContestDateShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o => o.EndOfTestingPhase = new DateTime(2020, 8, 23, 0, 0, 0, DateTimeKind.Utc).ToTimestamp())),
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o => o.EndOfTestingPhase = new DateTime(2020, 8, 23, 0, 0, 0, DateTimeKind.Utc).ToTimestamp())),
             StatusCode.InvalidArgument);
     }
 
@@ -130,7 +130,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
     public async Task GreaterEndOfTestingPhaseThanContestDateShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o => o.EndOfTestingPhase = new DateTime(2030, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToTimestamp())),
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o => o.EndOfTestingPhase = new DateTime(2030, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToTimestamp())),
             StatusCode.InvalidArgument);
     }
 
@@ -138,7 +138,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
     public async Task EndOfTestingPhaseBeforeNowShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
             {
                 o.Date = MockedClock.GetTimestampDate(10);
                 o.EndOfTestingPhase = MockedClock.GetTimestamp(-1);
@@ -150,7 +150,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
     public async Task EVotingWithoutEVotingDatesShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o => o.EVoting = true)),
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o => o.EVoting = true)),
             StatusCode.InvalidArgument);
     }
 
@@ -176,7 +176,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
     public async Task ContestWithEndedTestingPhaseShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(
+            async () => await CantonAdminClient.UpdateAsync(
                 NewValidRequest(c =>
                 {
                     c.Id = ContestMockedData.IdPastLockedContestNoPoliticalBusinesses;
@@ -218,7 +218,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
             c => c.DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGenf);
 
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(x => x.PreviousContestId = ContestMockedData.IdPastLockedContestNoPoliticalBusinesses)),
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(x => x.PreviousContestId = ContestMockedData.IdPastLockedContestNoPoliticalBusinesses)),
             StatusCode.InvalidArgument,
             "previous contest");
     }
@@ -245,7 +245,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
         });
 
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(x => x.Id = ContestMockedData.IdStGallenEvoting)),
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(x => x.Id = ContestMockedData.IdStGallenEvoting)),
             StatusCode.FailedPrecondition,
             "contest in merge set as a previous contest");
     }
@@ -254,7 +254,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
     public async Task EVotingAfterContestDateShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
             {
                 o.EVoting = true;
                 o.EVotingFrom = new DateTime(2020, 8, 23, 0, 0, 0, DateTimeKind.Utc).ToTimestamp();
@@ -346,7 +346,6 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
     }

@@ -37,7 +37,7 @@ public class ProportionalElectionUnionUpdatePoliticalBusinessesTest : PoliticalB
     [Fact]
     public async Task TestShouldReturnOk()
     {
-        await AdminClient.UpdatePoliticalBusinessesAsync(NewValidRequest());
+        await CantonAdminClient.UpdatePoliticalBusinessesAsync(NewValidRequest());
         var events = EventPublisherMock.GetPublishedEvents<ProportionalElectionMandateAlgorithmUpdated>().ToList();
         events = events.OrderBy(x => x.ProportionalElectionId).ToList();
         events.MatchSnapshot("events");
@@ -49,7 +49,7 @@ public class ProportionalElectionUnionUpdatePoliticalBusinessesTest : PoliticalB
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.UpdatePoliticalBusinessesAsync(NewValidRequest());
+            await CantonAdminClient.UpdatePoliticalBusinessesAsync(NewValidRequest());
             return EventPublisherMock.GetPublishedEventsWithMetadata<ProportionalElectionMandateAlgorithmUpdated>().First();
         });
     }
@@ -84,7 +84,7 @@ public class ProportionalElectionUnionUpdatePoliticalBusinessesTest : PoliticalB
     public async Task InvalidMandateAlgorithmByCantonShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdatePoliticalBusinessesAsync(NewValidRequest(o => o.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiQuorum)),
+            async () => await CantonAdminClient.UpdatePoliticalBusinessesAsync(NewValidRequest(o => o.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiQuorum)),
             StatusCode.InvalidArgument,
             "Canton settings does not allow proportional election mandate algorithm");
     }
@@ -93,14 +93,13 @@ public class ProportionalElectionUnionUpdatePoliticalBusinessesTest : PoliticalB
     public async Task DuplicateUnionIdsShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdatePoliticalBusinessesAsync(NewValidRequest(x => x.ProportionalElectionUnionIds.Add(ProportionalElectionUnionMockedData.IdStGallen1))),
+            async () => await CantonAdminClient.UpdatePoliticalBusinessesAsync(NewValidRequest(x => x.ProportionalElectionUnionIds.Add(ProportionalElectionUnionMockedData.IdStGallen1))),
             StatusCode.InvalidArgument,
             "duplicate union id");
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

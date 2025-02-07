@@ -24,23 +24,18 @@ public static class Permissions
     private const string ReadAdminManagementSuffix = ReadSuffix + "-admin-management";
 
     // Used when the "normal" permission (ex. 'read') allows access only to specific resources, while the  '-all' allows access to all resources
-    private const string CreateAllSuffix = CreateSuffix + "-all";
     private const string ReadAllSuffix = ReadSuffix + "-all";
     private const string UpdateAllSuffix = UpdateSuffix + "-all";
-    private const string DeleteAllSuffix = DeleteSuffix + "-all";
 
     public static class DomainOfInfluence
     {
-        public const string CreateAll = Prefix + CreateAllSuffix;
         public const string CreateSameCanton = Prefix + CreateSameCantonSuffix;
-        public const string UpdateAll = Prefix + UpdateAllSuffix;
         public const string UpdateSameCanton = Prefix + UpdateSameCantonSuffix;
         public const string UpdateSameTenant = Prefix + UpdateSameTenantSuffix;
         public const string ReadSameTenant = Prefix + ReadSameTenantSuffix;
         public const string ReadSameCanton = Prefix + ReadSameCantonSuffix;
         public const string ReadAll = Prefix + ReadAllSuffix;
         public const string DeleteSameCanton = Prefix + DeleteSameCantonSuffix;
-        public const string DeleteAll = Prefix + DeleteAllSuffix;
 
         private const string Prefix = "DomainOfInfluence";
     }
@@ -52,7 +47,6 @@ public static class Permissions
         public const string ReadAdminManagement = Prefix + ReadAdminManagementSuffix;
         public const string ReadAll = Prefix + ReadAllSuffix;
         public const string UpdateSameCanton = Prefix + UpdateSameCantonSuffix;
-        public const string UpdateAll = Prefix + UpdateAllSuffix;
 
         private const string Prefix = "DomainOfInfluence.Hierarchy";
     }
@@ -78,18 +72,14 @@ public static class Permissions
 
     public static class CountingCircle
     {
-        public const string CreateAll = Prefix + CreateAllSuffix;
         public const string CreateSameCanton = Prefix + CreateSameCantonSuffix;
         public const string UpdateSameTenant = Prefix + UpdateSameTenantSuffix;
         public const string UpdateSameCanton = Prefix + UpdateSameCantonSuffix;
-        public const string UpdateAll = Prefix + UpdateAllSuffix;
         public const string Read = Prefix + ReadSuffix;
         public const string ReadSameCanton = Prefix + ReadSameCantonSuffix;
         public const string ReadAll = Prefix + ReadAllSuffix;
         public const string DeleteSameCanton = Prefix + DeleteSameCantonSuffix;
-        public const string DeleteAll = Prefix + DeleteSuffix;
         public const string MergeSameCanton = Prefix + ":merge-same-canton";
-        public const string MergeAll = Prefix + ":merge-all";
 
         private const string Prefix = "CountingCircle";
     }
@@ -120,7 +110,10 @@ public static class Permissions
 
     public static class PoliticalBusiness
     {
-        public const string ActionsTenantSameCanton = Prefix + ":actions-tenant-same-canton";
+        public const string WriteActionsTenantSameCanton = Prefix + ":write-actions-tenant-same-canton";
+        public const string ReadActionsTenantSameCanton = Prefix + ":read-actions-tenant-same-canton";
+        public const string WriteActionsSameTenant = Prefix + ":write-actions-same-tenant";
+        public const string ReadActionsSameTenant = Prefix + ":read-actions-same-tenant";
 
         private const string Prefix = "PoliticalBusiness";
     }

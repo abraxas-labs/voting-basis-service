@@ -43,7 +43,7 @@ public class ProportionalElectionCandidateDeleteTest : PoliticalBusinessAuthoriz
     public async Task TestInvalidGuid()
     {
         await AssertStatus(
-            async () => await AdminClient.DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest
+            async () => await CantonAdminClient.DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest
             {
                 Id = IdInvalid,
             }),
@@ -54,7 +54,7 @@ public class ProportionalElectionCandidateDeleteTest : PoliticalBusinessAuthoriz
     public async Task TestNotFound()
     {
         await AssertStatus(
-            async () => await AdminClient.DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest
+            async () => await CantonAdminClient.DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest
             {
                 Id = IdNotFound,
             }),
@@ -64,7 +64,7 @@ public class ProportionalElectionCandidateDeleteTest : PoliticalBusinessAuthoriz
     [Fact]
     public async Task Test()
     {
-        await AdminClient.DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest
+        await CantonAdminClient.DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest
         {
             Id = ProportionalElectionMockedData.CandidateIdStGallenProportionalElectionInContestStGallen,
         });
@@ -80,7 +80,7 @@ public class ProportionalElectionCandidateDeleteTest : PoliticalBusinessAuthoriz
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest
+            await CantonAdminClient.DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest
             {
                 Id = ProportionalElectionMockedData.CandidateIdStGallenProportionalElectionInContestStGallen,
             });
@@ -104,7 +104,7 @@ public class ProportionalElectionCandidateDeleteTest : PoliticalBusinessAuthoriz
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest
+            async () => await CantonAdminClient.DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest
             {
                 Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionInContestBund,
             }),
@@ -149,7 +149,6 @@ public class ProportionalElectionCandidateDeleteTest : PoliticalBusinessAuthoriz
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

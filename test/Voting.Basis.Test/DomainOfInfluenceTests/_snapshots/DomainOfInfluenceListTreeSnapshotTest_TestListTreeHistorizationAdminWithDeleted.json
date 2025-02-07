@@ -54,7 +54,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       }
     ]
   },
@@ -119,7 +122,10 @@
             "HasForeignerVoters": false,
             "HasMinorVoters": false,
             "SuperiorAuthorityDomainOfInfluence": null,
-            "StistatMunicipality": false
+            "StistatMunicipality": false,
+            "PublishResultsDisabled": false,
+            "VotingCardFlatRateDisabled": false,
+            "HideLowerDomainOfInfluencesInReports": false
           }
         ],
         "Canton": 1,
@@ -163,7 +169,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       }
     ]
   },
@@ -228,7 +237,10 @@
             "HasForeignerVoters": false,
             "HasMinorVoters": false,
             "SuperiorAuthorityDomainOfInfluence": null,
-            "StistatMunicipality": false
+            "StistatMunicipality": false,
+            "PublishResultsDisabled": false,
+            "VotingCardFlatRateDisabled": false,
+            "HideLowerDomainOfInfluencesInReports": false
           },
           {
             "Id": "ec1e23a1-bfba-4f1b-b75f-ca31ac53a80f",
@@ -280,7 +292,10 @@
             "HasForeignerVoters": false,
             "HasMinorVoters": false,
             "SuperiorAuthorityDomainOfInfluence": null,
-            "StistatMunicipality": false
+            "StistatMunicipality": false,
+            "PublishResultsDisabled": false,
+            "VotingCardFlatRateDisabled": false,
+            "HideLowerDomainOfInfluencesInReports": false
           }
         ],
         "Canton": 1,
@@ -324,7 +339,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       }
     ]
   },
@@ -392,7 +410,10 @@
             "HasForeignerVoters": false,
             "HasMinorVoters": false,
             "SuperiorAuthorityDomainOfInfluence": null,
-            "StistatMunicipality": false
+            "StistatMunicipality": false,
+            "PublishResultsDisabled": false,
+            "VotingCardFlatRateDisabled": false,
+            "HideLowerDomainOfInfluencesInReports": false
           },
           {
             "Id": "ec1e23a1-bfba-4f1b-b75f-ca31ac53a80f",
@@ -444,7 +465,10 @@
             "HasForeignerVoters": false,
             "HasMinorVoters": false,
             "SuperiorAuthorityDomainOfInfluence": null,
-            "StistatMunicipality": false
+            "StistatMunicipality": false,
+            "PublishResultsDisabled": false,
+            "VotingCardFlatRateDisabled": false,
+            "HideLowerDomainOfInfluencesInReports": false
           }
         ],
         "Canton": 1,
@@ -488,7 +512,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       }
     ]
   },
@@ -556,7 +583,10 @@
             "HasForeignerVoters": false,
             "HasMinorVoters": false,
             "SuperiorAuthorityDomainOfInfluence": null,
-            "StistatMunicipality": false
+            "StistatMunicipality": false,
+            "PublishResultsDisabled": false,
+            "VotingCardFlatRateDisabled": false,
+            "HideLowerDomainOfInfluencesInReports": false
           },
           {
             "Id": "ec1e23a1-bfba-4f1b-b75f-ca31ac53a80f",
@@ -611,7 +641,10 @@
             "HasForeignerVoters": false,
             "HasMinorVoters": false,
             "SuperiorAuthorityDomainOfInfluence": null,
-            "StistatMunicipality": false
+            "StistatMunicipality": false,
+            "PublishResultsDisabled": false,
+            "VotingCardFlatRateDisabled": false,
+            "HideLowerDomainOfInfluencesInReports": false
           }
         ],
         "Canton": 1,
@@ -658,7 +691,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       }
     ]
   }

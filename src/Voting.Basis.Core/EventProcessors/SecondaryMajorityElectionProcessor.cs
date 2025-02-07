@@ -224,6 +224,8 @@ public class SecondaryMajorityElectionProcessor :
         var existingCandidate = await GetCandidate(id);
 
         existingCandidate.Incumbent = eventData.MajorityElectionCandidateReference.Incumbent;
+        existingCandidate.Number = eventData.MajorityElectionCandidateReference.Number;
+        existingCandidate.CheckDigit = eventData.MajorityElectionCandidateReference.CheckDigit;
         await _candidateRepo.Update(existingCandidate);
         await _eventLogger.LogSecondaryMajorityElectionCandidateEvent(eventData, existingCandidate);
     }

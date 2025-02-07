@@ -43,7 +43,7 @@ public class ProportionalElectionDeleteTest : PoliticalBusinessAuthorizationGrpc
     public async Task TestNotFound()
     {
         await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteProportionalElectionRequest
+            async () => await CantonAdminClient.DeleteAsync(new DeleteProportionalElectionRequest
             {
                 Id = IdNotFound,
             }),
@@ -53,7 +53,7 @@ public class ProportionalElectionDeleteTest : PoliticalBusinessAuthorizationGrpc
     [Fact]
     public async Task Test()
     {
-        await AdminClient.DeleteAsync(new DeleteProportionalElectionRequest
+        await CantonAdminClient.DeleteAsync(new DeleteProportionalElectionRequest
         {
             Id = ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallen,
         });
@@ -69,7 +69,7 @@ public class ProportionalElectionDeleteTest : PoliticalBusinessAuthorizationGrpc
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.DeleteAsync(new DeleteProportionalElectionRequest
+            await CantonAdminClient.DeleteAsync(new DeleteProportionalElectionRequest
             {
                 Id = ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallen,
             });
@@ -153,7 +153,6 @@ public class ProportionalElectionDeleteTest : PoliticalBusinessAuthorizationGrpc
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

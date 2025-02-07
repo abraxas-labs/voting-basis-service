@@ -68,17 +68,4 @@ public abstract class PoliticalBusinessUnionAuthorizationGrpcBaseTest<TService> 
             Assert.Fail($"Call failed {ex}");
         }
     }
-
-    [Fact]
-    public async Task AuthorizedOtherTenantAsAdminShouldThrow()
-    {
-        var channel = CreateGrpcChannel(
-            tenant: DomainOfInfluenceMockedData.Bund.SecureConnectId,
-            roles: Roles.Admin);
-
-        await AssertStatus(
-            async () => await AuthorizationTestCall(channel),
-            StatusCode.PermissionDenied,
-            "Insufficient permissions for the political business union update");
-    }
 }

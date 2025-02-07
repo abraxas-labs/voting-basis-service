@@ -31,7 +31,8 @@
     },
     "InternalDescription": "",
     "PrimaryMajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
-    "PoliticalBusinessNumber": "n1new"
+    "PoliticalBusinessNumber": "n1new",
+    "IsOnSeparateBallot": false
   },
   "reponse": {
     "Id": "654455b1-85a1-44c2-ad7b-8a8e7ea29d95",
@@ -49,9 +50,9 @@
       "rm": "Nebenwahl Update rm"
     },
     "NumberOfMandates": 3,
-    "AllowedCandidates": 2,
     "PrimaryMajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
     "Active": false,
-    "IndividualCandidatesDisabled": false
+    "IndividualCandidatesDisabled": false,
+    "IsOnSeparateBallot": false
   }
 }

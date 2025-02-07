@@ -39,10 +39,10 @@ public class MajorityElectionCandidatesImportService
         IEnumerable<MajorityElectionCandidate> candidates)
     {
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(majorityElectionId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(majorityElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(majorityElection.DomainOfInfluenceId, false);
 
         var doi = await _domainOfInfluenceReader.Get(majorityElection.DomainOfInfluenceId);
-        var candidateValidationParams = new CandidateValidationParams(doi);
+        var candidateValidationParams = new CandidateValidationParams(doi, true);
         var contest = await _contestReader.Get(majorityElection.ContestId);
         if (contest.TestingPhaseEnded)
         {

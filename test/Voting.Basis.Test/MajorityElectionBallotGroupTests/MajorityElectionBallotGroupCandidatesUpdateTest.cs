@@ -39,7 +39,7 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
     public async Task Test()
     {
         var request = NewValidRequest();
-        await AdminClient.UpdateBallotGroupCandidatesAsync(request);
+        await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(request);
 
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionBallotGroupCandidatesUpdated, EventSignatureBusinessMetadata>();
 
@@ -51,7 +51,7 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
     [Fact]
     public async Task TestWithIndividualCandidate()
     {
-        await AdminClient.UpdateBallotGroupCandidatesAsync(NewValidRequest(x => x.EntryCandidates[0].IndividualCandidatesVoteCount = 2));
+        await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(NewValidRequest(x => x.EntryCandidates[0].IndividualCandidatesVoteCount = 2));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionBallotGroupCandidatesUpdated>();
         eventData.MatchSnapshot("event");
     }
@@ -83,14 +83,14 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
 
         await TestEventPublisher.Publish(ev);
 
-        var ballotGroupCandidates = await AdminClient.ListBallotGroupCandidatesAsync(new ListMajorityElectionBallotGroupCandidatesRequest
+        var ballotGroupCandidates = await ElectionAdminClient.ListBallotGroupCandidatesAsync(new ListMajorityElectionBallotGroupCandidatesRequest
         {
             BallotGroupId = MajorityElectionMockedData.BallotGroupIdStGallenMajorityElectionInContestBund,
         });
 
         ballotGroupCandidates.MatchSnapshot();
 
-        var ballotGroups = await AdminClient.ListBallotGroupsAsync(new ListMajorityElectionBallotGroupsRequest
+        var ballotGroups = await ElectionAdminClient.ListBallotGroupsAsync(new ListMajorityElectionBallotGroupsRequest
         {
             MajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund,
         });
@@ -108,7 +108,7 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
     public async Task MissingEntriesShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotGroupCandidatesAsync(NewValidRequest(o => o.EntryCandidates.Clear())),
+            async () => await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(NewValidRequest(o => o.EntryCandidates.Clear())),
             StatusCode.InvalidArgument);
     }
 
@@ -116,7 +116,7 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
     public async Task DuplicateEntriesShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotGroupCandidatesAsync(NewValidRequest(o =>
+            async () => await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(NewValidRequest(o =>
             o.EntryCandidates.Add(o.EntryCandidates[0]))),
             StatusCode.InvalidArgument);
     }
@@ -125,7 +125,7 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
     public async Task BallotGroupWithCandidateCountNotOkInPastContestShouldWork()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
-        await AdminClient.UpdateBallotGroupCandidatesAsync(new UpdateMajorityElectionBallotGroupCandidatesRequest
+        await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(new UpdateMajorityElectionBallotGroupCandidatesRequest
         {
             BallotGroupId = MajorityElectionMockedData.BallotGroupId2GossauMajorityElectionInContestBund,
             EntryCandidates =
@@ -155,7 +155,7 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotGroupCandidatesAsync(new UpdateMajorityElectionBallotGroupCandidatesRequest
+            async () => await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(new UpdateMajorityElectionBallotGroupCandidatesRequest
             {
                 BallotGroupId = MajorityElectionMockedData.BallotGroupId1GossauMajorityElectionInContestBund,
                 EntryCandidates =
@@ -187,7 +187,7 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastLocked);
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotGroupCandidatesAsync(new UpdateMajorityElectionBallotGroupCandidatesRequest
+            async () => await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(new UpdateMajorityElectionBallotGroupCandidatesRequest
             {
                 BallotGroupId = MajorityElectionMockedData.BallotGroupId1GossauMajorityElectionInContestBund,
                 EntryCandidates =
@@ -222,14 +222,13 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
             x => x.IndividualCandidatesDisabled = true);
 
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotGroupCandidatesAsync(NewValidRequest(x => x.EntryCandidates[0].IndividualCandidatesVoteCount = 1)),
+            async () => await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(NewValidRequest(x => x.EntryCandidates[0].IndividualCandidatesVoteCount = 1)),
             StatusCode.InvalidArgument,
             "Individual candidates vote count not enabled on ballot group entry");
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

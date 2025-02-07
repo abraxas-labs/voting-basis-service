@@ -39,7 +39,7 @@ public class ProportionalElectionUnionDeleteTest : PoliticalBusinessUnionAuthori
     [Fact]
     public async Task TestShouldReturnOk()
     {
-        await AdminClient.DeleteAsync(new DeleteProportionalElectionUnionRequest
+        await CantonAdminClient.DeleteAsync(new DeleteProportionalElectionUnionRequest
         {
             Id = ProportionalElectionUnionMockedData.IdStGallen1,
         });
@@ -53,7 +53,7 @@ public class ProportionalElectionUnionDeleteTest : PoliticalBusinessUnionAuthori
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.DeleteAsync(new DeleteProportionalElectionUnionRequest
+            await CantonAdminClient.DeleteAsync(new DeleteProportionalElectionUnionRequest
             {
                 Id = ProportionalElectionUnionMockedData.IdStGallen1,
             });
@@ -82,7 +82,7 @@ public class ProportionalElectionUnionDeleteTest : PoliticalBusinessUnionAuthori
     public async Task InvalidIdShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteProportionalElectionUnionRequest
+            async () => await CantonAdminClient.DeleteAsync(new DeleteProportionalElectionUnionRequest
             {
                 Id = "b4e22024-113b-49ac-8460-2bf1c4a074b1",
             }),
@@ -104,7 +104,6 @@ public class ProportionalElectionUnionDeleteTest : PoliticalBusinessUnionAuthori
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

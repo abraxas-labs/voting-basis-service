@@ -52,7 +52,7 @@ public class CountingCircleUpdateScheduledMergerTest : BaseGrpcTest<CountingCirc
     [Fact]
     public async Task TestShouldPublishAndReturnOk()
     {
-        await AdminClient.UpdateScheduledMergerAsync(NewValidRequest());
+        await CantonAdminClient.UpdateScheduledMergerAsync(NewValidRequest());
         var eventData = EventPublisherMock.GetSinglePublishedEvent<CountingCirclesMergerScheduleUpdated>();
         eventData.MatchSnapshot(x => x.Merger.Id, x => x.Merger.NewCountingCircle.Id);
     }
@@ -60,7 +60,7 @@ public class CountingCircleUpdateScheduledMergerTest : BaseGrpcTest<CountingCirc
     [Fact]
     public async Task TestShouldPublishMergeIfTodayAndReturnOk()
     {
-        await AdminClient.UpdateScheduledMergerAsync(NewValidRequest(x => x.ActiveFrom = MockedClock.GetTimestampDate()));
+        await CantonAdminClient.UpdateScheduledMergerAsync(NewValidRequest(x => x.ActiveFrom = MockedClock.GetTimestampDate()));
         var mergeEvent = EventPublisherMock.GetSinglePublishedEvent<CountingCirclesMergerScheduleUpdated>();
         mergeEvent.Merger.Id.Should().NotBeEmpty();
         EventPublisherMock.GetSinglePublishedEvent<CountingCirclesMergerActivated>()
@@ -123,34 +123,34 @@ public class CountingCircleUpdateScheduledMergerTest : BaseGrpcTest<CountingCirc
     [Fact]
     public Task NotExistingMergedCountingCircleId()
         => AssertStatus(
-            async () => await AdminClient.UpdateScheduledMergerAsync(NewValidRequest(x => x.MergedCountingCircleIds.Add("2d1940fd-039b-437d-9d93-0e9af39a3551"))),
+            async () => await CantonAdminClient.UpdateScheduledMergerAsync(NewValidRequest(x => x.MergedCountingCircleIds.Add("2d1940fd-039b-437d-9d93-0e9af39a3551"))),
             StatusCode.InvalidArgument,
             "Some counting circle ids to merge do not exist or are duplicates");
 
     [Fact]
     public Task DuplicateMergedCountingCircleId()
         => AssertStatus(
-            async () => await AdminClient.UpdateScheduledMergerAsync(NewValidRequest(x => x.MergedCountingCircleIds.Add(CountingCircleMockedData.IdRapperswil))),
+            async () => await CantonAdminClient.UpdateScheduledMergerAsync(NewValidRequest(x => x.MergedCountingCircleIds.Add(CountingCircleMockedData.IdRapperswil))),
             StatusCode.InvalidArgument,
             "Some counting circle ids to merge are duplicates");
 
     [Fact]
     public Task OnlyOneMergedCountingCircleId()
         => AssertStatus(
-            async () => await AdminClient.UpdateScheduledMergerAsync(NewValidRequest(x => x.MergedCountingCircleIds.RemoveAt(1))),
+            async () => await CantonAdminClient.UpdateScheduledMergerAsync(NewValidRequest(x => x.MergedCountingCircleIds.RemoveAt(1))),
             StatusCode.InvalidArgument,
             "Count");
 
     [Fact]
     public Task CopyFromIdNotInMergedCountingCircleIds()
         => AssertStatus(
-            async () => await AdminClient.UpdateScheduledMergerAsync(NewValidRequest(x => x.CopyFromCountingCircleId = CountingCircleMockedData.IdGossau)),
+            async () => await CantonAdminClient.UpdateScheduledMergerAsync(NewValidRequest(x => x.CopyFromCountingCircleId = CountingCircleMockedData.IdGossau)),
             StatusCode.InvalidArgument);
 
     [Fact]
     public Task NotFound()
         => AssertStatus(
-            async () => await AdminClient.UpdateScheduledMergerAsync(NewValidRequest(x => x.NewCountingCircleId = "3827a808-860d-4e3a-a289-d0f7dd48c887")),
+            async () => await CantonAdminClient.UpdateScheduledMergerAsync(NewValidRequest(x => x.NewCountingCircleId = "3827a808-860d-4e3a-a289-d0f7dd48c887")),
             StatusCode.NotFound);
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
@@ -159,7 +159,6 @@ public class CountingCircleUpdateScheduledMergerTest : BaseGrpcTest<CountingCirc
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
     }
 

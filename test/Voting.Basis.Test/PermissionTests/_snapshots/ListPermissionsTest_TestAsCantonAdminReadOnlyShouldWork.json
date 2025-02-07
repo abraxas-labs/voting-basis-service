@@ -1,0 +1,30 @@
+{
+  "Permission": [
+    "CantonSettings:read-same-tenant",
+    "DomainOfInfluence.Logo:read",
+    "DomainOfInfluence.Hierarchy:read-same-canton",
+    "DomainOfInfluence:read-same-canton",
+    "CountingCircle:read-same-canton",
+    "Contest:read-same-canton",
+    "PoliticalAssembly:read-same-canton",
+    "PoliticalBusiness:read-actions-tenant-same-canton",
+    "PoliticalBusiness:read-actions-same-tenant",
+    "PoliticalBusinessUnion:actions-tenant-same-canton",
+    "Vote:read",
+    "VoteBallot:read",
+    "ProportionalElection:read",
+    "ProportionalElection.List:read",
+    "ProportionalElection.ListUnion:read",
+    "ProportionalElection.Candidate:read",
+    "ProportionalElection.Union:read",
+    "MajorityElection:read",
+    "MajorityElection.Candidate:read",
+    "MajorityElection.BallotGroup:read",
+    "MajorityElection.Union:read",
+    "SecondaryMajorityElection:read",
+    "SecondaryMajorityElection.Candidate:read",
+    "EventLog:read-same-tenant",
+    "Export:export",
+    "Export:export-all-political-businesses"
+  ]
+}

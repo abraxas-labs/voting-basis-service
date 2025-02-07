@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Services.V1;
+using Abraxas.Voting.Basis.Services.V1.Models;
+using Abraxas.Voting.Basis.Services.V1.Requests;
 using Abraxas.Voting.Basis.Shared.V1;
 using FluentAssertions;
 using Grpc.Core;
@@ -14,6 +16,7 @@ using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Configuration;
 using Voting.Basis.Data;
 using Voting.Basis.Test.MockedData;
+using Voting.Basis.Test.ProtoValidatorTests.Models;
 using Voting.Lib.Eventing.Testing.Mocks;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing;
@@ -46,24 +49,40 @@ public abstract class BaseServiceModeTest<TFactory> : BaseTest<TFactory, TestSta
 
         DatabaseUtil.Truncate(GetService<DataContext>());
         using var channel = CreateGrpcChannel(Roles.Admin);
-        var client = new CountingCircleService.CountingCircleServiceClient(channel);
+        var client = new CantonSettingsService.CantonSettingsServiceClient(channel);
         var resp = await client
             .CreateAsync(
-                new()
+                new CreateCantonSettingsRequest
                 {
-                    Bfs = "123",
-                    Code = "123",
-                    Name = "test",
-                    ResponsibleAuthority = new() { SecureConnectId = SecureConnectTestDefaults.MockedTenantDefault.Id },
-                    ContactPersonAfterEvent = new(),
-                    ContactPersonDuringEvent = new(),
-                    ContactPersonSameDuringEventAsAfter = true,
                     Canton = DomainOfInfluenceCanton.Sg,
+                    AuthorityName = "St.Gallen",
+                    SecureConnectId = SecureConnectTestDefaults.MockedTenantDefault.Id,
+                    ProportionalElectionMandateAlgorithms = { ProportionalElectionMandateAlgorithm.HagenbachBischoff, ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiQuorum },
+                    MajorityElectionAbsoluteMajorityAlgorithm = CantonMajorityElectionAbsoluteMajorityAlgorithm.ValidBallotsDividedByTwo,
+                    MajorityElectionInvalidVotes = true,
+                    SwissAbroadVotingRight = SwissAbroadVotingRight.NoRights,
+                    SwissAbroadVotingRightDomainOfInfluenceTypes = { DomainOfInfluenceType.Ch, DomainOfInfluenceType.Ct },
+                    EnabledPoliticalBusinessUnionTypes = { PoliticalBusinessUnionType.PoliticalBusinessUnionMajorityElection },
+                    EnabledVotingCardChannels =
+                    {
+                        new[]
+                        {
+                            new CantonSettingsVotingCardChannel
+                            {
+                                Valid = true,
+                                VotingChannel = VotingChannel.Paper,
+                            },
+                        },
+                    },
+                    VotingDocumentsEVotingEaiMessageType = "1234567",
+                    ProtocolDomainOfInfluenceSortType = ProtocolDomainOfInfluenceSortType.SortNumber,
+                    ProtocolCountingCircleSortType = ProtocolCountingCircleSortType.Alphabetical,
+                    CountingCircleResultStateDescriptions = { CountingCircleResultStateDescriptionTest.NewValid() },
                 });
         resp.Id.Should().NotBeNull();
 
-        var createdEvent = eventPublisherMock.GetSinglePublishedEvent<CountingCircleCreated>();
-        Guid.Parse(createdEvent.CountingCircle.Id).Should().Be(resp.Id);
+        var createdEvent = eventPublisherMock.GetSinglePublishedEvent<CantonSettingsCreated>();
+        Guid.Parse(createdEvent.CantonSettings.Id).Should().Be(resp.Id);
     }
 
     [Fact]

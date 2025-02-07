@@ -45,7 +45,7 @@ public class ProportionalElectionListsAndCandidatesImportService
     {
         var proportionalElection = await _aggregateRepository.GetById<ProportionalElectionAggregate>(proportionalElectionId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId, false);
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
 
         var partyIds = await _domainOfInfluenceReader.GetPartyIds(proportionalElection.DomainOfInfluenceId);

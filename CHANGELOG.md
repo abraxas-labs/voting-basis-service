@@ -1,4 +1,4 @@
-# ✨ Changelog (`v2.35.2`)
+# ✨ Changelog (`v2.43.0`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,121 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v2.35.2
-Previous version ---- v2.28.0
+This version -------- v2.43.0
+Previous version ---- v2.35.2
 Initial version ----- v1.27.15
-Total commits ------- 19
+Total commits ------- 21
 ```
+
+## [v2.43.0] - 2025-02-06
+
+### :new: Added
+
+- added hide lower domain of influences in reports flag
+
+## [v2.42.1] - 2025-01-10
+
+### 🔄 Changed
+
+- update voting library from 12.20.0 to 12.22.3
+
+### 🔒 Security
+
+- use updated Pkcs11Interop library version 5.2.0
+
+## [v2.42.0] - 2025-01-10
+
+### :arrows_counterclockwise: Changed
+
+- restrict admin permissions
+
+## [v2.41.1] - 2025-01-10
+
+### 🔄 Changed
+
+- improve counting circle and domain of influence event processing performance
+
+## [v2.41.0] - 2024-12-18
+
+### 🔄 Changed
+
+- update minio lib and testcontainer according to latest operated version
+
+## [v2.40.0] - 2024-12-16
+
+### 🆕 Added
+
+- include user id in log output
+
+## [v2.39.0] - 2024-12-16
+
+### 🆕 Added
+
+- add secondary majority election protocols
+
+## [v2.38.0] - 2024-12-11
+
+### 🆕 Added
+
+- domain of influence voting card flat rate owner
+
+## [v2.37.4] - 2024-12-11
+
+### 🔄 Changed
+
+- majority election candidate optional values in active contest
+
+## [v2.37.3] - 2024-12-09
+
+### :arrows_counterclockwise: Changed
+
+- correctly export occupation title in eCH
+
+## [v2.37.2] - 2024-11-29
+
+### 🔄 Changed
+
+- export political lastname as family name
+
+## [v2.37.1] - 2024-11-29
+
+### 🔄 Changed
+
+- move resolve contest import from grpc to rest
+
+## [v2.37.0] - 2024-11-28
+
+### :new: Added
+
+- added read-only roles
+
+## [v2.36.0] - 2024-11-27
+
+### ❌ Removed
+
+- remove allowed candidates from secondary majority elections
+
+### 🔄 Changed
+
+- optimize SourceLink integration and use new ci/cd versioning capabilities
+- prevent duplicated commit ids in product version, only use SourceLink plugin.
+- extend .dockerignore file with additional exclusions
+
+### 🔄 Changed
+
+- only enable virtual top level on root domain of influence and restrict superior authority types
+
+### 🆕 Added
+
+- feat(VOTING-4526): allow to overwrite majority reference candidate number
+
+### 🔄 Changed
+
+- feat(VOTING-4526): canton settings flag secondary majority election on separate ballot
+
+### 🆕 Added
+
+- publish results option on domain of influence
 
 ## [v2.35.2] - 2024-10-31
 
@@ -171,55 +281,37 @@ patch ci-cd template version, align with new defaults
 
 - move environment specific app settings out of default file
 
-## [v2.25.0] - 2024-08-22
-
 ### 🆕 Added
 
 - add counting circle and proportional election list change listener
-
-## [v2.24.1] - 2024-08-20
 
 ### 🔄 Changed
 
 - ensure swagger generator can be disabled completely
 
-## [v2.24.0] - 2024-08-19
-
 ### 🔄 Changed
 
 - apply CORS allowed origin least privilege
-
-## [v2.23.4] - 2024-08-15
 
 ### 🔄 Changed
 
 - delete candidate throws if candidate is in a ballot group
 
-## [v2.23.3] - 2024-08-14
-
 ### 🔄 Changed
 
 - proportional election union main list optional
-
-## [v2.23.2] - 2024-08-14
 
 ### 🔄 Changed
 
 - include only domain of influences on municipality level for duplicated bfs validation
 
-## [v2.23.1] - 2024-08-13
-
 ### 🔄 Changed
 
 - Updated the VotingLibVersion property in the Common.props file from 12.10.1 to 12.10.5. This update includes improvements for the proto string validation for better error reporting.
 
-## [v2.23.0] - 2024-08-13
-
 ### 🔄 Changed
 
 - Change validation type of DOI/counting circle code from "alphanumeric whitespace" to "simple single line text"
-
-## [v2.22.0] - 2024-08-13
 
 ### 🔄 Changed
 
@@ -229,68 +321,46 @@ patch ci-cd template version, align with new defaults
 
 - add party to proportional election list
 
-## [v2.21.2] - 2024-08-12
-
 ### 🔄 Changed
 
 - deprecated sex type undefined
-
-## [v2.21.1] - 2024-08-08
 
 ### :arrows_counterclockwise: Changed
 
 - correctly track vote sub type when active state is updated
 
-## [v2.21.0] - 2024-08-07
-
 ### :new: Added
 
 - added political business sub type
-
-## [v2.20.1] - 2024-08-06
 
 ### :x: Removed
 
 - remove canton settings update same tenant permission
 
-## [v2.20.0] - 2024-07-29
-
 ### :new: Added
 
 - support variant vote on multiple ballots
-
-## [v2.19.0] - 2024-07-26
 
 ### 🔄 Changed
 
 - Make DOI short name optional
 - Increase max length of DOI/counting circle code to 20 from 12
 
-## [v2.18.0] - 2024-07-19
-
 ### 🆕 Added
 
 - canton settings with publish results before audited tentatively
-
-## [v2.17.1] - 2024-07-18
 
 ### 🔄 Changed
 
 - schedule the counting circle e-voting activation correctly
 
-## [v2.17.0] - 2024-07-16
-
 ### 🔄 Changed
 
 - set counting circle e-voting at a specific date
 
-## [v2.16.1] - 2024-07-15
-
 ### 🔒 Security
 
 - upgrade npgsql to fix vulnerability CVE-2024-0057
-
-## [v2.16.0] - 2024-07-11
 
 ### 🆕 Added
 
@@ -873,6 +943,131 @@ BREAKING CHANGE: Updated service to .NET 8 LTS.
 - extend evoting date with time
 
 The readmodel needs to be recreated after this MR.
+
+## [v2.25.0] - 2024-08-22
+
+### 🆕 Added
+
+- add counting circle and proportional election list change listener
+
+## [v2.24.1] - 2024-08-20
+
+### 🔄 Changed
+
+- ensure swagger generator can be disabled completely
+
+## [v2.24.0] - 2024-08-19
+
+### 🔄 Changed
+
+- apply CORS allowed origin least privilege
+
+## [v2.23.4] - 2024-08-15
+
+### 🔄 Changed
+
+- delete candidate throws if candidate is in a ballot group
+
+## [v2.23.3] - 2024-08-14
+
+### 🔄 Changed
+
+- proportional election union main list optional
+
+## [v2.23.2] - 2024-08-14
+
+### 🔄 Changed
+
+- include only domain of influences on municipality level for duplicated bfs validation
+
+## [v2.23.1] - 2024-08-13
+
+### 🔄 Changed
+
+- Updated the VotingLibVersion property in the Common.props file from 12.10.1 to 12.10.5. This update includes improvements for the proto string validation for better error reporting.
+
+## [v2.23.0] - 2024-08-13
+
+### 🔄 Changed
+
+- Change validation type of DOI/counting circle code from "alphanumeric whitespace" to "simple single line text"
+
+## [v2.22.0] - 2024-08-13
+
+### 🔄 Changed
+
+- update proto version
+
+### 🆕 Added
+
+- add party to proportional election list
+
+## [v2.21.2] - 2024-08-12
+
+### 🔄 Changed
+
+- deprecated sex type undefined
+
+## [v2.21.1] - 2024-08-08
+
+### :arrows_counterclockwise: Changed
+
+- correctly track vote sub type when active state is updated
+
+## [v2.21.0] - 2024-08-07
+
+### :new: Added
+
+- added political business sub type
+
+## [v2.20.1] - 2024-08-06
+
+### :x: Removed
+
+- remove canton settings update same tenant permission
+
+## [v2.20.0] - 2024-07-29
+
+### :new: Added
+
+- support variant vote on multiple ballots
+
+## [v2.19.0] - 2024-07-26
+
+### 🔄 Changed
+
+- Make DOI short name optional
+- Increase max length of DOI/counting circle code to 20 from 12
+
+## [v2.18.0] - 2024-07-19
+
+### 🆕 Added
+
+- canton settings with publish results before audited tentatively
+
+## [v2.17.1] - 2024-07-18
+
+### 🔄 Changed
+
+- schedule the counting circle e-voting activation correctly
+
+## [v2.17.0] - 2024-07-16
+
+### 🔄 Changed
+
+- set counting circle e-voting at a specific date
+
+## [v2.16.1] - 2024-07-15
+
+### 🔒 Security
+
+- upgrade npgsql to fix vulnerability CVE-2024-0057
+
+## [v2.16.0] - 2024-07-11
+
+### 🆕 Added
+
+- add role ApiReaderDoi
 
 ## [v2.15.2] - 2024-07-04
 

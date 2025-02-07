@@ -68,7 +68,7 @@
         </election>
         <candidate>
           <candidateIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">194ff485-6eb9-4d98-8bec-855a2ec92650</candidateIdentification>
-          <familyName xmlns="http://www.ech.ch/xmlns/eCH-0155/4">lastName</familyName>
+          <familyName xmlns="http://www.ech.ch/xmlns/eCH-0155/4">pol last name</familyName>
           <firstName xmlns="http://www.ech.ch/xmlns/eCH-0155/4">firstName</firstName>
           <callName xmlns="http://www.ech.ch/xmlns/eCH-0155/4">pol first name</callName>
           <candidateText xmlns="http://www.ech.ch/xmlns/eCH-0155/4">

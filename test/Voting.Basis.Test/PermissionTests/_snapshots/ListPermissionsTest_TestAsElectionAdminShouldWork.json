@@ -17,6 +17,8 @@
     "PoliticalAssembly:update",
     "PoliticalAssembly:delete",
     "PoliticalAssembly:read-tenant-hierarchy",
+    "PoliticalBusiness:read-actions-same-tenant",
+    "PoliticalBusiness:write-actions-same-tenant",
     "Vote:create",
     "Vote:update",
     "Vote:read",

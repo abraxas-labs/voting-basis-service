@@ -16,7 +16,7 @@
         "Nanos": 200000000
       }
     },
-    "Id": "f70ffba1-1cfd-402b-b6ea-f2c9f802886a",
+    "Id": "",
     "FirstName": "update first name",
     "LastName": "updated last name",
     "PoliticalFirstName": "updated p. first name",
@@ -43,42 +43,9 @@
     "Incumbent": true,
     "ZipCode": "",
     "Locality": "locality updated",
-    "SecondaryMajorityElectionId": "0741da26-add2-4c4c-960d-7e251b82e91b",
-    "PrimaryMajorityElectionId": "b0da46f8-a721-4e1a-ac36-25284d68f34b",
-    "Origin": ""
-  },
-  "response": {
-    "Id": "f70ffba1-1cfd-402b-b6ea-f2c9f802886a",
-    "MajorityElectionId": "0741da26-add2-4c4c-960d-7e251b82e91b",
-    "Number": "number2",
-    "FirstName": "update first name",
-    "LastName": "updated last name",
-    "PoliticalFirstName": "updated p. first name",
-    "PoliticalLastName": "updated p. last name",
-    "DateOfBirth": {
-      "Seconds": 639273600,
-      "Nanos": 0
-    },
-    "Sex": 1,
-    "Occupation": {
-      "de": "occupation updated de",
-      "fr": "occupation updated fr",
-      "it": "occupation updated it",
-      "rm": "occupation updated rm"
-    },
-    "Title": "",
-    "OccupationTitle": {},
-    "Party": {
-      "de": "PU de",
-      "fr": "PU fr",
-      "it": "PU it",
-      "rm": "PU rm"
-    },
-    "Incumbent": true,
-    "ZipCode": "",
-    "Locality": "locality updated",
-    "Position": 2,
+    "SecondaryMajorityElectionId": "654455b1-85a1-44c2-ad7b-8a8e7ea29d95",
+    "PrimaryMajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
     "Origin": "",
-    "CheckDigit": 7
+    "IsOnSeparateBallot": false
   }
 }

@@ -49,7 +49,7 @@ public class MajorityElectionEchExportGenerator : IExportGenerator
             .FirstOrDefaultAsync()
             ?? throw new EntityNotFoundException(electionId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(majorityElection.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(majorityElection.DomainOfInfluenceId, true);
 
         var xmlBytes = _ech0157Serializer.ToDelivery(majorityElection.Contest, majorityElection);
         var electionDescription = LanguageUtil.GetInCurrentLanguage(majorityElection.ShortDescription);

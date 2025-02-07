@@ -30,16 +30,6 @@ public class VoteGetTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteServic
     }
 
     [Fact]
-    public async Task TestAsAdminShouldReturnOk()
-    {
-        var response = await AdminClient.GetAsync(new GetVoteRequest
-        {
-            Id = VoteMockedData.IdGossauVoteInContestStGallen,
-        });
-        response.MatchSnapshot();
-    }
-
-    [Fact]
     public async Task TestAsElectionAdminShouldReturnOk()
     {
         var response = await ElectionAdminClient.GetAsync(new GetVoteRequest
@@ -63,7 +53,7 @@ public class VoteGetTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteServic
     public async Task TestNotFound()
     {
         await AssertStatus(
-            async () => await AdminClient.GetAsync(new GetVoteRequest
+            async () => await CantonAdminClient.GetAsync(new GetVoteRequest
             {
                 Id = IdNotFound,
             }),
@@ -81,9 +71,10 @@ public class VoteGetTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteServic
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
+        yield return Roles.CantonAdminReadOnly;
         yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
     }
 }

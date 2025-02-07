@@ -92,4 +92,13 @@ public class DomainOfInfluence
     public Guid? SuperiorAuthorityDomainOfInfluenceId { get; set; }
 
     public bool StistatMunicipality { get; set; }
+
+    public bool PublishResultsDisabled { get; set; }
+
+    public bool VotingCardFlatRateDisabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether domain of influences lower in the hierarchy than this should not be displayed in reports.
+    /// </summary>
+    public bool HideLowerDomainOfInfluencesInReports { get; set; }
 }

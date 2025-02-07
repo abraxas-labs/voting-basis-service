@@ -37,7 +37,7 @@ public class PoliticalAssemblyUpdateTest : BaseGrpcTest<PoliticalAssemblyService
     public async Task Test()
     {
         var req = NewValidRequest();
-        await AdminClient.UpdateAsync(req);
+        await CantonAdminClient.UpdateAsync(req);
         var eventData = EventPublisherMock.GetSinglePublishedEvent<PoliticalAssemblyUpdated>();
         eventData.MatchSnapshot("event", d => d.PoliticalAssembly.Id);
     }
@@ -45,7 +45,6 @@ public class PoliticalAssemblyUpdateTest : BaseGrpcTest<PoliticalAssemblyService
     [Fact]
     public async Task TestAggregate()
     {
-        var id = Guid.Parse(PoliticalAssemblyMockedData.IdGossau);
         var ev = new PoliticalAssemblyUpdated
         {
             PoliticalAssembly = new PoliticalAssemblyEventData
@@ -57,7 +56,7 @@ public class PoliticalAssemblyUpdateTest : BaseGrpcTest<PoliticalAssemblyService
             },
         };
         await TestEventPublisher.Publish(ev);
-        var politicalAssembly = await AdminClient.GetAsync(new GetPoliticalAssemblyRequest { Id = PoliticalAssemblyMockedData.IdGossau });
+        var politicalAssembly = await CantonAdminClient.GetAsync(new GetPoliticalAssemblyRequest { Id = PoliticalAssemblyMockedData.IdGossau });
         politicalAssembly.MatchSnapshot();
     }
 
@@ -65,7 +64,7 @@ public class PoliticalAssemblyUpdateTest : BaseGrpcTest<PoliticalAssemblyService
     public async Task NoDescriptionShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o => o.Description.Clear())),
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o => o.Description.Clear())),
             StatusCode.InvalidArgument,
             "Description");
     }
@@ -74,7 +73,7 @@ public class PoliticalAssemblyUpdateTest : BaseGrpcTest<PoliticalAssemblyService
     public async Task EndOfTestingPhaseBeforeNowShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
             {
                 o.Date = MockedClock.GetTimestampDate(-10);
             })),
@@ -108,7 +107,6 @@ public class PoliticalAssemblyUpdateTest : BaseGrpcTest<PoliticalAssemblyService
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
     }

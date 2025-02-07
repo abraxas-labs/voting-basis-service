@@ -39,7 +39,7 @@ public class ProportionalElectionListCreateTest : PoliticalBusinessAuthorization
     [Fact]
     public async Task Test()
     {
-        var response = await AdminClient.CreateListAsync(NewValidRequest());
+        var response = await CantonAdminClient.CreateListAsync(NewValidRequest());
 
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionListCreated, EventSignatureBusinessMetadata>();
 
@@ -53,7 +53,7 @@ public class ProportionalElectionListCreateTest : PoliticalBusinessAuthorization
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.CreateListAsync(NewValidRequest());
+            await CantonAdminClient.CreateListAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<ProportionalElectionListCreated>();
         });
     }
@@ -92,11 +92,11 @@ public class ProportionalElectionListCreateTest : PoliticalBusinessAuthorization
                 },
             });
 
-        var list1 = await AdminClient.GetListAsync(new GetProportionalElectionListRequest
+        var list1 = await CantonAdminClient.GetListAsync(new GetProportionalElectionListRequest
         {
             Id = listId1.ToString(),
         });
-        var list2 = await AdminClient.GetListAsync(new GetProportionalElectionListRequest
+        var list2 = await CantonAdminClient.GetListAsync(new GetProportionalElectionListRequest
         {
             Id = listId2.ToString(),
         });
@@ -139,7 +139,7 @@ public class ProportionalElectionListCreateTest : PoliticalBusinessAuthorization
     public async Task MoreBlankRowsThanNumberOfMandatesShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateListAsync(NewValidRequest(o => o.BlankRowCount = 564)),
+            async () => await CantonAdminClient.CreateListAsync(NewValidRequest(o => o.BlankRowCount = 564)),
             StatusCode.InvalidArgument);
     }
 
@@ -147,7 +147,7 @@ public class ProportionalElectionListCreateTest : PoliticalBusinessAuthorization
     public async Task NonContinuousPositionShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateListAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.CreateListAsync(NewValidRequest(o =>
             {
                 // this proportional election already has lists, so the list position can't be 1
                 o.ProportionalElectionId = ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallen;
@@ -161,7 +161,7 @@ public class ProportionalElectionListCreateTest : PoliticalBusinessAuthorization
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.CreateListAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.CreateListAsync(NewValidRequest(o =>
             {
                 o.ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
             })),
@@ -171,7 +171,6 @@ public class ProportionalElectionListCreateTest : PoliticalBusinessAuthorization
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

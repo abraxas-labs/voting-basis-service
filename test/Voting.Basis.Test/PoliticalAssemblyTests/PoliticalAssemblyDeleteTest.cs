@@ -40,7 +40,7 @@ public class PoliticalAssemblyDeleteTest : BaseGrpcTest<PoliticalAssemblyService
     [Fact]
     public async Task InvalidGuidShouldThrow()
         => await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeletePoliticalAssemblyRequest
+            async () => await ElectionAdminClient.DeleteAsync(new DeletePoliticalAssemblyRequest
             {
                 Id = IdInvalid,
             }),
@@ -49,7 +49,7 @@ public class PoliticalAssemblyDeleteTest : BaseGrpcTest<PoliticalAssemblyService
     [Fact]
     public async Task TestNotFound()
         => await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeletePoliticalAssemblyRequest
+            async () => await ElectionAdminClient.DeleteAsync(new DeletePoliticalAssemblyRequest
             {
                 Id = IdNotFound,
             }),
@@ -58,7 +58,7 @@ public class PoliticalAssemblyDeleteTest : BaseGrpcTest<PoliticalAssemblyService
     [Fact]
     public async Task Test()
     {
-        await AdminClient.DeleteAsync(new DeletePoliticalAssemblyRequest
+        await ElectionAdminClient.DeleteAsync(new DeletePoliticalAssemblyRequest
         {
             Id = PoliticalAssemblyMockedData.IdGossau,
         });
@@ -126,7 +126,6 @@ public class PoliticalAssemblyDeleteTest : BaseGrpcTest<PoliticalAssemblyService
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
     }

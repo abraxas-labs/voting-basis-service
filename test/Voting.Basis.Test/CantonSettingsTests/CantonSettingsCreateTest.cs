@@ -260,9 +260,10 @@ public class CantonSettingsCreateTest : BaseGrpcTest<CantonSettingsService.Canto
                 },
             },
             StatePlausibilisedDisabled = true,
-            PublishResultsEnabled = true,
+            ManualPublishResultsEnabled = true,
             EndResultFinalizeDisabled = true,
             PublishResultsBeforeAuditedTentatively = true,
+            DomainOfInfluencePublishResultsOptionEnabled = true,
         };
         customizer?.Invoke(request);
         return request;

@@ -36,7 +36,7 @@ public class ProportionalElectionListUnionCreateTest : PoliticalBusinessAuthoriz
     [Fact]
     public async Task ListUnionShouldReturnOk()
     {
-        var response = await AdminClient.CreateListUnionAsync(NewValidRequest());
+        var response = await CantonAdminClient.CreateListUnionAsync(NewValidRequest());
 
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionListUnionCreated, EventSignatureBusinessMetadata>();
 
@@ -48,7 +48,7 @@ public class ProportionalElectionListUnionCreateTest : PoliticalBusinessAuthoriz
     [Fact]
     public async Task SubListUnionShouldReturnOk()
     {
-        var response = await AdminClient.CreateListUnionAsync(NewValidRequest(o =>
+        var response = await CantonAdminClient.CreateListUnionAsync(NewValidRequest(o =>
         {
             o.ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestStGallen;
             o.Position = 3;
@@ -66,7 +66,7 @@ public class ProportionalElectionListUnionCreateTest : PoliticalBusinessAuthoriz
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.CreateListUnionAsync(NewValidRequest());
+            await CantonAdminClient.CreateListUnionAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<ProportionalElectionListUnionCreated>();
         });
     }
@@ -96,11 +96,11 @@ public class ProportionalElectionListUnionCreateTest : PoliticalBusinessAuthoriz
                 },
             });
 
-        var listUnion1 = await AdminClient.GetListUnionAsync(new GetProportionalElectionListUnionRequest
+        var listUnion1 = await CantonAdminClient.GetListUnionAsync(new GetProportionalElectionListUnionRequest
         {
             Id = "430f11f8-82bf-4f39-a2b9-d76e8c9dab08",
         });
-        var listUnion2 = await AdminClient.GetListUnionAsync(new GetProportionalElectionListUnionRequest
+        var listUnion2 = await CantonAdminClient.GetListUnionAsync(new GetProportionalElectionListUnionRequest
         {
             Id = "c995e944-5b49-40f8-a75b-814a10ebc0f0",
         });
@@ -112,7 +112,7 @@ public class ProportionalElectionListUnionCreateTest : PoliticalBusinessAuthoriz
     public async Task SubListUnionInSubListUnionShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateListUnionAsync(NewValidRequest(lu =>
+            async () => await CantonAdminClient.CreateListUnionAsync(NewValidRequest(lu =>
             {
                 lu.ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestStGallen;
                 lu.ProportionalElectionRootListUnionId = ProportionalElectionMockedData.SubListUnion11IdGossauProportionalElectionInContestStGallen;
@@ -125,7 +125,7 @@ public class ProportionalElectionListUnionCreateTest : PoliticalBusinessAuthoriz
     public async Task NonContinuousPositionShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateListUnionAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.CreateListUnionAsync(NewValidRequest(o =>
             {
                 // this proportional election already has 2 list unions, so the list position can't be 2
                 o.ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestStGallen;
@@ -139,7 +139,7 @@ public class ProportionalElectionListUnionCreateTest : PoliticalBusinessAuthoriz
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.CreateListUnionAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.CreateListUnionAsync(NewValidRequest(o =>
             {
                 o.ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
                 o.Position = 2;
@@ -159,7 +159,6 @@ public class ProportionalElectionListUnionCreateTest : PoliticalBusinessAuthoriz
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

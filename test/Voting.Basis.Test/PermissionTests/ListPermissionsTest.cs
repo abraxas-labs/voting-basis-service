@@ -41,9 +41,23 @@ public class ListPermissionsTest : BaseGrpcTest<PermissionService.PermissionServ
     }
 
     [Fact]
+    public async Task TestAsCantonAdminReadOnlyShouldWork()
+    {
+        var response = await CantonAdminReadOnlyClient.ListAsync(new Empty());
+        response.MatchSnapshot();
+    }
+
+    [Fact]
     public async Task TestAsElectionAdminShouldWork()
     {
         var response = await ElectionAdminClient.ListAsync(new Empty());
+        response.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task TestAsElectionAdminReadOnlyShouldWork()
+    {
+        var response = await ElectionAdminReadOnlyClient.ListAsync(new Empty());
         response.MatchSnapshot();
     }
 

@@ -25,6 +25,7 @@ using Voting.Lib.Grpc.Interceptors;
 using Voting.Lib.MalwareScanner.DependencyInjection;
 using Voting.Lib.Rest.Middleware;
 using Voting.Lib.Rest.Swagger.DependencyInjection;
+using Voting.Lib.Rest.Utils;
 using ExceptionHandler = Voting.Basis.Middlewares.ExceptionHandler;
 using ExceptionInterceptor = Voting.Basis.Interceptors.ExceptionInterceptor;
 
@@ -57,8 +58,9 @@ public class Startup
         services.AddVotingLibPrometheusAdapter(new() { Interval = _appConfig.PrometheusAdapterInterval });
 
         services.AddMalwareScanner(_appConfig.MalwareScanner);
+        services.AddSingleton<MultipartRequestHelper>();
 
-        ConfigureAuthentication(services.AddVotingLibIam(new() { BaseUrl = _appConfig.SecureConnectApi }));
+        ConfigureAuthentication(services.AddVotingLibIam(new() { BaseUrl = _appConfig.SecureConnectApi }, _appConfig.AuthStore));
 
         if (_appConfig.PublisherModeEnabled)
         {

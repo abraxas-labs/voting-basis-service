@@ -1,6 +1,7 @@
 ﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System.IO;
 using System.Linq;
 using Ech0159_4_0;
 using Voting.Basis.Data.Models;
@@ -22,12 +23,12 @@ public class Ech0159Deserializer
     /// <summary>
     /// Deserialize from eCH-0159.
     /// </summary>
-    /// <param name="xml">The serialized XML data.</param>
+    /// <param name="stream">The input stream.</param>
     /// <returns>The deserialized eCH-0159 contest.</returns>
-    public Contest DeserializeXml(string xml)
+    public Contest DeserializeXml(Stream stream)
     {
         var schemaSet = Ech0159Schemas.LoadEch0159Schemas();
-        var delivery = _deserializer.DeserializeXml<Delivery>(xml, schemaSet);
+        var delivery = _deserializer.DeserializeXml<Delivery>(stream, schemaSet);
         return FromEventInitialDelivery(delivery);
     }
 

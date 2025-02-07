@@ -329,7 +329,6 @@ public class DomainOfInfluenceUpdateForElectionAdminTest : BaseGrpcTest<DomainOf
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

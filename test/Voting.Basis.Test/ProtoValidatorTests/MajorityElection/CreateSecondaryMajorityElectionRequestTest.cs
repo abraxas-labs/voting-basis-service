@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using Abraxas.Voting.Basis.Services.V1.Requests;
-using Abraxas.Voting.Basis.Shared.V1;
 using Voting.Basis.Test.ProtoValidatorTests.Utils;
 using Voting.Lib.Testing.Utils;
 using Voting.Lib.Testing.Validation;
@@ -43,8 +42,6 @@ public class CreateSecondaryMajorityElectionRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, "de", RandomStringUtil.GenerateComplexSingleLineText(101)));
         yield return NewValidRequest(x => x.NumberOfMandates = 0);
         yield return NewValidRequest(x => x.NumberOfMandates = 101);
-        yield return NewValidRequest(x => x.AllowedCandidates = SecondaryMajorityElectionAllowedCandidates.Unspecified);
-        yield return NewValidRequest(x => x.AllowedCandidates = (SecondaryMajorityElectionAllowedCandidates)10);
         yield return NewValidRequest(x => x.PrimaryMajorityElectionId = "invalid-guid");
         yield return NewValidRequest(x => x.PrimaryMajorityElectionId = string.Empty);
     }
@@ -57,7 +54,6 @@ public class CreateSecondaryMajorityElectionRequestTest : ProtoValidatorBaseTest
             OfficialDescription = { LanguageUtil.MockAllLanguages("Neue Neben-Majorzwahl") },
             ShortDescription = { LanguageUtil.MockAllLanguages("Neue Neben-Majorzwahl") },
             NumberOfMandates = 5,
-            AllowedCandidates = SecondaryMajorityElectionAllowedCandidates.MayExistInPrimaryElection,
             PrimaryMajorityElectionId = "da36912c-7eaf-43fe-86d4-70c816f17c5a",
             Active = true,
         };

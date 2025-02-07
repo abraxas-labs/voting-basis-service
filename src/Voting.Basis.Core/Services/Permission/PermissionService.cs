@@ -93,11 +93,14 @@ public class PermissionService
         }
     }
 
-    public async Task EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(Guid domainOfInfluenceId)
+    public async Task EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(Guid domainOfInfluenceId, bool isReadAccess)
     {
         var tenantId = _auth.Tenant.Id;
 
-        if (_auth.HasPermission(Permissions.PoliticalBusiness.ActionsTenantSameCanton))
+        var sameCantonPermission = isReadAccess
+            ? Permissions.PoliticalBusiness.ReadActionsTenantSameCanton
+            : Permissions.PoliticalBusiness.WriteActionsTenantSameCanton;
+        if (_auth.HasPermission(sameCantonPermission))
         {
             var doi = await _doiRepo.Query()
                 .FirstOrDefaultAsync(doi => doi.Id == domainOfInfluenceId);
@@ -113,6 +116,14 @@ public class PermissionService
             return;
         }
 
+        var sameTenantPermission = isReadAccess
+            ? Permissions.PoliticalBusiness.ReadActionsSameTenant
+            : Permissions.PoliticalBusiness.WriteActionsSameTenant;
+        if (!_auth.HasPermission(sameTenantPermission))
+        {
+            throw new ForbiddenException("Not enough permissions to perform this action");
+        }
+
         var doiBelongsToThisTenant = await _doiRepo.Query()
             .AnyAsync(doi => doi.Id == domainOfInfluenceId && doi.SecureConnectId == tenantId);
 
@@ -122,12 +133,15 @@ public class PermissionService
         }
     }
 
-    public async Task EnsureIsOwnerOfDomainOfInfluencesOrHasAdminPermissions(IEnumerable<Guid> domainOfInfluenceIds)
+    public async Task EnsureIsOwnerOfDomainOfInfluencesOrHasAdminPermissions(IEnumerable<Guid> domainOfInfluenceIds, bool isReadAccess)
     {
         var tenantId = _auth.Tenant.Id;
         var doiIds = domainOfInfluenceIds.ToHashSet();
 
-        if (_auth.HasPermission(Permissions.PoliticalBusiness.ActionsTenantSameCanton))
+        var sameCantonPermission = isReadAccess
+            ? Permissions.PoliticalBusiness.ReadActionsTenantSameCanton
+            : Permissions.PoliticalBusiness.WriteActionsTenantSameCanton;
+        if (_auth.HasPermission(sameCantonPermission))
         {
             var authorizedCantons = await _cantonSettingsRepo.Query()
                 .Where(c => c.SecureConnectId == tenantId)

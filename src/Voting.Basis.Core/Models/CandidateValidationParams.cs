@@ -4,11 +4,13 @@
 using Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Core.Models;
-public class CandidateValidationParams(DomainOfInfluence doi)
+public class CandidateValidationParams(DomainOfInfluence doi, bool onlyNamesAndNumberRequired = false)
 {
-    public DomainOfInfluenceType DoiType { get; set; } = doi.Type;
+    public DomainOfInfluenceType DoiType { get; } = doi.Type;
 
-    public bool IsLocalityRequired { get; set; } = doi.CantonDefaults.CandidateLocalityRequired;
+    public bool IsLocalityRequired { get; } = doi.CantonDefaults.CandidateLocalityRequired && !onlyNamesAndNumberRequired;
 
-    public bool IsOriginRequired { get; set; } = doi.CantonDefaults.CandidateOriginRequired;
+    public bool IsOriginRequired { get; } = doi.CantonDefaults.CandidateOriginRequired && !onlyNamesAndNumberRequired;
+
+    public bool OnlyNamesAndNumberRequired { get; } = onlyNamesAndNumberRequired;
 }

@@ -17,6 +17,7 @@ using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
+using Voting.Lib.Common;
 using Voting.Lib.Testing.Utils;
 using Xunit;
 using SharedProto = Abraxas.Voting.Basis.Shared.V1;
@@ -39,7 +40,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
     [Fact]
     public async Task Test()
     {
-        var response = await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest());
+        var response = await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest());
 
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateCreated, EventSignatureBusinessMetadata>();
 
@@ -53,7 +54,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdBundContest, async () =>
         {
-            await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest());
+            await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<SecondaryMajorityElectionCandidateCreated>();
         });
     }
@@ -113,7 +114,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
                 },
             });
 
-        var candidates = await AdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
+        var candidates = await CantonAdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
         {
             SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
         });
@@ -150,7 +151,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
                 },
             });
 
-        var candidates = await AdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
+        var candidates = await CantonAdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
         {
             SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
         });
@@ -189,7 +190,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
                 },
             });
 
-        var candidates = await AdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
+        var candidates = await CantonAdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
         {
             SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
         });
@@ -203,7 +204,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastLocked);
         await AssertStatus(
-            async () => await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest()),
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest()),
             StatusCode.FailedPrecondition,
             "Contest is past locked or archived");
     }
@@ -212,7 +213,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
     public async Task DuplicateNumberShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Number = "number1")),
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Number = "number1")),
             StatusCode.AlreadyExists,
             "NonUniqueCandidateNumber");
     }
@@ -221,7 +222,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
     public async Task TooOldDateOfBirthShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.DateOfBirth = new DateTime(1820, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToTimestamp())),
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.DateOfBirth = new DateTime(1820, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToTimestamp())),
             StatusCode.InvalidArgument,
             "DateOfBirth");
     }
@@ -230,7 +231,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
     public async Task TooYoungDateOfBirthShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.DateOfBirth = new DateTime(2050, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToTimestamp())),
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.DateOfBirth = new DateTime(2050, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToTimestamp())),
             StatusCode.InvalidArgument,
             "DateOfBirth");
     }
@@ -239,7 +240,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
     public async Task NonContinuousPositionShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o =>
             {
                 // this secondary majority election already has candidates, so the position can't be 1
                 o.Position = 1;
@@ -248,10 +249,42 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
     }
 
     [Fact]
+    public async Task EmptyPartyShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Party.Clear())),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task NotAllPartyLanguagesShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Party.Remove(Languages.German))),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task EmptyDateOfBirthShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.DateOfBirth = null)),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task EmptySexShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Sex = SharedProto.SexType.Unspecified)),
+            StatusCode.InvalidArgument);
+    }
+
+    [Fact]
     public async Task CreateCandidateInContestWithTestingPhaseEndedShouldWork()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
-        await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(x =>
+        await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(x =>
             x.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateCreated>();
         eventData.MatchSnapshot("event", d => d.SecondaryMajorityElectionCandidate.Id);
@@ -265,7 +298,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
             doi => doi.CantonDefaults.CandidateLocalityRequired = true);
 
         await AssertStatus(
-            async () => await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Locality = string.Empty)),
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Locality = string.Empty)),
             StatusCode.InvalidArgument);
     }
 
@@ -277,7 +310,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
             doi => doi.CantonDefaults.CandidateOriginRequired = true);
 
         await AssertStatus(
-            async () => await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Origin = string.Empty)),
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Origin = string.Empty)),
             StatusCode.InvalidArgument);
     }
 
@@ -288,7 +321,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
             doi => true,
             doi => doi.CantonDefaults.CandidateLocalityRequired = true);
 
-        var response = await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o =>
+        var response = await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o =>
         {
             o.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund;
             o.Locality = string.Empty;
@@ -303,7 +336,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
             doi => true,
             doi => doi.CantonDefaults.CandidateOriginRequired = true);
 
-        var response = await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o =>
+        var response = await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o =>
         {
             o.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund;
             o.Origin = string.Empty;
@@ -314,20 +347,59 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
     [Fact]
     public async Task EmptyLocalityOnNonCommunalBusinessShouldWorkWhenOptional()
     {
-        var response = await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Locality = string.Empty));
+        var response = await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Locality = string.Empty));
         response.Id.Should().NotBeNull();
     }
 
     [Fact]
     public async Task EmptyOriginOnNonCommunalBusinessShouldWorkWhenOptional()
     {
-        var response = await AdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Origin = string.Empty));
+        var response = await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Origin = string.Empty));
+        response.Id.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task EmptyDateOfBirthAfterTestingPhaseEndedShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+        var response = await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.DateOfBirth = null));
+        response.Id.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task EmptySexAfterTestingPhaseEndedShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+        var response = await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Sex = SharedProto.SexType.Unspecified));
+        response.Id.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task EmptyPartyAfterTestingPhaseEndedShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+        var response = await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Party.Clear()));
+        response.Id.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task EmptyLocalityAfterTestingPhaseEndedShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+        var response = await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Locality = string.Empty));
+        response.Id.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task EmptyOriginAfterTestingPhaseEndedShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+        var response = await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Origin = string.Empty));
         response.Id.Should().NotBeNull();
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

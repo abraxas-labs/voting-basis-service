@@ -70,9 +70,8 @@ public class CountingCircleWriter
         var countingCircle = await _aggregateRepository.GetById<CountingCircleAggregate>(data.Id);
 
         await EnsureCanEdit(countingCircle);
-        var canUpdateAllFields = _auth.HasAnyPermission(Permissions.CountingCircle.UpdateAll, Permissions.CountingCircle.UpdateSameCanton);
-        var canUpdateCanton = _auth.HasPermission(Permissions.CountingCircle.UpdateAll);
-        countingCircle.UpdateFrom(data, canUpdateAllFields, canUpdateCanton);
+        var canUpdateAllFields = _auth.HasPermission(Permissions.CountingCircle.UpdateSameCanton);
+        countingCircle.UpdateFrom(data, canUpdateAllFields);
 
         await _aggregateRepository.Save(countingCircle);
     }
@@ -242,11 +241,6 @@ public class CountingCircleWriter
 
     private async Task EnsureCanCreate(Domain.CountingCircle countingCircle)
     {
-        if (_auth.HasPermission(Permissions.CountingCircle.CreateAll))
-        {
-            return;
-        }
-
         if (await _permissionService.IsOwnerOfCanton(countingCircle.Canton))
         {
             return;
@@ -257,11 +251,6 @@ public class CountingCircleWriter
 
     private async Task EnsureCanEdit(CountingCircleAggregate countingCircle)
     {
-        if (_auth.HasPermission(Permissions.CountingCircle.UpdateAll))
-        {
-            return;
-        }
-
         if (_auth.HasPermission(Permissions.CountingCircle.UpdateSameCanton) && await _permissionService.IsOwnerOfCanton(countingCircle.Canton))
         {
             return;
@@ -277,11 +266,6 @@ public class CountingCircleWriter
 
     private async Task EnsureCanDelete(CountingCircleAggregate countingCircle)
     {
-        if (_auth.HasPermission(Permissions.CountingCircle.DeleteAll))
-        {
-            return;
-        }
-
         if (_auth.HasPermission(Permissions.CountingCircle.DeleteSameCanton) && await _permissionService.IsOwnerOfCanton(countingCircle.Canton))
         {
             return;
@@ -292,11 +276,6 @@ public class CountingCircleWriter
 
     private async Task EnsureCanMerge(DomainOfInfluenceCanton canton)
     {
-        if (_auth.HasPermission(Permissions.CountingCircle.MergeAll))
-        {
-            return;
-        }
-
         if (_auth.HasPermission(Permissions.CountingCircle.MergeSameCanton) && await _permissionService.IsOwnerOfCanton(canton))
         {
             return;

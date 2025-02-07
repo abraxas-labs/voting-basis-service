@@ -8,7 +8,6 @@ using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Metadata;
 using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
-using Abraxas.Voting.Basis.Shared.V1;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
@@ -43,7 +42,7 @@ public class MajorityElectionDeleteTest : PoliticalBusinessAuthorizationGrpcBase
     public async Task TestNotFound()
     {
         await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteMajorityElectionRequest
+            async () => await CantonAdminClient.DeleteAsync(new DeleteMajorityElectionRequest
             {
                 Id = IdNotFound,
             }),
@@ -53,7 +52,7 @@ public class MajorityElectionDeleteTest : PoliticalBusinessAuthorizationGrpcBase
     [Fact]
     public async Task Test()
     {
-        await AdminClient.DeleteAsync(new DeleteMajorityElectionRequest
+        await CantonAdminClient.DeleteAsync(new DeleteMajorityElectionRequest
         {
             Id = MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen,
         });
@@ -69,7 +68,7 @@ public class MajorityElectionDeleteTest : PoliticalBusinessAuthorizationGrpcBase
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.DeleteAsync(new DeleteMajorityElectionRequest
+            await CantonAdminClient.DeleteAsync(new DeleteMajorityElectionRequest
             {
                 Id = MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen,
             });
@@ -94,19 +93,18 @@ public class MajorityElectionDeleteTest : PoliticalBusinessAuthorizationGrpcBase
     [Fact]
     public async Task WithSecondaryElectionShouldThrow()
     {
-        await AdminClient.CreateSecondaryMajorityElectionAsync(new()
+        await CantonAdminClient.CreateSecondaryMajorityElectionAsync(new()
         {
             PoliticalBusinessNumber = "10246",
             OfficialDescription = { LanguageUtil.MockAllLanguages("Neue Neben-Majorzwahl") },
             ShortDescription = { LanguageUtil.MockAllLanguages("Neue Neben-Majorzwahl") },
             Active = true,
             NumberOfMandates = 5,
-            AllowedCandidates = SecondaryMajorityElectionAllowedCandidates.MayExistInPrimaryElection,
             PrimaryMajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen,
         });
 
         await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new()
+            async () => await CantonAdminClient.DeleteAsync(new()
             {
                 Id = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund,
             }),
@@ -168,7 +166,6 @@ public class MajorityElectionDeleteTest : PoliticalBusinessAuthorizationGrpcBase
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

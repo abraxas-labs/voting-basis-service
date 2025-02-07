@@ -70,5 +70,6 @@ public class CountingCircleListAssignableTest : BaseGrpcTest<CountingCircleServi
     {
         yield return Roles.Admin;
         yield return Roles.CantonAdmin;
+        yield return Roles.CantonAdminReadOnly;
     }
 }

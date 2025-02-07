@@ -100,6 +100,7 @@ public class DomainOfInfluenceProcessor :
             ?? throw new EntityNotFoundException(id);
 
         var rebuildForRootDoiCantonUpdate = model.ParentId == null && existing.Canton != model.Canton;
+        var hierarchyOrTenantChanged = model.ParentId != existing.ParentId || model.SecureConnectId != existing.SecureConnectId;
 
         var oldCanton = existing.Canton;
         _mapper.Map(eventData.DomainOfInfluence, existing);
@@ -121,8 +122,12 @@ public class DomainOfInfluenceProcessor :
             await _domainOfInfluenceCantonDefaultsBuilder.RebuildForRootDomainOfInfluenceCantonUpdate(existing, allDois);
         }
 
-        await _permissionBuilder.RebuildPermissionTree(allDois);
-        await _hierarchyBuilder.RebuildHierarchy(allDois);
+        if (hierarchyOrTenantChanged)
+        {
+            await _permissionBuilder.RebuildPermissionTree(allDois);
+            await _hierarchyBuilder.RebuildHierarchy(allDois);
+        }
+
         await _eventLogger.LogDomainOfInfluenceEvent(eventData, existing);
     }
 

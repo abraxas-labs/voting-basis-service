@@ -43,7 +43,7 @@ public class CountingCircleDeleteTest : BaseGrpcTest<CountingCircleService.Count
     [Fact]
     public async Task TestInvalidGuid()
         => await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteCountingCircleRequest
+            async () => await CantonAdminClient.DeleteAsync(new DeleteCountingCircleRequest
             {
                 Id = IdInvalid,
             }),
@@ -52,7 +52,7 @@ public class CountingCircleDeleteTest : BaseGrpcTest<CountingCircleService.Count
     [Fact]
     public async Task TestNotFound()
         => await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteCountingCircleRequest
+            async () => await CantonAdminClient.DeleteAsync(new DeleteCountingCircleRequest
             {
                 Id = IdNotFound,
             }),
@@ -61,7 +61,7 @@ public class CountingCircleDeleteTest : BaseGrpcTest<CountingCircleService.Count
     [Fact]
     public async Task Test()
     {
-        await AdminClient.DeleteAsync(new DeleteCountingCircleRequest
+        await CantonAdminClient.DeleteAsync(new DeleteCountingCircleRequest
         {
             Id = CountingCircleMockedData.IdUzwil,
         });
@@ -74,57 +74,10 @@ public class CountingCircleDeleteTest : BaseGrpcTest<CountingCircleService.Count
     [Fact]
     public async Task TestCantonAdminOtherCantonShouldThrow()
     {
-        var response = await AdminClient.CreateAsync(new CreateCountingCircleRequest
-        {
-            Name = "Other Canton",
-            Bfs = "1234",
-            ResponsibleAuthority = new ProtoModels.Authority
-            {
-                Name = "Uzwil",
-                Email = "uzwil-test@abraxas.ch",
-                Phone = "071 123 12 20",
-                Street = "WerkstrasseUZ",
-                City = "MyCityUZ",
-                Zip = "9200",
-                SecureConnectId = SecureConnectTestDefaults.MockedTenantUzwil.Id,
-            },
-            ContactPersonSameDuringEventAsAfter = false,
-            ContactPersonDuringEvent = new ProtoModels.ContactPerson
-            {
-                Email = "uzwil-test@abraxas.ch",
-                Phone = "071 123 12 21",
-                MobilePhone = "071 123 12 31",
-                FamilyName = "Muster",
-                FirstName = "Hans",
-            },
-            ContactPersonAfterEvent = new ProtoModels.ContactPerson
-            {
-                Email = "uzwil-test2@abraxas.ch",
-                Phone = "071 123 12 22",
-                MobilePhone = "071 123 12 33",
-                FamilyName = "Wichtig",
-                FirstName = "Rudolph",
-            },
-            NameForProtocol = "Stadt Uzwil",
-            SortNumber = 210,
-            Electorates =
-            {
-                new ProtoModels.CountingCircleElectorate()
-                {
-                    DomainOfInfluenceTypes = { DomainOfInfluenceType.Bz },
-                },
-                new ProtoModels.CountingCircleElectorate()
-                {
-                    DomainOfInfluenceTypes = { DomainOfInfluenceType.Ct, DomainOfInfluenceType.Ch },
-                },
-            },
-            Canton = DomainOfInfluenceCanton.Zh,
-        });
-
         await AssertStatus(
             async () => await CantonAdminClient.DeleteAsync(new DeleteCountingCircleRequest
             {
-                Id = response.Id,
+                Id = CountingCircleMockedData.IdZurich,
             }),
             StatusCode.PermissionDenied);
     }
@@ -151,7 +104,7 @@ public class CountingCircleDeleteTest : BaseGrpcTest<CountingCircleService.Count
     {
         if (_authTestCcId == null)
         {
-            var response = await AdminClient.CreateAsync(new CreateCountingCircleRequest
+            var response = await CantonAdminClient.CreateAsync(new CreateCountingCircleRequest
             {
                 Name = "Uzwil",
                 Bfs = "1234",
@@ -208,7 +161,6 @@ public class CountingCircleDeleteTest : BaseGrpcTest<CountingCircleService.Count
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
     }
 }

@@ -77,7 +77,7 @@ public class ProportionalElectionListGetChangesTest : BaseGrpcTest<ProportionalE
     public async Task ShouldNotifyAsAdmin()
     {
         using var callCts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
-        var responseStream = AdminClient.GetListChanges(
+        var responseStream = CantonAdminClient.GetListChanges(
             new(),
             new(cancellationToken: callCts.Token));
 
@@ -124,9 +124,10 @@ public class ProportionalElectionListGetChangesTest : BaseGrpcTest<ProportionalE
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
+        yield return Roles.CantonAdminReadOnly;
         yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
     }
 }

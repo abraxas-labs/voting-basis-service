@@ -153,7 +153,10 @@ internal static class MajorityElectionMapping
 
         basisCandidate.MajorityElectionId = electionId;
         var partyInfos = candidate.PartyAffiliation;
-        basisCandidate.Party = partyInfos.ToLanguageDictionary(x => x.Language, x => x.PartyAffiliationShort ?? x.PartyAffiliationLong, string.Empty);
+        if (partyInfos.Count > 0)
+        {
+            basisCandidate.Party = partyInfos.ToLanguageDictionary(x => x.Language, x => x.PartyAffiliationShort ?? x.PartyAffiliationLong, string.Empty);
+        }
 
         return basisCandidate;
     }

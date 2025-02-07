@@ -38,7 +38,7 @@ public class PoliticalAssemblyCreateTest : BaseGrpcTest<PoliticalAssemblyService
     [Fact]
     public async Task Test()
     {
-        var response = await AdminClient.CreateAsync(NewValidRequest());
+        var response = await ElectionAdminClient.CreateAsync(NewValidRequest());
 
         var eventData = EventPublisherMock.GetSinglePublishedEvent<PoliticalAssemblyCreated>();
 
@@ -85,7 +85,7 @@ public class PoliticalAssemblyCreateTest : BaseGrpcTest<PoliticalAssemblyService
             politicalAssemblyEv1,
             politicalAssemblyEv2);
 
-        var politicalAssemblies = await AdminClient.ListAsync(new ListPoliticalAssemblyRequest());
+        var politicalAssemblies = await ElectionAdminClient.ListAsync(new ListPoliticalAssemblyRequest());
         politicalAssemblies.PoliticalAssemblies_.Should().HaveCount(2);
         politicalAssemblies.MatchSnapshot();
     }
@@ -94,7 +94,7 @@ public class PoliticalAssemblyCreateTest : BaseGrpcTest<PoliticalAssemblyService
     public async Task NoDescriptionShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(o => o.Description.Clear())),
+            async () => await ElectionAdminClient.CreateAsync(NewValidRequest(o => o.Description.Clear())),
             StatusCode.InvalidArgument,
             "Description");
     }
@@ -103,7 +103,7 @@ public class PoliticalAssemblyCreateTest : BaseGrpcTest<PoliticalAssemblyService
     public async Task DateBeforeNowShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(o => o.Date = MockedClock.GetTimestampDate(-10))),
+            async () => await ElectionAdminClient.CreateAsync(NewValidRequest(o => o.Date = MockedClock.GetTimestampDate(-10))),
             StatusCode.InvalidArgument);
     }
 
@@ -134,7 +134,6 @@ public class PoliticalAssemblyCreateTest : BaseGrpcTest<PoliticalAssemblyService
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
     }

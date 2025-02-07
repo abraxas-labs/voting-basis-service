@@ -37,7 +37,7 @@ public class MajorityElectionCandidate
 
     public string PoliticalLastName { get; private set; }
 
-    public DateTime DateOfBirth { get; private set; }
+    public DateTime? DateOfBirth { get; private set; }
 
     public SexType Sex { get; private set; }
 

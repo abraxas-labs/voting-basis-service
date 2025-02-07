@@ -215,7 +215,7 @@ public class ProportionalElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
-    [AuthorizePermission(Permissions.ProportionalElectionListUnion.Read)]
+    [AuthorizePermission(Permissions.ProportionalElectionListUnion.Update)]
     public override async Task<Empty> ReorderListUnions(
         ReorderProportionalElectionListUnionsRequest request,
         ServerCallContext context)

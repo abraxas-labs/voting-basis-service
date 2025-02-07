@@ -37,7 +37,7 @@ public class ProportionalElectionCandidateReorderTest : PoliticalBusinessAuthori
     [Fact]
     public async Task Test()
     {
-        await AdminClient.ReorderCandidatesAsync(NewValidRequest());
+        await CantonAdminClient.ReorderCandidatesAsync(NewValidRequest());
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionCandidatesReordered, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
@@ -48,7 +48,7 @@ public class ProportionalElectionCandidateReorderTest : PoliticalBusinessAuthori
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.ReorderCandidatesAsync(NewValidRequest());
+            await CantonAdminClient.ReorderCandidatesAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<ProportionalElectionCandidatesReordered>();
         });
     }
@@ -59,7 +59,7 @@ public class ProportionalElectionCandidateReorderTest : PoliticalBusinessAuthori
         await TestEventPublisher.Publish(NewValidEvent());
         await TestEventPublisher.Publish(1, NewValidEvent());
 
-        var candidates = await AdminClient.GetCandidatesAsync(new GetProportionalElectionCandidatesRequest
+        var candidates = await CantonAdminClient.GetCandidatesAsync(new GetProportionalElectionCandidatesRequest
         {
             ProportionalElectionListId = ProportionalElectionMockedData.ListId1GossauProportionalElectionInContestStGallen,
         });
@@ -70,7 +70,7 @@ public class ProportionalElectionCandidateReorderTest : PoliticalBusinessAuthori
     public async Task NonSequentialPositionsShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.ReorderCandidatesAsync(NewValidRequest(l =>
+            async () => await CantonAdminClient.ReorderCandidatesAsync(NewValidRequest(l =>
                 l.Orders.Orders[2].Position = 5)),
             StatusCode.InvalidArgument);
     }
@@ -80,7 +80,7 @@ public class ProportionalElectionCandidateReorderTest : PoliticalBusinessAuthori
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.ReorderCandidatesAsync(new ReorderProportionalElectionCandidatesRequest
+            async () => await CantonAdminClient.ReorderCandidatesAsync(new ReorderProportionalElectionCandidatesRequest
             {
                 ProportionalElectionListId = ProportionalElectionMockedData.ListId1GossauProportionalElectionInContestBund,
                 Orders = new ProtoModels.EntityOrders
@@ -111,7 +111,6 @@ public class ProportionalElectionCandidateReorderTest : PoliticalBusinessAuthori
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

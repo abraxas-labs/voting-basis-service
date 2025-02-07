@@ -85,8 +85,7 @@ public class DomainOfInfluenceDeleteLogoTest : BaseGrpcTest<DomainOfInfluenceSer
             .Should()
             .BeTrue();
 
-        await AdminClient.DeleteLogoAsync(new DeleteDomainOfInfluenceLogoRequest
-        { DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen });
+        await CantonAdminClient.DeleteLogoAsync(new DeleteDomainOfInfluenceLogoRequest { DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen });
 
         GetService<ObjectStorageClientMock>()
             .Exists(bucket, objectName)
@@ -133,7 +132,7 @@ public class DomainOfInfluenceDeleteLogoTest : BaseGrpcTest<DomainOfInfluenceSer
             DomainOfInfluenceId = DomainOfInfluenceMockedData.IdBund,
         };
         return AssertStatus(
-            async () => await AdminClient.DeleteLogoAsync(req),
+            async () => await CantonAdminClient.DeleteLogoAsync(req),
             StatusCode.InvalidArgument,
             "cannot delete logo if no logo reference is set");
     }
@@ -174,7 +173,6 @@ public class DomainOfInfluenceDeleteLogoTest : BaseGrpcTest<DomainOfInfluenceSer
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

@@ -47,6 +47,28 @@ public class DomainOfInfluenceCantonDefaultsBuilder
     public async Task RebuildForRootDomainOfInfluenceCantonUpdate(DomainOfInfluence rootDomainOfInfluence, List<DomainOfInfluence> allDomainOfInfluences)
          => await Rebuild(await LoadCantonSettings(rootDomainOfInfluence.Id), allDomainOfInfluences, doi => doi.Id == rootDomainOfInfluence.Id);
 
+    public DomainOfInfluenceCantonDefaults BuildCantonDefaults(CantonSettings cantonSettings, DomainOfInfluenceType domainOfInfluenceType)
+    {
+        return new DomainOfInfluenceCantonDefaults
+        {
+            Canton = cantonSettings.Canton,
+            ProportionalElectionMandateAlgorithms = cantonSettings.ProportionalElectionMandateAlgorithms,
+            MajorityElectionAbsoluteMajorityAlgorithm = cantonSettings.MajorityElectionAbsoluteMajorityAlgorithm,
+            MajorityElectionInvalidVotes = cantonSettings.MajorityElectionInvalidVotes,
+            SwissAbroadVotingRight = GetSwissAbroadVotingRight(cantonSettings, domainOfInfluenceType),
+            EnabledPoliticalBusinessUnionTypes = cantonSettings.EnabledPoliticalBusinessUnionTypes,
+            MultipleVoteBallotsEnabled = cantonSettings.MultipleVoteBallotsEnabled,
+            ProportionalElectionUseCandidateCheckDigit = cantonSettings.ProportionalElectionUseCandidateCheckDigit,
+            MajorityElectionUseCandidateCheckDigit = cantonSettings.MajorityElectionUseCandidateCheckDigit,
+            CreateContestOnHighestHierarchicalLevelEnabled = cantonSettings.CreateContestOnHighestHierarchicalLevelEnabled,
+            InternalPlausibilisationDisabled = cantonSettings.InternalPlausibilisationDisabled,
+            CandidateLocalityRequired = cantonSettings.CandidateLocalityRequired,
+            CandidateOriginRequired = cantonSettings.CandidateOriginRequired,
+            DomainOfInfluencePublishResultsOptionEnabled = cantonSettings.DomainOfInfluencePublishResultsOptionEnabled,
+            SecondaryMajorityElectionOnSeparateBallot = cantonSettings.SecondaryMajorityElectionOnSeparateBallot,
+        };
+    }
+
     /// <summary>
     /// Rebuild the canton settings by updating all affected domain of influences.
     /// </summary>
@@ -83,22 +105,7 @@ public class DomainOfInfluenceCantonDefaultsBuilder
     private void BuildCantonDefaultsOnDomainOfInfluence(CantonSettings cantonSettings, DomainOfInfluence domainOfInfluence)
     {
         domainOfInfluence.Canton = cantonSettings.Canton;
-        domainOfInfluence.CantonDefaults = new DomainOfInfluenceCantonDefaults
-        {
-            Canton = cantonSettings.Canton,
-            ProportionalElectionMandateAlgorithms = cantonSettings.ProportionalElectionMandateAlgorithms,
-            MajorityElectionAbsoluteMajorityAlgorithm = cantonSettings.MajorityElectionAbsoluteMajorityAlgorithm,
-            MajorityElectionInvalidVotes = cantonSettings.MajorityElectionInvalidVotes,
-            SwissAbroadVotingRight = GetSwissAbroadVotingRight(cantonSettings, domainOfInfluence.Type),
-            EnabledPoliticalBusinessUnionTypes = cantonSettings.EnabledPoliticalBusinessUnionTypes,
-            MultipleVoteBallotsEnabled = cantonSettings.MultipleVoteBallotsEnabled,
-            ProportionalElectionUseCandidateCheckDigit = cantonSettings.ProportionalElectionUseCandidateCheckDigit,
-            MajorityElectionUseCandidateCheckDigit = cantonSettings.MajorityElectionUseCandidateCheckDigit,
-            CreateContestOnHighestHierarchicalLevelEnabled = cantonSettings.CreateContestOnHighestHierarchicalLevelEnabled,
-            InternalPlausibilisationDisabled = cantonSettings.InternalPlausibilisationDisabled,
-            CandidateLocalityRequired = cantonSettings.CandidateLocalityRequired,
-            CandidateOriginRequired = cantonSettings.CandidateOriginRequired,
-        };
+        domainOfInfluence.CantonDefaults = BuildCantonDefaults(cantonSettings, domainOfInfluence.Type);
     }
 
     private SwissAbroadVotingRight GetSwissAbroadVotingRight(CantonSettings cantonSettings, DomainOfInfluenceType doiType)

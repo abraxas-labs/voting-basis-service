@@ -46,7 +46,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
                 Ballot = NewValidEventData(),
             });
 
-        var response = await AdminClient.GetAsync(new GetVoteRequest
+        var response = await ElectionAdminClient.GetAsync(new GetVoteRequest
         {
             Id = VoteMockedData.IdGossauVoteInContestGossau,
         });
@@ -77,7 +77,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
                 }),
             });
 
-        var response = await AdminClient.GetAsync(new GetVoteRequest
+        var response = await ElectionAdminClient.GetAsync(new GetVoteRequest
         {
             Id = VoteMockedData.IdGossauVoteInContestGossau,
         });
@@ -88,7 +88,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     [Fact]
     public async Task StandardBallotShouldReturnOk()
     {
-        await AdminClient.UpdateBallotAsync(NewValidRequest());
+        await ElectionAdminClient.UpdateBallotAsync(NewValidRequest());
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<BallotUpdated, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
@@ -99,7 +99,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.UpdateBallotAsync(NewValidRequest());
+            await ElectionAdminClient.UpdateBallotAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<BallotUpdated>();
         });
     }
@@ -108,7 +108,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     public async Task StandardBallotWithMultipleQuestionsShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotAsync(NewValidRequest(x =>
+            async () => await ElectionAdminClient.UpdateBallotAsync(NewValidRequest(x =>
                 x.BallotQuestions.Add(new ProtoModels.BallotQuestion
                 {
                     Number = 2,
@@ -122,7 +122,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     public async Task StandardBallotWithTieBreakQuestionsShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotAsync(NewValidRequest(x => x.HasTieBreakQuestions = true)),
+            async () => await ElectionAdminClient.UpdateBallotAsync(NewValidRequest(x => x.HasTieBreakQuestions = true)),
             StatusCode.InvalidArgument);
     }
 
@@ -130,7 +130,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     public async Task StandardBallotWithWrongNumberShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotAsync(NewValidRequest(x => x.BallotQuestions[0].Number = 2)),
+            async () => await ElectionAdminClient.UpdateBallotAsync(NewValidRequest(x => x.BallotQuestions[0].Number = 2)),
             StatusCode.InvalidArgument);
     }
 
@@ -138,7 +138,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     public async Task StandardBallotNotFoundShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotAsync(NewValidRequest(x => x.Id = "ad87714e-44b0-4424-b38d-f7c7046994d8")),
+            async () => await ElectionAdminClient.UpdateBallotAsync(NewValidRequest(x => x.Id = "ad87714e-44b0-4424-b38d-f7c7046994d8")),
             StatusCode.NotFound);
     }
 
@@ -146,7 +146,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     public async Task StandardBallotWithWrongTypeShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotAsync(NewValidRequest(x => x.BallotQuestions[0].Type = SharedProto.BallotQuestionType.CounterProposal)),
+            async () => await ElectionAdminClient.UpdateBallotAsync(NewValidRequest(x => x.BallotQuestions[0].Type = SharedProto.BallotQuestionType.CounterProposal)),
             StatusCode.InvalidArgument);
     }
 
@@ -154,7 +154,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     public async Task VariantsBallotShouldReturnOk()
     {
         var request = NewValidVariantRequest();
-        await AdminClient.UpdateBallotAsync(request);
+        await ElectionAdminClient.UpdateBallotAsync(request);
 
         var eventData = EventPublisherMock.GetSinglePublishedEvent<BallotUpdated>();
 
@@ -165,7 +165,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     [Fact]
     public async Task VariantsTieBreakBallotShouldReturnOk()
     {
-        await AdminClient.UpdateBallotAsync(NewValidTieBreakRequest(3));
+        await ElectionAdminClient.UpdateBallotAsync(NewValidTieBreakRequest(3));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<BallotUpdated>();
         eventData.MatchSnapshot("event");
     }
@@ -174,7 +174,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     public async Task VariantsBallotWithMoreThan3QuestionsShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotAsync(NewValidTieBreakRequest(4)),
+            async () => await ElectionAdminClient.UpdateBallotAsync(NewValidTieBreakRequest(4)),
             StatusCode.InvalidArgument);
     }
 
@@ -182,7 +182,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     public async Task VariantsBallotWithOnlyOneQuestionShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotAsync(NewValidRequest(x =>
+            async () => await ElectionAdminClient.UpdateBallotAsync(NewValidRequest(x =>
                 x.BallotType = SharedProto.BallotType.VariantsBallot)),
             StatusCode.InvalidArgument);
     }
@@ -191,11 +191,11 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     public async Task VariantsBallotWithWrongTypesShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotAsync(NewValidTieBreakRequest(3, x => x.BallotQuestions[0].Type = SharedProto.BallotQuestionType.CounterProposal)),
+            async () => await ElectionAdminClient.UpdateBallotAsync(NewValidTieBreakRequest(3, x => x.BallotQuestions[0].Type = SharedProto.BallotQuestionType.CounterProposal)),
             StatusCode.InvalidArgument);
 
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotAsync(NewValidTieBreakRequest(3, x => x.BallotQuestions[1].Type = SharedProto.BallotQuestionType.MainBallot)),
+            async () => await ElectionAdminClient.UpdateBallotAsync(NewValidTieBreakRequest(3, x => x.BallotQuestions[1].Type = SharedProto.BallotQuestionType.MainBallot)),
             StatusCode.InvalidArgument);
     }
 
@@ -228,7 +228,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     public async Task BallotUpdateAfterTestingPhaseShouldWork()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
-        await AdminClient.UpdateBallotAsync(new UpdateBallotRequest
+        await ElectionAdminClient.UpdateBallotAsync(new UpdateBallotRequest
         {
             VoteId = VoteMockedData.IdGossauVoteInContestBund,
             Id = VoteMockedData.BallotIdGossauVoteInContestBund,
@@ -265,7 +265,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
         ev.MatchSnapshot("event");
 
         await TestEventPublisher.Publish(ev);
-        var response = await AdminClient.GetAsync(new GetVoteRequest
+        var response = await ElectionAdminClient.GetAsync(new GetVoteRequest
         {
             Id = VoteMockedData.IdGossauVoteInContestBund,
         });
@@ -277,7 +277,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotAsync(new UpdateBallotRequest
+            async () => await ElectionAdminClient.UpdateBallotAsync(new UpdateBallotRequest
             {
                 VoteId = VoteMockedData.IdGossauVoteInContestBund,
                 Id = VoteMockedData.BallotIdGossauVoteInContestBund,
@@ -300,7 +300,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     [Fact]
     public async Task UpdateBallotTypeToStandardForDetailedEntryShouldThrow()
     {
-        await AdminClient.UpdateBallotAsync(new UpdateBallotRequest
+        await ElectionAdminClient.UpdateBallotAsync(new UpdateBallotRequest
         {
             Id = VoteMockedData.BallotIdStGallenVoteInContestStGallen,
             BallotType = SharedProto.BallotType.VariantsBallot,
@@ -321,7 +321,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
                     },
                 },
         });
-        await AdminClient.UpdateAsync(new UpdateVoteRequest
+        await ElectionAdminClient.UpdateAsync(new UpdateVoteRequest
         {
             Id = VoteMockedData.IdStGallenVoteInContestStGallen,
             PoliticalBusinessNumber = "1661",
@@ -341,7 +341,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
             Type = SharedProto.VoteType.QuestionsOnSingleBallot,
         });
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotAsync(NewValidRequest()),
+            async () => await ElectionAdminClient.UpdateBallotAsync(NewValidRequest()),
             StatusCode.InvalidArgument,
             "detailed result entry is only allowed if exactly one variants ballot exists");
     }
@@ -351,7 +351,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastLocked);
         await AssertStatus(
-            async () => await AdminClient.UpdateBallotAsync(NewValidRequest(x =>
+            async () => await ElectionAdminClient.UpdateBallotAsync(NewValidRequest(x =>
             {
                 x.VoteId = VoteMockedData.IdGossauVoteInContestBund;
                 x.Id = VoteMockedData.BallotIdGossauVoteInContestBund;
@@ -362,7 +362,6 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

@@ -41,7 +41,7 @@ public class SecondaryMajorityElectionCandidateDeleteTest : PoliticalBusinessAut
     public async Task TestNotFound()
     {
         await AssertStatus(
-            async () => await AdminClient.DeleteSecondaryMajorityElectionCandidateAsync(new DeleteSecondaryMajorityElectionCandidateRequest
+            async () => await CantonAdminClient.DeleteSecondaryMajorityElectionCandidateAsync(new DeleteSecondaryMajorityElectionCandidateRequest
             {
                 Id = IdNotFound,
             }),
@@ -51,7 +51,7 @@ public class SecondaryMajorityElectionCandidateDeleteTest : PoliticalBusinessAut
     [Fact]
     public async Task Test()
     {
-        await AdminClient.DeleteSecondaryMajorityElectionCandidateAsync(new DeleteSecondaryMajorityElectionCandidateRequest
+        await CantonAdminClient.DeleteSecondaryMajorityElectionCandidateAsync(new DeleteSecondaryMajorityElectionCandidateRequest
         {
             Id = MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund,
         });
@@ -67,7 +67,7 @@ public class SecondaryMajorityElectionCandidateDeleteTest : PoliticalBusinessAut
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdBundContest, async () =>
         {
-            await AdminClient.DeleteSecondaryMajorityElectionCandidateAsync(new DeleteSecondaryMajorityElectionCandidateRequest
+            await CantonAdminClient.DeleteSecondaryMajorityElectionCandidateAsync(new DeleteSecondaryMajorityElectionCandidateRequest
             {
                 Id = MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund,
             });
@@ -135,7 +135,6 @@ public class SecondaryMajorityElectionCandidateDeleteTest : PoliticalBusinessAut
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

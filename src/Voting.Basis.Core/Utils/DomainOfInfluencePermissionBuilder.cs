@@ -126,10 +126,9 @@ public class DomainOfInfluencePermissionBuilder
     {
         var hasDirectAccess = doi.SecureConnectId == tenantId || hasAccessToParent;
         var filteredCountingCircles = doi.CountingCircles
-            .Where(c => hasDirectAccess || c.CountingCircle.ResponsibleAuthority.SecureConnectId == tenantId)
-            .ToList();
+            .Where(c => hasDirectAccess || c.CountingCircle.ResponsibleAuthority.SecureConnectId == tenantId);
 
-        if (hasDirectAccess || filteredCountingCircles.Count > 0)
+        if (hasDirectAccess || filteredCountingCircles.Any())
         {
             var entry = new DomainOfInfluencePermissionEntry
             {

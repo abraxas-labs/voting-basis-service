@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
-using Abraxas.Voting.Basis.Events.V1.Metadata;
 using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
@@ -74,24 +73,12 @@ public class ContestPastUnlockTest : BaseGrpcTest<ContestService.ContestServiceC
     }
 
     [Fact]
-    public async Task ShouldWorkAsAdmin()
-    {
-        await SeedContest(ContestId);
-        await AdminClient.PastUnlockAsync(new PastUnlockContestRequest { Id = ContestId });
-
-        var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ContestPastUnlocked, EventSignatureBusinessMetadata>();
-        eventData.ContestId.Should().Be(ContestId);
-        eventData.ShouldMatchSnapshot();
-        eventMetadata!.ContestId.Should().Be(ContestId);
-    }
-
-    [Fact]
     public async Task TestShouldTriggerEventSignatureAndSignEvent()
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestId, async () =>
         {
             await SeedContest(ContestId);
-            await AdminClient.PastUnlockAsync(new PastUnlockContestRequest { Id = ContestId });
+            await CantonAdminClient.PastUnlockAsync(new PastUnlockContestRequest { Id = ContestId });
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<ContestPastUnlocked>();
         });
     }
@@ -168,7 +155,6 @@ public class ContestPastUnlockTest : BaseGrpcTest<ContestService.ContestServiceC
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
     }

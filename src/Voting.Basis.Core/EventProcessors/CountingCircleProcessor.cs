@@ -65,7 +65,8 @@ public class CountingCircleProcessor :
     {
         var model = _mapper.Map<CountingCircle>(eventData.CountingCircle);
         await _repo.Create(model, eventData.EventInfo.Timestamp.ToDateTime());
-        await _permissionBuilder.RebuildPermissionTree();
+
+        // Note: No need to update the permissions here, since the CountingCircle is not yet assigned to any DomainOfInfluence
         await _eventLogger.LogCountingCircleEvent(eventData, model);
         PublishCountingCircleEventMessage(model, EntityState.Added);
     }
@@ -95,7 +96,13 @@ public class CountingCircleProcessor :
         model.Electorates = null!;
 
         await _repo.Update(model, eventData.EventInfo.Timestamp.ToDateTime());
-        await _permissionBuilder.RebuildPermissionTree();
+
+        // Only changing the responsible authority has an effect on the permissions
+        if (model.ResponsibleAuthority.SecureConnectId != existing.ResponsibleAuthority.SecureConnectId)
+        {
+            await _permissionBuilder.RebuildPermissionTree();
+        }
+
         await _eventLogger.LogCountingCircleEvent(eventData, model);
         PublishCountingCircleEventMessage(model, EntityState.Modified);
     }

@@ -14,6 +14,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Test.ImportTests.TestFiles;
 using Voting.Basis.Test.MockedData;
 using Xunit;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
@@ -32,7 +33,7 @@ public class ImportContestTest : BaseImportTest
     public async Task TestShouldWork()
     {
         var contest = await CreateValidContestImport();
-        await AdminClient.ImportContestAsync(new ImportContestRequest { Contest = contest });
+        await CantonAdminClient.ImportContestAsync(new ImportContestRequest { Contest = contest });
 
         var peListCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEvents<ProportionalElectionListCreated, EventSignatureBusinessMetadata>();
         var ballotCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEvents<BallotCreated, EventSignatureBusinessMetadata>();
@@ -53,7 +54,7 @@ public class ImportContestTest : BaseImportTest
     public async Task TestShouldTriggerEventSignatureAndSignEvents()
     {
         var contest = await CreateValidContestImport();
-        await AdminClient.ImportContestAsync(new ImportContestRequest { Contest = contest });
+        await CantonAdminClient.ImportContestAsync(new ImportContestRequest { Contest = contest });
 
         var peListCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEventsWithMetadata<ProportionalElectionListCreated>();
         var ballotCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEventsWithMetadata<BallotCreated>();
@@ -85,7 +86,7 @@ public class ImportContestTest : BaseImportTest
         var contest = await CreateValidContestImport();
         contest.MajorityElections[0].Candidates[0].Id = contest.MajorityElections[0].Candidates[1].Id;
         await AssertStatus(
-            async () => await AdminClient.ImportContestAsync(new ImportContestRequest { Contest = contest }),
+            async () => await CantonAdminClient.ImportContestAsync(new ImportContestRequest { Contest = contest }),
             StatusCode.InvalidArgument,
             "This id is not unique");
     }
@@ -102,7 +103,6 @@ public class ImportContestTest : BaseImportTest
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;
@@ -110,16 +110,8 @@ public class ImportContestTest : BaseImportTest
 
     private async Task<ProtoModels.ContestImport> CreateValidContestImport()
     {
-        var contest1 = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
-        {
-            ImportType = SharedProto.ImportType.Ech157,
-            FileContent = await GetTestEch0157File(),
-        });
-        var contest2 = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
-        {
-            ImportType = SharedProto.ImportType.Ech159,
-            FileContent = await GetTestEch0159File(),
-        });
+        var contest1 = await LoadContestImport(SharedProto.ImportType.Ech157, EchTestFiles.GetTestFilePath(EchTestFiles.Ech0157FileName));
+        var contest2 = await LoadContestImport(SharedProto.ImportType.Ech159, EchTestFiles.GetTestFilePath(EchTestFiles.Ech0159FileName));
 
         contest1.MajorityElections.AddRange(contest2.MajorityElections);
         contest1.ProportionalElections.AddRange(contest2.ProportionalElections);

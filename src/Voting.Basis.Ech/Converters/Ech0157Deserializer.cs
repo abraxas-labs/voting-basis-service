@@ -1,6 +1,7 @@
 ﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System.IO;
 using System.Linq;
 using Ech0155_4_0;
 using Ech0157_4_0;
@@ -23,12 +24,12 @@ public class Ech0157Deserializer
     /// <summary>
     /// Deserialize from eCH-0157.
     /// </summary>
-    /// <param name="xml">The serialized XML data.</param>
+    /// <param name="stream">The input stream.</param>
     /// <returns>The deserialized eCH-0157 contest.</returns>
-    public Contest DeserializeXml(string xml)
+    public Contest DeserializeXml(Stream stream)
     {
         var schemaSet = Ech0157Schemas.LoadEch0157Schemas();
-        var delivery = _deserializer.DeserializeXml<Delivery>(xml, schemaSet);
+        var delivery = _deserializer.DeserializeXml<Delivery>(stream, schemaSet);
         return FromEventInitialDelivery(delivery);
     }
 

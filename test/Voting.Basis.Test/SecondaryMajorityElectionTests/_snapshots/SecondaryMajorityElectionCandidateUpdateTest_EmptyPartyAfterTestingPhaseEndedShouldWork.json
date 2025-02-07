@@ -1,0 +1,46 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Id": "",
+    "FirstName": "update first name",
+    "LastName": "updated last name",
+    "PoliticalFirstName": "updated p. first name",
+    "PoliticalLastName": "updated p. last name",
+    "DateOfBirth": {
+      "Seconds": 639301503,
+      "Nanos": 0
+    },
+    "Sex": 1,
+    "Occupation": {
+      "de": "occupation updated de",
+      "fr": "occupation updated fr",
+      "it": "occupation updated it",
+      "rm": "occupation updated rm"
+    },
+    "Title": "",
+    "OccupationTitle": {},
+    "Party": {},
+    "Incumbent": true,
+    "ZipCode": "",
+    "Locality": "locality updated",
+    "SecondaryMajorityElectionId": "654455b1-85a1-44c2-ad7b-8a8e7ea29d95",
+    "PrimaryMajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
+    "Origin": "origin",
+    "IsOnSeparateBallot": false
+  }
+}

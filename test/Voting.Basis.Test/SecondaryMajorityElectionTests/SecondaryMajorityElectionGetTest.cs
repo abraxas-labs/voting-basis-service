@@ -30,16 +30,6 @@ public class SecondaryMajorityElectionGetTest : PoliticalBusinessAuthorizationGr
     }
 
     [Fact]
-    public async Task TestAsAdminShouldReturnOk()
-    {
-        var response = await AdminClient.GetSecondaryMajorityElectionAsync(new GetSecondaryMajorityElectionRequest
-        {
-            Id = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
-        });
-        response.MatchSnapshot();
-    }
-
-    [Fact]
     public async Task TestAsElectionAdminShouldReturnOk()
     {
         var response = await ElectionAdminClient.GetSecondaryMajorityElectionAsync(new GetSecondaryMajorityElectionRequest
@@ -53,7 +43,7 @@ public class SecondaryMajorityElectionGetTest : PoliticalBusinessAuthorizationGr
     public async Task TestNotFound()
     {
         await AssertStatus(
-            async () => await AdminClient.GetSecondaryMajorityElectionAsync(new GetSecondaryMajorityElectionRequest
+            async () => await CantonAdminClient.GetSecondaryMajorityElectionAsync(new GetSecondaryMajorityElectionRequest
             {
                 Id = IdNotFound,
             }),
@@ -71,9 +61,10 @@ public class SecondaryMajorityElectionGetTest : PoliticalBusinessAuthorizationGr
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
+        yield return Roles.CantonAdminReadOnly;
         yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
     }
 }

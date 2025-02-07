@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
-using Abraxas.Voting.Basis.Shared.V1;
 using AutoMapper;
 using FluentValidation;
 using Google.Protobuf;
@@ -233,7 +232,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             throw new ValidationException("Candidate position should be continuous");
         }
 
-        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, candidateValidationParams);
+        EnsureCandidateIsValid(candidate, candidateValidationParams);
         EnsureUniqueCandidatePosition(candidate);
         EnsureUniqueCandidateNumber(candidate);
 
@@ -259,7 +258,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             throw new ValidationException("Cannot change the candidate position via an update");
         }
 
-        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, candidateValidationParams);
+        EnsureCandidateIsValid(candidate, candidateValidationParams);
         EnsureUniqueCandidatePosition(candidate);
         EnsureUniqueCandidateNumber(candidate);
 
@@ -281,8 +280,6 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
         candidate.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(candidate.Number);
 
-        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, candidateValidationParams);
-
         var existingCandidate = FindCandidate(candidate.Id)
                                 ?? throw new ValidationException($"Candidate {candidate.Id} does not exist");
 
@@ -299,7 +296,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             LastName = candidate.LastName,
             PoliticalFirstName = candidate.PoliticalFirstName,
             PoliticalLastName = candidate.PoliticalLastName,
-            DateOfBirth = candidate.DateOfBirth.ToTimestamp(),
+            DateOfBirth = candidate.DateOfBirth?.ToTimestamp(),
             Sex = _mapper.Map<SexType>(candidate.Sex),
             Occupation = { candidate.Occupation },
             Title = candidate.Title,
@@ -396,20 +393,9 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void UpdateSecondaryMajorityElectionFrom(SecondaryMajorityElection data)
     {
         EnsureNotDeleted();
-
         var sme = GetSecondaryMajorityElection(data.Id);
 
-        if (data.AllowedCandidates == SecondaryMajorityElectionAllowedCandidates.MustExistInPrimaryElection && sme.Candidates.Count > 0)
-        {
-            throw new ValidationException("Non-primary election candidates exist, cannot change allowed candidates");
-        }
-
-        if (data.AllowedCandidates == SecondaryMajorityElectionAllowedCandidates.MustNotExistInPrimaryElection
-            && sme.CandidateReferences.Count > 0)
-        {
-            throw new ValidationException("Candidate references exist, cannot change allowed candidates");
-        }
-
+        data.IsOnSeparateBallot = sme.IsOnSeparateBallot; // immutable
         var ev = new SecondaryMajorityElectionUpdated
         {
             SecondaryMajorityElection = _mapper.Map<SecondaryMajorityElectionEventData>(data),
@@ -430,7 +416,6 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         data.Active = sme.Active;
 
         ValidationUtils.EnsureNotModified(sme.NumberOfMandates, data.NumberOfMandates);
-        ValidationUtils.EnsureNotModified(sme.AllowedCandidates, data.AllowedCandidates);
         ValidationUtils.EnsureNotModified(sme.Active, data.Active);
 
         var ev = new SecondaryMajorityElectionAfterTestingPhaseUpdated
@@ -438,6 +423,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             EventInfo = _eventInfoProvider.NewEventInfo(),
             Id = data.Id.ToString(),
             PrimaryMajorityElectionId = Id.ToString(),
+            IsOnSeparateBallot = sme.IsOnSeparateBallot,
             OfficialDescription = { data.OfficialDescription },
             ShortDescription = { data.ShortDescription },
             PoliticalBusinessNumber = data.PoliticalBusinessNumber,
@@ -449,12 +435,13 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void DeleteSecondaryMajorityElection(Guid id)
     {
         EnsureNotDeleted();
-        GetSecondaryMajorityElection(id);
+        var sme = GetSecondaryMajorityElection(id);
 
         var ev = new SecondaryMajorityElectionDeleted
         {
             SecondaryMajorityElectionId = id.ToString(),
             PrimaryMajorityElectionId = Id.ToString(),
+            IsOnSeparateBallot = sme.IsOnSeparateBallot,
             EventInfo = _eventInfoProvider.NewEventInfo(),
         };
 
@@ -464,12 +451,13 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void UpdateSecondaryMajorityElectionActiveState(Guid id, bool active)
     {
         EnsureNotDeleted();
-        GetSecondaryMajorityElection(id);
+        var sme = GetSecondaryMajorityElection(id);
 
         var ev = new SecondaryMajorityElectionActiveStateUpdated
         {
             SecondaryMajorityElectionId = id.ToString(),
             PrimaryMajorityElectionId = Id.ToString(),
+            IsOnSeparateBallot = sme.IsOnSeparateBallot,
             Active = active,
             EventInfo = _eventInfoProvider.NewEventInfo(),
         };
@@ -487,23 +475,9 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         }
 
         _candidateValidator.ValidateAndThrow(data);
-        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(data, candidateValidationParams);
+        EnsureCandidateIsValid(data, candidateValidationParams);
 
         var sme = GetSecondaryMajorityElection(data.MajorityElectionId);
-
-        if (sme.AllowedCandidates == SecondaryMajorityElectionAllowedCandidates.MustExistInPrimaryElection)
-        {
-            throw new ValidationException("Candidate must exist in primary election");
-        }
-
-        if (sme.AllowedCandidates == SecondaryMajorityElectionAllowedCandidates.MustNotExistInPrimaryElection
-            && Candidates.Any(c =>
-                c.FirstName == data.FirstName && c.LastName == data.LastName &&
-                c.DateOfBirth.Date == data.DateOfBirth.Date))
-        {
-            throw new ValidationException("Candidate must not exist in primary election");
-        }
-
         sme.EnsureValidCandidatePosition(data, true);
         var referencedCandidates = sme.CandidateReferences.ConvertAll(r => FindCandidate(r.CandidateId));
         sme.EnsureUniqueCandidateNumber(data, referencedCandidates);
@@ -514,6 +488,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         {
             SecondaryMajorityElectionCandidate = _mapper.Map<MajorityElectionCandidateEventData>(data),
             PrimaryMajorityElectionId = Id.ToString(),
+            IsOnSeparateBallot = sme.IsOnSeparateBallot,
             EventInfo = _eventInfoProvider.NewEventInfo(),
         };
 
@@ -524,7 +499,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     {
         EnsureNotDeleted();
         _candidateValidator.ValidateAndThrow(data);
-        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(data, candidateValidationParams);
+        EnsureCandidateIsValid(data, candidateValidationParams);
 
         var sme = GetSecondaryMajorityElection(data.MajorityElectionId);
 
@@ -539,6 +514,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         var ev = new SecondaryMajorityElectionCandidateUpdated
         {
             SecondaryMajorityElectionCandidate = _mapper.Map<MajorityElectionCandidateEventData>(data),
+            IsOnSeparateBallot = sme.IsOnSeparateBallot,
             PrimaryMajorityElectionId = Id.ToString(),
             EventInfo = _eventInfoProvider.NewEventInfo(),
         };
@@ -550,8 +526,6 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     {
         EnsureNotDeleted();
         _candidateValidator.ValidateAndThrow(data);
-
-        EnsureLocalityAndOriginIsSetForNonCommunalDoiType(data, candidateValidationParams);
 
         data.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
 
@@ -568,11 +542,12 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             Id = data.Id.ToString(),
             SecondaryMajorityElectionId = sme.Id.ToString(),
             PrimaryMajorityElectionId = Id.ToString(),
+            IsOnSeparateBallot = sme.IsOnSeparateBallot,
             FirstName = data.FirstName,
             LastName = data.LastName,
             PoliticalFirstName = data.PoliticalFirstName,
             PoliticalLastName = data.PoliticalLastName,
-            DateOfBirth = data.DateOfBirth.ToTimestamp(),
+            DateOfBirth = data.DateOfBirth?.ToTimestamp(),
             Sex = _mapper.Map<SexType>(data.Sex),
             Occupation = { data.Occupation },
             Title = data.Title,
@@ -603,6 +578,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             SecondaryMajorityElectionCandidateId = candidateId.ToString(),
             SecondaryMajorityElectionId = sme.Id.ToString(),
             PrimaryMajorityElectionId = Id.ToString(),
+            IsOnSeparateBallot = sme.IsOnSeparateBallot,
             EventInfo = _eventInfoProvider.NewEventInfo(),
         };
 
@@ -619,12 +595,6 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         }
 
         var sme = GetSecondaryMajorityElection(data.SecondaryMajorityElectionId);
-
-        if (sme.AllowedCandidates == SecondaryMajorityElectionAllowedCandidates.MustNotExistInPrimaryElection)
-        {
-            throw new ValidationException("Candidate must not exist in primary election");
-        }
-
         if (sme.CandidateReferences.Any(cr => cr.CandidateId == data.CandidateId))
         {
             throw new ValidationException("Candidate reference already exists");
@@ -637,6 +607,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
         var candidateReferenceEventData = _mapper.Map<MajorityElectionCandidateReferenceEventData>(data);
         candidateReferenceEventData.PrimaryMajorityElectionId = Id.ToString();
+        candidateReferenceEventData.IsOnSeparateBallot = sme.IsOnSeparateBallot;
+        candidateReferenceEventData.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
 
         var ev = new SecondaryMajorityElectionCandidateReferenceCreated
         {
@@ -665,6 +637,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
         var candidateReferenceEventData = _mapper.Map<MajorityElectionCandidateReferenceEventData>(data);
         candidateReferenceEventData.PrimaryMajorityElectionId = Id.ToString();
+        candidateReferenceEventData.IsOnSeparateBallot = sme.IsOnSeparateBallot;
+        candidateReferenceEventData.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
 
         var ev = new SecondaryMajorityElectionCandidateReferenceUpdated
         {
@@ -686,6 +660,9 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         var ev = new SecondaryMajorityElectionCandidateReferenceDeleted
         {
             SecondaryMajorityElectionCandidateReferenceId = candidateId.ToString(),
+            PrimaryMajorityElectionId = Id.ToString(),
+            SecondaryMajorityElectionId = sme.Id.ToString(),
+            IsOnSeparateBallot = sme.IsOnSeparateBallot,
             EventInfo = _eventInfoProvider.NewEventInfo(),
         };
 
@@ -714,6 +691,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         {
             SecondaryMajorityElectionId = secondaryMajorityElectionId.ToString(),
             PrimaryMajorityElectionId = Id.ToString(),
+            IsOnSeparateBallot = sme.IsOnSeparateBallot,
             CandidateOrders = _mapper.Map<EntityOrdersEventData>(orders),
             EventInfo = _eventInfoProvider.NewEventInfo(),
         };
@@ -1279,9 +1257,15 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
     private void EnsureCorrectBallotGroupEntries(IReadOnlyCollection<MajorityElectionBallotGroupEntry> entries)
     {
-        if (entries.Count != SecondaryMajorityElections.Count + 1
-            || !SecondaryMajorityElections.All(sme => entries.Any(e => e.ElectionId == sme.Id))
-            || entries.All(e => e.ElectionId != Id))
+        var electionIds = entries.Select(e => e.ElectionId).ToHashSet();
+        if (entries.Count != electionIds.Count
+            || !electionIds.Remove(Id)
+            || !SecondaryMajorityElections.All(sme => sme.IsOnSeparateBallot || electionIds.Remove(sme.Id)))
+        {
+            throw new ValidationException("A ballot group should contain all elections exactly once");
+        }
+
+        if (electionIds.Count != 0)
         {
             throw new ValidationException("A ballot group should contain all elections exactly once");
         }
@@ -1318,16 +1302,36 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         throw new ValidationException("The candidate count for this ballot group is correct, modifications aren't allowed anymore.");
     }
 
-    private void EnsureLocalityAndOriginIsSetForNonCommunalDoiType(MajorityElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
+    private void EnsureCandidateIsValid(MajorityElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
+        if (candidateValidationParams.OnlyNamesAndNumberRequired)
+        {
+            return;
+        }
+
+        if (!candidate.DateOfBirth.HasValue)
+        {
+            throw new ValidationException("Date of birth is required during testing phase.");
+        }
+
+        if (candidate.Sex == Data.Models.SexType.Unspecified)
+        {
+            throw new ValidationException("Sex is required during testing phase.");
+        }
+
         if (candidateValidationParams.IsLocalityRequired && string.IsNullOrEmpty(candidate.Locality) && !candidateValidationParams.DoiType.IsCommunal())
         {
-            throw new ValidationException("Candidate locality is required for non communal political businesses");
+            throw new ValidationException("Candidate locality is required for non communal political businesses during testing phase.");
         }
 
         if (candidateValidationParams.IsOriginRequired && string.IsNullOrEmpty(candidate.Origin) && !candidateValidationParams.DoiType.IsCommunal())
         {
-            throw new ValidationException("Candidate origin is required for non communal political businesses");
+            throw new ValidationException("Candidate origin is required for non communal political businesses during testing phase.");
+        }
+
+        if (!candidate.Party.Keys.OrderBy(x => x).SequenceEqual(Languages.All.OrderBy(x => x)))
+        {
+            throw new ValidationException("Party is required during testing phase.");
         }
     }
 

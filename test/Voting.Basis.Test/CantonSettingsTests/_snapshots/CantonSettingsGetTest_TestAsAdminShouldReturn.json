@@ -48,11 +48,13 @@
     }
   ],
   "StatePlausibilisedDisabled": true,
-  "PublishResultsEnabled": false,
+  "ManualPublishResultsEnabled": false,
   "EndResultFinalizeDisabled": true,
   "CreateContestOnHighestHierarchicalLevelEnabled": true,
   "InternalPlausibilisationDisabled": true,
   "PublishResultsBeforeAuditedTentatively": true,
   "CandidateLocalityRequired": true,
-  "CandidateOriginRequired": true
+  "CandidateOriginRequired": true,
+  "DomainOfInfluencePublishResultsOptionEnabled": false,
+  "SecondaryMajorityElectionOnSeparateBallot": false
 }

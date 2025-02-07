@@ -33,6 +33,7 @@ internal static class SexMapping
         {
             SexType.Item1 => DataModels.SexType.Male,
             SexType.Item2 => DataModels.SexType.Female,
+            SexType.Item3 => DataModels.SexType.Unspecified,
             _ => throw new ArgumentException($"Sex type {sex} is not valid."),
         };
     }

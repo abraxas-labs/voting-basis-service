@@ -17,7 +17,6 @@ using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
-using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.SecondaryMajorityElectionTests;
 
@@ -37,7 +36,7 @@ public class SecondaryMajorityElectionCreateTest : PoliticalBusinessAuthorizatio
     [Fact]
     public async Task Test()
     {
-        var response = await AdminClient.CreateSecondaryMajorityElectionAsync(NewValidRequest());
+        var response = await CantonAdminClient.CreateSecondaryMajorityElectionAsync(NewValidRequest());
 
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCreated, EventSignatureBusinessMetadata>();
 
@@ -51,7 +50,7 @@ public class SecondaryMajorityElectionCreateTest : PoliticalBusinessAuthorizatio
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.CreateSecondaryMajorityElectionAsync(NewValidRequest());
+            await CantonAdminClient.CreateSecondaryMajorityElectionAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<SecondaryMajorityElectionCreated>();
         });
     }
@@ -86,7 +85,6 @@ public class SecondaryMajorityElectionCreateTest : PoliticalBusinessAuthorizatio
                     ShortDescription = { LanguageUtil.MockAllLanguages("Neue Neben-Majorzwahl") },
                     Active = true,
                     NumberOfMandates = 2,
-                    AllowedCandidates = SharedProto.SecondaryMajorityElectionAllowedCandidates.MustExistInPrimaryElection,
                     PrimaryMajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen,
                     IndividualCandidatesDisabled = true,
                 },
@@ -101,16 +99,15 @@ public class SecondaryMajorityElectionCreateTest : PoliticalBusinessAuthorizatio
                     ShortDescription = { LanguageUtil.MockAllLanguages("Neue Neben-Majorzwahl 2") },
                     Active = false,
                     NumberOfMandates = 4,
-                    AllowedCandidates = SharedProto.SecondaryMajorityElectionAllowedCandidates.MustNotExistInPrimaryElection,
                     PrimaryMajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen,
                 },
             });
 
-        var secondaryMajorityElection1 = await AdminClient.GetSecondaryMajorityElectionAsync(new GetSecondaryMajorityElectionRequest
+        var secondaryMajorityElection1 = await CantonAdminClient.GetSecondaryMajorityElectionAsync(new GetSecondaryMajorityElectionRequest
         {
             Id = smeId1.ToString(),
         });
-        var secondaryMajorityElection2 = await AdminClient.GetSecondaryMajorityElectionAsync(new GetSecondaryMajorityElectionRequest
+        var secondaryMajorityElection2 = await CantonAdminClient.GetSecondaryMajorityElectionAsync(new GetSecondaryMajorityElectionRequest
         {
             Id = smeId2.ToString(),
         });
@@ -132,7 +129,7 @@ public class SecondaryMajorityElectionCreateTest : PoliticalBusinessAuthorizatio
     public async Task CreatingSecondaryElectionShouldCreateElectionGroupIfNoneExists()
     {
         var request = NewValidRequest();
-        await AdminClient.CreateSecondaryMajorityElectionAsync(request);
+        await CantonAdminClient.CreateSecondaryMajorityElectionAsync(request);
 
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ElectionGroupCreated, EventSignatureBusinessMetadata>();
         var createdElectionGroup = eventData.ElectionGroup;
@@ -148,13 +145,12 @@ public class SecondaryMajorityElectionCreateTest : PoliticalBusinessAuthorizatio
     public Task DuplicatePoliticalBusinessIdShouldThrow()
     {
         return AssertStatus(
-            async () => await AdminClient.CreateSecondaryMajorityElectionAsync(NewValidRequest(v => v.PoliticalBusinessNumber = "155")),
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionAsync(NewValidRequest(v => v.PoliticalBusinessNumber = "155")),
             StatusCode.AlreadyExists);
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;
@@ -174,7 +170,6 @@ public class SecondaryMajorityElectionCreateTest : PoliticalBusinessAuthorizatio
             ShortDescription = { LanguageUtil.MockAllLanguages("Neue Neben-Majorzwahl") },
             Active = true,
             NumberOfMandates = 5,
-            AllowedCandidates = SharedProto.SecondaryMajorityElectionAllowedCandidates.MayExistInPrimaryElection,
             PrimaryMajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen,
             IndividualCandidatesDisabled = true,
         };

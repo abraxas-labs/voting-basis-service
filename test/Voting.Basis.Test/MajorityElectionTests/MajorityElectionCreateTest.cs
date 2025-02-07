@@ -38,7 +38,7 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
     [Fact]
     public async Task Test()
     {
-        var response = await AdminClient.CreateAsync(NewValidRequest());
+        var response = await CantonAdminClient.CreateAsync(NewValidRequest());
 
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionCreated, EventSignatureBusinessMetadata>();
 
@@ -52,7 +52,7 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.CreateAsync(NewValidRequest());
+            await CantonAdminClient.CreateAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<MajorityElectionCreated>();
         });
     }
@@ -102,11 +102,11 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
                 },
             });
 
-        var majorityElection1 = await AdminClient.GetAsync(new GetMajorityElectionRequest
+        var majorityElection1 = await CantonAdminClient.GetAsync(new GetMajorityElectionRequest
         {
             Id = id1.ToString(),
         });
-        var majorityElection2 = await AdminClient.GetAsync(new GetMajorityElectionRequest
+        var majorityElection2 = await CantonAdminClient.GetAsync(new GetMajorityElectionRequest
         {
             Id = id2.ToString(),
         });
@@ -121,7 +121,7 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
     public async Task ParentDoiWithSameTenantShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(pe =>
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(pe =>
              {
                  pe.ContestId = ContestMockedData.IdGossau;
                  pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen;
@@ -133,7 +133,7 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
     [Fact]
     public async Task ChildDoiWithSameTenantShouldReturnOk()
     {
-        var response = await AdminClient.CreateAsync(NewValidRequest(pe =>
+        var response = await CantonAdminClient.CreateAsync(NewValidRequest(pe =>
         {
             pe.ContestId = ContestMockedData.IdStGallenEvoting;
             pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
@@ -150,7 +150,7 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
     public async Task SiblingDoiWithSameTenantShouldThrow()
     {
         await AssertStatus(
-              async () => await AdminClient.CreateAsync(NewValidRequest(pe =>
+              async () => await CantonAdminClient.CreateAsync(NewValidRequest(pe =>
               {
                   pe.ContestId = ContestMockedData.IdStGallenEvoting;
                   pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdThurgau;
@@ -164,7 +164,7 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
     public async Task GreaterSampleSizeThanBallotSizeShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(o => o.BallotBundleSampleSize = 9999)),
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(o => o.BallotBundleSampleSize = 9999)),
             StatusCode.InvalidArgument);
     }
 
@@ -172,7 +172,7 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
     public async Task ContinuousBallotNumberGenerationWithoutAutomaticGenerationShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(o =>
             {
                 o.AutomaticBallotBundleNumberGeneration = false;
                 o.BallotNumberGeneration = SharedProto.BallotNumberGeneration.ContinuousForAllBundles;
@@ -185,7 +185,7 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
     public async Task InvalidReportDomainOfInfluenceLevelShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(o => o.ReportDomainOfInfluenceLevel = 13)),
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(o => o.ReportDomainOfInfluenceLevel = 13)),
             StatusCode.InvalidArgument);
     }
 
@@ -211,7 +211,7 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
             x => x.VirtualTopLevel = true);
 
         await AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest()),
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest()),
             StatusCode.InvalidArgument);
     }
 
@@ -219,13 +219,12 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
     public Task DuplicatePoliticalBusinessIdShouldThrow()
     {
         return AssertStatus(
-            async () => await AdminClient.CreateAsync(NewValidRequest(v => v.PoliticalBusinessNumber = "155")),
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(v => v.PoliticalBusinessNumber = "155")),
             StatusCode.AlreadyExists);
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

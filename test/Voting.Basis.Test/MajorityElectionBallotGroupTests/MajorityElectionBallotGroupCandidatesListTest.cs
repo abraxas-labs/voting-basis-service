@@ -30,16 +30,6 @@ public class MajorityElectionBallotGroupCandidatesListTest : PoliticalBusinessAu
     }
 
     [Fact]
-    public async Task TestAsAdminShouldReturnOk()
-    {
-        var response = await AdminClient.ListBallotGroupCandidatesAsync(new ListMajorityElectionBallotGroupCandidatesRequest
-        {
-            BallotGroupId = MajorityElectionMockedData.BallotGroupIdStGallenMajorityElectionInContestBund,
-        });
-        response.MatchSnapshot();
-    }
-
-    [Fact]
     public async Task TestAsElectionAdminShouldReturnOk()
     {
         var response = await ElectionAdminClient.ListBallotGroupCandidatesAsync(new ListMajorityElectionBallotGroupCandidatesRequest
@@ -53,7 +43,7 @@ public class MajorityElectionBallotGroupCandidatesListTest : PoliticalBusinessAu
     public async Task TestNotFound()
     {
         await AssertStatus(
-            async () => await AdminClient.ListBallotGroupCandidatesAsync(new ListMajorityElectionBallotGroupCandidatesRequest
+            async () => await CantonAdminClient.ListBallotGroupCandidatesAsync(new ListMajorityElectionBallotGroupCandidatesRequest
             {
                 BallotGroupId = IdNotFound,
             }),
@@ -71,9 +61,10 @@ public class MajorityElectionBallotGroupCandidatesListTest : PoliticalBusinessAu
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
+        yield return Roles.CantonAdminReadOnly;
         yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
     }
 }

@@ -42,7 +42,7 @@ public class VoteDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
     public async Task TestNotFound()
     {
         await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteVoteRequest
+            async () => await CantonAdminClient.DeleteAsync(new DeleteVoteRequest
             {
                 Id = IdNotFound,
             }),
@@ -52,7 +52,7 @@ public class VoteDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
     [Fact]
     public async Task Test()
     {
-        await AdminClient.DeleteAsync(new DeleteVoteRequest
+        await CantonAdminClient.DeleteAsync(new DeleteVoteRequest
         {
             Id = VoteMockedData.IdStGallenVoteInContestStGallen,
         });
@@ -68,7 +68,7 @@ public class VoteDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.DeleteAsync(new DeleteVoteRequest
+            await CantonAdminClient.DeleteAsync(new DeleteVoteRequest
             {
                 Id = VoteMockedData.IdStGallenVoteInContestStGallen,
             });
@@ -134,7 +134,6 @@ public class VoteDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

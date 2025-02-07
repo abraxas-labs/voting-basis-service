@@ -68,17 +68,4 @@ public abstract class PoliticalBusinessAuthorizationGrpcBaseTest<TService> : Bas
             Assert.Fail($"Call failed {ex}");
         }
     }
-
-    [Fact]
-    public async Task AuthorizedOtherTenantAsAdminShouldThrow()
-    {
-        var channel = CreateGrpcChannel(
-            tenant: DomainOfInfluenceMockedData.Bund.SecureConnectId,
-            roles: Roles.Admin);
-
-        await AssertStatus(
-            async () => await AuthorizationTestCall(channel),
-            StatusCode.PermissionDenied,
-            "Invalid domain of influence, does not belong to this tenant");
-    }
 }

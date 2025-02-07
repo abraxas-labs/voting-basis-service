@@ -41,7 +41,7 @@ public class BallotDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     [Fact]
     public async Task Test()
     {
-        await AdminClient.DeleteBallotAsync(NewValidRequest());
+        await ElectionAdminClient.DeleteBallotAsync(NewValidRequest());
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<BallotDeleted, EventSignatureBusinessMetadata>();
 
         eventData.BallotId.Should().Be(VoteMockedData.BallotIdStGallenVoteInContestStGallen);
@@ -68,7 +68,7 @@ public class BallotDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.DeleteBallotAsync(NewValidRequest());
+            await ElectionAdminClient.DeleteBallotAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<BallotDeleted>();
         });
     }
@@ -92,7 +92,7 @@ public class BallotDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     public async Task NotExistingBallotShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.DeleteBallotAsync(NewValidRequest(b => b.Id = IdNotFound)),
+            async () => await ElectionAdminClient.DeleteBallotAsync(NewValidRequest(b => b.Id = IdNotFound)),
             StatusCode.NotFound);
     }
 
@@ -101,7 +101,7 @@ public class BallotDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.DeleteBallotAsync(NewValidRequest(b =>
+            async () => await ElectionAdminClient.DeleteBallotAsync(NewValidRequest(b =>
             {
                 b.VoteId = VoteMockedData.IdGossauVoteInContestBund;
                 b.Id = VoteMockedData.BallotIdGossauVoteInContestBund;
@@ -113,7 +113,7 @@ public class BallotDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     [Fact]
     public async Task DeleteSingleVariantsBallotForDetailedEntryShouldThrow()
     {
-        await AdminClient.UpdateBallotAsync(new UpdateBallotRequest
+        await ElectionAdminClient.UpdateBallotAsync(new UpdateBallotRequest
         {
             Id = VoteMockedData.BallotIdStGallenVoteInContestStGallen,
             BallotType = SharedProto.BallotType.VariantsBallot,
@@ -134,7 +134,7 @@ public class BallotDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
                     },
                 },
         });
-        await AdminClient.UpdateAsync(new UpdateVoteRequest
+        await ElectionAdminClient.UpdateAsync(new UpdateVoteRequest
         {
             Id = VoteMockedData.IdStGallenVoteInContestStGallen,
             PoliticalBusinessNumber = "1661",
@@ -154,7 +154,7 @@ public class BallotDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
             Type = SharedProto.VoteType.QuestionsOnSingleBallot,
         });
         await AssertStatus(
-            async () => await AdminClient.DeleteBallotAsync(NewValidRequest()),
+            async () => await ElectionAdminClient.DeleteBallotAsync(NewValidRequest()),
             StatusCode.InvalidArgument,
             "detailed result entry is only allowed if exactly one variants ballot exists");
     }
@@ -193,7 +193,6 @@ public class BallotDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

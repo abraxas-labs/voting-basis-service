@@ -22,7 +22,10 @@
       "CandidateId": "efdbb5e3-16bf-4a53-95c3-a35ed6371819",
       "Incumbent": false,
       "Position": 3,
-      "PrimaryMajorityElectionId": "b0da46f8-a721-4e1a-ac36-25284d68f34b"
+      "PrimaryMajorityElectionId": "b0da46f8-a721-4e1a-ac36-25284d68f34b",
+      "IsOnSeparateBallot": false,
+      "Number": "1.2",
+      "CheckDigit": 4
     }
   }
 }

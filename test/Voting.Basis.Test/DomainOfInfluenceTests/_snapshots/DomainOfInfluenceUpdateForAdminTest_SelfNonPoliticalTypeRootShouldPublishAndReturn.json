@@ -24,7 +24,7 @@
       "SecureConnectId": "100100100100100100",
       "Type": 7,
       "ParentId": "",
-      "Canton": 2,
+      "Canton": 1,
       "ResponsibleForVotingCards": false,
       "Bfs": "",
       "Code": "",
@@ -35,7 +35,9 @@
       "ElectoralRegistrationEnabled": false,
       "HasForeignerVoters": false,
       "HasMinorVoters": false,
-      "SuperiorAuthorityDomainOfInfluenceId": ""
+      "SuperiorAuthorityDomainOfInfluenceId": "",
+      "PublishResultsDisabled": false,
+      "HideLowerDomainOfInfluencesInReports": true
     }
   }
 }

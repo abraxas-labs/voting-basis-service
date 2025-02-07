@@ -68,7 +68,10 @@
               "HasForeignerVoters": false,
               "HasMinorVoters": false,
               "SuperiorAuthorityDomainOfInfluence": null,
-              "StistatMunicipality": false
+              "StistatMunicipality": false,
+              "PublishResultsDisabled": false,
+              "VotingCardFlatRateDisabled": false,
+              "HideLowerDomainOfInfluencesInReports": false
             },
             "PoliticalBusinessType": 1,
             "PoliticalBusinessSubType": 0,
@@ -146,7 +149,10 @@
               "HasForeignerVoters": false,
               "HasMinorVoters": false,
               "SuperiorAuthorityDomainOfInfluence": null,
-              "StistatMunicipality": false
+              "StistatMunicipality": false,
+              "PublishResultsDisabled": false,
+              "VotingCardFlatRateDisabled": false,
+              "HideLowerDomainOfInfluencesInReports": false
             },
             "PoliticalBusinessType": 1,
             "PoliticalBusinessSubType": 0,
@@ -224,7 +230,10 @@
               "HasForeignerVoters": false,
               "HasMinorVoters": false,
               "SuperiorAuthorityDomainOfInfluence": null,
-              "StistatMunicipality": false
+              "StistatMunicipality": false,
+              "PublishResultsDisabled": false,
+              "VotingCardFlatRateDisabled": false,
+              "HideLowerDomainOfInfluencesInReports": false
             },
             "PoliticalBusinessType": 1,
             "PoliticalBusinessSubType": 0,
@@ -292,7 +301,10 @@
               "HasForeignerVoters": false,
               "HasMinorVoters": false,
               "SuperiorAuthorityDomainOfInfluence": null,
-              "StistatMunicipality": false
+              "StistatMunicipality": false,
+              "PublishResultsDisabled": false,
+              "VotingCardFlatRateDisabled": false,
+              "HideLowerDomainOfInfluencesInReports": false
             },
             "PoliticalBusinessType": 1,
             "PoliticalBusinessSubType": 0,
@@ -405,10 +417,12 @@
             "Description": "Test Election Group",
             "Number": 1,
             "SecondaryElectionIds": [
-              "0741da26-add2-4c4c-960d-7e251b82e91b"
+              "0741da26-add2-4c4c-960d-7e251b82e91b",
+              "3e44e6bf-e910-423c-8346-180640ae459c"
             ],
             "SecondaryPoliticalBusinessNumbers": [
-              "n1"
+              "n1",
+              "n2"
             ]
           },
           "NewEntityState": 1
@@ -459,10 +473,12 @@
             "Description": "Test Election Group",
             "Number": 1,
             "SecondaryElectionIds": [
-              "0741da26-add2-4c4c-960d-7e251b82e91b"
+              "0741da26-add2-4c4c-960d-7e251b82e91b",
+              "3e44e6bf-e910-423c-8346-180640ae459c"
             ],
             "SecondaryPoliticalBusinessNumbers": [
-              "n1"
+              "n1",
+              "n2"
             ]
           },
           "NewEntityState": 2

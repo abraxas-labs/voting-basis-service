@@ -46,7 +46,7 @@ public class ProportionalElectionListUnionMainListUpdateTest : PoliticalBusiness
                 ProportionalElectionMainListId = ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestStGallen,
             });
 
-        var listUnion = await AdminClient.GetListUnionAsync(new GetProportionalElectionListUnionRequest
+        var listUnion = await CantonAdminClient.GetListUnionAsync(new GetProportionalElectionListUnionRequest
         {
             Id = ProportionalElectionMockedData.SubListUnion21IdGossauProportionalElectionInContestStGallen,
         });
@@ -80,7 +80,7 @@ public class ProportionalElectionListUnionMainListUpdateTest : PoliticalBusiness
                 ProportionalElectionMainListId = ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestStGallen,
             });
 
-        var listUnion = await AdminClient.GetListUnionAsync(new GetProportionalElectionListUnionRequest
+        var listUnion = await CantonAdminClient.GetListUnionAsync(new GetProportionalElectionListUnionRequest
         {
             Id = ProportionalElectionMockedData.ListUnion2IdGossauProportionalElectionInContestStGallen,
         });
@@ -115,7 +115,7 @@ public class ProportionalElectionListUnionMainListUpdateTest : PoliticalBusiness
     [Fact]
     public async Task ListUnionShouldReturnOk()
     {
-        await AdminClient.UpdateListUnionMainListAsync(NewValidRequest(l =>
+        await CantonAdminClient.UpdateListUnionMainListAsync(NewValidRequest(l =>
             l.ProportionalElectionListUnionId = ProportionalElectionMockedData.ListUnion1IdGossauProportionalElectionInContestStGallen));
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionListUnionMainListUpdated, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");
@@ -125,7 +125,7 @@ public class ProportionalElectionListUnionMainListUpdateTest : PoliticalBusiness
     [Fact]
     public async Task SubListUnionShouldReturnOk()
     {
-        await AdminClient.UpdateListUnionMainListAsync(NewValidRequest());
+        await CantonAdminClient.UpdateListUnionMainListAsync(NewValidRequest());
         var eventData = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionListUnionMainListUpdated>();
         eventData.MatchSnapshot("event");
     }
@@ -133,7 +133,7 @@ public class ProportionalElectionListUnionMainListUpdateTest : PoliticalBusiness
     [Fact]
     public async Task ListUnionNoMainListShouldReturnOk()
     {
-        await AdminClient.UpdateListUnionMainListAsync(NewValidRequest(l => l.ProportionalElectionMainListId = string.Empty));
+        await CantonAdminClient.UpdateListUnionMainListAsync(NewValidRequest(l => l.ProportionalElectionMainListId = string.Empty));
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionListUnionMainListUpdated, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
@@ -144,7 +144,7 @@ public class ProportionalElectionListUnionMainListUpdateTest : PoliticalBusiness
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.UpdateListUnionMainListAsync(NewValidRequest());
+            await CantonAdminClient.UpdateListUnionMainListAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<ProportionalElectionListUnionMainListUpdated>();
         });
     }
@@ -153,7 +153,7 @@ public class ProportionalElectionListUnionMainListUpdateTest : PoliticalBusiness
     public async Task ForeignMainListShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateListUnionMainListAsync(NewValidRequest(l =>
+            async () => await CantonAdminClient.UpdateListUnionMainListAsync(NewValidRequest(l =>
                 l.ProportionalElectionListUnionId = ProportionalElectionMockedData.ListId3GossauProportionalElectionInContestStGallen)),
             StatusCode.InvalidArgument,
             "list");
@@ -164,7 +164,7 @@ public class ProportionalElectionListUnionMainListUpdateTest : PoliticalBusiness
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.UpdateListUnionMainListAsync(new UpdateProportionalElectionListUnionMainListRequest
+            async () => await CantonAdminClient.UpdateListUnionMainListAsync(new UpdateProportionalElectionListUnionMainListRequest
             {
                 ProportionalElectionListUnionId = ProportionalElectionMockedData.ListUnionIdGossauProportionalElectionInContestBund,
                 ProportionalElectionMainListId = ProportionalElectionMockedData.ListId1GossauProportionalElectionInContestBund,
@@ -208,14 +208,13 @@ public class ProportionalElectionListUnionMainListUpdateTest : PoliticalBusiness
     public async Task ForeignSubListUnionShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateListUnionMainListAsync(NewValidRequest(l =>
+            async () => await CantonAdminClient.UpdateListUnionMainListAsync(NewValidRequest(l =>
                 l.ProportionalElectionListUnionId = ProportionalElectionMockedData.ListUnionIdGossauProportionalElectionInContestGossau)),
             StatusCode.InvalidArgument);
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

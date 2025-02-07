@@ -46,13 +46,15 @@
         "MajorityElectionUseCandidateCheckDigit": false,
         "CountingCircleResultStateDescriptions": [],
         "StatePlausibilisedDisabled": true,
-        "PublishResultsEnabled": true,
+        "ManualPublishResultsEnabled": true,
         "EndResultFinalizeDisabled": true,
         "CreateContestOnHighestHierarchicalLevelEnabled": false,
         "InternalPlausibilisationDisabled": false,
         "PublishResultsBeforeAuditedTentatively": true,
         "CandidateLocalityRequired": false,
-        "CandidateOriginRequired": false
+        "CandidateOriginRequired": false,
+        "DomainOfInfluencePublishResultsOptionEnabled": true,
+        "SecondaryMajorityElectionOnSeparateBallot": true
       },
       {
         "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -104,13 +106,15 @@
           }
         ],
         "StatePlausibilisedDisabled": true,
-        "PublishResultsEnabled": false,
+        "ManualPublishResultsEnabled": false,
         "EndResultFinalizeDisabled": true,
         "CreateContestOnHighestHierarchicalLevelEnabled": true,
         "InternalPlausibilisationDisabled": true,
         "PublishResultsBeforeAuditedTentatively": true,
         "CandidateLocalityRequired": true,
-        "CandidateOriginRequired": true
+        "CandidateOriginRequired": true,
+        "DomainOfInfluencePublishResultsOptionEnabled": false,
+        "SecondaryMajorityElectionOnSeparateBallot": false
       }
     ]
   },
@@ -147,7 +151,9 @@
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
           "InternalPlausibilisationDisabled": false,
           "CandidateLocalityRequired": false,
-          "CandidateOriginRequired": false
+          "CandidateOriginRequired": false,
+          "DomainOfInfluencePublishResultsOptionEnabled": true,
+          "SecondaryMajorityElectionOnSeparateBallot": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -188,6 +194,9 @@
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
         "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false,
         "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79"
       },
       {
@@ -221,7 +230,9 @@
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
           "InternalPlausibilisationDisabled": false,
           "CandidateLocalityRequired": false,
-          "CandidateOriginRequired": false
+          "CandidateOriginRequired": false,
+          "DomainOfInfluencePublishResultsOptionEnabled": true,
+          "SecondaryMajorityElectionOnSeparateBallot": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -262,6 +273,9 @@
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
         "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false,
         "Id": "22949a1e-fb09-47ec-9e9f-d26675676565"
       },
       {
@@ -295,7 +309,9 @@
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
           "InternalPlausibilisationDisabled": false,
           "CandidateLocalityRequired": false,
-          "CandidateOriginRequired": false
+          "CandidateOriginRequired": false,
+          "DomainOfInfluencePublishResultsOptionEnabled": true,
+          "SecondaryMajorityElectionOnSeparateBallot": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -336,6 +352,9 @@
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
         "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false,
         "Id": "692be088-00e2-490c-b1fd-828adc38571d"
       },
       {
@@ -369,7 +388,9 @@
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
           "InternalPlausibilisationDisabled": false,
           "CandidateLocalityRequired": false,
-          "CandidateOriginRequired": false
+          "CandidateOriginRequired": false,
+          "DomainOfInfluencePublishResultsOptionEnabled": true,
+          "SecondaryMajorityElectionOnSeparateBallot": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -410,6 +431,9 @@
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
         "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false,
         "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752"
       },
       {
@@ -443,7 +467,9 @@
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
           "InternalPlausibilisationDisabled": false,
           "CandidateLocalityRequired": false,
-          "CandidateOriginRequired": false
+          "CandidateOriginRequired": false,
+          "DomainOfInfluencePublishResultsOptionEnabled": true,
+          "SecondaryMajorityElectionOnSeparateBallot": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -500,6 +526,9 @@
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": true,
         "StistatMunicipality": true,
+        "PublishResultsDisabled": true,
+        "VotingCardFlatRateDisabled": true,
+        "HideLowerDomainOfInfluencesInReports": false,
         "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd"
       },
       {
@@ -533,7 +562,9 @@
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
           "InternalPlausibilisationDisabled": false,
           "CandidateLocalityRequired": false,
-          "CandidateOriginRequired": false
+          "CandidateOriginRequired": false,
+          "DomainOfInfluencePublishResultsOptionEnabled": true,
+          "SecondaryMajorityElectionOnSeparateBallot": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -574,6 +605,9 @@
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
         "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false,
         "Id": "ade30989-5e28-40c7-918c-2c9408f853ba"
       },
       {
@@ -607,7 +641,9 @@
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
           "InternalPlausibilisationDisabled": false,
           "CandidateLocalityRequired": false,
-          "CandidateOriginRequired": false
+          "CandidateOriginRequired": false,
+          "DomainOfInfluencePublishResultsOptionEnabled": true,
+          "SecondaryMajorityElectionOnSeparateBallot": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -648,6 +684,9 @@
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
         "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false,
         "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b"
       },
       {
@@ -681,7 +720,9 @@
           "CreateContestOnHighestHierarchicalLevelEnabled": false,
           "InternalPlausibilisationDisabled": false,
           "CandidateLocalityRequired": false,
-          "CandidateOriginRequired": false
+          "CandidateOriginRequired": false,
+          "DomainOfInfluencePublishResultsOptionEnabled": true,
+          "SecondaryMajorityElectionOnSeparateBallot": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -722,6 +763,9 @@
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
         "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false,
         "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da"
       }
     ]

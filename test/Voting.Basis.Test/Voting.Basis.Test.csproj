@@ -27,9 +27,5 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="EchTests\_snapshots\Ech159DeserializerTest_TestSerializeDeserialize.json" />
-  </ItemGroup>
   
 </Project>

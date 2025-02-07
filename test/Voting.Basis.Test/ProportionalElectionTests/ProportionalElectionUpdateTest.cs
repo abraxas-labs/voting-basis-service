@@ -38,7 +38,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     [Fact]
     public async Task Test()
     {
-        await AdminClient.UpdateAsync(NewValidRequest());
+        await CantonAdminClient.UpdateAsync(NewValidRequest());
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionUpdated, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event", d => d.ProportionalElection.Id);
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
@@ -49,7 +49,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.UpdateAsync(NewValidRequest());
+            await CantonAdminClient.UpdateAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<ProportionalElectionUpdated>();
         });
     }
@@ -61,7 +61,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
 
         await TestEventPublisher.Publish(NewValidEvent());
 
-        var proportionalElection = await AdminClient.GetAsync(new GetProportionalElectionRequest
+        var proportionalElection = await CantonAdminClient.GetAsync(new GetProportionalElectionRequest
         {
             Id = id.ToString(),
         });
@@ -99,7 +99,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
                 },
             });
 
-        var proportionalElection = await AdminClient.GetAsync(new GetProportionalElectionRequest
+        var proportionalElection = await CantonAdminClient.GetAsync(new GetProportionalElectionRequest
         {
             Id = id.ToString(),
         });
@@ -148,7 +148,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     public async Task ParentDoiWithSameTenantShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(pe =>
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(pe =>
             {
                 pe.Id = ProportionalElectionMockedData.IdGossauProportionalElectionInContestGossau;
                 pe.ContestId = ContestMockedData.IdGossau;
@@ -161,7 +161,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     [Fact]
     public async Task ChildDoiWithSameTenantShouldReturnOk()
     {
-        await AdminClient.UpdateAsync(NewValidRequest(pe =>
+        await CantonAdminClient.UpdateAsync(NewValidRequest(pe =>
         {
             pe.ContestId = ContestMockedData.IdStGallenEvoting;
             pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
@@ -175,7 +175,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     public async Task SiblingDoiWithSameTenantShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(pe =>
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(pe =>
             {
                 pe.ContestId = ContestMockedData.IdStGallenEvoting;
                 pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdThurgau;
@@ -188,7 +188,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     public async Task ContestChangeShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
             {
                 o.ContestId = ContestMockedData.IdBundContest;
             })),
@@ -200,7 +200,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     public async Task GreaterSampleSizeThanBallotSizeShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o => o.BallotBundleSampleSize = 9999)),
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o => o.BallotBundleSampleSize = 9999)),
             StatusCode.InvalidArgument);
     }
 
@@ -208,7 +208,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     public async Task ContinuousBallotNumberGenerationWithoutAutomaticGenerationShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
             {
                 o.AutomaticBallotBundleNumberGeneration = false;
                 o.BallotNumberGeneration = SharedProto.BallotNumberGeneration.ContinuousForAllBundles;
@@ -221,7 +221,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     public async Task InvalidMandateAlgorithmByCantonShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o => o.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiQuorum)),
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o => o.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiQuorum)),
             StatusCode.InvalidArgument,
             "Canton settings does not allow proportional election mandate algorithm");
     }
@@ -237,7 +237,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
             });
 
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o => o.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiQuorum)),
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o => o.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiQuorum)),
             StatusCode.FailedPrecondition,
             "The mandate algorithm may only be changed in the case of proportional elections without unions");
     }
@@ -248,7 +248,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         var id = Guid.Parse(ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund);
 
-        await AdminClient.UpdateAsync(new UpdateProportionalElectionRequest
+        await CantonAdminClient.UpdateAsync(new UpdateProportionalElectionRequest
         {
             Id = id.ToString(),
             DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau,
@@ -273,7 +273,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
         ev.MatchSnapshot("event");
 
         await TestEventPublisher.Publish(ev);
-        var election = await AdminClient.GetAsync(new GetProportionalElectionRequest
+        var election = await CantonAdminClient.GetAsync(new GetProportionalElectionRequest
         {
             Id = id.ToString(),
         });
@@ -288,7 +288,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
             {
                 o.Id = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
                 o.ContestId = ContestMockedData.IdBundContest;
@@ -303,7 +303,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastLocked);
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
             {
                 o.Id = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
                 o.ContestId = ContestMockedData.IdBundContest;
@@ -321,7 +321,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
             x => x.VirtualTopLevel = true);
 
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest()),
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest()),
             StatusCode.InvalidArgument);
     }
 
@@ -329,13 +329,12 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     public Task DuplicatePoliticalBusinessIdShouldThrow()
     {
         return AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidRequest(v => v.PoliticalBusinessNumber = "500")),
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(v => v.PoliticalBusinessNumber = "500")),
             StatusCode.AlreadyExists);
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

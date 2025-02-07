@@ -50,7 +50,10 @@
       "HasForeignerVoters": false,
       "HasMinorVoters": false,
       "SuperiorAuthorityDomainOfInfluence": null,
-      "StistatMunicipality": false
+      "StistatMunicipality": false,
+      "PublishResultsDisabled": false,
+      "VotingCardFlatRateDisabled": false,
+      "HideLowerDomainOfInfluencesInReports": false
     },
     {
       "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
@@ -102,7 +105,10 @@
       "HasForeignerVoters": false,
       "HasMinorVoters": false,
       "SuperiorAuthorityDomainOfInfluence": null,
-      "StistatMunicipality": false
+      "StistatMunicipality": false,
+      "PublishResultsDisabled": false,
+      "VotingCardFlatRateDisabled": false,
+      "HideLowerDomainOfInfluencesInReports": false
     }
   ]
 }

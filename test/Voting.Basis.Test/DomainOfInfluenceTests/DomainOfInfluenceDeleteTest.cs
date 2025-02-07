@@ -40,7 +40,7 @@ public class DomainOfInfluenceDeleteTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public async Task TestInvalidGuid()
         => await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteDomainOfInfluenceRequest
+            async () => await CantonAdminClient.DeleteAsync(new DeleteDomainOfInfluenceRequest
             {
                 Id = DomainOfInfluenceMockedData.IdInvalid,
             }),
@@ -49,7 +49,7 @@ public class DomainOfInfluenceDeleteTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public async Task TestNotFound()
         => await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteDomainOfInfluenceRequest
+            async () => await CantonAdminClient.DeleteAsync(new DeleteDomainOfInfluenceRequest
             {
                 Id = DomainOfInfluenceMockedData.IdNotExisting,
             }),
@@ -58,7 +58,7 @@ public class DomainOfInfluenceDeleteTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public async Task TestShouldPublishDeletedEvent()
     {
-        await AdminClient.DeleteAsync(new DeleteDomainOfInfluenceRequest
+        await CantonAdminClient.DeleteAsync(new DeleteDomainOfInfluenceRequest
         {
             Id = DomainOfInfluenceMockedData.IdUzwil,
         });
@@ -115,7 +115,7 @@ public class DomainOfInfluenceDeleteTest : BaseGrpcTest<DomainOfInfluenceService
     {
         if (_authTestDoiId == null)
         {
-            var response = await AdminClient.CreateAsync(new CreateDomainOfInfluenceRequest
+            var response = await CantonAdminClient.CreateAsync(new CreateDomainOfInfluenceRequest
             {
                 Name = "Bezirk Uzwil",
                 ShortName = "BZ Uz",
@@ -186,7 +186,6 @@ public class DomainOfInfluenceDeleteTest : BaseGrpcTest<DomainOfInfluenceService
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
     }
 }

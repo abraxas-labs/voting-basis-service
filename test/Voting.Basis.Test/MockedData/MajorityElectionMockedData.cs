@@ -60,6 +60,7 @@ public static class MajorityElectionMockedData
     public const string CandidateIdKircheMajorityElectionInContestKirche = "56cd0f70-9976-4efb-b09d-d6e60fa03904";
 
     public const string SecondaryElectionIdStGallenMajorityElectionInContestBund = "0741da26-add2-4c4c-960d-7e251b82e91b";
+    public const string SecondaryElectionIdStGallenMajorityElectionInContestBundOnSeparateBallot = "3e44e6bf-e910-423c-8346-180640ae459c";
     public const string SecondaryElectionIdGossauMajorityElectionInContestBund = "654455b1-85a1-44c2-ad7b-8a8e7ea29d95";
     public const string SecondaryElectionIdGossauMajorityElectionInContestStGallen = "b321b60c-7aa2-4811-87a3-fffb426af1d6";
     public const string SecondaryElectionIdUzwilMajorityElectionInContestStGallen = "5ec8cf85-229a-4dc7-a601-1bb6980fee78";
@@ -67,6 +68,8 @@ public static class MajorityElectionMockedData
 
     public const string SecondaryElectionCandidateId1StGallenMajorityElectionInContestBund = "9d1e4ef4-81c0-4905-a2c6-e1b937b80ddf";
     public const string SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund = "f70ffba1-1cfd-402b-b6ea-f2c9f802886a";
+    public const string SecondaryElectionCandidateId1StGallenMajorityElectionInContestBundOnSeparateBallot = "5f8ea89e-a3c2-43ef-bd39-80818cc3089b";
+    public const string SecondaryElectionCandidateId2StGallenMajorityElectionInContestBundOnSeparateBallot = "28136e6c-3db1-4b54-92b7-8eb66eeca905";
     public const string SecondaryElectionCandidateId1GossauMajorityElectionInContestBund = "fb41851b-7cfd-4c0d-9af0-e5f1ced6569c";
     public const string SecondaryElectionCandidateId2GossauMajorityElectionInContestBund = "50eae8b0-53a0-44d1-a8c0-bdc28405a9c2";
     public const string SecondaryElectionCandidateIdUzwilMajorityElectionInContestStGallen = "6bf76024-ed15-4b7e-b68e-583b7bb5d2d5";
@@ -222,9 +225,9 @@ public static class MajorityElectionMockedData
                         ShortDescription = LanguageUtil.MockAllLanguages("Nebenwahl SG"),
                         NumberOfMandates = 3,
                         PoliticalBusinessNumber = "n1",
-                        AllowedCandidates = SecondaryMajorityElectionAllowedCandidate.MayExistInPrimaryElection,
                         ElectionGroupId = Guid.Parse(ElectionGroupIdStGallenMajorityElectionInContestBund),
                         Active = false,
+                        IsOnSeparateBallot = false,
                         Candidates = new List<SecondaryMajorityElectionCandidate>
                         {
                             new SecondaryMajorityElectionCandidate
@@ -252,6 +255,63 @@ public static class MajorityElectionMockedData
                             new SecondaryMajorityElectionCandidate
                             {
                                 Id = Guid.Parse(SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund),
+                                FirstName = "Peter",
+                                LastName = "Lustig",
+                                PoliticalFirstName = "Pete",
+                                PoliticalLastName = "L",
+                                Occupation = LanguageUtil.MockAllLanguages("Beruf"),
+                                OccupationTitle = LanguageUtil.MockAllLanguages("occupation title"),
+                                DateOfBirth = new DateTime(1982, 12, 31, 0, 0, 0, DateTimeKind.Utc),
+                                Incumbent = false,
+                                Position = 2,
+                                Party = LanguageUtil.MockAllLanguages("CVP"),
+                                Locality = "locality",
+                                Number = "number2",
+                                Sex = SexType.Male,
+                                Title = "title",
+                                ZipCode = "zip code",
+                                Origin = "origin",
+                                CheckDigit = 7,
+                            },
+                        },
+                    },
+                    new SecondaryMajorityElection
+                    {
+                        Id = Guid.Parse(SecondaryElectionIdStGallenMajorityElectionInContestBundOnSeparateBallot),
+                        OfficialDescription = LanguageUtil.MockAllLanguages("Nebenwahl on separate ballot St. Gallen"),
+                        ShortDescription = LanguageUtil.MockAllLanguages("Nebenwahl on separate ballot SG"),
+                        NumberOfMandates = 1,
+                        PoliticalBusinessNumber = "n2",
+                        ElectionGroupId = Guid.Parse(ElectionGroupIdStGallenMajorityElectionInContestBund),
+                        Active = false,
+                        IsOnSeparateBallot = true,
+                        Candidates = new List<SecondaryMajorityElectionCandidate>
+                        {
+                            new SecondaryMajorityElectionCandidate
+                            {
+                                Id = Guid.Parse(SecondaryElectionCandidateId1StGallenMajorityElectionInContestBundOnSeparateBallot),
+                                FirstName = "firstName",
+                                LastName = "lastName",
+                                PoliticalFirstName = "pol first name",
+                                PoliticalLastName = "pol last name",
+                                Occupation = LanguageUtil.MockAllLanguages("occupation"),
+                                OccupationTitle = LanguageUtil.MockAllLanguages("occupation title"),
+                                DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
+                                Incumbent = true,
+                                Position = 1,
+                                Party = LanguageUtil.MockAllLanguages("Test"),
+                                Locality = "locality",
+                                Number = "number1",
+                                Sex = SexType.Female,
+                                Title = "title",
+                                ZipCode = "zip code",
+                                CandidateReferenceId = Guid.Parse(CandidateId1StGallenMajorityElectionInContestBund),
+                                Origin = "origin",
+                                CheckDigit = 9,
+                            },
+                            new SecondaryMajorityElectionCandidate
+                            {
+                                Id = Guid.Parse(SecondaryElectionCandidateId2StGallenMajorityElectionInContestBundOnSeparateBallot),
                                 FirstName = "Peter",
                                 LastName = "Lustig",
                                 PoliticalFirstName = "Pete",
@@ -450,7 +510,6 @@ public static class MajorityElectionMockedData
                         OfficialDescription = LanguageUtil.MockAllLanguages("official"),
                         NumberOfMandates = 2,
                         PoliticalBusinessNumber = "n1",
-                        AllowedCandidates = SecondaryMajorityElectionAllowedCandidate.MustExistInPrimaryElection,
                         ElectionGroupId = Guid.Parse(ElectionGroupIdUzwilMajorityElectionInContestStGallen),
                         Active = false,
                         Candidates = new List<SecondaryMajorityElectionCandidate>
@@ -657,7 +716,6 @@ public static class MajorityElectionMockedData
                         OfficialDescription = LanguageUtil.MockAllLanguages("official"),
                         NumberOfMandates = 3,
                         PoliticalBusinessNumber = "n1",
-                        AllowedCandidates = SecondaryMajorityElectionAllowedCandidate.MayExistInPrimaryElection,
                         ElectionGroupId = Guid.Parse(ElectionGroupIdGossauMajorityElectionInContestStGallen),
                         Active = false,
                         Candidates = new List<SecondaryMajorityElectionCandidate>
@@ -794,7 +852,6 @@ public static class MajorityElectionMockedData
                         OfficialDescription = LanguageUtil.MockAllLanguages("official"),
                         NumberOfMandates = 3,
                         PoliticalBusinessNumber = "n1",
-                        AllowedCandidates = SecondaryMajorityElectionAllowedCandidate.MayExistInPrimaryElection,
                         ElectionGroupId = Guid.Parse(ElectionGroupIdGossauMajorityElectionInContestBund),
                         Active = false,
                         Candidates = new List<SecondaryMajorityElectionCandidate>
@@ -1165,7 +1222,6 @@ public static class MajorityElectionMockedData
                         OfficialDescription = LanguageUtil.MockAllLanguages("official"),
                         NumberOfMandates = 2,
                         PoliticalBusinessNumber = "n1",
-                        AllowedCandidates = SecondaryMajorityElectionAllowedCandidate.MustNotExistInPrimaryElection,
                         ElectionGroupId = Guid.Parse(ElectionGroupIdKircheMajorityElectionInContestKirche),
                         Active = false,
                         Candidates = new List<SecondaryMajorityElectionCandidate>

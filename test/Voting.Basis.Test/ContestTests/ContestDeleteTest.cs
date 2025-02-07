@@ -49,7 +49,7 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
     [Fact]
     public async Task InvalidGuidShouldThrow()
         => await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteContestRequest
+            async () => await CantonAdminClient.DeleteAsync(new DeleteContestRequest
             {
                 Id = IdInvalid,
             }),
@@ -58,7 +58,7 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
     [Fact]
     public async Task TestNotFound()
         => await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteContestRequest
+            async () => await CantonAdminClient.DeleteAsync(new DeleteContestRequest
             {
                 Id = IdNotFound,
             }),
@@ -68,7 +68,7 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
     public async Task TestExistingPoliticalBusinessShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteContestRequest
+            async () => await CantonAdminClient.DeleteAsync(new DeleteContestRequest
             {
                 Id = ContestMockedData.IdGossau,
             }),
@@ -80,7 +80,7 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
     public async Task Test()
     {
         var id = ContestMockedData.IdThurgauNoPoliticalBusinesses;
-        await AdminClient.DeleteAsync(new DeleteContestRequest
+        await CantonAdminClient.DeleteAsync(new DeleteContestRequest
         {
             Id = id,
         });
@@ -97,7 +97,7 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
         var id = ContestMockedData.IdThurgauNoPoliticalBusinesses;
         await ShouldTriggerEventSignatureAndSignEvent(id, async () =>
         {
-            await AdminClient.DeleteAsync(new() { Id = id });
+            await CantonAdminClient.DeleteAsync(new() { Id = id });
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<ContestDeleted>();
         });
     }
@@ -142,7 +142,7 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
     public async Task ContestWithEndedTestingPhaseShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteContestRequest
+            async () => await CantonAdminClient.DeleteAsync(new DeleteContestRequest
             {
                 Id = ContestMockedData.IdPastLockedContestNoPoliticalBusinesses,
             }),
@@ -158,7 +158,7 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
             c => c.PreviousContestId = ContestMockedData.PastLockedContestNoPoliticalBusinesses.Id);
 
         await AssertStatus(
-            async () => await AdminClient.DeleteAsync(new DeleteContestRequest
+            async () => await CantonAdminClient.DeleteAsync(new DeleteContestRequest
             {
                 Id = ContestMockedData.IdPastLockedContestNoPoliticalBusinesses,
             }),
@@ -273,7 +273,6 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
     }

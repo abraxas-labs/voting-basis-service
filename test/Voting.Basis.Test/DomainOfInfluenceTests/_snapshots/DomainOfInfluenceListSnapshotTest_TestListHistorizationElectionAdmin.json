@@ -54,7 +54,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -106,7 +109,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       }
     ]
   },
@@ -165,7 +171,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -217,7 +226,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       }
     ]
   },
@@ -276,7 +288,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -328,7 +343,10 @@
         "HasForeignerVoters": false,
         "HasMinorVoters": false,
         "SuperiorAuthorityDomainOfInfluence": null,
-        "StistatMunicipality": false
+        "StistatMunicipality": false,
+        "PublishResultsDisabled": false,
+        "VotingCardFlatRateDisabled": false,
+        "HideLowerDomainOfInfluencesInReports": false
       }
     ]
   },

@@ -33,10 +33,10 @@
       },
       "InternalDescription": "",
       "NumberOfMandates": 2,
-      "AllowedCandidates": 2,
       "PrimaryMajorityElectionId": "b0da46f8-a721-4e1a-ac36-25284d68f34b",
       "Active": true,
-      "IndividualCandidatesDisabled": true
+      "IndividualCandidatesDisabled": true,
+      "IsOnSeparateBallot": false
     }
   }
 }

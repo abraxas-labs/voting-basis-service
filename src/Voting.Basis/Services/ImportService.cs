@@ -3,7 +3,6 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abraxas.Voting.Basis.Services.V1.Models;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using AutoMapper;
 using Google.Protobuf.WellKnownTypes;
@@ -33,13 +32,6 @@ public class ImportService : ServiceBase
         _proportionalElectionListsAndCandidatesImportService = proportionalElectionListsAndCandidatesImportService;
         _majorityElectionCandidatesImportService = majorityElectionCandidatesImportService;
         _mapper = mapper;
-    }
-
-    [AuthorizePermission(Permissions.Import.ImportData)]
-    public override Task<ContestImport> ResolveImportFile(ResolveImportFileRequest request, ServerCallContext context)
-    {
-        var contestImport = _importService.DeserializeImport(request.ImportType, request.FileContent, context.CancellationToken);
-        return Task.FromResult(_mapper.Map<ContestImport>(contestImport));
     }
 
     [AuthorizePermission(Permissions.Import.ImportData)]

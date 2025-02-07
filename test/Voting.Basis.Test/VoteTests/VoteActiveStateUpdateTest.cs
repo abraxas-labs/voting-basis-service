@@ -36,7 +36,7 @@ public class VoteActiveStateUpdateTest : PoliticalBusinessAuthorizationGrpcBaseT
     [Fact]
     public async Task Test()
     {
-        await AdminClient.UpdateActiveStateAsync(NewValidRequest());
+        await CantonAdminClient.UpdateActiveStateAsync(NewValidRequest());
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<VoteActiveStateUpdated, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
@@ -47,7 +47,7 @@ public class VoteActiveStateUpdateTest : PoliticalBusinessAuthorizationGrpcBaseT
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.UpdateActiveStateAsync(NewValidRequest());
+            await CantonAdminClient.UpdateActiveStateAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<VoteActiveStateUpdated>();
         });
     }
@@ -63,7 +63,7 @@ public class VoteActiveStateUpdateTest : PoliticalBusinessAuthorizationGrpcBaseT
                 VoteId = id.ToString(),
                 Active = true,
             });
-        var response = await AdminClient.GetAsync(new GetVoteRequest { Id = id.ToString() });
+        var response = await CantonAdminClient.GetAsync(new GetVoteRequest { Id = id.ToString() });
         response.MatchSnapshot();
 
         await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
@@ -75,7 +75,7 @@ public class VoteActiveStateUpdateTest : PoliticalBusinessAuthorizationGrpcBaseT
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.UpdateActiveStateAsync(NewValidRequest(o =>
+            async () => await CantonAdminClient.UpdateActiveStateAsync(NewValidRequest(o =>
             {
                 o.Id = VoteMockedData.IdGossauVoteInContestBund;
             })),
@@ -85,7 +85,6 @@ public class VoteActiveStateUpdateTest : PoliticalBusinessAuthorizationGrpcBaseT
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

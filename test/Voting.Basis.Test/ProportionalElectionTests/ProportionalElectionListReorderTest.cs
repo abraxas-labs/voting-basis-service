@@ -36,7 +36,7 @@ public class ProportionalElectionListReorderTest : PoliticalBusinessAuthorizatio
     [Fact]
     public async Task Test()
     {
-        await AdminClient.ReorderListsAsync(NewValidRequest());
+        await CantonAdminClient.ReorderListsAsync(NewValidRequest());
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionListsReordered, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");
     }
@@ -46,7 +46,7 @@ public class ProportionalElectionListReorderTest : PoliticalBusinessAuthorizatio
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.ReorderListsAsync(NewValidRequest());
+            await CantonAdminClient.ReorderListsAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<ProportionalElectionListsReordered>();
         });
     }
@@ -57,7 +57,7 @@ public class ProportionalElectionListReorderTest : PoliticalBusinessAuthorizatio
         await TestEventPublisher.Publish(NewValidEvent());
         await TestEventPublisher.Publish(1, NewValidEvent());
 
-        var lists = await AdminClient.GetListsAsync(new GetProportionalElectionListsRequest
+        var lists = await CantonAdminClient.GetListsAsync(new GetProportionalElectionListsRequest
         {
             ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestStGallen,
         });
@@ -68,7 +68,7 @@ public class ProportionalElectionListReorderTest : PoliticalBusinessAuthorizatio
     public async Task NonSequentialPositionsShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.ReorderListsAsync(NewValidRequest(l =>
+            async () => await CantonAdminClient.ReorderListsAsync(NewValidRequest(l =>
                 l.Orders.Orders[2].Position = 5)),
             StatusCode.InvalidArgument);
     }
@@ -104,7 +104,6 @@ public class ProportionalElectionListReorderTest : PoliticalBusinessAuthorizatio
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

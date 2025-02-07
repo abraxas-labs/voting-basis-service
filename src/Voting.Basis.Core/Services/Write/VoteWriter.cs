@@ -47,7 +47,7 @@ public class VoteWriter
 
     public async Task Create(Domain.Vote data)
     {
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(data.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(data.DomainOfInfluenceId, false);
         await _politicalBusinessValidationService.EnsureValidEditData(
             data.Id,
             data.ContestId,
@@ -64,7 +64,7 @@ public class VoteWriter
 
     public async Task Update(Domain.Vote data)
     {
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(data.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(data.DomainOfInfluenceId, false);
         await _politicalBusinessValidationService.EnsureValidEditData(
             data.Id,
             data.ContestId,
@@ -98,7 +98,7 @@ public class VoteWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(voteId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId, false);
         await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
 
         vote.UpdateActiveState(active);
@@ -109,7 +109,7 @@ public class VoteWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(voteId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId, false);
         await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
 
         vote.Delete();
@@ -120,7 +120,7 @@ public class VoteWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(data.VoteId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId, false);
         await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
 
         if (data.Position != 1)
@@ -137,7 +137,7 @@ public class VoteWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(data.VoteId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId, false);
         var contestState = await _contestValidationService.EnsureNotLocked(vote.ContestId);
 
         if (contestState.TestingPhaseEnded())
@@ -156,7 +156,7 @@ public class VoteWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(voteId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId, false);
         await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
 
         vote.DeleteBallot(id);

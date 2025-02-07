@@ -16,6 +16,8 @@ public class MajorityElectionCandidateReference
 
     public int Position { get; internal set; }
 
+    public string Number { get; internal set; } = string.Empty;
+
     public Guid CandidateId { get; set; }
 
     public Guid SecondaryMajorityElectionId { get; set; }

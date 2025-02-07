@@ -66,7 +66,7 @@ public class ContestArchiveTest : BaseGrpcTest<ContestService.ContestServiceClie
     [Fact]
     public async Task ShouldPublishEvent()
     {
-        await AdminClient.ArchiveAsync(new ArchiveContestRequest { Id = ContestId });
+        await CantonAdminClient.ArchiveAsync(new ArchiveContestRequest { Id = ContestId });
 
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ContestArchived, EventSignatureBusinessMetadata>();
         eventData.ContestId.Should().Be(ContestId);
@@ -79,7 +79,7 @@ public class ContestArchiveTest : BaseGrpcTest<ContestService.ContestServiceClie
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestId, async () =>
         {
-            await AdminClient.ArchiveAsync(new ArchiveContestRequest { Id = ContestId });
+            await CantonAdminClient.ArchiveAsync(new ArchiveContestRequest { Id = ContestId });
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<ContestArchived>();
         });
     }
@@ -88,7 +88,7 @@ public class ContestArchiveTest : BaseGrpcTest<ContestService.ContestServiceClie
     public async Task WithDateShouldPublishEvent()
     {
         var archivePer = MockedClock.GetTimestamp(10);
-        await AdminClient.ArchiveAsync(new ArchiveContestRequest
+        await CantonAdminClient.ArchiveAsync(new ArchiveContestRequest
         {
             Id = ContestId,
             ArchivePer = archivePer,
@@ -208,7 +208,7 @@ public class ContestArchiveTest : BaseGrpcTest<ContestService.ContestServiceClie
     {
         var archivePer = MockedClock.GetTimestamp(-10);
         await AssertStatus(
-            async () => await AdminClient.ArchiveAsync(new ArchiveContestRequest
+            async () => await CantonAdminClient.ArchiveAsync(new ArchiveContestRequest
             {
                 Id = ContestId,
                 ArchivePer = archivePer,
@@ -325,7 +325,6 @@ public class ContestArchiveTest : BaseGrpcTest<ContestService.ContestServiceClie
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
     }

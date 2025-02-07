@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -107,14 +108,15 @@ public class ImportService
         await Import(aggregateImport);
     }
 
-    public ContestImport DeserializeImport(ImportType importType, string content, CancellationToken ct)
+    public ContestImport DeserializeImport(ImportType importType, Stream stream, CancellationToken ct)
     {
-        _malwareScannerService.EnsureFileIsClean(content, ct);
+        _malwareScannerService.EnsureFileIsClean(stream, ct);
+        stream.Seek(0, SeekOrigin.Begin);
 
         return importType switch
         {
-            ImportType.Ech157 => DeserializeEch157(content),
-            ImportType.Ech159 => DeserializeEch159(content),
+            ImportType.Ech157 => DeserializeEch157(stream),
+            ImportType.Ech159 => DeserializeEch159(stream),
             _ => throw new InvalidOperationException($"Import type {importType} is not yet supported"),
         };
     }
@@ -163,7 +165,7 @@ public class ImportService
             contestDomainOfInfluenceId,
             politicalBusinessDomainOfInfluenceIds.ToArray());
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluencesOrHasAdminPermissions(politicalBusinessDomainOfInfluenceIds);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluencesOrHasAdminPermissions(politicalBusinessDomainOfInfluenceIds, false);
 
         return result;
     }
@@ -172,17 +174,17 @@ public class ImportService
     {
         foreach (var majorityElection in aggregateImport.MajorityElectionAggregates)
         {
-            await _aggregateRepository.Save(majorityElection);
+            await _aggregateRepository.SaveChunked(majorityElection);
         }
 
         foreach (var proportionalElection in aggregateImport.ProportionalElectionAggregates)
         {
-            await _aggregateRepository.Save(proportionalElection);
+            await _aggregateRepository.SaveChunked(proportionalElection);
         }
 
         foreach (var vote in aggregateImport.VoteAggregates)
         {
-            await _aggregateRepository.Save(vote);
+            await _aggregateRepository.SaveChunked(vote);
         }
     }
 
@@ -194,7 +196,7 @@ public class ImportService
         var electionId = electionImport.Election.Id;
         idVerifier.EnsureUnique(electionId);
         var doi = await _domainOfInfluenceReader.Get(majorityElection.DomainOfInfluenceId);
-        var candidateValidationParams = new CandidateValidationParams(doi);
+        var candidateValidationParams = new CandidateValidationParams(doi, true);
 
         foreach (var candidate in electionImport.Candidates)
         {
@@ -303,15 +305,15 @@ public class ImportService
         return vote;
     }
 
-    private ContestImport DeserializeEch157(string content)
+    private ContestImport DeserializeEch157(Stream stream)
     {
-        var contest = _ech0157Deserializer.DeserializeXml(content);
+        var contest = _ech0157Deserializer.DeserializeXml(stream);
         return _mapper.Map<ContestImport>(contest);
     }
 
-    private ContestImport DeserializeEch159(string content)
+    private ContestImport DeserializeEch159(Stream stream)
     {
-        var contest = _ech0159Deserializer.DeserializeXml(content);
+        var contest = _ech0159Deserializer.DeserializeXml(stream);
         return _mapper.Map<ContestImport>(contest);
     }
 

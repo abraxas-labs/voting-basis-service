@@ -40,7 +40,7 @@ public class CountingCircleListMergersTest : BaseGrpcTest<CountingCircleService.
     [Fact]
     public async Task ShouldList()
     {
-        var mergers = await AdminClient.ListMergersAsync(new ListCountingCirclesMergersRequest());
+        var mergers = await CantonAdminClient.ListMergersAsync(new ListCountingCirclesMergersRequest());
 
         foreach (var merger in mergers.Mergers)
         {
@@ -54,14 +54,14 @@ public class CountingCircleListMergersTest : BaseGrpcTest<CountingCircleService.
     [Fact]
     public async Task ShouldListMerged()
     {
-        var mergers = await AdminClient.ListMergersAsync(new ListCountingCirclesMergersRequest { Merged = true });
+        var mergers = await CantonAdminClient.ListMergersAsync(new ListCountingCirclesMergersRequest { Merged = true });
         mergers.Mergers.Single().NewCountingCircle.Name.Should().Be("rappi-jona");
     }
 
     [Fact]
     public async Task ShouldListUnmerged()
     {
-        var mergers = await AdminClient.ListMergersAsync(new ListCountingCirclesMergersRequest { Merged = false });
+        var mergers = await CantonAdminClient.ListMergersAsync(new ListCountingCirclesMergersRequest { Merged = false });
         mergers.Mergers.Single().NewCountingCircle.Name.Should().Be("uzwil-neu");
     }
 
@@ -71,7 +71,7 @@ public class CountingCircleListMergersTest : BaseGrpcTest<CountingCircleService.
         await TestEventPublisher.Publish(
             NextEventNr(),
             new CountingCircleDeleted { CountingCircleId = _idsByName["rappi-jona"] });
-        var mergers = await AdminClient.ListMergersAsync(new ListCountingCirclesMergersRequest { Merged = true });
+        var mergers = await CantonAdminClient.ListMergersAsync(new ListCountingCirclesMergersRequest { Merged = true });
 
         foreach (var merger in mergers.Mergers)
         {
@@ -90,7 +90,6 @@ public class CountingCircleListMergersTest : BaseGrpcTest<CountingCircleService.
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
     }
 
@@ -114,7 +113,7 @@ public class CountingCircleListMergersTest : BaseGrpcTest<CountingCircleService.
         EventPublisherMock.Clear();
 
         var i = _seederIdx++;
-        var id = await AdminClient.ScheduleMergerAsync(new ScheduleCountingCirclesMergerRequest
+        var id = await CantonAdminClient.ScheduleMergerAsync(new ScheduleCountingCirclesMergerRequest
         {
             Bfs = "BFS M" + i,
             Code = "CODE M" + i,

@@ -37,7 +37,7 @@ public class MajorityElectionCandidateReorderTest : PoliticalBusinessAuthorizati
     [Fact]
     public async Task Test()
     {
-        await AdminClient.ReorderCandidatesAsync(NewValidRequest());
+        await ElectionAdminClient.ReorderCandidatesAsync(NewValidRequest());
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionCandidatesReordered, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
@@ -48,7 +48,7 @@ public class MajorityElectionCandidateReorderTest : PoliticalBusinessAuthorizati
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.ReorderCandidatesAsync(NewValidRequest());
+            await ElectionAdminClient.ReorderCandidatesAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<MajorityElectionCandidatesReordered>();
         });
     }
@@ -59,7 +59,7 @@ public class MajorityElectionCandidateReorderTest : PoliticalBusinessAuthorizati
         await TestEventPublisher.Publish(NewValidEvent());
         await TestEventPublisher.Publish(1, NewValidEvent());
 
-        var candidates = await AdminClient.ListCandidatesAsync(new ListMajorityElectionCandidatesRequest
+        var candidates = await ElectionAdminClient.ListCandidatesAsync(new ListMajorityElectionCandidatesRequest
         {
             MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestStGallen,
         });
@@ -70,7 +70,7 @@ public class MajorityElectionCandidateReorderTest : PoliticalBusinessAuthorizati
     public async Task NonSequentialPositionsShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.ReorderCandidatesAsync(NewValidRequest(l =>
+            async () => await ElectionAdminClient.ReorderCandidatesAsync(NewValidRequest(l =>
                 l.Orders.Orders[1].Position = 5)),
             StatusCode.InvalidArgument);
     }
@@ -80,7 +80,7 @@ public class MajorityElectionCandidateReorderTest : PoliticalBusinessAuthorizati
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.ReorderCandidatesAsync(new ReorderMajorityElectionCandidatesRequest
+            async () => await ElectionAdminClient.ReorderCandidatesAsync(new ReorderMajorityElectionCandidatesRequest
             {
                 MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund,
                 Orders = new ProtoModels.EntityOrders
@@ -106,7 +106,6 @@ public class MajorityElectionCandidateReorderTest : PoliticalBusinessAuthorizati
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;

@@ -14,6 +14,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Test.ImportTests.TestFiles;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -37,7 +38,7 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportPoliti
     public async Task TestShouldWork()
     {
         var request = await CreateValidRequest();
-        await AdminClient.ImportProportionalElectionListsAndCandidatesAsync(request);
+        await CantonAdminClient.ImportProportionalElectionListsAndCandidatesAsync(request);
 
         var listEvents = EventPublisherMock.GetPublishedEvents<ProportionalElectionListCreated>().ToList();
 
@@ -64,7 +65,7 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportPoliti
     {
         var request = await CreateValidRequest();
         request.Lists[0].Candidates[0].Candidate.Party.Id = DomainOfInfluenceMockedData.PartyIdGossauFLiG;
-        await AdminClient.ImportProportionalElectionListsAndCandidatesAsync(request);
+        await CantonAdminClient.ImportProportionalElectionListsAndCandidatesAsync(request);
 
         var candidateCreatedEvents = EventPublisherMock.GetPublishedEvents<ProportionalElectionCandidateCreated>();
         candidateCreatedEvents
@@ -79,7 +80,7 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportPoliti
         var request = await CreateValidRequest();
         request.Lists[0].Candidates[0].Candidate.Party.Id = "e8418b54-dd0f-4d89-9e47-68b57abf99e8";
         await AssertStatus(
-            async () => await AdminClient.ImportProportionalElectionListsAndCandidatesAsync(request),
+            async () => await CantonAdminClient.ImportProportionalElectionListsAndCandidatesAsync(request),
             StatusCode.InvalidArgument,
             "Party with id e8418b54-dd0f-4d89-9e47-68b57abf99e8 referenced by candidate 1a/1 not found");
     }
@@ -90,7 +91,7 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportPoliti
         var request = await CreateValidRequest();
         request.Lists[0].Candidates[0].Candidate.Party.Id = DomainOfInfluenceMockedData.PartyIdKirchgemeindeEVP;
         await AssertStatus(
-            async () => await AdminClient.ImportProportionalElectionListsAndCandidatesAsync(request),
+            async () => await CantonAdminClient.ImportProportionalElectionListsAndCandidatesAsync(request),
             StatusCode.InvalidArgument,
             $"Party with id {DomainOfInfluenceMockedData.PartyIdKirchgemeindeEVP} referenced by candidate 1a/1 not found");
     }
@@ -101,7 +102,7 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportPoliti
         var request = await CreateValidRequest();
         request.Lists[0].Candidates[0].Candidate.Id = request.Lists[0].Candidates[1].Candidate.Id;
         await AssertStatus(
-            async () => await AdminClient.ImportProportionalElectionListsAndCandidatesAsync(request),
+            async () => await CantonAdminClient.ImportProportionalElectionListsAndCandidatesAsync(request),
             StatusCode.InvalidArgument,
             "This id is not unique");
     }
@@ -111,7 +112,7 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportPoliti
     {
         var request = await CreateValidRequest();
 
-        await AdminClient.ImportProportionalElectionListsAndCandidatesAsync(request);
+        await CantonAdminClient.ImportProportionalElectionListsAndCandidatesAsync(request);
         var deleteListUnionEvents1 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListUnionDeleted>().ToList();
         var deleteListEvents1 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListDeleted>().ToList();
         var createListEvents1 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListCreated>().ToList();
@@ -127,7 +128,7 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportPoliti
         await Publish(nrOfEvents1, updateListUnionEntriesEvents1);
         EventPublisherMock.Clear();
 
-        await AdminClient.ImportProportionalElectionListsAndCandidatesAsync(request);
+        await CantonAdminClient.ImportProportionalElectionListsAndCandidatesAsync(request);
         var deleteListUnionEvents2 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListUnionDeleted>().ToList();
         var deleteListEvents2 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListDeleted>().ToList();
         var createListEvents2 = EventPublisherMock.GetPublishedEvents<ProportionalElectionListCreated>().ToList();
@@ -188,7 +189,6 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportPoliti
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;
@@ -196,11 +196,7 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportPoliti
 
     private async Task<ImportProportionalElectionListsAndCandidatesRequest> CreateValidRequest()
     {
-        var contest = await AdminClient.ResolveImportFileAsync(new ResolveImportFileRequest
-        {
-            ImportType = SharedProto.ImportType.Ech157,
-            FileContent = await GetTestEch0157File(),
-        });
+        var contest = await LoadContestImport(SharedProto.ImportType.Ech157, EchTestFiles.GetTestFilePath(EchTestFiles.Ech0157FileName));
 
         var proportionalElectionImport = contest.ProportionalElections[0];
 

@@ -78,6 +78,8 @@ public class MajorityElectionCandidateTest : ProtoValidatorBaseTest<ProtoModels.
         yield return NewValid(x => x.Origin = string.Empty);
         yield return NewValid(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(1));
         yield return NewValid(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(80));
+        yield return NewValid(x => x.DateOfBirth = null);
+        yield return NewValid(x => x.Sex = SexType.Unspecified);
     }
 
     protected override IEnumerable<ProtoModels.MajorityElectionCandidate> NotOkMessages()
@@ -101,8 +103,6 @@ public class MajorityElectionCandidateTest : ProtoValidatorBaseTest<ProtoModels.
         yield return NewValid(x => x.PoliticalLastName = string.Empty);
         yield return NewValid(x => x.PoliticalLastName = RandomStringUtil.GenerateSimpleSingleLineText(101));
         yield return NewValid(x => x.PoliticalLastName = "pol last\n name");
-        yield return NewValid(x => x.DateOfBirth = null);
-        yield return NewValid(x => x.Sex = SexType.Unspecified);
         yield return NewValid(x => x.Sex = (SexType)10);
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.Occupation, string.Empty, "test"));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.Occupation, RandomStringUtil.GenerateAlphabetic(1), "test"));

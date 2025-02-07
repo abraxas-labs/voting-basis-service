@@ -53,7 +53,7 @@ public class CountingCircleScheduleMergerTest : BaseGrpcTest<CountingCircleServi
     [Fact]
     public async Task TestShouldPublishAndReturnOk()
     {
-        var id = await AdminClient.ScheduleMergerAsync(NewValidRequest());
+        var id = await CantonAdminClient.ScheduleMergerAsync(NewValidRequest());
         var eventData = EventPublisherMock.GetSinglePublishedEvent<CountingCirclesMergerScheduled>();
         eventData.Merger.NewCountingCircle.Id.Should().Be(id.Id);
         eventData.Merger.Id = string.Empty;
@@ -64,7 +64,7 @@ public class CountingCircleScheduleMergerTest : BaseGrpcTest<CountingCircleServi
     [Fact]
     public async Task TestShouldPublishMergeIfTodayAndReturnOk()
     {
-        await AdminClient.ScheduleMergerAsync(NewValidRequest(x => x.ActiveFrom = MockedClock.GetTimestampDate()));
+        await CantonAdminClient.ScheduleMergerAsync(NewValidRequest(x => x.ActiveFrom = MockedClock.GetTimestampDate()));
         var mergeEvent = EventPublisherMock.GetSinglePublishedEvent<CountingCirclesMergerScheduled>();
         mergeEvent.Merger.Id.Should().NotBeEmpty();
 
@@ -88,12 +88,12 @@ public class CountingCircleScheduleMergerTest : BaseGrpcTest<CountingCircleServi
 
         // after schedule merge the new counting circle and the merged counting circles should not be editable.
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidUpdateRequest(x => x.Id = RapperswilJonaId)),
+            async () => await CantonAdminClient.UpdateAsync(NewValidUpdateRequest(x => x.Id = RapperswilJonaId)),
             StatusCode.InvalidArgument,
             "Modifications not allowed");
 
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidUpdateRequest(x => x.Id = CountingCircleMockedData.IdJona)),
+            async () => await CantonAdminClient.UpdateAsync(NewValidUpdateRequest(x => x.Id = CountingCircleMockedData.IdJona)),
             StatusCode.FailedPrecondition,
             "counting circle is in a scheduled merge");
 
@@ -108,7 +108,7 @@ public class CountingCircleScheduleMergerTest : BaseGrpcTest<CountingCircleServi
         await TestEventPublisher.Publish(1, mergeActivatedEvents.ToArray());
         await TestEventPublisher.Publish(2, mergedEvents.ToArray());
 
-        var ccListAfterActivated = await AdminClient.ListAsync(new ListCountingCircleRequest());
+        var ccListAfterActivated = await CantonAdminClient.ListAsync(new ListCountingCircleRequest());
         ccListAfterActivated.CountingCircles_.FirstOrDefault(cc => cc.Id == CountingCircleMockedData.IdRapperswil).Should().BeNull();
         ccListAfterActivated.CountingCircles_.FirstOrDefault(cc => cc.Id == CountingCircleMockedData.IdJona).Should().BeNull();
         ccListAfterActivated.CountingCircles_.FirstOrDefault(cc => cc.Id == RapperswilJonaId).MatchSnapshot("rapperswil-jona");
@@ -128,13 +128,13 @@ public class CountingCircleScheduleMergerTest : BaseGrpcTest<CountingCircleServi
         rapperswilJona.MergeOrigin!.Merged.Should().BeTrue();
 
         // after activated merge the new counting circle should be editable and the merged counting circles should be deleted.
-        await AdminClient.UpdateAsync(NewValidUpdateRequest(x => x.Id = RapperswilJonaId));
+        await CantonAdminClient.UpdateAsync(NewValidUpdateRequest(x => x.Id = RapperswilJonaId));
 
         var rapperswilJonaUpdateAfterActivatedMergeUpdate = EventPublisherMock.GetSinglePublishedEvent<CountingCircleUpdated>();
         rapperswilJonaUpdateAfterActivatedMergeUpdate.MatchSnapshot("updateAfterActivatedMerge");
 
         await AssertStatus(
-            async () => await AdminClient.UpdateAsync(NewValidUpdateRequest()),
+            async () => await CantonAdminClient.UpdateAsync(NewValidUpdateRequest()),
             StatusCode.InvalidArgument,
             "Modifications not allowed");
     }
@@ -142,28 +142,28 @@ public class CountingCircleScheduleMergerTest : BaseGrpcTest<CountingCircleServi
     [Fact]
     public Task NotExistingMergedCountingCircleId()
         => AssertStatus(
-            async () => await AdminClient.ScheduleMergerAsync(NewValidRequest(x => x.MergedCountingCircleIds.Add("2d1940fd-039b-437d-9d93-0e9af39a3551"))),
+            async () => await CantonAdminClient.ScheduleMergerAsync(NewValidRequest(x => x.MergedCountingCircleIds.Add("2d1940fd-039b-437d-9d93-0e9af39a3551"))),
             StatusCode.InvalidArgument,
             "Some counting circle ids to merge do not exist or are duplicates");
 
     [Fact]
     public Task DuplicateMergedCountingCircleId()
         => AssertStatus(
-            async () => await AdminClient.ScheduleMergerAsync(NewValidRequest(x => x.MergedCountingCircleIds.Add(CountingCircleMockedData.IdRapperswil))),
+            async () => await CantonAdminClient.ScheduleMergerAsync(NewValidRequest(x => x.MergedCountingCircleIds.Add(CountingCircleMockedData.IdRapperswil))),
             StatusCode.InvalidArgument,
             "Some counting circle ids to merge are duplicates");
 
     [Fact]
     public Task OnlyOneMergedCountingCircleId()
         => AssertStatus(
-            async () => await AdminClient.ScheduleMergerAsync(NewValidRequest(x => x.MergedCountingCircleIds.RemoveAt(1))),
+            async () => await CantonAdminClient.ScheduleMergerAsync(NewValidRequest(x => x.MergedCountingCircleIds.RemoveAt(1))),
             StatusCode.InvalidArgument,
             "Count");
 
     [Fact]
     public Task CopyFromIdNotInMergedCountingCircleIds()
         => AssertStatus(
-            async () => await AdminClient.ScheduleMergerAsync(NewValidRequest(x => x.CopyFromCountingCircleId = CountingCircleMockedData.IdGossau)),
+            async () => await CantonAdminClient.ScheduleMergerAsync(NewValidRequest(x => x.CopyFromCountingCircleId = CountingCircleMockedData.IdGossau)),
             StatusCode.InvalidArgument);
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
@@ -172,7 +172,6 @@ public class CountingCircleScheduleMergerTest : BaseGrpcTest<CountingCircleServi
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
     }
 

@@ -19,6 +19,7 @@ internal static class CandidateMapping
     private const int SwissCountryId = 8100;
     private const string SwissCountryIso = "CH";
     private const string SwissCountryNameShort = "Schweiz";
+    private static readonly DateTime DefaultDateOfBirth = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
     internal static CandidateType ToEchCandidateType(this DataModels.ElectionCandidate candidate, Dictionary<string, string>? party, DataModels.DomainOfInfluenceCanton canton, PoliticalBusinessType politicalBusinessType)
     {
@@ -46,15 +47,15 @@ internal static class CandidateMapping
         return new CandidateType
         {
             CandidateIdentification = candidate.Id.ToString(),
-            FamilyName = candidate.LastName,
+            FamilyName = candidate.PoliticalLastName,
             FirstName = candidate.FirstName,
             CallName = candidate.PoliticalFirstName,
             Title = candidate.Title,
             CandidateReference = candidate.Number,
             CandidateText = text.CandidateTextInfo,
-            DateOfBirth = candidate.DateOfBirth,
+            DateOfBirth = candidate.DateOfBirth ?? DefaultDateOfBirth,
             Sex = candidate.Sex.ToEchSexType(),
-            OccupationalTitle = occupationInfos,
+            OccupationalTitle = occupationInfos.Count == 0 ? null : occupationInfos,
             DwellingAddress = new AddressInformationType
             {
                 SwissZipCode = zipCodeIsSwiss ? (uint?)zipCode : null,
@@ -70,7 +71,7 @@ internal static class CandidateMapping
             Swiss = new List<string> { candidate.Origin != string.Empty ? candidate.Origin : UnknownMapping.UnknownValue },
             MrMrs = candidate.Sex.ToEchMrMrsType(),
             LanguageOfCorrespondence = Languages.German,
-            PartyAffiliation = partyInfos,
+            PartyAffiliation = partyInfos?.Count == 0 ? null : partyInfos,
             Role = null,
         };
     }
@@ -113,15 +114,16 @@ internal static class CandidateMapping
 
     internal static CandidateTextInformationType ToEchCandidateText(this DataModels.ElectionCandidate candidate, DataModels.DomainOfInfluenceCanton canton, PoliticalBusinessType politicalBusinessType, Dictionary<string, string>? party = null)
     {
-        var dateOfBirthText = DomainOfInfluenceCantonDataTransformer.EchCandidateDateOfBirthText(canton, candidate.DateOfBirth);
-        var candidateTextBase = $"{dateOfBirthText}, {{0}}{candidate.Locality}{{1}}{{2}}";
+        var dateOfBirthText = DomainOfInfluenceCantonDataTransformer.EchCandidateDateOfBirthText(canton, candidate.DateOfBirth ?? DefaultDateOfBirth);
+        var localityText = string.IsNullOrEmpty(candidate.Locality) ? string.Empty : $", {candidate.Locality}";
+        var candidateTextBase = $"{dateOfBirthText}{{0}}{localityText}{{1}}{{2}}";
         var textInfos = new CandidateTextInformationType();
         foreach (var language in Languages.All)
         {
             var occupationTitleText = string.Empty;
             if (candidate.OccupationTitle.TryGetValue(language, out var occupationTitle))
             {
-                occupationTitleText = $"{occupationTitle}, ";
+                occupationTitleText = $", {occupationTitle}";
             }
 
             var partyText = string.Empty;

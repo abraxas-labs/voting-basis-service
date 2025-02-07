@@ -30,16 +30,6 @@ public class ProportionalElectionListUnionGetTest : PoliticalBusinessAuthorizati
     }
 
     [Fact]
-    public async Task TestAsAdminShouldReturnOk()
-    {
-        var response = await AdminClient.GetListUnionAsync(new GetProportionalElectionListUnionRequest
-        {
-            Id = ProportionalElectionMockedData.ListUnion1IdGossauProportionalElectionInContestStGallen,
-        });
-        response.MatchSnapshot();
-    }
-
-    [Fact]
     public async Task TestAsElectionAdminShouldReturnOk()
     {
         var response = await ElectionAdminClient.GetListUnionAsync(new GetProportionalElectionListUnionRequest
@@ -53,7 +43,7 @@ public class ProportionalElectionListUnionGetTest : PoliticalBusinessAuthorizati
     public async Task TestNotFound()
     {
         await AssertStatus(
-            async () => await AdminClient.GetListUnionAsync(new GetProportionalElectionListUnionRequest
+            async () => await CantonAdminClient.GetListUnionAsync(new GetProportionalElectionListUnionRequest
             {
                 Id = IdNotFound,
             }),
@@ -71,9 +61,10 @@ public class ProportionalElectionListUnionGetTest : PoliticalBusinessAuthorizati
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
+        yield return Roles.CantonAdminReadOnly;
         yield return Roles.ElectionAdmin;
+        yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
     }
 }

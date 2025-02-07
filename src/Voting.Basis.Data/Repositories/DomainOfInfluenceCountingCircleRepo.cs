@@ -40,13 +40,12 @@ public class DomainOfInfluenceCountingCircleRepo
         }
 
         var entries = await query
-            .AsTracking() // tracking is not needed but identity resolution, can be optimized with AsNoTrackingWithIdentityResolution
+            .AsTracking()
             .Include(c => c.CountingCircle)
             .ThenInclude(c => c.ResponsibleAuthority)
             .OrderBy(c => c.CountingCircle.Name)
             .ToListAsync();
 
-        // this group by is not yet supported by ef core, should be available with ef core 5
         return entries
             .GroupBy(x => x.DomainOfInfluenceId)
             .ToDictionary(x => x.Key, x => x.ToList());

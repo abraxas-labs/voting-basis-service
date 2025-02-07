@@ -34,4 +34,8 @@ public class DomainOfInfluenceCantonDefaults
     public bool CandidateLocalityRequired { get; set; }
 
     public bool CandidateOriginRequired { get; set; }
+
+    public bool DomainOfInfluencePublishResultsOptionEnabled { get; set; }
+
+    public bool SecondaryMajorityElectionOnSeparateBallot { get; set; }
 }

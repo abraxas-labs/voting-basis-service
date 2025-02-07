@@ -50,6 +50,8 @@ public class CreateSecondaryMajorityElectionCandidateRequestTest : ProtoValidato
         yield return NewValidRequest(x => x.Origin = string.Empty);
         yield return NewValidRequest(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(1));
         yield return NewValidRequest(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(80));
+        yield return NewValidRequest(x => x.DateOfBirth = null);
+        yield return NewValidRequest(x => x.Sex = SexType.Unspecified);
     }
 
     protected override IEnumerable<CreateSecondaryMajorityElectionCandidateRequest> NotOkMessages()
@@ -71,8 +73,6 @@ public class CreateSecondaryMajorityElectionCandidateRequestTest : ProtoValidato
         yield return NewValidRequest(x => x.PoliticalLastName = string.Empty);
         yield return NewValidRequest(x => x.PoliticalLastName = RandomStringUtil.GenerateComplexSingleLineText(101));
         yield return NewValidRequest(x => x.PoliticalLastName = "pol last\n name");
-        yield return NewValidRequest(x => x.DateOfBirth = null);
-        yield return NewValidRequest(x => x.Sex = SexType.Unspecified);
         yield return NewValidRequest(x => x.Sex = (SexType)10);
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Occupation, string.Empty, "test"));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Occupation, RandomStringUtil.GenerateAlphabetic(1), "test"));

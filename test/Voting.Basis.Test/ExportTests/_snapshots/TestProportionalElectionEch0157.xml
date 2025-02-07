@@ -68,7 +68,7 @@
         </election>
         <candidate>
           <candidateIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">7c13d762-4166-41f6-b3a5-2c5f21c9dc43</candidateIdentification>
-          <familyName xmlns="http://www.ech.ch/xmlns/eCH-0155/4">lastName</familyName>
+          <familyName xmlns="http://www.ech.ch/xmlns/eCH-0155/4">pol last name</familyName>
           <firstName xmlns="http://www.ech.ch/xmlns/eCH-0155/4">firstName</firstName>
           <callName xmlns="http://www.ech.ch/xmlns/eCH-0155/4">pol first name</callName>
           <candidateText xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
@@ -146,7 +146,7 @@
         </candidate>
         <candidate>
           <candidateIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">21f29d48-349d-48e4-862f-723f5929db52</candidateIdentification>
-          <familyName xmlns="http://www.ech.ch/xmlns/eCH-0155/4">number 2</familyName>
+          <familyName xmlns="http://www.ech.ch/xmlns/eCH-0155/4">pol last name 2</familyName>
           <firstName xmlns="http://www.ech.ch/xmlns/eCH-0155/4">candidate</firstName>
           <callName xmlns="http://www.ech.ch/xmlns/eCH-0155/4">pol first name 2</callName>
           <candidateText xmlns="http://www.ech.ch/xmlns/eCH-0155/4">

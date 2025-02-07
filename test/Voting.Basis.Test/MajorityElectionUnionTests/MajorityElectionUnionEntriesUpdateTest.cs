@@ -38,7 +38,7 @@ public class MajorityElectionUnionEntriesUpdateTest : PoliticalBusinessUnionAuth
     [Fact]
     public async Task TestShouldReturnOk()
     {
-        await AdminClient.UpdateEntriesAsync(NewValidRequest());
+        await CantonAdminClient.UpdateEntriesAsync(NewValidRequest());
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionUnionEntriesUpdated, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
@@ -49,7 +49,7 @@ public class MajorityElectionUnionEntriesUpdateTest : PoliticalBusinessUnionAuth
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
         {
-            await AdminClient.UpdateEntriesAsync(NewValidRequest());
+            await CantonAdminClient.UpdateEntriesAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<MajorityElectionUnionEntriesUpdated>();
         });
     }
@@ -57,7 +57,7 @@ public class MajorityElectionUnionEntriesUpdateTest : PoliticalBusinessUnionAuth
     [Fact]
     public async Task EmptyElectionIdsShouldReturnOk()
     {
-        await AdminClient.UpdateEntriesAsync(NewValidRequest(x => x.MajorityElectionIds.Clear()));
+        await CantonAdminClient.UpdateEntriesAsync(NewValidRequest(x => x.MajorityElectionIds.Clear()));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionUnionEntriesUpdated>();
         eventData.MatchSnapshot("event");
     }
@@ -115,7 +115,7 @@ public class MajorityElectionUnionEntriesUpdateTest : PoliticalBusinessUnionAuth
     public async Task DuplicateElectionIdsShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateEntriesAsync(NewValidRequest(x => x.MajorityElectionIds.Add(MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen))),
+            async () => await CantonAdminClient.UpdateEntriesAsync(NewValidRequest(x => x.MajorityElectionIds.Add(MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen))),
             StatusCode.InvalidArgument,
             "duplicate political business id");
     }
@@ -124,7 +124,7 @@ public class MajorityElectionUnionEntriesUpdateTest : PoliticalBusinessUnionAuth
     public async Task ElectionIdOfDifferentTenantShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateEntriesAsync(NewValidRequest(x => x.MajorityElectionIds.Add(MajorityElectionMockedData.IdUzwilMajorityElectionInContestStGallen))),
+            async () => await CantonAdminClient.UpdateEntriesAsync(NewValidRequest(x => x.MajorityElectionIds.Add(MajorityElectionMockedData.IdUzwilMajorityElectionInContestStGallen))),
             StatusCode.InvalidArgument,
             "cannot assign a political business from a different tenant or different contest to a political business union");
     }
@@ -133,7 +133,7 @@ public class MajorityElectionUnionEntriesUpdateTest : PoliticalBusinessUnionAuth
     public async Task ElectionIdOfDifferentContestButSameTenantShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateEntriesAsync(NewValidRequest(x => x.MajorityElectionIds.Add(MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund))),
+            async () => await CantonAdminClient.UpdateEntriesAsync(NewValidRequest(x => x.MajorityElectionIds.Add(MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund))),
             StatusCode.InvalidArgument,
             "cannot assign a political business from a different tenant or different contest to a political business union");
     }
@@ -142,7 +142,7 @@ public class MajorityElectionUnionEntriesUpdateTest : PoliticalBusinessUnionAuth
     public async Task InvalidIdShouldThrow()
     {
         await AssertStatus(
-            async () => await AdminClient.UpdateEntriesAsync(NewValidRequest(x => x.MajorityElectionUnionId = "b4e22024-113b-49ac-8460-2bf1c4a074b1")),
+            async () => await CantonAdminClient.UpdateEntriesAsync(NewValidRequest(x => x.MajorityElectionUnionId = "b4e22024-113b-49ac-8460-2bf1c4a074b1")),
             StatusCode.NotFound);
     }
 
@@ -151,14 +151,13 @@ public class MajorityElectionUnionEntriesUpdateTest : PoliticalBusinessUnionAuth
     {
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.PastUnlocked);
         await AssertStatus(
-            async () => await AdminClient.UpdateEntriesAsync(NewValidRequest()),
+            async () => await CantonAdminClient.UpdateEntriesAsync(NewValidRequest()),
             StatusCode.FailedPrecondition,
             "Testing phase ended, cannot modify the contest");
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
     {
-        yield return Roles.Admin;
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;
