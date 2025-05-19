@@ -85,6 +85,9 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
                     ZipCode = "zip code",
                     Origin = "origin",
                     CheckDigit = 9,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             },
             new MajorityElectionCandidateCreated
@@ -110,6 +113,9 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
                     ZipCode = "zip code",
                     Origin = "origin",
                     CheckDigit = 9,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -354,6 +360,9 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
                     ZipCode = "zip code",
                     Origin = "origin",
                     CheckDigit = 9,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -391,6 +400,9 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
                     ZipCode = "zip code",
                     Origin = "origin",
                     CheckDigit = 9,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -443,6 +455,9 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
             Title = "title",
             ZipCode = "zip code",
             Origin = "origin",
+            Street = "street",
+            HouseNumber = "1a",
+            Country = "CH",
         };
 
         customizer?.Invoke(request);

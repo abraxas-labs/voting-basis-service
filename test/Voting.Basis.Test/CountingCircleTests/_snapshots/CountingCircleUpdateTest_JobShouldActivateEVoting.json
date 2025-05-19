@@ -73,7 +73,8 @@
       "EVotingActiveFrom": {
         "Seconds": 1578873600,
         "Nanos": 0
-      }
+      },
+      "ECounting": false
     }
   }
 }

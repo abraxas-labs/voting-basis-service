@@ -53,7 +53,7 @@ public class ProportionalElectionEchExportGenerator : IExportGenerator
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId, true);
 
-        var xmlBytes = _ech0157Serializer.ToDelivery(proportionalElection.Contest, proportionalElection);
+        var xmlBytes = await _ech0157Serializer.ToDelivery(proportionalElection.Contest, proportionalElection);
         var electionDescription = LanguageUtil.GetInCurrentLanguage(proportionalElection.ShortDescription);
         var fileName = FileNameUtil.GetXmlFileName(Ech0157Serializer.EchNumber, Ech0157Serializer.EchVersion, proportionalElection.Contest.DomainOfInfluence.Canton, proportionalElection.Contest.Date, electionDescription);
         return new ExportFile(xmlBytes, fileName, MediaTypeNames.Application.Xml);

@@ -172,6 +172,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("EndResultFinalizeDisabled")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("HideOccupationTitle")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("InternalPlausibilisationDisabled")
                         .HasColumnType("boolean");
 
@@ -404,6 +407,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("ECounting")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("EVoting")
                         .HasColumnType("boolean");
 
@@ -573,6 +579,21 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("ECollectingEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("ECollectingMaxElectronicSignaturePercent")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ECollectingMinSignatureCount")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("ElectoralRegisterMultipleEnabled")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("ElectoralRegistrationEnabled")
                         .HasColumnType("boolean");
@@ -809,6 +830,9 @@ namespace Voting.Basis.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("AggregateId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid?>("ContestId")
                         .HasColumnType("uuid");
 
@@ -816,6 +840,9 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("DomainOfInfluenceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("EntityId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("EventContent")
@@ -1143,10 +1170,18 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<int>("CheckDigit")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("date");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("HouseNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -1197,6 +1232,10 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<int>("Sex")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -1285,6 +1324,9 @@ namespace Voting.Basis.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime?>("ArchivePer")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("date");
 
@@ -1295,9 +1337,17 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<Guid>("DomainOfInfluenceId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("PastLockPer")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("State")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DomainOfInfluenceId");
+
+                    b.HasIndex("State", "DomainOfInfluenceId");
 
                     b.ToTable("PoliticalAssemblies");
                 });
@@ -1402,10 +1452,18 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<int>("CheckDigit")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("date");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("HouseNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -1455,6 +1513,10 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<int>("Sex")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -1726,10 +1788,18 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<int>("CheckDigit")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("date");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("HouseNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -1780,6 +1850,10 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<int>("Sex")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -1957,6 +2031,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("ECounting")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("EVoting")
                         .HasColumnType("boolean");
 
@@ -2066,6 +2143,18 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("Deleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("ECollectingEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("ECollectingMaxElectronicSignaturePercent")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ECollectingMinSignatureCount")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("ElectoralRegisterMultipleEnabled")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("ElectoralRegistrationEnabled")
@@ -2510,6 +2599,10 @@ namespace Voting.Basis.Data.Migrations
                             b1.Property<Guid>("DomainOfInfluenceId")
                                 .HasColumnType("uuid");
 
+                            b1.Property<string>("FrankingLicenceAwayNumber")
+                                .IsRequired()
+                                .HasColumnType("text");
+
                             b1.Property<string>("FrankingLicenceReturnNumber")
                                 .IsRequired()
                                 .HasColumnType("text");
@@ -2549,6 +2642,9 @@ namespace Voting.Basis.Data.Migrations
                             b1.Property<int[]>("EnabledPoliticalBusinessUnionTypes")
                                 .IsRequired()
                                 .HasColumnType("integer[]");
+
+                            b1.Property<bool>("HideOccupationTitle")
+                                .HasColumnType("boolean");
 
                             b1.Property<bool>("InternalPlausibilisationDisabled")
                                 .HasColumnType("boolean");
@@ -3168,6 +3264,10 @@ namespace Voting.Basis.Data.Migrations
                         {
                             b1.Property<Guid>("DomainOfInfluenceSnapshotId")
                                 .HasColumnType("uuid");
+
+                            b1.Property<string>("FrankingLicenceAwayNumber")
+                                .IsRequired()
+                                .HasColumnType("text");
 
                             b1.Property<string>("FrankingLicenceReturnNumber")
                                 .IsRequired()

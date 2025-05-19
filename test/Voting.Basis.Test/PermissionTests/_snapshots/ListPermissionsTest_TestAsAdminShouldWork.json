@@ -12,6 +12,7 @@
     "Contest:read-all",
     "PoliticalAssembly:read-all",
     "EventLog:read-all",
+    "EventLog:watch",
     "Export:export",
     "Export:export-all-political-businesses"
   ]

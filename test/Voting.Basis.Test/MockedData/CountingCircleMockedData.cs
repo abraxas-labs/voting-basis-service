@@ -109,6 +109,7 @@ public static class CountingCircleMockedData
             },
             ContactPersonAfterEvent = new CountingCircleContactPerson(),
             Canton = DomainOfInfluenceCanton.Sg,
+            ECounting = true,
             EVoting = true,
             EVotingActiveFrom = new DateTime(2019, 1, 1, 0, 0, 0, DateTimeKind.Utc),
         };

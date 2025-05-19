@@ -113,6 +113,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
     public int? FederalIdentification { get; private set; }
 
+    public List<SecondaryMajorityElection> SecondaryMajorityElectionsOnSameBallot => SecondaryMajorityElections.Where(sme => !sme.IsOnSeparateBallot).ToList();
+
     public void CreateFrom(MajorityElection majorityElection)
     {
         if (majorityElection.Id == default)
@@ -135,6 +137,11 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     {
         EnsureNotDeleted();
         _validator.ValidateAndThrow(majorityElection);
+
+        if (majorityElection.NumberOfMandates != NumberOfMandates && Active)
+        {
+            throw new MajorityElectionActiveNumberOfMandatesChangeException(Id);
+        }
 
         var ev = new MajorityElectionUpdated
         {
@@ -189,6 +196,12 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void UpdateActiveState(bool active)
     {
         EnsureNotDeleted();
+
+        if (active)
+        {
+            EnsureValidExistingBallotGroups();
+        }
+
         var ev = new MajorityElectionActiveStateUpdated
         {
             MajorityElectionId = Id.ToString(),
@@ -306,6 +319,9 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             Locality = candidate.Locality,
             Party = { candidate.Party },
             Origin = candidate.Origin,
+            Country = candidate.Country,
+            Street = candidate.Street,
+            HouseNumber = candidate.HouseNumber,
         };
 
         RaiseEvent(ev);
@@ -376,6 +392,11 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     {
         EnsureNotDeleted();
 
+        if (AnyElectionIsActive() && BallotGroups.Count > 0)
+        {
+            throw new SecondaryMajorityElectionCreateWithActiveElectionsAndBallotGroupsException(Id);
+        }
+
         if (data.Id == default)
         {
             data.Id = Guid.NewGuid();
@@ -394,6 +415,11 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     {
         EnsureNotDeleted();
         var sme = GetSecondaryMajorityElection(data.Id);
+
+        if (data.NumberOfMandates != sme.NumberOfMandates && sme.Active)
+        {
+            throw new MajorityElectionActiveNumberOfMandatesChangeException(data.Id);
+        }
 
         data.IsOnSeparateBallot = sme.IsOnSeparateBallot; // immutable
         var ev = new SecondaryMajorityElectionUpdated
@@ -451,6 +477,12 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void UpdateSecondaryMajorityElectionActiveState(Guid id, bool active)
     {
         EnsureNotDeleted();
+
+        if (active)
+        {
+            EnsureValidExistingBallotGroups();
+        }
+
         var sme = GetSecondaryMajorityElection(id);
 
         var ev = new SecondaryMajorityElectionActiveStateUpdated
@@ -479,8 +511,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
         var sme = GetSecondaryMajorityElection(data.MajorityElectionId);
         sme.EnsureValidCandidatePosition(data, true);
-        var referencedCandidates = sme.CandidateReferences.ConvertAll(r => FindCandidate(r.CandidateId));
-        sme.EnsureUniqueCandidateNumber(data, referencedCandidates);
+        sme.EnsureUniqueCandidateNumber(data, sme.CandidateReferences);
 
         data.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
 
@@ -506,8 +537,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         // ensure candidate exists
         sme.GetCandidate(data.Id);
         sme.EnsureValidCandidatePosition(data, false);
-        var referencedCandidates = sme.CandidateReferences.ConvertAll(r => FindCandidate(r.CandidateId));
-        sme.EnsureUniqueCandidateNumber(data, referencedCandidates);
+        sme.EnsureUniqueCandidateNumber(data, sme.CandidateReferences);
 
         data.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
 
@@ -557,6 +587,9 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             Locality = data.Locality,
             Party = { data.Party },
             Origin = data.Origin,
+            Country = data.Country,
+            Street = data.Street,
+            HouseNumber = data.HouseNumber,
         };
 
         RaiseEvent(ev);
@@ -600,10 +633,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             throw new ValidationException("Candidate reference already exists");
         }
 
-        var referencedCandidate = FindCandidate(data.CandidateId);
         sme.EnsureValidCandidatePosition(data, true);
-        var referencedCandidates = sme.CandidateReferences.ConvertAll(r => FindCandidate(r.CandidateId));
-        sme.EnsureUniqueCandidateNumber(data, referencedCandidates, referencedCandidate.Number);
+        sme.EnsureUniqueCandidateNumber(data, sme.CandidateReferences, data.Number);
 
         var candidateReferenceEventData = _mapper.Map<MajorityElectionCandidateReferenceEventData>(data);
         candidateReferenceEventData.PrimaryMajorityElectionId = Id.ToString();
@@ -630,10 +661,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             throw new ValidationException($"{nameof(data.CandidateId)} is immutable");
         }
 
-        var referencedCandidate = FindCandidate(data.CandidateId);
         sme.EnsureValidCandidatePosition(data, false);
-        var referencedCandidates = sme.CandidateReferences.ConvertAll(r => FindCandidate(r.CandidateId));
-        sme.EnsureUniqueCandidateNumber(data, referencedCandidates, referencedCandidate.Number);
+        sme.EnsureUniqueCandidateNumber(data, sme.CandidateReferences, data.Number);
 
         var candidateReferenceEventData = _mapper.Map<MajorityElectionCandidateReferenceEventData>(data);
         candidateReferenceEventData.PrimaryMajorityElectionId = Id.ToString();
@@ -716,7 +745,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
         EnsureNotDeleted();
         _ballotGroupValidator.ValidateAndThrow(data);
-        EnsureCorrectBallotGroupEntries(data.Entries);
+        EnsureValidCreateUpdateBallotGroupEntries(data.Entries);
 
         if (BallotGroups.Any(bg => bg.Id != data.Id && bg.Position == data.Position))
         {
@@ -728,9 +757,12 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             throw new ValidationException($"The ballot group position {data.Position} is invalid, is non-continuous.");
         }
 
+        var evBallotGroup = _mapper.Map<MajorityElectionBallotGroupEventData>(data);
+        evBallotGroup.BlankRowCountUnused = true;
+
         var ev = new MajorityElectionBallotGroupCreated
         {
-            BallotGroup = _mapper.Map<MajorityElectionBallotGroupEventData>(data),
+            BallotGroup = evBallotGroup,
             EventInfo = _eventInfoProvider.NewEventInfo(),
         };
 
@@ -751,7 +783,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         }
 
         _ballotGroupValidator.ValidateAndThrow(data);
-        EnsureCorrectBallotGroupEntries(data.Entries);
+        EnsureValidCreateUpdateBallotGroupEntries(data.Entries);
         var ballotGroup = GetBallotGroup(data.Id);
 
         if (data.Position != ballotGroup.Position)
@@ -764,15 +796,12 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             throw new ValidationException("Cannot change the id of a ballot group entry");
         }
 
-        if (testingPhaseEnded)
-        {
-            // If the contest testing phase is over, only ballot groups with invalid configurations (candidate count is not ok) can be modified
-            EnsureBallotGroupBlankRowsAreNotOk(ballotGroup);
-        }
+        var evBallotGroup = _mapper.Map<MajorityElectionBallotGroupEventData>(data);
+        evBallotGroup.BlankRowCountUnused = true;
 
         var ev = new MajorityElectionBallotGroupUpdated
         {
-            BallotGroup = _mapper.Map<MajorityElectionBallotGroupEventData>(data),
+            BallotGroup = evBallotGroup,
             EventInfo = _eventInfoProvider.NewEventInfo(),
         };
 
@@ -810,6 +839,9 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             // If the contest testing phase is over, only ballot groups with invalid configurations (candidate count is not ok) can be modified
             EnsureBallotGroupBlankRowsAreNotOk(ballotGroup);
         }
+
+        EnsureBallotGroupCandidateEntriesAreOk(data);
+        EnsureSelectedCandidatesAreSelectedInPrimaryElection(data);
 
         var ballotGroupCandidatesEventData = _mapper.Map<MajorityElectionBallotGroupCandidatesEventData>(data);
         ballotGroupCandidatesEventData.MajorityElectionId = Id.ToString();
@@ -1077,7 +1109,26 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     private void Apply(MajorityElectionBallotGroupUpdated ev)
     {
         var ballotGroup = GetBallotGroup(GuidParser.Parse(ev.BallotGroup.Id));
+        var existingEntriessById = ballotGroup.Entries.ToDictionary(x => x.Id);
+
+        // Overrides the ballot group and removes the existing entries.
         _mapper.Map(ev.BallotGroup, ballotGroup);
+
+        foreach (var entry in ballotGroup.Entries)
+        {
+            if (existingEntriessById.TryGetValue(entry.Id, out var existingEntry))
+            {
+                entry.CandidateIds.Clear();
+                entry.CandidateIds.AddRange(existingEntry.CandidateIds);
+                entry.IndividualCandidatesVoteCount = existingEntry.IndividualCandidatesVoteCount;
+
+                // When the blank row count is unused (new version) this field is set in the BallotGroupCandidatesUpdated event (already applied) instead of the BallotGroupUpdated event.
+                if (ev.BallotGroup.BlankRowCountUnused)
+                {
+                    entry.BlankRowCount = existingEntry.BlankRowCount;
+                }
+            }
+        }
     }
 
     private void Apply(MajorityElectionBallotGroupDeleted ev)
@@ -1103,6 +1154,12 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
                 entry.CandidateIds.Clear();
                 entry.CandidateIds.AddRange(eventEntry.CandidateIds);
                 entry.IndividualCandidatesVoteCount = eventEntry.IndividualCandidatesVoteCount;
+
+                // Only set blank row count if it is not null (new version). In a previous event version this was set on create or update ballot group.
+                if (eventEntry.BlankRowCount.HasValue)
+                {
+                    entry.BlankRowCount = eventEntry.BlankRowCount.Value;
+                }
             }
         }
     }
@@ -1129,6 +1186,15 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     {
         var sme = GetSecondaryMajorityElection(GuidParser.Parse(ev.SecondaryMajorityElectionId));
         SecondaryMajorityElections.Remove(sme);
+
+        foreach (var ballotGroup in BallotGroups)
+        {
+            var smeBgEntry = ballotGroup.Entries.FirstOrDefault(e => e.ElectionId == sme.Id);
+            if (smeBgEntry != null)
+            {
+                ballotGroup.Entries.Remove(smeBgEntry);
+            }
+        }
     }
 
     private void Apply(SecondaryMajorityElectionActiveStateUpdated ev)
@@ -1164,6 +1230,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         var sme = SecondaryMajorityElections.First(sme => sme.Candidates.Any(c => c.Id == candidateId));
         var candidate = sme.GetCandidate(candidateId);
         sme.Candidates.Remove(candidate);
+        sme.ReorderCandidatesAfterDeletion(candidate.Position);
     }
 
     private void Apply(SecondaryMajorityElectionCandidatesReordered ev)
@@ -1209,6 +1276,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         var sme = SecondaryMajorityElections.First(sme => sme.CandidateReferences.Any(c => c.Id == referenceId));
         var reference = sme.GetCandidateReference(referenceId);
         sme.CandidateReferences.Remove(reference);
+        sme.ReorderCandidatesAfterDeletion(reference.Position);
     }
 
     private MajorityElectionCandidate FindCandidate(Guid candidateId)
@@ -1255,7 +1323,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             ?? throw new ValidationException($"Ballot group {id} does not exist");
     }
 
-    private void EnsureCorrectBallotGroupEntries(IReadOnlyCollection<MajorityElectionBallotGroupEntry> entries)
+    private void EnsureValidCreateUpdateBallotGroupEntries(IReadOnlyCollection<MajorityElectionBallotGroupEntry> entries)
     {
         var electionIds = entries.Select(e => e.ElectionId).ToHashSet();
         if (entries.Count != electionIds.Count
@@ -1270,18 +1338,9 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             throw new ValidationException("A ballot group should contain all elections exactly once");
         }
 
-        foreach (var entry in entries)
+        if (entries.Any(e => e.BlankRowCount != 0))
         {
-            if (entry.ElectionId == Id && entry.BlankRowCount > NumberOfMandates)
-            {
-                throw new ValidationException("The ballot group cannot have more blank rows than number of mandates");
-            }
-
-            var sme = SecondaryMajorityElections.Find(e => e.Id == entry.ElectionId);
-            if (sme != null && entry.BlankRowCount > sme.NumberOfMandates)
-            {
-                throw new ValidationException("The ballot group cannot have more blank rows than number of mandates");
-            }
+            throw new ValidationException("Cannot set blank row count on create or update ballot group");
         }
     }
 
@@ -1300,6 +1359,66 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         }
 
         throw new ValidationException("The candidate count for this ballot group is correct, modifications aren't allowed anymore.");
+    }
+
+    private void EnsureBallotGroupEntriesAreOk(MajorityElectionBallotGroup ballotGroup)
+    {
+        var electionsCount = SecondaryMajorityElectionsOnSameBallot.Count + 1;
+        if (electionsCount != ballotGroup.Entries.Count)
+        {
+            throw new MajorityElectionBallotGroupVoteCountException(ballotGroup.Id);
+        }
+
+        foreach (var entry in ballotGroup.Entries)
+        {
+            var numberOfMandates = Id == entry.ElectionId
+                ? NumberOfMandates
+                : GetSecondaryMajorityElection(entry.ElectionId).NumberOfMandates;
+
+            if (!entry.CandidateCountOk(numberOfMandates))
+            {
+                throw new MajorityElectionBallotGroupVoteCountException(ballotGroup.Id);
+            }
+        }
+    }
+
+    private void EnsureBallotGroupCandidateEntriesAreOk(MajorityElectionBallotGroupCandidates ballotGroupCandidates)
+    {
+        var ballotGroup = GetBallotGroup(ballotGroupCandidates.BallotGroupId);
+        var ballotGroupCandidatesEntryIds = ballotGroupCandidates.EntryCandidates.ConvertAll(c => c.BallotGroupEntryId);
+
+        foreach (var entry in ballotGroupCandidates.EntryCandidates)
+        {
+            var ballotGroupEntry = ballotGroup.Entries.Single(e => e.Id == entry.BallotGroupEntryId);
+            var electionId = ballotGroupEntry.ElectionId;
+
+            if (electionId == Id
+                && NumberOfMandates == 1
+                && SecondaryMajorityElectionsOnSameBallot.Count == 0
+                && entry.BlankRowCount != 0)
+            {
+                throw new ValidationException("Cannot set blank row count on a single mandate election without secondary elections on the same ballot");
+            }
+
+            var numberOfMandates = Id == electionId
+                ? NumberOfMandates
+                : GetSecondaryMajorityElection(electionId).NumberOfMandates;
+
+            if (numberOfMandates != entry.CandidateIds.Count + entry.IndividualCandidatesVoteCount + entry.BlankRowCount)
+            {
+                throw new MajorityElectionBallotGroupVoteCountException(ballotGroup.Id);
+            }
+        }
+
+        var missingBallotGroupEntries = ballotGroup.Entries.Where(e => !ballotGroupCandidatesEntryIds.Contains(e.Id)).ToList();
+
+        if (ballotGroupCandidates.EntryCandidates.Any(e => e.IndividualCandidatesVoteCount + e.CandidateIds.Count > 0)
+            || missingBallotGroupEntries.Any(e => e.IndividualCandidatesVoteCount + e.CandidateIds.Count > 0))
+        {
+            return;
+        }
+
+        throw new ValidationException("A ballot group cannot contain only blank rows");
     }
 
     private void EnsureCandidateIsValid(MajorityElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
@@ -1343,6 +1462,46 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         if (allCandidateIdsInBallotGroups.Any(x => x == candidateId.ToString()))
         {
             throw new MajorityElectionCandidateIsInBallotGroupException(candidateId);
+        }
+    }
+
+    private void EnsureValidExistingBallotGroups()
+    {
+        foreach (var ballotGroup in BallotGroups)
+        {
+            EnsureBallotGroupEntriesAreOk(ballotGroup);
+        }
+    }
+
+    private bool AnyElectionIsActive() => Active || SecondaryMajorityElections.Any(m => m.Active);
+
+    private void EnsureSelectedCandidatesAreSelectedInPrimaryElection(MajorityElectionBallotGroupCandidates data)
+    {
+        var ballotGroup = BallotGroups.Single(bg => bg.Id == data.BallotGroupId);
+        var primaryBallotGroupEntry = ballotGroup.Entries.Single(e => e.ElectionId == Id);
+
+        var selectedPrimaryCandidateIds = data.EntryCandidates.SingleOrDefault(c => c.BallotGroupEntryId == primaryBallotGroupEntry.Id)?.CandidateIds
+            ?? primaryBallotGroupEntry.CandidateIds.ConvertAll(Guid.Parse);
+
+        foreach (var secondaryEntryCandidates in data.EntryCandidates.Where(c => c.BallotGroupEntryId != primaryBallotGroupEntry.Id))
+        {
+            var secondaryBallotGroupEntry = ballotGroup.Entries.Single(e => e.Id == secondaryEntryCandidates.BallotGroupEntryId);
+            var secondaryElection = SecondaryMajorityElections.Single(sme => sme.Id == secondaryBallotGroupEntry.ElectionId);
+
+            var candidateIdByRefId = secondaryElection.CandidateReferences.ToDictionary(c => c.Id, c => c.CandidateId);
+
+            if (secondaryElection.IsOnSeparateBallot)
+            {
+                continue;
+            }
+
+            foreach (var refId in secondaryEntryCandidates.CandidateIds)
+            {
+                if (candidateIdByRefId.TryGetValue(refId, out var candidateId) && !selectedPrimaryCandidateIds.Contains(candidateId))
+                {
+                    throw new SecondaryMajorityElectionCandidateNotSelectedInPrimaryElectionException();
+                }
+            }
         }
     }
 }

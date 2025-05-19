@@ -1,0 +1,788 @@
+{
+  "Countries_": [
+    {
+      "IsoId": "AF",
+      "Description": "Afghanistan"
+    },
+    {
+      "IsoId": "EG",
+      "Description": "Ägypten"
+    },
+    {
+      "IsoId": "AL",
+      "Description": "Albanien"
+    },
+    {
+      "IsoId": "DZ",
+      "Description": "Algerien"
+    },
+    {
+      "IsoId": "AD",
+      "Description": "Andorra"
+    },
+    {
+      "IsoId": "AO",
+      "Description": "Angola"
+    },
+    {
+      "IsoId": "AG",
+      "Description": "Antigua und Barbuda"
+    },
+    {
+      "IsoId": "GQ",
+      "Description": "Äquatorialguinea"
+    },
+    {
+      "IsoId": "AR",
+      "Description": "Argentinien"
+    },
+    {
+      "IsoId": "AM",
+      "Description": "Armenien"
+    },
+    {
+      "IsoId": "AZ",
+      "Description": "Aserbaidschan"
+    },
+    {
+      "IsoId": "ET",
+      "Description": "Äthiopien"
+    },
+    {
+      "IsoId": "AU",
+      "Description": "Australien"
+    },
+    {
+      "IsoId": "BS",
+      "Description": "Bahamas"
+    },
+    {
+      "IsoId": "BH",
+      "Description": "Bahrain"
+    },
+    {
+      "IsoId": "BD",
+      "Description": "Bangladesch"
+    },
+    {
+      "IsoId": "BB",
+      "Description": "Barbados"
+    },
+    {
+      "IsoId": "BY",
+      "Description": "Belarus"
+    },
+    {
+      "IsoId": "BE",
+      "Description": "Belgien"
+    },
+    {
+      "IsoId": "BZ",
+      "Description": "Belize"
+    },
+    {
+      "IsoId": "BJ",
+      "Description": "Benin"
+    },
+    {
+      "IsoId": "BT",
+      "Description": "Bhutan"
+    },
+    {
+      "IsoId": "BO",
+      "Description": "Bolivien"
+    },
+    {
+      "IsoId": "BA",
+      "Description": "Bosnien und Herzegowina"
+    },
+    {
+      "IsoId": "BW",
+      "Description": "Botsuana"
+    },
+    {
+      "IsoId": "BR",
+      "Description": "Brasilien"
+    },
+    {
+      "IsoId": "BN",
+      "Description": "Brunei Darussalam"
+    },
+    {
+      "IsoId": "BG",
+      "Description": "Bulgarien"
+    },
+    {
+      "IsoId": "BF",
+      "Description": "Burkina Faso"
+    },
+    {
+      "IsoId": "BI",
+      "Description": "Burundi"
+    },
+    {
+      "IsoId": "CV",
+      "Description": "Cabo Verde"
+    },
+    {
+      "IsoId": "CL",
+      "Description": "Chile"
+    },
+    {
+      "IsoId": "CN",
+      "Description": "China"
+    },
+    {
+      "IsoId": "CK",
+      "Description": "Cookinseln"
+    },
+    {
+      "IsoId": "CR",
+      "Description": "Costa Rica"
+    },
+    {
+      "IsoId": "CI",
+      "Description": "Côte d'Ivoire"
+    },
+    {
+      "IsoId": "DK",
+      "Description": "Dänemark"
+    },
+    {
+      "IsoId": "DE",
+      "Description": "Deutschland"
+    },
+    {
+      "IsoId": "DM",
+      "Description": "Dominica"
+    },
+    {
+      "IsoId": "DO",
+      "Description": "Dominikanische Republik"
+    },
+    {
+      "IsoId": "DJ",
+      "Description": "Dschibuti"
+    },
+    {
+      "IsoId": "EC",
+      "Description": "Ecuador"
+    },
+    {
+      "IsoId": "SV",
+      "Description": "El Salvador"
+    },
+    {
+      "IsoId": "ER",
+      "Description": "Eritrea"
+    },
+    {
+      "IsoId": "EE",
+      "Description": "Estland"
+    },
+    {
+      "IsoId": "SZ",
+      "Description": "Eswatini"
+    },
+    {
+      "IsoId": "FJ",
+      "Description": "Fidschi"
+    },
+    {
+      "IsoId": "FI",
+      "Description": "Finnland"
+    },
+    {
+      "IsoId": "FR",
+      "Description": "Frankreich"
+    },
+    {
+      "IsoId": "GA",
+      "Description": "Gabun"
+    },
+    {
+      "IsoId": "GM",
+      "Description": "Gambia"
+    },
+    {
+      "IsoId": "GE",
+      "Description": "Georgien"
+    },
+    {
+      "IsoId": "GH",
+      "Description": "Ghana"
+    },
+    {
+      "IsoId": "GD",
+      "Description": "Grenada"
+    },
+    {
+      "IsoId": "GR",
+      "Description": "Griechenland"
+    },
+    {
+      "IsoId": "GT",
+      "Description": "Guatemala"
+    },
+    {
+      "IsoId": "GN",
+      "Description": "Guinea"
+    },
+    {
+      "IsoId": "GW",
+      "Description": "Guinea-Bissau"
+    },
+    {
+      "IsoId": "GY",
+      "Description": "Guyana"
+    },
+    {
+      "IsoId": "HT",
+      "Description": "Haiti"
+    },
+    {
+      "IsoId": "HN",
+      "Description": "Honduras"
+    },
+    {
+      "IsoId": "IN",
+      "Description": "Indien"
+    },
+    {
+      "IsoId": "ID",
+      "Description": "Indonesien"
+    },
+    {
+      "IsoId": "IQ",
+      "Description": "Irak"
+    },
+    {
+      "IsoId": "IR",
+      "Description": "Iran"
+    },
+    {
+      "IsoId": "IE",
+      "Description": "Irland"
+    },
+    {
+      "IsoId": "IS",
+      "Description": "Island"
+    },
+    {
+      "IsoId": "IL",
+      "Description": "Israel"
+    },
+    {
+      "IsoId": "IT",
+      "Description": "Italien"
+    },
+    {
+      "IsoId": "JM",
+      "Description": "Jamaika"
+    },
+    {
+      "IsoId": "JP",
+      "Description": "Japan"
+    },
+    {
+      "IsoId": "YE",
+      "Description": "Jemen"
+    },
+    {
+      "IsoId": "JO",
+      "Description": "Jordanien"
+    },
+    {
+      "IsoId": "KH",
+      "Description": "Kambodscha"
+    },
+    {
+      "IsoId": "CM",
+      "Description": "Kamerun"
+    },
+    {
+      "IsoId": "CA",
+      "Description": "Kanada"
+    },
+    {
+      "IsoId": "KZ",
+      "Description": "Kasachstan"
+    },
+    {
+      "IsoId": "QA",
+      "Description": "Katar"
+    },
+    {
+      "IsoId": "KE",
+      "Description": "Kenia"
+    },
+    {
+      "IsoId": "KG",
+      "Description": "Kirgisistan"
+    },
+    {
+      "IsoId": "KI",
+      "Description": "Kiribati"
+    },
+    {
+      "IsoId": "CO",
+      "Description": "Kolumbien"
+    },
+    {
+      "IsoId": "KM",
+      "Description": "Komoren"
+    },
+    {
+      "IsoId": "CG",
+      "Description": "Kongo (Brazzaville)"
+    },
+    {
+      "IsoId": "CD",
+      "Description": "Kongo (Kinshasa)"
+    },
+    {
+      "IsoId": "KP",
+      "Description": "Korea (Nord-)"
+    },
+    {
+      "IsoId": "KR",
+      "Description": "Korea (Süd-)"
+    },
+    {
+      "IsoId": "XK",
+      "Description": "Kosovo"
+    },
+    {
+      "IsoId": "HR",
+      "Description": "Kroatien"
+    },
+    {
+      "IsoId": "CU",
+      "Description": "Kuba"
+    },
+    {
+      "IsoId": "KW",
+      "Description": "Kuwait"
+    },
+    {
+      "IsoId": "LA",
+      "Description": "Laos"
+    },
+    {
+      "IsoId": "LS",
+      "Description": "Lesotho"
+    },
+    {
+      "IsoId": "LV",
+      "Description": "Lettland"
+    },
+    {
+      "IsoId": "LB",
+      "Description": "Libanon"
+    },
+    {
+      "IsoId": "LR",
+      "Description": "Liberia"
+    },
+    {
+      "IsoId": "LY",
+      "Description": "Libyen"
+    },
+    {
+      "IsoId": "LI",
+      "Description": "Liechtenstein"
+    },
+    {
+      "IsoId": "LT",
+      "Description": "Litauen"
+    },
+    {
+      "IsoId": "LU",
+      "Description": "Luxemburg"
+    },
+    {
+      "IsoId": "MG",
+      "Description": "Madagaskar"
+    },
+    {
+      "IsoId": "MW",
+      "Description": "Malawi"
+    },
+    {
+      "IsoId": "MY",
+      "Description": "Malaysia"
+    },
+    {
+      "IsoId": "MV",
+      "Description": "Malediven"
+    },
+    {
+      "IsoId": "ML",
+      "Description": "Mali"
+    },
+    {
+      "IsoId": "MT",
+      "Description": "Malta"
+    },
+    {
+      "IsoId": "MA",
+      "Description": "Marokko"
+    },
+    {
+      "IsoId": "MH",
+      "Description": "Marshallinseln"
+    },
+    {
+      "IsoId": "MR",
+      "Description": "Mauretanien"
+    },
+    {
+      "IsoId": "MU",
+      "Description": "Mauritius"
+    },
+    {
+      "IsoId": "MX",
+      "Description": "Mexiko"
+    },
+    {
+      "IsoId": "FM",
+      "Description": "Mikronesien"
+    },
+    {
+      "IsoId": "MD",
+      "Description": "Moldova"
+    },
+    {
+      "IsoId": "MC",
+      "Description": "Monaco"
+    },
+    {
+      "IsoId": "MN",
+      "Description": "Mongolei"
+    },
+    {
+      "IsoId": "ME",
+      "Description": "Montenegro"
+    },
+    {
+      "IsoId": "MZ",
+      "Description": "Mosambik"
+    },
+    {
+      "IsoId": "MM",
+      "Description": "Myanmar"
+    },
+    {
+      "IsoId": "NA",
+      "Description": "Namibia"
+    },
+    {
+      "IsoId": "NR",
+      "Description": "Nauru"
+    },
+    {
+      "IsoId": "NP",
+      "Description": "Nepal"
+    },
+    {
+      "IsoId": "NZ",
+      "Description": "Neuseeland"
+    },
+    {
+      "IsoId": "NI",
+      "Description": "Nicaragua"
+    },
+    {
+      "IsoId": "NL",
+      "Description": "Niederlande"
+    },
+    {
+      "IsoId": "NE",
+      "Description": "Niger"
+    },
+    {
+      "IsoId": "NG",
+      "Description": "Nigeria"
+    },
+    {
+      "IsoId": "MK",
+      "Description": "Nordmazedonien"
+    },
+    {
+      "IsoId": "NO",
+      "Description": "Norwegen"
+    },
+    {
+      "IsoId": "OM",
+      "Description": "Oman"
+    },
+    {
+      "IsoId": "AT",
+      "Description": "Österreich"
+    },
+    {
+      "IsoId": "PK",
+      "Description": "Pakistan"
+    },
+    {
+      "IsoId": "PW",
+      "Description": "Palau"
+    },
+    {
+      "IsoId": "PA",
+      "Description": "Panama"
+    },
+    {
+      "IsoId": "PG",
+      "Description": "Papua-Neuguinea"
+    },
+    {
+      "IsoId": "PY",
+      "Description": "Paraguay"
+    },
+    {
+      "IsoId": "PE",
+      "Description": "Peru"
+    },
+    {
+      "IsoId": "PH",
+      "Description": "Philippinen"
+    },
+    {
+      "IsoId": "PL",
+      "Description": "Polen"
+    },
+    {
+      "IsoId": "PT",
+      "Description": "Portugal"
+    },
+    {
+      "IsoId": "RW",
+      "Description": "Ruanda"
+    },
+    {
+      "IsoId": "RO",
+      "Description": "Rumänien"
+    },
+    {
+      "IsoId": "RU",
+      "Description": "Russland"
+    },
+    {
+      "IsoId": "SB",
+      "Description": "Salomoninseln"
+    },
+    {
+      "IsoId": "ZM",
+      "Description": "Sambia"
+    },
+    {
+      "IsoId": "WS",
+      "Description": "Samoa"
+    },
+    {
+      "IsoId": "SM",
+      "Description": "San Marino"
+    },
+    {
+      "IsoId": "ST",
+      "Description": "São Tomé und Príncipe"
+    },
+    {
+      "IsoId": "SA",
+      "Description": "Saudi-Arabien"
+    },
+    {
+      "IsoId": "SE",
+      "Description": "Schweden"
+    },
+    {
+      "IsoId": "CH",
+      "Description": "Schweiz"
+    },
+    {
+      "IsoId": "SN",
+      "Description": "Senegal"
+    },
+    {
+      "IsoId": "RS",
+      "Description": "Serbien"
+    },
+    {
+      "IsoId": "SC",
+      "Description": "Seychellen"
+    },
+    {
+      "IsoId": "SL",
+      "Description": "Sierra Leone"
+    },
+    {
+      "IsoId": "ZW",
+      "Description": "Simbabwe"
+    },
+    {
+      "IsoId": "SG",
+      "Description": "Singapur"
+    },
+    {
+      "IsoId": "SK",
+      "Description": "Slowakei"
+    },
+    {
+      "IsoId": "SI",
+      "Description": "Slowenien"
+    },
+    {
+      "IsoId": "SO",
+      "Description": "Somalia"
+    },
+    {
+      "IsoId": "ES",
+      "Description": "Spanien"
+    },
+    {
+      "IsoId": "LK",
+      "Description": "Sri Lanka"
+    },
+    {
+      "IsoId": "KN",
+      "Description": "St. Kitts und Nevis"
+    },
+    {
+      "IsoId": "LC",
+      "Description": "St. Lucia"
+    },
+    {
+      "IsoId": "VC",
+      "Description": "St. Vincent und die Grenadinen"
+    },
+    {
+      "IsoId": "ZA",
+      "Description": "Südafrika"
+    },
+    {
+      "IsoId": "SD",
+      "Description": "Sudan"
+    },
+    {
+      "IsoId": "SS",
+      "Description": "Südsudan"
+    },
+    {
+      "IsoId": "SR",
+      "Description": "Suriname"
+    },
+    {
+      "IsoId": "SY",
+      "Description": "Syrien"
+    },
+    {
+      "IsoId": "TJ",
+      "Description": "Tadschikistan"
+    },
+    {
+      "IsoId": "TZ",
+      "Description": "Tansania"
+    },
+    {
+      "IsoId": "TH",
+      "Description": "Thailand"
+    },
+    {
+      "IsoId": "TL",
+      "Description": "Timor-Leste"
+    },
+    {
+      "IsoId": "TG",
+      "Description": "Togo"
+    },
+    {
+      "IsoId": "TO",
+      "Description": "Tonga"
+    },
+    {
+      "IsoId": "TT",
+      "Description": "Trinidad und Tobago"
+    },
+    {
+      "IsoId": "TD",
+      "Description": "Tschad"
+    },
+    {
+      "IsoId": "CZ",
+      "Description": "Tschechien"
+    },
+    {
+      "IsoId": "TN",
+      "Description": "Tunesien"
+    },
+    {
+      "IsoId": "TR",
+      "Description": "Türkiye"
+    },
+    {
+      "IsoId": "TM",
+      "Description": "Turkmenistan"
+    },
+    {
+      "IsoId": "TV",
+      "Description": "Tuvalu"
+    },
+    {
+      "IsoId": "UG",
+      "Description": "Uganda"
+    },
+    {
+      "IsoId": "UA",
+      "Description": "Ukraine"
+    },
+    {
+      "IsoId": "HU",
+      "Description": "Ungarn"
+    },
+    {
+      "IsoId": "UY",
+      "Description": "Uruguay"
+    },
+    {
+      "IsoId": "UZ",
+      "Description": "Usbekistan"
+    },
+    {
+      "IsoId": "VU",
+      "Description": "Vanuatu"
+    },
+    {
+      "IsoId": "VA",
+      "Description": "Vatikanstadt"
+    },
+    {
+      "IsoId": "VE",
+      "Description": "Venezuela"
+    },
+    {
+      "IsoId": "AE",
+      "Description": "Vereinigte Arabische Emirate"
+    },
+    {
+      "IsoId": "US",
+      "Description": "Vereinigte Staaten"
+    },
+    {
+      "IsoId": "GB",
+      "Description": "Vereinigtes Königreich"
+    },
+    {
+      "IsoId": "VN",
+      "Description": "Vietnam"
+    },
+    {
+      "IsoId": "CF",
+      "Description": "Zentralafrikanische Republik"
+    },
+    {
+      "IsoId": "CY",
+      "Description": "Zypern"
+    }
+  ]
+}

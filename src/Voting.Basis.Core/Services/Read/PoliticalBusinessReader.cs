@@ -50,6 +50,7 @@ public abstract class PoliticalBusinessReader<TPoliticalBusiness>
         var tenantId = Auth.Tenant.Id;
 
         return await Repo.Query()
+            .IgnoreQueryFilters() // Deleted DOI should still work
             .Where(pb => pb.ContestId == contestId && pb.DomainOfInfluence!.SecureConnectId == tenantId)
             .Include(pb => pb.DomainOfInfluence)
             .OrderBy(pb => pb.PoliticalBusinessNumber)

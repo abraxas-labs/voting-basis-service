@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Metadata;
@@ -78,12 +79,20 @@ public class SecondaryMajorityElectionCandidateDeleteTest : PoliticalBusinessAut
     [Fact]
     public async Task TestAggregate()
     {
-        var id = MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund;
+        var id = MajorityElectionMockedData.SecondaryElectionCandidateId1StGallenMajorityElectionInContestBund;
         await TestEventPublisher.Publish(new SecondaryMajorityElectionCandidateDeleted { SecondaryMajorityElectionCandidateId = id });
 
+        var candidates = await RunOnDb(db => db.SecondaryMajorityElectionCandidates
+            .Where(c => c.SecondaryMajorityElectionId == Guid.Parse(MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund))
+            .ToListAsync());
+
         var idGuid = Guid.Parse(id);
-        (await RunOnDb(db => db.SecondaryMajorityElectionCandidates.CountAsync(c => c.Id == idGuid)))
-            .Should().Be(0);
+        candidates.Where(c => c.Id == idGuid).Should().HaveCount(0);
+
+        // reorder candidates after deletion
+        var existingCandidate = candidates.Find(c => c.Id == Guid.Parse(MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund));
+        existingCandidate.Should().NotBeNull();
+        existingCandidate!.Position.Should().Be(1);
     }
 
     [Fact]
@@ -122,6 +131,9 @@ public class SecondaryMajorityElectionCandidateDeleteTest : PoliticalBusinessAut
                 ZipCode = "zip code",
                 Party = { LanguageUtil.MockAllLanguages("DFP") },
                 Origin = "origin",
+                Street = "street",
+                HouseNumber = "1a",
+                Country = "CH",
             });
             await RunEvents<SecondaryMajorityElectionCandidateCreated>();
 

@@ -77,7 +77,6 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
         };
         ev.BallotGroup.Entries.Add(new MajorityElectionBallotGroupEntryEventData
         {
-            BlankRowCount = 1,
             ElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen,
             Id = "323b8aa8-d73b-4b9d-8926-d332bd8f62d2",
         });
@@ -92,7 +91,7 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
     }
 
     [Fact]
-    public async Task TestAggregateMatchingEmptyRowCount()
+    public async Task TestProcessorDeprecatedEventWithBlankRowCount()
     {
         var ev = new MajorityElectionBallotGroupCreated
         {
@@ -122,10 +121,7 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
         });
 
         var entry = ballotGroups.BallotGroups.Single().Entries.Single();
-        entry.IndividualCandidatesVoteCount.Should().Be(0);
-        entry.CountOfCandidates.Should().Be(0);
         entry.BlankRowCount.Should().Be(5);
-        entry.CandidateCountOk.Should().BeTrue();
     }
 
     [Fact]
@@ -133,14 +129,6 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
     {
         await AssertStatus(
             async () => await ElectionAdminClient.CreateBallotGroupAsync(NewValidRequest(o => o.Position = 18)),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task MoreBlankRowCountThanNumberOfMandatesShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.CreateBallotGroupAsync(NewValidRequest(o => o.Entries[0].BlankRowCount = 24)),
             StatusCode.InvalidArgument);
     }
 

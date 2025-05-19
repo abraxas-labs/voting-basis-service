@@ -47,7 +47,8 @@
         "Electorates": [],
         "Canton": 1,
         "EVoting": false,
-        "EVotingActiveFrom": null
+        "EVotingActiveFrom": null,
+        "ECounting": false
       }
     ]
   }

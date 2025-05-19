@@ -14,7 +14,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Mocks;
 using Voting.Lib.Testing.Utils;
@@ -85,7 +84,7 @@ public class PoliticalAssemblyCreateTest : BaseGrpcTest<PoliticalAssemblyService
             politicalAssemblyEv1,
             politicalAssemblyEv2);
 
-        var politicalAssemblies = await ElectionAdminClient.ListAsync(new ListPoliticalAssemblyRequest());
+        var politicalAssemblies = await ElectionAdminClient.ListAsync(new ListPoliticalAssemblyRequest { State = Abraxas.Voting.Basis.Shared.V1.PoliticalAssemblyState.Active });
         politicalAssemblies.PoliticalAssemblies_.Should().HaveCount(2);
         politicalAssemblies.MatchSnapshot();
     }
@@ -113,18 +112,6 @@ public class PoliticalAssemblyCreateTest : BaseGrpcTest<PoliticalAssemblyService
         await AssertStatus(
             async () => await ElectionAdminClient.CreateAsync(
                 NewValidRequest(o => o.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdUzwil)),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task DomainOfInfluenceNotResponsibleForVotingCardsShouldThrow()
-    {
-        await ModifyDbEntities<DomainOfInfluence>(
-            c => c.Id == DomainOfInfluenceMockedData.GuidGossau,
-            c => c.ResponsibleForVotingCards = false);
-
-        await AssertStatus(
-            async () => await ElectionAdminClient.CreateAsync(NewValidRequest()),
             StatusCode.InvalidArgument);
     }
 

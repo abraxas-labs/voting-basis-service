@@ -54,7 +54,8 @@
         "CandidateLocalityRequired": false,
         "CandidateOriginRequired": false,
         "DomainOfInfluencePublishResultsOptionEnabled": true,
-        "SecondaryMajorityElectionOnSeparateBallot": true
+        "SecondaryMajorityElectionOnSeparateBallot": true,
+        "HideOccupationTitle": true
       },
       {
         "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -114,7 +115,8 @@
         "CandidateLocalityRequired": true,
         "CandidateOriginRequired": true,
         "DomainOfInfluencePublishResultsOptionEnabled": false,
-        "SecondaryMajorityElectionOnSeparateBallot": false
+        "SecondaryMajorityElectionOnSeparateBallot": false,
+        "HideOccupationTitle": true
       }
     ]
   },
@@ -133,6 +135,7 @@
         "SimplePoliticalBusinesses": [],
         "ExportConfigurations": [],
         "ModifiedOn": "2018-01-01T00:00:00Z",
+        "Deleted": false,
         "CantonDefaults": {
           "Canton": 1,
           "ProportionalElectionMandateAlgorithms": [
@@ -153,7 +156,8 @@
           "CandidateLocalityRequired": false,
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
-          "SecondaryMajorityElectionOnSeparateBallot": true
+          "SecondaryMajorityElectionOnSeparateBallot": true,
+          "HideOccupationTitle": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -193,10 +197,14 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "HideLowerDomainOfInfluencesInReports": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0,
         "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79"
       },
       {
@@ -212,6 +220,7 @@
         "SimplePoliticalBusinesses": [],
         "ExportConfigurations": [],
         "ModifiedOn": "2018-01-01T00:00:00Z",
+        "Deleted": false,
         "CantonDefaults": {
           "Canton": 1,
           "ProportionalElectionMandateAlgorithms": [
@@ -232,7 +241,8 @@
           "CandidateLocalityRequired": false,
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
-          "SecondaryMajorityElectionOnSeparateBallot": true
+          "SecondaryMajorityElectionOnSeparateBallot": true,
+          "HideOccupationTitle": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -272,10 +282,14 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "HideLowerDomainOfInfluencesInReports": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0,
         "Id": "22949a1e-fb09-47ec-9e9f-d26675676565"
       },
       {
@@ -291,6 +305,7 @@
         "SimplePoliticalBusinesses": [],
         "ExportConfigurations": [],
         "ModifiedOn": "2018-01-01T00:00:00Z",
+        "Deleted": false,
         "CantonDefaults": {
           "Canton": 1,
           "ProportionalElectionMandateAlgorithms": [
@@ -311,7 +326,8 @@
           "CandidateLocalityRequired": false,
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
-          "SecondaryMajorityElectionOnSeparateBallot": true
+          "SecondaryMajorityElectionOnSeparateBallot": true,
+          "HideOccupationTitle": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -351,10 +367,14 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "HideLowerDomainOfInfluencesInReports": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0,
         "Id": "692be088-00e2-490c-b1fd-828adc38571d"
       },
       {
@@ -370,6 +390,7 @@
         "SimplePoliticalBusinesses": [],
         "ExportConfigurations": [],
         "ModifiedOn": "2018-01-01T00:00:00Z",
+        "Deleted": false,
         "CantonDefaults": {
           "Canton": 1,
           "ProportionalElectionMandateAlgorithms": [
@@ -390,7 +411,8 @@
           "CandidateLocalityRequired": false,
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
-          "SecondaryMajorityElectionOnSeparateBallot": true
+          "SecondaryMajorityElectionOnSeparateBallot": true,
+          "HideOccupationTitle": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -430,10 +452,14 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "HideLowerDomainOfInfluencesInReports": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0,
         "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752"
       },
       {
@@ -449,6 +475,7 @@
         "SimplePoliticalBusinesses": [],
         "ExportConfigurations": [],
         "ModifiedOn": "2018-01-01T00:00:00Z",
+        "Deleted": false,
         "CantonDefaults": {
           "Canton": 1,
           "ProportionalElectionMandateAlgorithms": [
@@ -469,7 +496,8 @@
           "CandidateLocalityRequired": false,
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
-          "SecondaryMajorityElectionOnSeparateBallot": true
+          "SecondaryMajorityElectionOnSeparateBallot": true,
+          "HideOccupationTitle": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -518,6 +546,7 @@
         },
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
+          "FrankingLicenceAwayNumber": "73155598",
           "FrankingLicenceReturnNumber": "562984257"
         },
         "CreatedOn": "2018-01-01T00:00:00Z",
@@ -525,10 +554,14 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": true,
+        "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": true,
         "PublishResultsDisabled": true,
         "VotingCardFlatRateDisabled": true,
         "HideLowerDomainOfInfluencesInReports": false,
+        "ECollectingEnabled": true,
+        "ECollectingMinSignatureCount": 10000,
+        "ECollectingMaxElectronicSignaturePercent": 50,
         "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd"
       },
       {
@@ -544,6 +577,7 @@
         "SimplePoliticalBusinesses": [],
         "ExportConfigurations": [],
         "ModifiedOn": "2018-01-01T00:00:00Z",
+        "Deleted": false,
         "CantonDefaults": {
           "Canton": 1,
           "ProportionalElectionMandateAlgorithms": [
@@ -564,7 +598,8 @@
           "CandidateLocalityRequired": false,
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
-          "SecondaryMajorityElectionOnSeparateBallot": true
+          "SecondaryMajorityElectionOnSeparateBallot": true,
+          "HideOccupationTitle": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -604,10 +639,14 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "HideLowerDomainOfInfluencesInReports": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0,
         "Id": "ade30989-5e28-40c7-918c-2c9408f853ba"
       },
       {
@@ -623,6 +662,7 @@
         "SimplePoliticalBusinesses": [],
         "ExportConfigurations": [],
         "ModifiedOn": "2018-01-01T00:00:00Z",
+        "Deleted": false,
         "CantonDefaults": {
           "Canton": 1,
           "ProportionalElectionMandateAlgorithms": [
@@ -643,7 +683,8 @@
           "CandidateLocalityRequired": false,
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
-          "SecondaryMajorityElectionOnSeparateBallot": true
+          "SecondaryMajorityElectionOnSeparateBallot": true,
+          "HideOccupationTitle": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -683,10 +724,14 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "HideLowerDomainOfInfluencesInReports": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0,
         "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b"
       },
       {
@@ -702,6 +747,7 @@
         "SimplePoliticalBusinesses": [],
         "ExportConfigurations": [],
         "ModifiedOn": "2018-01-01T00:00:00Z",
+        "Deleted": false,
         "CantonDefaults": {
           "Canton": 1,
           "ProportionalElectionMandateAlgorithms": [
@@ -722,7 +768,8 @@
           "CandidateLocalityRequired": false,
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
-          "SecondaryMajorityElectionOnSeparateBallot": true
+          "SecondaryMajorityElectionOnSeparateBallot": true,
+          "HideOccupationTitle": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -762,10 +809,14 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "HideLowerDomainOfInfluencesInReports": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0,
         "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da"
       }
     ]

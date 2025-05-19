@@ -9,5 +9,7 @@ public class DomainOfInfluenceVotingCardSwissPostData
 {
     public string InvoiceReferenceNumber { get; set; } = string.Empty;
 
+    public string FrankingLicenceAwayNumber { get; set; } = string.Empty;
+
     public string FrankingLicenceReturnNumber { get; set; } = string.Empty;
 }

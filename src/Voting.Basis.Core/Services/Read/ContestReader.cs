@@ -5,13 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Configuration;
 using Voting.Basis.Core.Exceptions;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Core.Models;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Data;
@@ -21,7 +19,6 @@ using Voting.Basis.Data.Repositories;
 using Voting.Lib.Common;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Iam.Store;
-using Voting.Lib.Messaging;
 using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Core.Services.Read;
@@ -31,6 +28,10 @@ public class ContestReader
     private static readonly TimeSpan MaxPreconfiguredDatesDelta = TimeSpan.FromDays(2 * 365);
 
     private readonly IDbRepository<DataContext, Contest> _repo;
+    private readonly IDbRepository<DataContext, Vote> _voteRepo;
+    private readonly IDbRepository<DataContext, ProportionalElection> _proportionalElectionRepo;
+    private readonly IDbRepository<DataContext, MajorityElection> _majorityElectionRepo;
+    private readonly IDbRepository<DataContext, SecondaryMajorityElection> _secondaryMajorityElectionRepo;
     private readonly IDbRepository<DataContext, DateTime, PreconfiguredContestDate> _preconfiguredDatesRepo;
     private readonly DomainOfInfluenceHierarchyRepo _hierarchyRepo;
     private readonly CantonSettingsRepo _cantonSettingsRepo;
@@ -38,22 +39,26 @@ public class ContestReader
     private readonly IAuth _auth;
     private readonly PermissionService _permissionService;
     private readonly IClock _clock;
-    private readonly MessageConsumerHub<ContestOverviewChangeMessage> _contestOverviewChangeListener;
-    private readonly MessageConsumerHub<ContestDetailsChangeMessage> _contestDetailsChangeListener;
 
     public ContestReader(
         IDbRepository<DataContext, Contest> repo,
+        IDbRepository<DataContext, Vote> voteRepo,
+        IDbRepository<DataContext, ProportionalElection> proportionalElectionRepo,
+        IDbRepository<DataContext, MajorityElection> majorityElectionRepo,
+        IDbRepository<DataContext, SecondaryMajorityElection> secondaryMajorityElectionRepo,
         IDbRepository<DataContext, DateTime, PreconfiguredContestDate> preconfiguredDatesRepo,
         DomainOfInfluenceHierarchyRepo hierarchyRepo,
         CantonSettingsRepo cantonSettingsRepo,
         PublisherConfig config,
         IAuth auth,
         PermissionService permissionService,
-        IClock clock,
-        MessageConsumerHub<ContestOverviewChangeMessage> contestOverviewChangeListener,
-        MessageConsumerHub<ContestDetailsChangeMessage> contestDetailsChangeListener)
+        IClock clock)
     {
         _repo = repo;
+        _voteRepo = voteRepo;
+        _proportionalElectionRepo = proportionalElectionRepo;
+        _majorityElectionRepo = majorityElectionRepo;
+        _secondaryMajorityElectionRepo = secondaryMajorityElectionRepo;
         _preconfiguredDatesRepo = preconfiguredDatesRepo;
         _hierarchyRepo = hierarchyRepo;
         _cantonSettingsRepo = cantonSettingsRepo;
@@ -61,13 +66,13 @@ public class ContestReader
         _auth = auth;
         _permissionService = permissionService;
         _clock = clock;
-        _contestOverviewChangeListener = contestOverviewChangeListener;
-        _contestDetailsChangeListener = contestDetailsChangeListener;
     }
 
     public async Task<Contest> Get(Guid id)
     {
-        var query = _repo.Query().AsSplitQuery();
+        var query = _repo.Query()
+            .IgnoreQueryFilters() // Contests with a deleted DOI should still show
+            .AsSplitQuery();
 
         if (_auth.HasAnyPermission(Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll))
         {
@@ -93,11 +98,11 @@ public class ContestReader
         }
 
         var contest = await query
-            .Include(c => c.DomainOfInfluence)
-            .Include(c => c.ProportionalElectionUnions)
-            .Include(c => c.MajorityElectionUnions)
-            .FirstOrDefaultAsync(x => x.Id == id)
-            ?? throw new EntityNotFoundException(nameof(Contest), id);
+                          .Include(c => c.DomainOfInfluence)
+                          .Include(c => c.ProportionalElectionUnions)
+                          .Include(c => c.MajorityElectionUnions)
+                          .FirstOrDefaultAsync(x => x.Id == id)
+                      ?? throw new EntityNotFoundException(nameof(Contest), id);
 
         if (_auth.HasPermission(Permissions.Contest.ReadSameCanton)
             && !_auth.HasPermission(Permissions.Contest.ReadAll)
@@ -119,7 +124,7 @@ public class ContestReader
         }
 
         var canReadAllPbs = false;
-        List<Guid>? accessibleDois = null;
+        IReadOnlySet<Guid>? accessibleDois = null;
         if (_auth.HasPermission(Permissions.Contest.ReadAll))
         {
             // no restrictions
@@ -139,13 +144,16 @@ public class ContestReader
         }
 
         return await query
+            .IgnoreQueryFilters() // Contests with a deleted DOI should still show
             .Include(c => c.DomainOfInfluence)
             .Order(states)
             .Select(c => new ContestSummary
             {
                 Contest = c,
                 ContestEntriesDetails = c.SimplePoliticalBusinesses
-                    .Where(pb => pb.BusinessType != PoliticalBusinessType.SecondaryMajorityElection && (canReadAllPbs || accessibleDois!.Contains(pb.DomainOfInfluenceId)))
+                    .Where(pb =>
+                        pb.BusinessType != PoliticalBusinessType.SecondaryMajorityElection &&
+                        (canReadAllPbs || accessibleDois!.Contains(pb.DomainOfInfluenceId)))
                     .GroupBy(x => x.DomainOfInfluence!.Type)
                     .Select(x => new ContestSummaryEntryDetails
                     {
@@ -161,7 +169,9 @@ public class ContestReader
     public async Task<IEnumerable<Contest>> ListPast(DateTime date, Guid doiId)
     {
         return await _repo.Query()
-            .Where(c => c.Date < date.Date && c.DomainOfInfluence.Id == doiId && c.DomainOfInfluence.SecureConnectId == _auth.Tenant.Id)
+            .IgnoreQueryFilters() // Contests with a deleted DOI should still show
+            .Where(c => c.Date < date.Date && c.DomainOfInfluence.Id == doiId &&
+                        c.DomainOfInfluence.SecureConnectId == _auth.Tenant.Id)
             .ToListAsync();
     }
 
@@ -187,64 +197,99 @@ public class ContestReader
         return (await CheckAvailabilityInternal(date, domainOfInfluenceId)).Availability;
     }
 
-    public async Task ListenToContestOverviewChanges(
-        Func<ContestOverviewChangeMessage, Task> listener,
-        CancellationToken cancellationToken)
+    public async Task<PoliticalBusinessSummary> GetPoliticalBusinessSummary(
+        PoliticalBusinessType type,
+        Guid politicalBusinessId)
     {
-        Func<Contest, bool> contestFilter;
+        var result = type switch
+        {
+            PoliticalBusinessType.Vote =>
+                await _voteRepo.Query()
+                    .IgnoreQueryFilters() // Votes with a deleted DOI should still show
+                    .Include(x => x.DomainOfInfluence)
+                    .Where(x => x.Id == politicalBusinessId)
+                    .Select(x => new PoliticalBusinessSummary { PoliticalBusiness = x })
+                    .FirstOrDefaultAsync()
+                ?? throw new EntityNotFoundException(nameof(Vote), politicalBusinessId),
+            PoliticalBusinessType.ProportionalElection =>
+                await _proportionalElectionRepo.Query()
+                    .IgnoreQueryFilters() // Proportional elections with a deleted DOI should still show
+                    .Include(x => x.DomainOfInfluence)
+                    .Where(x => x.Id == politicalBusinessId)
+                    .Select(x => new PoliticalBusinessSummary
+                    {
+                        PoliticalBusiness = x,
+                        PoliticalBusinessUnionDescription =
+                            x.ProportionalElectionUnionEntries
+                                .First().ProportionalElectionUnion
+                                .Description ?? string.Empty,
+                        PoliticalBusinessUnionId =
+                            x.ProportionalElectionUnionEntries
+                                .First()
+                                .ProportionalElectionUnionId,
+                    })
+                    .FirstOrDefaultAsync() ??
+                throw new EntityNotFoundException(nameof(ProportionalElection), politicalBusinessId),
+            PoliticalBusinessType.MajorityElection =>
+                await _majorityElectionRepo.Query()
+                    .IgnoreQueryFilters() // Majority elections with a deleted DOI should still show
+                    .Include(x => x.DomainOfInfluence)
+                    .Where(x => x.Id == politicalBusinessId)
+                    .Select(x => new PoliticalBusinessSummary
+                    {
+                        PoliticalBusiness = x,
+                        PoliticalBusinessUnionDescription = x.MajorityElectionUnionEntries.First().MajorityElectionUnion.Description ?? string.Empty,
+                        PoliticalBusinessUnionId = x.MajorityElectionUnionEntries.First().MajorityElectionUnionId,
+                        ElectionGroupNumber = x.ElectionGroup!.Number.ToString() ?? string.Empty,
+                        ElectionGroupId = x.ElectionGroup!.Id,
+                    })
+                    .FirstOrDefaultAsync() ??
+                throw new EntityNotFoundException(nameof(MajorityElection), politicalBusinessId),
+            PoliticalBusinessType.SecondaryMajorityElection =>
+                await _secondaryMajorityElectionRepo.Query()
+                    .IgnoreQueryFilters() // Elections with a deleted DOI should still show
+                    .Include(x => x.PrimaryMajorityElection.DomainOfInfluence)
+                    .Where(x => x.Id == politicalBusinessId)
+                    .Select(x => new PoliticalBusinessSummary
+                    {
+                        PoliticalBusiness = x,
+                        ElectionGroupNumber = x.ElectionGroup.Number.ToString() ?? string.Empty,
+                        ElectionGroupId = x.ElectionGroup.Id,
+                    })
+                    .FirstOrDefaultAsync() ??
+                throw new EntityNotFoundException(nameof(SecondaryMajorityElection), politicalBusinessId),
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, "Unknown type"),
+        };
+
         if (_auth.HasPermission(Permissions.Contest.ReadAll))
         {
-            contestFilter = _ => true;
+            return result;
         }
-        else if (_auth.HasPermission(Permissions.Contest.ReadSameCanton))
+
+        if (_auth.HasPermission(Permissions.Contest.ReadSameCanton))
         {
-            var cantons = await GetAccessibleCantons();
-            contestFilter = contest => cantons.Contains(contest.DomainOfInfluence.Canton);
+            if (!await _permissionService.IsOwnerOfCanton(result.PoliticalBusiness.DomainOfInfluence!.Canton))
+            {
+                throw new EntityNotFoundException(nameof(PoliticalBusiness), politicalBusinessId);
+            }
+
+            return result;
         }
-        else
+
+        var doiHierarchyGroups = await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups();
+        if (!doiHierarchyGroups.AccessibleDoiIds.Contains(result.PoliticalBusiness.DomainOfInfluenceId))
         {
-            var tenantAndParentDoiIds = (await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups()).TenantAndParentDoiIds;
-            contestFilter = contest => tenantAndParentDoiIds.Contains(contest.DomainOfInfluenceId);
+            throw new EntityNotFoundException(nameof(PoliticalBusiness), politicalBusinessId);
         }
 
-        await _contestOverviewChangeListener.Listen(
-            e => e.Contest.Data != null && contestFilter(e.Contest.Data),
-            listener,
-            cancellationToken);
-    }
-
-    public async Task ListenToContestDetailsChanges(
-        Guid contestId,
-        Func<ContestDetailsChangeMessage, Task> listener,
-        CancellationToken cancellationToken)
-    {
-        var doi = await _repo.Query()
-            .Where(x => x.Id == contestId)
-            .Select(x => x.DomainOfInfluence)
-            .FirstOrDefaultAsync(cancellationToken)
-            ?? throw new EntityNotFoundException(nameof(Contest), contestId);
-        await _permissionService.EnsureCanReadDomainOfInfluence(doi);
-
-        Func<ContestDetailsChangeMessage, bool> filter = _ => true;
-        if (_auth.HasPermission(Permissions.Contest.ReadTenantHierarchy))
-        {
-            var accessibleDoiIds = (await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups()).AccessibleDoiIds;
-            filter = e => e.PoliticalBusinessUnion?.Data != null ||
-                (e.PoliticalBusiness?.Data != null && accessibleDoiIds.Contains(e.PoliticalBusiness.Data.DomainOfInfluenceId)) ||
-                (e.ElectionGroup?.Data != null && accessibleDoiIds.Contains(e.ElectionGroup.Data.PrimaryMajorityElection.DomainOfInfluenceId));
-        }
-
-        await _contestDetailsChangeListener.Listen(
-            e => e.ContestId.HasValue &&
-                 e.ContestId == contestId &&
-                 filter(e),
-            listener,
-            cancellationToken);
+        return result;
     }
 
     public async Task<IEnumerable<PoliticalBusinessSummary>> ListPoliticalBusinessSummaries(Guid contestId)
     {
-        var query = _repo.Query().AsSplitQuery();
+        var query = _repo.Query()
+            .IgnoreQueryFilters() // Political businesses with a deleted DOI should still show
+            .AsSplitQuery();
 
         if (_auth.HasAnyPermission(Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll))
         {
@@ -313,28 +358,33 @@ public class ContestReader
         var majorityElectionSummaries = contest.MajorityElections.Select(x => new PoliticalBusinessSummary
         {
             PoliticalBusiness = x,
-            PoliticalBusinessUnionDescription = x.MajorityElectionUnionEntries.FirstOrDefault()?.MajorityElectionUnion.Description ?? string.Empty,
+            PoliticalBusinessUnionDescription =
+                x.MajorityElectionUnionEntries.FirstOrDefault()?.MajorityElectionUnion.Description ?? string.Empty,
             PoliticalBusinessUnionId = x.MajorityElectionUnionEntries.FirstOrDefault()?.MajorityElectionUnionId,
             ElectionGroupNumber = x.ElectionGroup?.Number.ToString() ?? string.Empty,
             ElectionGroupId = x.ElectionGroup?.Id,
         }).ToList();
 
-        var secondaryMajorityElectionSummaries = contest.MajorityElections.SelectMany(x => x.SecondaryMajorityElections).Select(x => new PoliticalBusinessSummary
-        {
-            PoliticalBusiness = x,
-            ElectionGroupNumber = x.ElectionGroup.Number.ToString(),
-            ElectionGroupId = x.ElectionGroupId,
-        }).ToList();
+        var secondaryMajorityElectionSummaries = contest.MajorityElections.SelectMany(x => x.SecondaryMajorityElections)
+            .Select(x => new PoliticalBusinessSummary
+            {
+                PoliticalBusiness = x,
+                ElectionGroupNumber = x.ElectionGroup.Number.ToString(),
+                ElectionGroupId = x.ElectionGroupId,
+            }).ToList();
 
         var proportionalElectionSummaries = contest.ProportionalElections.Select(x => new PoliticalBusinessSummary
         {
             PoliticalBusiness = x,
-            PoliticalBusinessUnionDescription = x.ProportionalElectionUnionEntries.FirstOrDefault()?.ProportionalElectionUnion.Description ?? string.Empty,
+            PoliticalBusinessUnionDescription =
+                x.ProportionalElectionUnionEntries.FirstOrDefault()?.ProportionalElectionUnion.Description ??
+                string.Empty,
             PoliticalBusinessUnionId = x.ProportionalElectionUnionEntries.FirstOrDefault()?.ProportionalElectionUnionId,
         }).ToList();
 
         var voteSummaries = contest.Votes.Select(x => new PoliticalBusinessSummary { PoliticalBusiness = x }).ToList();
-        var politicalBusinesses = majorityElectionSummaries.Concat(secondaryMajorityElectionSummaries).Concat(proportionalElectionSummaries).Concat(voteSummaries);
+        var politicalBusinesses = majorityElectionSummaries.Concat(secondaryMajorityElectionSummaries)
+            .Concat(proportionalElectionSummaries).Concat(voteSummaries);
         return politicalBusinesses
             .OrderBy(x => x.PoliticalBusiness.DomainOfInfluence!.Type)
             .ThenBy(x => x.PoliticalBusiness.PoliticalBusinessNumber)
@@ -342,9 +392,10 @@ public class ContestReader
             .ThenBy(x => x.PoliticalBusiness.Id);
     }
 
-    internal async Task<(SharedProto.ContestDateAvailability Availability, IEnumerable<Contest> Contests)> CheckAvailabilityInternal(
-        DateTime date,
-        Guid doiId)
+    internal async Task<(SharedProto.ContestDateAvailability Availability, IEnumerable<Contest> Contests)>
+        CheckAvailabilityInternal(
+            DateTime date,
+            Guid doiId)
     {
         date = date.Date;
         var tenantId = _auth.Tenant.Id;
@@ -375,7 +426,7 @@ public class ContestReader
 
         if (await _preconfiguredDatesRepo.ExistsByKey(date))
         {
-            return (SharedProto.ContestDateAvailability.SameAsPreConfiguredDate, Enumerable.Empty<Contest>());
+            return (SharedProto.ContestDateAvailability.SameAsPreConfiguredDate, []);
         }
 
         var maxDate = date.Add(_config.Contest.ContestCreationWarnPeriod);
@@ -383,10 +434,10 @@ public class ContestReader
         if (await _repo.Query().AnyAsync(c =>
                 c.Date >= minDate && c.Date <= maxDate && hierarchy.ParentIds.Contains(c.DomainOfInfluenceId)))
         {
-            return (SharedProto.ContestDateAvailability.CloseToOtherContestDate, Enumerable.Empty<Contest>());
+            return (SharedProto.ContestDateAvailability.CloseToOtherContestDate, []);
         }
 
-        return (SharedProto.ContestDateAvailability.Available, Enumerable.Empty<Contest>());
+        return (SharedProto.ContestDateAvailability.Available, []);
     }
 
     private async Task<List<DomainOfInfluenceCanton>> GetAccessibleCantons()

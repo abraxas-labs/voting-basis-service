@@ -1,6 +1,7 @@
 // (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System;
 using Abraxas.Voting.Basis.Events.V1.Data;
 using AutoMapper;
 using Voting.Basis.Core.Domain;
@@ -13,6 +14,7 @@ public class PoliticalAssemblyProfile : Profile
     public PoliticalAssemblyProfile()
     {
         CreateMap<PoliticalAssembly, PoliticalAssemblyEventData>();
-        CreateMap<PoliticalAssemblyEventData, PoliticalAssemblyAggregate>();
+        CreateMap<PoliticalAssemblyEventData, PoliticalAssemblyAggregate>()
+             .ForMember(dst => dst.PastLockPer, opts => opts.MapFrom(src => src.Date.ToDateTime().NextUtcDate(true)));
     }
 }

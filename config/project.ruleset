@@ -2,6 +2,8 @@
 <RuleSet Name="Project Ruleset" Description="Default ruleset for dotnet core projects" ToolsVersion="15.0">
     <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
 
+        <Rule Id="SA1010" Action="None"/> <!-- opening square brakcets should not be preceded by a space: makes no sense for collection expressions -->
+
         <Rule Id="SA1633" Action="None"/> <!-- file header -->
 
         <Rule Id="SA1101" Action="None"/> <!-- prefix local calls with this -->

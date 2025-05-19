@@ -15,7 +15,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -103,10 +102,8 @@ public class ProportionalElectionListCreateTest : PoliticalBusinessAuthorization
         list1.MatchSnapshot("1");
         list2.MatchSnapshot("2");
 
-        await AssertHasPublishedMessage<ProportionalElectionListChangeMessage>(
-            x => x.List.HasEqualIdAndNewEntityState(listId1, EntityState.Added));
-        await AssertHasPublishedMessage<ProportionalElectionListChangeMessage>(
-            x => x.List.HasEqualIdAndNewEntityState(listId2, EntityState.Added));
+        await AssertHasPublishedEventProcessedMessage(ProportionalElectionListCreated.Descriptor, listId1);
+        await AssertHasPublishedEventProcessedMessage(ProportionalElectionListCreated.Descriptor, listId2);
     }
 
     [Fact]

@@ -2,7 +2,6 @@
 // For license information see LICENSE file
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
@@ -35,8 +34,8 @@ public class DomainOfInfluenceProcessor :
     IEventProcessor<DomainOfInfluencePlausibilisationConfigurationUpdated>
 {
     private readonly DomainOfInfluenceRepo _repo;
-    private readonly DomainOfInfluenceCountingCircleRepo _domainOfInfluenceCountingCircleRepo;
     private readonly DomainOfInfluenceCountingCircleRepo _doiCcRepo;
+    private readonly DataContext _dataContext;
     private readonly IDbRepository<DataContext, PlausibilisationConfiguration> _plausiRepo;
     private readonly DomainOfInfluencePermissionBuilder _permissionBuilder;
     private readonly DomainOfInfluenceHierarchyBuilder _hierarchyBuilder;
@@ -58,8 +57,8 @@ public class DomainOfInfluenceProcessor :
         DomainOfInfluenceHierarchyRepo hierarchyRepo,
         EventLoggerAdapter eventLogger,
         IDbRepository<DataContext, PlausibilisationConfiguration> plausiRepo,
-        DomainOfInfluenceCountingCircleRepo domainOfInfluenceCountingCircleRepo,
-        DomainOfInfluenceCountingCircleRepo doiCcRepo)
+        DomainOfInfluenceCountingCircleRepo doiCcRepo,
+        DataContext dataContext)
     {
         _mapper = mapper;
         _repo = repo;
@@ -71,8 +70,8 @@ public class DomainOfInfluenceProcessor :
         _doiPartyRepo = doiPartyRepo;
         _hierarchyRepo = hierarchyRepo;
         _plausiRepo = plausiRepo;
-        _domainOfInfluenceCountingCircleRepo = domainOfInfluenceCountingCircleRepo;
         _doiCcRepo = doiCcRepo;
+        _dataContext = dataContext;
     }
 
     public async Task Process(DomainOfInfluenceCreated eventData)
@@ -81,9 +80,8 @@ public class DomainOfInfluenceProcessor :
         await _domainOfInfluenceCantonDefaultsBuilder.BuildForDomainOfInfluence(model);
         await _repo.Create(model, eventData.EventInfo.Timestamp.ToDateTime());
 
-        var allDois = await _repo.Query().ToListAsync();
-        await _permissionBuilder.RebuildPermissionTree(allDois);
-        await _hierarchyBuilder.RebuildHierarchy(allDois);
+        await _hierarchyBuilder.InsertDomainOfInfluence(model);
+        await _permissionBuilder.BuildPermissionTreeForNewDomainOfInfluence(model);
 
         await _eventLogger.LogDomainOfInfluenceEvent(eventData, model);
     }
@@ -100,7 +98,8 @@ public class DomainOfInfluenceProcessor :
             ?? throw new EntityNotFoundException(id);
 
         var rebuildForRootDoiCantonUpdate = model.ParentId == null && existing.Canton != model.Canton;
-        var hierarchyOrTenantChanged = model.ParentId != existing.ParentId || model.SecureConnectId != existing.SecureConnectId;
+        var oldTenantId = existing.SecureConnectId;
+        var tenantChanged = model.SecureConnectId != oldTenantId;
 
         var oldCanton = existing.Canton;
         _mapper.Map(eventData.DomainOfInfluence, existing);
@@ -115,17 +114,15 @@ public class DomainOfInfluenceProcessor :
 
         await _repo.Update(existing, eventData.EventInfo.Timestamp.ToDateTime());
 
-        var allDois = await _repo.Query().ToListAsync();
-
         if (rebuildForRootDoiCantonUpdate)
         {
-            await _domainOfInfluenceCantonDefaultsBuilder.RebuildForRootDomainOfInfluenceCantonUpdate(existing, allDois);
+            await _domainOfInfluenceCantonDefaultsBuilder.RebuildForRootDomainOfInfluenceCantonUpdate(existing);
         }
 
-        if (hierarchyOrTenantChanged)
+        if (tenantChanged)
         {
-            await _permissionBuilder.RebuildPermissionTree(allDois);
-            await _hierarchyBuilder.RebuildHierarchy(allDois);
+            await _hierarchyBuilder.UpdateDomainOfInfluence(model.Id, model.SecureConnectId, oldTenantId);
+            await _permissionBuilder.RebuildPermissionTreeForDomainOfInfluence(model.Id, [model.SecureConnectId, oldTenantId]);
         }
 
         await _eventLogger.LogDomainOfInfluenceEvent(eventData, existing);
@@ -139,7 +136,7 @@ public class DomainOfInfluenceProcessor :
             .Select(GuidParser.Parse)
             .ToList();
 
-        var nonInheritedCountingCircleIds = await _domainOfInfluenceCountingCircleRepo.Query()
+        var nonInheritedCountingCircleIds = await _doiCcRepo.Query()
             .Where(x => x.DomainOfInfluenceId == domainOfInfluenceId)
             .WhereIsNotInherited()
             .Select(x => x.CountingCircleId)
@@ -157,43 +154,53 @@ public class DomainOfInfluenceProcessor :
             countingCircleIdsToRemove,
             dateTime);
 
-        await _permissionBuilder.RebuildPermissionTree();
+        await _permissionBuilder.RebuildPermissionTreeForDomainOfInfluence(domainOfInfluenceId);
     }
 
     public async Task Process(DomainOfInfluenceDeleted eventData)
     {
         var id = GuidParser.Parse(eventData.DomainOfInfluenceId);
 
-        var dois = await _repo.Query().ToListAsync();
-        var doisById = dois.ToDictionary(x => x.Id);
-        var existingDoi = doisById.GetValueOrDefault(id)
+        // This needs to be kept for backwards compatibility, as in earlier versions deleting a DoI
+        // would delete all children and references without an explicit event.
+        // Now related entities are deleted first via an explicit event before the DoI is deleted.
+        var hierarchyEntry = await _hierarchyRepo.Query()
+            .FirstOrDefaultAsync(x => x.DomainOfInfluenceId == id)
             ?? throw new EntityNotFoundException(id);
-
-        // load children into the existingDoi
-        DomainOfInfluenceTreeBuilder.BuildTree(dois);
-
-        // remove inherited assigned counting circles
-        var doisToRemove = GetFlattenChildrenInclSelf(existingDoi).ToList();
-        var doiIdsToRemove = doisToRemove.ConvertAll(x => x.Id);
-        var existingEntries = await _doiCcRepo.Query()
+        var doiIdsToRemove = hierarchyEntry.ChildIds.Prepend(id).ToList();
+        var existingCcEntries = await _doiCcRepo.Query()
             .Where(doiCc => doiIdsToRemove.Contains(doiCc.SourceDomainOfInfluenceId))
             .ToListAsync();
 
-        await _doiCcRepo.DeleteRange(existingEntries, eventData.EventInfo.Timestamp.ToDateTime());
+        await _doiCcRepo.DeleteRange(existingCcEntries, eventData.EventInfo.Timestamp.ToDateTime());
+        await _dataContext.ExportConfigurations
+            .Where(x => doiIdsToRemove.Contains(x.DomainOfInfluenceId))
+            .ExecuteDeleteAsync();
+        await _dataContext.Contests
+            .Where(x => x.State == ContestState.TestingPhase && doiIdsToRemove.Contains(x.DomainOfInfluenceId))
+            .ExecuteDeleteAsync();
+        await _dataContext.SimplePoliticalBusiness
+            .Where(x => x.Contest.State == ContestState.TestingPhase && doiIdsToRemove.Contains(x.DomainOfInfluenceId))
+            .ExecuteDeleteAsync();
+        await _dataContext.Votes
+            .Where(x => x.Contest.State == ContestState.TestingPhase && doiIdsToRemove.Contains(x.DomainOfInfluenceId))
+            .ExecuteDeleteAsync();
+        await _dataContext.MajorityElections
+            .Where(x => x.Contest.State == ContestState.TestingPhase && doiIdsToRemove.Contains(x.DomainOfInfluenceId))
+            .ExecuteDeleteAsync();
+        await _dataContext.ProportionalElections
+            .Where(x => x.Contest.State == ContestState.TestingPhase && doiIdsToRemove.Contains(x.DomainOfInfluenceId))
+            .ExecuteDeleteAsync();
 
-        // ensures that it will create a delete snapshot for all childs of the deleted doi
+        // ensures that it will create a delete snapshot for all childs of the deleted
+        var doisToRemove = await _repo.Query()
+            .Where(x => doiIdsToRemove.Contains(x.Id))
+            .ToListAsync();
         await _repo.DeleteRange(doisToRemove, eventData.EventInfo.Timestamp.ToDateTime());
 
-        foreach (var doi in doisToRemove)
-        {
-            doisById.Remove(doi.Id);
-        }
-
-        dois = doisById.Values.ToList();
-
-        await _permissionBuilder.RebuildPermissionTree(dois);
-        await _hierarchyBuilder.RebuildHierarchy(dois);
-        await _eventLogger.LogDomainOfInfluenceEvent(eventData, existingDoi);
+        await _hierarchyBuilder.RemoveDomainOfInfluences(doiIdsToRemove);
+        await _permissionBuilder.RebuildPermissionTreeForDomainOfInfluence(hierarchyEntry);
+        await _eventLogger.LogDomainOfInfluenceEvent(eventData, id);
     }
 
     public async Task Process(DomainOfInfluenceContactPersonUpdated eventData)
@@ -295,24 +302,6 @@ public class DomainOfInfluenceProcessor :
 
         await _repo.Update(existing, eventData.EventInfo.Timestamp.ToDateTime());
         await _eventLogger.LogDomainOfInfluenceEvent(eventData, existing);
-    }
-
-    private IEnumerable<DomainOfInfluence> GetFlattenParentsInclSelf(DomainOfInfluence? doi)
-    {
-        while (doi != null)
-        {
-            yield return doi;
-            doi = doi.Parent;
-        }
-    }
-
-    private IEnumerable<DomainOfInfluence> GetFlattenChildrenInclSelf(DomainOfInfluence doi)
-    {
-        yield return doi;
-        foreach (var childDoi in doi.Children.SelectMany(GetFlattenChildrenInclSelf))
-        {
-            yield return childDoi;
-        }
     }
 
     private async Task MapAndReplacePlausibilisationConfiguration(

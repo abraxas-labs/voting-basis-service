@@ -52,6 +52,9 @@
             "Position": 1,
             "Origin": "Heimatort",
             "CheckDigit": 6,
+            "Country": "CH",
+            "Street": "street",
+            "HouseNumber": "1a",
             "Id": "00000000-0000-0000-0000-000000000000"
           },
           {
@@ -82,6 +85,9 @@
             "Position": 2,
             "Origin": "Heimatort",
             "CheckDigit": 2,
+            "Country": "CH",
+            "Street": "street",
+            "HouseNumber": "1a",
             "Id": "00000000-0000-0000-0000-000000000000"
           }
         ],
@@ -138,6 +144,9 @@
             "Position": 1,
             "Origin": "Heimatort",
             "CheckDigit": 6,
+            "Country": "CH",
+            "Street": "street",
+            "HouseNumber": "1a",
             "Id": "00000000-0000-0000-0000-000000000000"
           }
         ],
@@ -194,6 +203,9 @@
             "Position": 1,
             "Origin": "Heimatort",
             "CheckDigit": 3,
+            "Country": "CH",
+            "Street": "street",
+            "HouseNumber": "1a",
             "Id": "00000000-0000-0000-0000-000000000000"
           },
           {
@@ -219,6 +231,9 @@
             "Position": 2,
             "Origin": "Heimatort",
             "CheckDigit": 1,
+            "Country": "CH",
+            "Street": "street",
+            "HouseNumber": "1a",
             "Id": "00000000-0000-0000-0000-000000000000"
           },
           {
@@ -244,6 +259,9 @@
             "Position": 3,
             "Origin": "Heimatort",
             "CheckDigit": 0,
+            "Country": "CH",
+            "Street": "street",
+            "HouseNumber": "1a",
             "Id": "00000000-0000-0000-0000-000000000000"
           }
         ],
@@ -300,6 +318,9 @@
             "Position": 1,
             "Origin": "Heimatort",
             "CheckDigit": 6,
+            "Country": "CH",
+            "Street": "street",
+            "HouseNumber": "1a",
             "Id": "00000000-0000-0000-0000-000000000000"
           }
         ],
@@ -356,6 +377,9 @@
             "Position": 1,
             "Origin": "Heimatort",
             "CheckDigit": 0,
+            "Country": "CH",
+            "Street": "street",
+            "HouseNumber": "1a",
             "Id": "00000000-0000-0000-0000-000000000000"
           },
           {
@@ -381,6 +405,9 @@
             "Position": 2,
             "Origin": "Heimatort",
             "CheckDigit": 9,
+            "Country": "CH",
+            "Street": "street",
+            "HouseNumber": "1a",
             "Id": "00000000-0000-0000-0000-000000000000"
           },
           {
@@ -406,6 +433,9 @@
             "Position": 4,
             "Origin": "Heimatort",
             "CheckDigit": 7,
+            "Country": "CH",
+            "Street": "street",
+            "HouseNumber": "1a",
             "Id": "00000000-0000-0000-0000-000000000000"
           },
           {
@@ -431,6 +461,9 @@
             "Position": 5,
             "Origin": "Heimatort",
             "CheckDigit": 3,
+            "Country": "CH",
+            "Street": "street",
+            "HouseNumber": "1a",
             "Id": "00000000-0000-0000-0000-000000000000"
           }
         ],

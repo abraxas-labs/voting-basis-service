@@ -14,6 +14,7 @@ using Voting.Basis.Core.Services.Write;
 using Voting.Lib.Common;
 using Voting.Lib.Grpc;
 using Voting.Lib.Iam.Authorization;
+using CountingCirclesMerger = Voting.Basis.Core.Domain.CountingCirclesMerger;
 using Permissions = Voting.Basis.Core.Auth.Permissions;
 using ServiceBase = Abraxas.Voting.Basis.Services.V1.CountingCircleService.CountingCircleServiceBase;
 
@@ -102,7 +103,7 @@ public class CountingCircleService : ServiceBase
     [AuthorizePermission(Permissions.CountingCircle.MergeSameCanton)]
     public override async Task<IdValue> ScheduleMerger(ScheduleCountingCirclesMergerRequest request, ServerCallContext context)
     {
-        var data = _mapper.Map<Core.Domain.CountingCirclesMerger>(request);
+        var data = _mapper.Map<CountingCirclesMerger>(request);
         var id = await _countingCircleWriter.ScheduleMerge(data);
         return new IdValue { Id = id.ToString() };
     }
@@ -110,7 +111,7 @@ public class CountingCircleService : ServiceBase
     [AuthorizePermission(Permissions.CountingCircle.MergeSameCanton)]
     public override async Task<Empty> UpdateScheduledMerger(UpdateScheduledCountingCirclesMergerRequest request, ServerCallContext context)
     {
-        var data = _mapper.Map<Core.Domain.CountingCirclesMerger>(request);
+        var data = _mapper.Map<CountingCirclesMerger>(request);
         await _countingCircleWriter.UpdateScheduledMerger(GuidParser.Parse(request.NewCountingCircleId), data);
         return ProtobufEmpty.Instance;
     }
@@ -128,16 +129,5 @@ public class CountingCircleService : ServiceBase
     {
         var data = await _countingCircleReader.ListMergers(request.Merged);
         return _mapper.Map<CountingCirclesMergers>(data);
-    }
-
-    [AuthorizeAnyPermission(Permissions.CountingCircle.Read, Permissions.CountingCircle.ReadSameCanton, Permissions.CountingCircle.ReadAll)]
-    public override Task GetChanges(
-        GetCountingCircleChangesRequest request,
-        IServerStreamWriter<CountingCircleChangeMessage> responseStream,
-        ServerCallContext context)
-    {
-        return _countingCircleReader.ListenToCountingCircleChanges(
-            e => responseStream.WriteAsync(_mapper.Map<CountingCircleChangeMessage>(e)),
-            context.CancellationToken);
     }
 }

@@ -12,7 +12,6 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -66,8 +65,7 @@ public class ProportionalElectionActiveStateUpdateTest : PoliticalBusinessAuthor
         var response = await CantonAdminClient.GetAsync(new GetProportionalElectionRequest { Id = id.ToString() });
         response.MatchSnapshot();
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id, EntityState.Modified));
+        await AssertHasPublishedEventProcessedMessage(ProportionalElectionActiveStateUpdated.Descriptor, id);
     }
 
     [Fact]

@@ -21,17 +21,17 @@
       "EntryCandidates": [
         {
           "BallotGroupEntryId": "513f5663-13f1-463b-b24d-4b3a7e2f7446",
-          "CandidateIds": [
-            "efdbb5e3-16bf-4a53-95c3-a35ed6371819"
-          ],
-          "IndividualCandidatesVoteCount": 2
+          "CandidateIds": [],
+          "IndividualCandidatesVoteCount": 1,
+          "BlankRowCount": 0
         },
         {
           "BallotGroupEntryId": "b0a01fbd-ea47-4228-91d4-8f3054d5fe93",
           "CandidateIds": [
             "f70ffba1-1cfd-402b-b6ea-f2c9f802886a"
           ],
-          "IndividualCandidatesVoteCount": 0
+          "IndividualCandidatesVoteCount": 0,
+          "BlankRowCount": 2
         }
       ],
       "MajorityElectionId": "b0da46f8-a721-4e1a-ac36-25284d68f34b"

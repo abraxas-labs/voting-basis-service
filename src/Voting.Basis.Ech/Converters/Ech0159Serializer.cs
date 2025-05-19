@@ -4,10 +4,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Xml.Schema;
 using Ech0159_4_0;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Mapping;
+using Voting.Lib.Common;
 using Voting.Lib.Ech;
+using Voting.Lib.Ech.Ech0159_4_0.Schemas;
 
 namespace Voting.Basis.Ech.Converters;
 
@@ -18,6 +22,7 @@ public class Ech0159Serializer
 
     private readonly DeliveryHeaderProvider _deliveryHeaderProvider;
     private readonly EchSerializer _echSerializer;
+    private XmlSchemaSet? _echSchemaSet;
 
     public Ech0159Serializer(DeliveryHeaderProvider deliveryHeaderProvider, EchSerializer echSerializer)
     {
@@ -31,7 +36,7 @@ public class Ech0159Serializer
     /// <param name="contest">The contest to serialize.</param>
     /// <param name="vote">The vote to serialize. It should contain the ballots, questions and tie break questions.</param>
     /// <returns>The serialized eCH-0159 data.</returns>
-    public byte[] ToEventInitialDelivery(Contest contest, Vote vote)
+    public Task<byte[]> ToEventInitialDelivery(Contest contest, Vote vote)
         => ToEventInitialDelivery(contest, new[] { vote });
 
     /// <summary>
@@ -40,7 +45,7 @@ public class Ech0159Serializer
     /// <param name="contest">The contest to serialize.</param>
     /// <param name="votes">The votes to serialize. They should contain the ballots, questions and tie break questions.</param>
     /// <returns>The serialized eCH-0159 data.</returns>
-    public byte[] ToEventInitialDelivery(Contest contest, IEnumerable<Vote> votes)
+    public Task<byte[]> ToEventInitialDelivery(Contest contest, IEnumerable<Vote> votes)
     {
         var contestType = contest.ToEchContestType();
 
@@ -66,10 +71,13 @@ public class Ech0159Serializer
         });
     }
 
-    private byte[] ToXmlBytes(Delivery delivery)
+    private async Task<byte[]> ToXmlBytes(Delivery delivery)
     {
-        using var memoryStream = new MemoryStream();
-        _echSerializer.WriteXml(memoryStream, delivery);
+        _echSchemaSet ??= Ech0159Schemas.LoadEch0159Schemas();
+        await using var memoryStream = new MemoryStream();
+        await using var xmlValidationStream = new XmlValidationOnWriteStream(memoryStream, _echSchemaSet);
+        _echSerializer.WriteXml(xmlValidationStream, delivery, leaveStreamOpen: true);
+        await xmlValidationStream.WaitForValidation();
         return memoryStream.ToArray();
     }
 }

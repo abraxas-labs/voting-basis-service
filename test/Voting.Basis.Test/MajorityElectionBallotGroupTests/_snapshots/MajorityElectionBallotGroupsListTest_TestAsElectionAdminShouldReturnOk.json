@@ -18,7 +18,7 @@
         {
           "Id": "b0a01fbd-ea47-4228-91d4-8f3054d5fe93",
           "ElectionId": "0741da26-add2-4c4c-960d-7e251b82e91b",
-          "BlankRowCount": 0,
+          "BlankRowCount": 2,
           "IndividualCandidatesVoteCount": 0,
           "CountOfCandidates": 0,
           "CandidateCountOk": false

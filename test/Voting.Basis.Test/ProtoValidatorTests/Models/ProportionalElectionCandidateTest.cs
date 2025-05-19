@@ -38,6 +38,9 @@ public class ProportionalElectionCandidateTest : ProtoValidatorBaseTest<ProtoMod
             AccumulatedPosition = 2,
             Party = DomainOfInfluencePartyTest.NewValid(),
             Origin = "origin",
+            Street = "street",
+            HouseNumber = "1a",
+            Country = "CH",
         };
 
         action?.Invoke(proportionalElectionCandidate);

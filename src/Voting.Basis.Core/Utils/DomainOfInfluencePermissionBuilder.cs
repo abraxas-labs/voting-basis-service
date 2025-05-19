@@ -17,46 +17,88 @@ namespace Voting.Basis.Core.Utils;
 
 public class DomainOfInfluencePermissionBuilder
 {
-    private readonly IDbRepository<DataContext, DomainOfInfluence> _repo;
+    private readonly DomainOfInfluenceRepo _repo;
     private readonly DomainOfInfluencePermissionRepo _permissionsRepo;
     private readonly DomainOfInfluenceCountingCircleRepo _countingCircleRepo;
     private readonly IDbRepository<DataContext, DomainOfInfluenceSnapshot> _snapshotRepo;
     private readonly DomainOfInfluenceCountingCircleSnapshotRepo _snapshotDoiCcRepo;
+    private readonly DomainOfInfluenceHierarchyRepo _hierarchyRepo;
 
     public DomainOfInfluencePermissionBuilder(
-        IDbRepository<DataContext, DomainOfInfluence> repo,
+        DomainOfInfluenceRepo repo,
         DomainOfInfluenceCountingCircleRepo countingCircleRepo,
         DomainOfInfluencePermissionRepo permissionsRepo,
         IDbRepository<DataContext, DomainOfInfluenceSnapshot> snapshotRepo,
-        DomainOfInfluenceCountingCircleSnapshotRepo snapshotDoiCcRepo)
+        DomainOfInfluenceCountingCircleSnapshotRepo snapshotDoiCcRepo,
+        DomainOfInfluenceHierarchyRepo hierarchyRepo)
     {
         _repo = repo;
         _countingCircleRepo = countingCircleRepo;
         _permissionsRepo = permissionsRepo;
         _snapshotRepo = snapshotRepo;
         _snapshotDoiCcRepo = snapshotDoiCcRepo;
+        _hierarchyRepo = hierarchyRepo;
     }
 
+    internal async Task BuildPermissionTreeForNewDomainOfInfluence(DomainOfInfluence doi)
+    {
+        var affectedTenants = await _hierarchyRepo.Query()
+            .Where(x => x.ChildIds.Contains(doi.Id))
+            .Select(x => x.TenantId)
+            .ToHashSetAsync();
+        affectedTenants.Add(doi.SecureConnectId);
+
+        await _permissionsRepo.CreateRange(affectedTenants.Select(x => new DomainOfInfluencePermissionEntry
+        {
+            IsParent = false,
+            TenantId = x,
+            DomainOfInfluenceId = doi.Id,
+        }));
+    }
+
+    /// <summary>
+    /// This method rebuilds the whole permission tree, which is very inefficient if used often.
+    /// Use the other variants if possible.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     internal async Task RebuildPermissionTree()
     {
-        var allDomainOfInfluences = await _repo
-            .Query()
-            .ToListAsync();
-        await RebuildPermissionTree(allDomainOfInfluences);
+        var allDomainOfInfluences = await _repo.GetAllSlim();
+        var countingCirclesByDomainOfInfluenceId = await CountingCirclesByDomainOfInfluenceId();
+        var tree = DomainOfInfluenceTreeBuilder.BuildTree(allDomainOfInfluences);
+
+        var allTenants = allDomainOfInfluences
+            .Select(d => d.SecureConnectId)
+            .Union(countingCirclesByDomainOfInfluenceId.Values.SelectMany(c => c.Select(cc => cc.TenantId)))
+            .ToHashSet();
+        var permissions = allTenants.SelectMany(tid => BuildEntriesForTenant(tree, tid, countingCirclesByDomainOfInfluenceId));
+
+        await _permissionsRepo.Replace(permissions.ToList());
     }
 
-    internal async Task RebuildPermissionTree(List<DomainOfInfluence> allDomainOfInfluences)
+    internal async Task RebuildPermissionTreeForDomainOfInfluence(Guid domainOfInfluenceId, HashSet<string>? affectedTenants = null)
     {
-        var countingCirclesByDomainOfInfluenceId = await _countingCircleRepo.CountingCirclesByDomainOfInfluenceId();
-        var tree = DomainOfInfluenceTreeBuilder.BuildTree(allDomainOfInfluences, countingCirclesByDomainOfInfluenceId);
+        var hierarchyEntry = await _hierarchyRepo.Query().FirstAsync(x => x.DomainOfInfluenceId == domainOfInfluenceId);
+        await RebuildPermissionTreeForDomainOfInfluence(hierarchyEntry, affectedTenants);
+    }
 
-        var allTenantIds = allDomainOfInfluences
-            .Select(d => d.SecureConnectId)
-            .Union(countingCirclesByDomainOfInfluenceId.Values.SelectMany(c =>
-                c.Select(cc => cc.CountingCircle.ResponsibleAuthority.SecureConnectId)))
-            .Distinct();
-        var permissions = allTenantIds.SelectMany(tid => BuildEntriesForTenant(tree, tid)).ToList();
-        await _permissionsRepo.Replace(permissions);
+    internal async Task RebuildPermissionTreeForDomainOfInfluence(DomainOfInfluenceHierarchy affectedHierarchy, HashSet<string>? affectedTenants = null)
+    {
+        var doisFromHierarchy = affectedHierarchy.ChildIds
+            .Concat(affectedHierarchy.ParentIds)
+            .Append(affectedHierarchy.DomainOfInfluenceId)
+            .ToHashSet();
+        await RebuildPermissionTree(doisFromHierarchy, affectedTenants);
+    }
+
+    internal async Task RebuildPermissionTreeForCountingCircle(Guid countingCircleId, HashSet<string>? affectedTenants = null)
+    {
+        var doiIds = await _countingCircleRepo.Query()
+            .Where(x => x.CountingCircleId == countingCircleId)
+            .Select(x => x.DomainOfInfluenceId)
+            .Distinct()
+            .ToHashSetAsync();
+        await RebuildPermissionTree(doiIds, affectedTenants);
     }
 
     internal async Task<IEnumerable<DomainOfInfluencePermissionEntry>> GetPermissionTreeSnapshot(
@@ -96,13 +138,55 @@ public class DomainOfInfluencePermissionBuilder
         return tenantIds;
     }
 
+    private async Task RebuildPermissionTree(HashSet<Guid>? affectedDomainOfInfluences, HashSet<string>? affectedTenants)
+    {
+        // Need to build the whole tree in all cases, otherwise we do not have enough information.
+        // For example removing a counting circle may or may not remove it from the root DOI, depending if
+        // other sub-DOIs also have it assigned.
+        var allDomainOfInfluences = await _repo.GetAllSlim();
+        var countingCirclesByDomainOfInfluenceId = await CountingCirclesByDomainOfInfluenceId();
+        var tree = DomainOfInfluenceTreeBuilder.BuildTree(allDomainOfInfluences);
+
+        var tenants = affectedTenants ?? allDomainOfInfluences
+            .Select(d => d.SecureConnectId)
+            .Union(countingCirclesByDomainOfInfluenceId.Values.SelectMany(c => c.Select(cc => cc.TenantId)))
+            .ToHashSet();
+        var permissions = tenants.SelectMany(tid => BuildEntriesForTenant(tree, tid, countingCirclesByDomainOfInfluenceId));
+
+        var query = _permissionsRepo.Query();
+        if (affectedDomainOfInfluences != null)
+        {
+            permissions = permissions.Where(x => affectedDomainOfInfluences.Contains(x.DomainOfInfluenceId));
+            query = query.Where(x => affectedDomainOfInfluences.Contains(x.DomainOfInfluenceId));
+        }
+
+        if (affectedTenants != null)
+        {
+            query = query.Where(x => affectedTenants.Contains(x.TenantId));
+        }
+
+        // Only delete the existing permissions if something would be affected
+        // Otherwise we would delete all permissions accidentally
+        if (affectedDomainOfInfluences?.Count > 0 || affectedTenants?.Count > 0)
+        {
+            await query.ExecuteDeleteAsync();
+        }
+
+        var toInsert = permissions.ToArray();
+        if (toInsert.Length > 0)
+        {
+            await _permissionsRepo.CreateRange(toInsert);
+        }
+    }
+
     private IEnumerable<DomainOfInfluencePermissionEntry> BuildEntriesForTenant(
         IEnumerable<DomainOfInfluence> entries,
-        string tenantId)
+        string tenantId,
+        Dictionary<Guid, List<(Guid CountingCircleId, string TenantId)>> countingCirclesByDoiId)
     {
         var tenantEntries =
             new Dictionary<(string TenantID, Guid DomainOfInfluenceId), DomainOfInfluencePermissionEntry>();
-        BuildEntriesForTenant(entries, tenantId, tenantEntries);
+        BuildEntriesForTenant(entries, tenantId, tenantEntries, countingCirclesByDoiId);
         return tenantEntries.Values;
     }
 
@@ -110,11 +194,12 @@ public class DomainOfInfluencePermissionBuilder
         IEnumerable<DomainOfInfluence> entries,
         string tenantId,
         Dictionary<(string TenantID, Guid DomainOfInfluenceId), DomainOfInfluencePermissionEntry> permissionEntries,
+        Dictionary<Guid, List<(Guid CountingCircleId, string TenantId)>> countingCirclesByDoiId,
         bool hasAccessToParent = false)
     {
         foreach (var entry in entries)
         {
-            BuildEntriesForTenant(entry, tenantId, permissionEntries, hasAccessToParent);
+            BuildEntriesForTenant(entry, tenantId, permissionEntries, countingCirclesByDoiId, hasAccessToParent);
         }
     }
 
@@ -122,20 +207,24 @@ public class DomainOfInfluencePermissionBuilder
         DomainOfInfluence doi,
         string tenantId,
         Dictionary<(string TenantID, Guid DomainOfInfluenceId), DomainOfInfluencePermissionEntry> permissionEntries,
+        Dictionary<Guid, List<(Guid CountingCircleId, string TenantId)>> countingCirclesByDoiId,
         bool hasAccessToParent = false)
     {
         var hasDirectAccess = doi.SecureConnectId == tenantId || hasAccessToParent;
-        var filteredCountingCircles = doi.CountingCircles
-            .Where(c => hasDirectAccess || c.CountingCircle.ResponsibleAuthority.SecureConnectId == tenantId);
+        var filteredCountingCircles = countingCirclesByDoiId.GetValueOrDefault(doi.Id, [])
+            .Where(c => hasDirectAccess || c.TenantId == tenantId)
+            .Select(c => c.CountingCircleId)
+            .Distinct()
+            .ToList();
 
-        if (hasDirectAccess || filteredCountingCircles.Any())
+        if (hasDirectAccess || filteredCountingCircles.Count > 0)
         {
             var entry = new DomainOfInfluencePermissionEntry
             {
                 IsParent = !hasDirectAccess,
                 TenantId = tenantId,
                 DomainOfInfluenceId = doi.Id,
-                CountingCircleIds = filteredCountingCircles.Select(c => c.CountingCircleId).Distinct().ToList(),
+                CountingCircleIds = filteredCountingCircles,
             };
 
             permissionEntries[(tenantId, doi.Id)] = entry;
@@ -143,7 +232,7 @@ public class DomainOfInfluencePermissionBuilder
             AddParentsToPermissions(doi, tenantId, permissionEntries);
         }
 
-        BuildEntriesForTenant(doi.Children, tenantId, permissionEntries, hasDirectAccess);
+        BuildEntriesForTenant(doi.Children, tenantId, permissionEntries, countingCirclesByDoiId, hasDirectAccess);
     }
 
     private void AddParentsToPermissions(
@@ -245,5 +334,22 @@ public class DomainOfInfluencePermissionBuilder
                 };
             currentParent = currentParent.Parent;
         }
+    }
+
+    private async Task<Dictionary<Guid, List<(Guid CountingCircleId, string TenantId)>>> CountingCirclesByDomainOfInfluenceId()
+    {
+        var entries = await _countingCircleRepo.Query()
+            .Where(x => x.CountingCircle.State == CountingCircleState.Active)
+            .Select(x => new
+            {
+                x.DomainOfInfluenceId,
+                x.CountingCircleId,
+                TenantId = x.CountingCircle.ResponsibleAuthority.SecureConnectId,
+            })
+            .ToListAsync();
+
+        return entries
+            .GroupBy(x => x.DomainOfInfluenceId)
+            .ToDictionary(x => x.Key, x => x.Select(y => (y.CountingCircleId, y.TenantId)).ToList());
     }
 }

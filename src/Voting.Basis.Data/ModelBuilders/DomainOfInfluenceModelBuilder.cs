@@ -17,6 +17,9 @@ public class DomainOfInfluenceModelBuilder :
     public void Configure(EntityTypeBuilder<DomainOfInfluence> builder)
     {
         builder
+            .HasQueryFilter(x => !x.Deleted);
+
+        builder
             .HasOne(di => di.Parent!)
             .WithMany(di => di!.Children)
             .HasForeignKey(di => di.ParentId)

@@ -15,7 +15,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -128,11 +128,7 @@ public class SecondaryMajorityElectionUpdateTest : PoliticalBusinessAuthorizatio
             await RunOnDb(db => db.MajorityElectionBallotGroups.Include(x => x.Entries).SingleAsync(x => x.Id == ballotGroupNotOkNowOkAfterUpdate));
         ballotGroup2.Entries.Single().CandidateCountOk.Should().BeTrue();
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(secondaryElectionId, EntityState.Modified));
-
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.ElectionGroup.HasEqualIdAndNewEntityState(Guid.Parse(MajorityElectionMockedData.ElectionGroupIdStGallenMajorityElectionInContestBund), EntityState.Modified));
+        await AssertHasPublishedEventProcessedMessage(SecondaryMajorityElectionUpdated.Descriptor, secondaryElectionId);
     }
 
     [Fact]
@@ -172,8 +168,7 @@ public class SecondaryMajorityElectionUpdateTest : PoliticalBusinessAuthorizatio
         });
         election.MatchSnapshot("reponse");
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id, EntityState.Modified));
+        await AssertHasPublishedEventProcessedMessage(SecondaryMajorityElectionAfterTestingPhaseUpdated.Descriptor, id);
     }
 
     [Fact]
@@ -209,6 +204,14 @@ public class SecondaryMajorityElectionUpdateTest : PoliticalBusinessAuthorizatio
     public Task DuplicatePoliticalBusinessIdShouldThrow()
     {
         return AssertStatus(
+            async () => await CantonAdminClient.UpdateSecondaryMajorityElectionAsync(NewValidRequest(v => v.PoliticalBusinessNumber = "n2")),
+            StatusCode.AlreadyExists);
+    }
+
+    [Fact]
+    public Task DuplicateMajorityElectionPoliticalBusinessIdShouldThrow()
+    {
+        return AssertStatus(
             async () => await CantonAdminClient.UpdateSecondaryMajorityElectionAsync(NewValidRequest(v => v.PoliticalBusinessNumber = "201")),
             StatusCode.AlreadyExists);
     }
@@ -224,6 +227,23 @@ public class SecondaryMajorityElectionUpdateTest : PoliticalBusinessAuthorizatio
             })),
             StatusCode.InvalidArgument,
             "Cannot disable individual candidates when there are individual candidates vote count defined on ballot group entries");
+    }
+
+    [Fact]
+    public async Task UpdateNumberOfMandatesOnActiveElectionShouldThrow()
+    {
+        var req = NewValidRequest(v => v.NumberOfMandates = 2);
+
+        await ElectionAdminClient.UpdateSecondaryMajorityElectionActiveStateAsync(new()
+        {
+            Id = req.Id,
+            Active = true,
+        });
+
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateSecondaryMajorityElectionAsync(req),
+            StatusCode.FailedPrecondition,
+            nameof(MajorityElectionActiveNumberOfMandatesChangeException));
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

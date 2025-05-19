@@ -110,6 +110,8 @@
             </occupationalTitleInfo>
           </occupationalTitle>
           <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
+            <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
             <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
             <foreignZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">zip code</foreignZipCode>
             <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
@@ -225,6 +227,8 @@
             </occupationalTitleInfo>
           </occupationalTitle>
           <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
+            <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
             <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
             <foreignZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">zip code</foreignZipCode>
             <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
@@ -303,6 +307,8 @@
             </occupationalTitleInfo>
           </occupationalTitle>
           <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
+            <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
             <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
             <foreignZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">zip code</foreignZipCode>
             <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
@@ -415,12 +421,14 @@
             </occupationalTitleInfo>
           </occupationalTitle>
           <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
+            <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
             <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
             <foreignZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">zip code</foreignZipCode>
             <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
-              <countryId>8100</countryId>
-              <countryIdISO2>CH</countryIdISO2>
-              <countryNameShort>Schweiz</countryNameShort>
+              <countryId>8218</countryId>
+              <countryIdISO2>IT</countryIdISO2>
+              <countryNameShort>Italien</countryNameShort>
             </country>
           </dwellingAddress>
           <swiss xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
@@ -493,6 +501,8 @@
             </occupationalTitleInfo>
           </occupationalTitle>
           <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
+            <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
             <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
             <foreignZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">zip code</foreignZipCode>
             <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
@@ -609,6 +619,8 @@
             </occupationalTitleInfo>
           </occupationalTitle>
           <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
+            <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
             <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
             <foreignZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">zip code</foreignZipCode>
             <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
@@ -687,6 +699,8 @@
             </occupationalTitleInfo>
           </occupationalTitle>
           <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
+            <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
             <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
             <foreignZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">zip code</foreignZipCode>
             <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
@@ -802,6 +816,8 @@
             </occupationalTitleInfo>
           </occupationalTitle>
           <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
+            <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
             <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
             <foreignZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">zip code</foreignZipCode>
             <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
@@ -880,6 +896,8 @@
             </occupationalTitleInfo>
           </occupationalTitle>
           <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
+            <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
             <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
             <foreignZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">zip code</foreignZipCode>
             <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
@@ -992,6 +1010,8 @@
             </occupationalTitleInfo>
           </occupationalTitle>
           <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
+            <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
             <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
             <foreignZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">zip code</foreignZipCode>
             <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
@@ -1070,6 +1090,8 @@
             </occupationalTitleInfo>
           </occupationalTitle>
           <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
+            <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
             <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
             <foreignZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">zip code</foreignZipCode>
             <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">

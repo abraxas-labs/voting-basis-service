@@ -22,6 +22,8 @@
     "SecondaryMajorityElection:read",
     "SecondaryMajorityElection.Candidate:read",
     "EventLog:read-same-tenant",
-    "Export:export"
+    "EventLog:watch",
+    "Export:export",
+    "Country:read"
   ]
 }

@@ -58,7 +58,6 @@ internal readonly struct ExceptionMapping
             MajorityElectionCandidateIsInBallotGroupException => new(StatusCode.FailedPrecondition, StatusCodes.Status424FailedDependency, true),
             ContestTestingPhaseEndedException => new(StatusCode.FailedPrecondition, StatusCodes.Status424FailedDependency),
             ModificationNotAllowedException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed),
-            ContestWithExistingPoliticalBusinessesException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
             CountingCircleInScheduledMergeException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
             CountingCirclesInScheduledMergeException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
             CountingCircleMergerAlreadyActiveException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
@@ -70,6 +69,10 @@ internal readonly struct ExceptionMapping
             AutoMapperMappingException autoMapperException when string.Equals(autoMapperException.Source, EnumMappingErrorSource) => new(StatusCode.InvalidArgument, StatusCodes.Status400BadRequest),
             ValidationException => new(StatusCode.InvalidArgument, StatusCodes.Status400BadRequest),
             XmlSchemaValidationException => new(StatusCode.InvalidArgument, StatusCodes.Status400BadRequest),
+            MajorityElectionActiveNumberOfMandatesChangeException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
+            MajorityElectionBallotGroupVoteCountException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
+            SecondaryMajorityElectionCreateWithActiveElectionsAndBallotGroupsException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
+            SecondaryMajorityElectionCandidateNotSelectedInPrimaryElectionException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
             _ => new(StatusCode.Internal, StatusCodes.Status500InternalServerError),
         };
 }

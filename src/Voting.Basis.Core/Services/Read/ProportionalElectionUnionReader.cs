@@ -63,6 +63,7 @@ public class ProportionalElectionUnionReader
     public async Task<List<PoliticalBusiness>> GetPoliticalBusinesses(Guid id)
     {
         var union = await _repo.Query()
+            .IgnoreQueryFilters() // Deleted DOI should still work
             .Include(u => u.Contest)
             .Include(u => u.ProportionalElectionUnionEntries)
             .ThenInclude(ue => ue.ProportionalElection.DomainOfInfluence)

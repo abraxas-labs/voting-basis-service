@@ -89,6 +89,8 @@ public class DomainOfInfluence
     /// </summary>
     public bool ElectoralRegistrationEnabled { get; set; }
 
+    public bool ElectoralRegisterMultipleEnabled { get; set; }
+
     public Guid? SuperiorAuthorityDomainOfInfluenceId { get; set; }
 
     public bool StistatMunicipality { get; set; }
@@ -101,4 +103,10 @@ public class DomainOfInfluence
     /// Gets or sets a value indicating whether domain of influences lower in the hierarchy than this should not be displayed in reports.
     /// </summary>
     public bool HideLowerDomainOfInfluencesInReports { get; set; }
+
+    public bool ECollectingEnabled { get; set; }
+
+    public int ECollectingMinSignatureCount { get; set; }
+
+    public int ECollectingMaxElectronicSignaturePercent { get; set; }
 }

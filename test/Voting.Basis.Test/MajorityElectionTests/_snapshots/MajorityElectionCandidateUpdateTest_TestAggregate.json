@@ -35,5 +35,8 @@
   "Locality": "locality",
   "Position": 1,
   "Origin": "origin",
-  "CheckDigit": 0
+  "CheckDigit": 0,
+  "Country": "CH",
+  "Street": "new street",
+  "HouseNumber": "new 1a"
 }

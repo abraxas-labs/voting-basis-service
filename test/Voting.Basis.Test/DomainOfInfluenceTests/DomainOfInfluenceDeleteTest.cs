@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Services.V1;
@@ -69,8 +70,10 @@ public class DomainOfInfluenceDeleteTest : BaseGrpcTest<DomainOfInfluenceService
     }
 
     [Fact]
-    public async Task TestAggregateShouldRemoveFromDatabaseInclInheritedCountingCirclesOnParents()
+    public async Task TestShouldBeRemovedFromDatabase()
     {
+        await ContestMockedData.Seed(RunScoped, false);
+
         await TestEventPublisher.Publish(new DomainOfInfluenceDeleted
         {
             DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau,
@@ -88,6 +91,56 @@ public class DomainOfInfluenceDeleteTest : BaseGrpcTest<DomainOfInfluenceService
                 .FirstOrDefaultAsync(di => di.DomainOfInfluenceId == DomainOfInfluenceMockedData.GuidGossau)))
             .Should()
             .BeNull();
+
+        // Contests NOT in the testing phase should still be present
+        (await RunOnDb(db => db.Contests.AnyAsync(c => c.Id == ContestMockedData.PastLockedContestNoPoliticalBusinesses.Id)))
+            .Should()
+            .BeTrue();
+
+        var permissions = await RunOnDb(db => db.DomainOfInfluencePermissions
+            .OrderBy(x => x.TenantId)
+            .ThenBy(x => x.DomainOfInfluenceId)
+            .ToListAsync());
+        foreach (var permission in permissions)
+        {
+            permission.CountingCircleIds.Sort();
+        }
+
+        permissions.MatchSnapshot("permissions", x => x.Id);
+
+        var hierarchies = await RunOnDb(db => db.DomainOfInfluenceHierarchies
+            .OrderBy(x => x.TenantId)
+            .ThenBy(x => x.DomainOfInfluenceId)
+            .ToListAsync());
+        foreach (var hierarchy in hierarchies)
+        {
+            hierarchy.ChildIds.Sort();
+        }
+
+        hierarchies.MatchSnapshot("hierarchies", x => x.Id);
+    }
+
+    [Fact]
+    public async Task TestAlsoDeleteDependantEntities()
+    {
+        await ContestMockedData.Seed(RunScoped, false);
+        await VoteMockedData.Seed(RunScoped, false);
+        await ProportionalElectionMockedData.Seed(RunScoped, false);
+        await ProportionalElectionUnionMockedData.Seed(RunScoped);
+        await MajorityElectionMockedData.Seed(RunScoped, false);
+        await MajorityElectionUnionMockedData.Seed(RunScoped);
+
+        await CantonAdminClient.DeleteAsync(new DeleteDomainOfInfluenceRequest
+        {
+            Id = DomainOfInfluenceMockedData.IdStGallen,
+        });
+
+        var publishedEvents = EventPublisherMock.AllPublishedEvents.ToArray();
+        var eventNamesInOrder = publishedEvents.Select(x => x.Data.GetType().Name);
+        eventNamesInOrder.MatchSnapshot();
+
+        // Check to see if event processing works correctly with the events in order
+        await TestEventPublisher.Publish(publishedEvents.Select(x => x.Data).ToArray());
     }
 
     [Fact]
@@ -171,6 +224,7 @@ public class DomainOfInfluenceDeleteTest : BaseGrpcTest<DomainOfInfluenceService
                 SwissPostData = new ProtoModels.DomainOfInfluenceVotingCardSwissPostData
                 {
                     InvoiceReferenceNumber = "505964478",
+                    FrankingLicenceAwayNumber = "71025613",
                     FrankingLicenceReturnNumber = "965333145",
                 },
             });

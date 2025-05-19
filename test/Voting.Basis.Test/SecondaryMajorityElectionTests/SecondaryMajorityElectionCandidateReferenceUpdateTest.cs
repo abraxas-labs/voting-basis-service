@@ -88,6 +88,15 @@ public class SecondaryMajorityElectionCandidateReferenceUpdateTest : PoliticalBu
             StatusCode.InvalidArgument);
     }
 
+    [Fact]
+    public async Task DuplicateNumberShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest(o => o.Number = "number1")),
+            StatusCode.AlreadyExists,
+            "NonUniqueCandidateNumber");
+    }
+
     protected override IEnumerable<string> AuthorizedRoles()
     {
         yield return Roles.CantonAdmin;
@@ -96,8 +105,13 @@ public class SecondaryMajorityElectionCandidateReferenceUpdateTest : PoliticalBu
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
-        => await new MajorityElectionService.MajorityElectionServiceClient(channel)
+    {
+        await new MajorityElectionService.MajorityElectionServiceClient(channel)
             .UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest());
+        await RunEvents<SecondaryMajorityElectionCandidateReferenceUpdated>();
+
+        await ElectionAdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest(x => x.Number = "number1"));
+    }
 
     private UpdateMajorityElectionCandidateReferenceRequest NewValidRequest(
         Action<UpdateMajorityElectionCandidateReferenceRequest>? customizer = null)

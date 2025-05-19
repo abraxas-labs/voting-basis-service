@@ -151,7 +151,7 @@ public class VoteProcessor :
         await _tieBreakQuestionRepo.Replace(model.Id, model.TieBreakQuestions);
         await _ballotRepo.Update(model);
 
-        await _eventLogger.LogBallotEvent(eventData, model, existingModel.Vote.ContestId);
+        await _eventLogger.LogBallotEvent(eventData, model, existingModel.Vote.ContestId, existingModel.Vote.DomainOfInfluenceId);
         await UpdateVoteSubTypeIfNecessary(existingModel.VoteId);
     }
 
@@ -167,7 +167,7 @@ public class VoteProcessor :
         await _tieBreakQuestionRepo.Replace(ballot.Id, ballot.TieBreakQuestions);
         await _ballotRepo.Update(ballot);
 
-        await _eventLogger.LogBallotEvent(eventData, ballot, ballot.Vote.ContestId);
+        await _eventLogger.LogBallotEvent(eventData, ballot);
         await UpdateVoteSubTypeIfNecessary(ballot.VoteId);
     }
 

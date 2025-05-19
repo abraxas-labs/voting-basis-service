@@ -180,7 +180,7 @@ public class ContestArchiveTest : BaseGrpcTest<ContestService.ContestServiceClie
     [Fact]
     public async Task TestForeignDomainOfInfluenceShouldThrow()
     {
-        var id = "98952b97-5cc9-4d0f-a321-57900efb5d2c";
+        const string id = "98952b97-5cc9-4d0f-a321-57900efb5d2c";
         await SeedContest(id, true, DomainOfInfluenceMockedData.IdGenf);
         await AssertStatus(
             async () => await ElectionAdminClient.ArchiveAsync(new ArchiveContestRequest
@@ -193,7 +193,7 @@ public class ContestArchiveTest : BaseGrpcTest<ContestService.ContestServiceClie
     [Fact]
     public async Task ContestNotPastShouldThrow()
     {
-        var id = "c90795b7-b535-4a70-b7da-482b6e1f7a08";
+        const string id = "c90795b7-b535-4a70-b7da-482b6e1f7a08";
         await SeedContest(id, false);
         await AssertStatus(
             async () => await ElectionAdminClient.ArchiveAsync(new ArchiveContestRequest
@@ -335,7 +335,7 @@ public class ContestArchiveTest : BaseGrpcTest<ContestService.ContestServiceClie
         var services = scope.ServiceProvider;
         var mapper = services.GetRequiredService<TestMapper>();
         services.GetRequiredService<IAuthStore>()
-            .SetValues(string.Empty, "test", "test", Enumerable.Empty<string>());
+            .SetValues(string.Empty, "test", "test", []);
 
         var contestProto = new ProtoModels.Contest
         {

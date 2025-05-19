@@ -14,7 +14,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing.Mocks;
@@ -154,6 +153,7 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
                     NameForProtocol = "Stadt St. Gallen",
                     SortNumber = 1,
                     Canton = DomainOfInfluenceCanton.Sg,
+                    ECounting = true,
                 },
                 EventInfo = GetMockedEventInfo(),
             });
@@ -163,10 +163,8 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
         var electorateExists = await RunOnDb(db => db.CountingCircleElectorates.AnyAsync(e => e.Id == electorateBzId));
         electorateExists.Should().BeTrue();
 
-        await AssertHasPublishedMessage<CountingCircleChangeMessage>(
-            x => x.CountingCircle.HasEqualIdAndNewEntityState(countingCircleId1, EntityState.Added));
-        await AssertHasPublishedMessage<CountingCircleChangeMessage>(
-            x => x.CountingCircle.HasEqualIdAndNewEntityState(countingCircleId2, EntityState.Added));
+        await AssertHasPublishedEventProcessedMessage(CountingCircleCreated.Descriptor, countingCircleId1);
+        await AssertHasPublishedEventProcessedMessage(CountingCircleCreated.Descriptor, countingCircleId2);
     }
 
     [Fact]
@@ -294,6 +292,7 @@ public class CountingCircleCreateTest : BaseGrpcTest<CountingCircleService.Count
                 },
             },
             Canton = DomainOfInfluenceCanton.Sg,
+            ECounting = true,
         };
         customizer?.Invoke(request);
         return request;

@@ -78,6 +78,7 @@ public class MajorityElectionUnionReader
     private IQueryable<MajorityElectionUnion> BuildQuery()
     {
         return _repo.Query()
+            .IgnoreQueryFilters() // Deleted DOI should still work
             .Include(u => u.Contest)
             .Include(u => u.MajorityElectionUnionEntries)
             .ThenInclude(ue => ue.MajorityElection.DomainOfInfluence);

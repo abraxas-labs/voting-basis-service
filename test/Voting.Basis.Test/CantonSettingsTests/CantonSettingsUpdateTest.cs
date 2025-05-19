@@ -105,6 +105,7 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
                     PublishResultsBeforeAuditedTentatively = true,
                     DomainOfInfluencePublishResultsOptionEnabled = true,
                     SecondaryMajorityElectionOnSeparateBallot = true,
+                    HideOccupationTitle = true,
                 },
                 EventInfo = GetMockedEventInfo(),
             });

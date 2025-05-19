@@ -101,7 +101,7 @@ public class SecondaryMajorityElection
         }
     }
 
-    internal void EnsureUniqueCandidateNumber(MajorityElectionCandidate candidate, List<MajorityElectionCandidate> referencedCandidates)
+    internal void EnsureUniqueCandidateNumber(MajorityElectionCandidate candidate, List<MajorityElectionCandidateReference> referencedCandidates)
     {
         if (Candidates.Any(c => c.Id != candidate.Id && c.Number == candidate.Number)
             || referencedCandidates.Any(r => r.Number == candidate.Number))
@@ -112,7 +112,7 @@ public class SecondaryMajorityElection
 
     internal void EnsureUniqueCandidateNumber(
         MajorityElectionCandidateReference candidateReference,
-        List<MajorityElectionCandidate> referencedCandidates,
+        List<MajorityElectionCandidateReference> referencedCandidates,
         string number)
     {
         if (referencedCandidates.Any(r => (r.Id != candidateReference.CandidateId && r.Number == number))

@@ -2,6 +2,7 @@
 // For license information see LICENSE file
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,13 +44,14 @@ public class PoliticalBusinessValidationService
         Guid contestId,
         Guid domainOfInfluenceId,
         string politicalBusinessNumber,
+        PoliticalBusinessType politicalBusinessType,
         int reportLevel)
     {
         // ensure user has read permissions of the contest
         var contest = await _contestReader.Get(contestId);
         await _permissionService.EnsureDomainOfInfluencesAreChildrenOrSelf(contest.DomainOfInfluenceId, domainOfInfluenceId);
 
-        await EnsureUniquePoliticalBusinessNumber(politicalBusinessId, contestId, domainOfInfluenceId, politicalBusinessNumber);
+        await EnsureUniquePoliticalBusinessNumber(politicalBusinessId, contestId, domainOfInfluenceId, politicalBusinessNumber, politicalBusinessType);
         await EnsureValidReportDomainOfInfluenceLevel(domainOfInfluenceId, reportLevel);
         await EnsureNotVirtualTopLevelDomainOfInfluence(domainOfInfluenceId);
     }
@@ -58,13 +60,21 @@ public class PoliticalBusinessValidationService
         Guid politicalBusinessId,
         Guid contestId,
         Guid domainOfInfluenceId,
-        string politicalBusinessNumber)
+        string politicalBusinessNumber,
+        PoliticalBusinessType politicalBusinessType)
     {
+        // majority elections and secondary majority elections cannot have the same political business number
+        List<PoliticalBusinessType> politicalBusinessTypes =
+            politicalBusinessType == PoliticalBusinessType.MajorityElection || politicalBusinessType == PoliticalBusinessType.SecondaryMajorityElection
+                ? [PoliticalBusinessType.MajorityElection, PoliticalBusinessType.SecondaryMajorityElection]
+                : [politicalBusinessType];
+
         var alreadyExists = await _simplePbRepo.Query()
             .AnyAsync(pb =>
                 pb.Id != politicalBusinessId
                 && pb.ContestId == contestId
                 && pb.DomainOfInfluenceId == domainOfInfluenceId
+                && politicalBusinessTypes.Contains(pb.BusinessType)
                 && pb.PoliticalBusinessNumber == politicalBusinessNumber);
 
         if (alreadyExists)

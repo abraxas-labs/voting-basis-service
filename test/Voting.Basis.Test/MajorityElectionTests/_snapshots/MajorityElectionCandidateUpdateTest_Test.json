@@ -53,7 +53,10 @@
       "Locality": "locality",
       "Position": 1,
       "Origin": "origin",
-      "CheckDigit": 9
+      "CheckDigit": 9,
+      "Country": "CH",
+      "Street": "street",
+      "HouseNumber": "1a"
     }
   }
 }

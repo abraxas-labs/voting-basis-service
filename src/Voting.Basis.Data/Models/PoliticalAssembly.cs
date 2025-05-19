@@ -11,9 +11,15 @@ public class PoliticalAssembly : BaseEntity
 {
     public DateTime Date { get; set; }
 
-    public Dictionary<string, string> Description { get; set; } = new Dictionary<string, string>();
+    public Dictionary<string, string> Description { get; set; } = [];
 
     public Guid DomainOfInfluenceId { get; set; }
 
     public DomainOfInfluence DomainOfInfluence { get; set; } = null!; // set by ef
+
+    public PoliticalAssemblyState State { get; set; } = PoliticalAssemblyState.Active;
+
+    public DateTime? ArchivePer { get; set; }
+
+    public DateTime PastLockPer { get; set; }
 }

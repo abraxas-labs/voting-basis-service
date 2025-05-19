@@ -84,4 +84,6 @@ public class CantonSettings
     public bool DomainOfInfluencePublishResultsOptionEnabled { get; set; }
 
     public bool SecondaryMajorityElectionOnSeparateBallot { get; set; }
+
+    public bool HideOccupationTitle { get; set; }
 }

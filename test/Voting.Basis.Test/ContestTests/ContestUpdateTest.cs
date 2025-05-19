@@ -16,7 +16,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Mocks;
@@ -105,8 +104,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
         var contestEntity = await RunOnDb(async db => await db.Contests.SingleAsync(c => c.Id == id));
         contestEntity.PastLockPer.Should().Be(ev.Contest.Date.ToDateTime().NextUtcDate(true));
 
-        await AssertHasPublishedMessage<ContestOverviewChangeMessage>(
-            x => x.Contest.HasEqualIdAndNewEntityState(id, EntityState.Modified));
+        await AssertHasPublishedEventProcessedMessage(ContestUpdated.Descriptor, id);
     }
 
     [Fact]

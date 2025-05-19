@@ -26,21 +26,24 @@ public class DomainOfInfluenceRepo : HasSnapshotDbRepository<DomainOfInfluence, 
         var idColumnName = GetDelimitedColumnName(x => x.Id);
         var parentIdColumnName = GetDelimitedColumnName(x => x.ParentId);
         var cantonColumnName = GetDelimitedColumnName(x => x.Canton);
+        var deletedColumnName = GetDelimitedColumnName(x => x.Deleted);
 
-        return (await Context.DomainOfInfluences.FromSqlRaw(
+        return (await Context.DomainOfInfluences
+            .FromSqlRaw(
             $@"
                 WITH RECURSIVE parents_or_self AS (
-                    SELECT {idColumnName}, {parentIdColumnName}, {cantonColumnName}
+                    SELECT {idColumnName}, {parentIdColumnName}, {cantonColumnName}, {deletedColumnName}
                     FROM {DelimitedSchemaAndTableName}
                     WHERE {idColumnName} = {{0}}
                     UNION
-                    SELECT x.{idColumnName}, x.{parentIdColumnName}, x.{cantonColumnName}
+                    SELECT x.{idColumnName}, x.{parentIdColumnName}, x.{cantonColumnName}, x.{deletedColumnName}
                     FROM {DelimitedSchemaAndTableName} x
                     JOIN parents_or_self p ON x.{idColumnName} = p.{parentIdColumnName}
                 )
                 SELECT * FROM parents_or_self
-                WHERE {parentIdColumnName} IS NULL",
+                WHERE {parentIdColumnName} IS NULL AND {deletedColumnName} = FALSE",
             domainOfInfluenceId)
+            .IgnoreQueryFilters() // Deleted filtering is done manually
             .Select(doi => doi.Canton)
             .ToListAsync()).FirstOrDefault();
     }
@@ -50,21 +53,80 @@ public class DomainOfInfluenceRepo : HasSnapshotDbRepository<DomainOfInfluence, 
     {
         var idColumnName = GetDelimitedColumnName(x => x.Id);
         var parentIdColumnName = GetDelimitedColumnName(x => x.ParentId);
+        var deletedColumnName = GetDelimitedColumnName(x => x.Deleted);
 
         return await Context.DomainOfInfluences.FromSqlRaw(
                 $@"
                 WITH RECURSIVE children_or_self AS (
-                    SELECT {idColumnName}, {parentIdColumnName}
+                    SELECT {idColumnName}, {parentIdColumnName}, {deletedColumnName}
                     FROM {DelimitedSchemaAndTableName}
                     WHERE {idColumnName} = {{0}}
                     UNION
-                    SELECT x.{idColumnName}, x.{parentIdColumnName}
+                    SELECT x.{idColumnName}, x.{parentIdColumnName}, x.{deletedColumnName}
                     FROM {DelimitedSchemaAndTableName} x
                     JOIN children_or_self c ON x.{parentIdColumnName} = c.{idColumnName}
                 )
-                SELECT * FROM children_or_self",
+                SELECT * FROM children_or_self
+                WHERE {deletedColumnName} = FALSE",
                 domainOfInfluenceId)
+            .IgnoreQueryFilters() // Deleted filtering is done manually
             .Select(doi => doi.Id)
             .ToListAsync();
+    }
+
+    public async Task<List<DomainOfInfluence>> GetAllSlim()
+    {
+        return await Query()
+            .Select(x => new DomainOfInfluence
+            {
+                Id = x.Id,
+                SecureConnectId = x.SecureConnectId,
+                ParentId = x.ParentId,
+            })
+            .ToListAsync();
+    }
+
+    public override async Task DeleteRange(IEnumerable<DomainOfInfluence> values, DateTime timestamp)
+    {
+        var valueIds = values.Select(x => x.Id);
+        var snapshotValues = await SnapshotSet
+            .Where(x => valueIds.Contains(x.BasisId) && x.ValidTo == null)
+            .ToListAsync();
+
+        if (snapshotValues.Count != values.Count())
+        {
+            throw new ArgumentException("did not found all previous snapshots for the DeleteRange operation");
+        }
+
+        foreach (var value in values)
+        {
+            if (IsTracked(value.Id, out var entity))
+            {
+                Context.Entry(entity).State = EntityState.Detached;
+            }
+
+            value.ModifiedOn = timestamp;
+            value.Deleted = true;
+
+            Set.Update(value);
+            await CreateSnapshot(value, snapshotValues, true);
+        }
+
+        await Context.SaveChangesAsync();
+    }
+
+    public override async Task Delete(DomainOfInfluence value, DateTime timestamp)
+    {
+        if (IsTracked(value.Id, out var entity))
+        {
+            Context.Entry(entity).State = EntityState.Detached;
+        }
+
+        value.ModifiedOn = timestamp;
+        value.Deleted = true;
+        Set.Update(value);
+
+        await CreateSnapshot(value, null, true);
+        await Context.SaveChangesAsync();
     }
 }

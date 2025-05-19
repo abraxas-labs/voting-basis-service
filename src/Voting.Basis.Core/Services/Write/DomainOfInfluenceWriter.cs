@@ -23,6 +23,7 @@ using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Extensions;
 using Voting.Basis.Data.Models;
+using Voting.Basis.Data.Repositories;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
@@ -56,6 +57,9 @@ public class DomainOfInfluenceWriter
     private readonly AppConfig _appConfig;
     private readonly IMalwareScannerService _malwareScannerService;
     private readonly DomainOfInfluenceCantonDefaultsBuilder _domainOfInfluenceCantonDefaultsBuilder;
+    private readonly DomainOfInfluenceHierarchyRepo _hierarchyRepo;
+    private readonly ContestDeleter _contestDeleter;
+    private readonly PoliticalBusinessDeleter _politicalBusinessDeleter;
 
     public DomainOfInfluenceWriter(
         IAggregateRepository aggregateRepository,
@@ -71,7 +75,10 @@ public class DomainOfInfluenceWriter
         DomainOfInfluenceLogoStorage logoStorage,
         AppConfig appConfig,
         IMalwareScannerService malwareScannerService,
-        DomainOfInfluenceCantonDefaultsBuilder domainOfInfluenceCantonDefaultsBuilder)
+        DomainOfInfluenceCantonDefaultsBuilder domainOfInfluenceCantonDefaultsBuilder,
+        DomainOfInfluenceHierarchyRepo hierarchyRepo,
+        ContestDeleter contestDeleter,
+        PoliticalBusinessDeleter politicalBusinessDeleter)
     {
         _aggregateRepository = aggregateRepository;
         _aggregateFactory = aggregateFactory;
@@ -87,13 +94,16 @@ public class DomainOfInfluenceWriter
         _appConfig = appConfig;
         _malwareScannerService = malwareScannerService;
         _domainOfInfluenceCantonDefaultsBuilder = domainOfInfluenceCantonDefaultsBuilder;
+        _hierarchyRepo = hierarchyRepo;
+        _contestDeleter = contestDeleter;
+        _politicalBusinessDeleter = politicalBusinessDeleter;
     }
 
     public async Task Create(Domain.DomainOfInfluence data)
     {
         ValidateElectoralRegistration(data);
         var parent = await ValidateHierarchy(data);
-        var cantonDefaults = await LoadCantonDefaults(data);
+        var cantonDefaults = await BuildCantonDefaults(data);
 
         await ValidateUniqueBfs(data);
         await SetAuthorityTenant(data);
@@ -112,10 +122,12 @@ public class DomainOfInfluenceWriter
 
     public async Task UpdateForAdmin(Domain.DomainOfInfluence data)
     {
-        await EnsureCanEdit(data.Id, false);
+        var existingDoi = await _repo.GetByKey(data.Id)
+            ?? throw new EntityNotFoundException(data.Id);
+        await EnsureCanEdit(existingDoi.SecureConnectId, existingDoi.Canton, false);
         ValidateElectoralRegistration(data);
         var parent = await ValidateHierarchy(data);
-        var cantonDefaults = await LoadCantonDefaults(data);
+        var cantonDefaults = existingDoi.CantonDefaults;
         await ValidateUniqueBfs(data);
         await SetAuthorityTenant(data);
 
@@ -142,12 +154,14 @@ public class DomainOfInfluenceWriter
 
     public async Task UpdateForElectionAdmin(Domain.DomainOfInfluence data)
     {
-        var cantonDefaults = await LoadCantonDefaults(data);
+        var existingDoi = await _repo.GetByKey(data.Id)
+            ?? throw new EntityNotFoundException(data.Id);
+        var cantonDefaults = existingDoi.CantonDefaults;
 
         await ValidateUniqueBfs(data);
         await ValidatePlausibilisationConfig(data, cantonDefaults.InternalPlausibilisationDisabled);
         await ValidateParties(data.Id, data.Parties);
-        await EnsureCanEdit(data.Id);
+        await EnsureCanEdit(existingDoi.SecureConnectId, existingDoi.Canton);
 
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(data.Id);
 
@@ -188,11 +202,25 @@ public class DomainOfInfluenceWriter
     public async Task Delete(Guid domainOfInfluenceId)
     {
         await EnsureCanDelete(domainOfInfluenceId);
-        var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(domainOfInfluenceId);
-        domainOfInfluence.Delete();
 
-        // we keep the logo around, since we may want to use it again via history etc.
-        await _aggregateRepository.Save(domainOfInfluence);
+        var idsToDelete = await _hierarchyRepo.Query()
+            .Where(x => x.ParentIds.Contains(domainOfInfluenceId))
+            .OrderByDescending(x => x.ParentIds.Count) // To make sure that we delete the lowest ones first
+            .Select(x => x.DomainOfInfluenceId)
+            .ToListAsync();
+        idsToDelete.Add(domainOfInfluenceId);
+
+        await _contestDeleter.DeleteInTestingPhase(idsToDelete);
+        await _politicalBusinessDeleter.DeleteForDomainOfInfluencesInTestingPhase(idsToDelete);
+
+        foreach (var id in idsToDelete)
+        {
+            var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(id);
+            domainOfInfluence.Delete();
+
+            // we keep the logo around, since we may want to use it again via history etc.
+            await _aggregateRepository.Save(domainOfInfluence);
+        }
     }
 
     public async Task UpdateDomainOfInfluenceCountingCircles(DomainOfInfluenceCountingCircleEntries data)
@@ -318,8 +346,7 @@ public class DomainOfInfluenceWriter
     private async Task SetAuthorityTenant(Domain.DomainOfInfluence data)
     {
         var tenant = await _tenantService.GetTenant(data.SecureConnectId, true)
-                     ?? throw new ValidationException(
-                         $"tenant with id {data.SecureConnectId} not found");
+            ?? throw new ValidationException($"tenant with id {data.SecureConnectId} not found");
         data.AuthorityName = tenant.Name;
     }
 
@@ -427,6 +454,12 @@ public class DomainOfInfluenceWriter
             throw new ValidationException(
                 "Domain of influence needs to be 'responsible for voting cards' in order to be able to use the electoral registration.");
         }
+
+        if (!data.ElectoralRegistrationEnabled && data.ElectoralRegisterMultipleEnabled)
+        {
+            throw new ValidationException(
+                "Domain of influence needs to have enabled electoral registration to be able to use multiple electoral registers.");
+        }
     }
 
     private async Task EnsureValidLogoContent(Stream contentStream, [NotNull] string? mimeType, [NotNull] string? fileName, CancellationToken ct)
@@ -507,23 +540,15 @@ public class DomainOfInfluenceWriter
         throw new ForbiddenException();
     }
 
-    private async Task<DomainOfInfluenceCantonDefaults> LoadCantonDefaults(Domain.DomainOfInfluence doi)
+    private async Task<DomainOfInfluenceCantonDefaults> BuildCantonDefaults(Domain.DomainOfInfluence doi)
     {
-        if (doi.Id == Guid.Empty)
+        if (doi.Canton == DomainOfInfluenceCanton.Unspecified && doi.ParentId == null)
         {
-            if (doi.Canton == DomainOfInfluenceCanton.Unspecified && doi.ParentId == null)
-            {
-                throw new ValidationException("canton is required to load canton settings for root doi");
-            }
-
-            var cantonSettings = await _domainOfInfluenceCantonDefaultsBuilder.LoadCantonSettings(doi.Canton, doi.ParentId);
-            return _domainOfInfluenceCantonDefaultsBuilder.BuildCantonDefaults(cantonSettings, doi.Type);
+            throw new ValidationException("canton is required to load canton settings for root doi");
         }
 
-        var existingDoi = await _repo.GetByKey(doi.Id)
-                          ?? throw new EntityNotFoundException(nameof(DomainOfInfluence), doi.Id);
-
-        return existingDoi.CantonDefaults;
+        var cantonSettings = await _domainOfInfluenceCantonDefaultsBuilder.LoadCantonSettings(doi.Canton, doi.ParentId);
+        return _domainOfInfluenceCantonDefaultsBuilder.BuildCantonDefaults(cantonSettings, doi.Type);
     }
 
     private async Task ValidateSuperiorAuthority(Domain.DomainOfInfluence doi, DomainOfInfluenceCanton canton)

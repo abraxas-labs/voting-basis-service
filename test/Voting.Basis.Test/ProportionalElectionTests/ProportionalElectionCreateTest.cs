@@ -13,7 +13,6 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -112,10 +111,8 @@ public class ProportionalElectionCreateTest : PoliticalBusinessAuthorizationGrpc
         proportionalElection1.MatchSnapshot("1");
         proportionalElection2.MatchSnapshot("2");
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id1, EntityState.Added));
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id2, EntityState.Added));
+        await AssertHasPublishedEventProcessedMessage(ProportionalElectionCreated.Descriptor, id1);
+        await AssertHasPublishedEventProcessedMessage(ProportionalElectionCreated.Descriptor, id2);
     }
 
     [Theory]

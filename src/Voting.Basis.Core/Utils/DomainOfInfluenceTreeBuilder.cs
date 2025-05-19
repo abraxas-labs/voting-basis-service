@@ -104,9 +104,9 @@ public static class DomainOfInfluenceTreeBuilder
 
         foreach (var (id, circles) in countingCirclesByDomainOfInfluence)
         {
-            if (byId.ContainsKey(id))
+            if (byId.TryGetValue(id, out var value))
             {
-                byId[id].CountingCircles = circles.OrderBy(x => x.CountingCircle.Name).ToList();
+                value.CountingCircles = circles.OrderBy(x => x.CountingCircle.Name).ToList();
             }
         }
 

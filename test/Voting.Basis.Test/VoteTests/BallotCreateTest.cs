@@ -15,7 +15,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -234,9 +233,8 @@ public class BallotCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
 
         await RunEvents<BallotCreated>();
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness!.Data!.Id == VoteMockedData.StGallenVoteInContestStGallenWithoutChilds.Id,
-            false);
+
+        await AssertHasPublishedEventProcessedMessage(BallotCreated.Descriptor, Guid.Parse(eventData.Ballot.Id));
 
         var simplePb = await RunOnDb(db => db.SimplePoliticalBusiness.FirstAsync(x => x.Id == VoteMockedData.StGallenVoteInContestStGallenWithoutChilds.Id));
         simplePb.BusinessSubType.Should().Be(PoliticalBusinessSubType.Unspecified);
@@ -301,10 +299,7 @@ public class BallotCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
         eventData.MatchSnapshot("event", e => e.Ballot.Id);
 
         await RunEvents<BallotCreated>();
-
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(VoteMockedData.StGallenVoteInContestStGallenWithoutChilds.Id, EntityState.Modified)
-                && x.PoliticalBusiness!.Data!.PoliticalBusinessSubType == PoliticalBusinessSubType.VoteVariantBallot);
+        await AssertHasPublishedEventProcessedMessage(BallotCreated.Descriptor, Guid.Parse(eventData.Ballot.Id));
 
         var simplePb = await RunOnDb(db => db.SimplePoliticalBusiness.FirstAsync(x => x.Id == VoteMockedData.StGallenVoteInContestStGallenWithoutChilds.Id));
         simplePb.BusinessSubType.Should().Be(PoliticalBusinessSubType.VoteVariantBallot);
@@ -363,9 +358,8 @@ public class BallotCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
         eventData.Ballot.Id.Should().Be(response.Id);
         eventData.MatchSnapshot("event", e => e.Ballot.Id);
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness!.Data!.Id == VoteMockedData.ZurichVoteInContestZurich.Id,
-            false);
+        await RunEvents<BallotCreated>();
+        await AssertHasPublishedEventProcessedMessage(BallotCreated.Descriptor, Guid.Parse(eventData.Ballot.Id));
 
         var simplePb = await RunOnDb(db => db.SimplePoliticalBusiness.FirstAsync(x => x.Id == VoteMockedData.ZurichVoteInContestZurich.Id));
         simplePb.BusinessSubType.Should().Be(PoliticalBusinessSubType.VoteVariantBallot);

@@ -14,7 +14,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
@@ -81,8 +80,7 @@ public class ProportionalElectionUnionCreateTest : BaseGrpcTest<
         var result = await RunOnDb(db => db.ProportionalElectionUnions.FirstOrDefaultAsync(u => u.Id == newId));
         result.MatchSnapshot(x => x!.Id);
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusinessUnion.HasEqualIdAndNewEntityState(newId, EntityState.Added));
+        await AssertHasPublishedEventProcessedMessage(ProportionalElectionUnionCreated.Descriptor, newId);
     }
 
     [Fact]

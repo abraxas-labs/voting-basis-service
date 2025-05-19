@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using Abraxas.Voting.Basis.Shared.V1;
 using Voting.Basis.Test.ProtoValidatorTests.Models;
+using Voting.Basis.Test.ProtoValidatorTests.Utils;
 using Voting.Lib.Testing.Validation;
 
 namespace Voting.Basis.Test.ProtoValidatorTests.Vote;
@@ -19,6 +20,10 @@ public class CreateBallotRequestTest : ProtoValidatorBaseTest<CreateBallotReques
         yield return NewValidRequest(x => x.HasTieBreakQuestions = false);
         yield return NewValidRequest(x => x.TieBreakQuestions.Clear());
         yield return NewValidRequest(x => x.SubType = BallotSubType.MainBallot);
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(100)));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.OfficialDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexMultiLineText(1)));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.OfficialDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexMultiLineText(255)));
     }
 
     protected override IEnumerable<CreateBallotRequest> NotOkMessages()
@@ -30,6 +35,11 @@ public class CreateBallotRequestTest : ProtoValidatorBaseTest<CreateBallotReques
         yield return NewValidRequest(x => x.BallotType = BallotType.Unspecified);
         yield return NewValidRequest(x => x.BallotType = (BallotType)10);
         yield return NewValidRequest(x => x.SubType = (BallotSubType)20);
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(101)));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexMultiLineText(100)));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, string.Empty, RandomStringUtil.GenerateComplexSingleLineText(1)));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.OfficialDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexMultiLineText(256)));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.OfficialDescription, string.Empty, RandomStringUtil.GenerateComplexMultiLineText(1)));
     }
 
     private CreateBallotRequest NewValidRequest(Action<CreateBallotRequest>? action = null)

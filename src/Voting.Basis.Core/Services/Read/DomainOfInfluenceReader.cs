@@ -58,6 +58,7 @@ public class DomainOfInfluenceReader
     {
         var query = _repo.Query()
             .AsSplitQuery()
+            .IgnoreQueryFilters() // allow to get deleted DOI
             .Include(x => x.PlausibilisationConfiguration)
                 .ThenInclude(x => x!.ComparisonVoterParticipationConfigurations
                     .OrderBy(y => y.MainLevel)
@@ -226,7 +227,9 @@ public class DomainOfInfluenceReader
 
     public async Task<DomainOfInfluenceCantonDefaults> GetCantonDefaults(Guid domainOfInfluenceId)
     {
-        var doi = await _repo.GetByKey(domainOfInfluenceId)
+        var doi = await _repo.Query()
+            .IgnoreQueryFilters() // Needs to work with deleted DOIs
+            .FirstOrDefaultAsync(x => x.Id == domainOfInfluenceId)
             ?? throw new EntityNotFoundException(domainOfInfluenceId);
 
         await _permissionService.EnsureCanReadDomainOfInfluence(doi);

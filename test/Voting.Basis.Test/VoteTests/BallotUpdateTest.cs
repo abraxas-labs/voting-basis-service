@@ -14,7 +14,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -54,9 +53,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
         response.MatchSnapshot();
 
         await RunEvents<BallotUpdated>();
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(VoteMockedData.GossauVoteInContestGossau.Id, EntityState.Modified)
-                 && x.PoliticalBusiness!.Data!.PoliticalBusinessSubType == PoliticalBusinessSubType.VoteVariantBallot);
+        await AssertHasPublishedEventProcessedMessage(BallotUpdated.Descriptor, Guid.Parse(VoteMockedData.BallotIdGossauVoteInContestGossau));
 
         var simplePb = await RunOnDb(db => db.SimplePoliticalBusiness.FirstAsync(x => x.Id == VoteMockedData.GossauVoteInContestGossau.Id));
         simplePb.BusinessSubType.Should().Be(PoliticalBusinessSubType.VoteVariantBallot);

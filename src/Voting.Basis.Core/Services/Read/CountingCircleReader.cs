@@ -4,19 +4,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Exceptions;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Extensions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Iam.Store;
-using Voting.Lib.Messaging;
 
 namespace Voting.Basis.Core.Services.Read;
 
@@ -29,7 +26,6 @@ public class CountingCircleReader
     private readonly IDbRepository<DataContext, CountingCirclesMerger> _mergerRepo;
     private readonly CantonSettingsRepo _cantonSettingsRepo;
     private readonly IAuth _auth;
-    private readonly MessageConsumerHub<CountingCircleChangeMessage> _countingCircleChangeListener;
 
     public CountingCircleReader(
         IDbRepository<DataContext, CountingCircle> repo,
@@ -38,8 +34,7 @@ public class CountingCircleReader
         DomainOfInfluenceHierarchyRepo hierarchyRepo,
         IDbRepository<DataContext, CountingCirclesMerger> mergerRepo,
         CantonSettingsRepo cantonSettingsRepo,
-        IAuth auth,
-        MessageConsumerHub<CountingCircleChangeMessage> countingCircleChangeListener)
+        IAuth auth)
     {
         _repo = repo;
         _permissionRepo = permissionRepo;
@@ -48,7 +43,6 @@ public class CountingCircleReader
         _mergerRepo = mergerRepo;
         _cantonSettingsRepo = cantonSettingsRepo;
         _auth = auth;
-        _countingCircleChangeListener = countingCircleChangeListener;
     }
 
     public async Task<CountingCircle> Get(Guid id)
@@ -168,39 +162,6 @@ public class CountingCircleReader
             .ThenInclude(x => x.ResponsibleAuthority)
             .OrderByDescending(x => x.ActiveFrom)
             .ToListAsync();
-    }
-
-    public async Task ListenToCountingCircleChanges(
-        Func<CountingCircleChangeMessage, Task> listener,
-        CancellationToken cancellationToken)
-    {
-        Func<CountingCircle, bool> countingCircleFilter;
-        if (_auth.HasPermission(Permissions.CountingCircle.ReadAll))
-        {
-            countingCircleFilter = _ => true;
-        }
-        else if (_auth.HasPermission(Permissions.CountingCircle.ReadSameCanton))
-        {
-            var cantons = await GetAccessibleCantons();
-            countingCircleFilter = countingCircle => cantons.Contains(countingCircle.Canton);
-        }
-        else
-        {
-            // ef core does not support selectmany on array columns
-            var doiPermissionCcIds = _permissionRepo.Query()
-                .Where(p => p.TenantId == _auth.Tenant.Id)
-                .Select(p => p.CountingCircleIds)
-                .AsEnumerable()
-                .SelectMany(c => c)
-                .ToList();
-
-            countingCircleFilter = countingCircle => doiPermissionCcIds.Contains(countingCircle.Id) || countingCircle.ResponsibleAuthority.SecureConnectId == _auth.Tenant.Id;
-        }
-
-        await _countingCircleChangeListener.Listen(
-            e => e.CountingCircle.Data != null && countingCircleFilter(e.CountingCircle.Data),
-            listener,
-            cancellationToken);
     }
 
     private async Task<IQueryable<CountingCircle>> BuildQuery()

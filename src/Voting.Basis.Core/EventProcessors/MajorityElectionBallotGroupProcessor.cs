@@ -103,7 +103,12 @@ public class MajorityElectionBallotGroupProcessor :
             }
             else
             {
-                existingEntry.BlankRowCount = entry.BlankRowCount;
+                // When the blank row count is used (old version) this field is set in the BallotGroupUpdated event instead of the BallotGroupCandidatesUpdated event.
+                if (!eventData.BallotGroup.BlankRowCountUnused)
+                {
+                    existingEntry.BlankRowCount = entry.BlankRowCount;
+                }
+
                 existingEntry.UpdateCandidateCountOk();
             }
         }
@@ -140,9 +145,12 @@ public class MajorityElectionBallotGroupProcessor :
         var entryCandidates = eventData.BallotGroupCandidates.EntryCandidates.ToDictionary(
             e => GuidParser.Parse(e.BallotGroupEntryId),
             e => e.CandidateIds.Select(GuidParser.Parse).ToList());
-        var entryHasIndividualCandidate = eventData.BallotGroupCandidates.EntryCandidates.ToDictionary(
+        var individualCandidatesVoteCountByEntryId = eventData.BallotGroupCandidates.EntryCandidates.ToDictionary(
             e => GuidParser.Parse(e.BallotGroupEntryId),
             e => e.IndividualCandidatesVoteCount);
+        var blankRowCountByEntryId = eventData.BallotGroupCandidates.EntryCandidates.ToDictionary(
+            e => GuidParser.Parse(e.BallotGroupEntryId),
+            e => e.BlankRowCount);
 
         var ballotGroup = await _repo.Query()
             .AsTracking()
@@ -163,8 +171,14 @@ public class MajorityElectionBallotGroupProcessor :
         foreach (var (ballotGroupEntryId, candidateIds) in entryCandidates)
         {
             var ballotGroupEntry = ballotGroupEntriesById[ballotGroupEntryId];
-            ballotGroupEntry.IndividualCandidatesVoteCount = entryHasIndividualCandidate.GetValueOrDefault(ballotGroupEntry.Id, 0);
+            ballotGroupEntry.IndividualCandidatesVoteCount = individualCandidatesVoteCountByEntryId.GetValueOrDefault(ballotGroupEntry.Id, 0);
             ballotGroupEntry.CountOfCandidates = candidateIds.Count;
+
+            if (blankRowCountByEntryId.TryGetValue(ballotGroupEntryId, out var blankRowCount) && blankRowCount.HasValue)
+            {
+                ballotGroupEntry.BlankRowCount = blankRowCount!.Value;
+            }
+
             ballotGroupEntry.UpdateCandidateCountOk();
 
             // Delete all existing candidates

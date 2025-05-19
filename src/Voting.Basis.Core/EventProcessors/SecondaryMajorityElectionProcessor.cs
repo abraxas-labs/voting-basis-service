@@ -9,16 +9,13 @@ using AutoMapper;
 using Google.Protobuf;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Exceptions;
-using Voting.Basis.Core.Messaging.Extensions;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
+using Voting.Basis.Ech.Utils;
 using Voting.Lib.Common;
 using Voting.Lib.Database.Repositories;
-using Voting.Lib.Messaging;
-using EntityState = Voting.Basis.Core.Messaging.Messages.EntityState;
 
 namespace Voting.Basis.Core.EventProcessors;
 
@@ -45,7 +42,6 @@ public class SecondaryMajorityElectionProcessor :
     private readonly MajorityElectionBallotGroupEntryRepo _electionBallotGroupEntryRepo;
     private readonly IMapper _mapper;
     private readonly EventLoggerAdapter _eventLogger;
-    private readonly MessageProducerBuffer _messageProducerBuffer;
 
     public SecondaryMajorityElectionProcessor(
         IDbRepository<DataContext, SecondaryMajorityElection> repo,
@@ -55,8 +51,7 @@ public class SecondaryMajorityElectionProcessor :
         MajorityElectionBallotGroupEntryRepo electionBallotGroupEntryRepo,
         IMapper mapper,
         EventLoggerAdapter eventLogger,
-        SimplePoliticalBusinessBuilder<SecondaryMajorityElection> simplePoliticalBusinessBuilder,
-        MessageProducerBuffer messageProducerBuffer)
+        SimplePoliticalBusinessBuilder<SecondaryMajorityElection> simplePoliticalBusinessBuilder)
     {
         _repo = repo;
         _candidateRepo = candidateRepo;
@@ -66,7 +61,6 @@ public class SecondaryMajorityElectionProcessor :
         _eventLogger = eventLogger;
         _simplePoliticalBusinessBuilder = simplePoliticalBusinessBuilder;
         _electionBallotGroupEntryRepo = electionBallotGroupEntryRepo;
-        _messageProducerBuffer = messageProducerBuffer;
     }
 
     public async Task Process(SecondaryMajorityElectionCreated eventData)
@@ -84,7 +78,6 @@ public class SecondaryMajorityElectionProcessor :
 
         var electionInclPrimary = await GetElection(model.Id);
         await _simplePoliticalBusinessBuilder.Create(electionInclPrimary);
-        PublishContestDetailsElectionGroupChangeMessage(electionInclPrimary);
         await _eventLogger.LogSecondaryMajorityElectionEvent(eventData, electionInclPrimary);
     }
 
@@ -105,7 +98,6 @@ public class SecondaryMajorityElectionProcessor :
         var electionInclPrimary = await GetElection(model.Id);
 
         await _simplePoliticalBusinessBuilder.Update(electionInclPrimary);
-        PublishContestDetailsElectionGroupChangeMessage(electionInclPrimary);
         await _eventLogger.LogSecondaryMajorityElectionEvent(eventData, electionInclPrimary);
     }
 
@@ -124,7 +116,7 @@ public class SecondaryMajorityElectionProcessor :
 
         await _repo.Update(election);
         await _simplePoliticalBusinessBuilder.Update(election);
-        await _eventLogger.LogSecondaryMajorityElectionEvent(eventData, election, election.ContestId);
+        await _eventLogger.LogSecondaryMajorityElectionEvent(eventData, election);
     }
 
     public async Task Process(SecondaryMajorityElectionDeleted eventData)
@@ -134,7 +126,6 @@ public class SecondaryMajorityElectionProcessor :
 
         await _repo.DeleteByKey(id);
         await _simplePoliticalBusinessBuilder.Delete(existingModel);
-        PublishContestDetailsElectionGroupChangeMessage(existingModel);
         await _eventLogger.LogSecondaryMajorityElectionEvent(eventData, existingModel);
     }
 
@@ -153,6 +144,13 @@ public class SecondaryMajorityElectionProcessor :
     {
         var model = _mapper.Map<SecondaryMajorityElectionCandidate>(eventData.SecondaryMajorityElectionCandidate);
         TruncateCandidateNumber(model);
+
+        // old events don't contain a country
+        if (string.IsNullOrEmpty(model.Country))
+        {
+            model.Country = CountryUtils.SwissCountryIso;
+        }
+
         await _candidateRepo.Create(model);
 
         await _eventLogger.LogSecondaryMajorityElectionCandidateEvent(eventData, await GetCandidate(model.Id));
@@ -162,11 +160,23 @@ public class SecondaryMajorityElectionProcessor :
     {
         var model = _mapper.Map<SecondaryMajorityElectionCandidate>(eventData.SecondaryMajorityElectionCandidate);
         TruncateCandidateNumber(model);
+
+        // old events don't contain a country
+        if (string.IsNullOrEmpty(model.Country))
+        {
+            model.Country = CountryUtils.SwissCountryIso;
+        }
+
         var existingModel = await GetCandidate(model.Id);
 
         await _candidateRepo.Update(model);
 
-        await _eventLogger.LogSecondaryMajorityElectionCandidateEvent(eventData, model, existingModel.SecondaryMajorityElection.ContestId);
+        await _eventLogger.LogSecondaryMajorityElectionCandidateEvent(
+            eventData,
+            model,
+            existingModel.SecondaryMajorityElection.PrimaryMajorityElectionId,
+            existingModel.SecondaryMajorityElection.ContestId,
+            existingModel.SecondaryMajorityElection.DomainOfInfluenceId);
     }
 
     public async Task Process(SecondaryMajorityElectionCandidateAfterTestingPhaseUpdated eventData)
@@ -176,7 +186,7 @@ public class SecondaryMajorityElectionProcessor :
         _mapper.Map(eventData, candidate);
 
         await _candidateRepo.Update(candidate);
-        await _eventLogger.LogSecondaryMajorityElectionCandidateEvent(eventData, candidate, candidate.SecondaryMajorityElection.ContestId);
+        await _eventLogger.LogSecondaryMajorityElectionCandidateEvent(eventData, candidate);
     }
 
     public async Task Process(SecondaryMajorityElectionCandidateDeleted eventData)
@@ -271,20 +281,6 @@ public class SecondaryMajorityElectionProcessor :
             .Include(c => c.SecondaryMajorityElection.PrimaryMajorityElection)
             .FirstOrDefaultAsync(c => c.Id == candidateId)
             ?? throw new EntityNotFoundException(candidateId);
-    }
-
-    private void PublishContestDetailsElectionGroupChangeMessage(
-        SecondaryMajorityElection sme)
-    {
-        if (sme.ElectionGroup == null)
-        {
-            return;
-        }
-
-        // if a sme is created, updated or deleted it will affect the text of a election group as well,
-        // but since we only work with generic pbs in messages we don't have the relation info between them, so we emit an additional message.
-        sme.ElectionGroup.PrimaryMajorityElection ??= sme.PrimaryMajorityElection;
-        _messageProducerBuffer.Add(new ContestDetailsChangeMessage(electionGroup: sme.ElectionGroup.CreateBaseEntityEvent(EntityState.Modified)));
     }
 
     private void TruncateCandidateNumber(SecondaryMajorityElectionCandidate candidate)

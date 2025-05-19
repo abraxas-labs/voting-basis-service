@@ -44,7 +44,10 @@
     "ZipCode": "",
     "Locality": "locality updated",
     "MajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
-    "Origin": "origin"
+    "Origin": "origin",
+    "Country": "CH",
+    "Street": "street updated",
+    "HouseNumber": "1a updated"
   },
   "response": {
     "Id": "f5d75dbd-8a22-4fa8-b580-f0c1ed965303",
@@ -78,6 +81,9 @@
     "Locality": "locality updated",
     "Position": 1,
     "Origin": "origin",
-    "CheckDigit": 9
+    "CheckDigit": 9,
+    "Country": "CH",
+    "Street": "street updated",
+    "HouseNumber": "1a updated"
   }
 }

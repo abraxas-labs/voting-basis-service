@@ -184,9 +184,13 @@ public static class ContestMockedData
         }
     }
 
-    public static async Task Seed(Func<Func<IServiceProvider, Task>, Task> runScoped)
+    public static async Task Seed(Func<Func<IServiceProvider, Task>, Task> runScoped, bool seedDomainOfInfluences = true)
     {
-        await DomainOfInfluenceMockedData.Seed(runScoped);
+        if (seedDomainOfInfluences)
+        {
+            await DomainOfInfluenceMockedData.Seed(runScoped);
+        }
+
         await PreconfiguredContestDateMockedData.Seed(runScoped);
 
         var all = All.ToList();

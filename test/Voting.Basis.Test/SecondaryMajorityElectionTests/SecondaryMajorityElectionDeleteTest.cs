@@ -13,7 +13,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -84,11 +83,7 @@ public class SecondaryMajorityElectionDeleteTest : PoliticalBusinessAuthorizatio
         (await RunOnDb(db => db.SecondaryMajorityElections.CountAsync(c => c.Id == idGuid)))
             .Should().Be(0);
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(idGuid, EntityState.Deleted));
-
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.ElectionGroup.HasEqualIdAndNewEntityState(Guid.Parse(MajorityElectionMockedData.ElectionGroupIdStGallenMajorityElectionInContestBund), EntityState.Modified));
+        await AssertHasPublishedEventProcessedMessage(SecondaryMajorityElectionDeleted.Descriptor, idGuid);
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

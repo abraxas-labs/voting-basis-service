@@ -86,6 +86,9 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
                     Party = { LanguageUtil.MockAllLanguages("SP") },
                     Origin = "origin",
                     CheckDigit = 9,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             },
             new SecondaryMajorityElectionCandidateCreated
@@ -111,6 +114,9 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
                     Party = { LanguageUtil.MockAllLanguages("CVP") },
                     Origin = "origin",
                     CheckDigit = 9,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -148,6 +154,9 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
                     Party = { LanguageUtil.MockAllLanguages("SP") },
                     Origin = "origin",
                     CheckDigit = 9,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -187,6 +196,9 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
                     Party = { LanguageUtil.MockAllLanguages("SP") },
                     Origin = "origin",
                     CheckDigit = 9,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -440,6 +452,9 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
             ZipCode = "zip code",
             Party = { LanguageUtil.MockAllLanguages("DFP") },
             Origin = "origin",
+            Street = "street",
+            HouseNumber = "1a",
+            Country = "CH",
         };
 
         customizer?.Invoke(request);

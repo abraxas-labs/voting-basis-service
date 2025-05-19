@@ -9,16 +9,12 @@ using Abraxas.Voting.Basis.Events.V1;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Exceptions;
-using Voting.Basis.Core.Messaging.Extensions;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
 using Voting.Lib.Common;
 using Voting.Lib.Database.Repositories;
-using Voting.Lib.Messaging;
-using EntityState = Voting.Basis.Core.Messaging.Messages.EntityState;
 
 namespace Voting.Basis.Core.EventProcessors;
 
@@ -39,7 +35,6 @@ public class CountingCircleProcessor :
     private readonly IMapper _mapper;
     private readonly EventLoggerAdapter _eventLogger;
     private readonly IDbRepository<DataContext, CountingCircleElectorate> _electorateRepo;
-    private readonly MessageProducerBuffer _messageProducerBuffer;
 
     public CountingCircleProcessor(
         CountingCircleRepo repo,
@@ -48,8 +43,7 @@ public class CountingCircleProcessor :
         DomainOfInfluencePermissionBuilder permissionBuilder,
         IMapper mapper,
         EventLoggerAdapter eventLogger,
-        IDbRepository<DataContext, CountingCircleElectorate> electorateRepo,
-        MessageProducerBuffer messageProducerBuffer)
+        IDbRepository<DataContext, CountingCircleElectorate> electorateRepo)
     {
         _repo = repo;
         _ccMergeRepo = ccMergeRepo;
@@ -58,7 +52,6 @@ public class CountingCircleProcessor :
         _permissionBuilder = permissionBuilder;
         _eventLogger = eventLogger;
         _electorateRepo = electorateRepo;
-        _messageProducerBuffer = messageProducerBuffer;
     }
 
     public async Task Process(CountingCircleCreated eventData)
@@ -68,7 +61,6 @@ public class CountingCircleProcessor :
 
         // Note: No need to update the permissions here, since the CountingCircle is not yet assigned to any DomainOfInfluence
         await _eventLogger.LogCountingCircleEvent(eventData, model);
-        PublishCountingCircleEventMessage(model, EntityState.Added);
     }
 
     public async Task Process(CountingCircleUpdated eventData)
@@ -100,11 +92,12 @@ public class CountingCircleProcessor :
         // Only changing the responsible authority has an effect on the permissions
         if (model.ResponsibleAuthority.SecureConnectId != existing.ResponsibleAuthority.SecureConnectId)
         {
-            await _permissionBuilder.RebuildPermissionTree();
+            await _permissionBuilder.RebuildPermissionTreeForCountingCircle(
+                model.Id,
+                [model.ResponsibleAuthority.SecureConnectId, existing.ResponsibleAuthority.SecureConnectId]);
         }
 
         await _eventLogger.LogCountingCircleEvent(eventData, model);
-        PublishCountingCircleEventMessage(model, EntityState.Modified);
     }
 
     public async Task Process(CountingCircleDeleted eventData)
@@ -119,9 +112,8 @@ public class CountingCircleProcessor :
 
         existing.State = CountingCircleState.Deleted;
         await _repo.Delete(existing, eventData.EventInfo.Timestamp.ToDateTime());
-        await _permissionBuilder.RebuildPermissionTree();
+        await _permissionBuilder.RebuildPermissionTreeForCountingCircle(id);
         await _eventLogger.LogCountingCircleEvent(eventData, existing);
-        PublishCountingCircleEventMessage(existing, EntityState.Deleted);
     }
 
     public async Task Process(CountingCirclesMergerScheduled eventData)
@@ -163,7 +155,6 @@ public class CountingCircleProcessor :
         }
 
         await _repo.UpdateRange(mergedCcs);
-        await _permissionBuilder.RebuildPermissionTree();
         await _eventLogger.LogCountingCircleEvent(eventData, newCountingCircle);
     }
 
@@ -212,7 +203,6 @@ public class CountingCircleProcessor :
             });
 
         await _ccMergeRepo.Update(merger);
-        await _permissionBuilder.RebuildPermissionTree();
         await _eventLogger.LogCountingCircleEvent(eventData, merger.NewCountingCircle);
     }
 
@@ -236,7 +226,6 @@ public class CountingCircleProcessor :
         // and therefore won't show up in history views.
         await _ccMergeRepo.DeleteByKey(mergerId);
         await _repo.HardDelete(newCountingCircle, eventData.EventInfo.Timestamp.ToDateTime());
-        await _permissionBuilder.RebuildPermissionTree();
         await _eventLogger.LogCountingCircleEvent(eventData, newCountingCircle);
     }
 
@@ -257,7 +246,7 @@ public class CountingCircleProcessor :
 
         await _repo.Update(merger.NewCountingCircle, timestamp);
         await _ccMergeRepo.Update(merger);
-        await _permissionBuilder.RebuildPermissionTree();
+        await _permissionBuilder.RebuildPermissionTreeForCountingCircle(merger.NewCountingCircle.Id);
         await _eventLogger.LogCountingCircleEvent(eventData, merger.NewCountingCircle);
     }
 
@@ -273,7 +262,7 @@ public class CountingCircleProcessor :
 
         existing.State = CountingCircleState.Merged;
         await _repo.Delete(existing, eventData.EventInfo.Timestamp.ToDateTime());
-        await _permissionBuilder.RebuildPermissionTree();
+        await _permissionBuilder.RebuildPermissionTreeForCountingCircle(id);
         await _eventLogger.LogCountingCircleEvent(eventData, existing);
     }
 
@@ -286,11 +275,5 @@ public class CountingCircleProcessor :
         }
 
         await _electorateRepo.CreateRange(electorates);
-    }
-
-    private void PublishCountingCircleEventMessage(CountingCircle countingCircle, EntityState state)
-    {
-        // Publish a counting circle change message, so that other service instances can refresh their in-memory cache.
-        _messageProducerBuffer.Add(new CountingCircleChangeMessage(countingCircle.CreateBaseEntityEvent(state)));
     }
 }

@@ -97,7 +97,10 @@
           "Locality": "locality",
           "Position": 1,
           "Origin": "Heimatort",
-          "CheckDigit": 0
+          "CheckDigit": 0,
+          "Country": "CH",
+          "Street": "street",
+          "HouseNumber": "1a"
         },
         {
           "Id": "",
@@ -131,7 +134,10 @@
           "Locality": "locality",
           "Position": 2,
           "Origin": "Heimatort",
-          "CheckDigit": 0
+          "CheckDigit": 0,
+          "Country": "CH",
+          "Street": "street",
+          "HouseNumber": "1a"
         },
         {
           "Id": "",
@@ -165,7 +171,10 @@
           "Locality": "locality",
           "Position": 3,
           "Origin": "Heimatort",
-          "CheckDigit": 0
+          "CheckDigit": 0,
+          "Country": "CH",
+          "Street": "street",
+          "HouseNumber": "1a"
         }
       ]
     }
@@ -271,7 +280,10 @@
                   "ShortDescription": {}
                 },
                 "Origin": "Heimatort",
-                "CheckDigit": 0
+                "CheckDigit": 0,
+                "Country": "CH",
+                "Street": "street",
+                "HouseNumber": "1a"
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -311,7 +323,10 @@
                   "ShortDescription": {}
                 },
                 "Origin": "Heimatort",
-                "CheckDigit": 0
+                "CheckDigit": 0,
+                "Country": "CH",
+                "Street": "street",
+                "HouseNumber": "1a"
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -379,7 +394,10 @@
                   "ShortDescription": {}
                 },
                 "Origin": "Heimatort",
-                "CheckDigit": 0
+                "CheckDigit": 0,
+                "Country": "CH",
+                "Street": "street",
+                "HouseNumber": "1a"
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -447,7 +465,10 @@
                   "ShortDescription": {}
                 },
                 "Origin": "Heimatort",
-                "CheckDigit": 0
+                "CheckDigit": 0,
+                "Country": "CH",
+                "Street": "street",
+                "HouseNumber": "1a"
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -482,7 +503,10 @@
                   "ShortDescription": {}
                 },
                 "Origin": "Heimatort",
-                "CheckDigit": 0
+                "CheckDigit": 0,
+                "Country": "CH",
+                "Street": "street",
+                "HouseNumber": "1a"
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -517,7 +541,10 @@
                   "ShortDescription": {}
                 },
                 "Origin": "Heimatort",
-                "CheckDigit": 0
+                "CheckDigit": 0,
+                "Country": "CH",
+                "Street": "street",
+                "HouseNumber": "1a"
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -585,7 +612,10 @@
                   "ShortDescription": {}
                 },
                 "Origin": "Heimatort",
-                "CheckDigit": 0
+                "CheckDigit": 0,
+                "Country": "CH",
+                "Street": "street",
+                "HouseNumber": "1a"
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -653,7 +683,10 @@
                   "ShortDescription": {}
                 },
                 "Origin": "Heimatort",
-                "CheckDigit": 0
+                "CheckDigit": 0,
+                "Country": "CH",
+                "Street": "street",
+                "HouseNumber": "1a"
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -688,7 +721,10 @@
                   "ShortDescription": {}
                 },
                 "Origin": "Heimatort",
-                "CheckDigit": 0
+                "CheckDigit": 0,
+                "Country": "CH",
+                "Street": "street",
+                "HouseNumber": "1a"
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -723,7 +759,10 @@
                   "ShortDescription": {}
                 },
                 "Origin": "Heimatort",
-                "CheckDigit": 0
+                "CheckDigit": 0,
+                "Country": "CH",
+                "Street": "street",
+                "HouseNumber": "1a"
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -758,7 +797,10 @@
                   "ShortDescription": {}
                 },
                 "Origin": "Heimatort",
-                "CheckDigit": 0
+                "CheckDigit": 0,
+                "Country": "CH",
+                "Street": "street",
+                "HouseNumber": "1a"
               },
               "SourcePartyShort": {},
               "SourceParty": {}

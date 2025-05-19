@@ -14,7 +14,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Basis.Test.MockedData.Mapping;
@@ -75,8 +74,7 @@ public class VoteUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
         });
         vote.MatchSnapshot("event");
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id, EntityState.Modified));
+        await AssertHasPublishedEventProcessedMessage(VoteUpdated.Descriptor, id);
     }
 
     [Fact]
@@ -240,8 +238,7 @@ public class VoteUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
         });
         vote.MatchSnapshot("reponse");
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id, EntityState.Modified));
+        await AssertHasPublishedEventProcessedMessage(VoteAfterTestingPhaseUpdated.Descriptor, id);
     }
 
     [Fact]

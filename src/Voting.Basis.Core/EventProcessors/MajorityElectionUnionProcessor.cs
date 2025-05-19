@@ -2,21 +2,18 @@
 // For license information see LICENSE file
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Exceptions;
-using Voting.Basis.Core.Messaging.Extensions;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
 using Voting.Lib.Common;
 using Voting.Lib.Database.Repositories;
-using Voting.Lib.Messaging;
 
 namespace Voting.Basis.Core.EventProcessors;
 
@@ -31,56 +28,40 @@ public class MajorityElectionUnionProcessor :
     private readonly MajorityElectionUnionEntryRepo _entriesRepo;
     private readonly IMapper _mapper;
     private readonly EventLoggerAdapter _eventLogger;
-    private readonly MessageProducerBuffer _messageProducerBuffer;
 
     public MajorityElectionUnionProcessor(
         IDbRepository<DataContext, MajorityElectionUnion> repo,
         MajorityElectionUnionEntryRepo entriesRepo,
         IMapper mapper,
-        EventLoggerAdapter eventLogger,
-        MessageProducerBuffer messageProducerBuffer)
+        EventLoggerAdapter eventLogger)
     {
         _repo = repo;
         _entriesRepo = entriesRepo;
         _mapper = mapper;
         _eventLogger = eventLogger;
-        _messageProducerBuffer = messageProducerBuffer;
     }
 
     public async Task Process(MajorityElectionUnionCreated eventData)
     {
         var model = _mapper.Map<MajorityElectionUnion>(eventData.MajorityElectionUnion);
         await _repo.Create(model);
-        await _eventLogger.LogMajorityElectionUnionEvent(eventData, model);
-        PublishContestDetailsChangeMessage(model, EntityState.Added);
+        await _eventLogger.LogMajorityElectionUnionEvent(eventData, await GetUnion(model.Id));
     }
 
     public async Task Process(MajorityElectionUnionUpdated eventData)
     {
         var model = _mapper.Map<MajorityElectionUnion>(eventData.MajorityElectionUnion);
-
-        if (!await _repo.ExistsByKey(model.Id))
-        {
-            throw new EntityNotFoundException(model.Id);
-        }
+        var existingModel = await GetUnion(model.Id);
 
         await _repo.Update(model);
-        await _eventLogger.LogMajorityElectionUnionEvent(eventData, model);
-
-        var electionIds = _entriesRepo.Query()
-            .Where(x => x.MajorityElectionUnionId == model.Id)
-            .Select(x => x.MajorityElectionId)
-            .ToList();
-
-        PublishContestDetailsChangeMessage(model, EntityState.Modified, electionIds);
+        await _eventLogger.LogMajorityElectionUnionEvent(eventData, model, existingModel.Contest.DomainOfInfluenceId);
     }
 
     public async Task Process(MajorityElectionUnionEntriesUpdated eventData)
     {
         var majorityElectionUnionId = GuidParser.Parse(eventData.MajorityElectionUnionEntries.MajorityElectionUnionId);
 
-        var existingModel = await _repo.GetByKey(majorityElectionUnionId)
-            ?? throw new EntityNotFoundException(majorityElectionUnionId);
+        var existingModel = await GetUnion(majorityElectionUnionId);
 
         var models = eventData.MajorityElectionUnionEntries.MajorityElectionIds.Select(electionId =>
             new MajorityElectionUnionEntry
@@ -91,37 +72,30 @@ public class MajorityElectionUnionProcessor :
 
         await _entriesRepo.Replace(majorityElectionUnionId, models);
         await _eventLogger.LogMajorityElectionUnionEvent(eventData, existingModel);
-
-        var electionIds = models.ConvertAll(x => x.MajorityElectionId);
-        PublishContestDetailsChangeMessage(existingModel, EntityState.Modified, electionIds);
     }
 
     public async Task Process(MajorityElectionUnionDeleted eventData)
     {
         var id = GuidParser.Parse(eventData.MajorityElectionUnionId);
-
-        var existingModel = await _repo.GetByKey(id)
-            ?? throw new EntityNotFoundException(id);
+        var existingModel = await GetUnion(id);
 
         await _repo.DeleteByKey(id);
         await _eventLogger.LogMajorityElectionUnionEvent(eventData, existingModel);
-        PublishContestDetailsChangeMessage(existingModel, EntityState.Deleted);
     }
 
     public async Task Process(MajorityElectionUnionToNewContestMoved eventData)
     {
         var id = GuidParser.Parse(eventData.MajorityElectionUnionId);
+        await _repo.Query()
+            .Where(x => x.Id == id)
+            .ExecuteUpdateAsync(x => x.SetProperty(y => y.ContestId, GuidParser.Parse(eventData.NewContestId)));
 
-        var existingModel = await _repo.GetByKey(id)
-            ?? throw new EntityNotFoundException(id);
-
-        existingModel.ContestId = GuidParser.Parse(eventData.NewContestId);
-        await _repo.Update(existingModel);
-        await _eventLogger.LogMajorityElectionUnionEvent(eventData, existingModel);
+        await _eventLogger.LogMajorityElectionUnionEvent(eventData, await GetUnion(id));
     }
 
-    private void PublishContestDetailsChangeMessage(MajorityElectionUnion majorityElectionUnion, EntityState state, List<Guid>? electionIds = null)
-    {
-        _messageProducerBuffer.Add(new ContestDetailsChangeMessage(politicalBusinessUnion: majorityElectionUnion.CreateBaseEntityEvent(state, electionIds)));
-    }
+    private async Task<MajorityElectionUnion> GetUnion(Guid id)
+        => await _repo.Query()
+               .Include(x => x.Contest)
+               .FirstOrDefaultAsync(x => x.Id == id)
+           ?? throw new EntityNotFoundException(nameof(MajorityElectionUnion), id);
 }

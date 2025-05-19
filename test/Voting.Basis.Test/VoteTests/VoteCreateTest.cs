@@ -14,7 +14,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -64,9 +63,7 @@ public class VoteCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
         var simplePb = await RunOnDb(db => db.SimplePoliticalBusiness.FirstAsync(x => x.Id == id));
         simplePb.BusinessSubType.Should().Be(PoliticalBusinessSubType.VoteVariantBallot);
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id, EntityState.Added)
-                 && x.PoliticalBusiness!.Data!.BusinessSubType == PoliticalBusinessSubType.VoteVariantBallot);
+        await AssertHasPublishedEventProcessedMessage(VoteCreated.Descriptor, id);
     }
 
     [Fact]
@@ -135,11 +132,8 @@ public class VoteCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
         vote1.MatchSnapshot("1");
         vote2.MatchSnapshot("2");
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id1, EntityState.Added));
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id2, EntityState.Added)
-                 && x.PoliticalBusiness!.Data!.BusinessSubType == PoliticalBusinessSubType.Unspecified);
+        await AssertHasPublishedEventProcessedMessage(VoteCreated.Descriptor, id1);
+        await AssertHasPublishedEventProcessedMessage(VoteCreated.Descriptor, id2);
 
         var simplePb = await RunOnDb(db => db.SimplePoliticalBusiness.FirstAsync(x => x.Id == id1));
         simplePb.BusinessSubType.Should().Be(PoliticalBusinessSubType.Unspecified);

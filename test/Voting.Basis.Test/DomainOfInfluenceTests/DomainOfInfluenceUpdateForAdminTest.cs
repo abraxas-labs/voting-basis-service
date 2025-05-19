@@ -129,6 +129,28 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
 
         var domainOfInfluences = await AdminClient.ListTreeAsync(new ListTreeDomainOfInfluenceRequest());
         domainOfInfluences.MatchSnapshot("list");
+
+        var permissions = await RunOnDb(db => db.DomainOfInfluencePermissions
+            .OrderBy(x => x.TenantId)
+            .ThenBy(x => x.DomainOfInfluenceId)
+            .ToListAsync());
+        foreach (var permission in permissions)
+        {
+            permission.CountingCircleIds.Sort();
+        }
+
+        permissions.MatchSnapshot("permissions", x => x.Id);
+
+        var hierarchies = await RunOnDb(db => db.DomainOfInfluenceHierarchies
+            .OrderBy(x => x.TenantId)
+            .ThenBy(x => x.DomainOfInfluenceId)
+            .ToListAsync());
+        foreach (var hierarchy in hierarchies)
+        {
+            hierarchy.ChildIds.Sort();
+        }
+
+        hierarchies.MatchSnapshot("hierarchies", x => x.Id);
     }
 
     [Fact]
@@ -271,8 +293,11 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
     public async Task ResponsibleForVotingCardsShouldReturn()
     {
         await CantonAdminClient.UpdateAsync(NewValidResponsibleForVotingCardsRequest());
+        var doiUpdated = EventPublisherMock.GetSinglePublishedEvent<DomainOfInfluenceUpdated>();
         var votingCardDataUpdated = EventPublisherMock.GetSinglePublishedEvent<DomainOfInfluenceVotingCardDataUpdated>();
         votingCardDataUpdated.MatchSnapshot("votingCardDataUpdated");
+
+        doiUpdated.DomainOfInfluence.ElectoralRegisterMultipleEnabled.Should().BeTrue();
     }
 
     [Fact]
@@ -571,6 +596,22 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
     }
 
     [Fact]
+    public async Task MultipleElectoralRegistersWithoutElectoralRegistrationShouldTrow()
+    {
+        var req = NewValidRequest(x =>
+        {
+            x.ResponsibleForVotingCards = true;
+            x.ElectoralRegistrationEnabled = false;
+            x.ElectoralRegisterMultipleEnabled = true;
+        });
+
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateAsync(req),
+            StatusCode.InvalidArgument,
+            "multiple electoral registers");
+    }
+
+    [Fact]
     public async Task InternalPlausibilisationDisabledShouldThrow()
     {
         await ModifyDbEntities<DomainOfInfluence>(x => x.Id == DomainOfInfluenceMockedData.GuidUzwil, x => x.CantonDefaults.InternalPlausibilisationDisabled = true);
@@ -763,12 +804,14 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
                 SwissPostData = new ProtoModels.DomainOfInfluenceVotingCardSwissPostData
                 {
                     InvoiceReferenceNumber = "505964478",
+                    FrankingLicenceAwayNumber = "71025630",
                     FrankingLicenceReturnNumber = "965333145",
                 },
                 VotingCardColor = SharedProto.VotingCardColor.Green,
                 ElectoralRegistrationEnabled = true,
                 StistatMunicipality = true,
                 VotingCardFlatRateDisabled = true,
+                ElectoralRegisterMultipleEnabled = true,
             },
         };
         customizer?.Invoke(request.AdminRequest);

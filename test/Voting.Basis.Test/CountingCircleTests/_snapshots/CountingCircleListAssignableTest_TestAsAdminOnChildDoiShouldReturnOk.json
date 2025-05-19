@@ -46,7 +46,8 @@
       "Electorates": [],
       "Canton": 1,
       "EVoting": false,
-      "EVotingActiveFrom": null
+      "EVotingActiveFrom": null,
+      "ECounting": false
     },
     {
       "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a4e",
@@ -94,7 +95,8 @@
       "Electorates": [],
       "Canton": 1,
       "EVoting": false,
-      "EVotingActiveFrom": null
+      "EVotingActiveFrom": null,
+      "ECounting": false
     },
     {
       "Id": "c375f97a-0ba2-4a93-8c76-08a0661d9962",
@@ -142,7 +144,8 @@
       "Electorates": [],
       "Canton": 1,
       "EVoting": false,
-      "EVotingActiveFrom": null
+      "EVotingActiveFrom": null,
+      "ECounting": false
     },
     {
       "Id": "2a3a799a-2437-47da-86fe-06decf70a267",
@@ -190,7 +193,8 @@
       "Electorates": [],
       "Canton": 1,
       "EVoting": false,
-      "EVotingActiveFrom": null
+      "EVotingActiveFrom": null,
+      "ECounting": false
     },
     {
       "Id": "1e2e062e-288d-4347-9f22-224e69b95bed",
@@ -238,7 +242,8 @@
       "Electorates": [],
       "Canton": 1,
       "EVoting": false,
-      "EVotingActiveFrom": null
+      "EVotingActiveFrom": null,
+      "ECounting": false
     },
     {
       "Id": "5f6726d6-05e4-4dc3-9283-a48fce74615b",
@@ -280,7 +285,8 @@
       "Electorates": [],
       "Canton": 3,
       "EVoting": false,
-      "EVotingActiveFrom": null
+      "EVotingActiveFrom": null,
+      "ECounting": false
     }
   ]
 }

@@ -49,7 +49,10 @@
         }
       },
       "Origin": "origin 2",
-      "CheckDigit": 4
+      "CheckDigit": 4,
+      "Country": "IT",
+      "Street": "street",
+      "HouseNumber": "1a"
     },
     {
       "Id": "8b4837a9-c3ba-4ec5-9e50-536a9b4347a9",
@@ -100,7 +103,10 @@
         }
       },
       "Origin": "origin",
-      "CheckDigit": 6
+      "CheckDigit": 6,
+      "Country": "CH",
+      "Street": "street",
+      "HouseNumber": "1a"
     }
   ]
 }

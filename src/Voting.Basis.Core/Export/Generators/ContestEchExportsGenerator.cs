@@ -49,6 +49,7 @@ public class ContestEchExportsGenerator : IExportsGenerator
     {
         var contest = await _contestRepo.Query()
             .AsSplitQuery()
+            .IgnoreQueryFilters() // allow to export contests with a deleted DOI
             .Include(c => c.Votes)
                 .ThenInclude(v => v.Ballots)
                     .ThenInclude(b => b.BallotQuestions)
@@ -74,24 +75,24 @@ public class ContestEchExportsGenerator : IExportsGenerator
             ?? throw new EntityNotFoundException(contestId);
 
         var doiHierarchyGroups = await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups();
+        var accessibleDoiIds = doiHierarchyGroups.AccessibleDoiIds.ToHashSet();
         if (!_auth.HasPermission(Permissions.Export.ExportAllPoliticalBusinesses))
         {
             // Can only export when the tenant is involved in the contest (somewhere in the hierarchy)
-            if (!doiHierarchyGroups.AccessibleDoiIds.Contains(contest.DomainOfInfluenceId))
+            if (!accessibleDoiIds.Contains(contest.DomainOfInfluenceId))
             {
                 throw new ForbiddenException();
             }
 
-            // Can only export political businesses in the same or lower hierarchy
-            // Cannot export political businesses from "parent domain of influences"
+            // Can only export political businesses which are accessible.
             contest.PoliticalBusinesses = contest.PoliticalBusinesses
-                .Where(pb => doiHierarchyGroups.TenantAndChildDoiIds.Contains(pb.DomainOfInfluenceId))
+                .Where(pb => accessibleDoiIds.Contains(pb.DomainOfInfluenceId))
                 .ToList();
         }
 
         if (contest.Votes.Count > 0)
         {
-            var xmlBytes = _ech0159Serializer.ToEventInitialDelivery(contest, contest.Votes);
+            var xmlBytes = await _ech0159Serializer.ToEventInitialDelivery(contest, contest.Votes);
             yield return new ExportFile(
                 xmlBytes,
                 FileNameUtil.GetXmlFileName(Ech0159Serializer.EchNumber, Ech0159Serializer.EchVersion, contest.DomainOfInfluence.Canton, contest.Date, $"votes"),
@@ -100,7 +101,7 @@ public class ContestEchExportsGenerator : IExportsGenerator
 
         if (contest.ProportionalElections.Count > 0)
         {
-            var xmlBytes = _ech0157Serializer.ToDelivery(contest, contest.ProportionalElections);
+            var xmlBytes = await _ech0157Serializer.ToDelivery(contest, contest.ProportionalElections);
             yield return new ExportFile(
                 xmlBytes,
                 FileNameUtil.GetXmlFileName(Ech0157Serializer.EchNumber, Ech0157Serializer.EchVersion, contest.DomainOfInfluence.Canton, contest.Date, $"proportional_elections"),
@@ -109,7 +110,7 @@ public class ContestEchExportsGenerator : IExportsGenerator
 
         if (contest.MajorityElections.Count > 0)
         {
-            var xmlBytes = _ech0157Serializer.ToDelivery(contest, contest.MajorityElections);
+            var xmlBytes = await _ech0157Serializer.ToDelivery(contest, contest.MajorityElections);
             yield return new ExportFile(
                 xmlBytes,
                 FileNameUtil.GetXmlFileName(Ech0157Serializer.EchNumber, Ech0157Serializer.EchVersion, contest.DomainOfInfluence.Canton, contest.Date, $"majority_elections"),

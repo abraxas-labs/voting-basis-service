@@ -14,14 +14,10 @@ namespace Voting.Basis.Core.EventProcessors;
 public class DomainOfInfluenceCountingCircleInheritanceBuilder
 {
     private readonly DomainOfInfluenceCountingCircleRepo _doiCountingCirclesRepo;
-    private readonly DomainOfInfluenceRepo _doiRepo;
 
-    public DomainOfInfluenceCountingCircleInheritanceBuilder(
-        DomainOfInfluenceCountingCircleRepo doiCountingCirclesRepo,
-        DomainOfInfluenceRepo doiRepo)
+    public DomainOfInfluenceCountingCircleInheritanceBuilder(DomainOfInfluenceCountingCircleRepo doiCountingCirclesRepo)
     {
         _doiCountingCirclesRepo = doiCountingCirclesRepo;
-        _doiRepo = doiRepo;
     }
 
     /// <summary>

@@ -66,6 +66,8 @@ public class CountingCircle
 
     public DomainOfInfluenceCanton Canton { get; set; }
 
+    public bool ECounting { get; set; }
+
     public bool EVoting { get; set; }
 
     public DateTime? EVotingActiveFrom { get; set; }

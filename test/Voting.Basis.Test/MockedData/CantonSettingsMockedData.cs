@@ -159,6 +159,7 @@ public static class CantonSettingsMockedData
             PublishResultsBeforeAuditedTentatively = true,
             CandidateLocalityRequired = true,
             CandidateOriginRequired = true,
+            HideOccupationTitle = true,
         };
 
     public static IEnumerable<CantonSettings> All

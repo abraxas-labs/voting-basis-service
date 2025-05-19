@@ -53,7 +53,11 @@
       "StistatMunicipality": false,
       "PublishResultsDisabled": false,
       "VotingCardFlatRateDisabled": false,
-      "HideLowerDomainOfInfluencesInReports": false
+      "HideLowerDomainOfInfluencesInReports": false,
+      "ElectoralRegisterMultipleEnabled": false,
+      "ECollectingEnabled": false,
+      "ECollectingMinSignatureCount": 0,
+      "ECollectingMaxElectronicSignaturePercent": 0
     }
   ]
 }

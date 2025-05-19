@@ -14,7 +14,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -86,8 +85,7 @@ public class ProportionalElectionListDeleteTest : PoliticalBusinessAuthorization
         (await RunOnDb(db => db.ProportionalElectionLists.CountAsync(c => c.Id == idGuid)))
             .Should().Be(0);
 
-        await AssertHasPublishedMessage<ProportionalElectionListChangeMessage>(
-            x => x.List.HasEqualIdAndNewEntityState(idGuid, EntityState.Deleted));
+        await AssertHasPublishedEventProcessedMessage(ProportionalElectionListDeleted.Descriptor, idGuid);
     }
 
     [Fact]

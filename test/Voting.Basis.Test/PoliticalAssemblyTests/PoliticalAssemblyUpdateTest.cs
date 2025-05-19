@@ -12,7 +12,6 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Mocks;
 using Voting.Lib.Testing.Utils;
@@ -86,18 +85,6 @@ public class PoliticalAssemblyUpdateTest : BaseGrpcTest<PoliticalAssemblyService
         await AssertStatus(
             async () => await ElectionAdminClient.UpdateAsync(
                 NewValidRequest(o => o.Id = PoliticalAssemblyMockedData.IdKirche)),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task DomainOfInfluenceNotResponsibleForVotingCardsShouldThrow()
-    {
-        await ModifyDbEntities<DomainOfInfluence>(
-            c => c.Id == DomainOfInfluenceMockedData.GuidGossau,
-            c => c.ResponsibleForVotingCards = false);
-
-        await AssertStatus(
-            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest()),
             StatusCode.InvalidArgument);
     }
 

@@ -16,6 +16,7 @@ public class DomainOfInfluenceVotingCardSwissPostDataTest : ProtoValidatorBaseTe
         var domainOfInfluenceVotingCardSwissPostData = new DomainOfInfluenceVotingCardSwissPostData
         {
             InvoiceReferenceNumber = "505964478",
+            FrankingLicenceAwayNumber = "79266612",
             FrankingLicenceReturnNumber = "965333145",
         };
 
@@ -34,6 +35,10 @@ public class DomainOfInfluenceVotingCardSwissPostDataTest : ProtoValidatorBaseTe
         yield return NewValid(x => x.InvoiceReferenceNumber = RandomStringUtil.GenerateAlphabetic(9));
         yield return NewValid(x => x.InvoiceReferenceNumber = RandomStringUtil.GenerateNumeric(8));
         yield return NewValid(x => x.InvoiceReferenceNumber = RandomStringUtil.GenerateNumeric(10));
+        yield return NewValid(x => x.FrankingLicenceAwayNumber = string.Empty);
+        yield return NewValid(x => x.FrankingLicenceAwayNumber = RandomStringUtil.GenerateAlphabetic(8));
+        yield return NewValid(x => x.FrankingLicenceAwayNumber = RandomStringUtil.GenerateNumeric(7));
+        yield return NewValid(x => x.FrankingLicenceAwayNumber = RandomStringUtil.GenerateNumeric(9));
         yield return NewValid(x => x.FrankingLicenceReturnNumber = string.Empty);
         yield return NewValid(x => x.FrankingLicenceReturnNumber = RandomStringUtil.GenerateAlphabetic(9));
         yield return NewValid(x => x.FrankingLicenceReturnNumber = RandomStringUtil.GenerateNumeric(8));

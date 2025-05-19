@@ -14,7 +14,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
@@ -78,8 +77,7 @@ public class MajorityElectionUnionDeleteTest : PoliticalBusinessUnionAuthorizati
         var result = await RunOnDb(db => db.MajorityElectionUnions.FirstOrDefaultAsync(u => u.Id == id));
         result.Should().BeNull();
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusinessUnion.HasEqualIdAndNewEntityState(id, EntityState.Deleted));
+        await AssertHasPublishedEventProcessedMessage(MajorityElectionUnionDeleted.Descriptor, id);
     }
 
     [Fact]

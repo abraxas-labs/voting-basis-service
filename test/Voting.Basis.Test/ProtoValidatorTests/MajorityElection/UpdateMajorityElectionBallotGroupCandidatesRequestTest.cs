@@ -15,16 +15,12 @@ public class UpdateMajorityElectionBallotGroupCandidatesRequestTest : ProtoValid
     {
         yield return NewValidRequest();
         yield return NewValidRequest(x => x.EntryCandidates.Clear());
-        yield return NewValidRequest(x => x.IndividualCandidatesVoteCount = 0);
-        yield return NewValidRequest(x => x.IndividualCandidatesVoteCount = 100);
     }
 
     protected override IEnumerable<UpdateMajorityElectionBallotGroupCandidatesRequest> NotOkMessages()
     {
         yield return NewValidRequest(x => x.BallotGroupId = "invalid-guid");
         yield return NewValidRequest(x => x.BallotGroupId = string.Empty);
-        yield return NewValidRequest(x => x.IndividualCandidatesVoteCount = -1);
-        yield return NewValidRequest(x => x.IndividualCandidatesVoteCount = 101);
     }
 
     private UpdateMajorityElectionBallotGroupCandidatesRequest NewValidRequest(Action<UpdateMajorityElectionBallotGroupCandidatesRequest>? action = null)
@@ -33,7 +29,6 @@ public class UpdateMajorityElectionBallotGroupCandidatesRequestTest : ProtoValid
         {
             BallotGroupId = "da36912c-7eaf-43fe-86d4-70c816f17c5a",
             EntryCandidates = { MajorityElectionBallotGroupEntryCandidatesTest.NewValid() },
-            IndividualCandidatesVoteCount = 27,
         };
 
         action?.Invoke(request);

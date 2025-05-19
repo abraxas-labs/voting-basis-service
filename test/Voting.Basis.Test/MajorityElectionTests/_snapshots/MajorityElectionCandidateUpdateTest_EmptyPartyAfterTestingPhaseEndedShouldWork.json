@@ -39,6 +39,9 @@
     "ZipCode": "",
     "Locality": "locality updated",
     "MajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
-    "Origin": "origin"
+    "Origin": "origin",
+    "Country": "CH",
+    "Street": "street updated",
+    "HouseNumber": "1a updated"
   }
 }

@@ -4,10 +4,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Xml.Schema;
 using Ech0157_4_0;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Mapping;
+using Voting.Lib.Common;
 using Voting.Lib.Ech;
+using Voting.Lib.Ech.Ech0157_4_0.Schemas;
 
 namespace Voting.Basis.Ech.Converters;
 
@@ -18,6 +22,7 @@ public class Ech0157Serializer
 
     private readonly DeliveryHeaderProvider _deliveryHeaderProvider;
     private readonly EchSerializer _echSerializer;
+    private XmlSchemaSet? _echSchemaSet;
 
     public Ech0157Serializer(DeliveryHeaderProvider deliveryHeaderProvider, EchSerializer echSerializer)
     {
@@ -31,7 +36,7 @@ public class Ech0157Serializer
     /// <param name="contest">The contest to serialize.</param>
     /// <param name="majorityElection">The majority election to serialize. It should contain the secondary elections and candidates.</param>
     /// <returns>The serialized eCH-0157 data.</returns>
-    public byte[] ToDelivery(Contest contest, MajorityElection majorityElection)
+    public Task<byte[]> ToDelivery(Contest contest, MajorityElection majorityElection)
         => ToDelivery(contest, new[] { majorityElection });
 
     /// <summary>
@@ -40,7 +45,7 @@ public class Ech0157Serializer
     /// <param name="contest">The contest to serialize.</param>
     /// <param name="majorityElections">The majority elections to serialize. They should contain the secondary elections and candidates.</param>
     /// <returns>The serialized eCH-0157 data.</returns>
-    public byte[] ToDelivery(Contest contest, IEnumerable<MajorityElection> majorityElections)
+    public Task<byte[]> ToDelivery(Contest contest, IEnumerable<MajorityElection> majorityElections)
     {
         var contestType = contest.ToEchContestType();
         var electionGroups = majorityElections
@@ -65,7 +70,7 @@ public class Ech0157Serializer
     /// <param name="contest">The contest to serialize.</param>
     /// <param name="proportionalElection">The proportional election to serialize. It should contain the lists, list unions and candidates.</param>
     /// <returns>The serialized eCH-0157 data.</returns>
-    public byte[] ToDelivery(Contest contest, ProportionalElection proportionalElection)
+    public Task<byte[]> ToDelivery(Contest contest, ProportionalElection proportionalElection)
         => ToDelivery(contest, new[] { proportionalElection });
 
     /// <summary>
@@ -74,7 +79,7 @@ public class Ech0157Serializer
     /// <param name="contest">The contest to serialize.</param>
     /// <param name="proportionalElections">The proportional elections to serialize. They should contain the lists, list unions and candidates.</param>
     /// <returns>The serialized eCH-0157 data.</returns>
-    public byte[] ToDelivery(Contest contest, IEnumerable<ProportionalElection> proportionalElections)
+    public Task<byte[]> ToDelivery(Contest contest, IEnumerable<ProportionalElection> proportionalElections)
     {
         var contestType = contest.ToEchContestType();
         var electionGroups = proportionalElections
@@ -100,10 +105,13 @@ public class Ech0157Serializer
             InitialDelivery = data,
         };
 
-    private byte[] ToXmlBytes(Delivery delivery)
+    private async Task<byte[]> ToXmlBytes(Delivery delivery)
     {
-        using var memoryStream = new MemoryStream();
-        _echSerializer.WriteXml(memoryStream, delivery);
+        _echSchemaSet ??= Ech0157Schemas.LoadEch0157Schemas();
+        await using var memoryStream = new MemoryStream();
+        await using var xmlValidationStream = new XmlValidationOnWriteStream(memoryStream, _echSchemaSet);
+        _echSerializer.WriteXml(xmlValidationStream, delivery, leaveStreamOpen: true);
+        await xmlValidationStream.WaitForValidation();
         return memoryStream.ToArray();
     }
 }

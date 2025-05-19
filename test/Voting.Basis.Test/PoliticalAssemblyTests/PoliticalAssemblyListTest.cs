@@ -27,16 +27,30 @@ public class PoliticalAssemblyListTest : BaseGrpcTest<PoliticalAssemblyService.P
     }
 
     [Fact]
-    public async Task TestShouldReturn()
+    public async Task TestShouldReturnActive()
     {
-        var response = await ElectionAdminClient.ListAsync(new ListPoliticalAssemblyRequest());
+        var response = await ElectionAdminClient.ListAsync(new ListPoliticalAssemblyRequest { State = Abraxas.Voting.Basis.Shared.V1.PoliticalAssemblyState.Active });
+        response.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task TestShouldReturnPastLocked()
+    {
+        var response = await ElectionAdminClient.ListAsync(new ListPoliticalAssemblyRequest { State = Abraxas.Voting.Basis.Shared.V1.PoliticalAssemblyState.PastLocked });
+        response.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task TestShouldReturnArchived()
+    {
+        var response = await ElectionAdminClient.ListAsync(new ListPoliticalAssemblyRequest { State = Abraxas.Voting.Basis.Shared.V1.PoliticalAssemblyState.Archived });
         response.MatchSnapshot();
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
         await new PoliticalAssemblyService.PoliticalAssemblyServiceClient(channel)
-            .ListAsync(new ListPoliticalAssemblyRequest());
+            .ListAsync(new ListPoliticalAssemblyRequest { State = Abraxas.Voting.Basis.Shared.V1.PoliticalAssemblyState.Active });
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

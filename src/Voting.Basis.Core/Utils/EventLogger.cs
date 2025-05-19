@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1.Data;
 using Google.Protobuf;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Messaging;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Lib.Database.Repositories;
+using Voting.Lib.Eventing.Subscribe;
+using Voting.Lib.Messaging;
 
 namespace Voting.Basis.Core.Utils;
 
@@ -20,15 +23,21 @@ public class EventLogger
     private readonly IDbRepository<DataContext, EventLog> _eventLogRepo;
     private readonly IDbRepository<DataContext, EventLogUser> _eventUserRepo;
     private readonly IDbRepository<DataContext, EventLogTenant> _eventTenantRepo;
+    private readonly EventProcessorContextAccessor _eventContextAccessor;
+    private readonly MessageProducerBuffer _messageBuffer;
 
     public EventLogger(
         IDbRepository<DataContext, EventLog> eventLogRepo,
         IDbRepository<DataContext, EventLogUser> eventUserRepo,
-        IDbRepository<DataContext, EventLogTenant> eventTenantRepo)
+        IDbRepository<DataContext, EventLogTenant> eventTenantRepo,
+        EventProcessorContextAccessor eventContextAccessor,
+        MessageProducerBuffer messageBuffer)
     {
         _eventLogRepo = eventLogRepo;
         _eventUserRepo = eventUserRepo;
         _eventTenantRepo = eventTenantRepo;
+        _eventContextAccessor = eventContextAccessor;
+        _messageBuffer = messageBuffer;
     }
 
     internal async Task LogEvent<T>(T eventData, EventLog eventLog)
@@ -49,6 +58,22 @@ public class EventLogger
         eventLog.EventUser = await ResolveEventUser(eventInfo.User);
         eventLog.EventTenant = await ResolveEventTenant(eventInfo.Tenant);
         await _eventLogRepo.Create(eventLog);
+
+        // only publish live update messages if the subscription is up to date.
+        // These messages are not needed for replays/catch-ups and only result in additional load.
+        // Also, these messages are not mission-critical.
+        if (!_eventContextAccessor.Context.IsCatchUp)
+        {
+            _messageBuffer.Add(new EventProcessedMessage(
+                eventData.Descriptor.FullName,
+                eventLog.EventTenant.TenantId,
+                eventLog.AggregateId ?? throw new InvalidOperationException(nameof(eventLog.AggregateId) + " needs to be set"),
+                eventLog.EntityId,
+                eventLog.ContestId,
+                eventLog.PoliticalBusinessId,
+                eventLog.DomainOfInfluenceId,
+                eventLog.CountingCircleId));
+        }
     }
 
     private async Task<EventLogUser> ResolveEventUser(EventInfoUser? user)

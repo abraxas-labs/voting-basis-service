@@ -6,11 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Voting.Basis.Core.Domain.Aggregate;
-using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Services.Permission;
-using Voting.Basis.Data;
-using Voting.Basis.Data.Models;
-using Voting.Lib.Database.Repositories;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
 using PoliticalAssembly = Voting.Basis.Core.Domain.PoliticalAssembly;
@@ -23,20 +19,17 @@ public class PoliticalAssemblyWriter
     private readonly IAggregateRepository _aggregateRepository;
     private readonly IAggregateFactory _aggregateFactory;
     private readonly PermissionService _permissionService;
-    private readonly IDbRepository<DataContext, DomainOfInfluence> _doiRepo;
 
     public PoliticalAssemblyWriter(
         ILogger<PoliticalAssemblyWriter> logger,
         IAggregateRepository aggregateRepository,
         IAggregateFactory aggregateFactory,
-        PermissionService permissionService,
-        IDbRepository<DataContext, DomainOfInfluence> doiRepo)
+        PermissionService permissionService)
     {
         _logger = logger;
         _aggregateRepository = aggregateRepository;
         _aggregateFactory = aggregateFactory;
         _permissionService = permissionService;
-        _doiRepo = doiRepo;
     }
 
     public async Task Create(PoliticalAssembly data)
@@ -47,7 +40,6 @@ public class PoliticalAssemblyWriter
         }
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(data.DomainOfInfluenceId);
-        await EnsureDoiIsResponsibleForVotingCards(data.DomainOfInfluenceId);
 
         var politicalAssemblyAggregate = _aggregateFactory.New<PoliticalAssemblyAggregate>();
         politicalAssemblyAggregate.CreateFrom(data);
@@ -64,7 +56,6 @@ public class PoliticalAssemblyWriter
         var politicalAssembly = await _aggregateRepository.GetById<PoliticalAssemblyAggregate>(data.Id);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(politicalAssembly.DomainOfInfluenceId);
-        await EnsureDoiIsResponsibleForVotingCards(data.DomainOfInfluenceId);
 
         politicalAssembly.UpdateFrom(data);
         await _aggregateRepository.Save(politicalAssembly);
@@ -75,22 +66,46 @@ public class PoliticalAssemblyWriter
         var politicalAssembly = await _aggregateRepository.GetById<PoliticalAssemblyAggregate>(politicalAssemblyId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(politicalAssembly.DomainOfInfluenceId);
-        await EnsureDoiIsResponsibleForVotingCards(politicalAssembly.DomainOfInfluenceId);
 
         politicalAssembly.Delete();
         await _aggregateRepository.Save(politicalAssembly);
         _logger.LogInformation("Deleted political assembly {PoliticalAssemblyId}.", politicalAssemblyId);
     }
 
-    private async Task EnsureDoiIsResponsibleForVotingCards(Guid domainOfInfluenceId)
+    public async Task Archive(Guid politicalAssemblyId, DateTime? archivePer)
     {
-        var doi = await _doiRepo.GetByKey(domainOfInfluenceId)
-                  ?? throw new EntityNotFoundException(domainOfInfluenceId);
+        var politicalAssembly = await _aggregateRepository.GetById<PoliticalAssemblyAggregate>(politicalAssemblyId);
 
-        if (!doi.ResponsibleForVotingCards)
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(politicalAssembly.DomainOfInfluenceId);
+
+        politicalAssembly.Archive(archivePer);
+        await _aggregateRepository.Save(politicalAssembly);
+        _logger.LogInformation("Archived political assembly {PoliticalAssemblyId}.", politicalAssemblyId);
+    }
+
+    internal async Task<bool> TrySetPastLocked(Guid politicalAssemblyId)
+    {
+        var politicalAssembly = await _aggregateRepository.GetById<PoliticalAssemblyAggregate>(politicalAssemblyId);
+        if (!politicalAssembly.TrySetPastLocked())
         {
-            throw new ValidationException(
-                "Cannot create, update or delete a political assembly for a domain of influence, which is not responsible for voting cards.");
+            return false;
         }
+
+        await _aggregateRepository.Save(politicalAssembly);
+        _logger.LogInformation("Set past locked for political assembly {PoliticalAssemblyId}.", politicalAssemblyId);
+        return true;
+    }
+
+    internal async Task<bool> TryArchive(Guid politicalAssemblyId)
+    {
+        var politicalAssembly = await _aggregateRepository.GetById<PoliticalAssemblyAggregate>(politicalAssemblyId);
+        if (!politicalAssembly.TryArchive())
+        {
+            return false;
+        }
+
+        await _aggregateRepository.Save(politicalAssembly);
+        _logger.LogInformation("Archived political assembly {PoliticalAssemblyId}.", politicalAssemblyId);
+        return true;
     }
 }

@@ -17,7 +17,6 @@ using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Jobs;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Test.MockedData;
 using Voting.Basis.Test.Mocks;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
@@ -48,6 +47,9 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
     public async Task TestAggregate()
     {
         var electorateChId = Guid.Parse("94ff0364-19e1-4c1d-9179-17b18ad39b72");
+
+        // We need the domain of influences here, otherwise we cannot test the permissions later on
+        await DomainOfInfluenceMockedData.Seed(RunScoped, false);
 
         await TestEventPublisher.Publish(
             new CountingCircleUpdated
@@ -96,6 +98,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
                         },
                     },
                     Canton = DomainOfInfluenceCanton.Sg,
+                    ECounting = true,
                 },
                 EventInfo = GetMockedEventInfo(),
             },
@@ -140,16 +143,24 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
                 EventInfo = GetMockedEventInfo(),
             });
         var countingCircles = await AdminClient.ListAsync(new ListCountingCircleRequest());
-        countingCircles.MatchSnapshot();
+        countingCircles.MatchSnapshot("countingCircles");
 
         var electorateExists = await RunOnDb(db => db.CountingCircleElectorates.AnyAsync(e => e.Id == electorateChId));
         electorateExists.Should().BeTrue();
 
-        await AssertHasPublishedMessage<CountingCircleChangeMessage>(
-            x => x.CountingCircle.HasEqualIdAndNewEntityState(CountingCircleMockedData.Uzwil.Id, EntityState.Modified));
+        var permissions = await RunOnDb(db => db.DomainOfInfluencePermissions
+            .OrderBy(x => x.TenantId)
+            .ThenBy(x => x.DomainOfInfluenceId)
+            .ToListAsync());
+        foreach (var permission in permissions)
+        {
+            permission.CountingCircleIds.Sort();
+        }
 
-        await AssertHasPublishedMessage<CountingCircleChangeMessage>(
-            x => x.CountingCircle.HasEqualIdAndNewEntityState(CountingCircleMockedData.StGallen.Id, EntityState.Modified));
+        permissions.MatchSnapshot("permissions", x => x.Id);
+
+        await AssertHasPublishedEventProcessedMessage(CountingCircleUpdated.Descriptor, Guid.Parse(CountingCircleMockedData.IdUzwil));
+        await AssertHasPublishedEventProcessedMessage(CountingCircleUpdated.Descriptor, Guid.Parse(CountingCircleMockedData.IdStGallen));
     }
 
     [Fact]
@@ -492,6 +503,7 @@ public class CountingCircleUpdateTest : BaseGrpcTest<CountingCircleService.Count
             NameForProtocol = "Stadt St. Gallen",
             SortNumber = 90,
             Canton = DomainOfInfluenceCanton.Sg,
+            ECounting = true,
         };
         customizer?.Invoke(request);
         return request;

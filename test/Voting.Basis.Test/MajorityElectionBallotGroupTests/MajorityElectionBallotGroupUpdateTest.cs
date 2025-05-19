@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
@@ -58,6 +59,52 @@ public class MajorityElectionBallotGroupUpdateTest : PoliticalBusinessAuthorizat
                 ShortDescription = "short - long",
                 MajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund,
                 Id = MajorityElectionMockedData.BallotGroupIdStGallenMajorityElectionInContestBund,
+                BlankRowCountUnused = true,
+            },
+        };
+        ev.BallotGroup.Entries.Add(new MajorityElectionBallotGroupEntryEventData
+        {
+            ElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund,
+            Id = MajorityElectionMockedData.BallotGroupEntryId1StGallenMajorityElectionInContestBund,
+        });
+        ev.BallotGroup.Entries.Add(new MajorityElectionBallotGroupEntryEventData
+        {
+            ElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+            Id = MajorityElectionMockedData.BallotGroupEntryId2StGallenMajorityElectionInContestBund,
+        });
+
+        await TestEventPublisher.Publish(ev);
+
+        var ballotGroups = await CantonAdminClient.ListBallotGroupsAsync(new ListMajorityElectionBallotGroupsRequest
+        {
+            MajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund,
+        });
+
+        var ballotGroupEntry2 = ballotGroups
+            .BallotGroups
+            .Single(x => x.Id == MajorityElectionMockedData.BallotGroupIdStGallenMajorityElectionInContestBund)
+            .Entries
+            .Single(x => x.Id == MajorityElectionMockedData.BallotGroupEntryId2StGallenMajorityElectionInContestBund);
+
+        // The candidate vote counts should remain unchanged.
+        ballotGroupEntry2.BlankRowCount.Should().Be(2);
+
+        ballotGroups.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task TestProcessorDeprecatedEventWithBlankRowCount()
+    {
+        var ev = new MajorityElectionBallotGroupUpdated
+        {
+            BallotGroup = new MajorityElectionBallotGroupEventData
+            {
+                Description = "test new",
+                Position = 1,
+                ShortDescription = "short - long",
+                MajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund,
+                Id = MajorityElectionMockedData.BallotGroupIdStGallenMajorityElectionInContestBund,
+                BlankRowCountUnused = false,
             },
         };
         ev.BallotGroup.Entries.Add(new MajorityElectionBallotGroupEntryEventData
@@ -92,14 +139,6 @@ public class MajorityElectionBallotGroupUpdateTest : PoliticalBusinessAuthorizat
     }
 
     [Fact]
-    public async Task MoreBlankRowCountThanNumberOfMandatesShouldThrow()
-    {
-        await AssertStatus(
-            async () => await CantonAdminClient.UpdateBallotGroupAsync(NewValidRequest(o => o.Entries[0].BlankRowCount = 24)),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
     public async Task MissingEntriesShouldThrow()
     {
         await AssertStatus(
@@ -126,67 +165,6 @@ public class MajorityElectionBallotGroupUpdateTest : PoliticalBusinessAuthorizat
                 ElectionId = MajorityElectionMockedData.IdGenfMajorityElectionInContestBundWithoutChilds,
             }))),
             StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task BallotGroupWithCandidateCountNotOkInPastContestShouldWork()
-    {
-        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
-        await CantonAdminClient.UpdateBallotGroupAsync(new UpdateMajorityElectionBallotGroupRequest
-        {
-            Description = "test new",
-            Position = 2,
-            ShortDescription = "short - long",
-            MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund,
-            Id = MajorityElectionMockedData.BallotGroupId2GossauMajorityElectionInContestBund,
-            Entries =
-                {
-                    new ProtoModels.MajorityElectionBallotGroupEntry
-                    {
-                        BlankRowCount = 0,
-                        ElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund,
-                        Id = MajorityElectionMockedData.BallotGroupEntryId21GossauMajorityElectionInContestBund,
-                    },
-                    new ProtoModels.MajorityElectionBallotGroupEntry
-                    {
-                        BlankRowCount = 0,
-                        ElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund,
-                        Id = MajorityElectionMockedData.BallotGroupEntryId22GossauMajorityElectionInContestBund,
-                    },
-                },
-        });
-    }
-
-    [Fact]
-    public async Task BallotGroupWithCandidateCountOkInPastContestShouldThrow()
-    {
-        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
-        await AssertStatus(
-            async () => await CantonAdminClient.UpdateBallotGroupAsync(new UpdateMajorityElectionBallotGroupRequest
-            {
-                Description = "test new",
-                Position = 1,
-                ShortDescription = "short - long",
-                MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund,
-                Id = MajorityElectionMockedData.BallotGroupId1GossauMajorityElectionInContestBund,
-                Entries =
-                {
-                        new ProtoModels.MajorityElectionBallotGroupEntry
-                        {
-                            BlankRowCount = 0,
-                            ElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund,
-                            Id = MajorityElectionMockedData.BallotGroupEntryId11GossauMajorityElectionInContestBund,
-                        },
-                        new ProtoModels.MajorityElectionBallotGroupEntry
-                        {
-                            BlankRowCount = 0,
-                            ElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund,
-                            Id = MajorityElectionMockedData.BallotGroupEntryId12GossauMajorityElectionInContestBund,
-                        },
-                },
-            }),
-            StatusCode.InvalidArgument,
-            "The candidate count for this ballot group is correct, modifications aren't allowed anymore.");
     }
 
     [Fact]
@@ -246,13 +224,11 @@ public class MajorityElectionBallotGroupUpdateTest : PoliticalBusinessAuthorizat
                 {
                     new ProtoModels.MajorityElectionBallotGroupEntry
                     {
-                        BlankRowCount = 1,
                         ElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund,
                         Id = MajorityElectionMockedData.BallotGroupEntryId1StGallenMajorityElectionInContestBund,
                     },
                     new ProtoModels.MajorityElectionBallotGroupEntry
                     {
-                        BlankRowCount = 1,
                         ElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
                         Id = MajorityElectionMockedData.BallotGroupEntryId2StGallenMajorityElectionInContestBund,
                     },

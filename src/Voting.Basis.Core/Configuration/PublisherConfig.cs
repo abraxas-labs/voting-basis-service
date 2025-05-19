@@ -42,7 +42,17 @@ public class PublisherConfig
         Interval = TimeSpan.FromMinutes(5),
     };
 
+    public JobConfig PoliticalAssemblyStateSetPastJob { get; set; } = new()
+    {
+        Interval = TimeSpan.FromMinutes(5),
+    };
+
     public JobConfig ContestStateArchiveJob { get; set; } = new()
+    {
+        Interval = TimeSpan.FromMinutes(15),
+    };
+
+    public JobConfig PoliticalAssemblyStateArchiveJob { get; set; } = new()
     {
         Interval = TimeSpan.FromMinutes(15),
     };

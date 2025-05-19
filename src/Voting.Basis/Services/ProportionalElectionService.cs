@@ -284,15 +284,4 @@ public class ProportionalElectionService : ServiceBase
         await _proportionalElectionWriter.DeleteCandidate(GuidParser.Parse(request.Id));
         return ProtobufEmpty.Instance;
     }
-
-    [AuthorizeAnyPermission(Permissions.ProportionalElectionList.Read)]
-    public override Task GetListChanges(
-        GetProportionalElectionListChangesRequest request,
-        IServerStreamWriter<ProtoModels.ProportionalElectionListChangeMessage> responseStream,
-        ServerCallContext context)
-    {
-        return _proportionalElectionReader.ListenToListChanges(
-            e => responseStream.WriteAsync(_mapper.Map<ProtoModels.ProportionalElectionListChangeMessage>(e)),
-            context.CancellationToken);
-    }
 }

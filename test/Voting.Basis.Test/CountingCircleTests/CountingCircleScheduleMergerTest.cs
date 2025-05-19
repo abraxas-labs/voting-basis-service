@@ -127,6 +127,18 @@ public class CountingCircleScheduleMergerTest : BaseGrpcTest<CountingCircleServi
         assignedDoiIds.MatchSnapshot("assignedDoiIds");
         rapperswilJona.MergeOrigin!.Merged.Should().BeTrue();
 
+        // The permission should reflect the merge
+        var permissions = await RunOnDb(db => db.DomainOfInfluencePermissions
+            .OrderBy(x => x.TenantId)
+            .ThenBy(x => x.DomainOfInfluenceId)
+            .ToListAsync());
+        foreach (var permission in permissions)
+        {
+            permission.CountingCircleIds.Sort();
+        }
+
+        permissions.MatchSnapshot("permissions", x => x.Id);
+
         // after activated merge the new counting circle should be editable and the merged counting circles should be deleted.
         await CantonAdminClient.UpdateAsync(NewValidUpdateRequest(x => x.Id = RapperswilJonaId));
 

@@ -2,6 +2,7 @@
 // For license information see LICENSE file
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentValidation;
 using Voting.Basis.Core.Domain.Aggregate;
@@ -17,7 +18,7 @@ using Ballot = Voting.Basis.Core.Domain.Ballot;
 
 namespace Voting.Basis.Core.Services.Write;
 
-public class VoteWriter
+public class VoteWriter : PoliticalBusinessWriter
 {
     private readonly IAggregateRepository _aggregateRepository;
     private readonly IAggregateFactory _aggregateFactory;
@@ -45,6 +46,8 @@ public class VoteWriter
         _doiRepository = doiRepository;
     }
 
+    public override PoliticalBusinessType Type => PoliticalBusinessType.Vote;
+
     public async Task Create(Domain.Vote data)
     {
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(data.DomainOfInfluenceId, false);
@@ -53,6 +56,7 @@ public class VoteWriter
             data.ContestId,
             data.DomainOfInfluenceId,
             data.PoliticalBusinessNumber,
+            PoliticalBusinessType.Vote,
             data.ReportDomainOfInfluenceLevel);
         await _contestValidationService.EnsureInTestingPhase(data.ContestId);
 
@@ -70,6 +74,7 @@ public class VoteWriter
             data.ContestId,
             data.DomainOfInfluenceId,
             data.PoliticalBusinessNumber,
+            PoliticalBusinessType.Vote,
             data.ReportDomainOfInfluenceLevel);
         var contestState = await _contestValidationService.EnsureNotLocked(data.ContestId);
 
@@ -161,6 +166,16 @@ public class VoteWriter
 
         vote.DeleteBallot(id);
         await _aggregateRepository.Save(vote);
+    }
+
+    internal override async Task DeleteWithoutChecks(List<Guid> ids)
+    {
+        foreach (var id in ids)
+        {
+            var aggregate = await _aggregateRepository.GetById<VoteAggregate>(id);
+            aggregate.Delete();
+            await _aggregateRepository.Save(aggregate);
+        }
     }
 
     private async Task EnsureMultipleVoteBallotsEnabled(Guid doiId)

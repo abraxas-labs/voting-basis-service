@@ -12,11 +12,12 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
+using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 
 namespace Voting.Basis.Test.MajorityElectionTests;
 
@@ -66,8 +67,7 @@ public class MajorityElectionActiveStateUpdateTest : PoliticalBusinessAuthorizat
         var response = await ElectionAdminClient.GetAsync(new GetMajorityElectionRequest { Id = MajorityElectionMockedData.IdGossauMajorityElectionInContestStGallen });
         response.MatchSnapshot();
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id, EntityState.Modified));
+        await AssertHasPublishedEventProcessedMessage(MajorityElectionActiveStateUpdated.Descriptor, id);
     }
 
     [Fact]
@@ -81,6 +81,40 @@ public class MajorityElectionActiveStateUpdateTest : PoliticalBusinessAuthorizat
             })),
             StatusCode.FailedPrecondition,
             "Testing phase ended, cannot modify the contest");
+    }
+
+    [Fact]
+    public async Task SetActiveWithInvalidBallotGroupVoteCountsShouldThrow()
+    {
+        await CantonAdminClient.CreateBallotGroupAsync(new CreateMajorityElectionBallotGroupRequest
+        {
+            Description = "test new",
+            Position = 3,
+            ShortDescription = "short - long",
+            MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund,
+            Entries =
+                {
+                    new ProtoModels.MajorityElectionBallotGroupEntry
+                    {
+                        ElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund,
+                        Id = MajorityElectionMockedData.BallotGroupEntryId21GossauMajorityElectionInContestBund,
+                    },
+                    new ProtoModels.MajorityElectionBallotGroupEntry
+                    {
+                        ElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund,
+                        Id = MajorityElectionMockedData.BallotGroupEntryId22GossauMajorityElectionInContestBund,
+                    },
+                },
+        });
+
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateActiveStateAsync(new UpdateMajorityElectionActiveStateRequest
+            {
+                Id = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund,
+                Active = true,
+            }),
+            StatusCode.FailedPrecondition,
+            nameof(MajorityElectionBallotGroupVoteCountException));
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

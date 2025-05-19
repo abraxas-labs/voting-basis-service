@@ -8,6 +8,7 @@ using Ech0010_6_0;
 using Ech0155_4_0;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Resources;
+using Voting.Basis.Ech.Utils;
 using Voting.Lib.Common;
 using Voting.Lib.Ech.Ech0157_4_0.Models;
 using DataModels = Voting.Basis.Data.Models;
@@ -16,9 +17,6 @@ namespace Voting.Basis.Ech.Mapping;
 
 internal static class CandidateMapping
 {
-    private const int SwissCountryId = 8100;
-    private const string SwissCountryIso = "CH";
-    private const string SwissCountryNameShort = "Schweiz";
     private static readonly DateTime DefaultDateOfBirth = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
     internal static CandidateType ToEchCandidateType(this DataModels.ElectionCandidate candidate, Dictionary<string, string>? party, DataModels.DomainOfInfluenceCanton canton, PoliticalBusinessType politicalBusinessType)
@@ -43,6 +41,7 @@ internal static class CandidateMapping
             .ToList();
 
         var zipCodeIsSwiss = int.TryParse(candidate.ZipCode, out var zipCode) && zipCode is > 1000 and <= 9999;
+        var country = CountryUtils.GetCountryFromIsoId(candidate.Country);
 
         return new CandidateType
         {
@@ -61,11 +60,13 @@ internal static class CandidateMapping
                 SwissZipCode = zipCodeIsSwiss ? (uint?)zipCode : null,
                 ForeignZipCode = zipCodeIsSwiss ? null : candidate.ZipCode,
                 Town = candidate.Locality != string.Empty ? candidate.Locality : UnknownMapping.UnknownValue,
+                Street = candidate.Street,
+                HouseNumber = candidate.HouseNumber,
                 Country = new CountryType
                 {
-                    CountryId = SwissCountryId,
-                    CountryIdIso2 = SwissCountryIso,
-                    CountryNameShort = SwissCountryNameShort,
+                    CountryId = (ushort)(country?.Id ?? CountryUtils.SwissCountryId),
+                    CountryIdIso2 = country?.IsoId ?? CountryUtils.SwissCountryIso,
+                    CountryNameShort = country?.Description ?? CountryUtils.SwissCountryNameShort,
                 },
             },
             Swiss = new List<string> { candidate.Origin != string.Empty ? candidate.Origin : UnknownMapping.UnknownValue },
@@ -109,6 +110,9 @@ internal static class CandidateMapping
             ZipCode = candidate.DwellingAddress?.SwissZipCode?.ToString()
                       ?? candidate.DwellingAddress?.ForeignZipCode ?? string.Empty,
             Origin = candidate.SwissSpecified ? UnknownMapping.MapUnknownValue(candidate.Swiss[0]) : string.Empty,
+            Street = candidate.DwellingAddress?.Street ?? string.Empty,
+            HouseNumber = candidate.DwellingAddress?.HouseNumber ?? string.Empty,
+            Country = candidate.DwellingAddress?.Country.CountryIdIso2 ?? CountryUtils.SwissCountryIso,
         };
     }
 

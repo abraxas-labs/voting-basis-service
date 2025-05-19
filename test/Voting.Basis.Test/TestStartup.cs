@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Voting.Basis.Core.Messaging.Consumers;
+using Voting.Basis.Core.Messaging;
 using Voting.Basis.Test.MockedData.Mapping;
 using Voting.Basis.Test.Mocks;
 using Voting.Lib.Common;
 using Voting.Lib.Ech;
 using Voting.Lib.MalwareScanner.Services;
+using Voting.Lib.Messaging;
 using Voting.Lib.ObjectStorage;
 using Voting.Lib.Testing.Mocks;
 
@@ -54,12 +55,6 @@ public class TestStartup : Startup
 
     protected override void AddMessaging(IServiceCollection services)
     {
-        services.AddVotingLibMessagingMocks(o =>
-        {
-            o.AddConsumerAndConsumerTestHarness<ContestDetailsChangeMessageConsumer>();
-            o.AddConsumerAndConsumerTestHarness<ContestOverviewChangeMessageConsumer>();
-            o.AddConsumerAndConsumerTestHarness<CountingCircleChangeMessageConsumer>();
-            o.AddConsumerAndConsumerTestHarness<ProportionalElectionListChangeMessageConsumer>();
-        });
+        services.AddVotingLibMessagingMocks(o => o.AddConsumerAndConsumerTestHarness<MessageConsumer<EventProcessedMessage>>());
     }
 }

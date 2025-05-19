@@ -118,6 +118,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
     /// </summary>
     public bool ElectoralRegistrationEnabled { get; private set; }
 
+    public bool ElectoralRegisterMultipleEnabled { get; private set; }
+
     public bool StistatMunicipality { get; private set; }
 
     public bool PublishResultsDisabled { get; private set; }
@@ -125,6 +127,12 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
     public bool VotingCardFlatRateDisabled { get; private set; }
 
     public bool HideLowerDomainOfInfluencesInReports { get; set; }
+
+    public bool ECollectingEnabled { get; private set; }
+
+    public int ECollectingMinSignatureCount { get; set; }
+
+    public int ECollectingMaxElectronicSignaturePercent { get; set; }
 
     public void CreateFrom(DomainOfInfluence domainOfInfluence)
     {
@@ -511,6 +519,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
 
     private void Apply(DomainOfInfluenceVotingCardDataUpdated ev)
     {
+        Migrate(ev);
         _mapper.Map(ev, this);
     }
 
@@ -603,6 +612,18 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
                 domainOfInfluence.VotingCardColor,
                 domainOfInfluence.StistatMunicipality,
                 domainOfInfluence.VotingCardFlatRateDisabled);
+        }
+    }
+
+    // explicitly map deprecated values of VotingCardColor to default value.
+    private void Migrate(DomainOfInfluenceVotingCardDataUpdated eventData)
+    {
+        switch (eventData.VotingCardColor)
+        {
+            case SharedProto.VotingCardColor.Chamois:
+            case SharedProto.VotingCardColor.Gold:
+                eventData.VotingCardColor = SharedProto.VotingCardColor.Unspecified;
+                break;
         }
     }
 }

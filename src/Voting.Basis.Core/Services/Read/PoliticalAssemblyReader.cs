@@ -62,7 +62,7 @@ public class PoliticalAssemblyReader
         return politicalAssembly;
     }
 
-    public async Task<IEnumerable<PoliticalAssembly>> List()
+    public async Task<IEnumerable<PoliticalAssembly>> List(PoliticalAssemblyState politicalAssemblyState)
     {
         var query = _repo.Query().AsSplitQuery();
 
@@ -76,7 +76,7 @@ public class PoliticalAssemblyReader
 
         var politicalAssemblies = await query
             .Include(x => x.DomainOfInfluence)
-            .Where(x => x.Date >= _clock.UtcNow)
+            .Where(x => x.State == politicalAssemblyState)
             .ToListAsync();
 
         foreach (var politicalAssembly in politicalAssemblies)

@@ -57,7 +57,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -112,7 +116,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       }
     ]
   },
@@ -174,7 +182,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -229,7 +241,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       }
     ]
   },
@@ -291,7 +307,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -346,7 +366,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       }
     ]
   },

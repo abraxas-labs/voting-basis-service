@@ -1,0 +1,97 @@
+{
+  "PoliticalAssemblies_": [
+    {
+      "Id": "40869f32-98f1-42cb-b3f1-7db4b138f4b6",
+      "Date": {
+        "Seconds": 1574553600,
+        "Nanos": 0
+      },
+      "Description": {
+        "de": "Vergangene Versammlung de",
+        "fr": "Vergangene Versammlung fr",
+        "it": "Vergangene Versammlung it",
+        "rm": "Vergangene Versammlung rm"
+      },
+      "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+      "DomainOfInfluence": {
+        "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "Name": "Gossau",
+        "ShortName": "GOS",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 5,
+        "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": true,
+        "Bfs": "3443",
+        "Code": "",
+        "SortNumber": 0,
+        "ExportConfigurations": [],
+        "ReturnAddress": {
+          "AddressLine1": "Stadtverwaltung Gossau",
+          "AddressLine2": "",
+          "Street": "Bahnhofstrasse 25",
+          "AddressAddition": "",
+          "ZipCode": "9200",
+          "City": "Gossau",
+          "Country": "Schweiz"
+        },
+        "PrintData": {
+          "ShippingAway": 2,
+          "ShippingReturn": 5,
+          "ShippingMethod": 3,
+          "ShippingVotingCardsToDeliveryAddress": true
+        },
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": true,
+        "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492",
+        "SwissPostData": {
+          "InvoiceReferenceNumber": "958473825",
+          "FrankingLicenceAwayNumber": "73155598",
+          "FrankingLicenceReturnNumber": "562984257"
+        },
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": true,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": true,
+        "PublishResultsDisabled": true,
+        "VotingCardFlatRateDisabled": true,
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": true,
+        "ECollectingMinSignatureCount": 10000,
+        "ECollectingMaxElectronicSignaturePercent": 50
+      },
+      "EVoting": false,
+      "State": 2,
+      "ArchivePer": null
+    }
+  ]
+}

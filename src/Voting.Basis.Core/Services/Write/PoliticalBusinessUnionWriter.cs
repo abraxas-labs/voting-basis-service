@@ -19,7 +19,18 @@ using Voting.Lib.Iam.Store;
 
 namespace Voting.Basis.Core.Services.Write;
 
-public abstract class PoliticalBusinessUnionWriter<TPoliticalBusiness, TPoliticalBusinessUnion>
+public abstract class PoliticalBusinessUnionWriter
+{
+    /// <summary>
+    /// Delete the political business unions for the specified contest ids.
+    /// Should not perform a permission check.
+    /// </summary>
+    /// <param name="contestIds">The contest ids for which the deletions should occur.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    internal abstract Task DeleteForContests(List<Guid> contestIds);
+}
+
+public abstract class PoliticalBusinessUnionWriter<TPoliticalBusiness, TPoliticalBusinessUnion> : PoliticalBusinessUnionWriter
     where TPoliticalBusiness : PoliticalBusiness, new()
     where TPoliticalBusinessUnion : PoliticalBusinessUnion, new()
 {
@@ -56,6 +67,21 @@ public abstract class PoliticalBusinessUnionWriter<TPoliticalBusiness, TPolitica
     protected PermissionService PermissionService { get; }
 
     protected abstract PoliticalBusinessUnionType UnionType { get; }
+
+    internal override async Task DeleteForContests(List<Guid> contestIds)
+    {
+        var ids = await Repo.Query()
+            .Where(x => contestIds.Contains(x.ContestId))
+            .Select(x => x.Id)
+            .ToListAsync();
+
+        foreach (var id in ids)
+        {
+            await DeleteAggregate(id);
+        }
+    }
+
+    protected abstract Task DeleteAggregate(Guid id);
 
     protected async Task EnsureCanCreatePoliticalBusinessUnion(Guid contestId)
     {

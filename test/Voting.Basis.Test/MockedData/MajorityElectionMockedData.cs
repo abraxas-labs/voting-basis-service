@@ -143,6 +143,9 @@ public static class MajorityElectionMockedData
                         ZipCode = "zip code",
                         Origin = "origin",
                         CheckDigit = 9,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
                     },
             },
         };
@@ -193,6 +196,9 @@ public static class MajorityElectionMockedData
                         ZipCode = "zip code",
                         Origin = "origin",
                         CheckDigit = 9,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
                     },
                     new MajorityElectionCandidate
                     {
@@ -214,6 +220,9 @@ public static class MajorityElectionMockedData
                         ZipCode = "zip code",
                         Origin = "origin",
                         CheckDigit = 1,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
                     },
             },
             SecondaryMajorityElections = new List<SecondaryMajorityElection>
@@ -251,6 +260,9 @@ public static class MajorityElectionMockedData
                                 CandidateReferenceId = Guid.Parse(CandidateId1StGallenMajorityElectionInContestBund),
                                 Origin = "origin",
                                 CheckDigit = 9,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
                             },
                             new SecondaryMajorityElectionCandidate
                             {
@@ -272,6 +284,9 @@ public static class MajorityElectionMockedData
                                 ZipCode = "zip code",
                                 Origin = "origin",
                                 CheckDigit = 7,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
                             },
                         },
                     },
@@ -308,6 +323,9 @@ public static class MajorityElectionMockedData
                                 CandidateReferenceId = Guid.Parse(CandidateId1StGallenMajorityElectionInContestBund),
                                 Origin = "origin",
                                 CheckDigit = 9,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "IT",
                             },
                             new SecondaryMajorityElectionCandidate
                             {
@@ -329,6 +347,9 @@ public static class MajorityElectionMockedData
                                 ZipCode = "zip code",
                                 Origin = "origin",
                                 CheckDigit = 7,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
                             },
                         },
                     },
@@ -367,7 +388,7 @@ public static class MajorityElectionMockedData
                             {
                                 Id = Guid.Parse(BallotGroupEntryId2StGallenMajorityElectionInContestBund),
                                 SecondaryMajorityElectionId = Guid.Parse(SecondaryElectionIdStGallenMajorityElectionInContestBund),
-                                BlankRowCount = 0,
+                                BlankRowCount = 2,
                                 Candidates = new List<MajorityElectionBallotGroupEntryCandidate>
                                 {
                                     new MajorityElectionBallotGroupEntryCandidate
@@ -428,6 +449,9 @@ public static class MajorityElectionMockedData
                         ZipCode = "zip code",
                         Origin = "origin",
                         CheckDigit = 9,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
                     },
                     new MajorityElectionCandidate
                     {
@@ -449,6 +473,9 @@ public static class MajorityElectionMockedData
                         ZipCode = "zip code2",
                         Origin = "origin 2",
                         CheckDigit = 7,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
                     },
             },
         };
@@ -499,6 +526,9 @@ public static class MajorityElectionMockedData
                         ZipCode = "zip code",
                         Origin = "origin",
                         CheckDigit = 9,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
                     },
             },
             SecondaryMajorityElections = new List<SecondaryMajorityElection>
@@ -535,6 +565,9 @@ public static class MajorityElectionMockedData
                                 CandidateReferenceId = Guid.Parse(CandidateIdUzwilMajorityElectionInContestStGallen),
                                 Origin = "origin",
                                 CheckDigit = 9,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
                             },
                         },
                     },
@@ -568,7 +601,7 @@ public static class MajorityElectionMockedData
                                         PrimaryElectionCandidateId = Guid.Parse(CandidateIdUzwilMajorityElectionInContestStGallen),
                                     },
                                 },
-                                IndividualCandidatesVoteCount = 1,
+                                IndividualCandidatesVoteCount = 3,
                             },
                             new MajorityElectionBallotGroupEntry
                             {
@@ -636,6 +669,9 @@ public static class MajorityElectionMockedData
                         ZipCode = "zip code",
                         Origin = "origin",
                         CheckDigit = 9,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
                     },
             },
         };
@@ -685,6 +721,9 @@ public static class MajorityElectionMockedData
                         ZipCode = "zip code",
                         Origin = "origin",
                         CheckDigit = 9,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
                     },
                     new MajorityElectionCandidate
                     {
@@ -705,6 +744,9 @@ public static class MajorityElectionMockedData
                         Title = "title 2",
                         Origin = "origin 2",
                         CheckDigit = 7,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
                     },
             },
             SecondaryMajorityElections = new List<SecondaryMajorityElection>
@@ -741,6 +783,9 @@ public static class MajorityElectionMockedData
                                 CandidateReferenceId = Guid.Parse(CandidateId1GossauMajorityElectionInContestStGallen),
                                 Origin = "origin",
                                 CheckDigit = 9,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
                             },
                             new SecondaryMajorityElectionCandidate
                             {
@@ -762,6 +807,9 @@ public static class MajorityElectionMockedData
                                 ZipCode = "zip code",
                                 Origin = "origin",
                                 CheckDigit = 7,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
                             },
                         },
                     },
@@ -820,6 +868,9 @@ public static class MajorityElectionMockedData
                         ZipCode = "zip code",
                         Origin = "origin",
                         CheckDigit = 9,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
                     },
                     new MajorityElectionCandidate
                     {
@@ -841,6 +892,9 @@ public static class MajorityElectionMockedData
                         ZipCode = "zip code",
                         Origin = "origin",
                         CheckDigit = 1,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
                     },
             },
             SecondaryMajorityElections = new List<SecondaryMajorityElection>
@@ -877,6 +931,9 @@ public static class MajorityElectionMockedData
                                 CandidateReferenceId = Guid.Parse(CandidateId1GossauMajorityElectionInContestBund),
                                 Origin = "origin",
                                 CheckDigit = 9,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
                             },
                             new SecondaryMajorityElectionCandidate
                             {
@@ -898,6 +955,9 @@ public static class MajorityElectionMockedData
                                 ZipCode = "zip code",
                                 Origin = "origin",
                                 CheckDigit = 7,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
                             },
                         },
                     },
@@ -976,6 +1036,7 @@ public static class MajorityElectionMockedData
                                 Id = Guid.Parse(BallotGroupEntryId22GossauMajorityElectionInContestBund),
                                 SecondaryMajorityElectionId = Guid.Parse(SecondaryElectionIdGossauMajorityElectionInContestBund),
                                 BlankRowCount = 0,
+                                IndividualCandidatesVoteCount = 2,
                                 Candidates = new List<MajorityElectionBallotGroupEntryCandidate>
                                 {
                                     new MajorityElectionBallotGroupEntryCandidate
@@ -1061,6 +1122,9 @@ public static class MajorityElectionMockedData
                         ZipCode = "zip code",
                         Origin = "origin",
                         CheckDigit = 9,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
                     },
             },
         };
@@ -1111,6 +1175,9 @@ public static class MajorityElectionMockedData
                         ZipCode = "zip code",
                         Origin = "origin",
                         CheckDigit = 9,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
                     },
             },
         };
@@ -1211,6 +1278,9 @@ public static class MajorityElectionMockedData
                         Title = "title",
                         Origin = "origin",
                         CheckDigit = 9,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
                     },
             },
             SecondaryMajorityElections = new List<SecondaryMajorityElection>
@@ -1246,6 +1316,9 @@ public static class MajorityElectionMockedData
                                 ZipCode = "zip code",
                                 Origin = "origin",
                                 CheckDigit = 9,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
                             },
                         },
                     },
@@ -1271,6 +1344,7 @@ public static class MajorityElectionMockedData
                                 Id = Guid.Parse("36e30984-9949-452a-b949-d384966680f1"),
                                 PrimaryMajorityElectionId = Guid.Parse(IdKircheMajorityElectionInContestKirche),
                                 BlankRowCount = 0,
+                                IndividualCandidatesVoteCount = 4,
                                 Candidates = new List<MajorityElectionBallotGroupEntryCandidate>
                                 {
                                     new MajorityElectionBallotGroupEntryCandidate
@@ -1284,7 +1358,7 @@ public static class MajorityElectionMockedData
                             {
                                 Id = Guid.Parse("5539d962-2cbe-4e5e-ab55-eabf2866aefa"),
                                 SecondaryMajorityElectionId = Guid.Parse(SecondaryElectionIdKircheMajorityElectionInContestKirche),
-                                BlankRowCount = 0,
+                                BlankRowCount = 1,
                                 Candidates = new List<MajorityElectionBallotGroupEntryCandidate>
                                 {
                                     new MajorityElectionBallotGroupEntryCandidate
@@ -1439,6 +1513,7 @@ public static class MajorityElectionMockedData
                         Position = candidate.Position,
                         SecondaryMajorityElectionId = domainSecondaryElection.Id,
                         CandidateId = candidate.CandidateReferenceId.Value,
+                        Number = candidate.Number,
                     };
                     aggregate.CreateCandidateReferenceFrom(domainCandidateReference);
                 }
@@ -1455,7 +1530,15 @@ public static class MajorityElectionMockedData
         {
             var domainBallotGroup = mapper.Map<Core.Domain.MajorityElectionBallotGroup>(ballotGroup);
             domainBallotGroup.MajorityElectionId = domainElection.Id;
+
+            foreach (var entry in domainBallotGroup.Entries)
+            {
+                entry.BlankRowCount = 0;
+            }
+
             aggregate.CreateBallotGroupFrom(domainBallotGroup);
+
+            var blankRowCountByEntry = ballotGroup.Entries.ToDictionary(x => x.Id, x => x.BlankRowCount);
 
             if (ballotGroup.Entries.Count == 0)
             {
@@ -1470,6 +1553,7 @@ public static class MajorityElectionMockedData
                     BallotGroupEntryId = entry.Id,
                     CandidateIds = entry.Candidates.Select(c => c.PrimaryElectionCandidateId ?? c.SecondaryElectionCandidateId!.Value).ToList(),
                     IndividualCandidatesVoteCount = entry.IndividualCandidatesVoteCount,
+                    BlankRowCount = blankRowCountByEntry[entry.Id],
                 });
             }
 

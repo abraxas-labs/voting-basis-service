@@ -39,7 +39,8 @@
         "NameForProtocol": "",
         "Canton": 2,
         "EVoting": false,
-        "EVotingActiveFrom": null
+        "EVotingActiveFrom": null,
+        "ECounting": false
       },
       {
         "Id": "736ec87f-9953-4946-8459-1d03bc237aa1",
@@ -76,7 +77,8 @@
         "NameForProtocol": "",
         "Canton": 1,
         "EVoting": false,
-        "EVotingActiveFrom": null
+        "EVotingActiveFrom": null,
+        "ECounting": false
       }
     ]
   },
@@ -117,7 +119,8 @@
         "NameForProtocol": "",
         "Canton": 2,
         "EVoting": false,
-        "EVotingActiveFrom": null
+        "EVotingActiveFrom": null,
+        "ECounting": false
       }
     ]
   },
@@ -158,7 +161,8 @@
         "NameForProtocol": "",
         "Canton": 2,
         "EVoting": false,
-        "EVotingActiveFrom": null
+        "EVotingActiveFrom": null,
+        "ECounting": false
       },
       {
         "Id": "14451d15-cd48-46d1-bfed-6d069d160886",
@@ -195,7 +199,8 @@
         "NameForProtocol": "",
         "Canton": 0,
         "EVoting": false,
-        "EVotingActiveFrom": null
+        "EVotingActiveFrom": null,
+        "ECounting": false
       },
       {
         "Id": "736ec87f-9953-4946-8459-1d03bc237aa1",
@@ -232,7 +237,8 @@
         "NameForProtocol": "",
         "Canton": 1,
         "EVoting": false,
-        "EVotingActiveFrom": null
+        "EVotingActiveFrom": null,
+        "ECounting": false
       }
     ]
   },
@@ -273,7 +279,8 @@
         "NameForProtocol": "",
         "Canton": 2,
         "EVoting": false,
-        "EVotingActiveFrom": null
+        "EVotingActiveFrom": null,
+        "ECounting": false
       }
     ]
   }

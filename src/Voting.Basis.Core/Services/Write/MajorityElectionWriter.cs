@@ -27,7 +27,7 @@ using SecondaryMajorityElection = Voting.Basis.Data.Models.SecondaryMajorityElec
 
 namespace Voting.Basis.Core.Services.Write;
 
-public class MajorityElectionWriter
+public class MajorityElectionWriter : PoliticalBusinessWriter
 {
     private const string DefaultElectionGroupDescriptionPrefix = "Wahlgruppe";
     private readonly IAggregateRepository _aggregateRepository;
@@ -68,6 +68,8 @@ public class MajorityElectionWriter
         _ballotGroupRepo = ballotGroupRepo;
     }
 
+    public override PoliticalBusinessType Type => PoliticalBusinessType.MajorityElection;
+
     public async Task Create(Domain.MajorityElection data)
     {
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(data.DomainOfInfluenceId, false);
@@ -76,6 +78,7 @@ public class MajorityElectionWriter
             data.ContestId,
             data.DomainOfInfluenceId,
             data.PoliticalBusinessNumber,
+            PoliticalBusinessType.MajorityElection,
             data.ReportDomainOfInfluenceLevel);
         await _contestValidationService.EnsureInTestingPhase(data.ContestId);
 
@@ -93,6 +96,7 @@ public class MajorityElectionWriter
             data.ContestId,
             data.DomainOfInfluenceId,
             data.PoliticalBusinessNumber,
+            PoliticalBusinessType.MajorityElection,
             data.ReportDomainOfInfluenceLevel);
         var contestState = await _contestValidationService.EnsureNotLocked(data.ContestId);
 
@@ -215,7 +219,8 @@ public class MajorityElectionWriter
             data.Id,
             majorityElection.ContestId,
             majorityElection.DomainOfInfluenceId,
-            data.PoliticalBusinessNumber);
+            data.PoliticalBusinessNumber,
+            PoliticalBusinessType.SecondaryMajorityElection);
         await _contestValidationService.EnsureInTestingPhase(majorityElection.ContestId);
 
         if (majorityElection.SecondaryMajorityElections.Count == 0)
@@ -237,7 +242,8 @@ public class MajorityElectionWriter
             data.Id,
             majorityElection.ContestId,
             majorityElection.DomainOfInfluenceId,
-            data.PoliticalBusinessNumber);
+            data.PoliticalBusinessNumber,
+            PoliticalBusinessType.SecondaryMajorityElection);
         var contestState = await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
 
         if (data.IndividualCandidatesDisabled)
@@ -263,13 +269,7 @@ public class MajorityElectionWriter
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(majorityElection.DomainOfInfluenceId, false);
         await _contestValidationService.EnsureInTestingPhase(majorityElection.ContestId);
 
-        majorityElection.DeleteSecondaryMajorityElection(id);
-
-        if (majorityElection.SecondaryMajorityElections.Count == 0)
-        {
-            majorityElection.DeleteElectionGroup();
-        }
-
+        DeleteSecondaryMajorityElectionWithoutChecks(majorityElection, id);
         await _aggregateRepository.Save(majorityElection);
     }
 
@@ -379,7 +379,7 @@ public class MajorityElectionWriter
         await _aggregateRepository.Save(majorityElection);
     }
 
-    // Note: Ballot groups may be created at any time until the contest is archived
+    // Note: Ballot groups may be created as long as no election of the group is active.
     public async Task CreateBallotGroup(Domain.MajorityElectionBallotGroup data)
     {
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(data.MajorityElectionId);
@@ -390,7 +390,7 @@ public class MajorityElectionWriter
         await _aggregateRepository.Save(majorityElection);
     }
 
-    // Note: Ballot groups may be updated at any time if the candidate count is not ok
+    // Note: Ballot groups may be created as long as no election of the group is active or the candidate count is ok.
     public async Task UpdateBallotGroup(Domain.MajorityElectionBallotGroup data)
     {
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(data.MajorityElectionId);
@@ -435,6 +435,33 @@ public class MajorityElectionWriter
 
         majorityElection.UpdateBallotGroupCandidates(data, contestState.TestingPhaseEnded());
         await _aggregateRepository.Save(majorityElection);
+    }
+
+    internal override async Task DeleteWithoutChecks(List<Guid> majorityElectionIds)
+    {
+        foreach (var id in majorityElectionIds)
+        {
+            var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(id);
+
+            var secondaryMajorityElectionIds = majorityElection.SecondaryMajorityElections.Select(x => x.Id).ToArray();
+            foreach (var smeId in secondaryMajorityElectionIds)
+            {
+                DeleteSecondaryMajorityElectionWithoutChecks(majorityElection, smeId);
+            }
+
+            majorityElection.Delete();
+            await _aggregateRepository.Save(majorityElection);
+        }
+    }
+
+    private void DeleteSecondaryMajorityElectionWithoutChecks(MajorityElectionAggregate aggregate, Guid id)
+    {
+        aggregate.DeleteSecondaryMajorityElection(id);
+
+        if (aggregate.SecondaryMajorityElections.Count == 0)
+        {
+            aggregate.DeleteElectionGroup();
+        }
     }
 
     private async Task CreateElectionGroup(MajorityElectionAggregate aggregate)

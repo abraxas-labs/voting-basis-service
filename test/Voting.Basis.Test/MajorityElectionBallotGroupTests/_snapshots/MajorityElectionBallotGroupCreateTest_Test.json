@@ -28,7 +28,8 @@
           "ElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
           "BlankRowCount": 0
         }
-      ]
+      ],
+      "BlankRowCountUnused": true
     }
   },
   "response": {

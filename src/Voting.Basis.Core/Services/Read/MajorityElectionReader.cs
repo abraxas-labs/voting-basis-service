@@ -129,8 +129,9 @@ public class MajorityElectionReader : PoliticalBusinessReader<MajorityElection>
     protected override async Task<MajorityElection> QueryById(Guid id)
     {
         return await Repo.Query()
-                    .Include(v => v.DomainOfInfluence)
-                    .FirstOrDefaultAsync(v => v.Id == id)
+            .IgnoreQueryFilters() // Deleted DOI should still work
+            .Include(v => v.DomainOfInfluence)
+            .FirstOrDefaultAsync(v => v.Id == id)
             ?? throw new EntityNotFoundException(id);
     }
 

@@ -7,15 +7,11 @@ using Abraxas.Voting.Basis.Events.V1;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Exceptions;
-using Voting.Basis.Core.Messaging.Extensions;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Lib.Common;
 using Voting.Lib.Database.Repositories;
-using Voting.Lib.Messaging;
-using EntityState = Voting.Basis.Core.Messaging.Messages.EntityState;
 
 namespace Voting.Basis.Core.EventProcessors;
 
@@ -26,18 +22,15 @@ public class ElectionGroupProcessor :
     private readonly IDbRepository<DataContext, ElectionGroup> _repo;
     private readonly IMapper _mapper;
     private readonly EventLoggerAdapter _eventLogger;
-    private readonly MessageProducerBuffer _messageProducer;
 
     public ElectionGroupProcessor(
         IDbRepository<DataContext, ElectionGroup> repo,
         IMapper mapper,
-        EventLoggerAdapter eventLogger,
-        MessageProducerBuffer messageProducer)
+        EventLoggerAdapter eventLogger)
     {
         _repo = repo;
         _mapper = mapper;
         _eventLogger = eventLogger;
-        _messageProducer = messageProducer;
     }
 
     public async Task Process(ElectionGroupCreated eventData)
@@ -47,7 +40,6 @@ public class ElectionGroupProcessor :
 
         var existingElectionGroup = await GetElectionGroup(model.Id);
         await _eventLogger.LogElectionGroupEvent(eventData, existingElectionGroup);
-        PublishContestDetailsChangeMessage(existingElectionGroup, EntityState.Added);
     }
 
     public async Task Process(ElectionGroupDeleted eventData)
@@ -57,7 +49,6 @@ public class ElectionGroupProcessor :
 
         await _repo.DeleteByKey(id);
         await _eventLogger.LogElectionGroupEvent(eventData, existingModel);
-        PublishContestDetailsChangeMessage(existingModel, EntityState.Deleted);
     }
 
     private async Task<ElectionGroup> GetElectionGroup(Guid id)
@@ -66,12 +57,5 @@ public class ElectionGroupProcessor :
             .Include(eg => eg.PrimaryMajorityElection)
             .FirstOrDefaultAsync(eg => eg.Id == id)
             ?? throw new EntityNotFoundException(id);
-    }
-
-    private void PublishContestDetailsChangeMessage(
-        ElectionGroup electionGroup,
-        EntityState state)
-    {
-        _messageProducer.Add(new ContestDetailsChangeMessage(electionGroup: electionGroup.CreateBaseEntityEvent(state)));
     }
 }

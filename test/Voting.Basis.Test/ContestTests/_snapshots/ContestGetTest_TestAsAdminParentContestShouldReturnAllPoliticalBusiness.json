@@ -68,7 +68,11 @@
     "StistatMunicipality": false,
     "PublishResultsDisabled": false,
     "VotingCardFlatRateDisabled": false,
-    "HideLowerDomainOfInfluencesInReports": false
+    "HideLowerDomainOfInfluencesInReports": false,
+    "ElectoralRegisterMultipleEnabled": false,
+    "ECollectingEnabled": false,
+    "ECollectingMinSignatureCount": 0,
+    "ECollectingMaxElectronicSignaturePercent": 0
   },
   "EVoting": false,
   "EVotingFrom": null,
@@ -142,7 +146,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -216,7 +224,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -290,7 +302,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -364,7 +380,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -438,7 +458,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -512,7 +536,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -586,7 +614,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -660,7 +692,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -734,7 +770,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 4,
       "PoliticalBusinessSubType": 0,
@@ -808,7 +848,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 4,
       "PoliticalBusinessSubType": 0,
@@ -886,6 +930,7 @@
         "SapCustomerOrderNumber": "0005400492",
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
+          "FrankingLicenceAwayNumber": "73155598",
           "FrankingLicenceReturnNumber": "562984257"
         },
         "VirtualTopLevel": false,
@@ -898,7 +943,11 @@
         "StistatMunicipality": true,
         "PublishResultsDisabled": true,
         "VotingCardFlatRateDisabled": true,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": true,
+        "ECollectingMinSignatureCount": 10000,
+        "ECollectingMaxElectronicSignaturePercent": 50
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -976,6 +1025,7 @@
         "SapCustomerOrderNumber": "0005400492",
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
+          "FrankingLicenceAwayNumber": "73155598",
           "FrankingLicenceReturnNumber": "562984257"
         },
         "VirtualTopLevel": false,
@@ -988,7 +1038,11 @@
         "StistatMunicipality": true,
         "PublishResultsDisabled": true,
         "VotingCardFlatRateDisabled": true,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": true,
+        "ECollectingMinSignatureCount": 10000,
+        "ECollectingMaxElectronicSignaturePercent": 50
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 1,
@@ -1066,6 +1120,7 @@
         "SapCustomerOrderNumber": "0005400492",
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
+          "FrankingLicenceAwayNumber": "73155598",
           "FrankingLicenceReturnNumber": "562984257"
         },
         "VirtualTopLevel": false,
@@ -1078,7 +1133,11 @@
         "StistatMunicipality": true,
         "PublishResultsDisabled": true,
         "VotingCardFlatRateDisabled": true,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": true,
+        "ECollectingMinSignatureCount": 10000,
+        "ECollectingMaxElectronicSignaturePercent": 50
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -1152,7 +1211,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -1226,7 +1289,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -1300,7 +1367,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -1378,6 +1449,7 @@
         "SapCustomerOrderNumber": "0005400492",
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
+          "FrankingLicenceAwayNumber": "73155598",
           "FrankingLicenceReturnNumber": "562984257"
         },
         "VirtualTopLevel": false,
@@ -1390,7 +1462,11 @@
         "StistatMunicipality": true,
         "PublishResultsDisabled": true,
         "VotingCardFlatRateDisabled": true,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": true,
+        "ECollectingMinSignatureCount": 10000,
+        "ECollectingMaxElectronicSignaturePercent": 50
       },
       "PoliticalBusinessType": 4,
       "PoliticalBusinessSubType": 0,

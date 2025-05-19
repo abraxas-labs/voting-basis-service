@@ -2,8 +2,8 @@
 // For license information see LICENSE file
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Data;
@@ -16,15 +16,18 @@ public class DomainOfInfluenceCantonDefaultsBuilder
 {
     private readonly CantonSettingsRepo _cantonSettingsRepo;
     private readonly DomainOfInfluenceRepo _doiRepo;
+    private readonly DomainOfInfluenceHierarchyRepo _hierarchyRepo;
     private readonly DataContext _dataContext;
 
     public DomainOfInfluenceCantonDefaultsBuilder(
         CantonSettingsRepo cantonSettingsRepo,
         DomainOfInfluenceRepo doiRepo,
+        DomainOfInfluenceHierarchyRepo hierarchyRepo,
         DataContext dataContext)
     {
         _cantonSettingsRepo = cantonSettingsRepo;
         _doiRepo = doiRepo;
+        _hierarchyRepo = hierarchyRepo;
         _dataContext = dataContext;
     }
 
@@ -42,10 +45,10 @@ public class DomainOfInfluenceCantonDefaultsBuilder
     }
 
     public async Task RebuildForCanton(CantonSettings cantonSettings)
-        => await Rebuild(cantonSettings, await _doiRepo.Query().ToListAsync(), doi => doi.Canton == cantonSettings.Canton);
+        => await Rebuild(cantonSettings, doi => doi.Canton == cantonSettings.Canton);
 
-    public async Task RebuildForRootDomainOfInfluenceCantonUpdate(DomainOfInfluence rootDomainOfInfluence, List<DomainOfInfluence> allDomainOfInfluences)
-         => await Rebuild(await LoadCantonSettings(rootDomainOfInfluence.Id), allDomainOfInfluences, doi => doi.Id == rootDomainOfInfluence.Id);
+    public async Task RebuildForRootDomainOfInfluenceCantonUpdate(DomainOfInfluence rootDomainOfInfluence)
+        => await Rebuild(await LoadCantonSettings(rootDomainOfInfluence.Id), doi => doi.Id == rootDomainOfInfluence.Id);
 
     public DomainOfInfluenceCantonDefaults BuildCantonDefaults(CantonSettings cantonSettings, DomainOfInfluenceType domainOfInfluenceType)
     {
@@ -66,6 +69,7 @@ public class DomainOfInfluenceCantonDefaultsBuilder
             CandidateOriginRequired = cantonSettings.CandidateOriginRequired,
             DomainOfInfluencePublishResultsOptionEnabled = cantonSettings.DomainOfInfluencePublishResultsOptionEnabled,
             SecondaryMajorityElectionOnSeparateBallot = cantonSettings.SecondaryMajorityElectionOnSeparateBallot,
+            HideOccupationTitle = cantonSettings.HideOccupationTitle,
         };
     }
 
@@ -73,21 +77,27 @@ public class DomainOfInfluenceCantonDefaultsBuilder
     /// Rebuild the canton settings by updating all affected domain of influences.
     /// </summary>
     /// <param name="cantonSettings">The canton settings to apply.</param>
-    /// <param name="allDomainOfInfluences">All domain of influences that exist.</param>
     /// <param name="rootDoiPredicate">A predicate to filter out unaffected root domain of influences.</param>
-    private async Task Rebuild(
-        CantonSettings cantonSettings,
-        List<DomainOfInfluence> allDomainOfInfluences,
-        Func<DomainOfInfluence, bool> rootDoiPredicate)
+    private async Task Rebuild(CantonSettings cantonSettings, Expression<Func<DomainOfInfluence, bool>> rootDoiPredicate)
     {
-        var tree = DomainOfInfluenceTreeBuilder.BuildTree(allDomainOfInfluences);
+        var rootDoiIds = await _doiRepo.Query()
+            .Where(x => x.ParentId == null)
+            .Where(rootDoiPredicate)
+            .Select(x => x.Id)
+            .ToListAsync();
 
-        // Filter out the root domain of influences that are not affected
-        tree = tree.Where(rootDoiPredicate).ToList();
+        if (rootDoiIds.Count == 0)
+        {
+            return;
+        }
 
-        // Collect the root domain of influence and all its children
-        var affectedDois = tree.Flatten(doi => doi.Children).ToList();
-        var affectedDoiIds = affectedDois.ConvertAll(doi => doi.Id);
+        var rootHierarchyEntries = await _hierarchyRepo.Query()
+            .Where(x => rootDoiIds.Contains(x.DomainOfInfluenceId))
+            .ToListAsync();
+        var affectedDoiIds = rootHierarchyEntries
+            .SelectMany(x => x.ChildIds)
+            .Concat(rootDoiIds)
+            .ToList();
 
         var trackedDois = await _doiRepo.Query()
             .AsTracking()

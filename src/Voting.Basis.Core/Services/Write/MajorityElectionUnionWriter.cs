@@ -75,10 +75,13 @@ public class MajorityElectionUnionWriter : PoliticalBusinessUnionWriter<Majority
     public async Task Delete(Guid id)
     {
         await EnsureCanModifyPoliticalBusinessUnion(id);
+        await DeleteAggregate(id);
+    }
 
+    protected override async Task DeleteAggregate(Guid id)
+    {
         var majorityElectionUnion = await _aggregateRepository.GetById<MajorityElectionUnionAggregate>(id);
         majorityElectionUnion.Delete();
-
         await _aggregateRepository.Save(majorityElectionUnion);
     }
 }

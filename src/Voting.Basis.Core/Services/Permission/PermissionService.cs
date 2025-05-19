@@ -52,30 +52,6 @@ public class PermissionService
     }
 
     /// <summary>
-    /// Ensures that the current user is the owner (user's tenant matches the domain of influence responsible tenant) of all of the specified domain of influences.
-    /// </summary>
-    /// <param name="domainOfInfluenceIds">The domain of influences.</param>
-    /// <exception cref="ValidationException">Thrown if the user is not the owner of all of the domain of influences.</exception>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    public async Task EnsureIsOwnerOfDomainOfInfluences(IEnumerable<Guid> domainOfInfluenceIds)
-    {
-        var tenantId = _auth.Tenant.Id;
-        var doiIds = domainOfInfluenceIds.ToHashSet();
-
-        var doiIdsOfThisTenant = await _doiRepo.Query()
-            .Where(doi => doi.SecureConnectId == tenantId)
-            .Select(x => x.Id)
-            .ToListAsync();
-
-        doiIds.ExceptWith(doiIdsOfThisTenant);
-
-        if (doiIds.FirstOrDefault() is var doiId && doiId != default)
-        {
-            throw new ValidationException($"Domain of influence with id {doiId} does not belong to this tenant");
-        }
-    }
-
-    /// <summary>
     /// Ensures that the current user is the owner (user's tenant matches the domain of influence responsible tenant) of the specified domain of influence.
     /// </summary>
     /// <param name="domainOfInfluenceId">The ID of the domain of influence to check.</param>
@@ -85,6 +61,7 @@ public class PermissionService
     {
         var tenantId = _auth.Tenant.Id;
         var doiBelongsToThisTenant = await _doiRepo.Query()
+            .IgnoreQueryFilters() // Deleted DOI should still work
             .AnyAsync(doi => doi.Id == domainOfInfluenceId && doi.SecureConnectId == tenantId);
 
         if (!doiBelongsToThisTenant)
@@ -103,6 +80,7 @@ public class PermissionService
         if (_auth.HasPermission(sameCantonPermission))
         {
             var doi = await _doiRepo.Query()
+                .IgnoreQueryFilters() // Deleted DOI should still work
                 .FirstOrDefaultAsync(doi => doi.Id == domainOfInfluenceId);
 
             var doiBelongsToCanton = doi != null && await _cantonSettingsRepo.Query()
@@ -125,6 +103,7 @@ public class PermissionService
         }
 
         var doiBelongsToThisTenant = await _doiRepo.Query()
+            .IgnoreQueryFilters() // Deleted DOI should still work
             .AnyAsync(doi => doi.Id == domainOfInfluenceId && doi.SecureConnectId == tenantId);
 
         if (!doiBelongsToThisTenant)
@@ -149,6 +128,7 @@ public class PermissionService
                 .ToListAsync();
 
             var cantons = await _doiRepo.Query()
+                .IgnoreQueryFilters() // Deleted DOI should still work
                 .Where(doi => doiIds.Contains(doi.Id))
                 .Select(doi => doi.Canton)
                 .ToListAsync();
@@ -163,6 +143,7 @@ public class PermissionService
         }
 
         var doiIdsOfThisTenant = await _doiRepo.Query()
+            .IgnoreQueryFilters() // Deleted DOI should still work
             .Where(doi => doi.SecureConnectId == tenantId)
             .Select(doi => doi.Id)
             .ToListAsync();
@@ -221,7 +202,9 @@ public class PermissionService
 
     public async Task EnsureCanReadDomainOfInfluence(Guid domainOfInfluenceId)
     {
-        var doi = await _doiRepo.GetByKey(domainOfInfluenceId)
+        var doi = await _doiRepo.Query()
+            .IgnoreQueryFilters() // Deleted DOI should still work
+            .FirstOrDefaultAsync(x => x.Id == domainOfInfluenceId)
             ?? throw new EntityNotFoundException(domainOfInfluenceId);
         if (!await CanAccessDomainOfInfluence(doi))
         {
@@ -231,28 +214,26 @@ public class PermissionService
 
     public async Task<AccessibleDomainOfInfluenceHierarchyGroups> GetAccessibleDomainOfInfluenceHierarchyGroups()
     {
-        var hierarchyGroups = new AccessibleDomainOfInfluenceHierarchyGroups();
-
         var tenantId = _auth.Tenant.Id;
-        hierarchyGroups.TenantDoiIds = await _doiRepo.Query()
+        var tenantDoiIds = await _doiRepo.Query()
             .Where(doi => doi.SecureConnectId == tenantId)
             .Select(doi => doi.Id)
-            .ToListAsync();
+            .ToHashSetAsync();
 
-        hierarchyGroups.ParentDoiIds = await _permissionRepo.Query()
+        var parentDoiIds = await _permissionRepo.Query()
             .Where(p => p.TenantId == tenantId && p.IsParent)
             .Select(p => p.DomainOfInfluenceId)
-            .ToListAsync();
+            .ToHashSetAsync();
 
-        hierarchyGroups.ChildDoiIds = (await _hierarchyRepo.Query()
+        var childDoiIds = (await _hierarchyRepo.Query()
             .Where(doi => doi.TenantId == tenantId)
             .Select(doi => doi.ChildIds)
             .Distinct()
             .ToListAsync())
             .SelectMany(doi => doi)
-            .ToList();
+            .ToHashSet();
 
-        return hierarchyGroups;
+        return new AccessibleDomainOfInfluenceHierarchyGroups(tenantDoiIds, parentDoiIds, childDoiIds);
     }
 
     internal Task<bool> IsOwnerOfCanton(DomainOfInfluenceCanton canton)

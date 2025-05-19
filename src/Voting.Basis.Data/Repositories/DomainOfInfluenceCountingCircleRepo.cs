@@ -25,8 +25,8 @@ public class DomainOfInfluenceCountingCircleRepo
     }
 
     public async Task<Dictionary<Guid, List<DomainOfInfluenceCountingCircle>>> CountingCirclesByDomainOfInfluenceId(
-            List<Guid>? filteredCountingCircleIds = null,
-            List<Guid>? filteredDomainOfInfluenceIds = null)
+        List<Guid>? filteredCountingCircleIds = null,
+        List<Guid>? filteredDomainOfInfluenceIds = null)
     {
         var query = Query();
         if (filteredCountingCircleIds != null)
@@ -40,7 +40,6 @@ public class DomainOfInfluenceCountingCircleRepo
         }
 
         var entries = await query
-            .AsTracking()
             .Include(c => c.CountingCircle)
             .ThenInclude(c => c.ResponsibleAuthority)
             .OrderBy(c => c.CountingCircle.Name)

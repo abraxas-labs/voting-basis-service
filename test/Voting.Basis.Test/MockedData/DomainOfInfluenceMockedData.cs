@@ -274,12 +274,16 @@ public static class DomainOfInfluenceMockedData
             SwissPostData = new DomainOfInfluenceVotingCardSwissPostData
             {
                 InvoiceReferenceNumber = "958473825",
+                FrankingLicenceAwayNumber = "73155598",
                 FrankingLicenceReturnNumber = "562984257",
             },
             ElectoralRegistrationEnabled = true,
             StistatMunicipality = true,
             PublishResultsDisabled = true,
             VotingCardFlatRateDisabled = true,
+            ECollectingEnabled = true,
+            ECollectingMinSignatureCount = 10000,
+            ECollectingMaxElectronicSignaturePercent = 50,
         };
 
     public static DomainOfInfluence Kirchgemeinde
@@ -425,7 +429,28 @@ public static class DomainOfInfluenceMockedData
             ShortDescription = LanguageUtil.MockAllLanguages("EVP"),
         };
 
-    public static IEnumerable<DomainOfInfluenceCountingCircle> GetAllDomainOfInfluenceCountingCircles()
+    public static IEnumerable<DomainOfInfluenceCountingCircle> DomainOfInfluenceCountingCirclesWithInheritance()
+    {
+        var doiParentIdById = All.ToDictionary(x => x.Id, x => x.ParentId);
+        foreach (var doiCc in DomainOfInfluenceCountingCircles())
+        {
+            yield return doiCc;
+
+            var doiId = doiCc.SourceDomainOfInfluenceId;
+            while (doiParentIdById.TryGetValue(doiId, out var parentId) && parentId.HasValue)
+            {
+                yield return new DomainOfInfluenceCountingCircle
+                {
+                    CountingCircleId = doiCc.CountingCircleId,
+                    SourceDomainOfInfluenceId = doiCc.SourceDomainOfInfluenceId,
+                    DomainOfInfluenceId = parentId.Value,
+                };
+                doiId = parentId.Value;
+            }
+        }
+    }
+
+    public static IEnumerable<DomainOfInfluenceCountingCircle> DomainOfInfluenceCountingCircles()
     {
         yield return new DomainOfInfluenceCountingCircle
         {
@@ -436,34 +461,6 @@ public static class DomainOfInfluenceMockedData
         };
         yield return new DomainOfInfluenceCountingCircle
         {
-            Id = Guid.Parse("b8d29bd5-a828-4783-807a-a3813e24144c"),
-            DomainOfInfluenceId = Guid.Parse(IdBund),
-            CountingCircleId = Guid.Parse(CountingCircleMockedData.IdStGallen),
-            SourceDomainOfInfluenceId = Guid.Parse(IdStGallen),
-        };
-        yield return new DomainOfInfluenceCountingCircle
-        {
-            Id = Guid.Parse("22c686ca-b3ee-4be6-af94-20ce03784416"),
-            DomainOfInfluenceId = Guid.Parse(IdBund),
-            CountingCircleId = Guid.Parse(CountingCircleMockedData.IdRapperswil),
-            SourceDomainOfInfluenceId = Guid.Parse(IdStGallen),
-        };
-        yield return new DomainOfInfluenceCountingCircle
-        {
-            Id = Guid.Parse("52e1ae3b-23af-4536-996d-41cc5cedb445"),
-            DomainOfInfluenceId = Guid.Parse(IdBund),
-            CountingCircleId = Guid.Parse(CountingCircleMockedData.IdGossau),
-            SourceDomainOfInfluenceId = Guid.Parse(IdGossau),
-        };
-        yield return new DomainOfInfluenceCountingCircle
-        {
-            Id = Guid.Parse("085cdabd-c2d3-4d9e-b558-58706026d374"),
-            DomainOfInfluenceId = Guid.Parse(IdBund),
-            CountingCircleId = Guid.Parse(CountingCircleMockedData.IdUzwil),
-            SourceDomainOfInfluenceId = Guid.Parse(IdUzwil),
-        };
-        yield return new DomainOfInfluenceCountingCircle
-        {
             Id = Guid.Parse("dbf7dea8-3739-4e15-9e67-37f2f2fd6f1f"),
             DomainOfInfluenceId = Guid.Parse(IdStGallen),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdStGallen),
@@ -471,24 +468,10 @@ public static class DomainOfInfluenceMockedData
         };
         yield return new DomainOfInfluenceCountingCircle
         {
-            Id = Guid.Parse("b6bd656e-c2d8-4912-bab9-dfdbdbaacd0f"),
-            DomainOfInfluenceId = Guid.Parse(IdStGallen),
-            CountingCircleId = Guid.Parse(CountingCircleMockedData.IdUzwil),
-            SourceDomainOfInfluenceId = Guid.Parse(IdUzwil),
-        };
-        yield return new DomainOfInfluenceCountingCircle
-        {
             Id = Guid.Parse("bfb20b67-93e6-4da5-8cd3-1d679333631f"),
             DomainOfInfluenceId = Guid.Parse(IdStGallen),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdRapperswil),
             SourceDomainOfInfluenceId = Guid.Parse(IdStGallen),
-        };
-        yield return new DomainOfInfluenceCountingCircle
-        {
-            Id = Guid.Parse("260ca8b9-3967-4d76-b382-e3349b215055"),
-            DomainOfInfluenceId = Guid.Parse(IdStGallen),
-            CountingCircleId = Guid.Parse(CountingCircleMockedData.IdGossau),
-            SourceDomainOfInfluenceId = Guid.Parse(IdGossau),
         };
         yield return new DomainOfInfluenceCountingCircle
         {
@@ -513,13 +496,6 @@ public static class DomainOfInfluenceMockedData
         };
         yield return new DomainOfInfluenceCountingCircle
         {
-            Id = Guid.Parse("e5c3b361-cfdb-41bc-8f13-c057c58d857b"),
-            DomainOfInfluenceId = Guid.Parse(IdKirchgemeinde),
-            CountingCircleId = Guid.Parse(CountingCircleMockedData.IdUzwilKircheAndere),
-            SourceDomainOfInfluenceId = Guid.Parse(IdKirchgemeindeAndere),
-        };
-        yield return new DomainOfInfluenceCountingCircle
-        {
             Id = Guid.Parse("c8ba7cb5-9155-4f1a-a232-3b44f014cf9d"),
             DomainOfInfluenceId = Guid.Parse(IdKirchgemeindeAndere),
             CountingCircleId = Guid.Parse(CountingCircleMockedData.IdUzwilKircheAndere),
@@ -527,9 +503,12 @@ public static class DomainOfInfluenceMockedData
         };
     }
 
-    public static async Task Seed(Func<Func<IServiceProvider, Task>, Task> runScoped)
+    public static async Task Seed(Func<Func<IServiceProvider, Task>, Task> runScoped, bool seedCountingCircles = true)
     {
-        await CountingCircleMockedData.Seed(runScoped);
+        if (seedCountingCircles)
+        {
+            await CountingCircleMockedData.Seed(runScoped);
+        }
 
         await runScoped(async sp =>
         {
@@ -541,12 +520,12 @@ public static class DomainOfInfluenceMockedData
                 await doiRepo.Create(doi, new DateTime(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc));
             }
 
-            await doiCcRepo.AddRange(GetAllDomainOfInfluenceCountingCircles().ToList(), new DateTime(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc));
+            await doiCcRepo.AddRange(DomainOfInfluenceCountingCirclesWithInheritance().ToList(), new DateTime(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc));
 
-            var permissionBuilder = sp.GetRequiredService<DomainOfInfluencePermissionBuilder>();
-            await permissionBuilder.RebuildPermissionTree();
             var hierarchyBuilder = sp.GetRequiredService<DomainOfInfluenceHierarchyBuilder>();
             await hierarchyBuilder.RebuildHierarchy();
+            var permissionBuilder = sp.GetRequiredService<DomainOfInfluencePermissionBuilder>();
+            await permissionBuilder.RebuildPermissionTree();
 
             // needed to create aggregates, since they access user/tenant information
             var authStore = sp.GetRequiredService<IAuthStore>();

@@ -32,7 +32,7 @@
         "rm": "Majorzwahl Update rm"
       },
       "InternalDescription": "",
-      "NumberOfMandates": 2,
+      "NumberOfMandates": 5,
       "MandateAlgorithm": 2,
       "IndividualEmptyBallotsAllowed": false,
       "CandidateCheckDigit": false,

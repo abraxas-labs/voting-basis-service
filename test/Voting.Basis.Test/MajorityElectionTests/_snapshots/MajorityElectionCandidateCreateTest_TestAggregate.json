@@ -36,7 +36,10 @@
     "Locality": "locality",
     "Position": 2,
     "Origin": "origin",
-    "CheckDigit": 9
+    "CheckDigit": 9,
+    "Country": "CH",
+    "Street": "street",
+    "HouseNumber": "1a"
   },
   "2": {
     "Id": "b21835b0-6c81-4e30-9daa-fc82f3f69f30",
@@ -75,6 +78,9 @@
     "Locality": "locality",
     "Position": 3,
     "Origin": "origin",
-    "CheckDigit": 9
+    "CheckDigit": 9,
+    "Country": "CH",
+    "Street": "street",
+    "HouseNumber": "1a"
   }
 }

@@ -31,7 +31,7 @@ using ProportionalElectionUnion = Voting.Basis.Data.Models.ProportionalElectionU
 
 namespace Voting.Basis.Core.Services.Write;
 
-public class ProportionalElectionWriter
+public class ProportionalElectionWriter : PoliticalBusinessWriter
 {
     private readonly IAggregateRepository _aggregateRepository;
     private readonly IAggregateFactory _aggregateFactory;
@@ -77,6 +77,8 @@ public class ProportionalElectionWriter
         _cantonSettingsRepo = cantonSettingsRepo;
     }
 
+    public override PoliticalBusinessType Type => PoliticalBusinessType.ProportionalElection;
+
     public async Task Create(Domain.ProportionalElection data)
     {
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(data.DomainOfInfluenceId, false);
@@ -85,6 +87,7 @@ public class ProportionalElectionWriter
             data.ContestId,
             data.DomainOfInfluenceId,
             data.PoliticalBusinessNumber,
+            PoliticalBusinessType.ProportionalElection,
             data.ReportDomainOfInfluenceLevel);
         await EnsureValidProportionalElectionMandateAlgorithm(data.MandateAlgorithm, data.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(data.ContestId);
@@ -103,6 +106,7 @@ public class ProportionalElectionWriter
             data.ContestId,
             data.DomainOfInfluenceId,
             data.PoliticalBusinessNumber,
+            PoliticalBusinessType.ProportionalElection,
             data.ReportDomainOfInfluenceLevel);
         var contestState = await _contestValidationService.EnsureNotLocked(data.ContestId);
 
@@ -393,6 +397,16 @@ public class ProportionalElectionWriter
         foreach (var aggregate in aggregates)
         {
             await _aggregateRepository.Save(aggregate);
+        }
+    }
+
+    internal override async Task DeleteWithoutChecks(List<Guid> ids)
+    {
+        foreach (var id in ids)
+        {
+            var proportionalElection = await _aggregateRepository.GetById<ProportionalElectionAggregate>(id);
+            proportionalElection.Delete();
+            await _aggregateRepository.Save(proportionalElection);
         }
     }
 

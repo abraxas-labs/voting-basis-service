@@ -25,6 +25,8 @@ public static class PoliticalAssemblyMockedData
     public const string IdGossau = "b629dad9-afce-44cf-bcbb-22516ba86007";
     public const string IdKirche = "94c8723e-015d-455d-a5b9-705320a3edd1";
     public const string IdPast = "40869f32-98f1-42cb-b3f1-7db4b138f4b6";
+    public const string IdArch = "ae69db58-5605-4c42-93c2-b6980a4582c7";
+    public const string IdGenf = "98952b97-5cc9-4d0f-a321-57900efb5d2c";
 
     public static PoliticalAssembly PastPoliticalAssembly
         => new PoliticalAssembly
@@ -33,6 +35,30 @@ public static class PoliticalAssemblyMockedData
             Date = new DateTime(2019, 11, 24, 0, 0, 0, DateTimeKind.Utc),
             Description = LanguageUtil.MockAllLanguages("Vergangene Versammlung"),
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
+            State = PoliticalAssemblyState.PastLocked,
+            PastLockPer = new DateTime(2019, 11, 24, 0, 0, 0, DateTimeKind.Utc),
+        };
+
+    public static PoliticalAssembly GenfPoliticalAssembly
+        => new PoliticalAssembly
+        {
+            Id = Guid.Parse(IdGenf),
+            Date = new DateTime(2019, 11, 24, 0, 0, 0, DateTimeKind.Utc),
+            Description = LanguageUtil.MockAllLanguages("Vergangene Versammlung"),
+            DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGenf,
+            State = PoliticalAssemblyState.PastLocked,
+            PastLockPer = new DateTime(2019, 11, 24, 0, 0, 0, DateTimeKind.Utc),
+        };
+
+    public static PoliticalAssembly ArchivedPoliticalAssembly
+        => new PoliticalAssembly
+        {
+            Id = Guid.Parse(IdArch),
+            Date = new DateTime(2000, 11, 24, 0, 0, 0, DateTimeKind.Utc),
+            Description = LanguageUtil.MockAllLanguages("Archivierte Versammlung"),
+            DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
+            State = PoliticalAssemblyState.Archived,
+            PastLockPer = new DateTime(2019, 11, 24, 0, 0, 0, DateTimeKind.Utc),
         };
 
     public static PoliticalAssembly GossauPoliticalAssembly
@@ -42,6 +68,8 @@ public static class PoliticalAssemblyMockedData
             Date = new DateTime(2020, 2, 29, 0, 0, 0, DateTimeKind.Utc),
             Description = LanguageUtil.MockAllLanguages("Gossau Versammlung"),
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
+            PastLockPer = new DateTime(2019, 11, 24, 0, 0, 0, DateTimeKind.Utc),
+            State = PoliticalAssemblyState.Active,
         };
 
     public static PoliticalAssembly KirchenPoliticalAssembly
@@ -51,6 +79,8 @@ public static class PoliticalAssemblyMockedData
             Date = new DateTime(2020, 2, 29, 0, 0, 0, DateTimeKind.Utc),
             Description = LanguageUtil.MockAllLanguages("Kirche Versammlung"),
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidKirchgemeinde,
+            PastLockPer = new DateTime(2019, 11, 24, 0, 0, 0, DateTimeKind.Utc),
+            State = PoliticalAssemblyState.Active,
         };
 
     public static IEnumerable<PoliticalAssembly> All
@@ -60,6 +90,8 @@ public static class PoliticalAssemblyMockedData
             yield return PastPoliticalAssembly;
             yield return GossauPoliticalAssembly;
             yield return KirchenPoliticalAssembly;
+            yield return ArchivedPoliticalAssembly;
+            yield return GenfPoliticalAssembly;
         }
     }
 
@@ -109,6 +141,12 @@ public static class PoliticalAssemblyMockedData
 
         aggregate.CreateFrom(p);
         AdjustableMockedClock.OverrideUtcNow = null;
+
+        if (politicalAssembly.State > PoliticalAssemblyState.Active)
+        {
+            aggregate.TrySetPastLocked();
+        }
+
         return aggregate;
     }
 }

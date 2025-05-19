@@ -85,6 +85,9 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
                     PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
                     Origin = "origin",
                     CheckDigit = 6,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             },
             new ProportionalElectionCandidateCreated
@@ -111,6 +114,9 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
                     PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
                     Origin = "origin",
                     CheckDigit = 6,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -154,6 +160,9 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
                     PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
                     Origin = "origin",
                     CheckDigit = 6,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -192,6 +201,9 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
                     PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
                     Origin = "origin",
                     CheckDigit = 6,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -421,6 +433,9 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
             ZipCode = "zip code",
             PartyId = DomainOfInfluenceMockedData.PartyIdStGallenSVP,
             Origin = "origin",
+            Street = "street",
+            HouseNumber = "1a",
+            Country = "CH",
         };
 
         customizer?.Invoke(request);

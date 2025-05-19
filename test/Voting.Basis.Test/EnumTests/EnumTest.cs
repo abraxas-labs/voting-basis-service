@@ -10,7 +10,6 @@ using Voting.Basis.Test.MockedData.Mapping;
 using Voting.Lib.VotingExports.Models;
 using Xunit;
 using DomainOfInfluenceType = Voting.Basis.Data.Models.DomainOfInfluenceType;
-using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.EnumTests;
@@ -40,7 +39,6 @@ public class EnumTest : BaseTest
     [InlineData(typeof(BallotType), typeof(SharedProto.BallotType))]
     [InlineData(typeof(VoteResultAlgorithm), typeof(SharedProto.VoteResultAlgorithm))]
     [InlineData(typeof(VoteResultEntry), typeof(SharedProto.VoteResultEntry))]
-    [InlineData(typeof(EntityState), typeof(ProtoModels.EntityState))]
     [InlineData(typeof(VotingCardShippingFranking), typeof(SharedProto.VotingCardShippingFranking))]
     [InlineData(typeof(VotingCardShippingMethod), typeof(SharedProto.VotingCardShippingMethod))]
     [InlineData(typeof(ComparisonCountOfVotersCategory), typeof(SharedProto.ComparisonCountOfVotersCategory))]

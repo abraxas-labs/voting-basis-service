@@ -15,7 +15,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -78,8 +77,7 @@ public class ProportionalElectionUnionUpdateTest : PoliticalBusinessUnionAuthori
             .FirstOrDefaultAsync(u => u.Id == id));
         result.MatchSnapshot();
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusinessUnion.HasEqualIdAndNewEntityState(id, EntityState.Modified));
+        await AssertHasPublishedEventProcessedMessage(ProportionalElectionUnionUpdated.Descriptor, id);
     }
 
     [Fact]

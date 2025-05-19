@@ -47,5 +47,8 @@
     }
   },
   "Origin": "origin",
-  "CheckDigit": 6
+  "CheckDigit": 6,
+  "Country": "CH",
+  "Street": "street",
+  "HouseNumber": "1a"
 }

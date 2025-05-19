@@ -83,6 +83,9 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
                     Party = { LanguageUtil.MockAllLanguages("NEW") },
                     Origin = "origin",
                     CheckDigit = 0,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -120,6 +123,9 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
                     Party = { LanguageUtil.MockAllLanguages("NEW") },
                     Origin = "origin",
                     CheckDigit = 0,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -160,6 +166,9 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
                     Party = { LanguageUtil.MockAllLanguages("NEW") },
                     Origin = "origin",
                     CheckDigit = 0,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -243,6 +252,9 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
                 ZipCode = "new zip code",
                 Party = { LanguageUtil.MockAllLanguages("NEW") },
                 Origin = "origin",
+                Street = "street",
+                HouseNumber = "1a",
+                Country = "CH",
             });
 
         var candidates = await CantonAdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
@@ -491,6 +503,9 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
             ZipCode = "zip code",
             Party = { LanguageUtil.MockAllLanguages("FDP") },
             Origin = "origin",
+            Street = "street",
+            HouseNumber = "1a",
+            Country = "CH",
         };
 
         customizer?.Invoke(request);
@@ -517,6 +532,9 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
             Party = { LanguageUtil.MockAllLanguages("PU") },
             Incumbent = true,
             Origin = "origin",
+            Street = "street",
+            HouseNumber = "1a",
+            Country = "CH",
         };
 
         customizer?.Invoke(request);

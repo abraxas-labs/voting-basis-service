@@ -564,6 +564,9 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
             ZipCode = candidate.ZipCode,
             Locality = candidate.Locality,
             Origin = candidate.Origin,
+            Country = candidate.Country,
+            Street = candidate.Street,
+            HouseNumber = candidate.HouseNumber,
         };
 
         RaiseEvent(ev);

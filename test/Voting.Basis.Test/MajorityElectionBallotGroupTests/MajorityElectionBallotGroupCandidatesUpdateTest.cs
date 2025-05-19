@@ -14,6 +14,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -51,7 +52,11 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
     [Fact]
     public async Task TestWithIndividualCandidate()
     {
-        await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(NewValidRequest(x => x.EntryCandidates[0].IndividualCandidatesVoteCount = 2));
+        await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(NewValidRequest(x =>
+        {
+            x.EntryCandidates[0].CandidateIds.Clear();
+            x.EntryCandidates[0].IndividualCandidatesVoteCount = 1;
+        }));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionBallotGroupCandidatesUpdated>();
         eventData.MatchSnapshot("event");
     }
@@ -70,12 +75,13 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
                         {
                             BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId1StGallenMajorityElectionInContestBund,
                             CandidateIds = { MajorityElectionMockedData.CandidateId2StGallenMajorityElectionInContestBund },
+                            BlankRowCount = 0,
                         },
                         new MajorityElectionBallotGroupEntryCandidatesEventData
                         {
                             BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId2StGallenMajorityElectionInContestBund,
-                            CandidateIds = { MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund },
                             IndividualCandidatesVoteCount = 2,
+                            BlankRowCount = 1,
                         },
                     },
             },
@@ -95,13 +101,62 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
             MajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund,
         });
 
-        var ballotGroupEntry = ballotGroups.BallotGroups
+        var ballotGroupEntry1 = ballotGroups.BallotGroups
+            .Single(x => x.Id == MajorityElectionMockedData.BallotGroupIdStGallenMajorityElectionInContestBund)
+            .Entries
+            .Single(x => x.Id == MajorityElectionMockedData.BallotGroupEntryId1StGallenMajorityElectionInContestBund);
+        ballotGroupEntry1.CountOfCandidates.Should().Be(1);
+        ballotGroupEntry1.IndividualCandidatesVoteCount.Should().Be(0);
+        ballotGroupEntry1.CandidateCountOk.Should().BeTrue();
+
+        var ballotGroupEntry2 = ballotGroups.BallotGroups
             .Single(x => x.Id == MajorityElectionMockedData.BallotGroupIdStGallenMajorityElectionInContestBund)
             .Entries
             .Single(x => x.Id == MajorityElectionMockedData.BallotGroupEntryId2StGallenMajorityElectionInContestBund);
-        ballotGroupEntry.CountOfCandidates.Should().Be(1);
-        ballotGroupEntry.IndividualCandidatesVoteCount.Should().Be(2);
-        ballotGroupEntry.CandidateCountOk.Should().BeTrue();
+        ballotGroupEntry2.CountOfCandidates.Should().Be(0);
+        ballotGroupEntry2.IndividualCandidatesVoteCount.Should().Be(2);
+        ballotGroupEntry2.BlankRowCount.Should().Be(1);
+        ballotGroupEntry2.CandidateCountOk.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task TestProcessorDeprecatedEventWithNoBlankRowCount()
+    {
+        var ev = new MajorityElectionBallotGroupCandidatesUpdated
+        {
+            BallotGroupCandidates = new MajorityElectionBallotGroupCandidatesEventData
+            {
+                BallotGroupId = MajorityElectionMockedData.BallotGroupIdStGallenMajorityElectionInContestBund,
+                EntryCandidates =
+                    {
+                        new MajorityElectionBallotGroupEntryCandidatesEventData
+                        {
+                            BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId1StGallenMajorityElectionInContestBund,
+                            CandidateIds = { MajorityElectionMockedData.CandidateId2StGallenMajorityElectionInContestBund },
+                        },
+                        new MajorityElectionBallotGroupEntryCandidatesEventData
+                        {
+                            BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId2StGallenMajorityElectionInContestBund,
+                            IndividualCandidatesVoteCount = 1,
+                        },
+                    },
+            },
+        };
+
+        await TestEventPublisher.Publish(ev);
+
+        var ballotGroups = await ElectionAdminClient.ListBallotGroupsAsync(new ListMajorityElectionBallotGroupsRequest
+        {
+            MajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund,
+        });
+
+        var ballotGroupEntry2 = ballotGroups.BallotGroups
+            .Single(x => x.Id == MajorityElectionMockedData.BallotGroupIdStGallenMajorityElectionInContestBund)
+            .Entries
+            .Single(x => x.Id == MajorityElectionMockedData.BallotGroupEntryId2StGallenMajorityElectionInContestBund);
+
+        // Blank row count should remain unchanged
+        ballotGroupEntry2.BlankRowCount.Should().Be(2);
     }
 
     [Fact]
@@ -122,17 +177,18 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
     }
 
     [Fact]
-    public async Task BallotGroupWithCandidateCountNotOkInPastContestShouldWork()
+    public async Task BallotGroupWithCandidateCountNotOkShouldThrow()
     {
-        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
-        await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(new UpdateMajorityElectionBallotGroupCandidatesRequest
-        {
-            BallotGroupId = MajorityElectionMockedData.BallotGroupId2GossauMajorityElectionInContestBund,
-            EntryCandidates =
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(new UpdateMajorityElectionBallotGroupCandidatesRequest
+            {
+                BallotGroupId = MajorityElectionMockedData.BallotGroupId2GossauMajorityElectionInContestBund,
+                EntryCandidates =
                 {
                     new ProtoModels.MajorityElectionBallotGroupEntryCandidates
                     {
                         BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId21GossauMajorityElectionInContestBund,
+                        IndividualCandidatesVoteCount = 0,
                         CandidateIds =
                         {
                             MajorityElectionMockedData.CandidateId1GossauMajorityElectionInContestBund,
@@ -141,17 +197,20 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
                     new ProtoModels.MajorityElectionBallotGroupEntryCandidates
                     {
                         BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId22GossauMajorityElectionInContestBund,
+                        IndividualCandidatesVoteCount = 0,
                         CandidateIds =
                         {
                             MajorityElectionMockedData.SecondaryElectionCandidateId1GossauMajorityElectionInContestBund,
                         },
                     },
                 },
-        });
+            }),
+            StatusCode.FailedPrecondition,
+            nameof(MajorityElectionBallotGroupVoteCountException));
     }
 
     [Fact]
-    public async Task BallotGroupWithCandidateCountOkInPastContestShouldThrow()
+    public async Task BallotGroupWithExistingCandidateCountOkInPastContestShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         await AssertStatus(
@@ -227,6 +286,89 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
             "Individual candidates vote count not enabled on ballot group entry");
     }
 
+    [Fact]
+    public async Task SetOnlyBlankRowsShouldThrow()
+    {
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(new()
+            {
+                BallotGroupId = MajorityElectionMockedData.BallotGroupIdStGallenMajorityElectionInContestBund,
+                EntryCandidates =
+                {
+                    new ProtoModels.MajorityElectionBallotGroupEntryCandidates
+                    {
+                        BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId1StGallenMajorityElectionInContestBund,
+                        BlankRowCount = 1,
+                    },
+                    new ProtoModels.MajorityElectionBallotGroupEntryCandidates
+                    {
+                        BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId2StGallenMajorityElectionInContestBund,
+                        BlankRowCount = 3,
+                    },
+                },
+            }),
+            StatusCode.InvalidArgument,
+            "A ballot group cannot contain only blank rows");
+    }
+
+    [Fact]
+    public async Task SetBlankRowCountOnASingleMandateElectionWithoutOtherElectionsOnSameBallotShouldThrow()
+    {
+        // Ensure that it is a single mandate election without other elections on the same ballot.
+        await ElectionAdminClient.DeleteSecondaryMajorityElectionAsync(new()
+        {
+            Id = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund,
+        });
+
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(new()
+            {
+                BallotGroupId = MajorityElectionMockedData.BallotGroupId1GossauMajorityElectionInContestBund,
+                EntryCandidates =
+                {
+                    new ProtoModels.MajorityElectionBallotGroupEntryCandidates
+                    {
+                        BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId11GossauMajorityElectionInContestBund,
+                        BlankRowCount = 1,
+                    },
+                },
+            }),
+            StatusCode.InvalidArgument,
+            "Cannot set blank row count on a single mandate election without secondary elections on the same ballot");
+    }
+
+    [Fact]
+    public async Task SecondaryCandidateWithReferenceNotSelectedInPrimaryElectionShouldThrow()
+    {
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(new()
+            {
+                BallotGroupId = MajorityElectionMockedData.BallotGroupIdStGallenMajorityElectionInContestBund,
+                EntryCandidates =
+                {
+                    new ProtoModels.MajorityElectionBallotGroupEntryCandidates
+                    {
+                        BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId1StGallenMajorityElectionInContestBund,
+                        CandidateIds =
+                        {
+                            MajorityElectionMockedData.CandidateId2BundMajorityElectionInContestStGallen,
+                        },
+                    },
+                    new ProtoModels.MajorityElectionBallotGroupEntryCandidates
+                    {
+                        BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId2StGallenMajorityElectionInContestBund,
+                        CandidateIds =
+                        {
+                            MajorityElectionMockedData.SecondaryElectionCandidateId1StGallenMajorityElectionInContestBund,
+                        },
+                        BlankRowCount = 2,
+                    },
+                },
+            }),
+            StatusCode.FailedPrecondition,
+            nameof(SecondaryMajorityElectionCandidateNotSelectedInPrimaryElectionException));
+    }
+
     protected override IEnumerable<string> AuthorizedRoles()
     {
         yield return Roles.CantonAdmin;
@@ -261,6 +403,7 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
                         {
                             MajorityElectionMockedData.SecondaryElectionCandidateId2StGallenMajorityElectionInContestBund,
                         },
+                        BlankRowCount = 2,
                     },
                 },
         };

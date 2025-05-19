@@ -72,7 +72,9 @@
     "SecondaryMajorityElection.Candidate:read",
     "SecondaryMajorityElection.Candidate:delete",
     "EventLog:read-same-tenant",
+    "EventLog:watch",
     "Import:import",
-    "Export:export"
+    "Export:export",
+    "Country:read"
   ]
 }

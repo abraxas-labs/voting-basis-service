@@ -15,7 +15,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -40,7 +39,7 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
     public async Task Test()
     {
         var request = NewValidRequest();
-        var response = await CantonAdminClient.UpdateListAsync(request);
+        await CantonAdminClient.UpdateListAsync(request);
 
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionListUpdated, EventSignatureBusinessMetadata>();
 
@@ -109,8 +108,7 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
                 "<span><span class=\"main-list\">1a</span>, <span class=\"main-list\">1a</span>, <span class=\"main-list\">o2</span>, <span>2</span>, <span>2</span>, <span>2</span>, <span class=\"main-list\">2</span></span>",
                 "<span><span class=\"main-list\">1a</span>, <span class=\"main-list\">1a</span>, <span class=\"main-list\">o2</span>, <span>2</span>, <span>2</span>, <span>2</span>, <span class=\"main-list\">2</span></span>");
 
-        await AssertHasPublishedMessage<ProportionalElectionListChangeMessage>(
-            x => x.List.HasEqualIdAndNewEntityState(listId, EntityState.Modified));
+        await AssertHasPublishedEventProcessedMessage(ProportionalElectionListUpdated.Descriptor, listId);
     }
 
     [Fact]
@@ -191,8 +189,7 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
         });
         election.MatchSnapshot("reponse");
 
-        await AssertHasPublishedMessage<ProportionalElectionListChangeMessage>(
-            x => x.List.HasEqualIdAndNewEntityState(listId, EntityState.Modified));
+        await AssertHasPublishedEventProcessedMessage(ProportionalElectionListAfterTestingPhaseUpdated.Descriptor, listId);
     }
 
     [Fact]

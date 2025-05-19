@@ -12,6 +12,7 @@
     "SimplePoliticalBusinesses": [],
     "ExportConfigurations": [],
     "ModifiedOn": "2020-07-17T10:07:56Z",
+    "Deleted": false,
     "CantonDefaults": {
       "Canton": 1,
       "ProportionalElectionMandateAlgorithms": [
@@ -32,7 +33,8 @@
       "CandidateLocalityRequired": false,
       "CandidateOriginRequired": false,
       "DomainOfInfluencePublishResultsOptionEnabled": true,
-      "SecondaryMajorityElectionOnSeparateBallot": false
+      "SecondaryMajorityElectionOnSeparateBallot": false,
+      "HideOccupationTitle": false
     },
     "LogoRef": null,
     "HasLogo": false,
@@ -72,10 +74,14 @@
     "ViewCountingCirclePartialResults": false,
     "VotingCardColor": 0,
     "ElectoralRegistrationEnabled": false,
+    "ElectoralRegisterMultipleEnabled": false,
     "StistatMunicipality": false,
     "PublishResultsDisabled": true,
     "VotingCardFlatRateDisabled": false,
     "HideLowerDomainOfInfluencesInReports": false,
+    "ECollectingEnabled": false,
+    "ECollectingMinSignatureCount": 0,
+    "ECollectingMaxElectronicSignaturePercent": 0,
     "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79"
   },
   "list": {
@@ -142,7 +148,11 @@
             "StistatMunicipality": false,
             "PublishResultsDisabled": false,
             "VotingCardFlatRateDisabled": false,
-            "HideLowerDomainOfInfluencesInReports": false
+            "HideLowerDomainOfInfluencesInReports": false,
+            "ElectoralRegisterMultipleEnabled": false,
+            "ECollectingEnabled": false,
+            "ECollectingMinSignatureCount": 0,
+            "ECollectingMaxElectronicSignaturePercent": 0
           },
           {
             "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
@@ -210,6 +220,7 @@
                 "SapCustomerOrderNumber": "0005400492",
                 "SwissPostData": {
                   "InvoiceReferenceNumber": "958473825",
+                  "FrankingLicenceAwayNumber": "73155598",
                   "FrankingLicenceReturnNumber": "562984257"
                 },
                 "VirtualTopLevel": false,
@@ -222,7 +233,11 @@
                 "StistatMunicipality": true,
                 "PublishResultsDisabled": true,
                 "VotingCardFlatRateDisabled": true,
-                "HideLowerDomainOfInfluencesInReports": false
+                "HideLowerDomainOfInfluencesInReports": false,
+                "ElectoralRegisterMultipleEnabled": false,
+                "ECollectingEnabled": true,
+                "ECollectingMinSignatureCount": 10000,
+                "ECollectingMaxElectronicSignaturePercent": 50
               },
               {
                 "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
@@ -277,7 +292,11 @@
                 "StistatMunicipality": false,
                 "PublishResultsDisabled": false,
                 "VotingCardFlatRateDisabled": false,
-                "HideLowerDomainOfInfluencesInReports": false
+                "HideLowerDomainOfInfluencesInReports": false,
+                "ElectoralRegisterMultipleEnabled": false,
+                "ECollectingEnabled": false,
+                "ECollectingMinSignatureCount": 0,
+                "ECollectingMaxElectronicSignaturePercent": 0
               }
             ],
             "Canton": 1,
@@ -324,7 +343,11 @@
             "StistatMunicipality": false,
             "PublishResultsDisabled": true,
             "VotingCardFlatRateDisabled": false,
-            "HideLowerDomainOfInfluencesInReports": false
+            "HideLowerDomainOfInfluencesInReports": false,
+            "ElectoralRegisterMultipleEnabled": false,
+            "ECollectingEnabled": false,
+            "ECollectingMinSignatureCount": 0,
+            "ECollectingMaxElectronicSignaturePercent": 0
           },
           {
             "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
@@ -379,7 +402,11 @@
             "StistatMunicipality": false,
             "PublishResultsDisabled": false,
             "VotingCardFlatRateDisabled": false,
-            "HideLowerDomainOfInfluencesInReports": false
+            "HideLowerDomainOfInfluencesInReports": false,
+            "ElectoralRegisterMultipleEnabled": false,
+            "ECollectingEnabled": false,
+            "ECollectingMinSignatureCount": 0,
+            "ECollectingMaxElectronicSignaturePercent": 0
           }
         ],
         "Canton": 1,
@@ -426,7 +453,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       {
         "Id": "22949a1e-fb09-47ec-9e9f-d26675676565",
@@ -490,7 +521,11 @@
             "StistatMunicipality": false,
             "PublishResultsDisabled": false,
             "VotingCardFlatRateDisabled": false,
-            "HideLowerDomainOfInfluencesInReports": false
+            "HideLowerDomainOfInfluencesInReports": false,
+            "ElectoralRegisterMultipleEnabled": false,
+            "ECollectingEnabled": false,
+            "ECollectingMinSignatureCount": 0,
+            "ECollectingMaxElectronicSignaturePercent": 0
           }
         ],
         "Canton": 1,
@@ -537,7 +572,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       {
         "Id": "8af17c9d-6bae-45bf-a85b-b77239f2eefb",
@@ -592,7 +631,343 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
+      }
+    ]
+  },
+  "permissions": {
+    "AutoGenerated": [
+      {
+        "TenantId": "000000000000000000",
+        "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "CountingCircleIds": [
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "000000000000000000",
+        "DomainOfInfluenceId": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
+        "CountingCircleIds": [],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "000000000000000000",
+        "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "000000000000000000",
+        "DomainOfInfluenceId": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
+        "CountingCircleIds": [
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "000000000000000000",
+        "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "CountingCircleIds": [
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "100100100100100100",
+        "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524",
+          "1e2e062e-288d-4347-9f22-224e69b95bed",
+          "2a3a799a-2437-47da-86fe-06decf70a267",
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "100100100100100100",
+        "DomainOfInfluenceId": "22949a1e-fb09-47ec-9e9f-d26675676565",
+        "CountingCircleIds": [
+          "c375f97a-0ba2-4a93-8c76-08a0661d9962",
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a4e"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "100100100100100100",
+        "DomainOfInfluenceId": "692be088-00e2-490c-b1fd-828adc38571d",
+        "CountingCircleIds": [
+          "c375f97a-0ba2-4a93-8c76-08a0661d9962"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "100100100100100100",
+        "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "100100100100100100",
+        "DomainOfInfluenceId": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
+        "CountingCircleIds": [
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "100100100100100100",
+        "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "CountingCircleIds": [],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "200200200200200200",
+        "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "CountingCircleIds": [
+          "1e2e062e-288d-4347-9f22-224e69b95bed"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "200200200200200200",
+        "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "CountingCircleIds": [
+          "1e2e062e-288d-4347-9f22-224e69b95bed"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "300300300300300300",
+        "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "300300300300300300",
+        "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "300300300300300300",
+        "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "kirche-uzwil-010000",
+        "DomainOfInfluenceId": "22949a1e-fb09-47ec-9e9f-d26675676565",
+        "CountingCircleIds": [
+          "c375f97a-0ba2-4a93-8c76-08a0661d9962",
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a4e"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "kirche-uzwil-010000",
+        "DomainOfInfluenceId": "692be088-00e2-490c-b1fd-828adc38571d",
+        "CountingCircleIds": [
+          "c375f97a-0ba2-4a93-8c76-08a0661d9962"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "random",
+        "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524",
+          "1e2e062e-288d-4347-9f22-224e69b95bed",
+          "2a3a799a-2437-47da-86fe-06decf70a267",
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "random",
+        "DomainOfInfluenceId": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
+        "CountingCircleIds": [],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "random",
+        "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "random",
+        "DomainOfInfluenceId": "ade30989-5e28-40c7-918c-2c9408f853ba",
+        "CountingCircleIds": [],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "random",
+        "DomainOfInfluenceId": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
+        "CountingCircleIds": [
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "random",
+        "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524",
+          "1e2e062e-288d-4347-9f22-224e69b95bed",
+          "2a3a799a-2437-47da-86fe-06decf70a267",
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e",
+          "eea024ee-7f93-4a58-9e7d-6e6b0c11b723"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "zürich-sec-id",
+        "DomainOfInfluenceId": "8af17c9d-6bae-45bf-a85b-b77239f2eefb",
+        "CountingCircleIds": [],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  "hierarchies": {
+    "AutoGenerated": [
+      {
+        "TenantId": "000000000000000000",
+        "DomainOfInfluenceId": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
+        "ParentIds": [
+          "eae2cfaf-c787-48b9-a108-c975b0a580da"
+        ],
+        "ChildIds": [],
+        "RootId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "000000000000000000",
+        "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "ParentIds": [
+          "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+          "eae2cfaf-c787-48b9-a108-c975b0a580da"
+        ],
+        "ChildIds": [],
+        "RootId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "100100100100100100",
+        "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "ParentIds": [
+          "eae2cfaf-c787-48b9-a108-c975b0a580da"
+        ],
+        "ChildIds": [
+          "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+          "d9f5e161-37f8-4c76-921d-c0237c54dc5b"
+        ],
+        "RootId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "100100100100100100",
+        "DomainOfInfluenceId": "22949a1e-fb09-47ec-9e9f-d26675676565",
+        "ParentIds": [],
+        "ChildIds": [
+          "692be088-00e2-490c-b1fd-828adc38571d"
+        ],
+        "RootId": "22949a1e-fb09-47ec-9e9f-d26675676565",
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "100100100100100100",
+        "DomainOfInfluenceId": "692be088-00e2-490c-b1fd-828adc38571d",
+        "ParentIds": [
+          "22949a1e-fb09-47ec-9e9f-d26675676565"
+        ],
+        "ChildIds": [],
+        "RootId": "22949a1e-fb09-47ec-9e9f-d26675676565",
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "100100100100100100",
+        "DomainOfInfluenceId": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
+        "ParentIds": [
+          "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+          "eae2cfaf-c787-48b9-a108-c975b0a580da"
+        ],
+        "ChildIds": [],
+        "RootId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "random",
+        "DomainOfInfluenceId": "ade30989-5e28-40c7-918c-2c9408f853ba",
+        "ParentIds": [
+          "eae2cfaf-c787-48b9-a108-c975b0a580da"
+        ],
+        "ChildIds": [],
+        "RootId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "random",
+        "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "ParentIds": [],
+        "ChildIds": [
+          "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+          "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
+          "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+          "ade30989-5e28-40c7-918c-2c9408f853ba",
+          "d9f5e161-37f8-4c76-921d-c0237c54dc5b"
+        ],
+        "RootId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "zürich-sec-id",
+        "DomainOfInfluenceId": "8af17c9d-6bae-45bf-a85b-b77239f2eefb",
+        "ParentIds": [],
+        "ChildIds": [],
+        "RootId": "8af17c9d-6bae-45bf-a85b-b77239f2eefb",
+        "Id": "00000000-0000-0000-0000-000000000000"
       }
     ]
   }

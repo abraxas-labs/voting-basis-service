@@ -54,6 +54,14 @@ public class TestEventPublisherAdapter
     /// <summary>
     /// Publishes test events and sets a default value for EventInfo if not set.
     /// </summary>
+    /// <param name="data">The events.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public Task Publish(params IMessage[] data)
+            => Publish(0, data);
+
+    /// <summary>
+    /// Publishes test events and sets a default value for EventInfo if not set.
+    /// </summary>
     /// <param name="eventNumber">The event number of the first event.</param>
     /// <param name="data">The events.</param>
     /// <typeparam name="TEvent">Type of the events.</typeparam>
@@ -74,6 +82,30 @@ public class TestEventPublisherAdapter
                 {
                     propInfo.SetValue(item, GetMockedEventInfo());
                 }
+            }
+        }
+
+        await _testEventPublisher.Publish(eventNumber, data);
+    }
+
+    /// <summary>
+    /// Publishes test events and sets a default value for EventInfo if not set.
+    /// </summary>
+    /// <param name="eventNumber">The event number of the first event.</param>
+    /// <param name="data">The events.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public async Task Publish(long eventNumber, params IMessage[] data)
+    {
+        using var nQueryDetector = _dataContext.CreateNQueryDetectorSpan(data.Length);
+        foreach (var item in data)
+        {
+            var propInfo = item.GetType()
+                .GetProperties()
+                .FirstOrDefault(x => x.Name.Equals(EventInfoFieldName, StringComparison.OrdinalIgnoreCase));
+
+            if (propInfo != null && propInfo.GetValue(item) == null)
+            {
+                propInfo.SetValue(item, GetMockedEventInfo());
             }
         }
 

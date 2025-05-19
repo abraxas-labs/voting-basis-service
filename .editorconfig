@@ -21,5 +21,10 @@ insert_final_newline = true
 csharp_style_namespace_declarations = file_scoped:warning
 csharp_prefer_braces = true:warning
 
+# disable primary constructor recommendations
+dotnet_diagnostic.IDE0290.severity = none
+csharp_style_prefer_primary_constructors = false
+resharper_convert_to_primary_constructor_highlighting = none
+
 # copyright
 file_header_template = (c) Copyright by Abraxas Informatik AG\nFor license information see LICENSE file

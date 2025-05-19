@@ -33,9 +33,9 @@ public class ContestWriter
     private readonly ContestReader _contestReader;
     private readonly PermissionService _permissionService;
     private readonly ContestValidationService _contestValidationService;
-    private readonly IDbRepository<DataContext, SimplePoliticalBusiness> _simplePoliticalBusinessRepo;
     private readonly IDbRepository<DataContext, DomainOfInfluence> _doiRepo;
     private readonly ContestMerger _contestMerger;
+    private readonly ContestDeleter _contestDeleter;
     private readonly IAuth _auth;
 
     public ContestWriter(
@@ -45,9 +45,9 @@ public class ContestWriter
         ContestReader contestReader,
         PermissionService permissionService,
         ContestValidationService contestValidationService,
-        IDbRepository<DataContext, SimplePoliticalBusiness> simplePoliticalBusinessRepo,
         IDbRepository<DataContext, DomainOfInfluence> doiRepo,
         ContestMerger contestMerger,
+        ContestDeleter contestDeleter,
         IAuth auth)
     {
         _logger = logger;
@@ -56,9 +56,9 @@ public class ContestWriter
         _contestReader = contestReader;
         _permissionService = permissionService;
         _contestValidationService = contestValidationService;
-        _simplePoliticalBusinessRepo = simplePoliticalBusinessRepo;
         _doiRepo = doiRepo;
         _contestMerger = contestMerger;
+        _contestDeleter = contestDeleter;
         _auth = auth;
     }
 
@@ -137,15 +137,7 @@ public class ContestWriter
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(contest.DomainOfInfluenceId);
         await _contestValidationService.EnsureContestNotSetAsPreviousContest(contestId);
 
-        var hasPoliticalBusiness = await _simplePoliticalBusinessRepo.Query().AnyAsync(x => x.ContestId == contestId);
-        if (hasPoliticalBusiness)
-        {
-            throw new ContestWithExistingPoliticalBusinessesException();
-        }
-
-        contest.Delete();
-        await _aggregateRepository.Save(contest);
-        _logger.LogInformation("Deleted contest {ContestId}.", contestId);
+        await _contestDeleter.Delete(contest);
     }
 
     public async Task Archive(Guid contestId, DateTime? archivePer)

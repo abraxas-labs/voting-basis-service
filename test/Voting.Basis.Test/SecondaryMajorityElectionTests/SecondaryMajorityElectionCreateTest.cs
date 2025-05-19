@@ -13,7 +13,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -114,15 +114,9 @@ public class SecondaryMajorityElectionCreateTest : PoliticalBusinessAuthorizatio
         secondaryMajorityElection1.MatchSnapshot("1");
         secondaryMajorityElection2.MatchSnapshot("2");
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.ElectionGroup.HasEqualIdAndNewEntityState(electionGroupId, EntityState.Added));
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(smeId1, EntityState.Added));
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(smeId2, EntityState.Added));
-
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.ElectionGroup.HasEqualIdAndNewEntityState(electionGroupId, EntityState.Modified));
+        await AssertHasPublishedEventProcessedMessage(ElectionGroupCreated.Descriptor, electionGroupId);
+        await AssertHasPublishedEventProcessedMessage(SecondaryMajorityElectionCreated.Descriptor, smeId1);
+        await AssertHasPublishedEventProcessedMessage(SecondaryMajorityElectionCreated.Descriptor, smeId2);
     }
 
     [Fact]
@@ -145,8 +139,41 @@ public class SecondaryMajorityElectionCreateTest : PoliticalBusinessAuthorizatio
     public Task DuplicatePoliticalBusinessIdShouldThrow()
     {
         return AssertStatus(
-            async () => await CantonAdminClient.CreateSecondaryMajorityElectionAsync(NewValidRequest(v => v.PoliticalBusinessNumber = "155")),
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionAsync(NewValidRequest(v =>
+            {
+                v.PrimaryMajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestStGallen;
+                v.PoliticalBusinessNumber = "n1";
+            })),
             StatusCode.AlreadyExists);
+    }
+
+    [Fact]
+    public Task DuplicateMajorityElectionPoliticalBusinessIdShouldThrow()
+    {
+        return AssertStatus(
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionAsync(NewValidRequest(v =>
+            {
+                v.PrimaryMajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestStGallen;
+                v.PoliticalBusinessNumber = "321";
+            })),
+            StatusCode.AlreadyExists);
+    }
+
+    [Fact]
+    public async Task ActivePrimaryElectionAndExistingBallotGroupsShouldThrow()
+    {
+        var req = NewValidRequest(x => x.PrimaryMajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund);
+
+        await CantonAdminClient.UpdateActiveStateAsync(new()
+        {
+            Id = req.PrimaryMajorityElectionId,
+            Active = true,
+        });
+
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionAsync(req),
+            StatusCode.FailedPrecondition,
+            nameof(SecondaryMajorityElectionCreateWithActiveElectionsAndBallotGroupsException));
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

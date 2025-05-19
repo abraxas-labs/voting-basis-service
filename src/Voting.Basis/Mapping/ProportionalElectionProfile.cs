@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using AutoMapper;
-using Voting.Basis.Core.Messaging.Messages;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 
 namespace Voting.Basis.Mapping;
@@ -51,8 +50,5 @@ public class ProportionalElectionProfile : Profile
                 : src.PartyId == null ? null : new Data.Models.DomainOfInfluenceParty { Id = src.PartyId.Value }));
         CreateMap<IEnumerable<Data.Models.ProportionalElectionCandidate>, ProtoModels.ProportionalElectionCandidates>()
             .ForMember(dst => dst.Candidates, opts => opts.MapFrom(src => src));
-
-        CreateMap<BaseEntityMessage<Data.Models.ProportionalElectionList>, ProtoModels.ProportionalElectionListMessage>();
-        CreateMap<ProportionalElectionListChangeMessage, ProtoModels.ProportionalElectionListChangeMessage>();
     }
 }

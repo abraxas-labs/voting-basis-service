@@ -27,13 +27,14 @@ public class VoteReader : PoliticalBusinessReader<Vote>
     protected override async Task<Vote> QueryById(Guid id)
     {
         var vote = await Repo.Query()
-                    .AsSplitQuery()
-                    .Include(v => v.DomainOfInfluence)
-                    .Include(v => v.Ballots)
-                    .ThenInclude(b => b.BallotQuestions)
-                    .Include(v => v.Ballots)
-                    .ThenInclude(b => b.TieBreakQuestions)
-                    .FirstOrDefaultAsync(v => v.Id == id)
+            .AsSplitQuery()
+            .IgnoreQueryFilters() // Deleted DOI should still work
+            .Include(v => v.DomainOfInfluence)
+            .Include(v => v.Ballots)
+            .ThenInclude(b => b.BallotQuestions)
+            .Include(v => v.Ballots)
+            .ThenInclude(b => b.TieBreakQuestions)
+            .FirstOrDefaultAsync(v => v.Id == id)
             ?? throw new EntityNotFoundException(id);
 
         // order by can be included with includes with ef core 5

@@ -26,5 +26,18 @@ public class PoliticalAssemblyModelBuilder :
         builder
             .Property(x => x.Description)
             .HasJsonConversion();
+
+        builder
+            .Property(x => x.ArchivePer)
+            .HasUtcConversion();
+
+        builder
+            .Property(x => x.PastLockPer)
+            .HasUtcConversion();
+
+        // contest reader queries by state and doiId if not an admin
+        // if the contest list is requested
+        // (expected to happen often since it is the entry point of the app)
+        builder.HasIndex(x => new { x.State, x.DomainOfInfluenceId });
     }
 }

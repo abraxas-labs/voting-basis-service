@@ -13,7 +13,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -86,21 +85,6 @@ public class PoliticalAssemblyDeleteTest : BaseGrpcTest<PoliticalAssemblyService
             async () => await ElectionAdminClient.DeleteAsync(new DeletePoliticalAssemblyRequest
             {
                 Id = PoliticalAssemblyMockedData.IdKirche,
-            }),
-            StatusCode.InvalidArgument);
-    }
-
-    [Fact]
-    public async Task DomainOfInfluenceNotResponsibleForVotingCardsShouldThrow()
-    {
-        await ModifyDbEntities<DomainOfInfluence>(
-            c => c.Id == DomainOfInfluenceMockedData.GuidGossau,
-            c => c.ResponsibleForVotingCards = false);
-
-        await AssertStatus(
-            async () => await ElectionAdminClient.DeleteAsync(new DeletePoliticalAssemblyRequest
-            {
-                Id = PoliticalAssemblyMockedData.IdGossau,
             }),
             StatusCode.InvalidArgument);
     }

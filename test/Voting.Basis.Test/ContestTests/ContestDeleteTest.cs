@@ -17,7 +17,7 @@ using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.EventSignature;
-using Voting.Basis.Core.Messaging.Messages;
+using Voting.Basis.Data.Models;
 using Voting.Basis.EventSignature;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Cryptography.Asymmetric;
@@ -65,15 +65,25 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
             StatusCode.NotFound);
 
     [Fact]
-    public async Task TestExistingPoliticalBusinessShouldThrow()
+    public async Task TestWithPoliticalBusinessShouldDeleteAll()
     {
-        await AssertStatus(
-            async () => await CantonAdminClient.DeleteAsync(new DeleteContestRequest
-            {
-                Id = ContestMockedData.IdGossau,
-            }),
-            StatusCode.FailedPrecondition,
-            "existing political businesses");
+        await ProportionalElectionMockedData.Seed(RunScoped, false);
+        await ProportionalElectionUnionMockedData.Seed(RunScoped);
+        await MajorityElectionMockedData.Seed(RunScoped, false);
+        await MajorityElectionUnionMockedData.Seed(RunScoped);
+
+        var client = CreateAuthorizedClient(DomainOfInfluenceMockedData.Bund.SecureConnectId, Roles.CantonAdmin);
+        await client.DeleteAsync(new DeleteContestRequest
+        {
+            Id = ContestMockedData.IdBundContest,
+        });
+
+        var publishedEvents = EventPublisherMock.AllPublishedEvents.ToArray();
+        var eventNamesInOrder = publishedEvents.Select(x => x.Data.GetType().Name);
+        eventNamesInOrder.MatchSnapshot();
+
+        // Check to see if event processing works correctly with the events in order
+        await TestEventPublisher.Publish(publishedEvents.Select(x => x.Data).ToArray());
     }
 
     [Fact]
@@ -112,8 +122,7 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
         (await RunOnDb(db => db.Contests.CountAsync(c => c.Id == idGuid)))
             .Should().Be(0);
 
-        await AssertHasPublishedMessage<ContestOverviewChangeMessage>(
-            x => x.Contest.HasEqualIdAndNewEntityState(idGuid, EntityState.Deleted));
+        await AssertHasPublishedEventProcessedMessage(ContestDeleted.Descriptor, idGuid);
     }
 
     [Fact]
@@ -153,7 +162,7 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
     [Fact]
     public async Task ContestWhichIsSetAsPreviousContestShouldThrow()
     {
-        await ModifyDbEntities<Data.Models.Contest>(
+        await ModifyDbEntities<Contest>(
             c => c.Id == ContestMockedData.BundContest.Id,
             c => c.PreviousContestId = ContestMockedData.PastLockedContestNoPoliticalBusinesses.Id);
 

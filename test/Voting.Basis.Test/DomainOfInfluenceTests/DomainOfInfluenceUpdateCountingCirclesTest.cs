@@ -93,6 +93,28 @@ public class DomainOfInfluenceUpdateCountingCirclesTest : BaseGrpcTest<DomainOfI
         selfDoiUzwilKircheCc.Inherited.Should().BeFalse();
 
         childDoiUzwilKircheCc.Should().BeNull();
+
+        var permissions = await RunOnDb(db => db.DomainOfInfluencePermissions
+            .OrderBy(x => x.TenantId)
+            .ThenBy(x => x.DomainOfInfluenceId)
+            .ToListAsync());
+        foreach (var permission in permissions)
+        {
+            permission.CountingCircleIds.Sort();
+        }
+
+        permissions.MatchSnapshot("permissions", x => x.Id);
+
+        var hierarchies = await RunOnDb(db => db.DomainOfInfluenceHierarchies
+            .OrderBy(x => x.TenantId)
+            .ThenBy(x => x.DomainOfInfluenceId)
+            .ToListAsync());
+        foreach (var hierarchy in hierarchies)
+        {
+            hierarchy.ChildIds.Sort();
+        }
+
+        hierarchies.MatchSnapshot("hierarchies", x => x.Id);
     }
 
     [Fact]

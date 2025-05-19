@@ -86,6 +86,9 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
                     ZipCode = "new zip code",
                     Origin = "origin",
                     CheckDigit = 0,
+                    Street = "new street",
+                    HouseNumber = "new 1a",
+                    Country = "CH",
                 },
             });
 
@@ -123,6 +126,9 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
                     ZipCode = "new zip code",
                     Origin = "origin",
                     CheckDigit = 0,
+                    Street = "new street",
+                    HouseNumber = "new 1a",
+                    Country = "CH",
                 },
             });
 
@@ -160,6 +166,9 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
                     ZipCode = "new zip code",
                     Origin = "origin",
                     CheckDigit = 0,
+                    Street = "new street",
+                    HouseNumber = "new 1a",
+                    Country = "CH",
                 },
             });
 
@@ -244,6 +253,9 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
                 Title = "new title",
                 ZipCode = "new zip code",
                 Origin = "origin",
+                Street = "new street",
+                HouseNumber = "new 1a",
+                Country = "CH",
             });
 
         var candidate = await CantonAdminClient.GetCandidateAsync(new GetMajorityElectionCandidateRequest
@@ -496,6 +508,9 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
             Title = "title",
             ZipCode = "zip code",
             Origin = "origin",
+            Street = "street",
+            HouseNumber = "1a",
+            Country = "CH",
         };
 
         customizer?.Invoke(request);
@@ -521,6 +536,9 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
             Occupation = { LanguageUtil.MockAllLanguages("occupation updated") },
             Party = { LanguageUtil.MockAllLanguages("PU") },
             Origin = "origin",
+            Street = "street updated",
+            HouseNumber = "1a updated",
+            Country = "CH",
         };
 
         customizer?.Invoke(request);

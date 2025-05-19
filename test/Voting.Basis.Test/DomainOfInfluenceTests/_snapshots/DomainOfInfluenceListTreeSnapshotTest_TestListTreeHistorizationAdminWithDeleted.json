@@ -57,7 +57,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       }
     ]
   },
@@ -125,7 +129,11 @@
             "StistatMunicipality": false,
             "PublishResultsDisabled": false,
             "VotingCardFlatRateDisabled": false,
-            "HideLowerDomainOfInfluencesInReports": false
+            "HideLowerDomainOfInfluencesInReports": false,
+            "ElectoralRegisterMultipleEnabled": false,
+            "ECollectingEnabled": false,
+            "ECollectingMinSignatureCount": 0,
+            "ECollectingMaxElectronicSignaturePercent": 0
           }
         ],
         "Canton": 1,
@@ -172,7 +180,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       }
     ]
   },
@@ -240,7 +252,11 @@
             "StistatMunicipality": false,
             "PublishResultsDisabled": false,
             "VotingCardFlatRateDisabled": false,
-            "HideLowerDomainOfInfluencesInReports": false
+            "HideLowerDomainOfInfluencesInReports": false,
+            "ElectoralRegisterMultipleEnabled": false,
+            "ECollectingEnabled": false,
+            "ECollectingMinSignatureCount": 0,
+            "ECollectingMaxElectronicSignaturePercent": 0
           },
           {
             "Id": "ec1e23a1-bfba-4f1b-b75f-ca31ac53a80f",
@@ -295,7 +311,11 @@
             "StistatMunicipality": false,
             "PublishResultsDisabled": false,
             "VotingCardFlatRateDisabled": false,
-            "HideLowerDomainOfInfluencesInReports": false
+            "HideLowerDomainOfInfluencesInReports": false,
+            "ElectoralRegisterMultipleEnabled": false,
+            "ECollectingEnabled": false,
+            "ECollectingMinSignatureCount": 0,
+            "ECollectingMaxElectronicSignaturePercent": 0
           }
         ],
         "Canton": 1,
@@ -342,7 +362,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       }
     ]
   },
@@ -413,7 +437,11 @@
             "StistatMunicipality": false,
             "PublishResultsDisabled": false,
             "VotingCardFlatRateDisabled": false,
-            "HideLowerDomainOfInfluencesInReports": false
+            "HideLowerDomainOfInfluencesInReports": false,
+            "ElectoralRegisterMultipleEnabled": false,
+            "ECollectingEnabled": false,
+            "ECollectingMinSignatureCount": 0,
+            "ECollectingMaxElectronicSignaturePercent": 0
           },
           {
             "Id": "ec1e23a1-bfba-4f1b-b75f-ca31ac53a80f",
@@ -468,7 +496,11 @@
             "StistatMunicipality": false,
             "PublishResultsDisabled": false,
             "VotingCardFlatRateDisabled": false,
-            "HideLowerDomainOfInfluencesInReports": false
+            "HideLowerDomainOfInfluencesInReports": false,
+            "ElectoralRegisterMultipleEnabled": false,
+            "ECollectingEnabled": false,
+            "ECollectingMinSignatureCount": 0,
+            "ECollectingMaxElectronicSignaturePercent": 0
           }
         ],
         "Canton": 1,
@@ -515,7 +547,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       }
     ]
   },
@@ -586,7 +622,11 @@
             "StistatMunicipality": false,
             "PublishResultsDisabled": false,
             "VotingCardFlatRateDisabled": false,
-            "HideLowerDomainOfInfluencesInReports": false
+            "HideLowerDomainOfInfluencesInReports": false,
+            "ElectoralRegisterMultipleEnabled": false,
+            "ECollectingEnabled": false,
+            "ECollectingMinSignatureCount": 0,
+            "ECollectingMaxElectronicSignaturePercent": 0
           },
           {
             "Id": "ec1e23a1-bfba-4f1b-b75f-ca31ac53a80f",
@@ -644,7 +684,11 @@
             "StistatMunicipality": false,
             "PublishResultsDisabled": false,
             "VotingCardFlatRateDisabled": false,
-            "HideLowerDomainOfInfluencesInReports": false
+            "HideLowerDomainOfInfluencesInReports": false,
+            "ElectoralRegisterMultipleEnabled": false,
+            "ECollectingEnabled": false,
+            "ECollectingMinSignatureCount": 0,
+            "ECollectingMaxElectronicSignaturePercent": 0
           }
         ],
         "Canton": 1,
@@ -694,7 +738,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       }
     ]
   }

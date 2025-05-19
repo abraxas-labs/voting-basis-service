@@ -70,6 +70,13 @@ public class PoliticalAssemblyService : ServiceBase
     [AuthorizeAnyPermission(Permissions.PoliticalAssembly.ReadTenantHierarchy, Permissions.PoliticalAssembly.ReadSameCanton, Permissions.PoliticalAssembly.ReadAll)]
     public override async Task<PoliticalAssemblies> List(ListPoliticalAssemblyRequest request, ServerCallContext context)
     {
-        return _mapper.Map<PoliticalAssemblies>(await _politicalAssemblyReader.List());
+        return _mapper.Map<PoliticalAssemblies>(await _politicalAssemblyReader.List((Data.Models.PoliticalAssemblyState)request.State));
+    }
+
+    [AuthorizePermission(Permissions.PoliticalAssembly.Update)]
+    public override async Task<Empty> Archive(ArchivePoliticalAssemblyRequest request, ServerCallContext context)
+    {
+        await _politicalAssemblyWriter.Archive(GuidParser.Parse(request.Id), request.ArchivePer?.ToDateTime());
+        return ProtobufEmpty.Instance;
     }
 }

@@ -38,7 +38,10 @@
         "Locality": "locality",
         "Position": 1,
         "Origin": "origin",
-        "CheckDigit": 3
+        "CheckDigit": 3,
+        "Country": "CH",
+        "Street": "street",
+        "HouseNumber": "1a"
       },
       "IsReferenced": true,
       "ReferencedCandidateId": "81a11b8e-51b8-40c5-aa94-b7a854e2c726"
@@ -81,7 +84,10 @@
         "Locality": "locality",
         "Position": 2,
         "Origin": "origin",
-        "CheckDigit": 7
+        "CheckDigit": 7,
+        "Country": "CH",
+        "Street": "street",
+        "HouseNumber": "1a"
       },
       "IsReferenced": false,
       "ReferencedCandidateId": ""

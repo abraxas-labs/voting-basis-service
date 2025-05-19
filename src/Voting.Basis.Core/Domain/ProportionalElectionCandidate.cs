@@ -22,6 +22,9 @@ public class ProportionalElectionCandidate
         ZipCode = string.Empty;
         Locality = string.Empty;
         Origin = string.Empty;
+        Country = string.Empty;
+        Street = string.Empty;
+        HouseNumber = string.Empty;
     }
 
     public Guid Id { get; internal set; }
@@ -75,4 +78,10 @@ public class ProportionalElectionCandidate
     public string Origin { get; private set; }
 
     public int CheckDigit { get; internal set; }
+
+    public string Country { get; private set; }
+
+    public string Street { get; private set; }
+
+    public string HouseNumber { get; private set; }
 }

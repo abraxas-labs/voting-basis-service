@@ -32,6 +32,7 @@ public class PermissionProvider : IPermissionProvider
 
             Permissions.PoliticalAssembly.ReadAll,
             Permissions.EventLog.ReadAll,
+            Permissions.EventLog.Watch,
 
             Permissions.Export.ExportData,
             Permissions.Export.ExportAllPoliticalBusinesses,
@@ -141,11 +142,14 @@ public class PermissionProvider : IPermissionProvider
             Permissions.SecondaryMajorityElectionCandidate.Delete,
 
             Permissions.EventLog.ReadSameTenant,
+            Permissions.EventLog.Watch,
 
             Permissions.Import.ImportData,
 
             Permissions.Export.ExportData,
             Permissions.Export.ExportAllPoliticalBusinesses,
+
+            Permissions.Country.Read,
         };
         _permissionsPerRole[Roles.CantonAdminReadOnly] = new HashSet<string>
         {
@@ -195,9 +199,12 @@ public class PermissionProvider : IPermissionProvider
             Permissions.SecondaryMajorityElectionCandidate.Read,
 
             Permissions.EventLog.ReadSameTenant,
+            Permissions.EventLog.Watch,
 
             Permissions.Export.ExportData,
             Permissions.Export.ExportAllPoliticalBusinesses,
+
+            Permissions.Country.Read,
         };
         _permissionsPerRole[Roles.ElectionAdmin] = new HashSet<string>
         {
@@ -294,10 +301,13 @@ public class PermissionProvider : IPermissionProvider
             Permissions.SecondaryMajorityElectionCandidate.Delete,
 
             Permissions.EventLog.ReadSameTenant,
+            Permissions.EventLog.Watch,
 
             Permissions.Import.ImportData,
 
             Permissions.Export.ExportData,
+
+            Permissions.Country.Read,
         };
         _permissionsPerRole[Roles.ElectionAdminReadOnly] = new HashSet<string>
         {
@@ -344,8 +354,11 @@ public class PermissionProvider : IPermissionProvider
             Permissions.SecondaryMajorityElectionCandidate.Read,
 
             Permissions.EventLog.ReadSameTenant,
+            Permissions.EventLog.Watch,
 
             Permissions.Export.ExportData,
+
+            Permissions.Country.Read,
         };
         _permissionsPerRole[Roles.ElectionSupporter] = new HashSet<string>
         {
@@ -436,10 +449,13 @@ public class PermissionProvider : IPermissionProvider
             Permissions.SecondaryMajorityElectionCandidate.Delete,
 
             Permissions.EventLog.ReadSameTenant,
+            Permissions.EventLog.Watch,
 
             Permissions.Import.ImportData,
 
             Permissions.Export.ExportData,
+
+            Permissions.Country.Read,
         };
         _permissionsPerRole[Roles.ApiReader] = new HashSet<string>
         {

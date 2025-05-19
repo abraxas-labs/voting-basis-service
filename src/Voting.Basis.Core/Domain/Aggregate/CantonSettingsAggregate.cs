@@ -85,6 +85,8 @@ public class CantonSettingsAggregate : BaseEventSourcingAggregate
 
     public bool DomainOfInfluencePublishResultsOptionEnabled { get; set; }
 
+    public bool HideOccupationTitle { get; private set; }
+
     public void CreateFrom(CantonSettings cantonSettings)
     {
         cantonSettings.Id = BasisUuidV5.BuildCantonSettings(cantonSettings.Canton);

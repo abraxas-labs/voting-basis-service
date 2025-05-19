@@ -34,6 +34,8 @@ public class DomainOfInfluence : BaseDomainOfInfluence, IHasSnapshotEntity<Domai
 
     public DateTime ModifiedOn { get; set; } = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
 
+    public bool Deleted { get; set; }
+
     public DomainOfInfluenceCantonDefaults CantonDefaults { get; set; }
         = new DomainOfInfluenceCantonDefaults();
 

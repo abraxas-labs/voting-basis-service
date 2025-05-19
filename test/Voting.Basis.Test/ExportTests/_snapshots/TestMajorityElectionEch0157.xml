@@ -110,6 +110,8 @@
             </occupationalTitleInfo>
           </occupationalTitle>
           <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
+            <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
             <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
             <foreignZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">zip code</foreignZipCode>
             <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">

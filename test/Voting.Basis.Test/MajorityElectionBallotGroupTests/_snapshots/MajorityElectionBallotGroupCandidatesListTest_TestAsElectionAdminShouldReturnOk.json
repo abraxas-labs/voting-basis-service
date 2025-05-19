@@ -6,14 +6,16 @@
       "CandidateIds": [
         "81a11b8e-51b8-40c5-aa94-b7a854e2c726"
       ],
-      "IndividualCandidatesVoteCount": 0
+      "IndividualCandidatesVoteCount": 0,
+      "BlankRowCount": 0
     },
     {
       "BallotGroupEntryId": "b0a01fbd-ea47-4228-91d4-8f3054d5fe93",
       "CandidateIds": [
         "9d1e4ef4-81c0-4905-a2c6-e1b937b80ddf"
       ],
-      "IndividualCandidatesVoteCount": 0
+      "IndividualCandidatesVoteCount": 0,
+      "BlankRowCount": 2
     }
   ]
 }

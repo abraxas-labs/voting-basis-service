@@ -4,17 +4,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Exceptions;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Iam.Store;
-using Voting.Lib.Messaging;
 
 namespace Voting.Basis.Core.Services.Read;
 
@@ -23,7 +20,6 @@ public class ProportionalElectionReader : PoliticalBusinessReader<ProportionalEl
     private readonly IDbRepository<DataContext, ProportionalElectionList> _listRepo;
     private readonly IDbRepository<DataContext, ProportionalElectionListUnion> _listUnionRepo;
     private readonly IDbRepository<DataContext, ProportionalElectionCandidate> _candidateRepo;
-    private readonly MessageConsumerHub<ProportionalElectionListChangeMessage> _proportionalElectionListChangeListener;
 
     public ProportionalElectionReader(
         IDbRepository<DataContext, ProportionalElection> repo,
@@ -31,19 +27,18 @@ public class ProportionalElectionReader : PoliticalBusinessReader<ProportionalEl
         IDbRepository<DataContext, ProportionalElectionListUnion> listUnionRepo,
         IDbRepository<DataContext, ProportionalElectionCandidate> candidateRepo,
         IAuth auth,
-        PermissionService permissionService,
-        MessageConsumerHub<ProportionalElectionListChangeMessage> proportionalElectionListChangeListener)
+        PermissionService permissionService)
         : base(auth, permissionService, repo)
     {
         _listRepo = listRepo;
         _listUnionRepo = listUnionRepo;
         _candidateRepo = candidateRepo;
-        _proportionalElectionListChangeListener = proportionalElectionListChangeListener;
     }
 
     public async Task<IEnumerable<ProportionalElectionList>> GetLists(Guid electionId)
     {
         var proportionalElection = await Repo.Query()
+            .IgnoreQueryFilters() // Deleted DOI should still work
             .Include(p => p.ProportionalElectionLists)
             .Include(p => p.DomainOfInfluence)
             .FirstOrDefaultAsync(p => p.Id == electionId)
@@ -135,23 +130,12 @@ public class ProportionalElectionReader : PoliticalBusinessReader<ProportionalEl
         return candidate;
     }
 
-    public async Task ListenToListChanges(
-        Func<ProportionalElectionListChangeMessage, Task> listener,
-        CancellationToken ct)
-    {
-        var accessibleDoiIds = (await PermissionService.GetAccessibleDomainOfInfluenceHierarchyGroups()).AccessibleDoiIds;
-
-        await _proportionalElectionListChangeListener.Listen(
-            e => e.List.Data != null && accessibleDoiIds.Contains(e.List.Data.ProportionalElection.DomainOfInfluenceId),
-            listener,
-            ct);
-    }
-
     protected override async Task<ProportionalElection> QueryById(Guid id)
     {
         return await Repo.Query()
-                    .Include(v => v.DomainOfInfluence)
-                    .FirstOrDefaultAsync(v => v.Id == id)
+            .IgnoreQueryFilters() // Deleted DOI should still work
+            .Include(v => v.DomainOfInfluence)
+            .FirstOrDefaultAsync(v => v.Id == id)
             ?? throw new EntityNotFoundException(id);
     }
 

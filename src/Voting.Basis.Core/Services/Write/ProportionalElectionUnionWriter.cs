@@ -76,13 +76,16 @@ public class ProportionalElectionUnionWriter : PoliticalBusinessUnionWriter<Prop
         await _aggregateRepository.Save(proportionalElectionUnion);
     }
 
-    public async Task Delete(Guid proportionalElectionUnionId)
+    public async Task Delete(Guid id)
     {
-        await EnsureCanModifyPoliticalBusinessUnion(proportionalElectionUnionId);
+        await EnsureCanModifyPoliticalBusinessUnion(id);
+        await DeleteAggregate(id);
+    }
 
-        var proportionalElectionUnion = await _aggregateRepository.GetById<ProportionalElectionUnionAggregate>(proportionalElectionUnionId);
+    protected override async Task DeleteAggregate(Guid id)
+    {
+        var proportionalElectionUnion = await _aggregateRepository.GetById<ProportionalElectionUnionAggregate>(id);
         proportionalElectionUnion.Delete();
-
         await _aggregateRepository.Save(proportionalElectionUnion);
     }
 

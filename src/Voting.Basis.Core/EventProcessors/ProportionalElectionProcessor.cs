@@ -11,16 +11,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Extensions;
-using Voting.Basis.Core.Messaging.Extensions;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
+using Voting.Basis.Ech.Utils;
 using Voting.Lib.Common;
 using Voting.Lib.Database.Repositories;
-using Voting.Lib.Messaging;
-using EntityState = Voting.Basis.Core.Messaging.Messages.EntityState;
 
 namespace Voting.Basis.Core.EventProcessors;
 
@@ -51,7 +48,6 @@ public class ProportionalElectionProcessor :
 {
     private readonly IDbRepository<DataContext, ProportionalElection> _repo;
     private readonly SimplePoliticalBusinessBuilder<ProportionalElection> _simplePoliticalBusinessBuilder;
-    private readonly MessageProducerBuffer _messageProducerBuffer;
     private readonly ProportionalElectionListRepo _listRepo;
     private readonly IDbRepository<DataContext, ProportionalElectionListUnion> _listUnionRepo;
     private readonly IDbRepository<DataContext, ProportionalElectionCandidate> _candidateRepo;
@@ -73,8 +69,7 @@ public class ProportionalElectionProcessor :
         ProportionalElectionListBuilder listBuilder,
         ProportionalElectionUnionListBuilder unionListBuilder,
         EventLoggerAdapter eventLogger,
-        SimplePoliticalBusinessBuilder<ProportionalElection> simplePoliticalBusinessBuilder,
-        MessageProducerBuffer messageProducerBuffer)
+        SimplePoliticalBusinessBuilder<ProportionalElection> simplePoliticalBusinessBuilder)
     {
         _logger = logger;
         _repo = repo;
@@ -86,7 +81,6 @@ public class ProportionalElectionProcessor :
         _unionListBuilder = unionListBuilder;
         _eventLogger = eventLogger;
         _simplePoliticalBusinessBuilder = simplePoliticalBusinessBuilder;
-        _messageProducerBuffer = messageProducerBuffer;
         _listBuilder = listBuilder;
     }
 
@@ -188,8 +182,7 @@ public class ProportionalElectionProcessor :
         await _listRepo.Create(model);
         await _unionListBuilder.RebuildForProportionalElection(model.ProportionalElectionId);
         var proportionalElection = await GetElection(model.ProportionalElectionId);
-        await _eventLogger.LogProportionalElectionListEvent(eventData, model, proportionalElection.ContestId);
-        PublishProportionalElectionListEventMessage(model, EntityState.Added);
+        await _eventLogger.LogProportionalElectionListEvent(eventData, model, proportionalElection.ContestId, proportionalElection.DomainOfInfluenceId);
     }
 
     public async Task Process(ProportionalElectionListUpdated eventData)
@@ -214,8 +207,7 @@ public class ProportionalElectionProcessor :
             await _listBuilder.UpdateListUnionDescriptionsReferencingList(model.Id);
         }
 
-        await _eventLogger.LogProportionalElectionListEvent(eventData, model, existingModel.ProportionalElection.ContestId);
-        PublishProportionalElectionListEventMessage(model, EntityState.Modified);
+        await _eventLogger.LogProportionalElectionListEvent(eventData, model, existingModel.ProportionalElection.ContestId, existingModel.ProportionalElection.DomainOfInfluenceId);
     }
 
     public async Task Process(ProportionalElectionListAfterTestingPhaseUpdated eventData)
@@ -232,8 +224,7 @@ public class ProportionalElectionProcessor :
             await _listBuilder.UpdateListUnionDescriptionsReferencingList(id);
         }
 
-        await _eventLogger.LogProportionalElectionListEvent(eventData, list, list.ProportionalElection.ContestId);
-        PublishProportionalElectionListEventMessage(list, EntityState.Modified);
+        await _eventLogger.LogProportionalElectionListEvent(eventData, list, list.ProportionalElection.ContestId, list.ProportionalElection.DomainOfInfluenceId);
     }
 
     public async Task Process(ProportionalElectionListsReordered eventData)
@@ -299,7 +290,6 @@ public class ProportionalElectionProcessor :
 
         // remove self referencing loop
         existingList.ProportionalElection.ProportionalElectionLists = null!;
-        PublishProportionalElectionListEventMessage(existingList, EntityState.Deleted);
     }
 
     public async Task Process(ProportionalElectionListUnionCreated eventData)
@@ -317,7 +307,7 @@ public class ProportionalElectionProcessor :
         existingListUnion.Description = model.Description;
 
         await _listUnionRepo.Update(existingListUnion);
-        await _eventLogger.LogProportionalElectionListUnionEvent(eventData, model, existingListUnion.ProportionalElection.ContestId);
+        await _eventLogger.LogProportionalElectionListUnionEvent(eventData, model, existingListUnion.ProportionalElection.ContestId, existingListUnion.ProportionalElection.DomainOfInfluenceId);
     }
 
     public async Task Process(ProportionalElectionListUnionsReordered eventData)
@@ -454,6 +444,13 @@ public class ProportionalElectionProcessor :
     {
         var model = _mapper.Map<ProportionalElectionCandidate>(eventData.ProportionalElectionCandidate);
         TruncateCandidateNumber(model);
+
+        // old events don't contain a country
+        if (string.IsNullOrEmpty(model.Country))
+        {
+            model.Country = CountryUtils.SwissCountryIso;
+        }
+
         await _candidateRepo.Create(model);
 
         var candidate = await GetCandidate(model.Id);
@@ -465,6 +462,13 @@ public class ProportionalElectionProcessor :
     {
         var model = _mapper.Map<ProportionalElectionCandidate>(eventData.ProportionalElectionCandidate);
         TruncateCandidateNumber(model);
+
+        // old events don't contain a country
+        if (string.IsNullOrEmpty(model.Country))
+        {
+            model.Country = CountryUtils.SwissCountryIso;
+        }
+
         var existingCandidate = await GetCandidate(model.Id);
         var list = existingCandidate.ProportionalElectionList;
 
@@ -650,12 +654,6 @@ public class ProportionalElectionProcessor :
             .Include(c => c.ProportionalElectionList.ProportionalElection)
             .FirstOrDefaultAsync(c => c.Id == candidateId)
             ?? throw new EntityNotFoundException(candidateId);
-    }
-
-    private void PublishProportionalElectionListEventMessage(ProportionalElectionList list, EntityState state)
-    {
-        // Publish a proportional election list change message, so that other service instances can refresh their in-memory cache.
-        _messageProducerBuffer.Add(new ProportionalElectionListChangeMessage(list.CreateBaseEntityEvent(state)));
     }
 
     private void TruncateCandidateNumber(ProportionalElectionCandidate candidate)

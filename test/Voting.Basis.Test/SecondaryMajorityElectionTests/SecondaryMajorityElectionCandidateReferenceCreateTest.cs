@@ -117,6 +117,15 @@ public class SecondaryMajorityElectionCandidateReferenceCreateTest : PoliticalBu
         eventData.MatchSnapshot("event", e => e.MajorityElectionCandidateReference.Id);
     }
 
+    [Fact]
+    public async Task DuplicateNumberShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateMajorityElectionCandidateReferenceAsync(NewValidRequest(o => o.Number = "number1")),
+            StatusCode.AlreadyExists,
+            "NonUniqueCandidateNumber");
+    }
+
     protected override IEnumerable<string> AuthorizedRoles()
     {
         yield return Roles.CantonAdmin;

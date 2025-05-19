@@ -36,6 +36,9 @@ public class MajorityElectionCandidateTest : ProtoValidatorBaseTest<ProtoModels.
             Locality = "locality",
             Position = 2,
             Origin = "origin",
+            Street = "street",
+            HouseNumber = "1a",
+            Country = "CH",
         };
 
         action?.Invoke(majorityElection);

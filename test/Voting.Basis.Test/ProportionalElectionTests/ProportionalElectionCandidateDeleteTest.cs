@@ -136,6 +136,9 @@ public class ProportionalElectionCandidateDeleteTest : PoliticalBusinessAuthoriz
                 ZipCode = "zip code",
                 PartyId = DomainOfInfluenceMockedData.PartyIdStGallenSVP,
                 Origin = "origin",
+                Street = "street",
+                HouseNumber = "1a",
+                Country = "CH",
             });
             await RunEvents<ProportionalElectionCandidateCreated>();
 

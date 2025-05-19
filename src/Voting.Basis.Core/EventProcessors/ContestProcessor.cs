@@ -8,15 +8,11 @@ using AutoMapper;
 using Google.Protobuf;
 using Microsoft.Extensions.Logging;
 using Voting.Basis.Core.Exceptions;
-using Voting.Basis.Core.Messaging.Extensions;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Lib.Common;
 using Voting.Lib.Database.Repositories;
-using Voting.Lib.Messaging;
-using EntityState = Voting.Basis.Core.Messaging.Messages.EntityState;
 
 namespace Voting.Basis.Core.EventProcessors;
 
@@ -34,21 +30,18 @@ public class ContestProcessor :
     private readonly IDbRepository<DataContext, Contest> _repo;
     private readonly IMapper _mapper;
     private readonly EventLoggerAdapter _eventLogger;
-    private readonly MessageProducerBuffer _messageProducerBuffer;
     private readonly ILogger<ContestProcessor> _logger;
 
     public ContestProcessor(
         ILogger<ContestProcessor> logger,
         IMapper mapper,
         IDbRepository<DataContext, Contest> repo,
-        EventLoggerAdapter eventLogger,
-        MessageProducerBuffer messageProducerBuffer)
+        EventLoggerAdapter eventLogger)
     {
         _logger = logger;
         _mapper = mapper;
         _repo = repo;
         _eventLogger = eventLogger;
-        _messageProducerBuffer = messageProducerBuffer;
     }
 
     public async Task Process(ContestCreated eventData)
@@ -57,7 +50,6 @@ public class ContestProcessor :
         model.State = ContestState.TestingPhase;
         await _repo.Create(model);
         await _eventLogger.LogContestEvent(eventData, model);
-        PublishContestEventMessage(model, EntityState.Added);
     }
 
     public async Task Process(ContestUpdated eventData)
@@ -66,7 +58,6 @@ public class ContestProcessor :
         await _repo.Update(model);
 
         await _eventLogger.LogContestEvent(eventData, model);
-        PublishContestEventMessage(model, EntityState.Modified);
     }
 
     public async Task Process(ContestDeleted eventData)
@@ -77,7 +68,6 @@ public class ContestProcessor :
             var existing = await GetContest(id);
             await _repo.DeleteByKey(id);
             await _eventLogger.LogContestEvent(eventData, existing);
-            PublishContestEventMessage(existing, EntityState.Deleted);
         }
         catch (EntityNotFoundException)
         {
@@ -144,11 +134,5 @@ public class ContestProcessor :
         customizer?.Invoke(contest);
         await _repo.Update(contest);
         await _eventLogger.LogContestEvent(eventData, contest);
-    }
-
-    private void PublishContestEventMessage(Contest contest, EntityState state)
-    {
-        // Publish a contest change message, so that other service instances can refresh their in-memory cache.
-        _messageProducerBuffer.Add(new ContestOverviewChangeMessage(contest.CreateBaseEntityEvent(state)));
     }
 }

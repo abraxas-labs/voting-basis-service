@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Metadata;
@@ -79,12 +80,20 @@ public class MajorityElectionCandidateDeleteTest : PoliticalBusinessAuthorizatio
     [Fact]
     public async Task TestAggregate()
     {
-        var id = MajorityElectionMockedData.CandidateIdStGallenMajorityElectionInContestStGallen;
+        var id = MajorityElectionMockedData.CandidateId1StGallenMajorityElectionInContestBund;
         await TestEventPublisher.Publish(new MajorityElectionCandidateDeleted { MajorityElectionCandidateId = id });
 
+        var candidates = await RunOnDb(db => db.MajorityElectionCandidates
+            .Where(c => c.MajorityElectionId == Guid.Parse(MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund))
+            .ToListAsync());
+
         var idGuid = Guid.Parse(id);
-        (await RunOnDb(db => db.MajorityElectionCandidates.CountAsync(c => c.Id == idGuid)))
-            .Should().Be(0);
+        candidates.Where(c => c.Id == idGuid).Should().HaveCount(0);
+
+        // reorder candidates after deletion
+        var existingCandidate = candidates.Find(c => c.Id == Guid.Parse(MajorityElectionMockedData.CandidateId2StGallenMajorityElectionInContestBund));
+        existingCandidate.Should().NotBeNull();
+        existingCandidate!.Position.Should().Be(1);
     }
 
     [Fact]
@@ -136,6 +145,9 @@ public class MajorityElectionCandidateDeleteTest : PoliticalBusinessAuthorizatio
                 Title = "title",
                 ZipCode = "zip code",
                 Origin = "origin",
+                Street = "street",
+                HouseNumber = "1a",
+                Country = "CH",
             });
             await RunEvents<MajorityElectionCandidateCreated>();
 

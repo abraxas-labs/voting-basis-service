@@ -3,6 +3,12 @@
     {
       "Id": "7566c420-3774-4c57-9b31-9702fac37543",
       "PoliticalBusinessNumber": "100",
+      "OfficialDescription": {
+        "de": "Proporzwahl Bund de",
+        "fr": "Proporzwahl Bund fr",
+        "it": "Proporzwahl Bund it",
+        "rm": "Proporzwahl Bund rm"
+      },
       "ShortDescription": {
         "de": "Proporzwahl Bund de",
         "fr": "Proporzwahl Bund fr",
@@ -62,7 +68,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -75,6 +85,12 @@
     {
       "Id": "053d1197-ddb2-4906-8c90-b9baa45a40fb",
       "PoliticalBusinessNumber": "100",
+      "OfficialDescription": {
+        "de": "Proporzwahl Bund de",
+        "fr": "Proporzwahl Bund fr",
+        "it": "Proporzwahl Bund it",
+        "rm": "Proporzwahl Bund rm"
+      },
       "ShortDescription": {
         "de": "Proporzwahl Bund de",
         "fr": "Proporzwahl Bund fr",
@@ -134,7 +150,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -147,6 +167,12 @@
     {
       "Id": "7550e7c2-27e3-4602-a928-6f9c2afd2289",
       "PoliticalBusinessNumber": "200",
+      "OfficialDescription": {
+        "de": "Abstimmung Bund de",
+        "fr": "Abstimmung Bund fr",
+        "it": "Abstimmung Bund it",
+        "rm": "Abstimmung Bund rm"
+      },
       "ShortDescription": {
         "de": "Abstimmung Bund de",
         "fr": "Abstimmung Bund fr",
@@ -206,7 +232,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -219,6 +249,12 @@
     {
       "Id": "b0da46f8-a721-4e1a-ac36-25284d68f34b",
       "PoliticalBusinessNumber": "201",
+      "OfficialDescription": {
+        "de": "Majorzwahl St. Gallen de",
+        "fr": "Majorzwahl St. Gallen fr",
+        "it": "Majorzwahl St. Gallen it",
+        "rm": "Majorzwahl St. Gallen rm"
+      },
       "ShortDescription": {
         "de": "Majorzwahl SG de",
         "fr": "Majorzwahl SG fr",
@@ -278,7 +314,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -291,6 +331,12 @@
     {
       "Id": "3a832f45-34c0-47ce-b1e3-db27b97948ba",
       "PoliticalBusinessNumber": "201",
+      "OfficialDescription": {
+        "de": "Proporzwahl St. Gallen de",
+        "fr": "Proporzwahl St. Gallen fr",
+        "it": "Proporzwahl St. Gallen it",
+        "rm": "Proporzwahl St. Gallen rm"
+      },
       "ShortDescription": {
         "de": "Proporzwahl SG de",
         "fr": "Proporzwahl SG fr",
@@ -350,7 +396,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -363,6 +413,12 @@
     {
       "Id": "b751e349-0d2c-482c-b5f9-780608cca9f8",
       "PoliticalBusinessNumber": "714a",
+      "OfficialDescription": {
+        "de": "Abstimmung Genf de",
+        "fr": "Abstimmung Genf fr",
+        "it": "Abstimmung Genf it",
+        "rm": "Abstimmung Genf rm"
+      },
       "ShortDescription": {
         "de": "Abstimmung Genf de",
         "fr": "Abstimmung Genf fr",
@@ -422,7 +478,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -435,6 +495,12 @@
     {
       "Id": "2c3fe189-99a2-401a-8af6-8ac5f1bf3c3a",
       "PoliticalBusinessNumber": "714a",
+      "OfficialDescription": {
+        "de": "Proporzwahl Genf de",
+        "fr": "Proporzwahl Genf fr",
+        "it": "Proporzwahl Genf it",
+        "rm": "Proporzwahl Genf rm"
+      },
       "ShortDescription": {
         "de": "Proporzwahl Genf de",
         "fr": "Proporzwahl Genf fr",
@@ -494,7 +560,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -507,6 +577,12 @@
     {
       "Id": "61eeda40-6669-4793-9831-ade34e516365",
       "PoliticalBusinessNumber": "714a",
+      "OfficialDescription": {
+        "de": "Proporzwahl Genf de",
+        "fr": "Proporzwahl Genf fr",
+        "it": "Proporzwahl Genf it",
+        "rm": "Proporzwahl Genf rm"
+      },
       "ShortDescription": {
         "de": "Proporzwahl Genf de",
         "fr": "Proporzwahl Genf fr",
@@ -566,7 +642,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -579,6 +659,12 @@
     {
       "Id": "0741da26-add2-4c4c-960d-7e251b82e91b",
       "PoliticalBusinessNumber": "n1",
+      "OfficialDescription": {
+        "de": "Nebenwahl St. Gallen de",
+        "fr": "Nebenwahl St. Gallen fr",
+        "it": "Nebenwahl St. Gallen it",
+        "rm": "Nebenwahl St. Gallen rm"
+      },
       "ShortDescription": {
         "de": "Nebenwahl SG de",
         "fr": "Nebenwahl SG fr",
@@ -638,7 +724,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 4,
       "PoliticalBusinessSubType": 0,
@@ -651,6 +741,12 @@
     {
       "Id": "3e44e6bf-e910-423c-8346-180640ae459c",
       "PoliticalBusinessNumber": "n2",
+      "OfficialDescription": {
+        "de": "Nebenwahl on separate ballot St. Gallen de",
+        "fr": "Nebenwahl on separate ballot St. Gallen fr",
+        "it": "Nebenwahl on separate ballot St. Gallen it",
+        "rm": "Nebenwahl on separate ballot St. Gallen rm"
+      },
       "ShortDescription": {
         "de": "Nebenwahl on separate ballot SG de",
         "fr": "Nebenwahl on separate ballot SG fr",
@@ -710,7 +806,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 4,
       "PoliticalBusinessSubType": 0,
@@ -723,6 +823,12 @@
     {
       "Id": "e74b6879-9e2b-4799-a156-d0321b967dcf",
       "PoliticalBusinessNumber": "291",
+      "OfficialDescription": {
+        "de": "Majorzwahl Gossau de",
+        "fr": "Majorzwahl Gossau fr",
+        "it": "Majorzwahl Gossau it",
+        "rm": "Majorzwahl Gossau rm"
+      },
       "ShortDescription": {
         "de": "Majorzwahl Gossau de",
         "fr": "Majorzwahl Gossau fr",
@@ -786,6 +892,7 @@
         "SapCustomerOrderNumber": "0005400492",
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
+          "FrankingLicenceAwayNumber": "73155598",
           "FrankingLicenceReturnNumber": "562984257"
         },
         "VirtualTopLevel": false,
@@ -798,7 +905,11 @@
         "StistatMunicipality": true,
         "PublishResultsDisabled": true,
         "VotingCardFlatRateDisabled": true,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": true,
+        "ECollectingMinSignatureCount": 10000,
+        "ECollectingMaxElectronicSignaturePercent": 50
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -811,6 +922,12 @@
     {
       "Id": "76d9b4bd-52e6-462e-9613-f344f7b860df",
       "PoliticalBusinessNumber": "4531",
+      "OfficialDescription": {
+        "de": "Abstimmung Gossau de",
+        "fr": "Abstimmung Gossau fr",
+        "it": "Abstimmung Gossau it",
+        "rm": "Abstimmung Gossau rm"
+      },
       "ShortDescription": {
         "de": "Abstimmung Gossau de",
         "fr": "Abstimmung Gossau fr",
@@ -874,6 +991,7 @@
         "SapCustomerOrderNumber": "0005400492",
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
+          "FrankingLicenceAwayNumber": "73155598",
           "FrankingLicenceReturnNumber": "562984257"
         },
         "VirtualTopLevel": false,
@@ -886,7 +1004,11 @@
         "StistatMunicipality": true,
         "PublishResultsDisabled": true,
         "VotingCardFlatRateDisabled": true,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": true,
+        "ECollectingMinSignatureCount": 10000,
+        "ECollectingMaxElectronicSignaturePercent": 50
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -899,6 +1021,12 @@
     {
       "Id": "b849600e-305b-4d37-a999-214acdc88682",
       "PoliticalBusinessNumber": "645",
+      "OfficialDescription": {
+        "de": "Proporzwahl Gossau de",
+        "fr": "Proporzwahl Gossau fr",
+        "it": "Proporzwahl Gossau it",
+        "rm": "Proporzwahl Gossau rm"
+      },
       "ShortDescription": {
         "de": "Proporzwahl Gossau de",
         "fr": "Proporzwahl Gossau fr",
@@ -962,6 +1090,7 @@
         "SapCustomerOrderNumber": "0005400492",
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
+          "FrankingLicenceAwayNumber": "73155598",
           "FrankingLicenceReturnNumber": "562984257"
         },
         "VirtualTopLevel": false,
@@ -974,7 +1103,11 @@
         "StistatMunicipality": true,
         "PublishResultsDisabled": true,
         "VotingCardFlatRateDisabled": true,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": true,
+        "ECollectingMinSignatureCount": 10000,
+        "ECollectingMaxElectronicSignaturePercent": 50
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -987,6 +1120,12 @@
     {
       "Id": "6b4c7f11-9860-4468-ace9-78baec913a8d",
       "PoliticalBusinessNumber": "714",
+      "OfficialDescription": {
+        "de": "Abstimmung Uzwil de",
+        "fr": "Abstimmung Uzwil fr",
+        "it": "Abstimmung Uzwil it",
+        "rm": "Abstimmung Uzwil rm"
+      },
       "ShortDescription": {
         "de": "Abstimmung Uzwil de",
         "fr": "Abstimmung Uzwil fr",
@@ -1046,7 +1185,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -1059,6 +1202,12 @@
     {
       "Id": "7ae77f44-1083-470a-bb66-64f921bc6945",
       "PoliticalBusinessNumber": "714",
+      "OfficialDescription": {
+        "de": "Proporzwahl Uzwil de",
+        "fr": "Proporzwahl Uzwil fr",
+        "it": "Proporzwahl Uzwil it",
+        "rm": "Proporzwahl Uzwil rm"
+      },
       "ShortDescription": {
         "de": "Proporzwahl Uzwil de",
         "fr": "Proporzwahl Uzwil fr",
@@ -1118,7 +1267,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -1131,6 +1284,12 @@
     {
       "Id": "a73b1bf3-7bbe-44fb-9b65-8f5e1734ad72",
       "PoliticalBusinessNumber": "714",
+      "OfficialDescription": {
+        "de": "Proporzwahl Uzwil de",
+        "fr": "Proporzwahl Uzwil fr",
+        "it": "Proporzwahl Uzwil it",
+        "rm": "Proporzwahl Uzwil rm"
+      },
       "ShortDescription": {
         "de": "Proporzwahl Uzwil de",
         "fr": "Proporzwahl Uzwil fr",
@@ -1190,7 +1349,11 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -1203,6 +1366,12 @@
     {
       "Id": "654455b1-85a1-44c2-ad7b-8a8e7ea29d95",
       "PoliticalBusinessNumber": "n1",
+      "OfficialDescription": {
+        "de": "official de",
+        "fr": "official fr",
+        "it": "official it",
+        "rm": "official rm"
+      },
       "ShortDescription": {
         "de": "short de",
         "fr": "short fr",
@@ -1266,6 +1435,7 @@
         "SapCustomerOrderNumber": "0005400492",
         "SwissPostData": {
           "InvoiceReferenceNumber": "958473825",
+          "FrankingLicenceAwayNumber": "73155598",
           "FrankingLicenceReturnNumber": "562984257"
         },
         "VirtualTopLevel": false,
@@ -1278,7 +1448,11 @@
         "StistatMunicipality": true,
         "PublishResultsDisabled": true,
         "VotingCardFlatRateDisabled": true,
-        "HideLowerDomainOfInfluencesInReports": false
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": true,
+        "ECollectingMinSignatureCount": 10000,
+        "ECollectingMaxElectronicSignaturePercent": 50
       },
       "PoliticalBusinessType": 4,
       "PoliticalBusinessSubType": 0,

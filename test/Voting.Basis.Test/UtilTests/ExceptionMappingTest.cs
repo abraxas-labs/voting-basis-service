@@ -27,7 +27,6 @@ public class ExceptionMappingTest
             new NonUniqueCandidateNumberException(),
             new MajorityElectionWithExistingSecondaryElectionsException(),
             new MajorityElectionCandidateIsInBallotGroupException(Guid.NewGuid()),
-            new ContestWithExistingPoliticalBusinessesException(),
             new CountingCircleInScheduledMergeException(),
             new CountingCirclesInScheduledMergeException(),
             new CountingCircleMergerAlreadyActiveException(),
@@ -35,6 +34,7 @@ public class ExceptionMappingTest
             new DuplicatedBfsException("BFS"),
             new DuplicatedPoliticalBusinessNumberException("PBN"),
             new ContestInMergeSetAsPreviousContestException(),
+            new SecondaryMajorityElectionCandidateNotSelectedInPrimaryElectionException(),
         };
 
         var hiddenExceptions = new HashSet<Exception>()

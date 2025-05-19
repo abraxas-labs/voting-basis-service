@@ -13,4 +13,6 @@ public class MajorityElectionBallotGroupEntryCandidates
     public List<Guid> CandidateIds { get; set; } = new();
 
     public int IndividualCandidatesVoteCount { get; set; }
+
+    public int BlankRowCount { get; set; }
 }

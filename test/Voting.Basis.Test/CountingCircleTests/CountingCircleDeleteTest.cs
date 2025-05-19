@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Services.V1;
@@ -13,7 +14,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Iam.Testing.AuthenticationScheme;
 using Voting.Lib.Testing.Utils;
@@ -96,8 +96,20 @@ public class CountingCircleDeleteTest : BaseGrpcTest<CountingCircleService.Count
         (await RunOnDb(db => db.CountingCircles.CountAsync(cc => cc.Id == idGuid)))
             .Should().Be(0);
 
-        await AssertHasPublishedMessage<CountingCircleChangeMessage>(
-            x => x.CountingCircle.HasEqualIdAndNewEntityState(idGuid, EntityState.Deleted));
+        // These should be updated, the counting circle should be removed everywhere
+        // Note that this can have secondary effects, such as a tenant not having access to a domain of influence anymore
+        var permissions = await RunOnDb(db => db.DomainOfInfluencePermissions
+            .OrderBy(x => x.TenantId)
+            .ThenBy(x => x.DomainOfInfluenceId)
+            .ToListAsync());
+        foreach (var permission in permissions)
+        {
+            permission.CountingCircleIds.Sort();
+        }
+
+        permissions.MatchSnapshot("permissions", x => x.Id);
+
+        await AssertHasPublishedEventProcessedMessage(CountingCircleDeleted.Descriptor, idGuid);
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

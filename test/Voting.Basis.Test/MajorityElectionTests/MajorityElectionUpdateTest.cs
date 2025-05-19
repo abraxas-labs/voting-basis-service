@@ -15,7 +15,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -121,18 +121,7 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
             await RunOnDb(db => db.MajorityElectionBallotGroups.Include(x => x.Entries).SingleAsync(x => x.Id == ballotGroupNotOkNowOkAfterUpdate));
         ballotGroup2.Entries.Single().CandidateCountOk.Should().BeTrue();
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(electionId, EntityState.Modified));
-    }
-
-    [Fact]
-    public async Task TestAggregateShouldPublishElectionGroupModifiedMessage()
-    {
-        await TestEventPublisher.Publish(NewValidEvent(x => x.MajorityElection.Id = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund));
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.ElectionGroup.HasEqualIdAndNewEntityState(
-                Guid.Parse(MajorityElectionMockedData.ElectionGroupIdStGallenMajorityElectionInContestBund),
-                EntityState.Modified));
+        await AssertHasPublishedEventProcessedMessage(MajorityElectionUpdated.Descriptor, Guid.Parse(MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen));
     }
 
     [Fact]
@@ -253,8 +242,7 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
         });
         election.MatchSnapshot("reponse");
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id, EntityState.Modified));
+        await AssertHasPublishedEventProcessedMessage(MajorityElectionAfterTestingPhaseUpdated.Descriptor, id);
     }
 
     [Fact]
@@ -308,6 +296,19 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
     }
 
     [Fact]
+    public Task DuplicateSecondaryMajorityElectionPoliticalBusinessIdShouldThrow()
+    {
+        return AssertStatus(
+            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(v =>
+            {
+                v.Id = MajorityElectionMockedData.IdGossauMajorityElectionInContestStGallen;
+                v.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
+                v.PoliticalBusinessNumber = "n1";
+            })),
+            StatusCode.AlreadyExists);
+    }
+
+    [Fact]
     public async Task DisableIndividualVotesWithExistingBallotGroupIndividualVotesShouldThrow()
     {
         await AssertStatus(
@@ -318,6 +319,15 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
             })),
             StatusCode.InvalidArgument,
             "Cannot disable individual candidates when there are individual candidates vote count defined on ballot group entries");
+    }
+
+    [Fact]
+    public Task UpdateNumberOfMandatesOnActiveElectionShouldThrow()
+    {
+        return AssertStatus(
+            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(v => v.NumberOfMandates = 1)),
+            StatusCode.FailedPrecondition,
+            nameof(MajorityElectionActiveNumberOfMandatesChangeException));
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
@@ -353,7 +363,7 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
             MandateAlgorithm = SharedProto.MajorityElectionMandateAlgorithm.RelativeMajority,
             ResultEntry = SharedProto.MajorityElectionResultEntry.FinalResults,
             EnforceResultEntryForCountingCircles = false,
-            NumberOfMandates = 2,
+            NumberOfMandates = 5,
             ReviewProcedure = SharedProto.MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
             EnforceCandidateCheckDigitForCountingCircles = true,

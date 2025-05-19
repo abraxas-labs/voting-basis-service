@@ -54,7 +54,8 @@
         "CandidateLocalityRequired": false,
         "CandidateOriginRequired": false,
         "DomainOfInfluencePublishResultsOptionEnabled": true,
-        "SecondaryMajorityElectionOnSeparateBallot": false
+        "SecondaryMajorityElectionOnSeparateBallot": false,
+        "HideOccupationTitle": false
       },
       {
         "Id": "2d203a3c-40ba-4b53-a57e-38909d71390c",
@@ -105,7 +106,8 @@
         "CandidateLocalityRequired": false,
         "CandidateOriginRequired": false,
         "DomainOfInfluencePublishResultsOptionEnabled": false,
-        "SecondaryMajorityElectionOnSeparateBallot": false
+        "SecondaryMajorityElectionOnSeparateBallot": false,
+        "HideOccupationTitle": false
       },
       {
         "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -165,7 +167,8 @@
         "CandidateLocalityRequired": true,
         "CandidateOriginRequired": true,
         "DomainOfInfluencePublishResultsOptionEnabled": false,
-        "SecondaryMajorityElectionOnSeparateBallot": false
+        "SecondaryMajorityElectionOnSeparateBallot": false,
+        "HideOccupationTitle": true
       }
     ]
   },
@@ -184,6 +187,7 @@
         "SimplePoliticalBusinesses": [],
         "ExportConfigurations": [],
         "ModifiedOn": "0001-01-01T00:00:00Z",
+        "Deleted": false,
         "CantonDefaults": {
           "Canton": 2,
           "ProportionalElectionMandateAlgorithms": [
@@ -203,7 +207,8 @@
           "CandidateLocalityRequired": false,
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": false,
-          "SecondaryMajorityElectionOnSeparateBallot": false
+          "SecondaryMajorityElectionOnSeparateBallot": false,
+          "HideOccupationTitle": false
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -243,10 +248,14 @@
         "ViewCountingCirclePartialResults": false,
         "VotingCardColor": 0,
         "ElectoralRegistrationEnabled": false,
+        "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "HideLowerDomainOfInfluencesInReports": false,
+        "ECollectingEnabled": false,
+        "ECollectingMinSignatureCount": 0,
+        "ECollectingMaxElectronicSignaturePercent": 0,
         "Id": "e84a3f1e-c2ea-422c-904e-130b822aad64"
       }
     ]

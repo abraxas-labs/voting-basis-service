@@ -33,6 +33,17 @@ public class DomainOfInfluenceHierarchyRepo : DbRepository<DataContext, DomainOf
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "EF1002:Risk of vulnerability to SQL injection.", Justification = "Referencing hardened inerpolated string parameters.")]
+    public async Task RemoveIdsFromChildIdsEntries(List<Guid> ids)
+    {
+        var childIdsColumnName = GetDelimitedColumnName(x => x.ChildIds);
+        await Context.Database.ExecuteSqlRawAsync(
+            $"UPDATE {DelimitedSchemaAndTableName} " +
+            $"SET {childIdsColumnName} = (SELECT array(SELECT unnest({childIdsColumnName}) EXCEPT SELECT unnest({{0}})))" +
+            $"WHERE {childIdsColumnName} && {{0}}",
+            ids.ToArray());
+    }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "EF1002:Risk of vulnerability to SQL injection.", Justification = "Referencing hardened inerpolated string parameters.")]
     public async Task Replace(IEnumerable<DomainOfInfluenceHierarchy> entries)
     {
         await Context.Database.ExecuteSqlRawAsync($"TRUNCATE {DelimitedSchemaAndTableName}");

@@ -53,7 +53,10 @@
       "Locality": "locality",
       "Position": 3,
       "Origin": "origin",
-      "CheckDigit": 8
+      "CheckDigit": 8,
+      "Country": "CH",
+      "Street": "street",
+      "HouseNumber": "1a"
     },
     "PrimaryMajorityElectionId": "b0da46f8-a721-4e1a-ac36-25284d68f34b",
     "IsOnSeparateBallot": false

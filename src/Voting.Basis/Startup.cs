@@ -16,13 +16,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Prometheus;
 using Voting.Basis.Core.Configuration;
 using Voting.Basis.Core.Mapping;
-using Voting.Basis.Core.Messaging.Consumers;
+using Voting.Basis.Core.Messaging;
 using Voting.Basis.Data;
 using Voting.Basis.Services;
 using Voting.Lib.Common.DependencyInjection;
 using Voting.Lib.Grpc.DependencyInjection;
 using Voting.Lib.Grpc.Interceptors;
 using Voting.Lib.MalwareScanner.DependencyInjection;
+using Voting.Lib.Messaging;
 using Voting.Lib.Rest.Middleware;
 using Voting.Lib.Rest.Swagger.DependencyInjection;
 using Voting.Lib.Rest.Utils;
@@ -167,6 +168,7 @@ public class Startup
         endpoints.MapGrpcService<AdminManagementService>();
         endpoints.MapGrpcService<PermissionService>();
         endpoints.MapGrpcService<PoliticalAssemblyService>();
+        endpoints.MapGrpcService<CountryService>();
     }
 
     private void ConfigureHealthChecks(IHealthChecksBuilder checks)
@@ -193,10 +195,7 @@ public class Startup
             return;
         }
 
-        bus.AddConsumer<ContestOverviewChangeMessageConsumer>().Endpoint(ConfigureMessagingConsumerEndpoint);
-        bus.AddConsumer<ContestDetailsChangeMessageConsumer>().Endpoint(ConfigureMessagingConsumerEndpoint);
-        bus.AddConsumer<CountingCircleChangeMessageConsumer>().Endpoint(ConfigureMessagingConsumerEndpoint);
-        bus.AddConsumer<ProportionalElectionListChangeMessageConsumer>().Endpoint(ConfigureMessagingConsumerEndpoint);
+        bus.AddConsumer<MessageConsumer<EventProcessedMessage>>().Endpoint(ConfigureMessagingConsumerEndpoint);
     }
 
     private void ConfigureMessagingConsumerEndpoint(IConsumerEndpointRegistrationConfigurator config)

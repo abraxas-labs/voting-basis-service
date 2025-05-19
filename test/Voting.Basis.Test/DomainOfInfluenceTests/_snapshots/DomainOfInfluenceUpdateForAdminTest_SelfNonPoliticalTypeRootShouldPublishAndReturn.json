@@ -37,7 +37,11 @@
       "HasMinorVoters": false,
       "SuperiorAuthorityDomainOfInfluenceId": "",
       "PublishResultsDisabled": false,
-      "HideLowerDomainOfInfluencesInReports": true
+      "HideLowerDomainOfInfluencesInReports": true,
+      "ElectoralRegisterMultipleEnabled": false,
+      "ECollectingEnabled": false,
+      "ECollectingMinSignatureCount": 0,
+      "ECollectingMaxElectronicSignaturePercent": 0
     }
   }
 }

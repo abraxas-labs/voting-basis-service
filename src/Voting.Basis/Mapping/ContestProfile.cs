@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using AutoMapper;
 using Voting.Basis.Core.Domain;
-using Voting.Basis.Core.Messaging.Messages;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 
 namespace Voting.Basis.Mapping;
@@ -48,12 +47,5 @@ public sealed class ContestProfile : Profile
         CreateMap<Data.Models.PoliticalBusiness, ProtoModels.PoliticalBusinessSummary>();
 
         CreateMap<Data.Models.SimplePoliticalBusiness, ProtoModels.PoliticalBusiness>();
-        CreateMap<SimplePoliticalBusinessUnion, ProtoModels.PoliticalBusinessUnion>();
-
-        CreateMap<ContestDetailsChangeMessage, ProtoModels.ContestDetailsChangeMessage>();
-        CreateMap<BaseEntityMessage<Data.Models.Contest>, ProtoModels.ContestMessage>();
-        CreateMap<ContestOverviewChangeMessage, ProtoModels.ContestOverviewChangeMessage>();
-        CreateMap<BaseEntityMessage<Data.Models.SimplePoliticalBusiness>, ProtoModels.PoliticalBusinessMessage>();
-        CreateMap<BaseEntityMessage<SimplePoliticalBusinessUnion>, ProtoModels.PoliticalBusinessUnionMessage>();
     }
 }

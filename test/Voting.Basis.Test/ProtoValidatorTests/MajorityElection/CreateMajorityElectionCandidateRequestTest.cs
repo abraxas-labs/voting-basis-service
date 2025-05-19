@@ -52,6 +52,13 @@ public class CreateMajorityElectionCandidateRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(80));
         yield return NewValidRequest(x => x.DateOfBirth = null);
         yield return NewValidRequest(x => x.Sex = SexType.Unspecified);
+        yield return NewValidRequest(x => x.Street = string.Empty);
+        yield return NewValidRequest(x => x.Street = RandomStringUtil.GenerateComplexSingleLineText(1));
+        yield return NewValidRequest(x => x.Street = RandomStringUtil.GenerateComplexSingleLineText(60));
+        yield return NewValidRequest(x => x.HouseNumber = string.Empty);
+        yield return NewValidRequest(x => x.HouseNumber = RandomStringUtil.GenerateAlphanumericWhitespace(1));
+        yield return NewValidRequest(x => x.HouseNumber = RandomStringUtil.GenerateAlphanumericWhitespace(12));
+        yield return NewValidRequest(x => x.Country = RandomStringUtil.GenerateAlphabetic(2));
     }
 
     protected override IEnumerable<CreateMajorityElectionCandidateRequest> NotOkMessages()
@@ -94,6 +101,11 @@ public class CreateMajorityElectionCandidateRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => x.Position = 0);
         yield return NewValidRequest(x => x.Position = 101);
         yield return NewValidRequest(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(81));
+        yield return NewValidRequest(x => x.Street = RandomStringUtil.GenerateComplexSingleLineText(61));
+        yield return NewValidRequest(x => x.HouseNumber = RandomStringUtil.GenerateAlphanumericWhitespace(13));
+        yield return NewValidRequest(x => x.Country = RandomStringUtil.GenerateAlphabetic(1));
+        yield return NewValidRequest(x => x.Country = RandomStringUtil.GenerateAlphabetic(3));
+        yield return NewValidRequest(x => x.Country = string.Empty);
     }
 
     private CreateMajorityElectionCandidateRequest NewValidRequest(Action<CreateMajorityElectionCandidateRequest>? action = null)
@@ -117,6 +129,9 @@ public class CreateMajorityElectionCandidateRequestTest : ProtoValidatorBaseTest
             Locality = "locality",
             Position = 2,
             Origin = "origin",
+            Street = "street",
+            HouseNumber = "1a",
+            Country = "CH",
         };
 
         action?.Invoke(request);

@@ -62,7 +62,11 @@
           "StistatMunicipality": false,
           "PublishResultsDisabled": false,
           "VotingCardFlatRateDisabled": false,
-          "HideLowerDomainOfInfluencesInReports": false
+          "HideLowerDomainOfInfluencesInReports": false,
+          "ElectoralRegisterMultipleEnabled": false,
+          "ECollectingEnabled": false,
+          "ECollectingMinSignatureCount": 0,
+          "ECollectingMaxElectronicSignaturePercent": 0
         },
         {
           "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
@@ -130,6 +134,7 @@
               "SapCustomerOrderNumber": "0005400492",
               "SwissPostData": {
                 "InvoiceReferenceNumber": "958473825",
+                "FrankingLicenceAwayNumber": "73155598",
                 "FrankingLicenceReturnNumber": "562984257"
               },
               "VirtualTopLevel": false,
@@ -142,7 +147,11 @@
               "StistatMunicipality": true,
               "PublishResultsDisabled": true,
               "VotingCardFlatRateDisabled": true,
-              "HideLowerDomainOfInfluencesInReports": false
+              "HideLowerDomainOfInfluencesInReports": false,
+              "ElectoralRegisterMultipleEnabled": false,
+              "ECollectingEnabled": true,
+              "ECollectingMinSignatureCount": 10000,
+              "ECollectingMaxElectronicSignaturePercent": 50
             },
             {
               "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
@@ -197,7 +206,11 @@
               "StistatMunicipality": false,
               "PublishResultsDisabled": false,
               "VotingCardFlatRateDisabled": false,
-              "HideLowerDomainOfInfluencesInReports": false
+              "HideLowerDomainOfInfluencesInReports": false,
+              "ElectoralRegisterMultipleEnabled": false,
+              "ECollectingEnabled": false,
+              "ECollectingMinSignatureCount": 0,
+              "ECollectingMaxElectronicSignaturePercent": 0
             }
           ],
           "Canton": 1,
@@ -244,7 +257,11 @@
           "StistatMunicipality": false,
           "PublishResultsDisabled": false,
           "VotingCardFlatRateDisabled": false,
-          "HideLowerDomainOfInfluencesInReports": false
+          "HideLowerDomainOfInfluencesInReports": false,
+          "ElectoralRegisterMultipleEnabled": false,
+          "ECollectingEnabled": false,
+          "ECollectingMinSignatureCount": 0,
+          "ECollectingMaxElectronicSignaturePercent": 0
         },
         {
           "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
@@ -299,7 +316,11 @@
           "StistatMunicipality": false,
           "PublishResultsDisabled": false,
           "VotingCardFlatRateDisabled": false,
-          "HideLowerDomainOfInfluencesInReports": false
+          "HideLowerDomainOfInfluencesInReports": false,
+          "ElectoralRegisterMultipleEnabled": false,
+          "ECollectingEnabled": false,
+          "ECollectingMinSignatureCount": 0,
+          "ECollectingMaxElectronicSignaturePercent": 0
         }
       ],
       "Canton": 1,
@@ -346,7 +367,11 @@
       "StistatMunicipality": false,
       "PublishResultsDisabled": false,
       "VotingCardFlatRateDisabled": false,
-      "HideLowerDomainOfInfluencesInReports": false
+      "HideLowerDomainOfInfluencesInReports": false,
+      "ElectoralRegisterMultipleEnabled": false,
+      "ECollectingEnabled": false,
+      "ECollectingMinSignatureCount": 0,
+      "ECollectingMaxElectronicSignaturePercent": 0
     },
     {
       "Id": "22949a1e-fb09-47ec-9e9f-d26675676565",
@@ -410,7 +435,11 @@
           "StistatMunicipality": false,
           "PublishResultsDisabled": false,
           "VotingCardFlatRateDisabled": false,
-          "HideLowerDomainOfInfluencesInReports": false
+          "HideLowerDomainOfInfluencesInReports": false,
+          "ElectoralRegisterMultipleEnabled": false,
+          "ECollectingEnabled": false,
+          "ECollectingMinSignatureCount": 0,
+          "ECollectingMaxElectronicSignaturePercent": 0
         }
       ],
       "Canton": 1,
@@ -457,7 +486,11 @@
       "StistatMunicipality": false,
       "PublishResultsDisabled": false,
       "VotingCardFlatRateDisabled": false,
-      "HideLowerDomainOfInfluencesInReports": false
+      "HideLowerDomainOfInfluencesInReports": false,
+      "ElectoralRegisterMultipleEnabled": false,
+      "ECollectingEnabled": false,
+      "ECollectingMinSignatureCount": 0,
+      "ECollectingMaxElectronicSignaturePercent": 0
     }
   ]
 }

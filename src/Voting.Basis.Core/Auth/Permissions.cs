@@ -260,6 +260,8 @@ public static class Permissions
         public const string ReadSameTenant = Prefix + ReadSameTenantSuffix;
         public const string ReadAll = Prefix + ReadAllSuffix;
 
+        public const string Watch = Prefix + ":watch";
+
         private const string Prefix = "EventLog";
     }
 
@@ -276,5 +278,12 @@ public static class Permissions
         public const string ExportAllPoliticalBusinesses = Prefix + ":export-all-political-businesses";
 
         private const string Prefix = "Export";
+    }
+
+    public static class Country
+    {
+        public const string Read = Prefix + ReadSuffix;
+
+        private const string Prefix = "Country";
     }
 }

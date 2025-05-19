@@ -42,7 +42,8 @@
         "Electorates": [],
         "Canton": 1,
         "EVoting": false,
-        "EVotingActiveFrom": null
+        "EVotingActiveFrom": null,
+        "ECounting": false
       },
       "MergedCountingCircles": [
         {
@@ -85,7 +86,8 @@
           "Electorates": [],
           "Canton": 1,
           "EVoting": false,
-          "EVotingActiveFrom": null
+          "EVotingActiveFrom": null,
+          "ECounting": false
         },
         {
           "Id": "2a3a799a-2437-47da-86fe-06decf70a267",
@@ -127,7 +129,8 @@
           "Electorates": [],
           "Canton": 1,
           "EVoting": false,
-          "EVotingActiveFrom": null
+          "EVotingActiveFrom": null,
+          "ECounting": false
         }
       ],
       "CopyFromCountingCircleId": "2a3a799a-2437-47da-86fe-06decf70a267",

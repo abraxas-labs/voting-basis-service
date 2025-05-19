@@ -23,6 +23,9 @@ public class MajorityElectionCandidate
         Locality = string.Empty;
         Party = new Dictionary<string, string>();
         Origin = string.Empty;
+        Country = string.Empty;
+        Street = string.Empty;
+        HouseNumber = string.Empty;
     }
 
     public Guid Id { get; internal set; }
@@ -65,4 +68,10 @@ public class MajorityElectionCandidate
     public string Origin { get; private set; }
 
     public int CheckDigit { get; internal set; }
+
+    public string Country { get; private set; }
+
+    public string Street { get; private set; }
+
+    public string HouseNumber { get; private set; }
 }

@@ -51,7 +51,10 @@
       "PartyId": "d42d9fb1-4e68-4c4a-8d1f-7cf846c8304f",
       "ProportionalElectionId": "b849600e-305b-4d37-a999-214acdc88682",
       "Origin": "",
-      "CheckDigit": 6
+      "CheckDigit": 6,
+      "Country": "CH",
+      "Street": "street",
+      "HouseNumber": "1a"
     }
   }
 }

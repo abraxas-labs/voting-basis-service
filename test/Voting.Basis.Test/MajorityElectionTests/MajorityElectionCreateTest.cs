@@ -13,7 +13,6 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -113,8 +112,8 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
         majorityElection1.MatchSnapshot("1");
         majorityElection2.MatchSnapshot("2");
 
-        await AssertHasPublishedMessage<ContestDetailsChangeMessage>(
-            x => x.PoliticalBusiness.HasEqualIdAndNewEntityState(id1, EntityState.Added));
+        await AssertHasPublishedEventProcessedMessage(MajorityElectionCreated.Descriptor, id1);
+        await AssertHasPublishedEventProcessedMessage(MajorityElectionCreated.Descriptor, id2);
     }
 
     [Fact]
@@ -221,6 +220,36 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
         return AssertStatus(
             async () => await CantonAdminClient.CreateAsync(NewValidRequest(v => v.PoliticalBusinessNumber = "155")),
             StatusCode.AlreadyExists);
+    }
+
+    [Fact]
+    public Task DuplicateSecondaryMajorityElectionPoliticalBusinessIdShouldThrow()
+    {
+        return AssertStatus(
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(v =>
+            {
+                v.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
+                v.PoliticalBusinessNumber = "n1";
+            })),
+            StatusCode.AlreadyExists);
+    }
+
+    [Fact]
+    public async Task IdenticalPoliticalBusinessIdOtherPoliticalBusinessTypeShouldWork()
+    {
+        // Seed votes so we can check whether we can create a majority election with the same
+        // political business number as the vote
+        await VoteMockedData.Seed(RunScoped, seedContest: false);
+
+        await CantonAdminClient.CreateAsync(NewValidRequest(pe =>
+        {
+            pe.ContestId = VoteMockedData.GossauVoteInContestBund.ContestId.ToString();
+            pe.DomainOfInfluenceId = VoteMockedData.GossauVoteInContestBund.DomainOfInfluenceId.ToString();
+            pe.PoliticalBusinessNumber = VoteMockedData.GossauVoteInContestBund.PoliticalBusinessNumber;
+            pe.ReportDomainOfInfluenceLevel = 0;
+        }));
+
+        // If we get here, everything is fine
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

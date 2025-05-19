@@ -82,6 +82,9 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
                     PartyId = DomainOfInfluenceMockedData.PartyIdStGallenSP,
                     Origin = "origin",
                     CheckDigit = 9,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -120,6 +123,9 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
                     PartyId = DomainOfInfluenceMockedData.PartyIdStGallenSP,
                     Origin = "origin",
                     CheckDigit = 9,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -158,6 +164,9 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
                     PartyId = DomainOfInfluenceMockedData.PartyIdStGallenSP,
                     Origin = "origin",
                     CheckDigit = 9,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -196,6 +205,9 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
                     PartyId = DomainOfInfluenceMockedData.PartyIdGossauDeleted,
                     Origin = "origin",
                     CheckDigit = 9,
+                    Street = "street",
+                    HouseNumber = "1a",
+                    Country = "CH",
                 },
             });
 
@@ -339,6 +351,9 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
                 Title = "new title",
                 ZipCode = "new zip code",
                 Origin = "origin",
+                Street = "street",
+                HouseNumber = "1a",
+                Country = "CH",
             });
 
         var candidate = await CantonAdminClient.GetCandidateAsync(new GetProportionalElectionCandidateRequest
@@ -621,6 +636,9 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
             ZipCode = "zip code",
             PartyId = DomainOfInfluenceMockedData.PartyIdStGallenSP,
             Origin = "origin",
+            Street = "street",
+            HouseNumber = "1a",
+            Country = "CH",
         };
 
         customizer?.Invoke(request);
@@ -648,6 +666,9 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
             AccumulatedPosition = 2,
             PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
             Origin = "origin",
+            Street = "street",
+            HouseNumber = "1a",
+            Country = "CH",
         };
 
         customizer?.Invoke(request);

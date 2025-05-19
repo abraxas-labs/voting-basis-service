@@ -11,6 +11,7 @@ using Abraxas.Voting.Basis.Events.V1.Data;
 using Abraxas.Voting.Basis.Events.V1.Metadata;
 using FluentAssertions;
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MassTransit;
@@ -19,6 +20,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Extensions;
+using Voting.Basis.Core.Messaging;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.EventSignature;
@@ -111,7 +113,7 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
         {
             try
             {
-                await AuthorizationTestCall(CreateGrpcChannel(role == NoRole ? Array.Empty<string>() : new[] { role }));
+                await AuthorizationTestCall(CreateGrpcChannel(role == NoRole ? [] : [role]));
             }
             catch (Exception ex)
             {
@@ -135,6 +137,12 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
     {
         var hasOne = await MessagingTestHarness.Published.Any<T>(x => predicate(x.Context.Message));
         hasOne.Should().Be(hasMessage);
+    }
+
+    protected async Task AssertHasPublishedEventProcessedMessage(MessageDescriptor eventDescriptor, Guid entityId)
+    {
+        await AssertHasPublishedMessage<EventProcessedMessage>(
+            x => eventDescriptor.FullName == x.EventType && x.EntityId == entityId);
     }
 
     protected TService CreateAuthorizedClient(string tenantId, params string[] roles)

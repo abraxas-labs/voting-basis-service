@@ -39,7 +39,10 @@
     "Locality": "locality updated",
     "ProportionalElectionId": "b849600e-305b-4d37-a999-214acdc88682",
     "ProportionalElectionListId": "afab6f5d-4b4b-4e7c-87c4-6eb32b85163b",
-    "Origin": ""
+    "Origin": "",
+    "Country": "CH",
+    "Street": "street",
+    "HouseNumber": "1a"
   },
   "response": {
     "Id": "7c13d762-4166-41f6-b3a5-2c5f21c9dc43",
@@ -85,6 +88,9 @@
       }
     },
     "Origin": "",
-    "CheckDigit": 6
+    "CheckDigit": 6,
+    "Country": "CH",
+    "Street": "street",
+    "HouseNumber": "1a"
   }
 }

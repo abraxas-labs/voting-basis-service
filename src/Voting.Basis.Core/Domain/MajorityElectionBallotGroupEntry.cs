@@ -15,7 +15,7 @@ public class MajorityElectionBallotGroupEntry
     /// <summary>
     /// Gets the count of blank/empty rows.
     /// </summary>
-    public int BlankRowCount { get; private set; }
+    public int BlankRowCount { get; internal set; }
 
     public List<string> CandidateIds { get; private set; } = new();
 

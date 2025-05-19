@@ -4,11 +4,9 @@
 using System;
 using AutoMapper;
 using AutoMapper.Extensions.EnumMapping;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Lib.VotingExports.Models;
 using DomainOfInfluenceType = Voting.Basis.Data.Models.DomainOfInfluenceType;
-using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Mapping;
@@ -35,7 +33,6 @@ public class EnumProfile : Profile
         CreateEnumMap<SharedProto.BallotType, BallotType>();
         CreateEnumMap<SharedProto.VoteResultAlgorithm, VoteResultAlgorithm>();
         CreateEnumMap<SharedProto.VoteResultEntry, VoteResultEntry>();
-        CreateEnumMap<ProtoModels.EntityState, EntityState>();
         CreateEnumMap<SharedProto.VotingCardShippingFranking, VotingCardShippingFranking>();
         CreateEnumMap<SharedProto.VotingCardShippingMethod, VotingCardShippingMethod>();
         CreateEnumMap<SharedProto.ComparisonCountOfVotersCategory, ComparisonCountOfVotersCategory>();
@@ -61,6 +58,14 @@ public class EnumProfile : Profile
             .ConvertUsingEnumMapping(opt => opt
                 .MapByName()
                 .MapValue(SharedProto.SexType.Undefined, SexType.Female))
+            .ReverseMap();
+
+        // explicitly map deprecated values to default value.
+        CreateMap<SharedProto.VotingCardColor, VotingCardColor>()
+            .ConvertUsingEnumMapping(opt => opt
+                .MapByValue()
+                .MapValue(SharedProto.VotingCardColor.Chamois, VotingCardColor.Unspecified)
+                .MapValue(SharedProto.VotingCardColor.Gold, VotingCardColor.Unspecified))
             .ReverseMap();
     }
 

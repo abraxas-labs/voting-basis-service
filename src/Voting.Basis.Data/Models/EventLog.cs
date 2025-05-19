@@ -28,6 +28,22 @@ public class EventLog : BaseEntity
 
     public Guid? ContestId { get; set; }
 
+    /// <summary>
+    /// Gets or sets the id of the aggregate this event was applied to.
+    /// This is only set for events processed by the processor after this field was introduced.
+    /// E.g. if the event was fired after the introduction of this field,
+    /// or the events were replayed since.
+    /// </summary>
+    public Guid? AggregateId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the id of the entity this event affected.
+    /// This is only set for events processed by the processor after this field was introduced.
+    /// E.g. if the event was fired after the introduction of this field,
+    /// or the events were replayed since.
+    /// </summary>
+    public Guid? EntityId { get; set; }
+
     public Guid? PoliticalBusinessId { get; set; }
 
     public Guid? PoliticalBusinessUnionId { get; set; }

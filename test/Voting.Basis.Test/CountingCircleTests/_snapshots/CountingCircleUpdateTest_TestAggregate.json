@@ -1,439 +1,670 @@
 {
-  "CountingCircles_": [
-    {
-      "Id": "eea024ee-7f93-4a58-9e7d-6e6b0c11b723",
-      "Name": "Bund",
-      "Bfs": "1",
-      "ResponsibleAuthority": {
-        "SecureConnectId": "random",
-        "Name": "",
-        "Street": "",
-        "Zip": "",
-        "City": "",
-        "Phone": "",
-        "Email": ""
+  "countingCircles": {
+    "CountingCircles_": [
+      {
+        "Id": "eea024ee-7f93-4a58-9e7d-6e6b0c11b723",
+        "Name": "Bund",
+        "Bfs": "1",
+        "ResponsibleAuthority": {
+          "SecureConnectId": "random",
+          "Name": "",
+          "Street": "",
+          "Zip": "",
+          "City": "",
+          "Phone": "",
+          "Email": ""
+        },
+        "ContactPersonDuringEvent": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "ContactPersonSameDuringEventAsAfter": false,
+        "ContactPersonAfterEvent": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "State": 1,
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "Code": "1_code",
+        "SortNumber": 1,
+        "NameForProtocol": "",
+        "Electorates": [],
+        "Canton": 1,
+        "EVoting": false,
+        "EVotingActiveFrom": null,
+        "ECounting": false
       },
-      "ContactPersonDuringEvent": {
-        "FirstName": "",
-        "FamilyName": "",
-        "Phone": "",
-        "MobilePhone": "",
-        "Email": ""
-      },
-      "ContactPersonSameDuringEventAsAfter": false,
-      "ContactPersonAfterEvent": {
-        "FirstName": "",
-        "FamilyName": "",
-        "Phone": "",
-        "MobilePhone": "",
-        "Email": ""
-      },
-      "State": 1,
-      "Info": {
-        "CreatedOn": {
-          "Seconds": 1514764800,
+      {
+        "Id": "0bb8d89c-d387-40d0-83cf-84e118a8d524",
+        "Name": "Gossau",
+        "Bfs": "3443",
+        "ResponsibleAuthority": {
+          "SecureConnectId": "300300300300300300",
+          "Name": "",
+          "Street": "",
+          "Zip": "",
+          "City": "",
+          "Phone": "",
+          "Email": ""
+        },
+        "ContactPersonDuringEvent": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "ContactPersonSameDuringEventAsAfter": false,
+        "ContactPersonAfterEvent": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "State": 1,
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "Code": "3443c",
+        "SortNumber": 9001,
+        "NameForProtocol": "Stadt Gossau",
+        "Electorates": [],
+        "Canton": 1,
+        "EVoting": true,
+        "EVotingActiveFrom": {
+          "Seconds": 1546300800,
           "Nanos": 0
         },
-        "ModifiedOn": {
-          "Seconds": 1514764800,
-          "Nanos": 0
+        "ECounting": true
+      },
+      {
+        "Id": "3ec3d50c-6cb7-4ba1-bd1a-2882153834b0",
+        "Name": "Jona",
+        "Bfs": "none",
+        "ResponsibleAuthority": {
+          "SecureConnectId": "random",
+          "Name": "",
+          "Street": "",
+          "Zip": "",
+          "City": "",
+          "Phone": "",
+          "Email": ""
         },
-        "DeletedOn": null
-      },
-      "Code": "1_code",
-      "SortNumber": 1,
-      "NameForProtocol": "",
-      "Electorates": [],
-      "Canton": 1,
-      "EVoting": false,
-      "EVotingActiveFrom": null
-    },
-    {
-      "Id": "0bb8d89c-d387-40d0-83cf-84e118a8d524",
-      "Name": "Gossau",
-      "Bfs": "3443",
-      "ResponsibleAuthority": {
-        "SecureConnectId": "300300300300300300",
-        "Name": "",
-        "Street": "",
-        "Zip": "",
-        "City": "",
-        "Phone": "",
-        "Email": ""
-      },
-      "ContactPersonDuringEvent": {
-        "FirstName": "",
-        "FamilyName": "",
-        "Phone": "",
-        "MobilePhone": "",
-        "Email": ""
-      },
-      "ContactPersonSameDuringEventAsAfter": false,
-      "ContactPersonAfterEvent": {
-        "FirstName": "",
-        "FamilyName": "",
-        "Phone": "",
-        "MobilePhone": "",
-        "Email": ""
-      },
-      "State": 1,
-      "Info": {
-        "CreatedOn": {
-          "Seconds": 1514764800,
-          "Nanos": 0
+        "ContactPersonDuringEvent": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
         },
-        "ModifiedOn": {
-          "Seconds": 1514764800,
-          "Nanos": 0
+        "ContactPersonSameDuringEventAsAfter": false,
+        "ContactPersonAfterEvent": {
+          "FirstName": "Hans-sg",
+          "FamilyName": "Muster-sg",
+          "Phone": "071 123 12 21",
+          "MobilePhone": "071 123 12 31",
+          "Email": "jona@abraxas.ch"
         },
-        "DeletedOn": null
-      },
-      "Code": "3443c",
-      "SortNumber": 9001,
-      "NameForProtocol": "Stadt Gossau",
-      "Electorates": [],
-      "Canton": 1,
-      "EVoting": true,
-      "EVotingActiveFrom": {
-        "Seconds": 1546300800,
-        "Nanos": 0
-      }
-    },
-    {
-      "Id": "3ec3d50c-6cb7-4ba1-bd1a-2882153834b0",
-      "Name": "Jona",
-      "Bfs": "none",
-      "ResponsibleAuthority": {
-        "SecureConnectId": "random",
-        "Name": "",
-        "Street": "",
-        "Zip": "",
-        "City": "",
-        "Phone": "",
-        "Email": ""
-      },
-      "ContactPersonDuringEvent": {
-        "FirstName": "",
-        "FamilyName": "",
-        "Phone": "",
-        "MobilePhone": "",
-        "Email": ""
-      },
-      "ContactPersonSameDuringEventAsAfter": false,
-      "ContactPersonAfterEvent": {
-        "FirstName": "Hans-sg",
-        "FamilyName": "Muster-sg",
-        "Phone": "071 123 12 21",
-        "MobilePhone": "071 123 12 31",
-        "Email": "jona@abraxas.ch"
-      },
-      "State": 1,
-      "Info": {
-        "CreatedOn": {
-          "Seconds": 1514764800,
-          "Nanos": 0
+        "State": 1,
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
         },
-        "ModifiedOn": {
-          "Seconds": 1514764800,
-          "Nanos": 0
+        "Code": "nonec",
+        "SortNumber": 9005,
+        "NameForProtocol": "Stadt Jona",
+        "Electorates": [],
+        "Canton": 1,
+        "EVoting": false,
+        "EVotingActiveFrom": null,
+        "ECounting": false
+      },
+      {
+        "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a4e",
+        "Name": "Kirche Uzwil",
+        "Bfs": "none",
+        "ResponsibleAuthority": {
+          "SecureConnectId": "kirche-uzwil-010000",
+          "Name": "",
+          "Street": "",
+          "Zip": "",
+          "City": "",
+          "Phone": "",
+          "Email": ""
         },
-        "DeletedOn": null
-      },
-      "Code": "nonec",
-      "SortNumber": 9005,
-      "NameForProtocol": "Stadt Jona",
-      "Electorates": [],
-      "Canton": 1,
-      "EVoting": false,
-      "EVotingActiveFrom": null
-    },
-    {
-      "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a4e",
-      "Name": "Kirche Uzwil",
-      "Bfs": "none",
-      "ResponsibleAuthority": {
-        "SecureConnectId": "kirche-uzwil-010000",
-        "Name": "",
-        "Street": "",
-        "Zip": "",
-        "City": "",
-        "Phone": "",
-        "Email": ""
-      },
-      "ContactPersonDuringEvent": {
-        "FirstName": "",
-        "FamilyName": "",
-        "Phone": "",
-        "MobilePhone": "",
-        "Email": ""
-      },
-      "ContactPersonSameDuringEventAsAfter": false,
-      "ContactPersonAfterEvent": {
-        "FirstName": "",
-        "FamilyName": "",
-        "Phone": "",
-        "MobilePhone": "",
-        "Email": ""
-      },
-      "State": 1,
-      "Info": {
-        "CreatedOn": {
-          "Seconds": 1514764800,
-          "Nanos": 0
+        "ContactPersonDuringEvent": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
         },
-        "ModifiedOn": {
-          "Seconds": 1514764800,
-          "Nanos": 0
+        "ContactPersonSameDuringEventAsAfter": false,
+        "ContactPersonAfterEvent": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
         },
-        "DeletedOn": null
-      },
-      "Code": "nonec",
-      "SortNumber": 21500,
-      "NameForProtocol": "Kirche Uzwil",
-      "Electorates": [],
-      "Canton": 1,
-      "EVoting": false,
-      "EVotingActiveFrom": null
-    },
-    {
-      "Id": "c375f97a-0ba2-4a93-8c76-08a0661d9962",
-      "Name": "Kirche Uzwil Andere",
-      "Bfs": "none",
-      "ResponsibleAuthority": {
-        "SecureConnectId": "kirche-uzwil-010000",
-        "Name": "",
-        "Street": "",
-        "Zip": "",
-        "City": "",
-        "Phone": "",
-        "Email": ""
-      },
-      "ContactPersonDuringEvent": {
-        "FirstName": "",
-        "FamilyName": "",
-        "Phone": "",
-        "MobilePhone": "",
-        "Email": ""
-      },
-      "ContactPersonSameDuringEventAsAfter": false,
-      "ContactPersonAfterEvent": {
-        "FirstName": "",
-        "FamilyName": "",
-        "Phone": "",
-        "MobilePhone": "",
-        "Email": ""
-      },
-      "State": 1,
-      "Info": {
-        "CreatedOn": {
-          "Seconds": 1514764800,
-          "Nanos": 0
+        "State": 1,
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
         },
-        "ModifiedOn": {
-          "Seconds": 1514764800,
-          "Nanos": 0
+        "Code": "nonec",
+        "SortNumber": 21500,
+        "NameForProtocol": "Kirche Uzwil",
+        "Electorates": [],
+        "Canton": 1,
+        "EVoting": false,
+        "EVotingActiveFrom": null,
+        "ECounting": false
+      },
+      {
+        "Id": "c375f97a-0ba2-4a93-8c76-08a0661d9962",
+        "Name": "Kirche Uzwil Andere",
+        "Bfs": "none",
+        "ResponsibleAuthority": {
+          "SecureConnectId": "kirche-uzwil-010000",
+          "Name": "",
+          "Street": "",
+          "Zip": "",
+          "City": "",
+          "Phone": "",
+          "Email": ""
         },
-        "DeletedOn": null
-      },
-      "Code": "none_uc",
-      "SortNumber": 21500,
-      "NameForProtocol": "Kirche Uzwil Andere",
-      "Electorates": [],
-      "Canton": 1,
-      "EVoting": false,
-      "EVotingActiveFrom": null
-    },
-    {
-      "Id": "2a3a799a-2437-47da-86fe-06decf70a267",
-      "Name": "Rapperswil",
-      "Bfs": "none",
-      "ResponsibleAuthority": {
-        "SecureConnectId": "random",
-        "Name": "",
-        "Street": "",
-        "Zip": "",
-        "City": "",
-        "Phone": "",
-        "Email": ""
-      },
-      "ContactPersonDuringEvent": {
-        "FirstName": "",
-        "FamilyName": "",
-        "Phone": "",
-        "MobilePhone": "",
-        "Email": ""
-      },
-      "ContactPersonSameDuringEventAsAfter": true,
-      "ContactPersonAfterEvent": {
-        "FirstName": "Hans-sg",
-        "FamilyName": "Muster-sg",
-        "Phone": "071 123 12 21",
-        "MobilePhone": "071 123 12 31",
-        "Email": "rapperswil@abraxas.ch"
-      },
-      "State": 1,
-      "Info": {
-        "CreatedOn": {
-          "Seconds": 1514764800,
-          "Nanos": 0
+        "ContactPersonDuringEvent": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
         },
-        "ModifiedOn": {
-          "Seconds": 1514764800,
-          "Nanos": 0
+        "ContactPersonSameDuringEventAsAfter": false,
+        "ContactPersonAfterEvent": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
         },
-        "DeletedOn": null
-      },
-      "Code": "nonec",
-      "SortNumber": 9004,
-      "NameForProtocol": "Stadt Rapperswil",
-      "Electorates": [],
-      "Canton": 1,
-      "EVoting": false,
-      "EVotingActiveFrom": null
-    },
-    {
-      "Id": "1e2e062e-288d-4347-9f22-224e69b95bed",
-      "Name": "St. Gallen-2",
-      "Bfs": "55002",
-      "ResponsibleAuthority": {
-        "SecureConnectId": "123444",
-        "Name": "St. Gallen2",
-        "Street": "WerkstrasseSG",
-        "Zip": "9000",
-        "City": "MyCitysg",
-        "Phone": "072 123 12 20",
-        "Email": "sg2@abraxas.ch"
-      },
-      "ContactPersonDuringEvent": {
-        "FirstName": "Hans-sg2",
-        "FamilyName": "Muster-sg2",
-        "Phone": "072 123 12 21",
-        "MobilePhone": "072 123 12 31",
-        "Email": "sg2@abraxas.ch"
-      },
-      "ContactPersonSameDuringEventAsAfter": false,
-      "ContactPersonAfterEvent": {
-        "FirstName": "Rudolph-sg2",
-        "FamilyName": "Wichtig-sg2",
-        "Phone": "072 123 12 22",
-        "MobilePhone": "072 123 12 33",
-        "Email": "sg2@abraxas.ch"
-      },
-      "State": 1,
-      "Info": {
-        "CreatedOn": {
-          "Seconds": 1514764800,
-          "Nanos": 0
+        "State": 1,
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
         },
-        "ModifiedOn": {
-          "Seconds": 1594980476,
-          "Nanos": 0
-        },
-        "DeletedOn": null
+        "Code": "none_uc",
+        "SortNumber": 21500,
+        "NameForProtocol": "Kirche Uzwil Andere",
+        "Electorates": [],
+        "Canton": 1,
+        "EVoting": false,
+        "EVotingActiveFrom": null,
+        "ECounting": false
       },
-      "Code": "",
-      "SortNumber": 102,
-      "NameForProtocol": "St. Gallen updated",
-      "Electorates": [],
-      "Canton": 1,
-      "EVoting": false,
-      "EVotingActiveFrom": null
-    },
-    {
-      "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e",
-      "Name": "Uzwil-2",
-      "Bfs": "1234-2",
-      "ResponsibleAuthority": {
-        "SecureConnectId": "000000000000000000",
+      {
+        "Id": "2a3a799a-2437-47da-86fe-06decf70a267",
+        "Name": "Rapperswil",
+        "Bfs": "none",
+        "ResponsibleAuthority": {
+          "SecureConnectId": "random",
+          "Name": "",
+          "Street": "",
+          "Zip": "",
+          "City": "",
+          "Phone": "",
+          "Email": ""
+        },
+        "ContactPersonDuringEvent": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "ContactPersonSameDuringEventAsAfter": true,
+        "ContactPersonAfterEvent": {
+          "FirstName": "Hans-sg",
+          "FamilyName": "Muster-sg",
+          "Phone": "071 123 12 21",
+          "MobilePhone": "071 123 12 31",
+          "Email": "rapperswil@abraxas.ch"
+        },
+        "State": 1,
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "Code": "nonec",
+        "SortNumber": 9004,
+        "NameForProtocol": "Stadt Rapperswil",
+        "Electorates": [],
+        "Canton": 1,
+        "EVoting": false,
+        "EVotingActiveFrom": null,
+        "ECounting": false
+      },
+      {
+        "Id": "1e2e062e-288d-4347-9f22-224e69b95bed",
+        "Name": "St. Gallen-2",
+        "Bfs": "55002",
+        "ResponsibleAuthority": {
+          "SecureConnectId": "123444",
+          "Name": "St. Gallen2",
+          "Street": "WerkstrasseSG",
+          "Zip": "9000",
+          "City": "MyCitysg",
+          "Phone": "072 123 12 20",
+          "Email": "sg2@abraxas.ch"
+        },
+        "ContactPersonDuringEvent": {
+          "FirstName": "Hans-sg2",
+          "FamilyName": "Muster-sg2",
+          "Phone": "072 123 12 21",
+          "MobilePhone": "072 123 12 31",
+          "Email": "sg2@abraxas.ch"
+        },
+        "ContactPersonSameDuringEventAsAfter": false,
+        "ContactPersonAfterEvent": {
+          "FirstName": "Rudolph-sg2",
+          "FamilyName": "Wichtig-sg2",
+          "Phone": "072 123 12 22",
+          "MobilePhone": "072 123 12 33",
+          "Email": "sg2@abraxas.ch"
+        },
+        "State": 1,
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1594980476,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "Code": "",
+        "SortNumber": 102,
+        "NameForProtocol": "St. Gallen updated",
+        "Electorates": [],
+        "Canton": 1,
+        "EVoting": false,
+        "EVotingActiveFrom": null,
+        "ECounting": false
+      },
+      {
+        "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e",
         "Name": "Uzwil-2",
-        "Street": "WerkstrasseX",
-        "Zip": "9200",
-        "City": "MyCityX",
-        "Phone": "072 123 12 20",
-        "Email": "uzwil-test2@abraxas.ch"
-      },
-      "ContactPersonDuringEvent": {
-        "FirstName": "Hans-2",
-        "FamilyName": "Muster-2",
-        "Phone": "072 123 12 21",
-        "MobilePhone": "072 123 12 31",
-        "Email": "uzwil-test-2@abraxas.ch"
-      },
-      "ContactPersonSameDuringEventAsAfter": false,
-      "ContactPersonAfterEvent": {
-        "FirstName": "Rudolph-2",
-        "FamilyName": "Wichtig-2",
-        "Phone": "072 123 12 22",
-        "MobilePhone": "072 123 12 33",
-        "Email": "uzwil-test22@abraxas.ch"
-      },
-      "State": 1,
-      "Info": {
-        "CreatedOn": {
-          "Seconds": 1514764800,
-          "Nanos": 0
+        "Bfs": "1234-2",
+        "ResponsibleAuthority": {
+          "SecureConnectId": "000000000000000000",
+          "Name": "Uzwil-2",
+          "Street": "WerkstrasseX",
+          "Zip": "9200",
+          "City": "MyCityX",
+          "Phone": "072 123 12 20",
+          "Email": "uzwil-test2@abraxas.ch"
         },
-        "ModifiedOn": {
-          "Seconds": 1594980476,
-          "Nanos": 0
+        "ContactPersonDuringEvent": {
+          "FirstName": "Hans-2",
+          "FamilyName": "Muster-2",
+          "Phone": "072 123 12 21",
+          "MobilePhone": "072 123 12 31",
+          "Email": "uzwil-test-2@abraxas.ch"
         },
-        "DeletedOn": null
+        "ContactPersonSameDuringEventAsAfter": false,
+        "ContactPersonAfterEvent": {
+          "FirstName": "Rudolph-2",
+          "FamilyName": "Wichtig-2",
+          "Phone": "072 123 12 22",
+          "MobilePhone": "072 123 12 33",
+          "Email": "uzwil-test22@abraxas.ch"
+        },
+        "State": 1,
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1594980476,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "Code": "Code234",
+        "SortNumber": 101,
+        "NameForProtocol": "Uzwil updated",
+        "Electorates": [
+          {
+            "DomainOfInfluenceTypes": [
+              1
+            ]
+          }
+        ],
+        "Canton": 1,
+        "EVoting": false,
+        "EVotingActiveFrom": null,
+        "ECounting": true
       },
-      "Code": "Code234",
-      "SortNumber": 101,
-      "NameForProtocol": "Uzwil updated",
-      "Electorates": [
-        {
-          "DomainOfInfluenceTypes": [
-            1
-          ]
-        }
-      ],
-      "Canton": 1,
-      "EVoting": false,
-      "EVotingActiveFrom": null
-    },
-    {
-      "Id": "5f6726d6-05e4-4dc3-9283-a48fce74615b",
-      "Name": "Zürich",
-      "Bfs": "1234",
-      "ResponsibleAuthority": {
-        "SecureConnectId": "zürich-sec-id",
+      {
+        "Id": "5f6726d6-05e4-4dc3-9283-a48fce74615b",
         "Name": "Zürich",
-        "Street": "WerkstrasseX",
-        "Zip": "9000",
-        "City": "MyCityX",
-        "Phone": "071 123 12 20",
-        "Email": "zh@abraxas.ch"
-      },
-      "ContactPersonDuringEvent": {
-        "FirstName": "Hans-zh",
-        "FamilyName": "Muster-zh",
-        "Phone": "071 123 12 21",
-        "MobilePhone": "071 123 12 31",
-        "Email": "zh@abraxas.ch"
-      },
-      "ContactPersonSameDuringEventAsAfter": true,
-      "ContactPersonAfterEvent": null,
-      "State": 1,
-      "Info": {
-        "CreatedOn": {
-          "Seconds": 1514764800,
-          "Nanos": 0
+        "Bfs": "1234",
+        "ResponsibleAuthority": {
+          "SecureConnectId": "zürich-sec-id",
+          "Name": "Zürich",
+          "Street": "WerkstrasseX",
+          "Zip": "9000",
+          "City": "MyCityX",
+          "Phone": "071 123 12 20",
+          "Email": "zh@abraxas.ch"
         },
-        "ModifiedOn": {
-          "Seconds": 1514764800,
-          "Nanos": 0
+        "ContactPersonDuringEvent": {
+          "FirstName": "Hans-zh",
+          "FamilyName": "Muster-zh",
+          "Phone": "071 123 12 21",
+          "MobilePhone": "071 123 12 31",
+          "Email": "zh@abraxas.ch"
         },
-        "DeletedOn": null
+        "ContactPersonSameDuringEventAsAfter": true,
+        "ContactPersonAfterEvent": null,
+        "State": 1,
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "Code": "1234c",
+        "SortNumber": 9000,
+        "NameForProtocol": "Zürich",
+        "Electorates": [],
+        "Canton": 3,
+        "EVoting": false,
+        "EVotingActiveFrom": null,
+        "ECounting": false
+      }
+    ]
+  },
+  "permissions": {
+    "AutoGenerated": [
+      {
+        "TenantId": "000000000000000000",
+        "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524",
+          "1e2e062e-288d-4347-9f22-224e69b95bed",
+          "2a3a799a-2437-47da-86fe-06decf70a267",
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
       },
-      "Code": "1234c",
-      "SortNumber": 9000,
-      "NameForProtocol": "Zürich",
-      "Electorates": [],
-      "Canton": 3,
-      "EVoting": false,
-      "EVotingActiveFrom": null
-    }
-  ]
+      {
+        "TenantId": "000000000000000000",
+        "DomainOfInfluenceId": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
+        "CountingCircleIds": [],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "000000000000000000",
+        "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "000000000000000000",
+        "DomainOfInfluenceId": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
+        "CountingCircleIds": [
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "000000000000000000",
+        "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "CountingCircleIds": [
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "100100100100100100",
+        "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "CountingCircleIds": [],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "100100100100100100",
+        "DomainOfInfluenceId": "22949a1e-fb09-47ec-9e9f-d26675676565",
+        "CountingCircleIds": [
+          "c375f97a-0ba2-4a93-8c76-08a0661d9962",
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a4e"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "100100100100100100",
+        "DomainOfInfluenceId": "692be088-00e2-490c-b1fd-828adc38571d",
+        "CountingCircleIds": [
+          "c375f97a-0ba2-4a93-8c76-08a0661d9962"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "100100100100100100",
+        "DomainOfInfluenceId": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
+        "CountingCircleIds": [
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "100100100100100100",
+        "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "CountingCircleIds": [],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "123444",
+        "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "CountingCircleIds": [
+          "1e2e062e-288d-4347-9f22-224e69b95bed"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "123444",
+        "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "CountingCircleIds": [
+          "1e2e062e-288d-4347-9f22-224e69b95bed"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "300300300300300300",
+        "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "300300300300300300",
+        "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "300300300300300300",
+        "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "kirche-uzwil-010000",
+        "DomainOfInfluenceId": "22949a1e-fb09-47ec-9e9f-d26675676565",
+        "CountingCircleIds": [
+          "c375f97a-0ba2-4a93-8c76-08a0661d9962",
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a4e"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "kirche-uzwil-010000",
+        "DomainOfInfluenceId": "692be088-00e2-490c-b1fd-828adc38571d",
+        "CountingCircleIds": [
+          "c375f97a-0ba2-4a93-8c76-08a0661d9962"
+        ],
+        "IsParent": true,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "random",
+        "DomainOfInfluenceId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524",
+          "1e2e062e-288d-4347-9f22-224e69b95bed",
+          "2a3a799a-2437-47da-86fe-06decf70a267",
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "random",
+        "DomainOfInfluenceId": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
+        "CountingCircleIds": [],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "random",
+        "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "random",
+        "DomainOfInfluenceId": "ade30989-5e28-40c7-918c-2c9408f853ba",
+        "CountingCircleIds": [],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "random",
+        "DomainOfInfluenceId": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
+        "CountingCircleIds": [
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "random",
+        "DomainOfInfluenceId": "eae2cfaf-c787-48b9-a108-c975b0a580da",
+        "CountingCircleIds": [
+          "0bb8d89c-d387-40d0-83cf-84e118a8d524",
+          "1e2e062e-288d-4347-9f22-224e69b95bed",
+          "2a3a799a-2437-47da-86fe-06decf70a267",
+          "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e",
+          "eea024ee-7f93-4a58-9e7d-6e6b0c11b723"
+        ],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "TenantId": "zürich-sec-id",
+        "DomainOfInfluenceId": "8af17c9d-6bae-45bf-a85b-b77239f2eefb",
+        "CountingCircleIds": [],
+        "IsParent": false,
+        "Id": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  }
 }

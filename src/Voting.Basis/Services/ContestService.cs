@@ -117,32 +117,18 @@ public class ContestService : ServiceBase
     }
 
     [AuthorizeAnyPermission(Permissions.Contest.ReadTenantHierarchy, Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll)]
-    public override Task GetOverviewChanges(
-        GetContestOverviewChangesRequest request,
-        IServerStreamWriter<ContestOverviewChangeMessage> responseStream,
-        ServerCallContext context)
-    {
-        return _contestReader.ListenToContestOverviewChanges(
-            e => responseStream.WriteAsync(_mapper.Map<ContestOverviewChangeMessage>(e)),
-            context.CancellationToken);
-    }
-
-    [AuthorizeAnyPermission(Permissions.Contest.ReadTenantHierarchy, Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll)]
-    public override Task GetDetailsChanges(
-        GetContestDetailsChangesRequest request,
-        IServerStreamWriter<ContestDetailsChangeMessage> responseStream,
-        ServerCallContext context)
-    {
-        return _contestReader.ListenToContestDetailsChanges(
-            GuidParser.Parse(request.Id),
-            e => responseStream.WriteAsync(_mapper.Map<ContestDetailsChangeMessage>(e)),
-            context.CancellationToken);
-    }
-
-    [AuthorizeAnyPermission(Permissions.Contest.ReadTenantHierarchy, Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll)]
     public override async Task<PoliticalBusinessSummaries> ListPoliticalBusinessSummaries(ListPoliticalBusinessSummariesRequest request, ServerCallContext context)
     {
         var politicalBusinessSummaries = await _contestReader.ListPoliticalBusinessSummaries(Guid.Parse(request.ContestId));
         return _mapper.Map<PoliticalBusinessSummaries>(politicalBusinessSummaries);
+    }
+
+    [AuthorizeAnyPermission(Permissions.Contest.ReadTenantHierarchy, Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll)]
+    public override async Task<PoliticalBusinessSummary> GetPoliticalBusinessSummary(GetPoliticalBusinessSummaryRequest request, ServerCallContext context)
+    {
+        var summary = await _contestReader.GetPoliticalBusinessSummary(
+            (PoliticalBusinessType)request.PoliticalBusinessType,
+            Guid.Parse(request.PoliticalBusinessId));
+        return _mapper.Map<PoliticalBusinessSummary>(summary);
     }
 }

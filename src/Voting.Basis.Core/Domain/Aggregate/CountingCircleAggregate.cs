@@ -76,6 +76,8 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
 
     public DomainOfInfluenceCanton Canton { get; private set; }
 
+    public bool ECounting { get; private set; }
+
     public bool EVoting { get; private set; }
 
     public DateTime? EVotingActiveFrom { get; private set; }
@@ -225,6 +227,11 @@ public sealed class CountingCircleAggregate : BaseDeletableAggregate
             if (!EVotingActiveFrom.Equals(countingCircle.EVotingActiveFrom))
             {
                 throw new ForbiddenException("only admins are allowed to update e-voting");
+            }
+
+            if (ECounting != countingCircle.ECounting)
+            {
+                throw new ForbiddenException("only admins are allowed to update e-counting");
             }
         }
 

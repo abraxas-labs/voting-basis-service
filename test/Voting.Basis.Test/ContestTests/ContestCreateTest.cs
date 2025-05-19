@@ -17,7 +17,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
-using Voting.Basis.Core.Messaging.Messages;
 using Voting.Basis.Data.Models;
 using Voting.Basis.EventSignature;
 using Voting.Basis.Test.MockedData;
@@ -163,10 +162,8 @@ public class ContestCreateTest : BaseGrpcTest<ContestService.ContestServiceClien
         contestEntities[0].PastLockPer.Should().Be(contestEv1.Contest.Date.ToDateTime().NextUtcDate(true));
         contestEntities[1].PastLockPer.Should().Be(contestEv2.Contest.Date.ToDateTime().NextUtcDate(true));
 
-        await AssertHasPublishedMessage<ContestOverviewChangeMessage>(
-            x => x.Contest.HasEqualIdAndNewEntityState(contestId1, EntityState.Added));
-        await AssertHasPublishedMessage<ContestOverviewChangeMessage>(
-            x => x.Contest.HasEqualIdAndNewEntityState(contestId2, EntityState.Added));
+        await AssertHasPublishedEventProcessedMessage(ContestCreated.Descriptor, contestId1);
+        await AssertHasPublishedEventProcessedMessage(ContestCreated.Descriptor, contestId2);
     }
 
     [Fact]

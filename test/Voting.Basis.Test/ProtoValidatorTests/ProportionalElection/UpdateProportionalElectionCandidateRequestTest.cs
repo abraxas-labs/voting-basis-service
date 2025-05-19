@@ -49,6 +49,13 @@ public class UpdateProportionalElectionCandidateRequestTest : ProtoValidatorBase
         yield return NewValidRequest(x => x.Origin = string.Empty);
         yield return NewValidRequest(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(1));
         yield return NewValidRequest(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(50));
+        yield return NewValidRequest(x => x.Street = string.Empty);
+        yield return NewValidRequest(x => x.Street = RandomStringUtil.GenerateComplexSingleLineText(1));
+        yield return NewValidRequest(x => x.Street = RandomStringUtil.GenerateComplexSingleLineText(60));
+        yield return NewValidRequest(x => x.HouseNumber = string.Empty);
+        yield return NewValidRequest(x => x.HouseNumber = RandomStringUtil.GenerateAlphanumericWhitespace(1));
+        yield return NewValidRequest(x => x.HouseNumber = RandomStringUtil.GenerateAlphanumericWhitespace(12));
+        yield return NewValidRequest(x => x.Country = RandomStringUtil.GenerateAlphabetic(2));
     }
 
     protected override IEnumerable<UpdateProportionalElectionCandidateRequest> NotOkMessages()
@@ -92,6 +99,11 @@ public class UpdateProportionalElectionCandidateRequestTest : ProtoValidatorBase
         yield return NewValidRequest(x => x.PartyId = "invalid-guid");
         yield return NewValidRequest(x => x.PartyId = string.Empty);
         yield return NewValidRequest(x => x.Origin = RandomStringUtil.GenerateComplexSingleLineText(81));
+        yield return NewValidRequest(x => x.Street = RandomStringUtil.GenerateComplexSingleLineText(61));
+        yield return NewValidRequest(x => x.HouseNumber = RandomStringUtil.GenerateAlphanumericWhitespace(13));
+        yield return NewValidRequest(x => x.Country = RandomStringUtil.GenerateAlphabetic(1));
+        yield return NewValidRequest(x => x.Country = RandomStringUtil.GenerateAlphabetic(3));
+        yield return NewValidRequest(x => x.Country = string.Empty);
     }
 
     private UpdateProportionalElectionCandidateRequest NewValidRequest(Action<UpdateProportionalElectionCandidateRequest>? action = null)
@@ -118,6 +130,9 @@ public class UpdateProportionalElectionCandidateRequestTest : ProtoValidatorBase
             AccumulatedPosition = 2,
             PartyId = "da36912c-7eaf-43fe-86d4-70c816f17c5a",
             Origin = "origin",
+            Street = "street",
+            HouseNumber = "1a",
+            Country = "CH",
         };
 
         action?.Invoke(request);
