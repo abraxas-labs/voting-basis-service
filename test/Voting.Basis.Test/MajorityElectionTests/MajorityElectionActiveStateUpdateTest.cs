@@ -84,6 +84,18 @@ public class MajorityElectionActiveStateUpdateTest : PoliticalBusinessAuthorizat
     }
 
     [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateActiveStateAsync(NewValidRequest(x =>
+            {
+                x.Id = MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
+    [Fact]
     public async Task SetActiveWithInvalidBallotGroupVoteCountsShouldThrow()
     {
         await CantonAdminClient.CreateBallotGroupAsync(new CreateMajorityElectionBallotGroupRequest

@@ -201,6 +201,20 @@ public class SecondaryMajorityElectionUpdateTest : PoliticalBusinessAuthorizatio
     }
 
     [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateSecondaryMajorityElectionAsync(NewValidRequest(x =>
+            {
+                x.Id = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen;
+                x.PrimaryMajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen;
+                x.IndividualCandidatesDisabled = false;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
+    [Fact]
     public Task DuplicatePoliticalBusinessIdShouldThrow()
     {
         return AssertStatus(

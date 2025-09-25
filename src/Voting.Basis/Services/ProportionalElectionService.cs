@@ -65,6 +65,13 @@ public class ProportionalElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizeAnyPermission(Permissions.ProportionalElection.EVotingApprove, Permissions.ProportionalElection.EVotingApproveRevert)]
+    public override async Task<Empty> UpdateEVotingApproval(UpdateProportionalElectionEVotingApprovalRequest request, ServerCallContext context)
+    {
+        await _proportionalElectionWriter.UpdateEVotingApproval(GuidParser.Parse(request.Id), request.Approved);
+        return ProtobufEmpty.Instance;
+    }
+
     [AuthorizePermission(Permissions.ProportionalElection.Delete)]
     public override async Task<Empty> Delete(
         DeleteProportionalElectionRequest request,

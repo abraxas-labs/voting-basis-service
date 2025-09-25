@@ -24,6 +24,7 @@ public class MajorityElectionProcessor :
     IEventProcessor<MajorityElectionUpdated>,
     IEventProcessor<MajorityElectionAfterTestingPhaseUpdated>,
     IEventProcessor<MajorityElectionActiveStateUpdated>,
+    IEventProcessor<MajorityElectionEVotingApprovalUpdated>,
     IEventProcessor<MajorityElectionDeleted>,
     IEventProcessor<MajorityElectionToNewContestMoved>,
     IEventProcessor<MajorityElectionCandidateCreated>,
@@ -145,6 +146,17 @@ public class MajorityElectionProcessor :
         var existingModel = await GetMajorityElection(majorityElectionId);
 
         existingModel.Active = eventData.Active;
+        await _repo.Update(existingModel);
+        await _simplePoliticalBusinessBuilder.Update(existingModel);
+        await _eventLogger.LogMajorityElectionEvent(eventData, existingModel);
+    }
+
+    public async Task Process(MajorityElectionEVotingApprovalUpdated eventData)
+    {
+        var majorityElectionId = GuidParser.Parse(eventData.MajorityElectionId);
+        var existingModel = await GetMajorityElection(majorityElectionId);
+
+        existingModel.EVotingApproved = eventData.Approved;
         await _repo.Update(existingModel);
         await _simplePoliticalBusinessBuilder.Update(existingModel);
         await _eventLogger.LogMajorityElectionEvent(eventData, existingModel);
@@ -276,7 +288,6 @@ public class MajorityElectionProcessor :
             candidateReference.Occupation = candidate.Occupation;
             candidateReference.OccupationTitle = candidate.OccupationTitle;
             candidateReference.Locality = candidate.Locality;
-            candidateReference.Number = candidate.Number;
             candidateReference.Party = candidate.Party;
             candidateReference.DateOfBirth = candidate.DateOfBirth;
             candidateReference.Sex = candidate.Sex;

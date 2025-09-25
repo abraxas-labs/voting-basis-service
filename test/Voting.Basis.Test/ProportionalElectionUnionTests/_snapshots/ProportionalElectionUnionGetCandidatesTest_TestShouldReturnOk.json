@@ -12,7 +12,7 @@
       "Sex": 2,
       "Title": "title",
       "Incumbent": true,
-      "ZipCode": "zip code",
+      "ZipCode": "7000",
       "Locality": "locality",
       "Origin": "origin"
     },
@@ -28,7 +28,7 @@
       "Sex": 2,
       "Title": "title",
       "Incumbent": true,
-      "ZipCode": "zip code",
+      "ZipCode": "7000",
       "Locality": "locality",
       "Origin": "origin"
     },
@@ -44,7 +44,7 @@
       "Sex": 2,
       "Title": "title 2",
       "Incumbent": false,
-      "ZipCode": "",
+      "ZipCode": "non-swiss",
       "Locality": "locality 2",
       "Origin": "origin 2"
     }

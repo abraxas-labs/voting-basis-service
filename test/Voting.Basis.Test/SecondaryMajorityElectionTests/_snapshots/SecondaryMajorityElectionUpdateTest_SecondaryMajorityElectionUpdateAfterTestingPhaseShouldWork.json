@@ -53,6 +53,7 @@
     "PrimaryMajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
     "Active": false,
     "IndividualCandidatesDisabled": false,
-    "IsOnSeparateBallot": false
+    "IsOnSeparateBallot": false,
+    "EVotingApproved": null
   }
 }

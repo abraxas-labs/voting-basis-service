@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
@@ -12,7 +13,9 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -143,46 +146,6 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     }
 
     [Fact]
-    public async Task ParentDoiWithSameTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(pe =>
-            {
-                pe.Id = ProportionalElectionMockedData.IdGossauProportionalElectionInContestGossau;
-                pe.ContestId = ContestMockedData.IdGossau;
-                pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen;
-            })),
-            StatusCode.InvalidArgument,
-            "some ids are not children of the parent node");
-    }
-
-    [Fact]
-    public async Task ChildDoiWithSameTenantShouldReturnOk()
-    {
-        await CantonAdminClient.UpdateAsync(NewValidRequest(pe =>
-        {
-            pe.ContestId = ContestMockedData.IdStGallenEvoting;
-            pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
-        }));
-
-        var eventData = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionUpdated>();
-        eventData.MatchSnapshot("event", d => d.ProportionalElection.Id);
-    }
-
-    [Fact]
-    public async Task SiblingDoiWithSameTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(pe =>
-            {
-                pe.ContestId = ContestMockedData.IdStGallenEvoting;
-                pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdThurgau;
-            })),
-            StatusCode.InvalidArgument,
-            "some ids are not children of the parent node");
-    }
-
-    [Fact]
     public async Task ContestChangeShouldThrow()
     {
         await AssertStatus(
@@ -192,6 +155,37 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
             })),
             StatusCode.InvalidArgument,
             "ContestId");
+    }
+
+    [Fact]
+    public async Task DomainOfInfluenceChangeShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
+            {
+                o.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(ModificationNotAllowedException));
+    }
+
+    [Fact]
+    public async Task MandateAlgorithmChangeShouldThrow()
+    {
+        await RunOnDb(async db =>
+        {
+            await db.ProportionalElectionUnions.Where(u => u.ProportionalElectionUnionEntries
+                .Any(e => e.ProportionalElectionId == Guid.Parse(ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallen)))
+                .ExecuteDeleteAsync();
+        });
+
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
+            {
+                o.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(ModificationNotAllowedException));
     }
 
     [Fact]
@@ -308,6 +302,18 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
             })),
             StatusCode.FailedPrecondition,
             "Contest is past locked or archived");
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(x =>
+            {
+                x.Id = ProportionalElectionMockedData.IdGossauProportionalElectionEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     [Fact]

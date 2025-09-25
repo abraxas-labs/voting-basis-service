@@ -219,6 +219,7 @@ public static class DomainOfInfluenceMockedData
             SecureConnectId = SecureConnectTestDefaults.MockedTenantDefault.Id,
             Type = DomainOfInfluenceType.Sk,
             ParentId = Guid.Parse(IdStGallen),
+            SortNumber = 1,
             ExportConfigurations = new List<ExportConfiguration>
             {
                     new ExportConfiguration
@@ -279,11 +280,16 @@ public static class DomainOfInfluenceMockedData
             },
             ElectoralRegistrationEnabled = true,
             StistatMunicipality = true,
+            IsMainVotingCardsDomainOfInfluence = true,
             PublishResultsDisabled = true,
             VotingCardFlatRateDisabled = true,
             ECollectingEnabled = true,
-            ECollectingMinSignatureCount = 10000,
-            ECollectingMaxElectronicSignaturePercent = 50,
+            ECollectingInitiativeMinSignatureCount = 10000,
+            ECollectingInitiativeMaxElectronicSignaturePercent = 50,
+            ECollectingInitiativeNumberOfMembersCommittee = 15,
+            ECollectingReferendumMinSignatureCount = 1000,
+            ECollectingReferendumMaxElectronicSignaturePercent = 20,
+            ECollectingEmail = "ecollecting@gossau.ch",
         };
 
     public static DomainOfInfluence Kirchgemeinde

@@ -71,8 +71,13 @@
     "HideLowerDomainOfInfluencesInReports": false,
     "ElectoralRegisterMultipleEnabled": false,
     "ECollectingEnabled": false,
-    "ECollectingMinSignatureCount": 0,
-    "ECollectingMaxElectronicSignaturePercent": 0
+    "ECollectingInitiativeMinSignatureCount": null,
+    "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+    "ECollectingInitiativeNumberOfMembersCommittee": null,
+    "ECollectingReferendumMinSignatureCount": null,
+    "ECollectingReferendumMaxElectronicSignaturePercent": null,
+    "ECollectingEmail": "",
+    "IsMainVotingCardsDomainOfInfluence": false
   },
   "EVoting": true,
   "EVotingFrom": {
@@ -155,12 +160,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
-      "Active": true
+      "Active": true,
+      "EVotingApproved": false
     },
     {
       "Id": "0fee4b4e-f16d-46a3-9f7a-2776ee5785db",
@@ -233,12 +244,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
-      "Active": true
+      "Active": true,
+      "EVotingApproved": false
     },
     {
       "Id": "30e170ba-ed97-4886-93c9-ee35b106a22e",
@@ -311,12 +328,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
-      "Active": true
+      "Active": true,
+      "EVotingApproved": false
     },
     {
       "Id": "96d8275f-f1f8-4933-a097-5c0c19f54567",
@@ -389,12 +412,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
-      "Active": true
+      "Active": true,
+      "EVotingApproved": false
     },
     {
       "Id": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
@@ -467,12 +496,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
-      "Active": true
+      "Active": true,
+      "EVotingApproved": false
     },
     {
       "Id": "8fd00ee5-cc68-4b33-86b0-cc9c58dc1b1f",
@@ -545,12 +580,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
-      "Active": true
+      "Active": true,
+      "EVotingApproved": false
     },
     {
       "Id": "607a9dbc-250a-4bbf-ab31-73c81f6556ba",
@@ -623,12 +664,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
-      "Active": false
+      "Active": false,
+      "EVotingApproved": false
     },
     {
       "Id": "a6ab97b9-ce86-4973-876e-a128ff279bf7",
@@ -701,12 +748,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
-      "Active": false
+      "Active": false,
+      "EVotingApproved": false
     },
     {
       "Id": "06f7ecb7-e175-4c3b-9ea5-cfc138d08278",
@@ -779,12 +832,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
-      "Active": false
+      "Active": false,
+      "EVotingApproved": false
     },
     {
       "Id": "da65e354-f668-4ae4-b3ef-c1a74764e99d",
@@ -857,12 +916,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
-      "Active": true
+      "Active": true,
+      "EVotingApproved": null
     },
     {
       "Id": "d66ced3e-a2e4-4178-932b-ac91ee6a9d85",
@@ -935,12 +1000,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
-      "Active": true
+      "Active": true,
+      "EVotingApproved": null
     },
     {
       "Id": "da091f50-9f11-4deb-9621-948fbfbdc322",
@@ -1013,12 +1084,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
-      "Active": true
+      "Active": true,
+      "EVotingApproved": null
     },
     {
       "Id": "8076dee2-f19b-4af9-80b1-69b0c7b1402b",
@@ -1066,7 +1143,7 @@
         "ResponsibleForVotingCards": true,
         "Bfs": "3443",
         "Code": "",
-        "SortNumber": 0,
+        "SortNumber": 1,
         "ExportConfigurations": [],
         "ReturnAddress": {
           "AddressLine1": "Stadtverwaltung Gossau",
@@ -1108,12 +1185,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": true,
-        "ECollectingMinSignatureCount": 10000,
-        "ECollectingMaxElectronicSignaturePercent": 50
+        "ECollectingInitiativeMinSignatureCount": 10000,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
+        "ECollectingInitiativeNumberOfMembersCommittee": 15,
+        "ECollectingReferendumMinSignatureCount": 1000,
+        "ECollectingReferendumMaxElectronicSignaturePercent": 20,
+        "ECollectingEmail": "ecollecting@gossau.ch",
+        "IsMainVotingCardsDomainOfInfluence": true
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 1,
-      "Active": true
+      "Active": true,
+      "EVotingApproved": false
     },
     {
       "Id": "50415df8-6ee9-4eb4-9e31-68c0d3021e76",
@@ -1161,7 +1244,7 @@
         "ResponsibleForVotingCards": true,
         "Bfs": "3443",
         "Code": "",
-        "SortNumber": 0,
+        "SortNumber": 1,
         "ExportConfigurations": [],
         "ReturnAddress": {
           "AddressLine1": "Stadtverwaltung Gossau",
@@ -1203,12 +1286,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": true,
-        "ECollectingMinSignatureCount": 10000,
-        "ECollectingMaxElectronicSignaturePercent": 50
+        "ECollectingInitiativeMinSignatureCount": 10000,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
+        "ECollectingInitiativeNumberOfMembersCommittee": 15,
+        "ECollectingReferendumMinSignatureCount": 1000,
+        "ECollectingReferendumMaxElectronicSignaturePercent": 20,
+        "ECollectingEmail": "ecollecting@gossau.ch",
+        "IsMainVotingCardsDomainOfInfluence": true
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
-      "Active": true
+      "Active": true,
+      "EVotingApproved": false
     },
     {
       "Id": "fa69e964-0a02-4d16-b417-247e8987021a",
@@ -1256,7 +1345,7 @@
         "ResponsibleForVotingCards": true,
         "Bfs": "3443",
         "Code": "",
-        "SortNumber": 0,
+        "SortNumber": 1,
         "ExportConfigurations": [],
         "ReturnAddress": {
           "AddressLine1": "Stadtverwaltung Gossau",
@@ -1298,12 +1387,119 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": true,
-        "ECollectingMinSignatureCount": 10000,
-        "ECollectingMaxElectronicSignaturePercent": 50
+        "ECollectingInitiativeMinSignatureCount": 10000,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
+        "ECollectingInitiativeNumberOfMembersCommittee": 15,
+        "ECollectingReferendumMinSignatureCount": 1000,
+        "ECollectingReferendumMaxElectronicSignaturePercent": 20,
+        "ECollectingEmail": "ecollecting@gossau.ch",
+        "IsMainVotingCardsDomainOfInfluence": true
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
-      "Active": true
+      "Active": true,
+      "EVotingApproved": false
+    },
+    {
+      "Id": "72addd15-0e86-4109-bc35-92a71c9a9adf",
+      "PoliticalBusinessNumber": "M-EV",
+      "OfficialDescription": {
+        "de": "Majorzwahl Gossau E-Voting de",
+        "fr": "Majorzwahl Gossau E-Voting fr",
+        "it": "Majorzwahl Gossau E-Voting it",
+        "rm": "Majorzwahl Gossau E-Voting rm"
+      },
+      "ShortDescription": {
+        "de": "Majorzwahl Gossau E-Voting de",
+        "fr": "Majorzwahl Gossau E-Voting fr",
+        "it": "Majorzwahl Gossau E-Voting it",
+        "rm": "Majorzwahl Gossau E-Voting rm"
+      },
+      "DomainOfInfluence": {
+        "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "Name": "Gossau",
+        "ShortName": "GOS",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 5,
+        "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": true,
+        "Bfs": "3443",
+        "Code": "",
+        "SortNumber": 1,
+        "ExportConfigurations": [],
+        "ReturnAddress": {
+          "AddressLine1": "Stadtverwaltung Gossau",
+          "AddressLine2": "",
+          "Street": "Bahnhofstrasse 25",
+          "AddressAddition": "",
+          "ZipCode": "9200",
+          "City": "Gossau",
+          "Country": "Schweiz"
+        },
+        "PrintData": {
+          "ShippingAway": 2,
+          "ShippingReturn": 5,
+          "ShippingMethod": 3,
+          "ShippingVotingCardsToDeliveryAddress": true
+        },
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": true,
+        "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492",
+        "SwissPostData": {
+          "InvoiceReferenceNumber": "958473825",
+          "FrankingLicenceAwayNumber": "73155598",
+          "FrankingLicenceReturnNumber": "562984257"
+        },
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": true,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": true,
+        "PublishResultsDisabled": true,
+        "VotingCardFlatRateDisabled": true,
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": true,
+        "ECollectingInitiativeMinSignatureCount": 10000,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
+        "ECollectingInitiativeNumberOfMembersCommittee": 15,
+        "ECollectingReferendumMinSignatureCount": 1000,
+        "ECollectingReferendumMaxElectronicSignaturePercent": 20,
+        "ECollectingEmail": "ecollecting@gossau.ch",
+        "IsMainVotingCardsDomainOfInfluence": true
+      },
+      "PoliticalBusinessType": 2,
+      "PoliticalBusinessSubType": 0,
+      "Active": true,
+      "EVotingApproved": true
     },
     {
       "Id": "5ec8cf85-229a-4dc7-a601-1bb6980fee78",
@@ -1376,12 +1572,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "PoliticalBusinessType": 4,
       "PoliticalBusinessSubType": 0,
-      "Active": false
+      "Active": false,
+      "EVotingApproved": null
     },
     {
       "Id": "b321b60c-7aa2-4811-87a3-fffb426af1d6",
@@ -1429,7 +1631,7 @@
         "ResponsibleForVotingCards": true,
         "Bfs": "3443",
         "Code": "",
-        "SortNumber": 0,
+        "SortNumber": 1,
         "ExportConfigurations": [],
         "ReturnAddress": {
           "AddressLine1": "Stadtverwaltung Gossau",
@@ -1471,12 +1673,321 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": true,
-        "ECollectingMinSignatureCount": 10000,
-        "ECollectingMaxElectronicSignaturePercent": 50
+        "ECollectingInitiativeMinSignatureCount": 10000,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
+        "ECollectingInitiativeNumberOfMembersCommittee": 15,
+        "ECollectingReferendumMinSignatureCount": 1000,
+        "ECollectingReferendumMaxElectronicSignaturePercent": 20,
+        "ECollectingEmail": "ecollecting@gossau.ch",
+        "IsMainVotingCardsDomainOfInfluence": true
       },
       "PoliticalBusinessType": 4,
       "PoliticalBusinessSubType": 0,
-      "Active": false
+      "Active": false,
+      "EVotingApproved": false
+    },
+    {
+      "Id": "dedaf157-d127-4ca4-811b-f67e3bd51595",
+      "PoliticalBusinessNumber": "P-EV",
+      "OfficialDescription": {
+        "de": "Proporzwahl Gossau E-Voting de",
+        "fr": "Proporzwahl Gossau E-Voting fr",
+        "it": "Proporzwahl Gossau E-Voting it",
+        "rm": "Proporzwahl Gossau E-Voting rm"
+      },
+      "ShortDescription": {
+        "de": "Proporzwahl Gossau E-Voting de",
+        "fr": "Proporzwahl Gossau E-Voting fr",
+        "it": "Proporzwahl Gossau E-Voting it",
+        "rm": "Proporzwahl Gossau E-Voting rm"
+      },
+      "DomainOfInfluence": {
+        "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "Name": "Gossau",
+        "ShortName": "GOS",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 5,
+        "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": true,
+        "Bfs": "3443",
+        "Code": "",
+        "SortNumber": 1,
+        "ExportConfigurations": [],
+        "ReturnAddress": {
+          "AddressLine1": "Stadtverwaltung Gossau",
+          "AddressLine2": "",
+          "Street": "Bahnhofstrasse 25",
+          "AddressAddition": "",
+          "ZipCode": "9200",
+          "City": "Gossau",
+          "Country": "Schweiz"
+        },
+        "PrintData": {
+          "ShippingAway": 2,
+          "ShippingReturn": 5,
+          "ShippingMethod": 3,
+          "ShippingVotingCardsToDeliveryAddress": true
+        },
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": true,
+        "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492",
+        "SwissPostData": {
+          "InvoiceReferenceNumber": "958473825",
+          "FrankingLicenceAwayNumber": "73155598",
+          "FrankingLicenceReturnNumber": "562984257"
+        },
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": true,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": true,
+        "PublishResultsDisabled": true,
+        "VotingCardFlatRateDisabled": true,
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": true,
+        "ECollectingInitiativeMinSignatureCount": 10000,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
+        "ECollectingInitiativeNumberOfMembersCommittee": 15,
+        "ECollectingReferendumMinSignatureCount": 1000,
+        "ECollectingReferendumMaxElectronicSignaturePercent": 20,
+        "ECollectingEmail": "ecollecting@gossau.ch",
+        "IsMainVotingCardsDomainOfInfluence": true
+      },
+      "PoliticalBusinessType": 3,
+      "PoliticalBusinessSubType": 0,
+      "Active": true,
+      "EVotingApproved": true
+    },
+    {
+      "Id": "3ed0c2b8-5eec-4a4b-9b68-55c61d9d46df",
+      "PoliticalBusinessNumber": "SM-EV",
+      "OfficialDescription": {
+        "de": "official de",
+        "fr": "official fr",
+        "it": "official it",
+        "rm": "official rm"
+      },
+      "ShortDescription": {
+        "de": "short de",
+        "fr": "short fr",
+        "it": "short it",
+        "rm": "short rm"
+      },
+      "DomainOfInfluence": {
+        "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "Name": "Gossau",
+        "ShortName": "GOS",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 5,
+        "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": true,
+        "Bfs": "3443",
+        "Code": "",
+        "SortNumber": 1,
+        "ExportConfigurations": [],
+        "ReturnAddress": {
+          "AddressLine1": "Stadtverwaltung Gossau",
+          "AddressLine2": "",
+          "Street": "Bahnhofstrasse 25",
+          "AddressAddition": "",
+          "ZipCode": "9200",
+          "City": "Gossau",
+          "Country": "Schweiz"
+        },
+        "PrintData": {
+          "ShippingAway": 2,
+          "ShippingReturn": 5,
+          "ShippingMethod": 3,
+          "ShippingVotingCardsToDeliveryAddress": true
+        },
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": true,
+        "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492",
+        "SwissPostData": {
+          "InvoiceReferenceNumber": "958473825",
+          "FrankingLicenceAwayNumber": "73155598",
+          "FrankingLicenceReturnNumber": "562984257"
+        },
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": true,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": true,
+        "PublishResultsDisabled": true,
+        "VotingCardFlatRateDisabled": true,
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": true,
+        "ECollectingInitiativeMinSignatureCount": 10000,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
+        "ECollectingInitiativeNumberOfMembersCommittee": 15,
+        "ECollectingReferendumMinSignatureCount": 1000,
+        "ECollectingReferendumMaxElectronicSignaturePercent": 20,
+        "ECollectingEmail": "ecollecting@gossau.ch",
+        "IsMainVotingCardsDomainOfInfluence": true
+      },
+      "PoliticalBusinessType": 4,
+      "PoliticalBusinessSubType": 0,
+      "Active": true,
+      "EVotingApproved": true
+    },
+    {
+      "Id": "3a51df6b-3037-41d8-8b86-2f497d26e8a6",
+      "PoliticalBusinessNumber": "VEV",
+      "OfficialDescription": {
+        "de": "Abstimmung Gossau E-Voting de",
+        "fr": "Abstimmung Gossau E-Voting fr",
+        "it": "Abstimmung Gossau E-Voting it",
+        "rm": "Abstimmung Gossau E-Voting rm"
+      },
+      "ShortDescription": {
+        "de": "Abstimmung Gossau E-Voting de",
+        "fr": "Abstimmung Gossau E-Voting fr",
+        "it": "Abstimmung Gossau E-Voting it",
+        "rm": "Abstimmung Gossau E-Voting rm"
+      },
+      "DomainOfInfluence": {
+        "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+        "Name": "Gossau",
+        "ShortName": "GOS",
+        "AuthorityName": "",
+        "SecureConnectId": "000000000000000000",
+        "Type": 5,
+        "ParentId": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
+        "Children": [],
+        "Canton": 1,
+        "ContactPerson": {
+          "FirstName": "",
+          "FamilyName": "",
+          "Phone": "",
+          "MobilePhone": "",
+          "Email": ""
+        },
+        "Info": {
+          "CreatedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "ModifiedOn": {
+            "Seconds": 1514764800,
+            "Nanos": 0
+          },
+          "DeletedOn": null
+        },
+        "ResponsibleForVotingCards": true,
+        "Bfs": "3443",
+        "Code": "",
+        "SortNumber": 1,
+        "ExportConfigurations": [],
+        "ReturnAddress": {
+          "AddressLine1": "Stadtverwaltung Gossau",
+          "AddressLine2": "",
+          "Street": "Bahnhofstrasse 25",
+          "AddressAddition": "",
+          "ZipCode": "9200",
+          "City": "Gossau",
+          "Country": "Schweiz"
+        },
+        "PrintData": {
+          "ShippingAway": 2,
+          "ShippingReturn": 5,
+          "ShippingMethod": 3,
+          "ShippingVotingCardsToDeliveryAddress": true
+        },
+        "HasLogo": false,
+        "PlausibilisationConfiguration": null,
+        "Parties": [],
+        "ExternalPrintingCenter": true,
+        "ExternalPrintingCenterEaiMessageType": "EAI-Gossau",
+        "NameForProtocol": "Stadt Gossau",
+        "SapCustomerOrderNumber": "0005400492",
+        "SwissPostData": {
+          "InvoiceReferenceNumber": "958473825",
+          "FrankingLicenceAwayNumber": "73155598",
+          "FrankingLicenceReturnNumber": "562984257"
+        },
+        "VirtualTopLevel": false,
+        "ViewCountingCirclePartialResults": false,
+        "VotingCardColor": 0,
+        "ElectoralRegistrationEnabled": true,
+        "HasForeignerVoters": false,
+        "HasMinorVoters": false,
+        "SuperiorAuthorityDomainOfInfluence": null,
+        "StistatMunicipality": true,
+        "PublishResultsDisabled": true,
+        "VotingCardFlatRateDisabled": true,
+        "HideLowerDomainOfInfluencesInReports": false,
+        "ElectoralRegisterMultipleEnabled": false,
+        "ECollectingEnabled": true,
+        "ECollectingInitiativeMinSignatureCount": 10000,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
+        "ECollectingInitiativeNumberOfMembersCommittee": 15,
+        "ECollectingReferendumMinSignatureCount": 1000,
+        "ECollectingReferendumMaxElectronicSignaturePercent": 20,
+        "ECollectingEmail": "ecollecting@gossau.ch",
+        "IsMainVotingCardsDomainOfInfluence": true
+      },
+      "PoliticalBusinessType": 1,
+      "PoliticalBusinessSubType": 0,
+      "Active": true,
+      "EVotingApproved": true
     }
   ],
   "PoliticalBusinessUnions": [
@@ -1530,5 +2041,7 @@
     }
   ],
   "State": 1,
-  "PreviousContestId": ""
+  "PreviousContestId": "",
+  "EVotingApprovalDueDate": null,
+  "EVotingApproved": false
 }

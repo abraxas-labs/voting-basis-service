@@ -14,6 +14,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Basis.Test.MockedData.Mapping;
@@ -78,47 +79,6 @@ public class VoteUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
     }
 
     [Fact]
-    public async Task ParentDoiWithSameTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(v =>
-            {
-                v.Id = VoteMockedData.IdGossauVoteInContestGossau;
-                v.ContestId = ContestMockedData.IdGossau;
-                v.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen;
-            })),
-            StatusCode.InvalidArgument,
-            "some ids are not children of the parent node");
-    }
-
-    [Fact]
-    public async Task ChildDoiWithSameTenantShouldReturnOk()
-    {
-        await ElectionAdminClient.UpdateAsync(NewValidRequest(v =>
-        {
-            v.ContestId = ContestMockedData.IdStGallenEvoting;
-            v.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
-            v.ReportDomainOfInfluenceLevel = 0;
-        }));
-
-        var eventData = EventPublisherMock.GetSinglePublishedEvent<VoteUpdated>();
-        eventData.MatchSnapshot("event", d => d.Vote.Id);
-    }
-
-    [Fact]
-    public async Task SiblingDoiWithSameTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(v =>
-            {
-                v.ContestId = ContestMockedData.IdStGallenEvoting;
-                v.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdThurgau;
-            })),
-            StatusCode.InvalidArgument,
-            "some ids are not children of the parent node");
-    }
-
-    [Fact]
     public async Task ContestChangeShouldThrow()
     {
         await AssertStatus(
@@ -132,15 +92,65 @@ public class VoteUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
     }
 
     [Fact]
-    public async Task ChangeTypeShouldWork()
+    public async Task DomainOfInfluenceChangeShouldThrow()
     {
-        await ElectionAdminClient.UpdateAsync(NewValidRequest(x => x.Type = SharedProto.VoteType.VariantQuestionsOnMultipleBallots));
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(o =>
+            {
+                o.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
+                o.ReportDomainOfInfluenceLevel = 0;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(ModificationNotAllowedException));
+    }
+
+    [Fact]
+    public async Task ResultAlgorithmChangeShouldThrow()
+    {
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(o =>
+            {
+                o.ResultAlgorithm = SharedProto.VoteResultAlgorithm.PopularAndCountingCircleMajority;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(ModificationNotAllowedException));
+    }
+
+    [Fact]
+    public async Task ChangeTypeBeforeBallotCreateShouldWork()
+    {
+        var voteId = VoteMockedData.IdGenfVoteInContestBundWithoutChilds;
+
+        var client = new VoteService.VoteServiceClient(
+            CreateGrpcChannel(
+                tenant: DomainOfInfluenceMockedData.Genf.SecureConnectId,
+                roles: Roles.ElectionAdmin));
+
+        await client.UpdateAsync(NewValidRequest(x =>
+        {
+            x.ContestId = ContestMockedData.IdBundContest;
+            x.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGenf;
+            x.Id = voteId;
+            x.Type = SharedProto.VoteType.VariantQuestionsOnMultipleBallots;
+            x.ReportDomainOfInfluenceLevel = 0;
+            x.ResultAlgorithm = SharedProto.VoteResultAlgorithm.PopularMajority;
+        }));
+
         var eventData = EventPublisherMock.GetSinglePublishedEvent<VoteUpdated>();
         eventData.MatchSnapshot("event", d => d.Vote.Id);
 
         await RunEvents<VoteUpdated>();
-        var simplePb = await RunOnDb(db => db.SimplePoliticalBusiness.FirstAsync(x => x.Id == VoteMockedData.StGallenVoteInContestStGallen.Id));
+        var simplePb = await RunOnDb(db => db.SimplePoliticalBusiness.FirstAsync(x => x.Id == Guid.Parse(voteId)));
         simplePb.BusinessSubType.Should().Be(PoliticalBusinessSubType.VoteVariantBallot);
+    }
+
+    [Fact]
+    public Task ChangeTypeAfterBallotCreateShouldThrow()
+    {
+        return AssertStatus(
+            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(x => x.Type = SharedProto.VoteType.VariantQuestionsOnMultipleBallots)),
+            StatusCode.FailedPrecondition,
+            nameof(ModificationNotAllowedException));
     }
 
     [Fact]
@@ -297,6 +307,19 @@ public class VoteUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
     }
 
     [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(o =>
+            {
+                o.Id = VoteMockedData.IdGossauVoteEVotingApprovedInContestStGallen;
+                o.ContestId = ContestMockedData.IdStGallenEvoting;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
+    [Fact]
     public async Task VirtualTopLevelDomainOfInfluenceShouldThrow()
     {
         await ModifyDbEntities<DomainOfInfluence>(
@@ -340,7 +363,7 @@ public class VoteUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
             ContestId = ContestMockedData.IdStGallenEvoting,
             Active = false,
             ReportDomainOfInfluenceLevel = 1,
-            ResultAlgorithm = SharedProto.VoteResultAlgorithm.CountingCircleMajority,
+            ResultAlgorithm = SharedProto.VoteResultAlgorithm.CountingCircleUnanimity,
             ResultEntry = SharedProto.VoteResultEntry.FinalResults,
             AutomaticBallotBundleNumberGeneration = true,
             BallotBundleSampleSizePercent = 20,

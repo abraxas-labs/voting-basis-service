@@ -15,6 +15,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Common;
@@ -82,7 +83,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
                     Number = "number1",
                     Sex = SharedProto.SexType.Female,
                     Title = "title",
-                    ZipCode = "zip code",
+                    ZipCode = "2000",
                     Party = { LanguageUtil.MockAllLanguages("SP") },
                     Origin = "origin",
                     CheckDigit = 9,
@@ -110,7 +111,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
                     Number = "number1",
                     Sex = SharedProto.SexType.Male,
                     Title = "title",
-                    ZipCode = "zip code",
+                    ZipCode = "2000",
                     Party = { LanguageUtil.MockAllLanguages("CVP") },
                     Origin = "origin",
                     CheckDigit = 9,
@@ -150,7 +151,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
                     Number = "number1",
                     Sex = SharedProto.SexType.Undefined,
                     Title = "title",
-                    ZipCode = "zip code",
+                    ZipCode = "2000",
                     Party = { LanguageUtil.MockAllLanguages("SP") },
                     Origin = "origin",
                     CheckDigit = 9,
@@ -192,7 +193,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
                     Number = "number1toolong",
                     Sex = SharedProto.SexType.Female,
                     Title = "title",
-                    ZipCode = "zip code",
+                    ZipCode = "2000",
                     Party = { LanguageUtil.MockAllLanguages("SP") },
                     Origin = "origin",
                     CheckDigit = 9,
@@ -300,6 +301,18 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
             x.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateCreated>();
         eventData.MatchSnapshot("event", d => d.SecondaryMajorityElectionCandidate.Id);
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(NewValidRequest(x =>
+            {
+                x.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     [Fact]
@@ -449,7 +462,7 @@ public class SecondaryMajorityElectionCandidateCreateTest : PoliticalBusinessAut
             Number = "number24",
             Sex = SharedProto.SexType.Female,
             Title = "title",
-            ZipCode = "zip code",
+            ZipCode = "2000",
             Party = { LanguageUtil.MockAllLanguages("DFP") },
             Origin = "origin",
             Street = "street",

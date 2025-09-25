@@ -47,6 +47,8 @@ internal readonly struct ExceptionMapping
             FluentValidation.ValidationException => new(StatusCode.InvalidArgument, StatusCodes.Status400BadRequest),
             EntityNotFoundException => new(StatusCode.NotFound, StatusCodes.Status404NotFound),
             ContestLockedException => new(StatusCode.FailedPrecondition, StatusCodes.Status400BadRequest),
+            ContestMissingEVotingException => new(StatusCode.FailedPrecondition, StatusCodes.Status400BadRequest),
+            PoliticalBusinessEVotingApprovedException => new(StatusCode.FailedPrecondition, StatusCodes.Status400BadRequest),
             AggregateNotFoundException => new(StatusCode.NotFound, StatusCodes.Status404NotFound),
             VersionMismatchException => new(StatusCode.Aborted, StatusCodes.Status424FailedDependency),
             AggregateDeletedException => new(StatusCode.NotFound, StatusCodes.Status404NotFound),

@@ -15,6 +15,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -108,6 +109,18 @@ public class SecondaryMajorityElectionCandidateDeleteTest : PoliticalBusinessAut
             $"Candidate {candidateId} is in a ballot group");
     }
 
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.DeleteSecondaryMajorityElectionCandidateAsync(new DeleteSecondaryMajorityElectionCandidateRequest
+            {
+                Id = MajorityElectionMockedData.SecondaryElectionCandidateId2GossauMajorityElectionEVotingApprovedInContestStGallen,
+            }),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
         if (_authTestCandidateId == null)
@@ -128,7 +141,7 @@ public class SecondaryMajorityElectionCandidateDeleteTest : PoliticalBusinessAut
                 Number = "number24",
                 Sex = SharedProto.SexType.Female,
                 Title = "title",
-                ZipCode = "zip code",
+                ZipCode = "2000",
                 Party = { LanguageUtil.MockAllLanguages("DFP") },
                 Origin = "origin",
                 Street = "street",

@@ -1,0 +1,73 @@
+{
+  "updateEvent": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Contest": {
+      "Id": "bfd88d88-77f2-4172-a73d-56b1ca5442b3",
+      "Date": {
+        "Seconds": 1581206400,
+        "Nanos": 0
+      },
+      "Description": {
+        "de": "test de",
+        "fr": "test fr",
+        "it": "test it",
+        "rm": "test rm"
+      },
+      "EndOfTestingPhase": {
+        "Seconds": 1580908330,
+        "Nanos": 200000000
+      },
+      "DomainOfInfluenceId": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
+      "EVoting": true,
+      "EVotingFrom": {
+        "Seconds": 1580994730,
+        "Nanos": 200000000
+      },
+      "EVotingTo": {
+        "Seconds": 1581081130,
+        "Nanos": 200000000
+      },
+      "State": 1,
+      "PreviousContestId": "",
+      "EVotingApprovalDueDate": {
+        "Seconds": 1578787200,
+        "Nanos": 0
+      }
+    }
+  },
+  "approvalEvent": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "ContestId": "bfd88d88-77f2-4172-a73d-56b1ca5442b3",
+    "Approved": false
+  }
+}

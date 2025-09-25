@@ -48,12 +48,7 @@ public class DomainOfInfluencePermissionBuilder
             .ToHashSetAsync();
         affectedTenants.Add(doi.SecureConnectId);
 
-        await _permissionsRepo.CreateRange(affectedTenants.Select(x => new DomainOfInfluencePermissionEntry
-        {
-            IsParent = false,
-            TenantId = x,
-            DomainOfInfluenceId = doi.Id,
-        }));
+        await RebuildPermissionTreeForDomainOfInfluence(doi.Id, affectedTenants);
     }
 
     /// <summary>

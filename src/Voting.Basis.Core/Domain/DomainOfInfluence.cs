@@ -99,6 +99,8 @@ public class DomainOfInfluence
 
     public bool VotingCardFlatRateDisabled { get; set; }
 
+    public bool IsMainVotingCardsDomainOfInfluence { get; set; }
+
     /// <summary>
     /// Gets or sets a value indicating whether domain of influences lower in the hierarchy than this should not be displayed in reports.
     /// </summary>
@@ -106,7 +108,15 @@ public class DomainOfInfluence
 
     public bool ECollectingEnabled { get; set; }
 
-    public int ECollectingMinSignatureCount { get; set; }
+    public int? ECollectingInitiativeMinSignatureCount { get; set; }
 
-    public int ECollectingMaxElectronicSignaturePercent { get; set; }
+    public int? ECollectingInitiativeMaxElectronicSignaturePercent { get; set; }
+
+    public int? ECollectingInitiativeNumberOfMembersCommittee { get; set; }
+
+    public int? ECollectingReferendumMinSignatureCount { get; set; }
+
+    public int? ECollectingReferendumMaxElectronicSignaturePercent { get; set; }
+
+    public string ECollectingEmail { get; set; } = string.Empty;
 }

@@ -1,0 +1,449 @@
+<delivery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.ech.ch/xmlns/eCH-0157/5">
+  <deliveryHeader>
+    <senderId xmlns="http://www.ech.ch/xmlns/eCH-0058/5">ABX-VOTING</senderId>
+    <messageId xmlns="http://www.ech.ch/xmlns/eCH-0058/5">mock-id</messageId>
+    <messageType xmlns="http://www.ech.ch/xmlns/eCH-0058/5">1710967</messageType>
+    <sendingApplication xmlns="http://www.ech.ch/xmlns/eCH-0058/5">
+      <manufacturer>Abraxas Informatik AG</manufacturer>
+      <product>Voting.Basis</product>
+      <productVersion>0.0.0.1</productVersion>
+    </sendingApplication>
+    <messageDate xmlns="http://www.ech.ch/xmlns/eCH-0058/5">2020-01-10T13:12:10.2Z</messageDate>
+    <action xmlns="http://www.ech.ch/xmlns/eCH-0058/5">1</action>
+    <testDeliveryFlag xmlns="http://www.ech.ch/xmlns/eCH-0058/5">true</testDeliveryFlag>
+  </deliveryHeader>
+  <initialDelivery>
+    <contest>
+      <contestIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">20361fdf-7d18-47b9-bdef-fd82efe8a6a7</contestIdentification>
+      <contestDate xmlns="http://www.ech.ch/xmlns/eCH-0155/5">2029-02-12</contestDate>
+      <contestDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+        <contestDescriptionInfo>
+          <language>de</language>
+          <contestDescription>Nationalratswahlen in der Zukunft de</contestDescription>
+        </contestDescriptionInfo>
+        <contestDescriptionInfo>
+          <language>fr</language>
+          <contestDescription>Nationalratswahlen in der Zukunft fr</contestDescription>
+        </contestDescriptionInfo>
+        <contestDescriptionInfo>
+          <language>it</language>
+          <contestDescription>Nationalratswahlen in der Zukunft it</contestDescription>
+        </contestDescriptionInfo>
+        <contestDescriptionInfo>
+          <language>rm</language>
+          <contestDescription>Nationalratswahlen in der Zukunft rm</contestDescription>
+        </contestDescriptionInfo>
+      </contestDescription>
+      <eVotingPeriod xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+        <eVotingPeriodFrom>2020-01-01T10:00:00Z</eVotingPeriodFrom>
+        <eVotingPeriodTill>2020-01-02T10:00:00Z</eVotingPeriodTill>
+      </eVotingPeriod>
+    </contest>
+    <electionGroup>
+      <domainOfInfluence>
+        <domainOfInfluenceType xmlns="http://www.ech.ch/xmlns/eCH-0155/5">SK</domainOfInfluenceType>
+        <domainOfInfluenceIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">a18b1c6a-6b66-43e4-a7d2-a440a7025dbd</domainOfInfluenceIdentification>
+        <domainOfInfluenceName xmlns="http://www.ech.ch/xmlns/eCH-0155/5">Gossau</domainOfInfluenceName>
+        <domainOfInfluenceShortname xmlns="http://www.ech.ch/xmlns/eCH-0155/5">GOS</domainOfInfluenceShortname>
+      </domainOfInfluence>
+      <electionInformation>
+        <election>
+          <electionIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">b849600e-305b-4d37-a999-214acdc88682</electionIdentification>
+          <typeOfElection xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1</typeOfElection>
+          <electionPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/5">0</electionPosition>
+          <electionDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <electionDescriptionInfo>
+              <language>de</language>
+              <electionDescriptionShort>Proporzwahl Gossau de</electionDescriptionShort>
+              <electionDescription>Proporzwahl Gossau de</electionDescription>
+            </electionDescriptionInfo>
+            <electionDescriptionInfo>
+              <language>fr</language>
+              <electionDescriptionShort>Proporzwahl Gossau fr</electionDescriptionShort>
+              <electionDescription>Proporzwahl Gossau fr</electionDescription>
+            </electionDescriptionInfo>
+            <electionDescriptionInfo>
+              <language>it</language>
+              <electionDescriptionShort>Proporzwahl Gossau it</electionDescriptionShort>
+              <electionDescription>Proporzwahl Gossau it</electionDescription>
+            </electionDescriptionInfo>
+            <electionDescriptionInfo>
+              <language>rm</language>
+              <electionDescriptionShort>Proporzwahl Gossau rm</electionDescriptionShort>
+              <electionDescription>Proporzwahl Gossau rm</electionDescription>
+            </electionDescriptionInfo>
+          </electionDescription>
+          <numberOfMandates xmlns="http://www.ech.ch/xmlns/eCH-0155/5">3</numberOfMandates>
+        </election>
+        <candidate>
+          <candidateIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">7c13d762-4166-41f6-b3a5-2c5f21c9dc43</candidateIdentification>
+          <familyName xmlns="http://www.ech.ch/xmlns/eCH-0155/5">pol last name</familyName>
+          <firstName xmlns="http://www.ech.ch/xmlns/eCH-0155/5">firstName</firstName>
+          <callName xmlns="http://www.ech.ch/xmlns/eCH-0155/5">pol first name</callName>
+          <candidateText xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <candidateTextInfo>
+              <language>de</language>
+              <candidateText>1960, occupation title de, locality, bisher</candidateText>
+            </candidateTextInfo>
+            <candidateTextInfo>
+              <language>fr</language>
+              <candidateText>1960, occupation title fr, locality, bisher</candidateText>
+            </candidateTextInfo>
+            <candidateTextInfo>
+              <language>it</language>
+              <candidateText>1960, occupation title it, locality, bisher</candidateText>
+            </candidateTextInfo>
+            <candidateTextInfo>
+              <language>rm</language>
+              <candidateText>1960, occupation title rm, locality, bisher</candidateText>
+            </candidateTextInfo>
+          </candidateText>
+          <dateOfBirth xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1960-01-13</dateOfBirth>
+          <sex xmlns="http://www.ech.ch/xmlns/eCH-0155/5">2</sex>
+          <occupationalTitle xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <occupationalTitleInfo>
+              <language>de</language>
+              <occupationalTitle>occupation de</occupationalTitle>
+            </occupationalTitleInfo>
+            <occupationalTitleInfo>
+              <language>fr</language>
+              <occupationalTitle>occupation fr</occupationalTitle>
+            </occupationalTitleInfo>
+            <occupationalTitleInfo>
+              <language>it</language>
+              <occupationalTitle>occupation it</occupationalTitle>
+            </occupationalTitleInfo>
+            <occupationalTitleInfo>
+              <language>rm</language>
+              <occupationalTitle>occupation rm</occupationalTitle>
+            </occupationalTitleInfo>
+          </occupationalTitle>
+          <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
+            <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
+            <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
+            <swissZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">7000</swissZipCode>
+            <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
+              <countryId>8100</countryId>
+              <countryIdISO2>CH</countryIdISO2>
+              <countryNameShort>Schweiz</countryNameShort>
+            </country>
+          </dwellingAddress>
+          <swiss xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <origin>origin</origin>
+          </swiss>
+          <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1</mrMrs>
+          <title xmlns="http://www.ech.ch/xmlns/eCH-0155/5">title</title>
+          <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/5">de</languageOfCorrespondence>
+          <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1a.number1</candidateReference>
+          <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <partyAffiliationInfo>
+              <language>de</language>
+              <partyAffiliationShort>AN de</partyAffiliationShort>
+            </partyAffiliationInfo>
+            <partyAffiliationInfo>
+              <language>fr</language>
+              <partyAffiliationShort>AN fr</partyAffiliationShort>
+            </partyAffiliationInfo>
+            <partyAffiliationInfo>
+              <language>it</language>
+              <partyAffiliationShort>AN it</partyAffiliationShort>
+            </partyAffiliationInfo>
+            <partyAffiliationInfo>
+              <language>rm</language>
+              <partyAffiliationShort>AN rm</partyAffiliationShort>
+            </partyAffiliationInfo>
+          </partyAffiliation>
+        </candidate>
+        <candidate>
+          <candidateIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">21f29d48-349d-48e4-862f-723f5929db52</candidateIdentification>
+          <familyName xmlns="http://www.ech.ch/xmlns/eCH-0155/5">pol last name 2</familyName>
+          <firstName xmlns="http://www.ech.ch/xmlns/eCH-0155/5">candidate</firstName>
+          <callName xmlns="http://www.ech.ch/xmlns/eCH-0155/5">pol first name 2</callName>
+          <candidateText xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <candidateTextInfo>
+              <language>de</language>
+              <candidateText>1940, occupation title 2 de, locality 2</candidateText>
+            </candidateTextInfo>
+            <candidateTextInfo>
+              <language>fr</language>
+              <candidateText>1940, occupation title 2 fr, locality 2</candidateText>
+            </candidateTextInfo>
+            <candidateTextInfo>
+              <language>it</language>
+              <candidateText>1940, occupation title 2 it, locality 2</candidateText>
+            </candidateTextInfo>
+            <candidateTextInfo>
+              <language>rm</language>
+              <candidateText>1940, occupation title 2 rm, locality 2</candidateText>
+            </candidateTextInfo>
+          </candidateText>
+          <dateOfBirth xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1940-01-13</dateOfBirth>
+          <sex xmlns="http://www.ech.ch/xmlns/eCH-0155/5">2</sex>
+          <occupationalTitle xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <occupationalTitleInfo>
+              <language>de</language>
+              <occupationalTitle>occupation 2 de</occupationalTitle>
+            </occupationalTitleInfo>
+            <occupationalTitleInfo>
+              <language>fr</language>
+              <occupationalTitle>occupation 2 fr</occupationalTitle>
+            </occupationalTitleInfo>
+            <occupationalTitleInfo>
+              <language>it</language>
+              <occupationalTitle>occupation 2 it</occupationalTitle>
+            </occupationalTitleInfo>
+            <occupationalTitleInfo>
+              <language>rm</language>
+              <occupationalTitle>occupation 2 rm</occupationalTitle>
+            </occupationalTitleInfo>
+          </occupationalTitle>
+          <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
+            <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
+            <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality 2</town>
+            <foreignZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6" />
+            <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
+              <countryId>8100</countryId>
+              <countryIdISO2>CH</countryIdISO2>
+              <countryNameShort>Schweiz</countryNameShort>
+            </country>
+          </dwellingAddress>
+          <swiss xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <origin>origin 2</origin>
+          </swiss>
+          <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1</mrMrs>
+          <title xmlns="http://www.ech.ch/xmlns/eCH-0155/5">title 2</title>
+          <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/5">de</languageOfCorrespondence>
+          <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1a.number2</candidateReference>
+          <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <partyAffiliationInfo>
+              <language>de</language>
+              <partyAffiliationShort>SVP de</partyAffiliationShort>
+            </partyAffiliationInfo>
+            <partyAffiliationInfo>
+              <language>fr</language>
+              <partyAffiliationShort>SVP fr</partyAffiliationShort>
+            </partyAffiliationInfo>
+            <partyAffiliationInfo>
+              <language>it</language>
+              <partyAffiliationShort>SVP it</partyAffiliationShort>
+            </partyAffiliationInfo>
+            <partyAffiliationInfo>
+              <language>rm</language>
+              <partyAffiliationShort>SVP rm</partyAffiliationShort>
+            </partyAffiliationInfo>
+          </partyAffiliation>
+        </candidate>
+        <list>
+          <listIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">afab6f5d-4b4b-4e7c-87c4-6eb32b85163b</listIdentification>
+          <listIndentureNumber xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1a</listIndentureNumber>
+          <listDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <listDescriptionInfo>
+              <language>de</language>
+              <listDescriptionShort>Liste 1 de</listDescriptionShort>
+              <listDescription>Liste 1 de</listDescription>
+            </listDescriptionInfo>
+            <listDescriptionInfo>
+              <language>fr</language>
+              <listDescriptionShort>Liste 1 fr</listDescriptionShort>
+              <listDescription>Liste 1 fr</listDescription>
+            </listDescriptionInfo>
+            <listDescriptionInfo>
+              <language>it</language>
+              <listDescriptionShort>Liste 1 it</listDescriptionShort>
+              <listDescription>Liste 1 it</listDescription>
+            </listDescriptionInfo>
+            <listDescriptionInfo>
+              <language>rm</language>
+              <listDescriptionShort>Liste 1 rm</listDescriptionShort>
+              <listDescription>Liste 1 rm</listDescription>
+            </listDescriptionInfo>
+          </listDescription>
+          <isEmptyList xmlns="http://www.ech.ch/xmlns/eCH-0155/5">false</isEmptyList>
+          <listOrderOfPrecedence xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1</listOrderOfPrecedence>
+          <totalPositionsOnList xmlns="http://www.ech.ch/xmlns/eCH-0155/5">3</totalPositionsOnList>
+          <candidatePosition xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <positionOnList>1</positionOnList>
+            <candidateReferenceOnPosition>1a.number1</candidateReferenceOnPosition>
+            <candidateIdentification>7c13d762-4166-41f6-b3a5-2c5f21c9dc43</candidateIdentification>
+            <candidateTextOnPosition>
+              <candidateTextInfo>
+                <language>de</language>
+                <candidateText>1960, occupation title de, locality, bisher</candidateText>
+              </candidateTextInfo>
+              <candidateTextInfo>
+                <language>fr</language>
+                <candidateText>1960, occupation title fr, locality, bisher</candidateText>
+              </candidateTextInfo>
+              <candidateTextInfo>
+                <language>it</language>
+                <candidateText>1960, occupation title it, locality, bisher</candidateText>
+              </candidateTextInfo>
+              <candidateTextInfo>
+                <language>rm</language>
+                <candidateText>1960, occupation title rm, locality, bisher</candidateText>
+              </candidateTextInfo>
+            </candidateTextOnPosition>
+          </candidatePosition>
+          <candidatePosition xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <positionOnList>2</positionOnList>
+            <candidateReferenceOnPosition>1a.number1</candidateReferenceOnPosition>
+            <candidateIdentification>7c13d762-4166-41f6-b3a5-2c5f21c9dc43</candidateIdentification>
+            <candidateTextOnPosition>
+              <candidateTextInfo>
+                <language>de</language>
+                <candidateText>1960, occupation title de, locality, bisher</candidateText>
+              </candidateTextInfo>
+              <candidateTextInfo>
+                <language>fr</language>
+                <candidateText>1960, occupation title fr, locality, bisher</candidateText>
+              </candidateTextInfo>
+              <candidateTextInfo>
+                <language>it</language>
+                <candidateText>1960, occupation title it, locality, bisher</candidateText>
+              </candidateTextInfo>
+              <candidateTextInfo>
+                <language>rm</language>
+                <candidateText>1960, occupation title rm, locality, bisher</candidateText>
+              </candidateTextInfo>
+            </candidateTextOnPosition>
+          </candidatePosition>
+          <candidatePosition xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <positionOnList>3</positionOnList>
+            <candidateReferenceOnPosition>1a.number2</candidateReferenceOnPosition>
+            <candidateIdentification>21f29d48-349d-48e4-862f-723f5929db52</candidateIdentification>
+            <candidateTextOnPosition>
+              <candidateTextInfo>
+                <language>de</language>
+                <candidateText>1940, occupation title 2 de, locality 2</candidateText>
+              </candidateTextInfo>
+              <candidateTextInfo>
+                <language>fr</language>
+                <candidateText>1940, occupation title 2 fr, locality 2</candidateText>
+              </candidateTextInfo>
+              <candidateTextInfo>
+                <language>it</language>
+                <candidateText>1940, occupation title 2 it, locality 2</candidateText>
+              </candidateTextInfo>
+              <candidateTextInfo>
+                <language>rm</language>
+                <candidateText>1940, occupation title 2 rm, locality 2</candidateText>
+              </candidateTextInfo>
+            </candidateTextOnPosition>
+          </candidatePosition>
+          <emptyListPositions xmlns="http://www.ech.ch/xmlns/eCH-0155/5">0</emptyListPositions>
+        </list>
+        <list>
+          <listIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">3f834c4b-eabe-4dad-97b2-03d4fc770bf5</listIdentification>
+          <listIndentureNumber xmlns="http://www.ech.ch/xmlns/eCH-0155/5">2</listIndentureNumber>
+          <listDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <listDescriptionInfo>
+              <language>de</language>
+              <listDescriptionShort>Liste 2 de</listDescriptionShort>
+              <listDescription>Liste 2 de</listDescription>
+            </listDescriptionInfo>
+            <listDescriptionInfo>
+              <language>fr</language>
+              <listDescriptionShort>Liste 2 fr</listDescriptionShort>
+              <listDescription>Liste 2 fr</listDescription>
+            </listDescriptionInfo>
+            <listDescriptionInfo>
+              <language>it</language>
+              <listDescriptionShort>Liste 2 it</listDescriptionShort>
+              <listDescription>Liste 2 it</listDescription>
+            </listDescriptionInfo>
+            <listDescriptionInfo>
+              <language>rm</language>
+              <listDescriptionShort>Liste 2 rm</listDescriptionShort>
+              <listDescription>Liste 2 rm</listDescription>
+            </listDescriptionInfo>
+          </listDescription>
+          <isEmptyList xmlns="http://www.ech.ch/xmlns/eCH-0155/5">false</isEmptyList>
+          <listOrderOfPrecedence xmlns="http://www.ech.ch/xmlns/eCH-0155/5">2</listOrderOfPrecedence>
+          <totalPositionsOnList xmlns="http://www.ech.ch/xmlns/eCH-0155/5">0</totalPositionsOnList>
+          <emptyListPositions xmlns="http://www.ech.ch/xmlns/eCH-0155/5">0</emptyListPositions>
+        </list>
+        <list>
+          <listIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">0d170924-118a-55dd-95f9-4166088c3925</listIdentification>
+          <listIndentureNumber xmlns="http://www.ech.ch/xmlns/eCH-0155/5">99</listIndentureNumber>
+          <listDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <listDescriptionInfo>
+              <language>de</language>
+              <listDescriptionShort>WoP</listDescriptionShort>
+              <listDescription>Wahlzettel ohne Parteibezeichnung</listDescription>
+            </listDescriptionInfo>
+            <listDescriptionInfo>
+              <language>fr</language>
+              <listDescriptionShort>WoP</listDescriptionShort>
+              <listDescription>Bulletin de vote sans désignation de parti</listDescription>
+            </listDescriptionInfo>
+            <listDescriptionInfo>
+              <language>it</language>
+              <listDescriptionShort>WoP</listDescriptionShort>
+              <listDescription>Scheda elettorale senza indicazione del partito</listDescription>
+            </listDescriptionInfo>
+            <listDescriptionInfo>
+              <language>rm</language>
+              <listDescriptionShort>WoP</listDescriptionShort>
+              <listDescription>Cedel electoral senza indicaziun da la partida</listDescription>
+            </listDescriptionInfo>
+          </listDescription>
+          <isEmptyList xmlns="http://www.ech.ch/xmlns/eCH-0155/5">true</isEmptyList>
+          <listOrderOfPrecedence xmlns="http://www.ech.ch/xmlns/eCH-0155/5">99</listOrderOfPrecedence>
+          <totalPositionsOnList xmlns="http://www.ech.ch/xmlns/eCH-0155/5">0</totalPositionsOnList>
+          <emptyListPositions xmlns="http://www.ech.ch/xmlns/eCH-0155/5">3</emptyListPositions>
+        </list>
+        <listUnion>
+          <listUnionIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">93cd8201-f82e-4142-b57d-980e4b80d1a9</listUnionIdentification>
+          <listUnionDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <listUnionDescriptionInfo>
+              <language>de</language>
+              <listUnionDescription>Unterlistenverbindung 1.1 de</listUnionDescription>
+            </listUnionDescriptionInfo>
+            <listUnionDescriptionInfo>
+              <language>fr</language>
+              <listUnionDescription>Unterlistenverbindung 1.1 fr</listUnionDescription>
+            </listUnionDescriptionInfo>
+            <listUnionDescriptionInfo>
+              <language>it</language>
+              <listUnionDescription>Unterlistenverbindung 1.1 it</listUnionDescription>
+            </listUnionDescriptionInfo>
+            <listUnionDescriptionInfo>
+              <language>rm</language>
+              <listUnionDescription>Unterlistenverbindung 1.1 rm</listUnionDescription>
+            </listUnionDescriptionInfo>
+          </listUnionDescription>
+          <listUnionType xmlns="http://www.ech.ch/xmlns/eCH-0155/5">2</listUnionType>
+          <referencedList xmlns="http://www.ech.ch/xmlns/eCH-0155/5">3f834c4b-eabe-4dad-97b2-03d4fc770bf5</referencedList>
+          <referencedList xmlns="http://www.ech.ch/xmlns/eCH-0155/5">afab6f5d-4b4b-4e7c-87c4-6eb32b85163b</referencedList>
+          <referencedListUnion xmlns="http://www.ech.ch/xmlns/eCH-0155/5">9a71d553-343c-4b90-8fa7-924f662929d6</referencedListUnion>
+        </listUnion>
+        <listUnion>
+          <listUnionIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">9a71d553-343c-4b90-8fa7-924f662929d6</listUnionIdentification>
+          <listUnionDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+            <listUnionDescriptionInfo>
+              <language>de</language>
+              <listUnionDescription>Listenverbindung 1 de</listUnionDescription>
+            </listUnionDescriptionInfo>
+            <listUnionDescriptionInfo>
+              <language>fr</language>
+              <listUnionDescription>Listenverbindung 1 fr</listUnionDescription>
+            </listUnionDescriptionInfo>
+            <listUnionDescriptionInfo>
+              <language>it</language>
+              <listUnionDescription>Listenverbindung 1 it</listUnionDescription>
+            </listUnionDescriptionInfo>
+            <listUnionDescriptionInfo>
+              <language>rm</language>
+              <listUnionDescription>Listenverbindung 1 rm</listUnionDescription>
+            </listUnionDescriptionInfo>
+          </listUnionDescription>
+          <listUnionType xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1</listUnionType>
+          <referencedList xmlns="http://www.ech.ch/xmlns/eCH-0155/5">3f834c4b-eabe-4dad-97b2-03d4fc770bf5</referencedList>
+          <referencedList xmlns="http://www.ech.ch/xmlns/eCH-0155/5">afab6f5d-4b4b-4e7c-87c4-6eb32b85163b</referencedList>
+        </listUnion>
+      </electionInformation>
+    </electionGroup>
+  </initialDelivery>
+</delivery>

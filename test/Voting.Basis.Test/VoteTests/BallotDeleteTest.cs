@@ -13,6 +13,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -144,7 +145,7 @@ public class BallotDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
             ContestId = ContestMockedData.IdStGallenEvoting,
             Active = false,
             ReportDomainOfInfluenceLevel = 1,
-            ResultAlgorithm = SharedProto.VoteResultAlgorithm.CountingCircleMajority,
+            ResultAlgorithm = SharedProto.VoteResultAlgorithm.CountingCircleUnanimity,
             ResultEntry = SharedProto.VoteResultEntry.Detailed,
             AutomaticBallotBundleNumberGeneration = true,
             BallotBundleSampleSizePercent = 20,
@@ -157,6 +158,19 @@ public class BallotDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
             async () => await ElectionAdminClient.DeleteBallotAsync(NewValidRequest()),
             StatusCode.InvalidArgument,
             "detailed result entry is only allowed if exactly one variants ballot exists");
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await ElectionAdminClient.DeleteBallotAsync(NewValidRequest(x =>
+            {
+                x.VoteId = VoteMockedData.IdGossauVoteEVotingApprovedInContestStGallen;
+                x.Id = VoteMockedData.BallotIdGossauVoteEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

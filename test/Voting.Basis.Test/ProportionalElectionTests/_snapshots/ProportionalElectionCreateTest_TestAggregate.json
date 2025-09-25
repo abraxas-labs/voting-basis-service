@@ -29,7 +29,8 @@
     "ReviewProcedure": 1,
     "EnforceReviewProcedureForCountingCircles": true,
     "EnforceCandidateCheckDigitForCountingCircles": true,
-    "FederalIdentification": 29348929
+    "FederalIdentification": 29348929,
+    "EVotingApproved": null
   },
   "2": {
     "Id": "53235b83-3dc3-4b72-a94d-871044168062",
@@ -61,6 +62,7 @@
     "ReviewProcedure": 2,
     "EnforceReviewProcedureForCountingCircles": false,
     "EnforceCandidateCheckDigitForCountingCircles": false,
-    "FederalIdentification": null
+    "FederalIdentification": null,
+    "EVotingApproved": null
   }
 }

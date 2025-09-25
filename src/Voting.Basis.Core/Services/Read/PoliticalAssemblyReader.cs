@@ -53,7 +53,8 @@ public class PoliticalAssemblyReader
             .FirstOrDefaultAsync(x => x.Id == id)
             ?? throw new EntityNotFoundException(nameof(PoliticalAssembly), id);
 
-        if (_auth.HasPermission(Permissions.PoliticalAssembly.ReadSameCanton)
+        if (!_auth.HasPermission(Permissions.PoliticalAssembly.ReadAll) &&
+            _auth.HasPermission(Permissions.PoliticalAssembly.ReadSameCanton)
             && !await _permissionService.IsOwnerOfCanton(politicalAssembly.DomainOfInfluence.Canton))
         {
             throw new EntityNotFoundException(nameof(PoliticalAssembly), id);
@@ -78,6 +79,11 @@ public class PoliticalAssemblyReader
             .Include(x => x.DomainOfInfluence)
             .Where(x => x.State == politicalAssemblyState)
             .ToListAsync();
+
+        if (_auth.HasPermission(Permissions.PoliticalAssembly.ReadAll))
+        {
+            return politicalAssemblies;
+        }
 
         foreach (var politicalAssembly in politicalAssemblies)
         {

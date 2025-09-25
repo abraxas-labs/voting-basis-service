@@ -15,6 +15,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Common;
@@ -229,6 +230,19 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
             .Single(c => c.Candidate.Id == MajorityElectionMockedData.SecondaryElectionCandidateId2GossauMajorityElectionInContestBund)
             .Candidate;
         candidate.MatchSnapshot("response");
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequest(x =>
+            {
+                x.Id = MajorityElectionMockedData.SecondaryElectionCandidateId2GossauMajorityElectionEVotingApprovedInContestStGallen;
+                x.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     [Fact]
@@ -500,7 +514,7 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
             Number = "number56",
             Sex = SharedProto.SexType.Female,
             Title = "title",
-            ZipCode = "zip code",
+            ZipCode = "2000",
             Party = { LanguageUtil.MockAllLanguages("FDP") },
             Origin = "origin",
             Street = "street",

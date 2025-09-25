@@ -20,6 +20,7 @@ using Voting.Basis.Core.Messaging;
 using Voting.Basis.Data;
 using Voting.Basis.Services;
 using Voting.Lib.Common.DependencyInjection;
+using Voting.Lib.Cryptography.Extensions;
 using Voting.Lib.Grpc.DependencyInjection;
 using Voting.Lib.Grpc.Interceptors;
 using Voting.Lib.MalwareScanner.DependencyInjection;
@@ -182,7 +183,7 @@ public class Startup
         if (_appConfig.PublisherModeEnabled && _appConfig.Publisher.EventSignature.Enabled)
         {
             checks.AddEventStoreTransientSubscriptionCatchUp();
-            checks.AddPkcs11HealthCheck();
+            checks.AddCryptoProviderHealthCheck("Pkcs11");
         }
     }
 

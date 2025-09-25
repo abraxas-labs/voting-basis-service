@@ -14,6 +14,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -112,6 +113,18 @@ public class ProportionalElectionCandidateDeleteTest : PoliticalBusinessAuthoriz
             "Testing phase ended, cannot modify the contest");
     }
 
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest
+            {
+                Id = ProportionalElectionMockedData.CandidateIdGossauProportionalElectionEVotingApprovedInContestStGallen,
+            }),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
         if (_authTestCandidateId == null)
@@ -133,7 +146,7 @@ public class ProportionalElectionCandidateDeleteTest : PoliticalBusinessAuthoriz
                 Number = "number2",
                 Sex = SharedProto.SexType.Female,
                 Title = "title",
-                ZipCode = "zip code",
+                ZipCode = "2000",
                 PartyId = DomainOfInfluenceMockedData.PartyIdStGallenSVP,
                 Origin = "origin",
                 Street = "street",

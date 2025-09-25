@@ -23,6 +23,8 @@ namespace Voting.Basis.Test.ImportTests;
 
 public class ImportMajorityElectionCandidatesTest : BaseImportPoliticalBusinessAuthorizationTest
 {
+    private int _eventIdCounter;
+
     public ImportMajorityElectionCandidatesTest(TestApplicationFactory factory)
         : base(factory)
     {
@@ -58,14 +60,25 @@ public class ImportMajorityElectionCandidatesTest : BaseImportPoliticalBusinessA
 
         await CantonAdminClient.ImportMajorityElectionCandidatesAsync(request);
         var createCandidateEvents1 = EventPublisherMock.GetPublishedEvents<MajorityElectionCandidateCreated>().ToList();
-        await TestEventPublisher.Publish(createCandidateEvents1.ToArray());
-        EventPublisherMock.Clear();
+        var deleteCandidateEvents1 = EventPublisherMock.GetPublishedEvents<MajorityElectionCandidateDeleted>().ToList();
 
+        await TestEventPublisher.Publish(deleteCandidateEvents1.ToArray());
+        _eventIdCounter += deleteCandidateEvents1.Count;
+        await TestEventPublisher.Publish(createCandidateEvents1.ToArray());
+        _eventIdCounter += createCandidateEvents1.Count;
+        EventPublisherMock.Clear();
         await CantonAdminClient.ImportMajorityElectionCandidatesAsync(request);
         var createCandidateEvents2 = EventPublisherMock.GetPublishedEvents<MajorityElectionCandidateCreated>().ToList();
+        var deleteCandidateEvents2 = EventPublisherMock.GetPublishedEvents<MajorityElectionCandidateDeleted>().ToList();
 
-        createCandidateEvents1.Should().HaveCountGreaterThan(0);
-        createCandidateEvents2.Should().HaveCount(0);
+        await TestEventPublisher.Publish(_eventIdCounter, deleteCandidateEvents2.ToArray());
+        _eventIdCounter += deleteCandidateEvents2.Count;
+        await TestEventPublisher.Publish(_eventIdCounter, createCandidateEvents2.ToArray());
+
+        createCandidateEvents1.Should().HaveCount(3);
+        deleteCandidateEvents1.Should().HaveCount(1);
+        createCandidateEvents2.Should().HaveCount(3);
+        deleteCandidateEvents2.Should().HaveCount(3);
 
         var candidates = await RunOnDb(db => db.MajorityElectionCandidates
             .Where(c => c.MajorityElectionId == Guid.Parse(MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen))

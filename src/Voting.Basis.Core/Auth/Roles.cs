@@ -15,6 +15,7 @@ public static class Roles
     public const string ElectionSupporter = "Wahlunterstützer";
     public const string ApiReader = "ApiReader";
     public const string ApiReaderDoi = "ApiReaderDoi";
+    public const string EVotingAdmin = "Administrator E-Voting";
 
     public static IEnumerable<string> All()
     {
@@ -26,5 +27,6 @@ public static class Roles
         yield return ElectionSupporter;
         yield return ApiReader;
         yield return ApiReaderDoi;
+        yield return EVotingAdmin;
     }
 }

@@ -64,6 +64,13 @@ public class MajorityElectionService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizeAnyPermission(Permissions.MajorityElection.EVotingApprove, Permissions.MajorityElection.EVotingApproveRevert)]
+    public override async Task<Empty> UpdateEVotingApproval(UpdateMajorityElectionEVotingApprovalRequest request, ServerCallContext context)
+    {
+        await _majorityElectionWriter.UpdateEVotingApproval(GuidParser.Parse(request.Id), request.Approved);
+        return ProtobufEmpty.Instance;
+    }
+
     [AuthorizePermission(Permissions.MajorityElection.Delete)]
     public override async Task<Empty> Delete(
         DeleteMajorityElectionRequest request,
@@ -200,6 +207,13 @@ public class MajorityElectionService : ServiceBase
         ServerCallContext context)
     {
         await _majorityElectionWriter.UpdateSecondaryMajorityElectionActiveState(GuidParser.Parse(request.Id), request.Active);
+        return ProtobufEmpty.Instance;
+    }
+
+    [AuthorizeAnyPermission(Permissions.SecondaryMajorityElection.EVotingApprove, Permissions.SecondaryMajorityElection.EVotingApproveRevert)]
+    public override async Task<Empty> UpdateSecondaryMajorityElectionEVotingApproval(UpdateSecondaryMajorityElectionEVotingApprovalRequest request, ServerCallContext context)
+    {
+        await _majorityElectionWriter.UpdateSecondaryMajorityElectionEVotingApproval(GuidParser.Parse(request.Id), request.Approved);
         return ProtobufEmpty.Instance;
     }
 

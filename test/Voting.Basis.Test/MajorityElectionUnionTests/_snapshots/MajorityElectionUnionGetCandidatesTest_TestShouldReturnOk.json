@@ -12,7 +12,7 @@
       "Sex": 2,
       "Title": "title",
       "Incumbent": true,
-      "ZipCode": "zip code",
+      "ZipCode": "8000",
       "Locality": "locality",
       "Origin": "origin"
     },
@@ -28,7 +28,7 @@
       "Sex": 2,
       "Title": "title",
       "Incumbent": true,
-      "ZipCode": "zip code",
+      "ZipCode": "8000",
       "Locality": "locality",
       "Origin": "origin"
     },
@@ -60,7 +60,7 @@
       "Sex": 1,
       "Title": "title",
       "Incumbent": false,
-      "ZipCode": "zip code",
+      "ZipCode": "8000",
       "Locality": "locality",
       "Origin": "origin"
     }

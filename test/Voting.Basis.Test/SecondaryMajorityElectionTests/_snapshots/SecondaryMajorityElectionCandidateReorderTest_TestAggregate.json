@@ -34,7 +34,7 @@
           "rm": "CVP rm"
         },
         "Incumbent": false,
-        "ZipCode": "zip code",
+        "ZipCode": "8000",
         "Locality": "locality",
         "Position": 1,
         "Origin": "origin",
@@ -80,7 +80,7 @@
           "rm": "Test rm"
         },
         "Incumbent": true,
-        "ZipCode": "zip code",
+        "ZipCode": "8000",
         "Locality": "locality",
         "Position": 2,
         "Origin": "origin",

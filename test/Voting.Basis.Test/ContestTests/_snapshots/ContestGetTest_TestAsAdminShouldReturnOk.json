@@ -46,7 +46,7 @@
     "ResponsibleForVotingCards": true,
     "Bfs": "3443",
     "Code": "",
-    "SortNumber": 0,
+    "SortNumber": 1,
     "ExportConfigurations": [],
     "ReturnAddress": {
       "AddressLine1": "Stadtverwaltung Gossau",
@@ -88,8 +88,13 @@
     "HideLowerDomainOfInfluencesInReports": false,
     "ElectoralRegisterMultipleEnabled": false,
     "ECollectingEnabled": true,
-    "ECollectingMinSignatureCount": 10000,
-    "ECollectingMaxElectronicSignaturePercent": 50
+    "ECollectingInitiativeMinSignatureCount": 10000,
+    "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
+    "ECollectingInitiativeNumberOfMembersCommittee": 15,
+    "ECollectingReferendumMinSignatureCount": 1000,
+    "ECollectingReferendumMaxElectronicSignaturePercent": 20,
+    "ECollectingEmail": "ecollecting@gossau.ch",
+    "IsMainVotingCardsDomainOfInfluence": true
   },
   "EVoting": false,
   "EVotingFrom": null,
@@ -141,7 +146,7 @@
         "ResponsibleForVotingCards": true,
         "Bfs": "3443",
         "Code": "",
-        "SortNumber": 0,
+        "SortNumber": 1,
         "ExportConfigurations": [],
         "ReturnAddress": {
           "AddressLine1": "Stadtverwaltung Gossau",
@@ -183,12 +188,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": true,
-        "ECollectingMinSignatureCount": 10000,
-        "ECollectingMaxElectronicSignaturePercent": 50
+        "ECollectingInitiativeMinSignatureCount": 10000,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
+        "ECollectingInitiativeNumberOfMembersCommittee": 15,
+        "ECollectingReferendumMinSignatureCount": 1000,
+        "ECollectingReferendumMaxElectronicSignaturePercent": 20,
+        "ECollectingEmail": "ecollecting@gossau.ch",
+        "IsMainVotingCardsDomainOfInfluence": true
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
-      "Active": true
+      "Active": true,
+      "EVotingApproved": null
     },
     {
       "Id": "e39a4d1c-6db4-44a7-a707-05cf2005dd4a",
@@ -236,7 +247,7 @@
         "ResponsibleForVotingCards": true,
         "Bfs": "3443",
         "Code": "",
-        "SortNumber": 0,
+        "SortNumber": 1,
         "ExportConfigurations": [],
         "ReturnAddress": {
           "AddressLine1": "Stadtverwaltung Gossau",
@@ -278,12 +289,18 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": true,
-        "ECollectingMinSignatureCount": 10000,
-        "ECollectingMaxElectronicSignaturePercent": 50
+        "ECollectingInitiativeMinSignatureCount": 10000,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
+        "ECollectingInitiativeNumberOfMembersCommittee": 15,
+        "ECollectingReferendumMinSignatureCount": 1000,
+        "ECollectingReferendumMaxElectronicSignaturePercent": 20,
+        "ECollectingEmail": "ecollecting@gossau.ch",
+        "IsMainVotingCardsDomainOfInfluence": true
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
-      "Active": true
+      "Active": true,
+      "EVotingApproved": null
     },
     {
       "Id": "81880186-febc-4fd7-bb82-62c446430027",
@@ -331,7 +348,7 @@
         "ResponsibleForVotingCards": true,
         "Bfs": "3443",
         "Code": "",
-        "SortNumber": 0,
+        "SortNumber": 1,
         "ExportConfigurations": [],
         "ReturnAddress": {
           "AddressLine1": "Stadtverwaltung Gossau",
@@ -373,15 +390,23 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": true,
-        "ECollectingMinSignatureCount": 10000,
-        "ECollectingMaxElectronicSignaturePercent": 50
+        "ECollectingInitiativeMinSignatureCount": 10000,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
+        "ECollectingInitiativeNumberOfMembersCommittee": 15,
+        "ECollectingReferendumMinSignatureCount": 1000,
+        "ECollectingReferendumMaxElectronicSignaturePercent": 20,
+        "ECollectingEmail": "ecollecting@gossau.ch",
+        "IsMainVotingCardsDomainOfInfluence": true
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
-      "Active": true
+      "Active": true,
+      "EVotingApproved": null
     }
   ],
   "PoliticalBusinessUnions": [],
   "State": 1,
-  "PreviousContestId": ""
+  "PreviousContestId": "",
+  "EVotingApprovalDueDate": null,
+  "EVotingApproved": false
 }

@@ -61,6 +61,10 @@ public sealed class ContestAggregate : BaseDeletableAggregate
 
     public DateTime? EVotingTo { get; private set; }
 
+    public DateTime? EVotingApprovalDueDate { get; private set; }
+
+    public bool EVotingApproved { get; private set; }
+
     public ContestState State { get; private set; } = ContestState.TestingPhase;
 
     public List<Guid> MergedContestIds { get; }
@@ -99,6 +103,8 @@ public sealed class ContestAggregate : BaseDeletableAggregate
             throw new ValidationException($"{nameof(DomainOfInfluenceId)} is immutable.");
         }
 
+        var needsEVotingApprovalReset = EVotingApproved && contest.EVotingApprovalDueDate > _clock.UtcNow;
+
         contest.State = State;
         var ev = new ContestUpdated
         {
@@ -107,6 +113,16 @@ public sealed class ContestAggregate : BaseDeletableAggregate
         };
 
         RaiseEvent(ev);
+
+        if (needsEVotingApprovalReset)
+        {
+            RaiseEvent(new ContestEVotingApprovalUpdated
+            {
+                ContestId = Id.ToString(),
+                Approved = false,
+                EventInfo = _eventInfoProvider.NewEventInfo(),
+            });
+        }
     }
 
     public void Delete()
@@ -201,6 +217,31 @@ public sealed class ContestAggregate : BaseDeletableAggregate
         var ev = new ContestArchived
         {
             ContestId = Id.ToString(),
+            EventInfo = _eventInfoProvider.NewEventInfo(),
+        };
+
+        RaiseEvent(ev);
+        return true;
+    }
+
+    public bool TryApproveEVoting()
+    {
+        if (EVotingApproved)
+        {
+            return false;
+        }
+
+        EnsureNotDeleted();
+
+        if (_clock.UtcNow < EVotingApprovalDueDate)
+        {
+            throw new ValidationException("Approval due date not yet reached");
+        }
+
+        var ev = new ContestEVotingApprovalUpdated
+        {
+            ContestId = Id.ToString(),
+            Approved = true,
             EventInfo = _eventInfoProvider.NewEventInfo(),
         };
 
@@ -321,6 +362,9 @@ public sealed class ContestAggregate : BaseDeletableAggregate
             case ContestPastUnlocked e:
                 Apply(e);
                 break;
+            case ContestEVotingApprovalUpdated e:
+                EVotingApproved = e.Approved;
+                break;
             case ContestImportStarted _:
             case PoliticalBusinessesImportStarted _:
                 break;
@@ -403,6 +447,12 @@ public sealed class ContestAggregate : BaseDeletableAggregate
             if (contest.EVotingTo > contest.Date.NextUtcDate(true))
             {
                 throw new ValidationException("E-Voting cannot take place after the contest");
+            }
+
+            contest.EVotingApprovalDueDate = contest.EVotingApprovalDueDate?.Date;
+            if (contest.EVotingApprovalDueDate > contest.Date)
+            {
+                throw new ValidationException("E-Voting approval due date cannot be after the contest");
             }
         }
     }

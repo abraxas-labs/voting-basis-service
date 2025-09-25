@@ -164,6 +164,15 @@ public class CountingCircleReader
             .ToListAsync();
     }
 
+    internal async Task<bool> OwnsAnyECountingCountingCircle()
+    {
+        var tenantId = _auth.Tenant.Id;
+
+        return await _repo.Query()
+            .Where(cc => cc.ECounting && cc.ResponsibleAuthority.SecureConnectId == tenantId)
+            .AnyAsync();
+    }
+
     private async Task<IQueryable<CountingCircle>> BuildQuery()
     {
         var query = _repo.Query();
@@ -179,13 +188,14 @@ public class CountingCircleReader
         }
         else if (_auth.HasPermission(Permissions.CountingCircle.Read))
         {
-            // ef core does not support selectmany on array columns
-            var doiPermissionCcIds = _permissionRepo.Query()
+            // EF Core does not support SelectMany on array columns, do that step locally
+            var doiPermissionCcIdsList = await _permissionRepo.Query()
                 .Where(p => p.TenantId == _auth.Tenant.Id)
                 .Select(p => p.CountingCircleIds)
-                .AsEnumerable()
-                .SelectMany(c => c)
-                .ToList();
+                .ToListAsync();
+            var doiPermissionCcIds = doiPermissionCcIdsList
+                .SelectMany(x => x)
+                .ToHashSet();
 
             query = query.Where(cc =>
                 doiPermissionCcIds.Contains(cc.Id)

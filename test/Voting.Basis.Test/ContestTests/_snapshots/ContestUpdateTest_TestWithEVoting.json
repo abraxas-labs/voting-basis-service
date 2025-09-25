@@ -43,7 +43,8 @@
         "Nanos": 0
       },
       "State": 1,
-      "PreviousContestId": ""
+      "PreviousContestId": "",
+      "EVotingApprovalDueDate": null
     }
   }
 }

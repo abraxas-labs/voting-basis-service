@@ -14,6 +14,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -328,7 +329,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
             ContestId = ContestMockedData.IdStGallenEvoting,
             Active = false,
             ReportDomainOfInfluenceLevel = 1,
-            ResultAlgorithm = SharedProto.VoteResultAlgorithm.CountingCircleMajority,
+            ResultAlgorithm = SharedProto.VoteResultAlgorithm.CountingCircleUnanimity,
             ResultEntry = SharedProto.VoteResultEntry.Detailed,
             AutomaticBallotBundleNumberGeneration = true,
             BallotBundleSampleSizePercent = 20,
@@ -355,6 +356,19 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
             })),
             StatusCode.FailedPrecondition,
             "Contest is past locked or archived");
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateBallotAsync(NewValidRequest(x =>
+            {
+                x.VoteId = VoteMockedData.IdGossauVoteEVotingApprovedInContestStGallen;
+                x.Id = VoteMockedData.BallotIdGossauVoteEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

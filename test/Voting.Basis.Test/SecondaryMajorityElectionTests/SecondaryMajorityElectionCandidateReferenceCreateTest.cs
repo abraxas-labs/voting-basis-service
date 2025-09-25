@@ -13,6 +13,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -89,6 +90,18 @@ public class SecondaryMajorityElectionCandidateReferenceCreateTest : PoliticalBu
             async () => await CantonAdminClient.CreateMajorityElectionCandidateReferenceAsync(NewValidRequest()),
             StatusCode.FailedPrecondition,
             "Contest is past locked or archived");
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateMajorityElectionCandidateReferenceAsync(NewValidRequest(x =>
+            {
+                x.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     [Fact]

@@ -13,6 +13,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -95,6 +96,18 @@ public class SecondaryMajorityElectionCandidateReferenceDeleteTest : PoliticalBu
             }),
             StatusCode.FailedPrecondition,
             $"Candidate {candidateId} is in a ballot group");
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.DeleteMajorityElectionCandidateReferenceAsync(new DeleteMajorityElectionCandidateReferenceRequest
+            {
+                Id = MajorityElectionMockedData.SecondaryElectionCandidateId1GossauMajorityElectionEVotingApprovedInContestStGallen,
+            }),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

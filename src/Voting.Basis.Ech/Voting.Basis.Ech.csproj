@@ -4,7 +4,9 @@
     <ProjectReference Include="..\Voting.Basis.Data\Voting.Basis.Data.csproj" />
     <PackageReference Include="Voting.Lib.Ech" Version="$(VotingLibVersion)" />
     <PackageReference Include="Voting.Lib.Ech.Ech0157_4_0" Version="$(VotingLibVersion)" />
+    <PackageReference Include="Voting.Lib.Ech.Ech0157_5_1" Version="$(VotingLibVersion)" />
     <PackageReference Include="Voting.Lib.Ech.Ech0159_4_0" Version="$(VotingLibVersion)" />
+    <PackageReference Include="Voting.Lib.Ech.Ech0159_5_1" Version="$(VotingLibVersion)" />
   </ItemGroup>
 
   <ItemGroup>

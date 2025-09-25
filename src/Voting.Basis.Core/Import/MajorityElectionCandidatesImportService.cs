@@ -39,7 +39,7 @@ public class MajorityElectionCandidatesImportService
         IEnumerable<MajorityElectionCandidate> candidates)
     {
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(majorityElectionId);
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(majorityElection.DomainOfInfluenceId, false);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
 
         var doi = await _domainOfInfluenceReader.Get(majorityElection.DomainOfInfluenceId);
         var candidateValidationParams = new CandidateValidationParams(doi, true);
@@ -50,20 +50,21 @@ public class MajorityElectionCandidatesImportService
         }
 
         var currentCandidatePosition = majorityElection.Candidates.MaxOrDefault(c => c.Position);
-        var candidatesFirstLastNameDob = majorityElection.Candidates
-            .Select(x => (x.PoliticalFirstName, x.PoliticalLastName, x.DateOfBirth))
-            .ToHashSet();
 
         var idVerifier = new IdVerifier();
+
+        // An import always deletes all existing candidates.
+        var existingCandidates = majorityElection.Candidates.ToList();
+        for (var i = 0; i < existingCandidates.Count; i++)
+        {
+            majorityElection.DeleteCandidate(existingCandidates[i].Id);
+        }
+
         foreach (var candidate in candidates)
         {
-            if (candidatesFirstLastNameDob.Add((candidate.PoliticalFirstName, candidate.PoliticalLastName, candidate.DateOfBirth)))
-            {
-                candidate.Position = ++currentCandidatePosition;
-                candidate.MajorityElectionId = majorityElectionId;
-                majorityElection.CreateCandidateFrom(candidate, candidateValidationParams);
-                idVerifier.EnsureUnique(candidate.Id);
-            }
+            candidate.MajorityElectionId = majorityElectionId;
+            majorityElection.CreateCandidateFrom(candidate, candidateValidationParams);
+            idVerifier.EnsureUnique(candidate.Id);
         }
 
         await _aggregateRepository.Save(majorityElection);

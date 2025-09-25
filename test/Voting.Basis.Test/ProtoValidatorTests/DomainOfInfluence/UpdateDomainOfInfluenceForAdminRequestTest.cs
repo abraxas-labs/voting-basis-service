@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using Abraxas.Voting.Basis.Shared.V1;
 using Voting.Basis.Test.ProtoValidatorTests.Models;
-using Voting.Basis.Test.ProtoValidatorTests.Utils;
+using Voting.Lib.Testing.Utils;
 using Voting.Lib.Testing.Validation;
 
 namespace Voting.Basis.Test.ProtoValidatorTests.DomainOfInfluence;
@@ -47,6 +47,12 @@ public class UpdateDomainOfInfluenceForAdminRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => x.NameForProtocol = string.Empty);
         yield return NewValidRequest(x => x.NameForProtocol = RandomStringUtil.GenerateComplexSingleLineText(100));
         yield return NewValidRequest(x => x.PlausibilisationConfiguration = null);
+        yield return NewValidRequest(x => x.ECollectingInitiativeMinSignatureCount = null);
+        yield return NewValidRequest(x => x.ECollectingInitiativeMaxElectronicSignaturePercent = null);
+        yield return NewValidRequest(x => x.ECollectingInitiativeNumberOfMembersCommittee = null);
+        yield return NewValidRequest(x => x.ECollectingReferendumMinSignatureCount = null);
+        yield return NewValidRequest(x => x.ECollectingReferendumMaxElectronicSignaturePercent = null);
+        yield return NewValidRequest(x => x.ECollectingEmail = string.Empty);
     }
 
     protected override IEnumerable<UpdateDomainOfInfluenceForAdminRequest> NotOkMessages()
@@ -83,6 +89,17 @@ public class UpdateDomainOfInfluenceForAdminRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => x.NameForProtocol = RandomStringUtil.GenerateComplexSingleLineText(101));
         yield return NewValidRequest(x => x.NameForProtocol = "Bezirk Uzwil \n(Protokoll)");
         yield return NewValidRequest(x => x.VotingCardColor = (VotingCardColor)28);
+        yield return NewValidRequest(x => x.ECollectingInitiativeMinSignatureCount = 1000000);
+        yield return NewValidRequest(x => x.ECollectingInitiativeMinSignatureCount = -1);
+        yield return NewValidRequest(x => x.ECollectingInitiativeMaxElectronicSignaturePercent = 101);
+        yield return NewValidRequest(x => x.ECollectingInitiativeMaxElectronicSignaturePercent = -1);
+        yield return NewValidRequest(x => x.ECollectingInitiativeNumberOfMembersCommittee = 101);
+        yield return NewValidRequest(x => x.ECollectingInitiativeNumberOfMembersCommittee = -1);
+        yield return NewValidRequest(x => x.ECollectingReferendumMinSignatureCount = 1000000);
+        yield return NewValidRequest(x => x.ECollectingReferendumMinSignatureCount = -1);
+        yield return NewValidRequest(x => x.ECollectingReferendumMaxElectronicSignaturePercent = 101);
+        yield return NewValidRequest(x => x.ECollectingReferendumMaxElectronicSignaturePercent = -1);
+        yield return NewValidRequest(x => x.ECollectingEmail = "test");
     }
 
     private UpdateDomainOfInfluenceForAdminRequest NewValidRequest(Action<UpdateDomainOfInfluenceForAdminRequest>? action = null)
@@ -109,6 +126,13 @@ public class UpdateDomainOfInfluenceForAdminRequestTest : ProtoValidatorBaseTest
             ExternalPrintingCenter = true,
             ExternalPrintingCenterEaiMessageType = "1234567",
             NameForProtocol = "Bezirk Uzwil (Protokoll)",
+            ECollectingEnabled = true,
+            ECollectingInitiativeMinSignatureCount = 10000,
+            ECollectingInitiativeMaxElectronicSignaturePercent = 50,
+            ECollectingInitiativeNumberOfMembersCommittee = 15,
+            ECollectingReferendumMinSignatureCount = 1000,
+            ECollectingReferendumMaxElectronicSignaturePercent = 20,
+            ECollectingEmail = "ecollecting@uzwil.ch",
         };
 
         action?.Invoke(request);

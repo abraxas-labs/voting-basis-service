@@ -27,7 +27,7 @@
         "rm": "occupation title rm"
       },
       "Incumbent": true,
-      "ZipCode": "zip code",
+      "ZipCode": "7000",
       "Locality": "locality",
       "Position": 1,
       "Accumulated": true,
@@ -81,7 +81,7 @@
         "rm": "occupation title 2 rm"
       },
       "Incumbent": false,
-      "ZipCode": "",
+      "ZipCode": "non-swiss",
       "Locality": "locality 2",
       "Position": 3,
       "Accumulated": false,

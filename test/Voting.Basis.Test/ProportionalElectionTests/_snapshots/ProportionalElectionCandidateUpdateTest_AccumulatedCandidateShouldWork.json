@@ -43,7 +43,7 @@
         "rm": "occupation title rm"
       },
       "Incumbent": true,
-      "ZipCode": "zip code",
+      "ZipCode": "2000",
       "Locality": "locality",
       "Position": 1,
       "Accumulated": true,

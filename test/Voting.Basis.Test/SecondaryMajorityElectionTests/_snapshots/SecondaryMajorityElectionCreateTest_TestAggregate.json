@@ -18,7 +18,8 @@
     "PrimaryMajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
     "Active": true,
     "IndividualCandidatesDisabled": true,
-    "IsOnSeparateBallot": false
+    "IsOnSeparateBallot": false,
+    "EVotingApproved": null
   },
   "2": {
     "Id": "348f2f1a-063d-49ce-955a-81b464fcc256",
@@ -39,6 +40,7 @@
     "PrimaryMajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
     "Active": false,
     "IndividualCandidatesDisabled": false,
-    "IsOnSeparateBallot": false
+    "IsOnSeparateBallot": false,
+    "EVotingApproved": null
   }
 }

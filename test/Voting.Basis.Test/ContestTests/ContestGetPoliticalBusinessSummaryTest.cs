@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using Abraxas.Voting.Basis.Shared.V1;
+using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
@@ -65,6 +66,17 @@ public class ContestGetPoliticalBusinessSummaryTest : BaseGrpcTest<ContestServic
             PoliticalBusinessId = id,
         });
         response.MatchSnapshot(type.ToString());
+    }
+
+    [Fact]
+    public async Task TestVoteVariantSubTypeShouldWork()
+    {
+        var response = await ElectionAdminClient.GetPoliticalBusinessSummaryAsync(new GetPoliticalBusinessSummaryRequest
+        {
+            PoliticalBusinessType = PoliticalBusinessType.Vote,
+            PoliticalBusinessId = VoteMockedData.IdGossauVoteInContestBund,
+        });
+        response.PoliticalBusinessSubType.Should().Be(PoliticalBusinessSubType.VoteVariantBallot);
     }
 
     [Fact]

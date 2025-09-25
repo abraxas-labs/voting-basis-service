@@ -25,6 +25,7 @@ using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.EventSignature;
 using Voting.Basis.Test.MockedData;
+using Voting.Basis.Test.Mocks;
 using Voting.Lib.Cryptography.Asymmetric;
 using Voting.Lib.Eventing.Persistence;
 using Voting.Lib.Eventing.Testing.Mocks;
@@ -39,6 +40,7 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
 {
     private readonly Lazy<TService> _adminClient;
     private readonly Lazy<TService> _electionAdminClient;
+    private readonly Lazy<TService> _electionAdminEVotingAdminClient;
     private readonly Lazy<TService> _electionAdminReadOnlyClient;
     private readonly Lazy<TService> _electionSupporterClient;
     private readonly Lazy<TService> _cantonAdminClient;
@@ -63,6 +65,7 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
         _adminClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.Admin));
         _cantonAdminClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.CantonAdmin));
         _cantonAdminReadOnlyClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.CantonAdminReadOnly));
+        _electionAdminEVotingAdminClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ElectionAdmin, Roles.EVotingAdmin));
         _electionAdminClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ElectionAdmin));
         _electionAdminReadOnlyClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ElectionAdminReadOnly));
         _electionAdminUzwilClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantUzwil.Id, Roles.ElectionAdmin));
@@ -72,6 +75,7 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
         _zurichCantonAdminClient = new(() => CreateAuthorizedClient("zürich-sec-id", Roles.CantonAdmin));
 
         MessagingTestHarness = GetService<InMemoryTestHarness>();
+        AdjustableMockedClock.OverrideUtcNow = null;
     }
 
     protected EventPublisherMock EventPublisherMock { get; }
@@ -85,6 +89,8 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
     protected TService CantonAdminClient => _cantonAdminClient.Value;
 
     protected TService CantonAdminReadOnlyClient => _cantonAdminReadOnlyClient.Value;
+
+    protected TService ElectionAdminEVotingAdminClient => _electionAdminEVotingAdminClient.Value;
 
     protected TService ElectionAdminClient => _electionAdminClient.Value;
 

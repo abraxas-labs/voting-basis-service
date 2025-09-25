@@ -78,6 +78,7 @@ public class PermissionProvider : IPermissionProvider
 
             Permissions.Vote.Create,
             Permissions.Vote.Update,
+            Permissions.Vote.EVotingApprove,
             Permissions.Vote.Read,
             Permissions.Vote.Delete,
 
@@ -88,6 +89,7 @@ public class PermissionProvider : IPermissionProvider
 
             Permissions.ProportionalElection.Create,
             Permissions.ProportionalElection.Update,
+            Permissions.ProportionalElection.EVotingApprove,
             Permissions.ProportionalElection.Read,
             Permissions.ProportionalElection.Delete,
 
@@ -113,6 +115,7 @@ public class PermissionProvider : IPermissionProvider
 
             Permissions.MajorityElection.Create,
             Permissions.MajorityElection.Update,
+            Permissions.MajorityElection.EVotingApprove,
             Permissions.MajorityElection.Read,
             Permissions.MajorityElection.Delete,
 
@@ -133,6 +136,7 @@ public class PermissionProvider : IPermissionProvider
 
             Permissions.SecondaryMajorityElection.Create,
             Permissions.SecondaryMajorityElection.Update,
+            Permissions.SecondaryMajorityElection.EVotingApprove,
             Permissions.SecondaryMajorityElection.Read,
             Permissions.SecondaryMajorityElection.Delete,
 
@@ -237,6 +241,7 @@ public class PermissionProvider : IPermissionProvider
 
             Permissions.Vote.Create,
             Permissions.Vote.Update,
+            Permissions.Vote.EVotingApprove,
             Permissions.Vote.Read,
             Permissions.Vote.Delete,
 
@@ -247,6 +252,7 @@ public class PermissionProvider : IPermissionProvider
 
             Permissions.ProportionalElection.Create,
             Permissions.ProportionalElection.Update,
+            Permissions.ProportionalElection.EVotingApprove,
             Permissions.ProportionalElection.Read,
             Permissions.ProportionalElection.Delete,
 
@@ -272,6 +278,7 @@ public class PermissionProvider : IPermissionProvider
 
             Permissions.MajorityElection.Create,
             Permissions.MajorityElection.Update,
+            Permissions.MajorityElection.EVotingApprove,
             Permissions.MajorityElection.Read,
             Permissions.MajorityElection.Delete,
 
@@ -292,6 +299,7 @@ public class PermissionProvider : IPermissionProvider
 
             Permissions.SecondaryMajorityElection.Create,
             Permissions.SecondaryMajorityElection.Update,
+            Permissions.SecondaryMajorityElection.EVotingApprove,
             Permissions.SecondaryMajorityElection.Read,
             Permissions.SecondaryMajorityElection.Delete,
 
@@ -385,6 +393,7 @@ public class PermissionProvider : IPermissionProvider
 
             Permissions.Vote.Create,
             Permissions.Vote.Update,
+            Permissions.Vote.EVotingApprove,
             Permissions.Vote.Read,
             Permissions.Vote.Delete,
 
@@ -395,6 +404,7 @@ public class PermissionProvider : IPermissionProvider
 
             Permissions.ProportionalElection.Create,
             Permissions.ProportionalElection.Update,
+            Permissions.ProportionalElection.EVotingApprove,
             Permissions.ProportionalElection.Read,
             Permissions.ProportionalElection.Delete,
 
@@ -420,6 +430,7 @@ public class PermissionProvider : IPermissionProvider
 
             Permissions.MajorityElection.Create,
             Permissions.MajorityElection.Update,
+            Permissions.MajorityElection.EVotingApprove,
             Permissions.MajorityElection.Read,
             Permissions.MajorityElection.Delete,
 
@@ -440,6 +451,7 @@ public class PermissionProvider : IPermissionProvider
 
             Permissions.SecondaryMajorityElection.Create,
             Permissions.SecondaryMajorityElection.Update,
+            Permissions.SecondaryMajorityElection.EVotingApprove,
             Permissions.SecondaryMajorityElection.Read,
             Permissions.SecondaryMajorityElection.Delete,
 
@@ -464,6 +476,17 @@ public class PermissionProvider : IPermissionProvider
         _permissionsPerRole[Roles.ApiReaderDoi] = new HashSet<string>
         {
             Permissions.DomainOfInfluenceHierarchy.ReadAdminManagement,
+        };
+        _permissionsPerRole[Roles.EVotingAdmin] = new HashSet<string>
+        {
+            Permissions.Vote.EVotingApprove,
+            Permissions.Vote.EVotingApproveRevert,
+            Permissions.ProportionalElection.EVotingApprove,
+            Permissions.ProportionalElection.EVotingApproveRevert,
+            Permissions.MajorityElection.EVotingApprove,
+            Permissions.MajorityElection.EVotingApproveRevert,
+            Permissions.SecondaryMajorityElection.EVotingApprove,
+            Permissions.SecondaryMajorityElection.EVotingApproveRevert,
         };
     }
 

@@ -12,6 +12,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -79,6 +80,18 @@ public class VoteActiveStateUpdateTest : PoliticalBusinessAuthorizationGrpcBaseT
             })),
             StatusCode.FailedPrecondition,
             "Testing phase ended, cannot modify the contest");
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateActiveStateAsync(new UpdateVoteActiveStateRequest
+            {
+                Id = VoteMockedData.IdGossauVoteEVotingApprovedInContestStGallen,
+            }),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

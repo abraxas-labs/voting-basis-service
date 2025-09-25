@@ -86,6 +86,18 @@ public class MajorityElectionBallotGroupDeleteTest : PoliticalBusinessAuthorizat
             "Testing phase ended, cannot modify the contest");
     }
 
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldWork()
+    {
+        await ElectionAdminClient.DeleteBallotGroupAsync(new DeleteMajorityElectionBallotGroupRequest
+        {
+            Id = MajorityElectionMockedData.BallotGroupIdGossauMajorityElectionEVotingApprovedInContestBund,
+        });
+
+        EventPublisherMock.GetSinglePublishedEvent<MajorityElectionBallotGroupDeleted>()
+            .Should().NotBeNull();
+    }
+
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
         if (_authTestBallotGroupId == null)

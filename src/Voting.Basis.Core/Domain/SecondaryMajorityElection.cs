@@ -45,6 +45,8 @@ public class SecondaryMajorityElection
 
     public bool IsOnSeparateBallot { get; set; }
 
+    public bool? EVotingApproved { get; set; }
+
     internal MajorityElectionCandidate GetCandidate(Guid candidateId)
     {
         return Candidates.SingleOrDefault(c => c.Id == candidateId)
@@ -115,7 +117,7 @@ public class SecondaryMajorityElection
         List<MajorityElectionCandidateReference> referencedCandidates,
         string number)
     {
-        if (referencedCandidates.Any(r => (r.Id != candidateReference.CandidateId && r.Number == number))
+        if (referencedCandidates.Any(r => r.Id != candidateReference.Id && r.Number == number)
             || Candidates.Any(c => c.Number == number))
         {
             throw new NonUniqueCandidateNumberException();

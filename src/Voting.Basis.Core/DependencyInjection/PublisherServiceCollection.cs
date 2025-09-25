@@ -137,23 +137,28 @@ internal static class PublisherServiceCollection
             .AddScheduledJob<ArchiveContestJob>(config.ContestStateArchiveJob)
             .AddScheduledJob<ActivateCountingCirclesMergeJob>(config.ActivateCountingCirclesMergeJob)
             .AddScheduledJob<ActivateCountingCircleEVotingJob>(config.ActivateCountingCircleEVotingJob)
-            .AddScheduledJob<StopContestEventSignatureJob>(config.StopContestEventSignatureJob);
+            .AddScheduledJob<StopContestEventSignatureJob>(config.StopContestEventSignatureJob)
+            .AddScheduledJob<PastLockedPoliticalAssemblyJob>(config.PoliticalAssemblyStateSetPastJob)
+            .AddScheduledJob<ArchivePoliticalAssemblyJob>(config.PoliticalAssemblyStateArchiveJob)
+            .AddCronJob<ApprovePoliticalBusinessEVotingJob>(config.ApprovePoliticalBusinessEVotingJob)
+            .AddCronJob<ApproveContestEVotingJob>(config.ApproveContestEVotingJob);
     }
 
     private static IServiceCollection AddCryptography(this IServiceCollection services, PublisherConfig config)
     {
-        if (config.EnablePkcs11Mock)
+        if (!config.EnablePkcs11Mock)
         {
-            services.AddVotingLibPkcs11Mock();
+            services.AddVotingLibPkcs11(config.Pkcs11);
         }
         else
         {
-            services.AddVotingLibPkcs11(config.Pkcs11);
+            services.AddVotingLibCryptoProviderMock();
         }
 
         return services
             .AddVotingLibCryptography()
             .AddEventSignature()
+            .AddSingleton(config.Pkcs11)
             .AddSingleton(config.EventSignature)
             .AddSingleton(config.Machine)
             .AddSingleton<EventSignatureService>();

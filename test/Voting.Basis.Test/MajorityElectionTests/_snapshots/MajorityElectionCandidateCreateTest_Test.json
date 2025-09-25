@@ -49,7 +49,7 @@
         "rm": "SP rm"
       },
       "Incumbent": true,
-      "ZipCode": "zip code",
+      "ZipCode": "9000",
       "Locality": "locality",
       "Position": 2,
       "Origin": "origin",

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
@@ -16,6 +17,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Jobs;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Mocks;
@@ -105,6 +107,49 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
         contestEntity.PastLockPer.Should().Be(ev.Contest.Date.ToDateTime().NextUtcDate(true));
 
         await AssertHasPublishedEventProcessedMessage(ContestUpdated.Descriptor, id);
+    }
+
+    [Fact]
+    public async Task TestShouldResetEVotingApprovalWhenDueDateIsInFuture()
+    {
+        var id = Guid.Parse(ContestMockedData.IdGossau);
+        await CantonAdminClient.UpdateAsync(NewValidRequest(x =>
+        {
+            x.Date = MockedClock.GetDate(30).ToTimestamp();
+            x.EndOfTestingPhase = MockedClock.GetDate(26).ToTimestamp();
+            x.EVoting = true;
+            x.EVotingFrom = MockedClock.GetDate(27).ToTimestamp();
+            x.EVotingTo = MockedClock.GetDate(28).ToTimestamp();
+            x.EVotingApprovalDueDate = MockedClock.GetDate(-2).ToTimestamp();
+        }));
+        await RunEvents<ContestUpdated>();
+
+        await RunScoped<ApproveContestEVotingJob>(job => job.Run(CancellationToken.None));
+        await RunEvents<ContestEVotingApprovalUpdated>();
+
+        var contest = await RunOnDb(async db => await db.Contests.SingleAsync(c => c.Id == id));
+        contest.EVotingApproved.Should().BeTrue();
+
+        await CantonAdminClient.UpdateAsync(NewValidRequest(x =>
+        {
+            x.Date = MockedClock.GetDate(30).ToTimestamp();
+            x.EndOfTestingPhase = MockedClock.GetDate(26).ToTimestamp();
+            x.EVoting = true;
+            x.EVotingFrom = MockedClock.GetDate(27).ToTimestamp();
+            x.EVotingTo = MockedClock.GetDate(28).ToTimestamp();
+            x.EVotingApprovalDueDate = MockedClock.GetDate(2).ToTimestamp();
+        }));
+
+        var updateEvent = EventPublisherMock.GetSinglePublishedEvent<ContestUpdated>();
+        updateEvent.MatchSnapshot("updateEvent");
+        await TestEventPublisher.Publish(updateEvent);
+
+        var approvalEvent = EventPublisherMock.GetSinglePublishedEvent<ContestEVotingApprovalUpdated>();
+        approvalEvent.MatchSnapshot("approvalEvent");
+        await TestEventPublisher.Publish(approvalEvent);
+
+        var updatedContest = await RunOnDb(async db => await db.Contests.SingleAsync(c => c.Id == id));
+        updatedContest.EVotingApproved.Should().BeFalse();
     }
 
     [Fact]

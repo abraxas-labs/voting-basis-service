@@ -63,6 +63,7 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
             },
             StistatMunicipality = true,
             VotingCardFlatRateDisabled = true,
+            IsMainVotingCardsDomainOfInfluence = true,
             EventInfo = GetMockedEventInfo(),
         });
 
@@ -75,6 +76,7 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
         protoDoi.ExternalPrintingCenterEaiMessageType.Should().Be("GOSSAU-Updated");
         protoDoi.SapCustomerOrderNumber.Should().Be("915421");
         protoDoi.StistatMunicipality.Should().BeTrue();
+        protoDoi.IsMainVotingCardsDomainOfInfluence.Should().BeTrue();
         protoDoi.VotingCardColor.Should().Be(SharedProto.VotingCardColor.Unspecified);
     }
 

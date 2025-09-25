@@ -33,6 +33,10 @@ public class Contest : BaseEntity
 
     public DateTime? EVotingTo { get; set; }
 
+    public DateTime? EVotingApprovalDueDate { get; set; }
+
+    public bool EVotingApproved { get; set; }
+
     public ICollection<Vote> Votes { get; set; } = new HashSet<Vote>();
 
     public ICollection<ProportionalElection> ProportionalElections { get; set; } = new HashSet<ProportionalElection>();

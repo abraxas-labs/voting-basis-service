@@ -72,8 +72,13 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -93,7 +98,9 @@
         }
       ],
       "State": 1,
-      "ArchivePer": null
+      "ArchivePer": null,
+      "EVotingApprovalDueDate": null,
+      "EVotingApproved": false
     },
     {
       "Id": "2d98b9a1-404e-44b7-b217-f496949a7639",
@@ -167,8 +174,13 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -180,7 +192,9 @@
         }
       ],
       "State": 1,
-      "ArchivePer": null
+      "ArchivePer": null,
+      "EVotingApprovalDueDate": null,
+      "EVotingApproved": false
     },
     {
       "Id": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
@@ -254,8 +268,13 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -277,11 +296,13 @@
         },
         {
           "DomainOfInfluenceType": 5,
-          "ContestEntriesCount": 6
+          "ContestEntriesCount": 9
         }
       ],
       "State": 1,
-      "ArchivePer": null
+      "ArchivePer": null,
+      "EVotingApprovalDueDate": null,
+      "EVotingApproved": false
     },
     {
       "Id": "cc70fe43-8f4e-4bc6-a461-b808907bc996",
@@ -355,8 +376,13 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -374,7 +400,9 @@
         }
       ],
       "State": 1,
-      "ArchivePer": null
+      "ArchivePer": null,
+      "EVotingApprovalDueDate": null,
+      "EVotingApproved": false
     },
     {
       "Id": "a091a5cc-735b-4bf4-a30d-f4c907c9fc10",
@@ -448,8 +476,13 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -461,7 +494,9 @@
         }
       ],
       "State": 1,
-      "ArchivePer": null
+      "ArchivePer": null,
+      "EVotingApprovalDueDate": null,
+      "EVotingApproved": false
     },
     {
       "Id": "bfd88d88-77f2-4172-a73d-56b1ca5442b3",
@@ -510,7 +545,7 @@
         "ResponsibleForVotingCards": true,
         "Bfs": "3443",
         "Code": "",
-        "SortNumber": 0,
+        "SortNumber": 1,
         "ExportConfigurations": [],
         "ReturnAddress": {
           "AddressLine1": "Stadtverwaltung Gossau",
@@ -552,8 +587,13 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": true,
-        "ECollectingMinSignatureCount": 10000,
-        "ECollectingMaxElectronicSignaturePercent": 50
+        "ECollectingInitiativeMinSignatureCount": 10000,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
+        "ECollectingInitiativeNumberOfMembersCommittee": 15,
+        "ECollectingReferendumMinSignatureCount": 1000,
+        "ECollectingReferendumMaxElectronicSignaturePercent": 20,
+        "ECollectingEmail": "ecollecting@gossau.ch",
+        "IsMainVotingCardsDomainOfInfluence": true
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -565,7 +605,9 @@
         }
       ],
       "State": 1,
-      "ArchivePer": null
+      "ArchivePer": null,
+      "EVotingApprovalDueDate": null,
+      "EVotingApproved": false
     },
     {
       "Id": "dc0f4940-10c2-4a33-b752-3e5d761c0009",
@@ -639,15 +681,22 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "EVoting": false,
       "EVotingFrom": null,
       "EVotingTo": null,
       "ContestEntriesDetails": [],
       "State": 1,
-      "ArchivePer": null
+      "ArchivePer": null,
+      "EVotingApprovalDueDate": null,
+      "EVotingApproved": false
     },
     {
       "Id": "16528771-d8b7-46f6-b7ed-e16c36ea3197",
@@ -721,8 +770,13 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -735,7 +789,9 @@
       },
       "ContestEntriesDetails": [],
       "State": 4,
-      "ArchivePer": null
+      "ArchivePer": null,
+      "EVotingApprovalDueDate": null,
+      "EVotingApproved": false
     },
     {
       "Id": "4b1513ce-89fd-4ce8-bf71-7b55a50b8943",
@@ -809,8 +865,13 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -823,7 +884,9 @@
       },
       "ContestEntriesDetails": [],
       "State": 3,
-      "ArchivePer": null
+      "ArchivePer": null,
+      "EVotingApprovalDueDate": null,
+      "EVotingApproved": false
     },
     {
       "Id": "2504a611-08a7-49ed-bab8-666b3add94b9",
@@ -897,8 +960,13 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -911,7 +979,9 @@
       },
       "ContestEntriesDetails": [],
       "State": 5,
-      "ArchivePer": null
+      "ArchivePer": null,
+      "EVotingApprovalDueDate": null,
+      "EVotingApproved": false
     },
     {
       "Id": "4c3adb88-2de9-4042-bf38-3fda1cb8b29a",
@@ -960,7 +1030,7 @@
         "ResponsibleForVotingCards": true,
         "Bfs": "3443",
         "Code": "",
-        "SortNumber": 0,
+        "SortNumber": 1,
         "ExportConfigurations": [],
         "ReturnAddress": {
           "AddressLine1": "Stadtverwaltung Gossau",
@@ -1002,15 +1072,22 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": true,
-        "ECollectingMinSignatureCount": 10000,
-        "ECollectingMaxElectronicSignaturePercent": 50
+        "ECollectingInitiativeMinSignatureCount": 10000,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
+        "ECollectingInitiativeNumberOfMembersCommittee": 15,
+        "ECollectingReferendumMinSignatureCount": 1000,
+        "ECollectingReferendumMaxElectronicSignaturePercent": 20,
+        "ECollectingEmail": "ecollecting@gossau.ch",
+        "IsMainVotingCardsDomainOfInfluence": true
       },
       "EVoting": false,
       "EVotingFrom": null,
       "EVotingTo": null,
       "ContestEntriesDetails": [],
       "State": 3,
-      "ArchivePer": null
+      "ArchivePer": null,
+      "EVotingApprovalDueDate": null,
+      "EVotingApproved": false
     }
   ]
 }

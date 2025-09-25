@@ -13,6 +13,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -72,6 +73,18 @@ public class SecondaryMajorityElectionCandidateReorderTest : PoliticalBusinessAu
             async () => await CantonAdminClient.ReorderSecondaryMajorityElectionCandidatesAsync(NewValidRequest(l =>
                 l.Orders.Orders[0].Position = 5)),
             StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.ReorderSecondaryMajorityElectionCandidatesAsync(NewValidRequest(x =>
+            {
+                x.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

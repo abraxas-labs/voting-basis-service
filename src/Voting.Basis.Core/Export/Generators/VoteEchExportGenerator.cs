@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Export.Models;
 using Voting.Basis.Core.Services.Permission;
+using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Converters;
@@ -21,17 +22,20 @@ namespace Voting.Basis.Core.Export.Generators;
 public class VoteEchExportGenerator : IExportGenerator
 {
     private readonly IDbRepository<DataContext, Vote> _voteRepo;
-    private readonly Ech0159Serializer _ech0159Serializer;
+    private readonly EchSerializerProvider _echSerializerProvider;
     private readonly PermissionService _permissionService;
+    private readonly CountingCircleReader _countingCircleReader;
 
     public VoteEchExportGenerator(
         IDbRepository<DataContext, Vote> voteRepo,
-        Ech0159Serializer ech0159Serializer,
-        PermissionService permissionService)
+        EchSerializerProvider echSerializerProvider,
+        PermissionService permissionService,
+        CountingCircleReader countingCircleReader)
     {
         _voteRepo = voteRepo;
-        _ech0159Serializer = ech0159Serializer;
+        _echSerializerProvider = echSerializerProvider;
         _permissionService = permissionService;
+        _countingCircleReader = countingCircleReader;
     }
 
     public TemplateModel Template => BasisXmlVoteTemplates.Ech0159;
@@ -50,11 +54,21 @@ public class VoteEchExportGenerator : IExportGenerator
             .FirstOrDefaultAsync()
             ?? throw new EntityNotFoundException(voteId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId, true);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(vote.DomainOfInfluenceId, true);
+        var eCounting = await _countingCircleReader.OwnsAnyECountingCountingCircle();
+        var ech0159Serializer = _echSerializerProvider.GetEch0159Serializer(eCounting);
 
-        var xmlBytes = await _ech0159Serializer.ToEventInitialDelivery(vote.Contest, vote);
+        var xmlBytes = await ech0159Serializer.ToEventInitialDelivery(vote.Contest, vote);
+
         var voteDescription = LanguageUtil.GetInCurrentLanguage(vote.ShortDescription);
-        var fileName = FileNameUtil.GetXmlFileName(Ech0159Serializer.EchNumber, Ech0159Serializer.EchVersion, vote.DomainOfInfluence!.Canton, vote.Contest.Date, voteDescription);
+
+        var fileName = FileNameUtil.GetXmlFileName(
+            ech0159Serializer.EchNumber,
+            ech0159Serializer.EchVersion,
+            vote.DomainOfInfluence!.Canton,
+            vote.Contest.Date,
+            voteDescription);
+
         return new ExportFile(xmlBytes, fileName, MediaTypeNames.Application.Xml);
     }
 }

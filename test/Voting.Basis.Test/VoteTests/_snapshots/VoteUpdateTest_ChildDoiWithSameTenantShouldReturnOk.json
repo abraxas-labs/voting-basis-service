@@ -43,7 +43,8 @@
       "EnforceResultEntryForCountingCircles": true,
       "ReviewProcedure": 1,
       "EnforceReviewProcedureForCountingCircles": true,
-      "Type": 1
+      "Type": 1,
+      "EVotingApproved": false
     }
   }
 }

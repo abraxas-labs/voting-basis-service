@@ -14,6 +14,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Common;
@@ -82,7 +83,7 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
                     Number = "number1",
                     Sex = SharedProto.SexType.Female,
                     Title = "title",
-                    ZipCode = "zip code",
+                    ZipCode = "9000",
                     Origin = "origin",
                     CheckDigit = 9,
                     Street = "street",
@@ -110,7 +111,7 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
                     Party = { LanguageUtil.MockAllLanguages("BDP") },
                     Sex = SharedProto.SexType.Female,
                     Title = "title",
-                    ZipCode = "zip code",
+                    ZipCode = "9000",
                     Origin = "origin",
                     CheckDigit = 9,
                     Street = "street",
@@ -156,6 +157,15 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
             async () => await CantonAdminClient.CreateCandidateAsync(NewValidRequest(o => o.DateOfBirth = new DateTime(2050, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToTimestamp())),
             StatusCode.InvalidArgument,
             "DateOfBirth");
+    }
+
+    [Fact]
+    public async Task InvalidSwissZipCodeShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateCandidateAsync(NewValidRequest(o => o.ZipCode = "test")),
+            StatusCode.InvalidArgument,
+            "ZipCode");
     }
 
     [Fact]
@@ -334,6 +344,18 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
     }
 
     [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateCandidateAsync(NewValidRequest(x =>
+            {
+                x.MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
+    [Fact]
     public async Task TestProcessorWithDeprecatedSexType()
     {
         await TestEventPublisher.Publish(
@@ -357,7 +379,7 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
                     Number = "number1",
                     Sex = SharedProto.SexType.Undefined,
                     Title = "title",
-                    ZipCode = "zip code",
+                    ZipCode = "9000",
                     Origin = "origin",
                     CheckDigit = 9,
                     Street = "street",
@@ -397,7 +419,7 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
                     Number = "number1toolong",
                     Sex = SharedProto.SexType.Female,
                     Title = "title",
-                    ZipCode = "zip code",
+                    ZipCode = "9000",
                     Origin = "origin",
                     CheckDigit = 9,
                     Street = "street",
@@ -453,7 +475,7 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
             Sex = SharedProto.SexType.Female,
             Party = { LanguageUtil.MockAllLanguages("SP") },
             Title = "title",
-            ZipCode = "zip code",
+            ZipCode = "9000",
             Origin = "origin",
             Street = "street",
             HouseNumber = "1a",

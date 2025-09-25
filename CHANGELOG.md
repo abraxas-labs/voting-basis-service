@@ -1,4 +1,4 @@
-# ✨ Changelog (`v2.54.6`)
+# ✨ Changelog (`v2.66.3`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,191 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v2.54.6
-Previous version ---- v2.43.0
+This version -------- v2.66.3
+Previous version ---- v2.54.6
 Initial version ----- v1.27.15
-Total commits ------- 28
+Total commits ------- 32
 ```
+
+## [v2.66.3] - 2025-09-16
+
+### 🔄 Changed
+
+- correctly build permissions when adding a new domain of influence
+
+## [v2.66.2] - 2025-09-01
+
+### 🔄 Changed
+
+- correctly allow editing candidate references
+
+## [v2.66.1] - 2025-08-26
+
+### 🔄 Changed
+
+- deactivate political business e-voting apporval temporarily
+
+### 🔄 Changed
+
+- deactivate political business e-voting apporval temporarily
+
+## [v2.66.0] - 2025-08-25
+
+### 🆕 Added
+
+- add main voting cards domain of influence flag
+
+## [v2.65.4] - 2025-08-14
+
+### 🔄 Changed
+
+- enable malware scanner
+
+## [v2.65.3] - 2025-08-12
+
+### 🔄 Changed
+
+- fix update domain of influence voting card data as election admin
+
+## [v2.65.2] - 2025-08-08
+
+### 🔄 Changed
+
+- correctly update candidate references on update to main candidate
+
+## [v2.65.1] - 2025-08-08
+
+### 🔄 Changed
+
+- restrict locality to eCH length
+- ensure correct swiss zip code
+
+## [v2.65.0] - 2025-07-22
+
+### 🆕 Added
+
+- add sort number to admin management response
+
+## [v2.64.1] - 2025-07-07
+
+### 🔄 Changed
+
+- prevent vote type change after ballot create
+
+## [v2.64.0] - 2025-07-04
+
+### 🔄 Changed
+
+- set majority election candidate number on import
+
+## [v2.63.0] - 2025-07-04
+
+### 🔄 Added
+
+- e-voting only contest export
+
+## [v2.62.0] - 2025-07-03
+
+### 🆕 Added
+
+- add contest e-voting approval
+
+## [v2.61.2] - 2025-07-02
+
+### 🔄 Changed
+
+- avoid throwing error when read all permission is available
+
+### 🔒 Security
+
+- reference third party images via harbor container registry proxy for better control over dependency management
+
+## [v2.61.1] - 2025-07-02
+
+### 🔄 Changed
+
+- bump pkcs11 driver from 4.45 to 4.51.0.1
+
+## [v2.61.0] - 2025-07-01
+
+### 🔄 Changed
+
+- prevent certain political business changes after create
+
+## [v2.60.0] - 2025-06-25
+
+### 🆕 Added
+
+- add political business e-voting approve cron job
+
+## [v2.59.0] - 2025-06-20
+
+### 🆕 Added
+
+- add e-voting approval on political businesses
+
+## [v2.58.0] - 2025-06-18
+
+### 🆕 Added
+
+- add e-collecting email
+
+## [v2.57.0] - 2025-06-17
+
+### 🔄 Changed
+
+- eCH export languages dependent of contest e-voting
+
+## [v2.56.3] - 2025-06-11
+
+### 🔄 Changed
+
+- fix political business sub type include on political business summary detail
+
+## [v2.56.2] - 2025-06-05
+
+### 🔄 Changed
+
+- fix political business sub type include on political business aummary list
+
+## [v2.56.1] - 2025-05-27
+
+### ❌ Removed
+
+- remove electronic ballot question title from ech vote mapping
+
+## [v2.56.0] - 2025-05-26
+
+### 🔄 Changed
+
+- refactor dockerfile and reduce cache layers
+
+### 🔒 Security
+
+- introduce user id and group id to avoid random assignment
+- use exec form to avoid shell interpretation
+
+## [v2.55.0] - 2025-05-23
+
+### 🔄 Changed
+
+- ensure candidate numbers have two digits in eCH exports
+
+### 🆕 Added
+
+- Injections for PoliticalAssemblyStateSetPastJob and PoliticalAssemblyStateArchiveJob. Activation of event generation for past lock and archive of political assemblies.
+
+### 🔄 Changed
+
+- initiative number of members committee is required for all dois
+
+### 🆕 Added
+
+- add Ech0157v5 and Ech0159v5
+
+### 🆕 Added
+
+- add e-collecting referendum and initiative properties
 
 ## [v2.54.6] - 2025-04-15
 
@@ -122,177 +302,133 @@ Total commits ------- 28
 
 ### 🔄 Changed
 
-- Allow creation of political assemblies when DOI is not responsible for voting cards
+- correctly build permissions when adding a new domain of influence
 
-## [v2.49.0] - 2025-02-25
+### 🔄 Changed
+
+- correctly allow editing candidate references
+
+### 🔄 Changed
+
+- deactivate political business e-voting apporval temporarily
+
+### 🔄 Changed
+
+- deactivate political business e-voting apporval temporarily
 
 ### 🆕 Added
 
-- add e-collecting flag
-
-## [v2.48.1] - 2025-02-20
+- add main voting cards domain of influence flag
 
 ### 🔄 Changed
 
-- improve ballot group ux
+- enable malware scanner
 
-## [v2.48.0] - 2025-02-18
+### 🔄 Changed
+
+- fix update domain of influence voting card data as election admin
+
+### 🔄 Changed
+
+- correctly update candidate references on update to main candidate
+
+### 🔄 Changed
+
+- restrict locality to eCH length
+- ensure correct swiss zip code
 
 ### 🆕 Added
 
-- add domain of influence multiple electoral register flag
+- add sort number to admin management response
 
-## [v2.47.1] - 2025-02-14
+### 🔄 Changed
 
-### :arrows_counterclockwise: Changed
+- prevent vote type change after ballot create
 
-- check political business number uniqueness per pb type
+### 🔄 Changed
 
-## [v2.47.0] - 2025-02-14
+- set majority election candidate number on import
 
-### :new: Added
+### 🔄 Added
 
-- added hide occupation title canton setting
-
-## [v2.46.0] - 2025-02-14
+- e-voting only contest export
 
 ### 🆕 Added
 
-- add ecounting flag to counting circles
-
-## [v2.45.0] - 2025-02-14
+- add contest e-voting approval
 
 ### 🔄 Changed
 
-- allow to export all political businesses one has read access to
-
-## [v2.44.0] - 2025-02-13
-
-### :new: Added
-
-- validate eCH files on export
-
-## [v2.43.1] - 2025-02-12
-
-### 🔄 Changed
-
-- validate max length for short and official descriptions in ballot according to eCH-0155 v4.0
-
-### 🔄 Changed
-
-- add candidates to secondary majority election bugfixes
-
-## [v2.43.0] - 2025-02-06
-
-### :new: Added
-
-- added hide lower domain of influences in reports flag
-
-## [v2.42.1] - 2025-01-10
-
-### 🔄 Changed
-
-- update voting library from 12.20.0 to 12.22.3
+- avoid throwing error when read all permission is available
 
 ### 🔒 Security
 
-- use updated Pkcs11Interop library version 5.2.0
-
-## [v2.42.0] - 2025-01-10
-
-### :arrows_counterclockwise: Changed
-
-- restrict admin permissions
-
-## [v2.41.1] - 2025-01-10
+- reference third party images via harbor container registry proxy for better control over dependency management
 
 ### 🔄 Changed
 
-- improve counting circle and domain of influence event processing performance
-
-## [v2.41.0] - 2024-12-18
+- bump pkcs11 driver from 4.45 to 4.51.0.1
 
 ### 🔄 Changed
 
-- update minio lib and testcontainer according to latest operated version
-
-## [v2.40.0] - 2024-12-16
+- prevent certain political business changes after create
 
 ### 🆕 Added
 
-- include user id in log output
-
-## [v2.39.0] - 2024-12-16
+- add political business e-voting approve cron job
 
 ### 🆕 Added
 
-- add secondary majority election protocols
-
-## [v2.38.0] - 2024-12-11
+- add e-voting approval on political businesses
 
 ### 🆕 Added
 
-- domain of influence voting card flat rate owner
-
-## [v2.37.4] - 2024-12-11
+- add e-collecting email
 
 ### 🔄 Changed
 
-- majority election candidate optional values in active contest
-
-## [v2.37.3] - 2024-12-09
-
-### :arrows_counterclockwise: Changed
-
-- correctly export occupation title in eCH
-
-## [v2.37.2] - 2024-11-29
+- eCH export languages dependent of contest e-voting
 
 ### 🔄 Changed
 
-- export political lastname as family name
-
-## [v2.37.1] - 2024-11-29
+- fix political business sub type include on political business summary detail
 
 ### 🔄 Changed
 
-- move resolve contest import from grpc to rest
-
-## [v2.37.0] - 2024-11-28
-
-### :new: Added
-
-- added read-only roles
-
-## [v2.36.0] - 2024-11-27
+- fix political business sub type include on political business aummary list
 
 ### ❌ Removed
 
-- remove allowed candidates from secondary majority elections
+- remove electronic ballot question title from ech vote mapping
 
 ### 🔄 Changed
 
-- optimize SourceLink integration and use new ci/cd versioning capabilities
-- prevent duplicated commit ids in product version, only use SourceLink plugin.
-- extend .dockerignore file with additional exclusions
+- refactor dockerfile and reduce cache layers
+
+### 🔒 Security
+
+- introduce user id and group id to avoid random assignment
+- use exec form to avoid shell interpretation
 
 ### 🔄 Changed
 
-- only enable virtual top level on root domain of influence and restrict superior authority types
+- ensure candidate numbers have two digits in eCH exports
 
 ### 🆕 Added
 
-- feat(VOTING-4526): allow to overwrite majority reference candidate number
+- Injections for PoliticalAssemblyStateSetPastJob and PoliticalAssemblyStateArchiveJob. Activation of event generation for past lock and archive of political assemblies.
 
 ### 🔄 Changed
 
-- feat(VOTING-4526): canton settings flag secondary majority election on separate ballot
+- initiative number of members committee is required for all dois
 
 ### 🆕 Added
 
-- publish results option on domain of influence
+- add Ech0157v5 and Ech0159v5
 
-## [v2.35.2] - 2024-10-31
+### 🆕 Added
+
+- add e-collecting referendum and initiative properties
 
 ### ❌ Removed
 
@@ -367,125 +503,3 @@ Total commits ------- 28
 ### 🔄 Changed
 
 - switched to a more generic event watching mechanism
-
-### 🔄 Changed
-
-- Allow creation of political assemblies when DOI is not responsible for voting cards
-
-### 🆕 Added
-
-- add e-collecting flag
-
-### 🔄 Changed
-
-- improve ballot group ux
-
-### 🆕 Added
-
-- add domain of influence multiple electoral register flag
-
-### :arrows_counterclockwise: Changed
-
-- check political business number uniqueness per pb type
-
-### :new: Added
-
-- added hide occupation title canton setting
-
-### 🆕 Added
-
-- add ecounting flag to counting circles
-
-### 🔄 Changed
-
-- allow to export all political businesses one has read access to
-
-### :new: Added
-
-- validate eCH files on export
-
-### 🔄 Changed
-
-- validate max length for short and official descriptions in ballot according to eCH-0155 v4.0
-
-### 🔄 Changed
-
-- add candidates to secondary majority election bugfixes
-
-### :new: Added
-
-- added hide lower domain of influences in reports flag
-
-### 🔄 Changed
-
-- update voting library from 12.20.0 to 12.22.3
-
-### 🔒 Security
-
-- use updated Pkcs11Interop library version 5.2.0
-
-### :arrows_counterclockwise: Changed
-
-- restrict admin permissions
-
-### 🔄 Changed
-
-- update minio lib and testcontainer according to latest operated version
-
-### 🆕 Added
-
-- include user id in log output
-
-### 🆕 Added
-
-- add secondary majority election protocols
-
-### 🆕 Added
-
-- domain of influence voting card flat rate owner
-
-### 🔄 Changed
-
-- majority election candidate optional values in active contest
-
-### :arrows_counterclockwise: Changed
-
-- correctly export occupation title in eCH
-
-### 🔄 Changed
-
-- export political lastname as family name
-
-### 🔄 Changed
-
-- move resolve contest import from grpc to rest
-
-### :new: Added
-
-- added read-only roles
-
-### ❌ Removed
-
-- remove allowed candidates from secondary majority elections
-
-### 🔄 Changed
-
-- optimize SourceLink integration and use new ci/cd versioning capabilities
-- prevent duplicated commit ids in product version, only use SourceLink plugin.
-- extend .dockerignore file with additional exclusions
-
-### 🔄 Changed
-
-- only enable virtual top level on root domain of influence and restrict superior authority types
-
-### 🆕 Added
-
-- feat(VOTING-4526): allow to overwrite majority reference candidate number
-
-### 🔄 Changed
-
-- feat(VOTING-4526): canton settings flag secondary majority election on separate ballot
-
-### 🆕 Added
-
-- publish results option on domain of influence

@@ -37,7 +37,8 @@
       "EVotingFrom": null,
       "EVotingTo": null,
       "State": 1,
-      "PreviousContestId": ""
+      "PreviousContestId": "",
+      "EVotingApprovalDueDate": null
     }
   }
 }

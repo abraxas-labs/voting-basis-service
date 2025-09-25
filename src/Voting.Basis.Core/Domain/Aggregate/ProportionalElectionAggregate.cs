@@ -93,6 +93,8 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
 
     public int? FederalIdentification { get; set; }
 
+    public bool? EVotingApproved { get; private set; }
+
     public void CreateFrom(ProportionalElection proportionalElection)
     {
         if (proportionalElection.Id == default)
@@ -114,7 +116,14 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void UpdateFrom(ProportionalElection proportionalElection)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         _validator.ValidateAndThrow(proportionalElection);
+
+        // We only set a different e-voting approved on create or approval update.
+        proportionalElection.EVotingApproved = EVotingApproved;
+
+        ValidationUtils.EnsureNotModified(DomainOfInfluenceId, proportionalElection.DomainOfInfluenceId);
+        ValidationUtils.EnsureNotModified(MandateAlgorithm, proportionalElection.MandateAlgorithm);
 
         var ev = new ProportionalElectionUpdated
         {
@@ -128,6 +137,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void UpdateAfterTestingPhaseEnded(ProportionalElection proportionalElection)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         _validator.ValidateAndThrow(proportionalElection);
 
         // Active shouldn't be changed by updates after the testing phase, but also shouldn't throw an error,
@@ -165,6 +175,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void UpdateActiveState(bool active)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         var ev = new ProportionalElectionActiveStateUpdated
         {
             ProportionalElectionId = Id.ToString(),
@@ -175,9 +186,47 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
+    public void UpdateEVotingApproval(bool approved)
+    {
+        EnsureNotDeleted();
+
+        if (EVotingApproved == null)
+        {
+            throw new ValidationException($"Proportional election {Id} does not support E-Voting");
+        }
+
+        var ev = new ProportionalElectionEVotingApprovalUpdated
+        {
+            ProportionalElectionId = Id.ToString(),
+            Approved = approved,
+            EventInfo = _eventInfoProvider.NewEventInfo(),
+        };
+
+        RaiseEvent(ev);
+    }
+
+    public bool TryApproveEVoting()
+    {
+        if (EVotingApproved == true)
+        {
+            return false;
+        }
+
+        try
+        {
+            UpdateEVotingApproval(true);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
     public void UpdateMandatAlgorithm(ProportionalElectionMandateAlgorithm mandateAlgorithm)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         var ev = new ProportionalElectionMandateAlgorithmUpdated
         {
             ProportionalElectionId = Id.ToString(),
@@ -188,9 +237,15 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void Delete()
+    public void Delete(bool ignoreCheck = false)
     {
         EnsureNotDeleted();
+
+        if (!ignoreCheck)
+        {
+            EnsureEVotingNotApproved();
+        }
+
         var ev = new ProportionalElectionDeleted
         {
             ProportionalElectionId = Id.ToString(),
@@ -203,6 +258,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void CreateListFrom(ProportionalElectionList list)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         if (list.Id == default)
         {
             list.Id = Guid.NewGuid();
@@ -227,6 +283,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void UpdateListFrom(ProportionalElectionList list)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
 
         var existingList = FindList(list.Id);
         EnsureUniqueListPosition(list);
@@ -253,6 +310,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void UpdateListAfterTestingPhaseEnded(ProportionalElectionList list)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
 
         var existingList = FindList(list.Id);
         ValidationUtils.EnsureNotModified(existingList.OrderNumber, list.OrderNumber);
@@ -274,6 +332,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void ReorderLists(IReadOnlyCollection<EntityOrder> orders)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         _entityOrdersValidator.ValidateAndThrow(orders);
 
         var ids = orders.Select(o => o.Id).ToArray();
@@ -300,6 +359,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void DeleteList(Guid listId)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         EnsureListExists(listId);
 
         var ev = new ProportionalElectionListDeleted
@@ -315,6 +375,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void CreateListUnionFrom(ProportionalElectionListUnion listUnion)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         EnsureIsHagenbachBischoffElection();
         if (listUnion.Id == default)
         {
@@ -335,6 +396,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void UpdateListUnionFrom(ProportionalElectionListUnion listUnion)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         EnsureIsHagenbachBischoffElection();
 
         var existingListUnion = FindListUnion(listUnion.Id);
@@ -362,6 +424,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void ReorderListUnions(Guid? rootListUnionId, IReadOnlyCollection<EntityOrder> orders)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         EnsureIsHagenbachBischoffElection();
 
         _entityOrdersValidator.ValidateAndThrow(orders);
@@ -393,6 +456,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void DeleteListUnion(Guid listUnionId)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         EnsureIsHagenbachBischoffElection();
         EnsureListUnionExists(listUnionId);
 
@@ -409,6 +473,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void UpdateListUnionEntriesFrom(ProportionalElectionListUnionEntries listUnionEntries)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         EnsureIsHagenbachBischoffElection();
         var existingListUnion = FindListUnion(listUnionEntries.ProportionalElectionListUnionId);
 
@@ -447,6 +512,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void UpdateListUnionMainList(Guid unionId, Guid? mainListId)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         EnsureIsHagenbachBischoffElection();
 
         var listUnion = FindListUnion(unionId);
@@ -473,6 +539,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void CreateCandidateFrom(ProportionalElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         if (candidate.Id == default)
         {
             candidate.Id = Guid.NewGuid();
@@ -503,6 +570,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void UpdateCandidateFrom(ProportionalElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         _candidateValidator.ValidateAndThrow(candidate);
         EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, candidateValidationParams);
 
@@ -529,6 +597,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void UpdateCandidateAfterTestingPhaseEnded(ProportionalElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         _candidateValidator.ValidateAndThrow(candidate);
         EnsureLocalityAndOriginIsSetForNonCommunalDoiType(candidate, candidateValidationParams);
 
@@ -575,6 +644,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void ReorderCandidates(Guid listId, IEnumerable<EntityOrder> orders)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         _entityOrdersValidator.ValidateAndThrow(orders);
         var list = FindList(listId);
         var candidates = list.Candidates;
@@ -606,6 +676,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void DeleteCandidate(Guid listId, Guid candidateId)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         var list = FindList(listId);
         EnsureCandidateExists(list, candidateId);
 
@@ -656,6 +727,9 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
                 Apply(e);
                 break;
             case ProportionalElectionActiveStateUpdated e:
+                Apply(e);
+                break;
+            case ProportionalElectionEVotingApprovalUpdated e:
                 Apply(e);
                 break;
             case ProportionalElectionDeleted _:
@@ -749,6 +823,11 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     private void Apply(ProportionalElectionActiveStateUpdated ev)
     {
         Active = ev.Active;
+    }
+
+    private void Apply(ProportionalElectionEVotingApprovalUpdated ev)
+    {
+        EVotingApproved = ev.Approved;
     }
 
     private void Apply(ProportionalElectionListCreated ev)
@@ -1098,6 +1177,14 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         if (MandateAlgorithm != ProportionalElectionMandateAlgorithm.HagenbachBischoff)
         {
             throw new ValidationException("The election does not distribute mandates per Hagenbach-Bischoff algorithm");
+        }
+    }
+
+    private void EnsureEVotingNotApproved()
+    {
+        if (EVotingApproved == true)
+        {
+            throw new PoliticalBusinessEVotingApprovedException();
         }
     }
 }

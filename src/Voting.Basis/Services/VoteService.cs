@@ -62,6 +62,13 @@ public class VoteService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizeAnyPermission(Permissions.Vote.EVotingApprove, Permissions.Vote.EVotingApproveRevert)]
+    public override async Task<Empty> UpdateEVotingApproval(UpdateVoteEVotingApprovalRequest request, ServerCallContext context)
+    {
+        await _voteWriter.UpdateEVotingApproval(GuidParser.Parse(request.Id), request.Approved);
+        return ProtobufEmpty.Instance;
+    }
+
     [AuthorizePermission(Permissions.Vote.Delete)]
     public override async Task<Empty> Delete(
         DeleteVoteRequest request,

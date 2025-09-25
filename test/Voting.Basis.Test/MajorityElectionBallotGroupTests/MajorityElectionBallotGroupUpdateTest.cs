@@ -199,6 +199,35 @@ public class MajorityElectionBallotGroupUpdateTest : PoliticalBusinessAuthorizat
             "Contest is past locked or archived");
     }
 
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldWork()
+    {
+        var response = await CantonAdminClient.UpdateBallotGroupAsync(new UpdateMajorityElectionBallotGroupRequest
+        {
+            Description = "EV Update",
+            ShortDescription = "short - long",
+            Position = 1,
+            Id = MajorityElectionMockedData.BallotGroupIdGossauMajorityElectionEVotingApprovedInContestBund,
+            MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen,
+            Entries =
+            {
+                new ProtoModels.MajorityElectionBallotGroupEntry
+                {
+                    ElectionId = MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen,
+                    Id = MajorityElectionMockedData.BallotGroupEntryId1GossauMajorityElectionEVotingApprovedInContestBund,
+                },
+                new ProtoModels.MajorityElectionBallotGroupEntry
+                {
+                    ElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen,
+                    Id = MajorityElectionMockedData.BallotGroupEntryId2GossauMajorityElectionEVotingApprovedInContestBund,
+                },
+            },
+        });
+
+        EventPublisherMock.GetSinglePublishedEvent<MajorityElectionBallotGroupUpdated>()
+            .Should().NotBeNull();
+    }
+
     protected override IEnumerable<string> AuthorizedRoles()
     {
         yield return Roles.CantonAdmin;

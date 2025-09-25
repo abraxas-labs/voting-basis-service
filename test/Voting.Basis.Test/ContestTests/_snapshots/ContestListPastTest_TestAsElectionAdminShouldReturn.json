@@ -24,7 +24,9 @@
       "PoliticalBusinesses": [],
       "PoliticalBusinessUnions": [],
       "State": 3,
-      "PreviousContestId": ""
+      "PreviousContestId": "",
+      "EVotingApprovalDueDate": null,
+      "EVotingApproved": false
     },
     {
       "Id": "bfd88d88-77f2-4172-a73d-56b1ca5442b3",
@@ -50,7 +52,9 @@
       "PoliticalBusinesses": [],
       "PoliticalBusinessUnions": [],
       "State": 1,
-      "PreviousContestId": ""
+      "PreviousContestId": "",
+      "EVotingApprovalDueDate": null,
+      "EVotingApproved": false
     }
   ]
 }

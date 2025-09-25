@@ -85,7 +85,9 @@ public class DomainOfInfluenceReader
             domainOfInfluence.SortExportConfigurations();
             domainOfInfluence.Parties = await ListParties(domainOfInfluence.Id);
 
-            if (_auth.HasPermission(Permissions.DomainOfInfluence.ReadSameCanton) && !await _permissionService.IsOwnerOfCanton(domainOfInfluence.Canton))
+            if (!_auth.HasPermission(Permissions.DomainOfInfluence.ReadAll) &&
+                _auth.HasPermission(Permissions.DomainOfInfluence.ReadSameCanton) &&
+                !await _permissionService.IsOwnerOfCanton(domainOfInfluence.Canton))
             {
                 throw new EntityNotFoundException(id);
             }
@@ -171,12 +173,10 @@ public class DomainOfInfluenceReader
         }
 
         var tenantId = _auth.Tenant.Id;
-        var doiIds = _permissionRepo.Query()
-            .Where(p => p.TenantId == tenantId)
-            .AsEnumerable() // ef core npgsql cant translate this, https://github.com/npgsql/efcore.pg/issues/460
-            .Where(p => p.CountingCircleIds.Contains(countingCircleId))
+        var doiIds = await _permissionRepo.Query()
+            .Where(p => p.TenantId == tenantId && p.CountingCircleIds.Contains(countingCircleId))
             .Select(p => p.DomainOfInfluenceId)
-            .ToList();
+            .ToHashSetAsync();
         return await _repo.Query()
             .Where(d => doiIds.Contains(d.Id))
             .OrderBy(d => d.Name)

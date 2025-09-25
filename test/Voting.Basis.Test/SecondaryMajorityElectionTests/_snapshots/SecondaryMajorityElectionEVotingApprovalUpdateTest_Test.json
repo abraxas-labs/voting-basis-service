@@ -1,0 +1,24 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "SecondaryMajorityElectionId": "b321b60c-7aa2-4811-87a3-fffb426af1d6",
+    "Approved": true,
+    "PrimaryMajorityElectionId": "50415df8-6ee9-4eb4-9e31-68c0d3021e76",
+    "IsOnSeparateBallot": false
+  }
+}

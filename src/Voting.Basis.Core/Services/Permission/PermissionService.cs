@@ -70,7 +70,7 @@ public class PermissionService
         }
     }
 
-    public async Task EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(Guid domainOfInfluenceId, bool isReadAccess)
+    public async Task EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(Guid domainOfInfluenceId, bool isReadAccess)
     {
         var tenantId = _auth.Tenant.Id;
 
@@ -112,7 +112,7 @@ public class PermissionService
         }
     }
 
-    public async Task EnsureIsOwnerOfDomainOfInfluencesOrHasAdminPermissions(IEnumerable<Guid> domainOfInfluenceIds, bool isReadAccess)
+    public async Task EnsureIsOwnerOfDomainOfInfluencesOrHasCantonAdminPermissions(IEnumerable<Guid> domainOfInfluenceIds, bool isReadAccess)
     {
         var tenantId = _auth.Tenant.Id;
         var doiIds = domainOfInfluenceIds.ToHashSet();
@@ -153,6 +153,25 @@ public class PermissionService
         if (doiIds.FirstOrDefault() is var doiId && doiId != default)
         {
             throw new ForbiddenException("Invalid domain of influence, does not belong to this tenant");
+        }
+    }
+
+    public void EnsureCanSetEVotingApproval(PoliticalBusinessType politicalBusinessType, bool approved)
+    {
+        var permission = politicalBusinessType switch
+        {
+            PoliticalBusinessType.Vote => approved ? Permissions.Vote.EVotingApprove : Permissions.Vote.EVotingApproveRevert,
+            PoliticalBusinessType.ProportionalElection => approved ? Permissions.ProportionalElection.EVotingApprove : Permissions.ProportionalElection.EVotingApproveRevert,
+            PoliticalBusinessType.MajorityElection => approved ? Permissions.MajorityElection.EVotingApprove : Permissions.MajorityElection.EVotingApproveRevert,
+            PoliticalBusinessType.SecondaryMajorityElection => approved ? Permissions.SecondaryMajorityElection.EVotingApprove : Permissions.SecondaryMajorityElection.EVotingApproveRevert,
+            _ => throw new InvalidOperationException(),
+        };
+
+        if (!_auth.HasPermission(permission))
+        {
+            throw new ForbiddenException(approved
+                ? "Cannot approve E-Voting for political business type " + politicalBusinessType
+                : "Cannot revert E-Voting approval for political business type " + politicalBusinessType);
         }
     }
 

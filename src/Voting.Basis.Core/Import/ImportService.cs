@@ -17,7 +17,7 @@ using Voting.Basis.Core.Models;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Write;
-using Voting.Basis.Ech.Converters;
+using Voting.Basis.Ech.Converters.V4;
 using Voting.Lib.Common;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
@@ -165,7 +165,7 @@ public class ImportService
             contestDomainOfInfluenceId,
             politicalBusinessDomainOfInfluenceIds.ToArray());
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluencesOrHasAdminPermissions(politicalBusinessDomainOfInfluenceIds, false);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluencesOrHasCantonAdminPermissions(politicalBusinessDomainOfInfluenceIds, false);
 
         return result;
     }

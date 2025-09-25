@@ -42,6 +42,7 @@
     },
     "VotingCardColor": 8,
     "StistatMunicipality": true,
-    "VotingCardFlatRateDisabled": true
+    "VotingCardFlatRateDisabled": true,
+    "IsMainVotingCardsDomainOfInfluence": true
   }
 }

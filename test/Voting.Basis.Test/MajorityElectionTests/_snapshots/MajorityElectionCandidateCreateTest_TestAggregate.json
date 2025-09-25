@@ -32,7 +32,7 @@
       "rm": "Grüne rm"
     },
     "Incumbent": true,
-    "ZipCode": "zip code",
+    "ZipCode": "9000",
     "Locality": "locality",
     "Position": 2,
     "Origin": "origin",
@@ -74,7 +74,7 @@
       "rm": "BDP rm"
     },
     "Incumbent": true,
-    "ZipCode": "zip code",
+    "ZipCode": "9000",
     "Locality": "locality",
     "Position": 3,
     "Origin": "origin",

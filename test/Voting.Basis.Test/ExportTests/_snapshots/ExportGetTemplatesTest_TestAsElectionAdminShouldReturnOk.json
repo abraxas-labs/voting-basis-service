@@ -5,6 +5,12 @@
       "Description": "eCH-0157 / eCH-0159",
       "EntityType": 1,
       "Format": 3
+    },
+    {
+      "Key": "contest_ech_0157_and_0159_e_voting",
+      "Description": "eCH-0157 / eCH-0159 (nur E-Voting)",
+      "EntityType": 1,
+      "Format": 3
     }
   ]
 }

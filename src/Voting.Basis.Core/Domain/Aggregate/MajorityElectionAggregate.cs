@@ -115,6 +115,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
     public List<SecondaryMajorityElection> SecondaryMajorityElectionsOnSameBallot => SecondaryMajorityElections.Where(sme => !sme.IsOnSeparateBallot).ToList();
 
+    public bool? EVotingApproved { get; private set; }
+
     public void CreateFrom(MajorityElection majorityElection)
     {
         if (majorityElection.Id == default)
@@ -136,7 +138,14 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void UpdateFrom(MajorityElection majorityElection)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         _validator.ValidateAndThrow(majorityElection);
+
+        // We only set a different e-voting approved on create or approval update.
+        majorityElection.EVotingApproved = EVotingApproved;
+
+        ValidationUtils.EnsureNotModified(DomainOfInfluenceId, majorityElection.DomainOfInfluenceId);
+        ValidationUtils.EnsureNotModified(MandateAlgorithm, majorityElection.MandateAlgorithm);
 
         if (majorityElection.NumberOfMandates != NumberOfMandates && Active)
         {
@@ -155,6 +164,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void UpdateAfterTestingPhaseEnded(MajorityElection majorityElection)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         _validator.ValidateAndThrow(majorityElection);
 
         // Active shouldn't be changed by updates after the testing phase, but also shouldn't throw an error,
@@ -195,12 +205,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
     public void UpdateActiveState(bool active)
     {
-        EnsureNotDeleted();
-
-        if (active)
-        {
-            EnsureValidExistingBallotGroups();
-        }
+        EnsureCanSetActive(active);
+        EnsureEVotingNotApproved();
 
         var ev = new MajorityElectionActiveStateUpdated
         {
@@ -212,9 +218,51 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void Delete()
+    public void UpdateEVotingApproval(bool approved)
+    {
+        EnsureCanSetActive(approved);
+
+        if (EVotingApproved == null)
+        {
+            throw new ValidationException($"Majority election {Id} does not support E-Voting");
+        }
+
+        var ev = new MajorityElectionEVotingApprovalUpdated
+        {
+            MajorityElectionId = Id.ToString(),
+            Approved = approved,
+            EventInfo = _eventInfoProvider.NewEventInfo(),
+        };
+
+        RaiseEvent(ev);
+    }
+
+    public bool TryApproveEVoting()
+    {
+        if (EVotingApproved == true)
+        {
+            return false;
+        }
+
+        try
+        {
+            UpdateEVotingApproval(true);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    public void Delete(bool ignoreChecks = false)
     {
         EnsureNotDeleted();
+
+        if (!ignoreChecks)
+        {
+            EnsureEVotingNotApproved();
+        }
 
         if (SecondaryMajorityElections.Count > 0)
         {
@@ -233,6 +281,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void CreateCandidateFrom(MajorityElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         if (candidate.Id == default)
         {
             candidate.Id = Guid.NewGuid();
@@ -263,6 +312,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void UpdateCandidateFrom(MajorityElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         _candidateValidator.ValidateAndThrow(candidate);
 
         var existingCandidate = FindCandidate(candidate.Id);
@@ -289,6 +339,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void UpdateCandidateAfterTestingPhaseEnded(MajorityElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         _candidateValidator.ValidateAndThrow(candidate);
 
         candidate.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(candidate.Number);
@@ -330,6 +381,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void ReorderCandidates(IReadOnlyCollection<EntityOrder> orders)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         _entityOrdersValidator.ValidateAndThrow(orders);
 
         var ids = orders.Select(o => o.Id).ToHashSet();
@@ -356,6 +408,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void DeleteCandidate(Guid candidateId)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
         EnsureCandidateExists(candidateId);
         EnsureIsNotInBallotGroup(candidateId);
 
@@ -402,6 +455,11 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             data.Id = Guid.NewGuid();
         }
 
+        if (EVotingApproved.HasValue)
+        {
+            data.EVotingApproved = false;
+        }
+
         var ev = new SecondaryMajorityElectionCreated
         {
             SecondaryMajorityElection = _mapper.Map<SecondaryMajorityElectionEventData>(data),
@@ -414,6 +472,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void UpdateSecondaryMajorityElectionFrom(SecondaryMajorityElection data)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved(data.Id);
         var sme = GetSecondaryMajorityElection(data.Id);
 
         if (data.NumberOfMandates != sme.NumberOfMandates && sme.Active)
@@ -422,6 +481,10 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         }
 
         data.IsOnSeparateBallot = sme.IsOnSeparateBallot; // immutable
+
+        // We only set a different e-voting approved on create or approval update.
+        data.EVotingApproved = sme.EVotingApproved;
+
         var ev = new SecondaryMajorityElectionUpdated
         {
             SecondaryMajorityElection = _mapper.Map<SecondaryMajorityElectionEventData>(data),
@@ -434,7 +497,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void UpdateSecondaryMajorityElectionAfterTestingPhaseEnded(SecondaryMajorityElection data)
     {
         EnsureNotDeleted();
-
+        EnsureEVotingNotApproved(data.Id);
         var sme = GetSecondaryMajorityElection(data.Id);
 
         // Active shouldn't be changed by updates after the testing phase, but also shouldn't throw an error,
@@ -458,9 +521,15 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void DeleteSecondaryMajorityElection(Guid id)
+    public void DeleteSecondaryMajorityElection(Guid id, bool ignoreChecks)
     {
         EnsureNotDeleted();
+
+        if (!ignoreChecks)
+        {
+            EnsureEVotingNotApproved(id);
+        }
+
         var sme = GetSecondaryMajorityElection(id);
 
         var ev = new SecondaryMajorityElectionDeleted
@@ -476,12 +545,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
     public void UpdateSecondaryMajorityElectionActiveState(Guid id, bool active)
     {
-        EnsureNotDeleted();
-
-        if (active)
-        {
-            EnsureValidExistingBallotGroups();
-        }
+        EnsureCanSetActive(active);
+        EnsureEVotingNotApproved(id);
 
         var sme = GetSecondaryMajorityElection(id);
 
@@ -497,9 +562,52 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
+    public void UpdateSecondaryMajorityElectionEVotingApproval(Guid id, bool approved)
+    {
+        EnsureCanSetActive(approved);
+
+        var sme = GetSecondaryMajorityElection(id);
+
+        if (sme.EVotingApproved == null)
+        {
+            throw new ValidationException($"Secondary majority election {Id} does not support E-Voting");
+        }
+
+        var ev = new SecondaryMajorityElectionEVotingApprovalUpdated
+        {
+            SecondaryMajorityElectionId = id.ToString(),
+            PrimaryMajorityElectionId = Id.ToString(),
+            IsOnSeparateBallot = sme.IsOnSeparateBallot,
+            Approved = approved,
+            EventInfo = _eventInfoProvider.NewEventInfo(),
+        };
+
+        RaiseEvent(ev);
+    }
+
+    public bool TryApproveSecondaryMajorityElectionEVoting(Guid id)
+    {
+        var sme = GetSecondaryMajorityElection(id);
+        if (sme.EVotingApproved == true)
+        {
+            return false;
+        }
+
+        try
+        {
+            UpdateSecondaryMajorityElectionEVotingApproval(id, true);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
     public void CreateSecondaryMajorityElectionCandidateFrom(MajorityElectionCandidate data, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved(data.MajorityElectionId);
 
         if (data.Id == default)
         {
@@ -529,6 +637,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void UpdateSecondaryMajorityElectionCandidateFrom(MajorityElectionCandidate data, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved(data.MajorityElectionId);
         _candidateValidator.ValidateAndThrow(data);
         EnsureCandidateIsValid(data, candidateValidationParams);
 
@@ -555,6 +664,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void UpdateSecondaryMajorityElectionCandidateAfterTestingPhaseEnded(MajorityElectionCandidate data, CandidateValidationParams candidateValidationParams)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved(data.MajorityElectionId);
         _candidateValidator.ValidateAndThrow(data);
 
         data.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
@@ -598,6 +708,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void DeleteSecondaryMajorityElectionCandidate(Guid secondaryMajorityElectionId, Guid candidateId)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved(secondaryMajorityElectionId);
 
         var sme = GetSecondaryMajorityElection(secondaryMajorityElectionId);
 
@@ -621,6 +732,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void CreateCandidateReferenceFrom(MajorityElectionCandidateReference data)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved(data.SecondaryMajorityElectionId);
 
         if (data.Id == default)
         {
@@ -653,6 +765,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void UpdateCandidateReferenceFrom(MajorityElectionCandidateReference data)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved(data.SecondaryMajorityElectionId);
         var sme = GetSecondaryMajorityElection(data.SecondaryMajorityElectionId);
         var existingReference = sme.GetCandidateReference(data.Id);
 
@@ -681,6 +794,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void DeleteCandidateReference(Guid secondaryMajorityElectionId, Guid candidateId)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved(secondaryMajorityElectionId);
         EnsureIsNotInBallotGroup(candidateId);
 
         var sme = GetSecondaryMajorityElection(secondaryMajorityElectionId);
@@ -701,6 +815,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void ReorderSecondaryMajorityElectionCandidates(Guid secondaryMajorityElectionId, IReadOnlyCollection<EntityOrder> orders)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved(secondaryMajorityElectionId);
         _entityOrdersValidator.ValidateAndThrow(orders);
 
         var ids = orders.Select(o => o.Id).ToHashSet();
@@ -938,6 +1053,9 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             case MajorityElectionActiveStateUpdated e:
                 Apply(e);
                 break;
+            case MajorityElectionEVotingApprovalUpdated e:
+                Apply(e);
+                break;
             case MajorityElectionDeleted _:
                 Deleted = true;
                 break;
@@ -990,6 +1108,9 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
                 Apply(e);
                 break;
             case SecondaryMajorityElectionActiveStateUpdated e:
+                Apply(e);
+                break;
+            case SecondaryMajorityElectionEVotingApprovalUpdated e:
                 Apply(e);
                 break;
             case SecondaryMajorityElectionCandidateCreated e:
@@ -1050,6 +1171,11 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     private void Apply(MajorityElectionActiveStateUpdated ev)
     {
         Active = ev.Active;
+    }
+
+    private void Apply(MajorityElectionEVotingApprovalUpdated ev)
+    {
+        EVotingApproved = ev.Approved;
     }
 
     private void Apply(MajorityElectionCandidateCreated ev)
@@ -1201,6 +1327,12 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     {
         var sme = GetSecondaryMajorityElection(GuidParser.Parse(ev.SecondaryMajorityElectionId));
         sme.Active = ev.Active;
+    }
+
+    private void Apply(SecondaryMajorityElectionEVotingApprovalUpdated ev)
+    {
+        var sme = GetSecondaryMajorityElection(GuidParser.Parse(ev.SecondaryMajorityElectionId));
+        sme.EVotingApproved = ev.Approved;
     }
 
     private void Apply(SecondaryMajorityElectionCandidateCreated ev)
@@ -1502,6 +1634,34 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
                     throw new SecondaryMajorityElectionCandidateNotSelectedInPrimaryElectionException();
                 }
             }
+        }
+    }
+
+    private void EnsureCanSetActive(bool active)
+    {
+        EnsureNotDeleted();
+
+        if (active)
+        {
+            EnsureValidExistingBallotGroups();
+        }
+    }
+
+    private void EnsureEVotingNotApproved()
+    {
+        if (EVotingApproved == true)
+        {
+            throw new PoliticalBusinessEVotingApprovedException();
+        }
+    }
+
+    private void EnsureEVotingNotApproved(Guid smeId)
+    {
+        var sme = GetSecondaryMajorityElection(smeId);
+
+        if (sme.EVotingApproved == true)
+        {
+            throw new PoliticalBusinessEVotingApprovedException();
         }
     }
 }

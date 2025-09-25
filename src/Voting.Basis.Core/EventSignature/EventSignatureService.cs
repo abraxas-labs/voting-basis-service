@@ -15,6 +15,7 @@ using Voting.Basis.Core.Utils;
 using Voting.Basis.EventSignature;
 using Voting.Basis.EventSignature.Models;
 using Voting.Lib.Common;
+using Voting.Lib.Cryptography;
 using Voting.Lib.Cryptography.Asymmetric;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
@@ -30,33 +31,36 @@ public class EventSignatureService
 {
     private readonly ILogger<EventSignatureService> _logger;
     private readonly IAsymmetricAlgorithmAdapter<EcdsaPublicKey, EcdsaPrivateKey> _asymmetricAlgorithmAdapter;
-    private readonly IPkcs11DeviceAdapter _pkcs11DeviceAdapter;
+    private readonly ICryptoProvider _cryptoProvider;
     private readonly IEventSerializer _eventSerializer;
     private readonly IClock _clock;
     private readonly IServiceProvider _serviceProvider;
     private readonly MachineConfig _machineConfig;
     private readonly IMapper _mapper;
+    private readonly Pkcs11AppConfig _pkcs11AppConfig;
     private readonly ContestCache _contestCache;
 
     public EventSignatureService(
         ILogger<EventSignatureService> logger,
         IAsymmetricAlgorithmAdapter<EcdsaPublicKey, EcdsaPrivateKey> asymmetricAlgorithmAdapter,
-        IPkcs11DeviceAdapter pkcs11DeviceAdapter,
+        ICryptoProvider cryptoProvider,
         ContestCache contestCache,
         IEventSerializer eventSerializer,
         IClock clock,
         IServiceProvider serviceProvider,
         MachineConfig machineConfig,
-        IMapper mapper)
+        IMapper mapper,
+        Pkcs11AppConfig pkcs11AppConfig)
     {
         _logger = logger;
         _asymmetricAlgorithmAdapter = asymmetricAlgorithmAdapter;
-        _pkcs11DeviceAdapter = pkcs11DeviceAdapter;
+        _cryptoProvider = cryptoProvider;
         _eventSerializer = eventSerializer;
         _clock = clock;
         _serviceProvider = serviceProvider;
         _machineConfig = machineConfig;
         _mapper = mapper;
+        _pkcs11AppConfig = pkcs11AppConfig;
         _contestCache = contestCache;
     }
 
@@ -118,7 +122,7 @@ public class EventSignatureService
                 authTagPayload,
                 _asymmetricAlgorithmAdapter.CreateSignature(authTagPayload.ConvertToBytesToSign(), keyData.Key));
 
-            var publicKeyDelete = BuildPublicKeyDelete(hsmPayload);
+            var publicKeyDelete = await BuildPublicKeyDelete(hsmPayload);
             using var scope = _serviceProvider.CreateScope();
             var writer = scope.ServiceProvider.GetRequiredService<EventSignatureWriter>();
 
@@ -180,7 +184,7 @@ public class EventSignatureService
                 authTagPayload,
                 _asymmetricAlgorithmAdapter.CreateSignature(authTagPayload.ConvertToBytesToSign(), key));
 
-            var publicKeyCreate = BuildPublicKeyCreate(hsmPayload);
+            var publicKeyCreate = await BuildPublicKeyCreate(hsmPayload);
 
             using var scope = _serviceProvider.CreateScope();
             var writer = scope.ServiceProvider.GetRequiredService<EventSignatureWriter>();
@@ -221,9 +225,9 @@ public class EventSignatureService
             contestId);
     }
 
-    private EventSignaturePublicKeyCreate BuildPublicKeyCreate(PublicKeySignatureCreateHsmPayload hsmPayload)
+    private async Task<EventSignaturePublicKeyCreate> BuildPublicKeyCreate(PublicKeySignatureCreateHsmPayload hsmPayload)
     {
-        var hsmSignature = _pkcs11DeviceAdapter.CreateSignature(hsmPayload.ConvertToBytesToSign());
+        var hsmSignature = await _cryptoProvider.CreateSignature(hsmPayload.ConvertToBytesToSign(), _pkcs11AppConfig.PrivateKeyCkaLabel);
         return new EventSignaturePublicKeyCreate
         {
             SignatureVersion = hsmPayload.SignatureVersion,
@@ -238,9 +242,9 @@ public class EventSignatureService
         };
     }
 
-    private EventSignaturePublicKeyDelete BuildPublicKeyDelete(PublicKeySignatureDeleteHsmPayload hsmPayload)
+    private async Task<EventSignaturePublicKeyDelete> BuildPublicKeyDelete(PublicKeySignatureDeleteHsmPayload hsmPayload)
     {
-        var hsmSignature = _pkcs11DeviceAdapter.CreateSignature(hsmPayload.ConvertToBytesToSign());
+        var hsmSignature = await _cryptoProvider.CreateSignature(hsmPayload.ConvertToBytesToSign(), _pkcs11AppConfig.PrivateKeyCkaLabel);
         return new EventSignaturePublicKeyDelete
         {
             SignatureVersion = hsmPayload.SignatureVersion,

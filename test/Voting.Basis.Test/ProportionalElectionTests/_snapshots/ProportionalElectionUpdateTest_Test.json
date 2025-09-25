@@ -47,7 +47,8 @@
       "ReviewProcedure": 1,
       "EnforceReviewProcedureForCountingCircles": true,
       "EnforceCandidateCheckDigitForCountingCircles": true,
-      "FederalIdentification": 29348929
+      "FederalIdentification": 29348929,
+      "EVotingApproved": false
     }
   }
 }

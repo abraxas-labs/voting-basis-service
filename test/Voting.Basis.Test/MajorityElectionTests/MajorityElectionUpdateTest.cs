@@ -125,56 +125,36 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
     }
 
     [Fact]
-    public async Task ParentDoiWithSameTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(pe =>
-            {
-                pe.Id = MajorityElectionMockedData.IdGossauMajorityElectionInContestGossau;
-                pe.ContestId = ContestMockedData.IdGossau;
-                pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen;
-            })),
-            StatusCode.InvalidArgument,
-            "some ids are not children of the parent node");
-    }
-
-    [Fact]
-    public async Task ChildDoiWithSameTenantShouldReturnOk()
-    {
-        var request = NewValidRequest(pe =>
-        {
-            pe.ContestId = ContestMockedData.IdStGallenEvoting;
-            pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
-        });
-
-        await ElectionAdminClient.UpdateAsync(request);
-
-        var eventData = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionUpdated>();
-
-        eventData.MajorityElection.Id.Should().Be(request.Id);
-        eventData.MatchSnapshot("event", d => d.MajorityElection.Id);
-    }
-
-    [Fact]
-    public async Task SiblingDoiWithSameTenantShouldThrow()
-    {
-        await AssertStatus(
-            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(pe =>
-            {
-                pe.ContestId = ContestMockedData.IdStGallenEvoting;
-                pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdThurgau;
-            })),
-            StatusCode.InvalidArgument,
-            "some ids are not children of the parent node");
-    }
-
-    [Fact]
     public async Task ContestChangeShouldThrow()
     {
         await AssertStatus(
             async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(o => o.ContestId = ContestMockedData.IdBundContest)),
             StatusCode.InvalidArgument,
             "ContestId");
+    }
+
+    [Fact]
+    public async Task DomainOfInfluenceChangeShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
+            {
+                o.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(ModificationNotAllowedException));
+    }
+
+    [Fact]
+    public async Task MandateAlgorithmChangeShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
+            {
+                o.MandateAlgorithm = SharedProto.MajorityElectionMandateAlgorithm.AbsoluteMajority;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(ModificationNotAllowedException));
     }
 
     [Fact]
@@ -273,6 +253,18 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
             })),
             StatusCode.FailedPrecondition,
             "Contest is past locked or archived");
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(x =>
+            {
+                x.Id = MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     [Fact]

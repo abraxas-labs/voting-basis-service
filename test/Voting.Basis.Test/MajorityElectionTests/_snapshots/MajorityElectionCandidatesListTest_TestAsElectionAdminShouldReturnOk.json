@@ -33,7 +33,7 @@
         "rm": "CVP rm"
       },
       "Incumbent": true,
-      "ZipCode": "zip code",
+      "ZipCode": "8000",
       "Locality": "locality",
       "Position": 1,
       "Origin": "origin",

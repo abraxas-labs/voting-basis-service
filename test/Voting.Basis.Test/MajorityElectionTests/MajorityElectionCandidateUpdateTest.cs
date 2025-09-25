@@ -13,7 +13,9 @@ using FluentAssertions;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Common;
@@ -97,6 +99,44 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
             Id = MajorityElectionMockedData.CandidateIdStGallenMajorityElectionInContestStGallen,
         });
         candidate.MatchSnapshot();
+    }
+
+    [Fact]
+    public async Task TestProcessorShouldUpdateReferences()
+    {
+        await TestEventPublisher.Publish(
+            new MajorityElectionCandidateUpdated
+            {
+                MajorityElectionCandidate = new MajorityElectionCandidateEventData
+                {
+                    Id = MajorityElectionMockedData.CandidateId1StGallenMajorityElectionInContestBund,
+                    MajorityElectionId = MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund,
+                    FirstName = "updated first name",
+                    LastName = "updated last name",
+                    PoliticalFirstName = "updated pol first name",
+                    PoliticalLastName = "updated pol last name",
+                    Occupation = { LanguageUtil.MockAllLanguages("updated occupation") },
+                    OccupationTitle = { LanguageUtil.MockAllLanguages("updated occupation title") },
+                    DateOfBirth = new DateTime(1961, 5, 13, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
+                    Incumbent = false,
+                    Position = 5,
+                    Party = { LanguageUtil.MockAllLanguages("SVP") },
+                    Locality = "updated locality",
+                    Number = "updatedNum",
+                    Sex = SharedProto.SexType.Male,
+                    Title = "updated title",
+                    ZipCode = "4321",
+                    Origin = "ou",
+                    CheckDigit = 0,
+                    Street = "updated street",
+                    HouseNumber = "u1a",
+                    Country = "DE",
+                },
+            });
+
+        var candidateReference = await RunOnDb(db => db.SecondaryMajorityElectionCandidates.FirstAsync(
+            c => c.Id == Guid.Parse(MajorityElectionMockedData.SecondaryElectionCandidateId1StGallenMajorityElectionInContestBund)));
+        candidateReference.MatchSnapshot();
     }
 
     [Fact]
@@ -229,6 +269,18 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
             Id = MajorityElectionMockedData.CandidateId1GossauMajorityElectionInContestBund,
         });
         candidate.MatchSnapshot("response");
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateCandidateAsync(NewValidRequest(x =>
+            {
+                x.MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     [Fact]
@@ -506,7 +558,7 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
             Number = "number1",
             Sex = SharedProto.SexType.Female,
             Title = "title",
-            ZipCode = "zip code",
+            ZipCode = "2000",
             Origin = "origin",
             Street = "street",
             HouseNumber = "1a",

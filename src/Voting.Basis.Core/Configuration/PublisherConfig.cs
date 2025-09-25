@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using Voting.Lib.Cryptography.Configuration;
 using Voting.Lib.Ech.Configuration;
 using Voting.Lib.ObjectStorage.Config;
 using Voting.Lib.Scheduler;
@@ -28,7 +27,7 @@ public class PublisherConfig
 
     public EventSignatureConfig EventSignature { get; set; } = new();
 
-    public Pkcs11Config Pkcs11 { get; set; } = new();
+    public Pkcs11AppConfig Pkcs11 { get; set; } = new();
 
     public MachineConfig Machine { get; set; } = new();
 
@@ -71,6 +70,10 @@ public class PublisherConfig
     {
         Interval = TimeSpan.FromMinutes(15),
     };
+
+    public CronJobConfig ApprovePoliticalBusinessEVotingJob { get; set; } = new();
+
+    public CronJobConfig ApproveContestEVotingJob { get; set; } = new();
 
     public EchConfig Ech { get; set; } = new(typeof(AppConfig).Assembly);
 

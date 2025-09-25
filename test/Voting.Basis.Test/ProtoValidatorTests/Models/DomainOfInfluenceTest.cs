@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Abraxas.Voting.Basis.Shared.V1;
-using Voting.Basis.Test.ProtoValidatorTests.Utils;
+using Voting.Lib.Testing.Utils;
 using Voting.Lib.Testing.Validation;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 

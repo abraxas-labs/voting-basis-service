@@ -1,0 +1,50 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "random",
+        "Name": ""
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "Vote": {
+      "Id": "",
+      "PoliticalBusinessNumber": "1661",
+      "OfficialDescription": {
+        "de": "Update Abstimmung de",
+        "fr": "Update Abstimmung fr",
+        "it": "Update Abstimmung it",
+        "rm": "Update Abstimmung rm"
+      },
+      "ShortDescription": {
+        "de": "Upd Abstimmung de",
+        "fr": "Upd Abstimmung fr",
+        "it": "Upd Abstimmung it",
+        "rm": "Upd Abstimmung rm"
+      },
+      "InternalDescription": "",
+      "DomainOfInfluenceId": "ade30989-5e28-40c7-918c-2c9408f853ba",
+      "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
+      "Active": false,
+      "ReportDomainOfInfluenceLevel": 0,
+      "ResultAlgorithm": 1,
+      "ResultEntry": 1,
+      "BallotBundleSampleSizePercent": 20,
+      "AutomaticBallotBundleNumberGeneration": true,
+      "EnforceResultEntryForCountingCircles": true,
+      "ReviewProcedure": 1,
+      "EnforceReviewProcedureForCountingCircles": true,
+      "Type": 2,
+      "EVotingApproved": null
+    }
+  }
+}

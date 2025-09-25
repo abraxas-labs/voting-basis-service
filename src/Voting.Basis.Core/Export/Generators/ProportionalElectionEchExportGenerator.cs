@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Export.Models;
 using Voting.Basis.Core.Services.Permission;
+using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Converters;
@@ -21,17 +22,20 @@ namespace Voting.Basis.Core.Export.Generators;
 public class ProportionalElectionEchExportGenerator : IExportGenerator
 {
     private readonly IDbRepository<DataContext, ProportionalElection> _electionRepo;
-    private readonly Ech0157Serializer _ech0157Serializer;
+    private readonly EchSerializerProvider _echSerializerProvider;
     private readonly PermissionService _permissionService;
+    private readonly CountingCircleReader _countingCircleReader;
 
     public ProportionalElectionEchExportGenerator(
         IDbRepository<DataContext, ProportionalElection> electionRepo,
-        Ech0157Serializer ech0157Serializer,
-        PermissionService permissionService)
+        EchSerializerProvider echSerializerProvider,
+        PermissionService permissionService,
+        CountingCircleReader countingCircleReader)
     {
         _electionRepo = electionRepo;
-        _ech0157Serializer = ech0157Serializer;
+        _echSerializerProvider = echSerializerProvider;
         _permissionService = permissionService;
+        _countingCircleReader = countingCircleReader;
     }
 
     public TemplateModel Template => BasisXmlProportionalElectionTemplates.Ech0157;
@@ -47,15 +51,26 @@ public class ProportionalElectionEchExportGenerator : IExportGenerator
                     .ThenInclude(c => c.Party)
             .Include(pe => pe.ProportionalElectionListUnions)
                 .ThenInclude(lu => lu.ProportionalElectionListUnionEntries)
+            .Include(pe => pe.DomainOfInfluence)
             .Where(pe => pe.Id == electionId)
             .FirstOrDefaultAsync()
             ?? throw new EntityNotFoundException(electionId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(proportionalElection.DomainOfInfluenceId, true);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(proportionalElection.DomainOfInfluenceId, true);
+        var eCounting = await _countingCircleReader.OwnsAnyECountingCountingCircle();
+        var ech0157Serializer = _echSerializerProvider.GetEch0157Serializer(eCounting);
 
-        var xmlBytes = await _ech0157Serializer.ToDelivery(proportionalElection.Contest, proportionalElection);
+        var xmlBytes = await ech0157Serializer.ToDelivery(proportionalElection.Contest, proportionalElection);
+
         var electionDescription = LanguageUtil.GetInCurrentLanguage(proportionalElection.ShortDescription);
-        var fileName = FileNameUtil.GetXmlFileName(Ech0157Serializer.EchNumber, Ech0157Serializer.EchVersion, proportionalElection.Contest.DomainOfInfluence.Canton, proportionalElection.Contest.Date, electionDescription);
+
+        var fileName = FileNameUtil.GetXmlFileName(
+            ech0157Serializer.EchNumber,
+            ech0157Serializer.EchVersion,
+            proportionalElection.Contest.DomainOfInfluence.Canton,
+            proportionalElection.Contest.Date,
+            electionDescription);
+
         return new ExportFile(xmlBytes, fileName, MediaTypeNames.Application.Xml);
     }
 }

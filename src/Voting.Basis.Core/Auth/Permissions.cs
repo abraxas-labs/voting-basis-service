@@ -132,6 +132,9 @@ public static class Permissions
         public const string Read = Prefix + ReadSuffix;
         public const string Delete = Prefix + DeleteSuffix;
 
+        public const string EVotingApprove = Prefix + ":e-voting-approve";
+        public const string EVotingApproveRevert = Prefix + ":e-voting-approve-revert";
+
         private const string Prefix = "Vote";
     }
 
@@ -151,6 +154,9 @@ public static class Permissions
         public const string Update = Prefix + UpdateSuffix;
         public const string Read = Prefix + ReadSuffix;
         public const string Delete = Prefix + DeleteSuffix;
+
+        public const string EVotingApprove = Prefix + ":e-voting-approve";
+        public const string EVotingApproveRevert = Prefix + ":e-voting-approve-revert";
 
         private const string Prefix = "ProportionalElection";
     }
@@ -202,6 +208,9 @@ public static class Permissions
         public const string Read = Prefix + ReadSuffix;
         public const string Delete = Prefix + DeleteSuffix;
 
+        public const string EVotingApprove = Prefix + ":e-voting-approve";
+        public const string EVotingApproveRevert = Prefix + ":e-voting-approve-revert";
+
         private const string Prefix = "MajorityElection";
     }
 
@@ -241,6 +250,9 @@ public static class Permissions
         public const string Update = Prefix + UpdateSuffix;
         public const string Read = Prefix + ReadSuffix;
         public const string Delete = Prefix + DeleteSuffix;
+
+        public const string EVotingApprove = Prefix + ":e-voting-approve";
+        public const string EVotingApproveRevert = Prefix + ":e-voting-approve-revert";
 
         private const string Prefix = "SecondaryMajorityElection";
     }

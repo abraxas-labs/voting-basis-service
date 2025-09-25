@@ -71,7 +71,7 @@
             <eCH-0010:street>street</eCH-0010:street>
             <eCH-0010:houseNumber>1a</eCH-0010:houseNumber>
             <eCH-0010:town>locality</eCH-0010:town>
-            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:foreignZipCode>4200</eCH-0010:foreignZipCode>
             <eCH-0010:country>
               <eCH-0010:countryId>8100</eCH-0010:countryId>
               <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
@@ -107,7 +107,7 @@
             <eCH-0010:street>street</eCH-0010:street>
             <eCH-0010:houseNumber>1a</eCH-0010:houseNumber>
             <eCH-0010:town>locality</eCH-0010:town>
-            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:foreignZipCode>4200</eCH-0010:foreignZipCode>
             <eCH-0010:country>
               <eCH-0010:countryId>8100</eCH-0010:countryId>
               <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
@@ -143,7 +143,7 @@
             <eCH-0010:street>street</eCH-0010:street>
             <eCH-0010:houseNumber>1a</eCH-0010:houseNumber>
             <eCH-0010:town>locality</eCH-0010:town>
-            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:foreignZipCode>4200</eCH-0010:foreignZipCode>
             <eCH-0010:country>
               <eCH-0010:countryId>8100</eCH-0010:countryId>
               <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
@@ -218,7 +218,7 @@
             <eCH-0010:street>street</eCH-0010:street>
             <eCH-0010:houseNumber>1a</eCH-0010:houseNumber>
             <eCH-0010:town>locality</eCH-0010:town>
-            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:foreignZipCode>4200</eCH-0010:foreignZipCode>
             <eCH-0010:country>
               <eCH-0010:countryId>8100</eCH-0010:countryId>
               <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
@@ -255,7 +255,7 @@
             <eCH-0010:street>street</eCH-0010:street>
             <eCH-0010:houseNumber>1a</eCH-0010:houseNumber>
             <eCH-0010:town>locality</eCH-0010:town>
-            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:foreignZipCode>4200</eCH-0010:foreignZipCode>
             <eCH-0010:country>
               <eCH-0010:countryId>8100</eCH-0010:countryId>
               <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
@@ -286,7 +286,7 @@
             <eCH-0010:street>street</eCH-0010:street>
             <eCH-0010:houseNumber>1a</eCH-0010:houseNumber>
             <eCH-0010:town>locality</eCH-0010:town>
-            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:foreignZipCode>4200</eCH-0010:foreignZipCode>
             <eCH-0010:country>
               <eCH-0010:countryId>8100</eCH-0010:countryId>
               <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
@@ -316,7 +316,7 @@
             <eCH-0010:street>street</eCH-0010:street>
             <eCH-0010:houseNumber>1a</eCH-0010:houseNumber>
             <eCH-0010:town>locality</eCH-0010:town>
-            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:foreignZipCode>4200</eCH-0010:foreignZipCode>
             <eCH-0010:country>
               <eCH-0010:countryId>8100</eCH-0010:countryId>
               <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
@@ -346,7 +346,7 @@
             <eCH-0010:street>street</eCH-0010:street>
             <eCH-0010:houseNumber>1a</eCH-0010:houseNumber>
             <eCH-0010:town>locality</eCH-0010:town>
-            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:foreignZipCode>4200</eCH-0010:foreignZipCode>
             <eCH-0010:country>
               <eCH-0010:countryId>8100</eCH-0010:countryId>
               <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
@@ -377,7 +377,7 @@
             <eCH-0010:street>street</eCH-0010:street>
             <eCH-0010:houseNumber>1a</eCH-0010:houseNumber>
             <eCH-0010:town>locality</eCH-0010:town>
-            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:foreignZipCode>4200</eCH-0010:foreignZipCode>
             <eCH-0010:country>
               <eCH-0010:countryId>8100</eCH-0010:countryId>
               <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
@@ -407,7 +407,7 @@
             <eCH-0010:street>street</eCH-0010:street>
             <eCH-0010:houseNumber>1a</eCH-0010:houseNumber>
             <eCH-0010:town>locality</eCH-0010:town>
-            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:foreignZipCode>4200</eCH-0010:foreignZipCode>
             <eCH-0010:country>
               <eCH-0010:countryId>8100</eCH-0010:countryId>
               <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
@@ -437,7 +437,7 @@
             <eCH-0010:street>street</eCH-0010:street>
             <eCH-0010:houseNumber>1a</eCH-0010:houseNumber>
             <eCH-0010:town>locality</eCH-0010:town>
-            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:foreignZipCode>4200</eCH-0010:foreignZipCode>
             <eCH-0010:country>
               <eCH-0010:countryId>8100</eCH-0010:countryId>
               <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
@@ -467,7 +467,7 @@
             <eCH-0010:street>street</eCH-0010:street>
             <eCH-0010:houseNumber>1a</eCH-0010:houseNumber>
             <eCH-0010:town>locality</eCH-0010:town>
-            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:foreignZipCode>4200</eCH-0010:foreignZipCode>
             <eCH-0010:country>
               <eCH-0010:countryId>8100</eCH-0010:countryId>
               <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
@@ -497,7 +497,7 @@
             <eCH-0010:street>street</eCH-0010:street>
             <eCH-0010:houseNumber>1a</eCH-0010:houseNumber>
             <eCH-0010:town>locality</eCH-0010:town>
-            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:foreignZipCode>4200</eCH-0010:foreignZipCode>
             <eCH-0010:country>
               <eCH-0010:countryId>8100</eCH-0010:countryId>
               <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>
@@ -527,7 +527,7 @@
             <eCH-0010:street>street</eCH-0010:street>
             <eCH-0010:houseNumber>1a</eCH-0010:houseNumber>
             <eCH-0010:town>locality</eCH-0010:town>
-            <eCH-0010:foreignZipCode>zip code</eCH-0010:foreignZipCode>
+            <eCH-0010:foreignZipCode>4200</eCH-0010:foreignZipCode>
             <eCH-0010:country>
               <eCH-0010:countryId>8100</eCH-0010:countryId>
               <eCH-0010:countryIdISO2>CH</eCH-0010:countryIdISO2>

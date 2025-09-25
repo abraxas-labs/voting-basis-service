@@ -32,6 +32,7 @@ public static class ProportionalElectionMockedData
     public const string IdUzwilProportionalElectionInContestBund = "a73b1bf3-7bbe-44fb-9b65-8f5e1734ad72";
     public const string IdBundProportionalElectionInContestStGallen = "30e170ba-ed97-4886-93c9-ee35b106a22e";
     public const string IdGossauProportionalElectionInContestStGallen = "fa69e964-0a02-4d16-b417-247e8987021a";
+    public const string IdGossauProportionalElectionEVotingApprovedInContestStGallen = "dedaf157-d127-4ca4-811b-f67e3bd51595";
     public const string IdGossauProportionalElectionInContestBund = "b849600e-305b-4d37-a999-214acdc88682";
     public const string IdUzwilProportionalElectionInContestStGallen = "da091f50-9f11-4deb-9621-948fbfbdc322";
     public const string IdStGallenProportionalElectionInContestStGallen = "8fd00ee5-cc68-4b33-86b0-cc9c58dc1b1f";
@@ -51,6 +52,7 @@ public static class ProportionalElectionMockedData
     public const string ListId1GossauProportionalElectionInContestStGallen = "9091a3b6-3785-4adc-a486-f486e686503e";
     public const string ListId2GossauProportionalElectionInContestStGallen = "bfe54c2a-6bdf-41a3-bf11-321203c380d3";
     public const string ListId3GossauProportionalElectionInContestStGallen = "afebb285-599d-415f-89ac-04ebcbc4eaeb";
+    public const string ListIdGossauProportionalElectionEVotingApprovedInContestStGallen = "b6be16cb-ee0d-4465-b85f-5a4344f4e21c";
     public const string ListId1GossauProportionalElectionInContestBund = "afab6f5d-4b4b-4e7c-87c4-6eb32b85163b";
     public const string ListId2GossauProportionalElectionInContestBund = "3f834c4b-eabe-4dad-97b2-03d4fc770bf5";
     public const string ListIdGossauProportionalElectionInContestGossau = "84a0c2dd-9c18-4a64-a08f-d2478c0d3a5b";
@@ -64,6 +66,7 @@ public static class ProportionalElectionMockedData
     public const string SubListUnion12IdGossauProportionalElectionInContestStGallen = "7fd14367-ff96-4ddc-89bc-47fb658527df";
     public const string SubListUnion21IdGossauProportionalElectionInContestStGallen = "49715fbf-5399-4981-bee5-01705469ec8c";
     public const string SubListUnion22IdGossauProportionalElectionInContestStGallen = "6a839c1a-c94a-4b5a-b59b-4c0edea82307";
+    public const string ListUnionIdGossauProportionalElectionEVotingApprovedInContestStGallen = "1bcf5103-83a4-42e1-9e1c-fc190fa4d0ff";
     public const string ListUnionIdGossauProportionalElectionInContestBund = "9a71d553-343c-4b90-8fa7-924f662929d6";
     public const string SubListUnionIdGossauProportionalElectionInContestBund = "93cd8201-f82e-4142-b57d-980e4b80d1a9";
     public const string ListUnionIdStGallenProportionalElectionInContestBund = "007ff21f-e61a-48f0-ab1f-6b3aa2c04c53";
@@ -80,6 +83,7 @@ public static class ProportionalElectionMockedData
     public const string CandidateIdStGallenProportionalElectionInContestStGallen = "9e131f21-4483-4375-b014-484c272615ee";
     public const string CandidateId1GossauProportionalElectionInContestStGallen = "8b4837a9-c3ba-4ec5-9e50-536a9b4347a9";
     public const string CandidateId2GossauDeletedPartyProportionalElectionInContestStGallen = "9efe090f-883b-4e86-89c2-cd132ea84cbd";
+    public const string CandidateIdGossauProportionalElectionEVotingApprovedInContestStGallen = "d119d735-41fe-479a-8a22-d13c891b463f";
     public const string CandidateId1GossauProportionalElectionInContestBund = "7c13d762-4166-41f6-b3a5-2c5f21c9dc43";
     public const string CandidateId2GossauProportionalElectionInContestBund = "21f29d48-349d-48e4-862f-723f5929db52";
     public const string CandidateIdGossauProportionalElectionInContestGossau = "dd49aaba-ab8d-4eda-b83b-54beb8222af0";
@@ -139,7 +143,7 @@ public static class ProportionalElectionMockedData
                                 Number = "number1",
                                 Sex = SexType.Female,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "7000",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                                 Origin = "origin",
                                 CheckDigit = 6,
@@ -204,7 +208,7 @@ public static class ProportionalElectionMockedData
                                 Number = "number1",
                                 Sex = SexType.Female,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "7000",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyStGallenSP,
                                 Origin = "origin",
                                 CheckDigit = 6,
@@ -245,6 +249,7 @@ public static class ProportionalElectionMockedData
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidBund,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
+            EVotingApproved = false,
             AutomaticEmptyVoteCounting = true,
             EnforceEmptyVoteCountingForCountingCircles = true,
             BallotBundleSize = 0,
@@ -286,7 +291,7 @@ public static class ProportionalElectionMockedData
                                 Number = "number1",
                                 Sex = SexType.Female,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "7000",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                                 Origin = "origin",
                                 CheckDigit = 6,
@@ -310,7 +315,7 @@ public static class ProportionalElectionMockedData
                                 Number = "number2",
                                 Sex = SexType.Female,
                                 Title = "title2",
-                                ZipCode = "zip code2",
+                                ZipCode = "2325",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                                 Origin = "origin 2",
                                 CheckDigit = 4,
@@ -391,7 +396,7 @@ public static class ProportionalElectionMockedData
                                 Number = "number1",
                                 Sex = SexType.Female,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "7000",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyStGallenSVP,
                                 Origin = "origin",
                                 CheckDigit = 6,
@@ -423,6 +428,7 @@ public static class ProportionalElectionMockedData
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidStGallen,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
+            EVotingApproved = false,
             AutomaticEmptyVoteCounting = false,
             EnforceEmptyVoteCountingForCountingCircles = false,
             BallotBundleSize = 50,
@@ -465,7 +471,7 @@ public static class ProportionalElectionMockedData
                                 Number = "number1",
                                 Sex = SexType.Female,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "7000",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                                 Origin = "origin",
                                 CheckDigit = 6,
@@ -488,6 +494,7 @@ public static class ProportionalElectionMockedData
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
+            EVotingApproved = false,
             AutomaticEmptyVoteCounting = true,
             EnforceEmptyVoteCountingForCountingCircles = true,
             BallotBundleSize = 10,
@@ -530,7 +537,7 @@ public static class ProportionalElectionMockedData
                                 Number = "number1",
                                 Sex = SexType.Female,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "7000",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyGossauFLiG,
                                 Origin = "origin",
                                 CheckDigit = 6,
@@ -560,6 +567,7 @@ public static class ProportionalElectionMockedData
                                 CheckDigit = 4,
                                 Street = "street",
                                 HouseNumber = "1a",
+                                ZipCode = "non-swiss",
                                 Country = "IT",
                             },
                         },
@@ -704,6 +712,88 @@ public static class ProportionalElectionMockedData
             },
         };
 
+    public static ProportionalElection GossauProportionalElectionEVotingApprovedInContestStGallen
+        => new ProportionalElection
+        {
+            Id = Guid.Parse(IdGossauProportionalElectionEVotingApprovedInContestStGallen),
+            PoliticalBusinessNumber = "P-EV",
+            OfficialDescription = LanguageUtil.MockAllLanguages("Proporzwahl Gossau E-Voting"),
+            ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Gossau E-Voting"),
+            DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
+            ContestId = ContestMockedData.StGallenEvotingContest.Id,
+            Active = true,
+            EVotingApproved = true,
+            AutomaticEmptyVoteCounting = true,
+            EnforceEmptyVoteCountingForCountingCircles = true,
+            BallotBundleSize = 10,
+            BallotBundleSampleSize = 1,
+            AutomaticBallotBundleNumberGeneration = true,
+            BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
+            CandidateCheckDigit = true,
+            MandateAlgorithm = ProportionalElectionMandateAlgorithm.HagenbachBischoff,
+            NumberOfMandates = 3,
+            ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
+            EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = false,
+            ProportionalElectionLists = new List<ProportionalElectionList>
+            {
+                    new ProportionalElectionList
+                    {
+                        Id = Guid.Parse(ListIdGossauProportionalElectionEVotingApprovedInContestStGallen),
+                        Position = 1,
+                        BlankRowCount = 0,
+                        OrderNumber = "1",
+                        Description = LanguageUtil.MockAllLanguages("Liste 1"),
+                        ShortDescription = LanguageUtil.MockAllLanguages("Liste 1"),
+                        ProportionalElectionCandidates = new List<ProportionalElectionCandidate>
+                        {
+                            new ProportionalElectionCandidate
+                            {
+                                Id = Guid.Parse(CandidateIdGossauProportionalElectionEVotingApprovedInContestStGallen),
+                                FirstName = "firstName",
+                                LastName = "lastName",
+                                PoliticalFirstName = "pol first name",
+                                PoliticalLastName = "pol last name",
+                                Occupation = LanguageUtil.MockAllLanguages("occupation"),
+                                OccupationTitle = LanguageUtil.MockAllLanguages("occupation title"),
+                                DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
+                                Incumbent = true,
+                                Position = 1,
+                                Accumulated = true,
+                                AccumulatedPosition = 2,
+                                Locality = "locality",
+                                Number = "number1",
+                                Sex = SexType.Female,
+                                Title = "title",
+                                ZipCode = "7000",
+                                PartyId = DomainOfInfluenceMockedData.GuidPartyGossauFLiG,
+                                Origin = "origin",
+                                CheckDigit = 6,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
+                            },
+                        },
+                    },
+            },
+            ProportionalElectionListUnions = new List<ProportionalElectionListUnion>
+            {
+                    new ProportionalElectionListUnion
+                    {
+                        Id = Guid.Parse(ListUnionIdGossauProportionalElectionEVotingApprovedInContestStGallen),
+                        Position = 1,
+                        Description = LanguageUtil.MockAllLanguages("Listenverbindung 1"),
+                        ProportionalElectionListUnionEntries = new List<ProportionalElectionListUnionEntry>
+                        {
+                            new ProportionalElectionListUnionEntry
+                            {
+                                ProportionalElectionListId = Guid.Parse(ListIdGossauProportionalElectionEVotingApprovedInContestStGallen),
+                            },
+                        },
+                    },
+            },
+        };
+
     public static ProportionalElection GossauProportionalElectionInContestBund
         => new ProportionalElection
         {
@@ -756,7 +846,7 @@ public static class ProportionalElectionMockedData
                                 Number = "number1",
                                 Sex = SexType.Female,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "7000",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                                 Origin = "origin",
                                 CheckDigit = 6,
@@ -851,6 +941,7 @@ public static class ProportionalElectionMockedData
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidStGallen,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = false,
+            EVotingApproved = false,
             AutomaticEmptyVoteCounting = true,
             EnforceEmptyVoteCountingForCountingCircles = true,
             BallotBundleSize = 25,
@@ -917,7 +1008,7 @@ public static class ProportionalElectionMockedData
                                 Number = "number1",
                                 Sex = SexType.Female,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "7000",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                                 Origin = "origin",
                                 CheckDigit = 6,
@@ -991,7 +1082,7 @@ public static class ProportionalElectionMockedData
                                 Number = "number1",
                                 Sex = SexType.Female,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "7000",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                                 Origin = "origin",
                                 CheckDigit = 6,
@@ -1157,6 +1248,7 @@ public static class ProportionalElectionMockedData
             yield return StGallenProportionalElectionInContestBund;
             yield return StGallenProportionalElectionInContestStGallen;
             yield return GossauProportionalElectionInContestStGallen;
+            yield return GossauProportionalElectionEVotingApprovedInContestStGallen;
             yield return GossauProportionalElectionInContestBund;
             yield return StGallenProportionalElectionInContestStGallenWithoutChilds;
             yield return GossauProportionalElectionInContestGossau;
@@ -1221,6 +1313,12 @@ public static class ProportionalElectionMockedData
         var doi = DomainOfInfluenceMockedData.All.First(x => x.Id == proportionalElection.DomainOfInfluenceId);
         var candidateValidationParams = new CandidateValidationParams(doi);
 
+        var eVotingApproved = election.EVotingApproved;
+        if (eVotingApproved.HasValue)
+        {
+            election.EVotingApproved = false;
+        }
+
         aggregate.CreateFrom(election);
 
         foreach (var list in proportionalElection.ProportionalElectionLists)
@@ -1252,6 +1350,11 @@ public static class ProportionalElectionMockedData
             {
                 aggregate.UpdateListUnionMainList(listUnion.Id, listUnion.ProportionalElectionMainListId);
             }
+        }
+
+        if (eVotingApproved == true)
+        {
+            aggregate.UpdateEVotingApproval(true);
         }
 
         return aggregate;

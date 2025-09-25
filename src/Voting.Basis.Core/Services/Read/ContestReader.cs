@@ -207,6 +207,7 @@ public class ContestReader
                 await _voteRepo.Query()
                     .IgnoreQueryFilters() // Votes with a deleted DOI should still show
                     .Include(x => x.DomainOfInfluence)
+                    .Include(x => x.Ballots) // required for political business sub type
                     .Where(x => x.Id == politicalBusinessId)
                     .Select(x => new PoliticalBusinessSummary { PoliticalBusiness = x })
                     .FirstOrDefaultAsync()
@@ -296,6 +297,8 @@ public class ContestReader
             query = query
                 .Include(x => x.Votes)
                 .ThenInclude(x => x.DomainOfInfluence)
+                .Include(x => x.Votes)
+                .ThenInclude(x => x.Ballots) // required for political business sub type
                 .Include(x => x.MajorityElections)
                 .ThenInclude(x => x.DomainOfInfluence)
                 .Include(x => x.MajorityElections)

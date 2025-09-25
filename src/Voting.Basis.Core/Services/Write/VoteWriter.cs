@@ -35,7 +35,9 @@ public class VoteWriter : PoliticalBusinessWriter
         PoliticalBusinessValidationService politicalBusinessValidationService,
         ContestValidationService contestValidationService,
         IDbRepository<DataContext, Vote> voteRepository,
-        IDbRepository<DataContext, DomainOfInfluence> doiRepository)
+        IDbRepository<DataContext, DomainOfInfluence> doiRepository,
+        IDbRepository<DataContext, Contest> contestRepo)
+        : base(doiRepository, contestRepo)
     {
         _aggregateRepository = aggregateRepository;
         _aggregateFactory = aggregateFactory;
@@ -50,7 +52,7 @@ public class VoteWriter : PoliticalBusinessWriter
 
     public async Task Create(Domain.Vote data)
     {
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(data.DomainOfInfluenceId, false);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(data.DomainOfInfluenceId, false);
         await _politicalBusinessValidationService.EnsureValidEditData(
             data.Id,
             data.ContestId,
@@ -59,6 +61,7 @@ public class VoteWriter : PoliticalBusinessWriter
             PoliticalBusinessType.Vote,
             data.ReportDomainOfInfluenceLevel);
         await _contestValidationService.EnsureInTestingPhase(data.ContestId);
+        await HandleEVotingDuringCreation(data);
 
         var vote = _aggregateFactory.New<VoteAggregate>();
 
@@ -68,7 +71,7 @@ public class VoteWriter : PoliticalBusinessWriter
 
     public async Task Update(Domain.Vote data)
     {
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(data.DomainOfInfluenceId, false);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(data.DomainOfInfluenceId, false);
         await _politicalBusinessValidationService.EnsureValidEditData(
             data.Id,
             data.ContestId,
@@ -103,10 +106,30 @@ public class VoteWriter : PoliticalBusinessWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(voteId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId, false);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(vote.DomainOfInfluenceId, false);
         await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
 
         vote.UpdateActiveState(active);
+        await _aggregateRepository.Save(vote);
+    }
+
+    public async Task UpdateEVotingApproval(Guid voteId, bool approved)
+    {
+        var vote = await _aggregateRepository.GetById<VoteAggregate>(voteId);
+
+        _permissionService.EnsureCanSetEVotingApproval(PoliticalBusinessType.Vote, approved);
+
+        // E-Voting approval is a special permission, which can be applied even if the user has only read political business readpermissions.
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(vote.DomainOfInfluenceId, true);
+        await _contestValidationService.EnsureNotLocked(vote.ContestId);
+        await _contestValidationService.EnsureCanChangePoliticalBusinessEVotingApproval(vote.ContestId, approved);
+
+        if (approved && !vote.Active)
+        {
+            vote.UpdateActiveState(true);
+        }
+
+        vote.UpdateEVotingApproval(approved);
         await _aggregateRepository.Save(vote);
     }
 
@@ -114,7 +137,7 @@ public class VoteWriter : PoliticalBusinessWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(voteId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId, false);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(vote.DomainOfInfluenceId, false);
         await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
 
         vote.Delete();
@@ -125,7 +148,7 @@ public class VoteWriter : PoliticalBusinessWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(data.VoteId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId, false);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(vote.DomainOfInfluenceId, false);
         await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
 
         if (data.Position != 1)
@@ -142,7 +165,7 @@ public class VoteWriter : PoliticalBusinessWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(data.VoteId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId, false);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(vote.DomainOfInfluenceId, false);
         var contestState = await _contestValidationService.EnsureNotLocked(vote.ContestId);
 
         if (contestState.TestingPhaseEnded())
@@ -161,11 +184,24 @@ public class VoteWriter : PoliticalBusinessWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(voteId);
 
-        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasAdminPermissions(vote.DomainOfInfluenceId, false);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(vote.DomainOfInfluenceId, false);
         await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
 
         vote.DeleteBallot(id);
         await _aggregateRepository.Save(vote);
+    }
+
+    internal async Task<bool> TryApproveEVoting(Guid voteId)
+    {
+        var vote = await _aggregateRepository.GetById<VoteAggregate>(voteId);
+
+        if (!vote.TryApproveEVoting())
+        {
+            return false;
+        }
+
+        await _aggregateRepository.Save(vote);
+        return true;
     }
 
     internal override async Task DeleteWithoutChecks(List<Guid> ids)
@@ -173,7 +209,7 @@ public class VoteWriter : PoliticalBusinessWriter
         foreach (var id in ids)
         {
             var aggregate = await _aggregateRepository.GetById<VoteAggregate>(id);
-            aggregate.Delete();
+            aggregate.Delete(true);
             await _aggregateRepository.Save(aggregate);
         }
     }

@@ -26,6 +26,7 @@ public class ProportionalElectionProcessor :
     IEventProcessor<ProportionalElectionUpdated>,
     IEventProcessor<ProportionalElectionAfterTestingPhaseUpdated>,
     IEventProcessor<ProportionalElectionActiveStateUpdated>,
+    IEventProcessor<ProportionalElectionEVotingApprovalUpdated>,
     IEventProcessor<ProportionalElectionDeleted>,
     IEventProcessor<ProportionalElectionToNewContestMoved>,
     IEventProcessor<ProportionalElectionListCreated>,
@@ -171,6 +172,17 @@ public class ProportionalElectionProcessor :
         var existingModel = await GetElection(electionId);
 
         existingModel.Active = eventData.Active;
+        await _repo.Update(existingModel);
+        await _simplePoliticalBusinessBuilder.Update(existingModel);
+        await _eventLogger.LogProportionalElectionEvent(eventData, existingModel);
+    }
+
+    public async Task Process(ProportionalElectionEVotingApprovalUpdated eventData)
+    {
+        var electionId = GuidParser.Parse(eventData.ProportionalElectionId);
+        var existingModel = await GetElection(electionId);
+
+        existingModel.EVotingApproved = eventData.Approved;
         await _repo.Update(existingModel);
         await _simplePoliticalBusinessBuilder.Update(existingModel);
         await _eventLogger.LogProportionalElectionEvent(eventData, existingModel);

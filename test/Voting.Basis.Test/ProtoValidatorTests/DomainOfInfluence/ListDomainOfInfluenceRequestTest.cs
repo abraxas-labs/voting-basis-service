@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Abraxas.Voting.Basis.Services.V1.Requests;
-using Voting.Basis.Test.ProtoValidatorTests.Utils;
+using Voting.Lib.Testing.Utils;
 using Voting.Lib.Testing.Validation;
 
 namespace Voting.Basis.Test.ProtoValidatorTests.DomainOfInfluence;

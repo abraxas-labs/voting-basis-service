@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -52,6 +53,22 @@ public class ContestValidationService
         }
 
         return state;
+    }
+
+    internal async Task EnsureCanChangePoliticalBusinessEVotingApproval(Guid contestId, bool approvalValue)
+    {
+        var contest = await _contestRepo.GetByKey(contestId)
+            ?? throw new EntityNotFoundException(nameof(Contest), contestId);
+
+        if (!contest.EVoting)
+        {
+            throw new ContestMissingEVotingException();
+        }
+
+        if (contest.EVotingApproved && !approvalValue)
+        {
+            throw new ValidationException("Cannot reset the e-voting approval when the contest is already approved");
+        }
     }
 
     internal async Task EnsureContestNotSetAsPreviousContest(Guid contestId)

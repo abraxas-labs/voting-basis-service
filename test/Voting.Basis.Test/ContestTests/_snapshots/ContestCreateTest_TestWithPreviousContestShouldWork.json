@@ -37,7 +37,8 @@
       "EVotingFrom": null,
       "EVotingTo": null,
       "State": 1,
-      "PreviousContestId": "4c3adb88-2de9-4042-bf38-3fda1cb8b29a"
+      "PreviousContestId": "4c3adb88-2de9-4042-bf38-3fda1cb8b29a",
+      "EVotingApprovalDueDate": null
     }
   }
 }

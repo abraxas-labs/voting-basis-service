@@ -15,6 +15,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -220,6 +221,19 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
             })),
             StatusCode.FailedPrecondition,
             "Contest is past locked or archived");
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateListAsync(NewValidRequest(x =>
+            {
+                x.Id = ProportionalElectionMockedData.ListIdGossauProportionalElectionEVotingApprovedInContestStGallen;
+                x.ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

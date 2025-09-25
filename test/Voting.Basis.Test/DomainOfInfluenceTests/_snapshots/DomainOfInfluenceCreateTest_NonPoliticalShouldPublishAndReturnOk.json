@@ -40,8 +40,12 @@
       "HideLowerDomainOfInfluencesInReports": false,
       "ElectoralRegisterMultipleEnabled": false,
       "ECollectingEnabled": false,
-      "ECollectingMinSignatureCount": 0,
-      "ECollectingMaxElectronicSignaturePercent": 0
+      "ECollectingInitiativeMinSignatureCount": null,
+      "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+      "ECollectingInitiativeNumberOfMembersCommittee": null,
+      "ECollectingReferendumMinSignatureCount": null,
+      "ECollectingReferendumMaxElectronicSignaturePercent": null,
+      "ECollectingEmail": ""
     }
   }
 }

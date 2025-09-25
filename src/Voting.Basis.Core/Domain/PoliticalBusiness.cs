@@ -27,6 +27,12 @@ public abstract class PoliticalBusiness
     public bool Active { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether this political business is e-voting approved or not.
+    /// If null, then the political business does not support e-voting (no counting circle of the assigned domain of influence has e-voting).
+    /// </summary>
+    public bool? EVotingApproved { get; set; }
+
+    /// <summary>
     /// Gets or sets the political business number (in german: Geschäftsnummer).
     /// </summary>
     public string PoliticalBusinessNumber { get; set; } = string.Empty;

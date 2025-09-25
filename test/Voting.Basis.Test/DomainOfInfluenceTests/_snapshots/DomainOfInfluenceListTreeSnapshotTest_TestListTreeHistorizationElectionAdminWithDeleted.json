@@ -72,8 +72,13 @@
             "HideLowerDomainOfInfluencesInReports": false,
             "ElectoralRegisterMultipleEnabled": false,
             "ECollectingEnabled": false,
-            "ECollectingMinSignatureCount": 0,
-            "ECollectingMaxElectronicSignaturePercent": 0
+            "ECollectingInitiativeMinSignatureCount": null,
+            "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+            "ECollectingInitiativeNumberOfMembersCommittee": null,
+            "ECollectingReferendumMinSignatureCount": null,
+            "ECollectingReferendumMaxElectronicSignaturePercent": null,
+            "ECollectingEmail": "",
+            "IsMainVotingCardsDomainOfInfluence": false
           }
         ],
         "Canton": 1,
@@ -123,8 +128,13 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       }
     ]
   },
@@ -195,8 +205,13 @@
             "HideLowerDomainOfInfluencesInReports": false,
             "ElectoralRegisterMultipleEnabled": false,
             "ECollectingEnabled": false,
-            "ECollectingMinSignatureCount": 0,
-            "ECollectingMaxElectronicSignaturePercent": 0
+            "ECollectingInitiativeMinSignatureCount": null,
+            "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+            "ECollectingInitiativeNumberOfMembersCommittee": null,
+            "ECollectingReferendumMinSignatureCount": null,
+            "ECollectingReferendumMaxElectronicSignaturePercent": null,
+            "ECollectingEmail": "",
+            "IsMainVotingCardsDomainOfInfluence": false
           }
         ],
         "Canton": 1,
@@ -246,8 +261,13 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       }
     ]
   },
@@ -321,8 +341,13 @@
             "HideLowerDomainOfInfluencesInReports": false,
             "ElectoralRegisterMultipleEnabled": false,
             "ECollectingEnabled": false,
-            "ECollectingMinSignatureCount": 0,
-            "ECollectingMaxElectronicSignaturePercent": 0
+            "ECollectingInitiativeMinSignatureCount": null,
+            "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+            "ECollectingInitiativeNumberOfMembersCommittee": null,
+            "ECollectingReferendumMinSignatureCount": null,
+            "ECollectingReferendumMaxElectronicSignaturePercent": null,
+            "ECollectingEmail": "",
+            "IsMainVotingCardsDomainOfInfluence": false
           }
         ],
         "Canton": 1,
@@ -372,8 +397,13 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       }
     ]
   },
@@ -447,8 +477,13 @@
             "HideLowerDomainOfInfluencesInReports": false,
             "ElectoralRegisterMultipleEnabled": false,
             "ECollectingEnabled": false,
-            "ECollectingMinSignatureCount": 0,
-            "ECollectingMaxElectronicSignaturePercent": 0
+            "ECollectingInitiativeMinSignatureCount": null,
+            "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+            "ECollectingInitiativeNumberOfMembersCommittee": null,
+            "ECollectingReferendumMinSignatureCount": null,
+            "ECollectingReferendumMaxElectronicSignaturePercent": null,
+            "ECollectingEmail": "",
+            "IsMainVotingCardsDomainOfInfluence": false
           }
         ],
         "Canton": 1,
@@ -501,8 +536,13 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
+        "IsMainVotingCardsDomainOfInfluence": false
       }
     ]
   }

@@ -274,6 +274,36 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
     }
 
     [Fact]
+    public async Task ModificationWithEVotingApprovedShouldWork()
+    {
+        await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(new UpdateMajorityElectionBallotGroupCandidatesRequest
+        {
+            BallotGroupId = MajorityElectionMockedData.BallotGroupIdGossauMajorityElectionEVotingApprovedInContestBund,
+            EntryCandidates =
+            {
+                new ProtoModels.MajorityElectionBallotGroupEntryCandidates
+                {
+                    BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId1GossauMajorityElectionEVotingApprovedInContestBund,
+                    CandidateIds =
+                    {
+                        MajorityElectionMockedData.CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen,
+                    },
+                    IndividualCandidatesVoteCount = 1,
+                    BlankRowCount = 1,
+                },
+                new ProtoModels.MajorityElectionBallotGroupEntryCandidates
+                {
+                    BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId2GossauMajorityElectionEVotingApprovedInContestBund,
+                    BlankRowCount = 3,
+                },
+            },
+        });
+
+        EventPublisherMock.GetSinglePublishedEvent<MajorityElectionBallotGroupCandidatesUpdated>()
+            .Should().NotBeNull();
+    }
+
+    [Fact]
     public async Task SetNonZeroIndividualVotesOnElectionWithDisableIndividualVotesShouldThrow()
     {
         await ModifyDbEntities<MajorityElection>(

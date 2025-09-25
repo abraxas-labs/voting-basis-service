@@ -13,6 +13,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -84,6 +85,18 @@ public class SecondaryMajorityElectionDeleteTest : PoliticalBusinessAuthorizatio
             .Should().Be(0);
 
         await AssertHasPublishedEventProcessedMessage(SecondaryMajorityElectionDeleted.Descriptor, idGuid);
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.DeleteSecondaryMajorityElectionAsync(new DeleteSecondaryMajorityElectionRequest
+            {
+                Id = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen,
+            }),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

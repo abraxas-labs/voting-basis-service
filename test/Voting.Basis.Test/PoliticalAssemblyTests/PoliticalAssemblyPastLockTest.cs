@@ -2,6 +2,7 @@
 // For license information see LICENSE file
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
@@ -9,11 +10,13 @@ using FluentAssertions;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.DependencyInjection;
 using Voting.Basis.Core.Domain.Aggregate;
+using Voting.Basis.Core.Jobs;
 using Voting.Basis.Test.MockedData;
 using Voting.Basis.Test.MockedData.Mapping;
 using Voting.Basis.Test.Mocks;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
+using Voting.Lib.Eventing.Testing.Mocks;
 using Voting.Lib.Iam.Store;
 using Xunit;
 
@@ -47,7 +50,6 @@ public class PoliticalAssemblyPastLockTest : BaseTest
         });
     }
 
-    /* - Will be reactivated after rollout of implementation VOTING-5143 in Stimmunterlagen
     [Fact]
     public async Task JobShouldSetActivePoliticalAssemblytToPastLocked()
     {
@@ -56,7 +58,6 @@ public class PoliticalAssemblyPastLockTest : BaseTest
         var eventData = EventPublisherMock.GetSinglePublishedEvent<PoliticalAssemblyPastLocked>();
         eventData.PoliticalAssemblyId.Should().Be(PoliticalAssemblyId);
     }
-    */
 
     private async Task SeedPoliticalAssembly(string id, bool setPast = true, string doiId = DomainOfInfluenceMockedData.IdGossau)
     {

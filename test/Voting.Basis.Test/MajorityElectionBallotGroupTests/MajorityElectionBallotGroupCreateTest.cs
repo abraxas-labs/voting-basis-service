@@ -211,6 +211,34 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
             "Contest is past locked or archived");
     }
 
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldWork()
+    {
+        await ElectionAdminClient.CreateBallotGroupAsync(new CreateMajorityElectionBallotGroupRequest
+        {
+            Description = "ev",
+            Position = 2,
+            ShortDescription = "ev",
+            MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen,
+            Entries =
+                {
+                    new ProtoModels.MajorityElectionBallotGroupEntry
+                    {
+                        BlankRowCount = 0,
+                        ElectionId = MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen,
+                    },
+                    new ProtoModels.MajorityElectionBallotGroupEntry
+                    {
+                        BlankRowCount = 0,
+                        ElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen,
+                    },
+                },
+        });
+
+        EventPublisherMock.GetSinglePublishedEvent<MajorityElectionBallotGroupCreated>()
+            .Should().NotBeNull();
+    }
+
     protected override IEnumerable<string> AuthorizedRoles()
     {
         yield return Roles.CantonAdmin;

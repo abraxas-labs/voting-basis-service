@@ -13,6 +13,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -40,6 +41,18 @@ public class SecondaryMajorityElectionCandidateReferenceUpdateTest : PoliticalBu
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateReferenceUpdated, EventSignatureBusinessMetadata>();
         eventData.MatchSnapshot("event");
         eventMetadata!.ContestId.Should().Be(ContestMockedData.IdBundContest);
+    }
+
+    [Fact]
+    public async Task TestOnlyChangeIncumbentShouldWork()
+    {
+        // This shouldn't throw
+        var response = await CantonAdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest(x =>
+        {
+            x.Number = "number1"; // candidate already has this number
+            x.Incumbent = false;
+        }));
+        response.Should().NotBeNull();
     }
 
     [Fact]
@@ -92,9 +105,22 @@ public class SecondaryMajorityElectionCandidateReferenceUpdateTest : PoliticalBu
     public async Task DuplicateNumberShouldThrow()
     {
         await AssertStatus(
-            async () => await CantonAdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest(o => o.Number = "number1")),
+            async () => await CantonAdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest(o => o.Number = "number2")),
             StatusCode.AlreadyExists,
             "NonUniqueCandidateNumber");
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest(x =>
+            {
+                x.Id = MajorityElectionMockedData.SecondaryElectionCandidateId1GossauMajorityElectionEVotingApprovedInContestStGallen;
+                x.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

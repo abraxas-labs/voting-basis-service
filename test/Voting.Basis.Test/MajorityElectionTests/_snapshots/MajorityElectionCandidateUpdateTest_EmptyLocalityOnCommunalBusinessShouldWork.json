@@ -49,7 +49,7 @@
         "rm": "Test rm"
       },
       "Incumbent": true,
-      "ZipCode": "zip code",
+      "ZipCode": "2000",
       "Locality": "",
       "Position": 1,
       "Origin": "origin",

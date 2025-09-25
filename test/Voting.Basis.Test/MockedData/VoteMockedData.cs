@@ -25,6 +25,7 @@ public static class VoteMockedData
     public const string IdStGallenVoteInContestBund = "903a47bf-6b7b-4460-8475-b7bd89ea2ac9";
     public const string IdUzwilVoteInContestBund = "6b4c7f11-9860-4468-ace9-78baec913a8d";
     public const string IdBundVoteInContestStGallen = "f69b3543-ccee-467d-9cde-56941f6e4bad";
+    public const string IdGossauVoteEVotingApprovedInContestStGallen = "3a51df6b-3037-41d8-8b86-2f497d26e8a6";
     public const string IdGossauVoteInContestStGallen = "8076dee2-f19b-4af9-80b1-69b0c7b1402b";
     public const string IdGossauVoteInContestBund = "76d9b4bd-52e6-462e-9613-f344f7b860df";
     public const string IdUzwilVoteInContestStGallen = "da65e354-f668-4ae4-b3ef-c1a74764e99d";
@@ -39,6 +40,7 @@ public static class VoteMockedData
     public const string BallotIdBundVoteInContestBund = "b7ba9fef-27f9-46c4-8046-955e874561a7";
     public const string BallotIdStGallenVoteInContestBund = "60dd6c2c-e73a-467e-99e1-902f973a5d8e";
     public const string BallotIdBundVoteInContestStGallen = "512bb3a2-97e2-4779-ac51-83abd039afc4";
+    public const string BallotIdGossauVoteEVotingApprovedInContestStGallen = "cef4ad75-8841-4dc4-bd02-050dac18d999";
     public const string BallotIdGossauVoteInContestStGallen = "154ee710-88b7-419a-ae5b-74a44c9c969e";
     public const string BallotIdGossauVoteInContestBund = "690c36d8-dd09-4464-91ce-73c48df176a1";
     public const string BallotIdUzwilVoteInContestStGallen = "e6ee82f9-70d4-4ffa-a673-34d56fc47204";
@@ -141,6 +143,7 @@ public static class VoteMockedData
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             ResultAlgorithm = VoteResultAlgorithm.PopularMajority,
             Active = true,
+            EVotingApproved = false,
             BallotBundleSampleSizePercent = 25,
             AutomaticBallotBundleNumberGeneration = true,
             ResultEntry = VoteResultEntry.FinalResults,
@@ -221,6 +224,7 @@ public static class VoteMockedData
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             ResultAlgorithm = VoteResultAlgorithm.CountingCircleUnanimity,
             Active = true,
+            EVotingApproved = false,
             ReportDomainOfInfluenceLevel = 1,
             BallotBundleSampleSizePercent = 50,
             AutomaticBallotBundleNumberGeneration = false,
@@ -262,6 +266,7 @@ public static class VoteMockedData
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             ResultAlgorithm = VoteResultAlgorithm.PopularMajority,
             Active = true,
+            EVotingApproved = false,
             BallotBundleSampleSizePercent = 25,
             AutomaticBallotBundleNumberGeneration = true,
             ResultEntry = VoteResultEntry.FinalResults,
@@ -303,6 +308,47 @@ public static class VoteMockedData
                                 Question = LanguageUtil.MockAllLanguages("Stichfrage 1 Gossau (Frage 1 vs Frage 2)"),
                                 Question1Number = 1,
                                 Question2Number = 2,
+                            },
+                        },
+                    },
+            },
+        };
+
+    public static Vote GossauVoteEVotingApprovedInContestStGallen
+        => new Vote
+        {
+            Id = Guid.Parse(IdGossauVoteEVotingApprovedInContestStGallen),
+            PoliticalBusinessNumber = "VEV",
+            OfficialDescription = LanguageUtil.MockAllLanguages("Abstimmung Gossau E-Voting"),
+            ShortDescription = LanguageUtil.MockAllLanguages("Abstimmung Gossau E-Voting"),
+            InternalDescription = "Abstimmung Gossau E-Voting auf Urnengang St.Gallen",
+            DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
+            ContestId = ContestMockedData.StGallenEvotingContest.Id,
+            ResultAlgorithm = VoteResultAlgorithm.PopularMajority,
+            Active = true,
+            EVotingApproved = true,
+            BallotBundleSampleSizePercent = 25,
+            AutomaticBallotBundleNumberGeneration = true,
+            ResultEntry = VoteResultEntry.FinalResults,
+            EnforceResultEntryForCountingCircles = true,
+            ReviewProcedure = VoteReviewProcedure.Electronically,
+            EnforceReviewProcedureForCountingCircles = true,
+            Type = VoteType.QuestionsOnSingleBallot,
+            Ballots = new List<Ballot>
+            {
+                    new Ballot
+                    {
+                        Id = Guid.Parse(BallotIdGossauVoteEVotingApprovedInContestStGallen),
+                        Position = 1,
+                        BallotType = BallotType.StandardBallot,
+                        BallotQuestions = new List<BallotQuestion>
+                        {
+                            new BallotQuestion
+                            {
+                                Number = 1,
+                                Id = Guid.Parse("47ac9915-cb9a-4c3d-a9b5-6332159fe028"),
+                                Question = LanguageUtil.MockAllLanguages("Frage 1 Gossau E-Voting"),
+                                Type = BallotQuestionType.MainBallot,
                             },
                         },
                     },
@@ -380,6 +426,7 @@ public static class VoteMockedData
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             ResultAlgorithm = VoteResultAlgorithm.PopularMajority,
             Active = false,
+            EVotingApproved = false,
             BallotBundleSampleSizePercent = 10,
             AutomaticBallotBundleNumberGeneration = false,
             ResultEntry = VoteResultEntry.FinalResults,
@@ -620,6 +667,7 @@ public static class VoteMockedData
             yield return UzwilVoteInContestStGallen;
             yield return StGallenVoteInContestStGallen;
             yield return GossauVoteInContestStGallen;
+            yield return GossauVoteEVotingApprovedInContestStGallen;
             yield return GossauVoteInContestBund;
             yield return StGallenVoteInContestStGallenWithoutChilds;
             yield return GossauVoteInContestGossau;
@@ -682,6 +730,13 @@ public static class VoteMockedData
         var setDetailed = vote.ResultEntry == VoteResultEntry.Detailed;
         domainVote.EnforceResultEntryForCountingCircles = true;
         domainVote.ResultEntry = VoteResultEntry.FinalResults;
+
+        var eVotingApproved = domainVote.EVotingApproved;
+        if (eVotingApproved.HasValue)
+        {
+            domainVote.EVotingApproved = false;
+        }
+
         aggregate.CreateFrom(domainVote);
 
         foreach (var ballot in domainBallots)
@@ -697,6 +752,11 @@ public static class VoteMockedData
                 ? VoteResultEntry.Detailed
                 : VoteResultEntry.FinalResults;
             aggregate.UpdateFrom(domainVote);
+        }
+
+        if (eVotingApproved == true)
+        {
+            aggregate.UpdateEVotingApproval(true);
         }
 
         return aggregate;

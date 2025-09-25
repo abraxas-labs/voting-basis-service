@@ -21,7 +21,7 @@ public class PoliticalBusinessDeleter
         IEnumerable<PoliticalBusinessWriter> politicalBusinessWriters,
         SimplePoliticalBusinessRepo simplePoliticalBusinessRepo)
     {
-        _politicalBusinessWriters = politicalBusinessWriters;
+        _politicalBusinessWriters = politicalBusinessWriters.OrderBy(x => x.Type);
         _simplePoliticalBusinessRepo = simplePoliticalBusinessRepo;
     }
 
@@ -48,6 +48,8 @@ public class PoliticalBusinessDeleter
                 && !doiIds.Contains(x.Contest.DomainOfInfluenceId)
                 && doiIds.Contains(x.DomainOfInfluenceId)
                 && x.BusinessType != PoliticalBusinessType.SecondaryMajorityElection)
+            .OrderBy(x => x.PoliticalBusinessNumber)
+            .ThenBy(x => x.Id)
             .Select(x => new
             {
                 x.Id,

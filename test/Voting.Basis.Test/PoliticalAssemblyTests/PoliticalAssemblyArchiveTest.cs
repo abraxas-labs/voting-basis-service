@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
@@ -18,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Extensions;
+using Voting.Basis.Core.Jobs;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Basis.Test.MockedData.Mapping;
@@ -161,7 +163,6 @@ public class PoliticalAssemblyArchiveTest : BaseGrpcTest<PoliticalAssemblyServic
             StatusCode.InvalidArgument);
     }
 
-    /* - Will be reactivated after rollout of implementation VOTING-5143 in Stimmunterlagen
     [Fact]
     public async Task JobShouldSetPoliticalAssemblyArchived()
     {
@@ -176,7 +177,6 @@ public class PoliticalAssemblyArchiveTest : BaseGrpcTest<PoliticalAssemblyServic
         var eventData = EventPublisherMock.GetSinglePublishedEvent<PoliticalAssemblyArchived>();
         eventData.PoliticalAssemblyId.Should().Be(PoliticalAssemblyMockedData.IdPast);
     }
-    */
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {

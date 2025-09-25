@@ -215,6 +215,19 @@ public class ContestWriter
         await _aggregateRepository.Save(contest);
     }
 
+    internal async Task<bool> TryApproveEVoting(Guid contestId)
+    {
+        var contest = await _aggregateRepository.GetById<ContestAggregate>(contestId);
+
+        if (!contest.TryApproveEVoting())
+        {
+            return false;
+        }
+
+        await _aggregateRepository.Save(contest);
+        return true;
+    }
+
     private async Task EnsureValidPreviousContest(Contest contest)
     {
         if (!contest.PreviousContestId.HasValue)

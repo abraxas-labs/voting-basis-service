@@ -23,6 +23,7 @@ public class VoteProcessor :
     IEventProcessor<VoteUpdated>,
     IEventProcessor<VoteAfterTestingPhaseUpdated>,
     IEventProcessor<VoteActiveStateUpdated>,
+    IEventProcessor<VoteEVotingApprovalUpdated>,
     IEventProcessor<VoteDeleted>,
     IEventProcessor<VoteToNewContestMoved>,
     IEventProcessor<BallotCreated>,
@@ -195,6 +196,17 @@ public class VoteProcessor :
 
         existingModel.Active = eventData.Active;
         await CalculateSubTypeForVoteWithoutFetchedBallots(existingModel);
+        await _repo.Update(existingModel);
+        await _simplePoliticalBusinessBuilder.Update(existingModel);
+        await _eventLogger.LogVoteEvent(eventData, existingModel);
+    }
+
+    public async Task Process(VoteEVotingApprovalUpdated eventData)
+    {
+        var voteId = GuidParser.Parse(eventData.VoteId);
+        var existingModel = await GetVote(voteId);
+
+        existingModel.EVotingApproved = eventData.Approved;
         await _repo.Update(existingModel);
         await _simplePoliticalBusinessBuilder.Update(existingModel);
         await _eventLogger.LogVoteEvent(eventData, existingModel);

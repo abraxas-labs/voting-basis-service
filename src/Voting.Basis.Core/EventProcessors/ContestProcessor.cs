@@ -25,7 +25,8 @@ public class ContestProcessor :
     IEventProcessor<ContestPastLocked>,
     IEventProcessor<ContestPastUnlocked>,
     IEventProcessor<ContestArchived>,
-    IEventProcessor<ContestArchiveDateUpdated>
+    IEventProcessor<ContestArchiveDateUpdated>,
+    IEventProcessor<ContestEVotingApprovalUpdated>
 {
     private readonly IDbRepository<DataContext, Contest> _repo;
     private readonly IMapper _mapper;
@@ -117,6 +118,16 @@ public class ContestProcessor :
         var contest = await GetContest(id);
 
         contest.ArchivePer = eventData.ArchivePer?.ToDateTime();
+        await _repo.Update(contest);
+        await _eventLogger.LogContestEvent(eventData, contest);
+    }
+
+    public async Task Process(ContestEVotingApprovalUpdated eventData)
+    {
+        var id = GuidParser.Parse(eventData.ContestId);
+        var contest = await GetContest(id);
+
+        contest.EVotingApproved = eventData.Approved;
         await _repo.Update(contest);
         await _eventLogger.LogContestEvent(eventData, contest);
     }

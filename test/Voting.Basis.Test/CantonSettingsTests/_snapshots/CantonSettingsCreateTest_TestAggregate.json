@@ -252,10 +252,15 @@
         "StistatMunicipality": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
+        "IsMainVotingCardsDomainOfInfluence": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
-        "ECollectingMinSignatureCount": 0,
-        "ECollectingMaxElectronicSignaturePercent": 0,
+        "ECollectingInitiativeMinSignatureCount": null,
+        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
+        "ECollectingInitiativeNumberOfMembersCommittee": null,
+        "ECollectingReferendumMinSignatureCount": null,
+        "ECollectingReferendumMaxElectronicSignaturePercent": null,
+        "ECollectingEmail": "",
         "Id": "e84a3f1e-c2ea-422c-904e-130b822aad64"
       }
     ]

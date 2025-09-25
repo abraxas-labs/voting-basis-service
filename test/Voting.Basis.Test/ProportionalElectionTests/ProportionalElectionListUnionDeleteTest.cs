@@ -13,11 +13,11 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
-using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.ProportionalElectionTests;
 
@@ -101,34 +101,15 @@ public class ProportionalElectionListUnionDeleteTest : PoliticalBusinessAuthoriz
     }
 
     [Fact]
-    public async Task ListUnionInNonHagenbachBischoffElectionShouldThrow()
+    public async Task ModificationWithEVotingApprovedShouldThrow()
     {
-        await ModifyDbEntities<DomainOfInfluence>(
-            doi => doi.Id == DomainOfInfluenceMockedData.GuidGossau,
-            doi => doi.CantonDefaults.ProportionalElectionMandateAlgorithms = new()
-            {
-                ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum,
-            });
-
-        await ElectionAdminClient.UpdateAsync(new()
-        {
-            Id = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund,
-            PoliticalBusinessNumber = "1",
-            NumberOfMandates = 2,
-            MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum,
-            BallotNumberGeneration = SharedProto.BallotNumberGeneration.RestartForEachBundle,
-            DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau,
-            ContestId = ContestMockedData.IdBundContest,
-            ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
-        });
-
         await AssertStatus(
-            async () => await ElectionAdminClient.DeleteListUnionAsync(new DeleteProportionalElectionListUnionRequest
+            async () => await CantonAdminClient.DeleteListUnionAsync(new DeleteProportionalElectionListUnionRequest
             {
-                Id = ProportionalElectionMockedData.ListUnionIdGossauProportionalElectionInContestBund,
+                Id = ProportionalElectionMockedData.ListUnionIdGossauProportionalElectionEVotingApprovedInContestStGallen,
             }),
-            StatusCode.InvalidArgument,
-            "The election does not distribute mandates per Hagenbach-Bischoff algorithm");
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

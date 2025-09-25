@@ -1,0 +1,43 @@
+{
+  "SecondaryMajorityElectionId": "0741da26-add2-4c4c-960d-7e251b82e91b",
+  "SecondaryMajorityElection": null,
+  "CandidateReferenceId": "81a11b8e-51b8-40c5-aa94-b7a854e2c726",
+  "CandidateReference": null,
+  "BallotGroupEntries": [],
+  "Party": {
+    "de": "SVP de",
+    "fr": "SVP fr",
+    "it": "SVP it",
+    "rm": "SVP rm"
+  },
+  "Number": "number1",
+  "FirstName": "updated first name",
+  "LastName": "updated last name",
+  "PoliticalFirstName": "updated pol first name",
+  "PoliticalLastName": "updated pol last name",
+  "DateOfBirth": "1961-05-13T00:00:00Z",
+  "Sex": 1,
+  "Occupation": {
+    "de": "updated occupation de",
+    "fr": "updated occupation fr",
+    "it": "updated occupation it",
+    "rm": "updated occupation rm"
+  },
+  "Title": "updated title",
+  "OccupationTitle": {
+    "de": "updated occupation title de",
+    "fr": "updated occupation title fr",
+    "it": "updated occupation title it",
+    "rm": "updated occupation title rm"
+  },
+  "Incumbent": true,
+  "ZipCode": "4321",
+  "Locality": "updated locality",
+  "Position": 1,
+  "Origin": "ou",
+  "CheckDigit": 9,
+  "Country": "DE",
+  "Street": "updated street",
+  "HouseNumber": "u1a",
+  "Id": "9d1e4ef4-81c0-4905-a2c6-e1b937b80ddf"
+}

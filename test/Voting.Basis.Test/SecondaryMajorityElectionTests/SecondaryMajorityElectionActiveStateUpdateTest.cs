@@ -99,6 +99,18 @@ public class SecondaryMajorityElectionActiveStateUpdateTest : PoliticalBusinessA
             nameof(MajorityElectionBallotGroupVoteCountException));
     }
 
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateSecondaryMajorityElectionActiveStateAsync(NewValidRequest(x =>
+            {
+                x.Id = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
     protected override IEnumerable<string> AuthorizedRoles()
     {
         yield return Roles.CantonAdmin;

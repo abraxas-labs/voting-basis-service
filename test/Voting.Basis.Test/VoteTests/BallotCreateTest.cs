@@ -15,6 +15,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -436,6 +437,16 @@ public class BallotCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
             async () => await ElectionAdminClient.CreateBallotAsync(NewValidRequest(x => x.Position = 2)),
             StatusCode.InvalidArgument,
             "The ballot position 2 is invalid, is non-continuous.");
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await ElectionAdminClient.CreateBallotAsync(NewValidRequest(x =>
+                x.VoteId = VoteMockedData.IdGossauVoteEVotingApprovedInContestStGallen)),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

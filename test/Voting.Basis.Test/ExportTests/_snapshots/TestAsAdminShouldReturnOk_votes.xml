@@ -21,18 +21,6 @@
           <language>de</language>
           <contestDescription>Nationalratswahlen in der Zukunft de</contestDescription>
         </contestDescriptionInfo>
-        <contestDescriptionInfo>
-          <language>fr</language>
-          <contestDescription>Nationalratswahlen in der Zukunft fr</contestDescription>
-        </contestDescriptionInfo>
-        <contestDescriptionInfo>
-          <language>it</language>
-          <contestDescription>Nationalratswahlen in der Zukunft it</contestDescription>
-        </contestDescriptionInfo>
-        <contestDescriptionInfo>
-          <language>rm</language>
-          <contestDescription>Nationalratswahlen in der Zukunft rm</contestDescription>
-        </contestDescriptionInfo>
       </contestDescription>
     </contest>
     <voteInformation>
@@ -44,18 +32,6 @@
             <language>de</language>
             <voteDescription>Eidgenössische Volksabstimmung vom 12.02.2029</voteDescription>
           </voteDescriptionInfo>
-          <voteDescriptionInfo>
-            <language>fr</language>
-            <voteDescription>Votation populaire fédérale du 12.02.2029</voteDescription>
-          </voteDescriptionInfo>
-          <voteDescriptionInfo>
-            <language>it</language>
-            <voteDescription>Votazione popolare federale del 12.02.2029</voteDescription>
-          </voteDescriptionInfo>
-          <voteDescriptionInfo>
-            <language>rm</language>
-            <voteDescription>Votaziun federala dal pievel dals 12.02.2029</voteDescription>
-          </voteDescriptionInfo>
         </voteDescription>
       </vote>
       <ballot>
@@ -66,21 +42,6 @@
             <language>de</language>
             <ballotDescriptionLong>Abstimmung Bund de</ballotDescriptionLong>
             <ballotDescriptionShort>Abstimmung Bund de</ballotDescriptionShort>
-          </ballotDescriptionInfo>
-          <ballotDescriptionInfo>
-            <language>fr</language>
-            <ballotDescriptionLong>Abstimmung Bund fr</ballotDescriptionLong>
-            <ballotDescriptionShort>Abstimmung Bund fr</ballotDescriptionShort>
-          </ballotDescriptionInfo>
-          <ballotDescriptionInfo>
-            <language>it</language>
-            <ballotDescriptionLong>Abstimmung Bund it</ballotDescriptionLong>
-            <ballotDescriptionShort>Abstimmung Bund it</ballotDescriptionShort>
-          </ballotDescriptionInfo>
-          <ballotDescriptionInfo>
-            <language>rm</language>
-            <ballotDescriptionLong>Abstimmung Bund rm</ballotDescriptionLong>
-            <ballotDescriptionShort>Abstimmung Bund rm</ballotDescriptionShort>
           </ballotDescriptionInfo>
         </ballotDescription>
         <standardBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
@@ -94,18 +55,6 @@
               <language>de</language>
               <ballotQuestion>Frage 1 Bund de</ballotQuestion>
             </ballotQuestionInfo>
-            <ballotQuestionInfo>
-              <language>fr</language>
-              <ballotQuestion>Frage 1 Bund fr</ballotQuestion>
-            </ballotQuestionInfo>
-            <ballotQuestionInfo>
-              <language>it</language>
-              <ballotQuestion>Frage 1 Bund it</ballotQuestion>
-            </ballotQuestionInfo>
-            <ballotQuestionInfo>
-              <language>rm</language>
-              <ballotQuestion>Frage 1 Bund rm</ballotQuestion>
-            </ballotQuestionInfo>
           </ballotQuestion>
         </standardBallot>
         <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
@@ -116,33 +65,9 @@
               <Key>de</Key>
               <Value>Abstimmung Bund de</Value>
             </voteOfficialDescription>
-            <voteOfficialDescription>
-              <Key>fr</Key>
-              <Value>Abstimmung Bund fr</Value>
-            </voteOfficialDescription>
-            <voteOfficialDescription>
-              <Key>it</Key>
-              <Value>Abstimmung Bund it</Value>
-            </voteOfficialDescription>
-            <voteOfficialDescription>
-              <Key>rm</Key>
-              <Value>Abstimmung Bund rm</Value>
-            </voteOfficialDescription>
             <voteShortDescription>
               <Key>de</Key>
               <Value>Abstimmung Bund de</Value>
-            </voteShortDescription>
-            <voteShortDescription>
-              <Key>fr</Key>
-              <Value>Abstimmung Bund fr</Value>
-            </voteShortDescription>
-            <voteShortDescription>
-              <Key>it</Key>
-              <Value>Abstimmung Bund it</Value>
-            </voteShortDescription>
-            <voteShortDescription>
-              <Key>rm</Key>
-              <Value>Abstimmung Bund rm</Value>
             </voteShortDescription>
             <voteResultEntry>FinalResults</voteResultEntry>
             <voteResultAlgorithm>CountingCircleMajority</voteResultAlgorithm>
@@ -162,18 +87,6 @@
             <language>de</language>
             <voteDescription>Gemeinde-Volksabstimmung vom 12.02.2029</voteDescription>
           </voteDescriptionInfo>
-          <voteDescriptionInfo>
-            <language>fr</language>
-            <voteDescription>Gemeinde-Volksabstimmung vom 12.02.2029</voteDescription>
-          </voteDescriptionInfo>
-          <voteDescriptionInfo>
-            <language>it</language>
-            <voteDescription>Gemeinde-Volksabstimmung vom 12.02.2029</voteDescription>
-          </voteDescriptionInfo>
-          <voteDescriptionInfo>
-            <language>rm</language>
-            <voteDescription>Gemeinde-Volksabstimmung vom 12.02.2029</voteDescription>
-          </voteDescriptionInfo>
         </voteDescription>
       </vote>
       <ballot>
@@ -184,21 +97,6 @@
             <language>de</language>
             <ballotDescriptionLong>Abstimmung Gossau de</ballotDescriptionLong>
             <ballotDescriptionShort>Abstimmung Gossau de</ballotDescriptionShort>
-          </ballotDescriptionInfo>
-          <ballotDescriptionInfo>
-            <language>fr</language>
-            <ballotDescriptionLong>Abstimmung Gossau fr</ballotDescriptionLong>
-            <ballotDescriptionShort>Abstimmung Gossau fr</ballotDescriptionShort>
-          </ballotDescriptionInfo>
-          <ballotDescriptionInfo>
-            <language>it</language>
-            <ballotDescriptionLong>Abstimmung Gossau it</ballotDescriptionLong>
-            <ballotDescriptionShort>Abstimmung Gossau it</ballotDescriptionShort>
-          </ballotDescriptionInfo>
-          <ballotDescriptionInfo>
-            <language>rm</language>
-            <ballotDescriptionLong>Abstimmung Gossau rm</ballotDescriptionLong>
-            <ballotDescriptionShort>Abstimmung Gossau rm</ballotDescriptionShort>
           </ballotDescriptionInfo>
         </ballotDescription>
         <variantBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
@@ -213,18 +111,6 @@
                 <language>de</language>
                 <ballotQuestion>Frage 1 Gossau de</ballotQuestion>
               </ballotQuestionInfo>
-              <ballotQuestionInfo>
-                <language>fr</language>
-                <ballotQuestion>Frage 1 Gossau fr</ballotQuestion>
-              </ballotQuestionInfo>
-              <ballotQuestionInfo>
-                <language>it</language>
-                <ballotQuestion>Frage 1 Gossau it</ballotQuestion>
-              </ballotQuestionInfo>
-              <ballotQuestionInfo>
-                <language>rm</language>
-                <ballotQuestion>Frage 1 Gossau rm</ballotQuestion>
-              </ballotQuestionInfo>
             </ballotQuestion>
           </questionInformation>
           <questionInformation>
@@ -237,18 +123,6 @@
               <ballotQuestionInfo>
                 <language>de</language>
                 <ballotQuestion>Frage 2 Gossau de</ballotQuestion>
-              </ballotQuestionInfo>
-              <ballotQuestionInfo>
-                <language>fr</language>
-                <ballotQuestion>Frage 2 Gossau fr</ballotQuestion>
-              </ballotQuestionInfo>
-              <ballotQuestionInfo>
-                <language>it</language>
-                <ballotQuestion>Frage 2 Gossau it</ballotQuestion>
-              </ballotQuestionInfo>
-              <ballotQuestionInfo>
-                <language>rm</language>
-                <ballotQuestion>Frage 2 Gossau rm</ballotQuestion>
               </ballotQuestionInfo>
             </ballotQuestion>
           </questionInformation>
@@ -263,18 +137,6 @@
                 <language>de</language>
                 <tieBreakQuestion>Stichfrage 1 Gossau (Frage 1 vs Frage 2) de</tieBreakQuestion>
               </tieBreakQuestionInfo>
-              <tieBreakQuestionInfo>
-                <language>fr</language>
-                <tieBreakQuestion>Stichfrage 1 Gossau (Frage 1 vs Frage 2) fr</tieBreakQuestion>
-              </tieBreakQuestionInfo>
-              <tieBreakQuestionInfo>
-                <language>it</language>
-                <tieBreakQuestion>Stichfrage 1 Gossau (Frage 1 vs Frage 2) it</tieBreakQuestion>
-              </tieBreakQuestionInfo>
-              <tieBreakQuestionInfo>
-                <language>rm</language>
-                <tieBreakQuestion>Stichfrage 1 Gossau (Frage 1 vs Frage 2) rm</tieBreakQuestion>
-              </tieBreakQuestionInfo>
             </tieBreakQuestion>
             <referencedQuestion1>690c36d8-dd09-4464-91ce-73c48df176a1_n_1</referencedQuestion1>
             <referencedQuestion2>690c36d8-dd09-4464-91ce-73c48df176a1_n_2</referencedQuestion2>
@@ -288,33 +150,9 @@
               <Key>de</Key>
               <Value>Abstimmung Gossau de</Value>
             </voteOfficialDescription>
-            <voteOfficialDescription>
-              <Key>fr</Key>
-              <Value>Abstimmung Gossau fr</Value>
-            </voteOfficialDescription>
-            <voteOfficialDescription>
-              <Key>it</Key>
-              <Value>Abstimmung Gossau it</Value>
-            </voteOfficialDescription>
-            <voteOfficialDescription>
-              <Key>rm</Key>
-              <Value>Abstimmung Gossau rm</Value>
-            </voteOfficialDescription>
             <voteShortDescription>
               <Key>de</Key>
               <Value>Abstimmung Gossau de</Value>
-            </voteShortDescription>
-            <voteShortDescription>
-              <Key>fr</Key>
-              <Value>Abstimmung Gossau fr</Value>
-            </voteShortDescription>
-            <voteShortDescription>
-              <Key>it</Key>
-              <Value>Abstimmung Gossau it</Value>
-            </voteShortDescription>
-            <voteShortDescription>
-              <Key>rm</Key>
-              <Value>Abstimmung Gossau rm</Value>
             </voteShortDescription>
             <voteResultEntry>Detailed</voteResultEntry>
             <voteResultAlgorithm>PopularMajority</voteResultAlgorithm>

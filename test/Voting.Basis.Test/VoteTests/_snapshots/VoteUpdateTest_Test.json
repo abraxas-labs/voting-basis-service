@@ -36,14 +36,15 @@
       "ContestId": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
       "Active": false,
       "ReportDomainOfInfluenceLevel": 1,
-      "ResultAlgorithm": 3,
+      "ResultAlgorithm": 2,
       "ResultEntry": 1,
       "BallotBundleSampleSizePercent": 20,
       "AutomaticBallotBundleNumberGeneration": true,
       "EnforceResultEntryForCountingCircles": true,
       "ReviewProcedure": 1,
       "EnforceReviewProcedureForCountingCircles": true,
-      "Type": 1
+      "Type": 1,
+      "EVotingApproved": false
     }
   }
 }

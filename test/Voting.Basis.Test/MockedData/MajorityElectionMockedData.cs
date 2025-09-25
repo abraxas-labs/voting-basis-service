@@ -34,6 +34,7 @@ public static class MajorityElectionMockedData
     public const string IdUzwilMajorityElectionInContestBund = "7ae77f44-1083-470a-bb66-64f921bc6945";
     public const string IdBundMajorityElectionInContestStGallen = "0fee4b4e-f16d-46a3-9f7a-2776ee5785db";
     public const string IdGossauMajorityElectionInContestStGallen = "50415df8-6ee9-4eb4-9e31-68c0d3021e76";
+    public const string IdGossauMajorityElectionEVotingApprovedInContestStGallen = "72addd15-0e86-4109-bc35-92a71c9a9adf";
     public const string IdGossauMajorityElectionInContestBund = "e74b6879-9e2b-4799-a156-d0321b967dcf";
     public const string IdUzwilMajorityElectionInContestStGallen = "d66ced3e-a2e4-4178-932b-ac91ee6a9d85";
     public const string IdStGallenMajorityElectionInContestStGallen = "cd464c26-24d4-4cfc-95d9-e7c930b1784e";
@@ -53,6 +54,7 @@ public static class MajorityElectionMockedData
     public const string CandidateIdStGallenMajorityElectionInContestStGallen = "1228f95d-8b39-44b1-8cc3-84a93f5e3bbc";
     public const string CandidateId1GossauMajorityElectionInContestStGallen = "77ce6bf0-b27c-4d9d-926f-ced7863aff2f";
     public const string CandidateId2GossauMajorityElectionInContestStGallen = "4a44cb35-05a7-41f9-aa1e-034bedd320ec";
+    public const string CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen = "2241765f-420c-4a7c-b063-b7698f0be83e";
     public const string CandidateId1GossauMajorityElectionInContestBund = "f5d75dbd-8a22-4fa8-b580-f0c1ed965303";
     public const string CandidateId2GossauMajorityElectionInContestBund = "9c2a6284-a83d-44e6-88aa-676616e4a774";
     public const string CandidateIdGossauMajorityElectionInContestGossau = "194ff485-6eb9-4d98-8bec-855a2ec92650";
@@ -63,6 +65,7 @@ public static class MajorityElectionMockedData
     public const string SecondaryElectionIdStGallenMajorityElectionInContestBundOnSeparateBallot = "3e44e6bf-e910-423c-8346-180640ae459c";
     public const string SecondaryElectionIdGossauMajorityElectionInContestBund = "654455b1-85a1-44c2-ad7b-8a8e7ea29d95";
     public const string SecondaryElectionIdGossauMajorityElectionInContestStGallen = "b321b60c-7aa2-4811-87a3-fffb426af1d6";
+    public const string SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen = "3ed0c2b8-5eec-4a4b-9b68-55c61d9d46df";
     public const string SecondaryElectionIdUzwilMajorityElectionInContestStGallen = "5ec8cf85-229a-4dc7-a601-1bb6980fee78";
     public const string SecondaryElectionIdKircheMajorityElectionInContestKirche = "12a6adbe-8872-4baa-982d-a4a0dae93834";
 
@@ -77,18 +80,22 @@ public static class MajorityElectionMockedData
     public const string SecondaryElectionCandidateId1GossauMajorityElectionInContestStGallen = "386bd391-9ec0-49d1-802c-0fd8e755ac8a";
     public const string SecondaryElectionCandidateId2GossauMajorityElectionInContestStGallen = "a4d71ea8-0968-4684-bf5a-cb6834233dbe";
     public const string SecondaryElectionCandidateId3GossauMajorityElectionInContestStGallen = "6050fa7f-68c6-4ada-95f6-2274f5f2770e";
+    public const string SecondaryElectionCandidateId1GossauMajorityElectionEVotingApprovedInContestStGallen = "d56573dc-532e-4f2d-9baa-1d07ee956550";
+    public const string SecondaryElectionCandidateId2GossauMajorityElectionEVotingApprovedInContestStGallen = "6bdaabbb-1289-48b6-8d33-ed9d8b7ccae3";
 
     public const string ElectionGroupIdStGallenMajorityElectionInContestBund = "63bf2387-08e0-45ed-96e6-263f85500e28";
     public const string ElectionGroupIdGossauMajorityElectionInContestBund = "85caefc1-e01a-458a-a0ce-1aeff0b43f86";
     public const string ElectionGroupIdUzwilMajorityElectionInContestStGallen = "6eaa4d6b-eb0a-4315-b0b8-a68266303ab1";
     public const string ElectionGroupIdKircheMajorityElectionInContestKirche = "2db8164f-ae7a-40d2-a5e3-5aba48bcc70a";
     public const string ElectionGroupIdGossauMajorityElectionInContestStGallen = "08f15cd4-63af-408d-8238-661b15e64409";
+    public const string ElectionGroupIdGossauMajorityElectionEVotingApprovedInContestStGallen = "0ca4e4ad-06fa-49ad-af2e-d992bdaa149d";
 
     public const string BallotGroupIdStGallenMajorityElectionInContestBund = "7a32239e-1cd1-4deb-9ecb-f5f2aa2f9949";
     public const string BallotGroupId1GossauMajorityElectionInContestBund = "d432ee79-92d4-4494-8dc8-04686bdcb30b";
     public const string BallotGroupId2GossauMajorityElectionInContestBund = "754d6ea4-9e9f-4861-b9ad-62ee2bffc508";
     public const string BallotGroupIdUzwilMajorityElectionInContestStGallen = "0034f358-1baa-47b4-a669-e648b5493f1e";
     public const string BallotGroupIdKircheMajorityElectionInContestKirche = "722a3a08-dede-4366-be30-fcb7c08cc010";
+    public const string BallotGroupIdGossauMajorityElectionEVotingApprovedInContestBund = "597d17df-aee1-4b97-aaa9-735c310674e7";
 
     public const string BallotGroupEntryId1StGallenMajorityElectionInContestBund = "513f5663-13f1-463b-b24d-4b3a7e2f7446";
     public const string BallotGroupEntryId2StGallenMajorityElectionInContestBund = "b0a01fbd-ea47-4228-91d4-8f3054d5fe93";
@@ -96,6 +103,8 @@ public static class MajorityElectionMockedData
     public const string BallotGroupEntryId12GossauMajorityElectionInContestBund = "fbf84e2d-c042-4ec6-9aea-7604d294b828";
     public const string BallotGroupEntryId21GossauMajorityElectionInContestBund = "7b620e4d-ec6e-4302-b6ab-bf2e4b3a0084";
     public const string BallotGroupEntryId22GossauMajorityElectionInContestBund = "8b24be16-7035-4831-9ced-12ed98dff06d";
+    public const string BallotGroupEntryId1GossauMajorityElectionEVotingApprovedInContestBund = "8ff91381-a285-4e5a-ad5b-a1172b357a9f";
+    public const string BallotGroupEntryId2GossauMajorityElectionEVotingApprovedInContestBund = "a67b98d6-7b76-49b3-8831-3f81a371eb3b";
 
     public static MajorityElection BundMajorityElectionInContestBund
         => new MajorityElection
@@ -140,7 +149,7 @@ public static class MajorityElectionMockedData
                         Number = "number1",
                         Sex = SexType.Female,
                         Title = "title",
-                        ZipCode = "zip code",
+                        ZipCode = "8000",
                         Origin = "origin",
                         CheckDigit = 9,
                         Street = "street",
@@ -193,7 +202,7 @@ public static class MajorityElectionMockedData
                         Number = "number1",
                         Sex = SexType.Female,
                         Title = "title",
-                        ZipCode = "zip code",
+                        ZipCode = "8000",
                         Origin = "origin",
                         CheckDigit = 9,
                         Street = "street",
@@ -217,7 +226,7 @@ public static class MajorityElectionMockedData
                         Number = "number5",
                         Sex = SexType.Male,
                         Title = "title",
-                        ZipCode = "zip code",
+                        ZipCode = "8000",
                         Origin = "origin",
                         CheckDigit = 1,
                         Street = "street",
@@ -256,7 +265,7 @@ public static class MajorityElectionMockedData
                                 Number = "number1",
                                 Sex = SexType.Female,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "8000",
                                 CandidateReferenceId = Guid.Parse(CandidateId1StGallenMajorityElectionInContestBund),
                                 Origin = "origin",
                                 CheckDigit = 9,
@@ -281,7 +290,7 @@ public static class MajorityElectionMockedData
                                 Number = "number2",
                                 Sex = SexType.Male,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "8000",
                                 Origin = "origin",
                                 CheckDigit = 7,
                                 Street = "street",
@@ -319,7 +328,7 @@ public static class MajorityElectionMockedData
                                 Number = "number1",
                                 Sex = SexType.Female,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "non-swiss",
                                 CandidateReferenceId = Guid.Parse(CandidateId1StGallenMajorityElectionInContestBund),
                                 Origin = "origin",
                                 CheckDigit = 9,
@@ -344,7 +353,7 @@ public static class MajorityElectionMockedData
                                 Number = "number2",
                                 Sex = SexType.Male,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "8000",
                                 Origin = "origin",
                                 CheckDigit = 7,
                                 Street = "street",
@@ -413,6 +422,7 @@ public static class MajorityElectionMockedData
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidBund,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
+            EVotingApproved = false,
             AutomaticEmptyVoteCounting = true,
             EnforceEmptyVoteCountingForCountingCircles = true,
             BallotBundleSize = 0,
@@ -446,7 +456,7 @@ public static class MajorityElectionMockedData
                         Number = "number1",
                         Sex = SexType.Female,
                         Title = "title",
-                        ZipCode = "zip code",
+                        ZipCode = "8000",
                         Origin = "origin",
                         CheckDigit = 9,
                         Street = "street",
@@ -470,7 +480,7 @@ public static class MajorityElectionMockedData
                         Number = "number2",
                         Sex = SexType.Female,
                         Title = "title2",
-                        ZipCode = "zip code2",
+                        ZipCode = "1500",
                         Origin = "origin 2",
                         CheckDigit = 7,
                         Street = "street",
@@ -523,7 +533,7 @@ public static class MajorityElectionMockedData
                         Number = "number1",
                         Sex = SexType.Female,
                         Title = "title",
-                        ZipCode = "zip code",
+                        ZipCode = "8000",
                         Origin = "origin",
                         CheckDigit = 9,
                         Street = "street",
@@ -561,7 +571,7 @@ public static class MajorityElectionMockedData
                                 Number = "number1",
                                 Sex = SexType.Male,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "8000",
                                 CandidateReferenceId = Guid.Parse(CandidateIdUzwilMajorityElectionInContestStGallen),
                                 Origin = "origin",
                                 CheckDigit = 9,
@@ -633,6 +643,7 @@ public static class MajorityElectionMockedData
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidStGallen,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
+            EVotingApproved = false,
             AutomaticEmptyVoteCounting = false,
             EnforceEmptyVoteCountingForCountingCircles = false,
             BallotBundleSize = 50,
@@ -666,7 +677,7 @@ public static class MajorityElectionMockedData
                         Number = "number1",
                         Sex = SexType.Female,
                         Title = "title",
-                        ZipCode = "zip code",
+                        ZipCode = "8000",
                         Origin = "origin",
                         CheckDigit = 9,
                         Street = "street",
@@ -686,6 +697,7 @@ public static class MajorityElectionMockedData
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
+            EVotingApproved = false,
             AutomaticEmptyVoteCounting = true,
             EnforceEmptyVoteCountingForCountingCircles = true,
             BallotBundleSize = 10,
@@ -718,7 +730,7 @@ public static class MajorityElectionMockedData
                         Number = "number1",
                         Sex = SexType.Female,
                         Title = "title",
-                        ZipCode = "zip code",
+                        ZipCode = "8000",
                         Origin = "origin",
                         CheckDigit = 9,
                         Street = "street",
@@ -760,6 +772,7 @@ public static class MajorityElectionMockedData
                         PoliticalBusinessNumber = "n1",
                         ElectionGroupId = Guid.Parse(ElectionGroupIdGossauMajorityElectionInContestStGallen),
                         Active = false,
+                        EVotingApproved = false,
                         Candidates = new List<SecondaryMajorityElectionCandidate>
                         {
                             new SecondaryMajorityElectionCandidate
@@ -779,7 +792,7 @@ public static class MajorityElectionMockedData
                                 Number = "number1",
                                 Sex = SexType.Female,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "8000",
                                 CandidateReferenceId = Guid.Parse(CandidateId1GossauMajorityElectionInContestStGallen),
                                 Origin = "origin",
                                 CheckDigit = 9,
@@ -804,7 +817,7 @@ public static class MajorityElectionMockedData
                                 Number = "number2",
                                 Sex = SexType.Male,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "8000",
                                 Origin = "origin",
                                 CheckDigit = 7,
                                 Street = "street",
@@ -819,6 +832,173 @@ public static class MajorityElectionMockedData
                 Id = Guid.Parse(ElectionGroupIdGossauMajorityElectionInContestStGallen),
                 Description = "Test Election Group",
                 Number = 1,
+            },
+        };
+
+    public static MajorityElection GossauMajorityElectionEVotingApprovedInContestStGallen
+        => new MajorityElection
+        {
+            Id = Guid.Parse(IdGossauMajorityElectionEVotingApprovedInContestStGallen),
+            PoliticalBusinessNumber = "M-EV",
+            OfficialDescription = LanguageUtil.MockAllLanguages("Majorzwahl Gossau E-Voting"),
+            ShortDescription = LanguageUtil.MockAllLanguages("Majorzwahl Gossau E-Voting"),
+            DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
+            ContestId = ContestMockedData.StGallenEvotingContest.Id,
+            Active = true,
+            EVotingApproved = true,
+            AutomaticEmptyVoteCounting = true,
+            EnforceEmptyVoteCountingForCountingCircles = true,
+            BallotBundleSize = 10,
+            AutomaticBallotBundleNumberGeneration = true,
+            BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
+            ResultEntry = MajorityElectionResultEntry.FinalResults,
+            EnforceResultEntryForCountingCircles = false,
+            CandidateCheckDigit = true,
+            MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
+            NumberOfMandates = 3,
+            ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
+            EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = false,
+            MajorityElectionCandidates = new List<MajorityElectionCandidate>
+            {
+                    new MajorityElectionCandidate
+                    {
+                        Id = Guid.Parse(CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen),
+                        FirstName = "firstName",
+                        LastName = "lastName",
+                        PoliticalFirstName = "pol first name",
+                        PoliticalLastName = "pol last name",
+                        Occupation = LanguageUtil.MockAllLanguages("occupation"),
+                        OccupationTitle = LanguageUtil.MockAllLanguages("occupation title"),
+                        DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
+                        Incumbent = true,
+                        Position = 1,
+                        Party = LanguageUtil.MockAllLanguages("CVP"),
+                        Locality = "locality",
+                        Number = "number1",
+                        Sex = SexType.Female,
+                        Title = "title",
+                        ZipCode = "8000",
+                        Origin = "origin",
+                        CheckDigit = 9,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
+                    },
+            },
+            SecondaryMajorityElections = new List<SecondaryMajorityElection>
+            {
+                    new SecondaryMajorityElection
+                    {
+                        Id = Guid.Parse(SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen),
+                        ShortDescription = LanguageUtil.MockAllLanguages("short"),
+                        OfficialDescription = LanguageUtil.MockAllLanguages("official"),
+                        NumberOfMandates = 3,
+                        PoliticalBusinessNumber = "SM-EV",
+                        ElectionGroupId = Guid.Parse(ElectionGroupIdGossauMajorityElectionEVotingApprovedInContestStGallen),
+                        Active = true,
+                        EVotingApproved = true,
+                        Candidates = new List<SecondaryMajorityElectionCandidate>
+                        {
+                            new SecondaryMajorityElectionCandidate
+                            {
+                                Id = Guid.Parse(SecondaryElectionCandidateId1GossauMajorityElectionEVotingApprovedInContestStGallen),
+                                FirstName = "secondaryElection firstName with CandidateRef",
+                                LastName = "secondaryElection lastName with CandidateRef",
+                                PoliticalFirstName = "pol first name",
+                                PoliticalLastName = "pol last name",
+                                Occupation = LanguageUtil.MockAllLanguages("occupation"),
+                                OccupationTitle = LanguageUtil.MockAllLanguages("occupation title"),
+                                DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
+                                Incumbent = true,
+                                Position = 1,
+                                Party = LanguageUtil.MockAllLanguages("Test"),
+                                Locality = "locality",
+                                Number = "number1",
+                                Sex = SexType.Female,
+                                Title = "title",
+                                ZipCode = "8000",
+                                CandidateReferenceId = Guid.Parse(CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen),
+                                Origin = "origin",
+                                CheckDigit = 9,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
+                            },
+                            new SecondaryMajorityElectionCandidate
+                            {
+                                Id = Guid.Parse(SecondaryElectionCandidateId2GossauMajorityElectionEVotingApprovedInContestStGallen),
+                                FirstName = "secondaryElection Peter",
+                                LastName = "secondaryElection Lustig",
+                                PoliticalFirstName = "Pete",
+                                PoliticalLastName = "L",
+                                Occupation = LanguageUtil.MockAllLanguages("Beruf"),
+                                OccupationTitle = LanguageUtil.MockAllLanguages("occupation title"),
+                                DateOfBirth = new DateTime(1982, 12, 31, 0, 0, 0, DateTimeKind.Utc),
+                                Incumbent = false,
+                                Position = 2,
+                                Party = LanguageUtil.MockAllLanguages("CVP"),
+                                Locality = "locality",
+                                Number = "number2",
+                                Sex = SexType.Male,
+                                Title = "title",
+                                ZipCode = "8000",
+                                Origin = "origin",
+                                CheckDigit = 7,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
+                            },
+                        },
+                    },
+            },
+            ElectionGroup = new ElectionGroup
+            {
+                Id = Guid.Parse(ElectionGroupIdGossauMajorityElectionEVotingApprovedInContestStGallen),
+                Description = "Test Election Group",
+                Number = 1,
+            },
+            BallotGroups = new List<MajorityElectionBallotGroup>
+            {
+                new MajorityElectionBallotGroup
+                {
+                        Id = Guid.Parse(BallotGroupIdGossauMajorityElectionEVotingApprovedInContestBund),
+                        Description = "BG1 long description",
+                        ShortDescription = "BG1",
+                        Position = 1,
+                        Entries = new List<MajorityElectionBallotGroupEntry>
+                        {
+                            new MajorityElectionBallotGroupEntry
+                            {
+                                Id = Guid.Parse(BallotGroupEntryId1GossauMajorityElectionEVotingApprovedInContestBund),
+                                PrimaryMajorityElectionId = Guid.Parse(IdGossauMajorityElectionEVotingApprovedInContestStGallen),
+                                BlankRowCount = 2,
+                                Candidates = new List<MajorityElectionBallotGroupEntryCandidate>
+                                {
+                                    new MajorityElectionBallotGroupEntryCandidate
+                                    {
+                                        Id = Guid.Parse("e7650dec-7317-46c4-8cde-59d8d5265415"),
+                                        PrimaryElectionCandidateId = Guid.Parse(CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen),
+                                    },
+                                },
+                            },
+                            new MajorityElectionBallotGroupEntry
+                            {
+                                Id = Guid.Parse(BallotGroupEntryId2GossauMajorityElectionEVotingApprovedInContestBund),
+                                SecondaryMajorityElectionId = Guid.Parse(SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen),
+                                BlankRowCount = 1,
+                                Candidates = new List<MajorityElectionBallotGroupEntryCandidate>
+                                {
+                                    new MajorityElectionBallotGroupEntryCandidate
+                                    {
+                                        Id = Guid.Parse("15032e4f-8c2f-432c-b028-a170dbce4e3f"),
+                                        SecondaryElectionCandidateId = Guid.Parse(SecondaryElectionCandidateId1GossauMajorityElectionEVotingApprovedInContestStGallen),
+                                    },
+                                },
+                                IndividualCandidatesVoteCount = 1,
+                            },
+                        },
+                },
             },
         };
 
@@ -865,7 +1045,7 @@ public static class MajorityElectionMockedData
                         Number = "number1",
                         Sex = SexType.Female,
                         Title = "title",
-                        ZipCode = "zip code",
+                        ZipCode = "8000",
                         Origin = "origin",
                         CheckDigit = 9,
                         Street = "street",
@@ -889,7 +1069,7 @@ public static class MajorityElectionMockedData
                         Number = "number5",
                         Sex = SexType.Male,
                         Title = "title",
-                        ZipCode = "zip code",
+                        ZipCode = "8000",
                         Origin = "origin",
                         CheckDigit = 1,
                         Street = "street",
@@ -927,7 +1107,7 @@ public static class MajorityElectionMockedData
                                 Number = "number1",
                                 Sex = SexType.Female,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "8000",
                                 CandidateReferenceId = Guid.Parse(CandidateId1GossauMajorityElectionInContestBund),
                                 Origin = "origin",
                                 CheckDigit = 9,
@@ -952,7 +1132,7 @@ public static class MajorityElectionMockedData
                                 Number = "number2",
                                 Sex = SexType.Male,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "8000",
                                 Origin = "origin",
                                 CheckDigit = 7,
                                 Street = "street",
@@ -1061,6 +1241,7 @@ public static class MajorityElectionMockedData
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidStGallen,
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = false,
+            EVotingApproved = false,
             AutomaticEmptyVoteCounting = true,
             EnforceEmptyVoteCountingForCountingCircles = true,
             BallotBundleSize = 25,
@@ -1119,7 +1300,7 @@ public static class MajorityElectionMockedData
                         Number = "number1",
                         Sex = SexType.Female,
                         Title = "title",
-                        ZipCode = "zip code",
+                        ZipCode = "8000",
                         Origin = "origin",
                         CheckDigit = 9,
                         Street = "street",
@@ -1172,7 +1353,7 @@ public static class MajorityElectionMockedData
                         Number = "number1",
                         Sex = SexType.Female,
                         Title = "title",
-                        ZipCode = "zip code",
+                        ZipCode = "8000",
                         Origin = "origin",
                         CheckDigit = 9,
                         Street = "street",
@@ -1313,7 +1494,7 @@ public static class MajorityElectionMockedData
                                 Number = "number1",
                                 Sex = SexType.Male,
                                 Title = "title",
-                                ZipCode = "zip code",
+                                ZipCode = "8000",
                                 Origin = "origin",
                                 CheckDigit = 9,
                                 Street = "street",
@@ -1409,6 +1590,7 @@ public static class MajorityElectionMockedData
             yield return StGallenMajorityElectionInContestBund;
             yield return StGallenMajorityElectionInContestStGallen;
             yield return GossauMajorityElectionInContestStGallen;
+            yield return GossauMajorityElectionEVotingApprovedInContestStGallen;
             yield return GossauMajorityElectionInContestBund;
             yield return StGallenMajorityElectionInContestStGallenWithoutChilds;
             yield return GossauMajorityElectionInContestGossau;
@@ -1480,6 +1662,12 @@ public static class MajorityElectionMockedData
         var doi = DomainOfInfluenceMockedData.All.First(x => x.Id == domainElection.DomainOfInfluenceId);
         var candidateValidationParams = new CandidateValidationParams(doi);
 
+        var eVotingApproved = domainElection.EVotingApproved;
+        if (eVotingApproved.HasValue)
+        {
+            domainElection.EVotingApproved = false;
+        }
+
         aggregate.CreateFrom(domainElection);
 
         foreach (var candidate in majorityElection.MajorityElectionCandidates)
@@ -1496,10 +1684,22 @@ public static class MajorityElectionMockedData
             aggregate.CreateElectionGroupFrom(domainElectionGroup);
         }
 
+        if (eVotingApproved == true)
+        {
+            aggregate.UpdateEVotingApproval(true);
+        }
+
         foreach (var secondaryElection in majorityElection.SecondaryMajorityElections)
         {
             var domainSecondaryElection = mapper.Map<Core.Domain.SecondaryMajorityElection>(secondaryElection);
             domainSecondaryElection.PrimaryMajorityElectionId = domainElection.Id;
+
+            var smeEVotingApproved = domainSecondaryElection.EVotingApproved;
+            if (smeEVotingApproved.HasValue)
+            {
+                domainSecondaryElection.EVotingApproved = false;
+            }
+
             aggregate.CreateSecondaryMajorityElectionFrom(domainSecondaryElection);
 
             foreach (var candidate in secondaryElection.Candidates)
@@ -1523,6 +1723,11 @@ public static class MajorityElectionMockedData
                     domainCandidate.MajorityElectionId = domainSecondaryElection.Id;
                     aggregate.CreateSecondaryMajorityElectionCandidateFrom(domainCandidate, candidateValidationParams);
                 }
+            }
+
+            if (smeEVotingApproved == true)
+            {
+                aggregate.UpdateSecondaryMajorityElectionEVotingApproval(domainSecondaryElection.Id, true);
             }
         }
 

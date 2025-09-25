@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
-    <PackageReference Include="Voting.Lib.Cryptography" Version="$(VotingLibVersion)" />
+    <PackageReference Include="Voting.Lib.Cryptography.Pkcs11" Version="$(VotingLibVersion)" />
     <PackageReference Include="Voting.Lib.Cryptography.Mocks" Version="$(VotingLibVersion)" />
     <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.1.2" />
   </ItemGroup>

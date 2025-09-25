@@ -21,18 +21,6 @@
           <language>de</language>
           <contestDescription>Gossau Urnengang de</contestDescription>
         </contestDescriptionInfo>
-        <contestDescriptionInfo>
-          <language>fr</language>
-          <contestDescription>Gossau Urnengang fr</contestDescription>
-        </contestDescriptionInfo>
-        <contestDescriptionInfo>
-          <language>it</language>
-          <contestDescription>Gossau Urnengang it</contestDescription>
-        </contestDescriptionInfo>
-        <contestDescriptionInfo>
-          <language>rm</language>
-          <contestDescription>Gossau Urnengang rm</contestDescription>
-        </contestDescriptionInfo>
       </contestDescription>
     </contest>
     <voteInformation>
@@ -42,18 +30,6 @@
         <voteDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
           <voteDescriptionInfo>
             <language>de</language>
-            <voteDescription>Gemeinde-Volksabstimmung vom 29.02.2020</voteDescription>
-          </voteDescriptionInfo>
-          <voteDescriptionInfo>
-            <language>fr</language>
-            <voteDescription>Gemeinde-Volksabstimmung vom 29.02.2020</voteDescription>
-          </voteDescriptionInfo>
-          <voteDescriptionInfo>
-            <language>it</language>
-            <voteDescription>Gemeinde-Volksabstimmung vom 29.02.2020</voteDescription>
-          </voteDescriptionInfo>
-          <voteDescriptionInfo>
-            <language>rm</language>
             <voteDescription>Gemeinde-Volksabstimmung vom 29.02.2020</voteDescription>
           </voteDescriptionInfo>
         </voteDescription>
@@ -67,21 +43,6 @@
             <ballotDescriptionLong>Abstimmung Gossau de</ballotDescriptionLong>
             <ballotDescriptionShort>Abstimmung Gossau de</ballotDescriptionShort>
           </ballotDescriptionInfo>
-          <ballotDescriptionInfo>
-            <language>fr</language>
-            <ballotDescriptionLong>Abstimmung Gossau fr</ballotDescriptionLong>
-            <ballotDescriptionShort>Abstimmung Gossau fr</ballotDescriptionShort>
-          </ballotDescriptionInfo>
-          <ballotDescriptionInfo>
-            <language>it</language>
-            <ballotDescriptionLong>Abstimmung Gossau it</ballotDescriptionLong>
-            <ballotDescriptionShort>Abstimmung Gossau it</ballotDescriptionShort>
-          </ballotDescriptionInfo>
-          <ballotDescriptionInfo>
-            <language>rm</language>
-            <ballotDescriptionLong>Abstimmung Gossau rm</ballotDescriptionLong>
-            <ballotDescriptionShort>Abstimmung Gossau rm</ballotDescriptionShort>
-          </ballotDescriptionInfo>
         </ballotDescription>
         <standardBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
           <questionIdentification>a2aa6f61-752b-446f-94b4-002a95111c7a_n_1</questionIdentification>
@@ -94,18 +55,6 @@
               <language>de</language>
               <ballotQuestion>Frage 1 Gossau de</ballotQuestion>
             </ballotQuestionInfo>
-            <ballotQuestionInfo>
-              <language>fr</language>
-              <ballotQuestion>Frage 1 Gossau fr</ballotQuestion>
-            </ballotQuestionInfo>
-            <ballotQuestionInfo>
-              <language>it</language>
-              <ballotQuestion>Frage 1 Gossau it</ballotQuestion>
-            </ballotQuestionInfo>
-            <ballotQuestionInfo>
-              <language>rm</language>
-              <ballotQuestion>Frage 1 Gossau rm</ballotQuestion>
-            </ballotQuestionInfo>
           </ballotQuestion>
         </standardBallot>
         <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
@@ -116,33 +65,9 @@
               <Key>de</Key>
               <Value>Abstimmung Gossau de</Value>
             </voteOfficialDescription>
-            <voteOfficialDescription>
-              <Key>fr</Key>
-              <Value>Abstimmung Gossau fr</Value>
-            </voteOfficialDescription>
-            <voteOfficialDescription>
-              <Key>it</Key>
-              <Value>Abstimmung Gossau it</Value>
-            </voteOfficialDescription>
-            <voteOfficialDescription>
-              <Key>rm</Key>
-              <Value>Abstimmung Gossau rm</Value>
-            </voteOfficialDescription>
             <voteShortDescription>
               <Key>de</Key>
               <Value>Abstimmung Gossau de</Value>
-            </voteShortDescription>
-            <voteShortDescription>
-              <Key>fr</Key>
-              <Value>Abstimmung Gossau fr</Value>
-            </voteShortDescription>
-            <voteShortDescription>
-              <Key>it</Key>
-              <Value>Abstimmung Gossau it</Value>
-            </voteShortDescription>
-            <voteShortDescription>
-              <Key>rm</Key>
-              <Value>Abstimmung Gossau rm</Value>
             </voteShortDescription>
             <voteResultEntry>FinalResults</voteResultEntry>
             <voteResultAlgorithm>PopularMajority</voteResultAlgorithm>

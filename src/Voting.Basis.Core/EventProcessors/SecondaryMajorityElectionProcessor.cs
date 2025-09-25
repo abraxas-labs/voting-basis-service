@@ -25,6 +25,7 @@ public class SecondaryMajorityElectionProcessor :
     IEventProcessor<SecondaryMajorityElectionAfterTestingPhaseUpdated>,
     IEventProcessor<SecondaryMajorityElectionDeleted>,
     IEventProcessor<SecondaryMajorityElectionActiveStateUpdated>,
+    IEventProcessor<SecondaryMajorityElectionEVotingApprovalUpdated>,
     IEventProcessor<SecondaryMajorityElectionCandidateCreated>,
     IEventProcessor<SecondaryMajorityElectionCandidateUpdated>,
     IEventProcessor<SecondaryMajorityElectionCandidateAfterTestingPhaseUpdated>,
@@ -135,6 +136,17 @@ public class SecondaryMajorityElectionProcessor :
         var existingModel = await GetElection(smeId);
 
         existingModel.Active = eventData.Active;
+        await _repo.Update(existingModel);
+        await _simplePoliticalBusinessBuilder.Update(existingModel);
+        await _eventLogger.LogSecondaryMajorityElectionEvent(eventData, existingModel);
+    }
+
+    public async Task Process(SecondaryMajorityElectionEVotingApprovalUpdated eventData)
+    {
+        var smeId = GuidParser.Parse(eventData.SecondaryMajorityElectionId);
+        var existingModel = await GetElection(smeId);
+
+        existingModel.EVotingApproved = eventData.Approved;
         await _repo.Update(existingModel);
         await _simplePoliticalBusinessBuilder.Update(existingModel);
         await _eventLogger.LogSecondaryMajorityElectionEvent(eventData, existingModel);

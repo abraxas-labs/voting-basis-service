@@ -86,6 +86,7 @@ public class ContestCreateTest : BaseGrpcTest<ContestService.ContestServiceClien
             x.EVoting = true;
             x.EVotingFrom = new DateTime(2020, 12, 23, 0, 0, 0, DateTimeKind.Utc).ToTimestamp();
             x.EVotingTo = new DateTime(2020, 12, 23, 23, 0, 0, DateTimeKind.Utc).ToTimestamp();
+            x.EVotingApprovalDueDate = new DateTime(2020, 12, 20, 0, 0, 0, DateTimeKind.Utc).ToTimestamp();
         }));
 
         var (eventData, eventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ContestCreated, EventSignatureBusinessMetadata>();

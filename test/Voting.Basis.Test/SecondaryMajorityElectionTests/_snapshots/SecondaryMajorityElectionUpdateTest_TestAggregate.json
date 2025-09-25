@@ -18,7 +18,8 @@
     "PrimaryMajorityElectionId": "b0da46f8-a721-4e1a-ac36-25284d68f34b",
     "Active": true,
     "IndividualCandidatesDisabled": true,
-    "IsOnSeparateBallot": false
+    "IsOnSeparateBallot": false,
+    "EVotingApproved": null
   },
   "simple-political-business": {
     "PoliticalBusinessType": 4,
@@ -43,6 +44,7 @@
     "DomainOfInfluence": null,
     "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
     "Contest": null,
+    "EVotingApproved": null,
     "Id": "0741da26-add2-4c4c-960d-7e251b82e91b"
   }
 }

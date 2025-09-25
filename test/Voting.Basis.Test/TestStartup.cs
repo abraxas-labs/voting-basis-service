@@ -35,7 +35,7 @@ public class TestStartup : Startup
             .AddVotingLibIamMocks()
             .AddVotingLibObjectStorageMock()
             .AddVotingLibCryptographyMocks()
-            .AddVotingLibPkcs11Mock()
+            .AddVotingLibCryptoProviderMock()
             .RemoveHostedServices()
             .AddHostedService<BucketInitializerService>()
             .AddMock<IEchMessageIdProvider, MockEchMessageIdProvider>()

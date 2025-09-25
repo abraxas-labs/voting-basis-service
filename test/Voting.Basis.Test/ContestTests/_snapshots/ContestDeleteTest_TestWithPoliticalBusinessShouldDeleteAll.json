@@ -8,11 +8,6 @@
     "VoteDeleted",
     "VoteDeleted",
     "VoteDeleted",
-    "ProportionalElectionDeleted",
-    "ProportionalElectionDeleted",
-    "ProportionalElectionDeleted",
-    "ProportionalElectionDeleted",
-    "ProportionalElectionDeleted",
     "MajorityElectionDeleted",
     "MajorityElectionDeleted",
     "SecondaryMajorityElectionDeleted",
@@ -23,6 +18,11 @@
     "ElectionGroupDeleted",
     "MajorityElectionDeleted",
     "MajorityElectionDeleted",
+    "ProportionalElectionDeleted",
+    "ProportionalElectionDeleted",
+    "ProportionalElectionDeleted",
+    "ProportionalElectionDeleted",
+    "ProportionalElectionDeleted",
     "ContestDeleted"
   ]
 }

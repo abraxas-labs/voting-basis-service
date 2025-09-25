@@ -39,9 +39,13 @@
       "PublishResultsDisabled": false,
       "HideLowerDomainOfInfluencesInReports": false,
       "ElectoralRegisterMultipleEnabled": false,
-      "ECollectingEnabled": false,
-      "ECollectingMinSignatureCount": 0,
-      "ECollectingMaxElectronicSignaturePercent": 0
+      "ECollectingEnabled": true,
+      "ECollectingInitiativeMinSignatureCount": 10000,
+      "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
+      "ECollectingInitiativeNumberOfMembersCommittee": 15,
+      "ECollectingReferendumMinSignatureCount": 1000,
+      "ECollectingReferendumMaxElectronicSignaturePercent": 20,
+      "ECollectingEmail": "ecollecting@uzwil.ch"
     }
   },
   "partyCreated": {

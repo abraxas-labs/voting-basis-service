@@ -14,6 +14,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -521,6 +522,19 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
     }
 
     [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateCandidateAsync(NewValidRequest(x =>
+            {
+                x.Id = ProportionalElectionMockedData.CandidateIdGossauProportionalElectionEVotingApprovedInContestStGallen;
+                x.ProportionalElectionListId = ProportionalElectionMockedData.ListIdGossauProportionalElectionEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
+    [Fact]
     public async Task EmptyLocalityShouldThrow()
     {
         await ModifyDbEntities<DomainOfInfluence>(
@@ -633,7 +647,7 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
             Number = "number1",
             Sex = SharedProto.SexType.Female,
             Title = "title",
-            ZipCode = "zip code",
+            ZipCode = "2000",
             PartyId = DomainOfInfluenceMockedData.PartyIdStGallenSP,
             Origin = "origin",
             Street = "street",

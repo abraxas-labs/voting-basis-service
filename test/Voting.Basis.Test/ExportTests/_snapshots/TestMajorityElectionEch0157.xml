@@ -21,18 +21,6 @@
           <language>de</language>
           <contestDescription>Gossau Urnengang de</contestDescription>
         </contestDescriptionInfo>
-        <contestDescriptionInfo>
-          <language>fr</language>
-          <contestDescription>Gossau Urnengang fr</contestDescription>
-        </contestDescriptionInfo>
-        <contestDescriptionInfo>
-          <language>it</language>
-          <contestDescription>Gossau Urnengang it</contestDescription>
-        </contestDescriptionInfo>
-        <contestDescriptionInfo>
-          <language>rm</language>
-          <contestDescription>Gossau Urnengang rm</contestDescription>
-        </contestDescriptionInfo>
       </contestDescription>
     </contest>
     <electionGroupBallot>
@@ -48,21 +36,6 @@
               <electionDescriptionShort>Proporzwahl Gossau de</electionDescriptionShort>
               <electionDescription>Proporzwahl Gossau de</electionDescription>
             </electionDescriptionInfo>
-            <electionDescriptionInfo>
-              <language>fr</language>
-              <electionDescriptionShort>Proporzwahl Gossau fr</electionDescriptionShort>
-              <electionDescription>Proporzwahl Gossau fr</electionDescription>
-            </electionDescriptionInfo>
-            <electionDescriptionInfo>
-              <language>it</language>
-              <electionDescriptionShort>Proporzwahl Gossau it</electionDescriptionShort>
-              <electionDescription>Proporzwahl Gossau it</electionDescription>
-            </electionDescriptionInfo>
-            <electionDescriptionInfo>
-              <language>rm</language>
-              <electionDescriptionShort>Proporzwahl Gossau rm</electionDescriptionShort>
-              <electionDescription>Proporzwahl Gossau rm</electionDescription>
-            </electionDescriptionInfo>
           </electionDescription>
           <numberOfMandates xmlns="http://www.ech.ch/xmlns/eCH-0155/4">5</numberOfMandates>
         </election>
@@ -76,18 +49,6 @@
               <language>de</language>
               <candidateText>13.01.1960, occupation title de, locality, Test de, bisher</candidateText>
             </candidateTextInfo>
-            <candidateTextInfo>
-              <language>fr</language>
-              <candidateText>13.01.1960, occupation title fr, locality, Test fr, bisher</candidateText>
-            </candidateTextInfo>
-            <candidateTextInfo>
-              <language>it</language>
-              <candidateText>13.01.1960, occupation title it, locality, Test it, bisher</candidateText>
-            </candidateTextInfo>
-            <candidateTextInfo>
-              <language>rm</language>
-              <candidateText>13.01.1960, occupation title rm, locality, Test rm, bisher</candidateText>
-            </candidateTextInfo>
           </candidateText>
           <dateOfBirth xmlns="http://www.ech.ch/xmlns/eCH-0155/4">1960-01-13</dateOfBirth>
           <sex xmlns="http://www.ech.ch/xmlns/eCH-0155/4">2</sex>
@@ -96,24 +57,12 @@
               <language>de</language>
               <occupationalTitle>occupation de</occupationalTitle>
             </occupationalTitleInfo>
-            <occupationalTitleInfo>
-              <language>fr</language>
-              <occupationalTitle>occupation fr</occupationalTitle>
-            </occupationalTitleInfo>
-            <occupationalTitleInfo>
-              <language>it</language>
-              <occupationalTitle>occupation it</occupationalTitle>
-            </occupationalTitleInfo>
-            <occupationalTitleInfo>
-              <language>rm</language>
-              <occupationalTitle>occupation rm</occupationalTitle>
-            </occupationalTitleInfo>
           </occupationalTitle>
           <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
             <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
             <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
             <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
-            <foreignZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">zip code</foreignZipCode>
+            <swissZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">8000</swissZipCode>
             <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
               <countryId>8100</countryId>
               <countryIdISO2>CH</countryIdISO2>
@@ -131,18 +80,6 @@
             <partyAffiliationInfo>
               <language>de</language>
               <partyAffiliationShort>Test de</partyAffiliationShort>
-            </partyAffiliationInfo>
-            <partyAffiliationInfo>
-              <language>fr</language>
-              <partyAffiliationShort>Test fr</partyAffiliationShort>
-            </partyAffiliationInfo>
-            <partyAffiliationInfo>
-              <language>it</language>
-              <partyAffiliationShort>Test it</partyAffiliationShort>
-            </partyAffiliationInfo>
-            <partyAffiliationInfo>
-              <language>rm</language>
-              <partyAffiliationShort>Test rm</partyAffiliationShort>
             </partyAffiliationInfo>
           </partyAffiliation>
         </candidate>

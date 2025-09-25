@@ -44,6 +44,16 @@ public class Contest
     public DateTime? EVotingTo { get; set; }
 
     /// <summary>
+    /// Gets or sets the due date of the e-voting approval.
+    /// </summary>
+    public DateTime? EVotingApprovalDueDate { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the e-voting data has been approved for this contest.
+    /// </summary>
+    public bool EVotingApproved { get; set; }
+
+    /// <summary>
     /// Gets or sets the optional previous contest (a contest that took place sometime earlier).
     /// The previous contest is used mainly for plausibility checks.
     /// </summary>

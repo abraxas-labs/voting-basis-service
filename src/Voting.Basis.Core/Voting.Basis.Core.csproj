@@ -23,6 +23,7 @@
     <PackageReference Include="Voting.Lib.VotingExports" Version="$(VotingLibVersion)" />
     <PackageReference Include="Voting.Lib.ObjectStorage" Version="$(VotingLibVersion)" />
     <PackageReference Include="Voting.Lib.Messaging" Version="$(VotingLibVersion)" />
+    <PackageReference Include="Voting.Lib.Cryptography.Pkcs11" Version="$(VotingLibVersion)" />
   </ItemGroup>
 
   <ItemGroup>

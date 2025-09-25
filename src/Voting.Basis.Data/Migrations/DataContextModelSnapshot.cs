@@ -355,6 +355,12 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("EVoting")
                         .HasColumnType("boolean");
 
+                    b.Property<DateTime?>("EVotingApprovalDueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("EVotingApproved")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("EVotingFrom")
                         .HasColumnType("timestamp with time zone");
 
@@ -583,13 +589,26 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("ECollectingEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("ECollectingEnabled")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("ECollectingMaxElectronicSignaturePercent")
+                    b.Property<int?>("ECollectingInitiativeMaxElectronicSignaturePercent")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ECollectingMinSignatureCount")
+                    b.Property<int?>("ECollectingInitiativeMinSignatureCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ECollectingInitiativeNumberOfMembersCommittee")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ECollectingReferendumMaxElectronicSignaturePercent")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ECollectingReferendumMinSignatureCount")
                         .HasColumnType("integer");
 
                     b.Property<bool>("ElectoralRegisterMultipleEnabled")
@@ -612,6 +631,9 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<bool>("HideLowerDomainOfInfluencesInReports")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsMainVotingCardsDomainOfInfluence")
                         .HasColumnType("boolean");
 
                     b.Property<string>("LogoRef")
@@ -1016,6 +1038,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<Guid>("DomainOfInfluenceId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool?>("EVotingApproved")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("EnforceCandidateCheckDigitForCountingCircles")
                         .HasColumnType("boolean");
 
@@ -1395,6 +1420,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<Guid>("DomainOfInfluenceId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool?>("EVotingApproved")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("EnforceCandidateCheckDigitForCountingCircles")
                         .HasColumnType("boolean");
 
@@ -1740,6 +1768,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
+                    b.Property<bool?>("EVotingApproved")
+                        .HasColumnType("boolean");
+
                     b.Property<Guid>("ElectionGroupId")
                         .HasColumnType("uuid");
 
@@ -1892,6 +1923,9 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<Guid>("DomainOfInfluenceId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool?>("EVotingApproved")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("OfficialDescription")
                         .IsRequired()
@@ -2145,13 +2179,26 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("ECollectingEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("ECollectingEnabled")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("ECollectingMaxElectronicSignaturePercent")
+                    b.Property<int?>("ECollectingInitiativeMaxElectronicSignaturePercent")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ECollectingMinSignatureCount")
+                    b.Property<int?>("ECollectingInitiativeMinSignatureCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ECollectingInitiativeNumberOfMembersCommittee")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ECollectingReferendumMaxElectronicSignaturePercent")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ECollectingReferendumMinSignatureCount")
                         .HasColumnType("integer");
 
                     b.Property<bool>("ElectoralRegisterMultipleEnabled")
@@ -2168,6 +2215,9 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<bool>("HideLowerDomainOfInfluencesInReports")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsMainVotingCardsDomainOfInfluence")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
@@ -2285,6 +2335,9 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<Guid>("DomainOfInfluenceId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool?>("EVotingApproved")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("EnforceResultEntryForCountingCircles")
                         .HasColumnType("boolean");

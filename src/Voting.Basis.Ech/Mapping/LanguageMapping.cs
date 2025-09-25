@@ -78,4 +78,18 @@ internal static class LanguageMapping
 
         return translations;
     }
+
+    internal static Dictionary<string, string> FilterEchExportLanguages(this Dictionary<string, string> translations, bool eVoting)
+    {
+        return eVoting
+            ? translations
+            : translations.Where(t => t.Key == Languages.German).ToDictionary();
+    }
+
+    internal static IReadOnlyCollection<string> GetEchExportLanguages(bool eVoting)
+    {
+        return eVoting
+            ? Languages.All
+            : new List<string> { Languages.German };
+    }
 }

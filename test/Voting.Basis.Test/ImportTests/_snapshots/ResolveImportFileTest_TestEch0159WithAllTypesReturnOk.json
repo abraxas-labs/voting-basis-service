@@ -29,7 +29,9 @@
     "PoliticalBusinesses": [],
     "PoliticalBusinessUnions": [],
     "State": 1,
-    "PreviousContestId": ""
+    "PreviousContestId": "",
+    "EVotingApprovalDueDate": null,
+    "EVotingApproved": false
   },
   "MajorityElections": [],
   "ProportionalElections": [],
@@ -88,7 +90,8 @@
         "EnforceResultEntryForCountingCircles": true,
         "ReviewProcedure": 1,
         "EnforceReviewProcedureForCountingCircles": false,
-        "Type": 1
+        "Type": 1,
+        "EVotingApproved": null
       }
     },
     {
@@ -204,7 +207,8 @@
         "EnforceResultEntryForCountingCircles": false,
         "ReviewProcedure": 1,
         "EnforceReviewProcedureForCountingCircles": false,
-        "Type": 1
+        "Type": 1,
+        "EVotingApproved": null
       }
     },
     {
@@ -441,7 +445,8 @@
         "EnforceResultEntryForCountingCircles": true,
         "ReviewProcedure": 1,
         "EnforceReviewProcedureForCountingCircles": false,
-        "Type": 2
+        "Type": 2,
+        "EVotingApproved": null
       }
     }
   ]

@@ -29,7 +29,9 @@
     "PoliticalBusinesses": [],
     "PoliticalBusinessUnions": [],
     "State": 1,
-    "PreviousContestId": ""
+    "PreviousContestId": "",
+    "EVotingApprovalDueDate": null,
+    "EVotingApproved": false
   },
   "MajorityElections": [
     {
@@ -67,7 +69,8 @@
         "EnforceReviewProcedureForCountingCircles": false,
         "EnforceCandidateCheckDigitForCountingCircles": false,
         "IndividualCandidatesDisabled": false,
-        "FederalIdentification": null
+        "FederalIdentification": null,
+        "EVotingApproved": null
       },
       "Candidates": [
         {
@@ -93,7 +96,7 @@
             "rm": "SP"
           },
           "Incumbent": false,
-          "ZipCode": "zip code",
+          "ZipCode": "4200",
           "Locality": "locality",
           "Position": 1,
           "Origin": "Heimatort",
@@ -130,7 +133,7 @@
             "rm": "FDP"
           },
           "Incumbent": true,
-          "ZipCode": "zip code",
+          "ZipCode": "4200",
           "Locality": "locality",
           "Position": 2,
           "Origin": "Heimatort",
@@ -167,7 +170,7 @@
             "rm": "FDP"
           },
           "Incumbent": false,
-          "ZipCode": "zip code",
+          "ZipCode": "4200",
           "Locality": "locality",
           "Position": 3,
           "Origin": "Heimatort",
@@ -211,7 +214,8 @@
         "ReviewProcedure": 1,
         "EnforceReviewProcedureForCountingCircles": false,
         "EnforceCandidateCheckDigitForCountingCircles": false,
-        "FederalIdentification": null
+        "FederalIdentification": null,
+        "EVotingApproved": null
       },
       "Lists": [
         {
@@ -268,7 +272,7 @@
                 "Title": "T",
                 "OccupationTitle": {},
                 "Incumbent": true,
-                "ZipCode": "zip code",
+                "ZipCode": "4200",
                 "Locality": "locality",
                 "Position": 1,
                 "Accumulated": true,
@@ -311,7 +315,7 @@
                 "Title": "Dr",
                 "OccupationTitle": {},
                 "Incumbent": false,
-                "ZipCode": "zip code",
+                "ZipCode": "4200",
                 "Locality": "locality",
                 "Position": 2,
                 "Accumulated": false,
@@ -382,7 +386,7 @@
                 "Title": "",
                 "OccupationTitle": {},
                 "Incumbent": false,
-                "ZipCode": "zip code",
+                "ZipCode": "4200",
                 "Locality": "locality",
                 "Position": 1,
                 "Accumulated": false,
@@ -453,7 +457,7 @@
                 "Title": "",
                 "OccupationTitle": {},
                 "Incumbent": true,
-                "ZipCode": "zip code",
+                "ZipCode": "4200",
                 "Locality": "locality",
                 "Position": 1,
                 "Accumulated": false,
@@ -491,7 +495,7 @@
                 "Title": "",
                 "OccupationTitle": {},
                 "Incumbent": false,
-                "ZipCode": "zip code",
+                "ZipCode": "4200",
                 "Locality": "locality",
                 "Position": 2,
                 "Accumulated": false,
@@ -529,7 +533,7 @@
                 "Title": "",
                 "OccupationTitle": {},
                 "Incumbent": false,
-                "ZipCode": "zip code",
+                "ZipCode": "4200",
                 "Locality": "locality",
                 "Position": 3,
                 "Accumulated": false,
@@ -600,7 +604,7 @@
                 "Title": "",
                 "OccupationTitle": {},
                 "Incumbent": false,
-                "ZipCode": "zip code",
+                "ZipCode": "4200",
                 "Locality": "locality",
                 "Position": 1,
                 "Accumulated": true,
@@ -671,7 +675,7 @@
                 "Title": "",
                 "OccupationTitle": {},
                 "Incumbent": false,
-                "ZipCode": "zip code",
+                "ZipCode": "4200",
                 "Locality": "locality",
                 "Position": 1,
                 "Accumulated": false,
@@ -709,7 +713,7 @@
                 "Title": "Prof",
                 "OccupationTitle": {},
                 "Incumbent": true,
-                "ZipCode": "zip code",
+                "ZipCode": "4200",
                 "Locality": "locality",
                 "Position": 2,
                 "Accumulated": true,
@@ -747,7 +751,7 @@
                 "Title": "",
                 "OccupationTitle": {},
                 "Incumbent": false,
-                "ZipCode": "zip code",
+                "ZipCode": "4200",
                 "Locality": "locality",
                 "Position": 4,
                 "Accumulated": false,
@@ -785,7 +789,7 @@
                 "Title": "",
                 "OccupationTitle": {},
                 "Incumbent": false,
-                "ZipCode": "zip code",
+                "ZipCode": "4200",
                 "Locality": "locality",
                 "Position": 5,
                 "Accumulated": false,

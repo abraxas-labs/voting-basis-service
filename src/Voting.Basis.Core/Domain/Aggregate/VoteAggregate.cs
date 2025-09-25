@@ -67,6 +67,10 @@ public class VoteAggregate : BaseHasContestAggregate
 
     public VoteType Type { get; private set; }
 
+    public bool? EVotingApproved { get; private set; }
+
+    private bool TypeImmutable { get; set; }
+
     public void CreateFrom(Vote vote)
     {
         if (vote.Id == default)
@@ -87,6 +91,18 @@ public class VoteAggregate : BaseHasContestAggregate
     public void UpdateFrom(Vote vote)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
+
+        // We only set a different e-voting approved on create or approval update.
+        vote.EVotingApproved = EVotingApproved;
+
+        ValidationUtils.EnsureNotModified(DomainOfInfluenceId, vote.DomainOfInfluenceId);
+        ValidationUtils.EnsureNotModified(ResultAlgorithm, vote.ResultAlgorithm);
+
+        if (TypeImmutable)
+        {
+            ValidationUtils.EnsureNotModified(Type, vote.Type);
+        }
 
         var ev = new VoteUpdated
         {
@@ -101,6 +117,7 @@ public class VoteAggregate : BaseHasContestAggregate
     public void UpdateAfterTestingPhaseEnded(Vote vote)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
 
         // Active shouldn't be changed by updates after the testing phase, but also shouldn't throw an error,
         // since sometimes the wrong values is provided, which would result in a "modified exception"
@@ -129,8 +146,8 @@ public class VoteAggregate : BaseHasContestAggregate
 
     public void UpdateActiveState(bool active)
     {
-        EnsureNotDeleted();
-        EnsureValidBallots();
+        EnsureCanSetActive();
+        EnsureEVotingNotApproved();
 
         var ev = new VoteActiveStateUpdated
         {
@@ -142,9 +159,48 @@ public class VoteAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
+    public void UpdateEVotingApproval(bool approved)
+    {
+        EnsureCanSetActive();
+
+        if (EVotingApproved == null)
+        {
+            throw new ValidationException($"Vote {Id} does not support E-Voting");
+        }
+
+        var ev = new VoteEVotingApprovalUpdated
+        {
+            VoteId = Id.ToString(),
+            Approved = approved,
+            EventInfo = _eventInfoProvider.NewEventInfo(),
+        };
+
+        RaiseEvent(ev);
+    }
+
+    public bool TryApproveEVoting()
+    {
+        if (EVotingApproved == true)
+        {
+            return false;
+        }
+
+        try
+        {
+            UpdateEVotingApproval(true);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
     public void CreateBallot(Ballot ballot)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
+
         if (ballot.Id == default)
         {
             ballot.Id = Guid.NewGuid();
@@ -170,6 +226,8 @@ public class VoteAggregate : BaseHasContestAggregate
     public void UpdateBallot(Ballot ballot)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
+
         var existingBallot = Ballots.Find(b => b.Id == ballot.Id)
                              ?? throw new EntityNotFoundException("ballot not found");
 
@@ -189,6 +247,8 @@ public class VoteAggregate : BaseHasContestAggregate
     public void UpdateBallotAfterTestingPhaseEnded(Ballot ballot)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
+
         var existingBallot = Ballots.Find(b => b.Id == ballot.Id)
                              ?? throw new EntityNotFoundException("ballot not found");
 
@@ -234,9 +294,15 @@ public class VoteAggregate : BaseHasContestAggregate
         EnsureValidResultEntry();
     }
 
-    public void Delete()
+    public void Delete(bool ignoreCheck = false)
     {
         EnsureNotDeleted();
+
+        if (!ignoreCheck)
+        {
+            EnsureEVotingNotApproved();
+        }
+
         var ev = new VoteDeleted
         {
             VoteId = Id.ToString(),
@@ -249,6 +315,7 @@ public class VoteAggregate : BaseHasContestAggregate
     public void DeleteBallot(Guid ballotId)
     {
         EnsureNotDeleted();
+        EnsureEVotingNotApproved();
 
         if (Ballots.All(b => b.Id != ballotId))
         {
@@ -295,6 +362,9 @@ public class VoteAggregate : BaseHasContestAggregate
                 Apply(e);
                 break;
             case VoteActiveStateUpdated e:
+                Apply(e);
+                break;
+            case VoteEVotingApprovalUpdated e:
                 Apply(e);
                 break;
             case VoteDeleted _:
@@ -361,8 +431,14 @@ public class VoteAggregate : BaseHasContestAggregate
         Active = ev.Active;
     }
 
+    private void Apply(VoteEVotingApprovalUpdated ev)
+    {
+        EVotingApproved = ev.Approved;
+    }
+
     private void Apply(BallotCreated ev)
     {
+        TypeImmutable = true;
         Ballots.Add(_mapper.Map<Ballot>(ev.Ballot));
     }
 
@@ -457,6 +533,20 @@ public class VoteAggregate : BaseHasContestAggregate
 
                 lastSubType = subType;
             }
+        }
+    }
+
+    private void EnsureCanSetActive()
+    {
+        EnsureNotDeleted();
+        EnsureValidBallots();
+    }
+
+    private void EnsureEVotingNotApproved()
+    {
+        if (EVotingApproved == true)
+        {
+            throw new PoliticalBusinessEVotingApprovedException();
         }
     }
 }

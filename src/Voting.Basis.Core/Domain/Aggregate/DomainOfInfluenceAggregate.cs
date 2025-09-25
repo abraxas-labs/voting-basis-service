@@ -52,6 +52,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         NameForProtocol = string.Empty;
         ContactPerson = new ContactPerson();
         PlausibilisationConfiguration = new PlausibilisationConfiguration();
+        ECollectingEmail = string.Empty;
         _parties = new List<DomainOfInfluenceParty>();
         _countingCircles = new List<string>();
         _mapper = mapper;
@@ -126,13 +127,23 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
 
     public bool VotingCardFlatRateDisabled { get; private set; }
 
+    public bool IsMainVotingCardsDomainOfInfluence { get; private set; }
+
     public bool HideLowerDomainOfInfluencesInReports { get; set; }
 
     public bool ECollectingEnabled { get; private set; }
 
-    public int ECollectingMinSignatureCount { get; set; }
+    public int? ECollectingInitiativeMinSignatureCount { get; set; }
 
-    public int ECollectingMaxElectronicSignaturePercent { get; set; }
+    public int? ECollectingInitiativeMaxElectronicSignaturePercent { get; set; }
+
+    public int? ECollectingInitiativeNumberOfMembersCommittee { get; set; }
+
+    public int? ECollectingReferendumMinSignatureCount { get; set; }
+
+    public int? ECollectingReferendumMaxElectronicSignaturePercent { get; set; }
+
+    public string ECollectingEmail { get; private set; }
 
     public void CreateFrom(DomainOfInfluence domainOfInfluence)
     {
@@ -225,7 +236,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         DomainOfInfluenceVotingCardSwissPostData? swissPostData,
         VotingCardColor votingCardColor,
         bool stistatMunicipality,
-        bool votingCardFlatRateDisabled)
+        bool votingCardFlatRateDisabled,
+        bool isMainVotingCardsDomainOfInfluence)
     {
         EnsureNotDeleted();
 
@@ -254,6 +266,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
             VotingCardColor = _mapper.Map<SharedProto.VotingCardColor>(votingCardColor),
             StistatMunicipality = stistatMunicipality,
             VotingCardFlatRateDisabled = votingCardFlatRateDisabled,
+            IsMainVotingCardsDomainOfInfluence = isMainVotingCardsDomainOfInfluence,
         };
 
         RaiseEvent(ev);
@@ -611,7 +624,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
                 domainOfInfluence.SwissPostData ?? throw new ValidationException(nameof(domainOfInfluence.SwissPostData) + " must be set"),
                 domainOfInfluence.VotingCardColor,
                 domainOfInfluence.StistatMunicipality,
-                domainOfInfluence.VotingCardFlatRateDisabled);
+                domainOfInfluence.VotingCardFlatRateDisabled,
+                domainOfInfluence.IsMainVotingCardsDomainOfInfluence);
         }
     }
 

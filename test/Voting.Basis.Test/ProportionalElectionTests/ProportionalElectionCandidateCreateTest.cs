@@ -14,6 +14,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -81,7 +82,7 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
                     Number = "number1",
                     Sex = SharedProto.SexType.Female,
                     Title = "title",
-                    ZipCode = "zip code",
+                    ZipCode = "9000",
                     PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
                     Origin = "origin",
                     CheckDigit = 6,
@@ -110,7 +111,7 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
                     Number = "number1",
                     Sex = SharedProto.SexType.Female,
                     Title = "title",
-                    ZipCode = "zip code",
+                    ZipCode = "9000",
                     PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
                     Origin = "origin",
                     CheckDigit = 6,
@@ -156,7 +157,7 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
                     Number = "number1",
                     Sex = SharedProto.SexType.Undefined,
                     Title = "title",
-                    ZipCode = "zip code",
+                    ZipCode = "8000",
                     PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
                     Origin = "origin",
                     CheckDigit = 6,
@@ -197,7 +198,7 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
                     Number = "number1toolong",
                     Sex = SharedProto.SexType.Female,
                     Title = "title",
-                    ZipCode = "zip code",
+                    ZipCode = "5000",
                     PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
                     Origin = "origin",
                     CheckDigit = 6,
@@ -391,6 +392,18 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
         response.Id.Should().NotBeNull();
     }
 
+    [Fact]
+    public async Task ModificationWithEVotingApprovedShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateCandidateAsync(NewValidRequest(x =>
+            {
+                x.ProportionalElectionListId = ProportionalElectionMockedData.ListIdGossauProportionalElectionEVotingApprovedInContestStGallen;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
     protected override IEnumerable<string> AuthorizedRoles()
     {
         yield return Roles.CantonAdmin;
@@ -430,7 +443,7 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
             Number = "number2",
             Sex = SharedProto.SexType.Female,
             Title = "title",
-            ZipCode = "zip code",
+            ZipCode = "1234",
             PartyId = DomainOfInfluenceMockedData.PartyIdStGallenSVP,
             Origin = "origin",
             Street = "street",
