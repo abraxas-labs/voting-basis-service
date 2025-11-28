@@ -20,8 +20,10 @@ public class MajorityElectionProfile : Profile
             .ForSourceMember(src => src.EventInfo, opts => opts.DoNotValidate());
         CreateMap<MajorityElectionAfterTestingPhaseUpdated, MajorityElectionAggregate>(MemberList.Source)
             .ForSourceMember(src => src.EventInfo, opts => opts.DoNotValidate());
+
         CreateMap<MajorityElectionCandidateReferenceEventData, SecondaryMajorityElectionCandidate>();
-        CreateMap<MajorityElectionCandidateEventData, MajorityElectionCandidate>();
+        CreateMap<MajorityElectionCandidateEventData, MajorityElectionCandidate>()
+            .ForMember(dst => dst.PartyShortDescription, opts => opts.MapFrom(src => src.Party));
         CreateMap<MajorityElectionBallotGroupEntryEventData, MajorityElectionBallotGroupEntry>()
             .ForMember(dst => dst.SecondaryMajorityElectionId, opts => opts.MapFrom(src => src.ElectionId));
         CreateMap<MajorityElectionBallotGroupEventData, MajorityElectionBallotGroup>()
@@ -37,13 +39,16 @@ public class MajorityElectionProfile : Profile
             });
 
         CreateMap<MajorityElectionCandidateAfterTestingPhaseUpdated, MajorityElectionCandidate>(MemberList.Source)
-            .ForSourceMember(src => src.EventInfo, opts => opts.DoNotValidate());
+            .ForSourceMember(src => src.EventInfo, opts => opts.DoNotValidate())
+            .ForMember(dst => dst.PartyShortDescription, opts => opts.MapFrom(src => src.Party));
         CreateMap<SecondaryMajorityElectionAfterTestingPhaseUpdated, SecondaryMajorityElection>(MemberList.Source)
             .ForSourceMember(src => src.EventInfo, opts => opts.DoNotValidate());
         CreateMap<MajorityElectionCandidateEventData, SecondaryMajorityElectionCandidate>()
-            .ForMember(dst => dst.SecondaryMajorityElectionId, opts => opts.MapFrom(src => src.MajorityElectionId));
+            .ForMember(dst => dst.SecondaryMajorityElectionId, opts => opts.MapFrom(src => src.MajorityElectionId))
+            .ForMember(dst => dst.PartyShortDescription, opts => opts.MapFrom(src => src.Party));
         CreateMap<SecondaryMajorityElectionCandidateAfterTestingPhaseUpdated, SecondaryMajorityElectionCandidate>(MemberList.Source)
-            .ForSourceMember(src => src.EventInfo, opts => opts.DoNotValidate());
+            .ForSourceMember(src => src.EventInfo, opts => opts.DoNotValidate())
+            .ForMember(dst => dst.PartyShortDescription, opts => opts.MapFrom(src => src.Party));
         CreateMap<MajorityElectionCandidate, SecondaryMajorityElectionCandidate>()
             .ForMember(dst => dst.CandidateReferenceId, opts => opts.MapFrom(src => src.Id))
             .ForMember(dst => dst.BallotGroupEntries, opts => opts.Ignore());

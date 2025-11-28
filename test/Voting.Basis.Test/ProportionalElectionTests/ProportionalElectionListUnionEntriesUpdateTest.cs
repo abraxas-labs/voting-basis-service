@@ -72,10 +72,10 @@ public class ProportionalElectionListUnionEntriesUpdateTest : PoliticalBusinessA
             .Be("<span><span>1a</span>, <span>1a</span>, <span>2</span>, <span>2</span>, <span>3a</span>, <span>3a</span></span>");
         lists[1].ProportionalElectionList.ListUnionDescription
             .Should()
-            .Be("<span><span>1a</span>, <span>1a</span>, <span>2</span>, <span>2</span>, <span>3a</span>, <span>3a</span></span>");
+            .Be("<span><span>1a</span>, <span>1a</span>, <span>2</span>, <span>2</span>, <span>2</span>, <span>3a</span>, <span>3a</span>, <span>…</span></span>");
         lists[2].ProportionalElectionList.ListUnionDescription
             .Should()
-            .Be("<span><span>1a</span>, <span>1a</span>, <span>2</span>, <span>2</span>, <span>3a</span>, <span>3a</span></span>");
+            .Be("<span><span>1a</span>, <span>1a</span>, <span>2</span>, <span>2</span>, <span>2</span>, <span>3a</span>, <span>3a</span>, <span>…</span></span>");
     }
 
     [Fact]
@@ -117,6 +117,7 @@ public class ProportionalElectionListUnionEntriesUpdateTest : PoliticalBusinessA
         {
             lu.ProportionalElectionListUnionId = ProportionalElectionMockedData.SubListUnion11IdGossauProportionalElectionInContestStGallen;
             lu.ProportionalElectionListIds.Clear();
+            lu.ProportionalElectionListIds.Add(ProportionalElectionMockedData.ListId1GossauProportionalElectionInContestStGallen);
             lu.ProportionalElectionListIds.Add(ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestStGallen);
         }));
         var eventData = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionListUnionEntriesUpdated>();
@@ -135,11 +136,16 @@ public class ProportionalElectionListUnionEntriesUpdateTest : PoliticalBusinessA
     }
 
     [Fact]
-    public async Task NoLists()
+    public async Task NoOrOneListShouldThrow()
     {
-        await CantonAdminClient.UpdateListUnionEntriesAsync(NewValidRequest(lu => lu.ProportionalElectionListIds.Clear()));
-        var eventData = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionListUnionEntriesUpdated>();
-        eventData.MatchSnapshot("event");
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateListUnionEntriesAsync(NewValidRequest(l =>
+            {
+                l.ProportionalElectionListIds.Clear();
+                l.ProportionalElectionListIds.Add(ProportionalElectionMockedData.ListId3GossauProportionalElectionInContestStGallen);
+            })),
+            StatusCode.FailedPrecondition,
+            "list unions with less than 2 list");
     }
 
     [Fact]
@@ -172,7 +178,7 @@ public class ProportionalElectionListUnionEntriesUpdateTest : PoliticalBusinessA
         await AssertStatus(
             async () => await CantonAdminClient.UpdateListUnionEntriesAsync(NewValidRequest(b =>
             {
-                b.ProportionalElectionListIds.Add(ProportionalElectionMockedData.ListIdGossauProportionalElectionInContestGossau);
+                b.ProportionalElectionListIds.Add(ProportionalElectionMockedData.List1IdGossauProportionalElectionInContestGossau);
             })),
             StatusCode.InvalidArgument,
             "ListIds");

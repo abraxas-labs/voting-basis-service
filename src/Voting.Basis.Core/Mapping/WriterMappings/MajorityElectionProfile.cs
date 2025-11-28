@@ -15,21 +15,28 @@ public class MajorityElectionProfile : Profile
     {
         CreateMap<MajorityElection, MajorityElectionEventData>();
         CreateMap<MajorityElectionEventData, MajorityElectionAggregate>();
-        CreateMap<MajorityElectionCandidate, MajorityElectionCandidateEventData>().ReverseMap();
+
+        CreateMap<MajorityElectionCandidate, MajorityElectionCandidateEventData>()
+            .ForMember(dst => dst.Party, opts => opts.MapFrom(src => src.PartyShortDescription))
+            .ReverseMap();
 
         CreateMap<SecondaryMajorityElection, SecondaryMajorityElectionEventData>().ReverseMap();
         CreateMap<MajorityElectionCandidateReference, MajorityElectionCandidateReferenceEventData>().ReverseMap();
+        CreateMap<MajorityElectionCandidateReference, MajorityElectionCandidateReference>();
         CreateMap<MajorityElectionBallotGroup, MajorityElectionBallotGroupEventData>().ReverseMap();
         CreateMap<MajorityElectionBallotGroupEntry, MajorityElectionBallotGroupEntryEventData>().ReverseMap();
 
         CreateMap<MajorityElectionBallotGroupCandidates, MajorityElectionBallotGroupCandidatesEventData>().ReverseMap();
         CreateMap<MajorityElectionBallotGroupEntryCandidates, MajorityElectionBallotGroupEntryCandidatesEventData>().ReverseMap();
 
-        CreateMap<MajorityElectionCandidateAfterTestingPhaseUpdated, MajorityElectionCandidate>(MemberList.Source)
+        CreateMap<SecondaryMajorityElectionAfterTestingPhaseUpdated, SecondaryMajorityElection>(MemberList.Source)
             .ForSourceMember(src => src.EventInfo, opts => opts.DoNotValidate());
-        CreateMap<SecondaryMajorityElectionAfterTestingPhaseUpdated, Domain.SecondaryMajorityElection>(MemberList.Source)
+
+        CreateMap<MajorityElectionCandidateAfterTestingPhaseUpdated, MajorityElectionCandidate>(MemberList.Source)
+            .ForMember(dst => dst.PartyShortDescription, opts => opts.MapFrom(src => src.Party))
             .ForSourceMember(src => src.EventInfo, opts => opts.DoNotValidate());
         CreateMap<SecondaryMajorityElectionCandidateAfterTestingPhaseUpdated, MajorityElectionCandidate>(MemberList.Source)
+            .ForMember(dst => dst.PartyShortDescription, opts => opts.MapFrom(src => src.Party))
             .ForSourceMember(src => src.EventInfo, opts => opts.DoNotValidate());
     }
 }

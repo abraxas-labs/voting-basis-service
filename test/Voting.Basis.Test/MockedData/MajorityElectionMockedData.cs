@@ -144,7 +144,8 @@ public static class MajorityElectionMockedData
                         DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                         Incumbent = true,
                         Position = 1,
-                        Party = LanguageUtil.MockAllLanguages("CVP"),
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("CVP"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("CVP long desc"),
                         Locality = "locality",
                         Number = "number1",
                         Sex = SexType.Female,
@@ -197,7 +198,8 @@ public static class MajorityElectionMockedData
                         DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                         Incumbent = true,
                         Position = 1,
-                        Party = LanguageUtil.MockAllLanguages("Test"),
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("Test"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("Test long descscription"),
                         Locality = "locality",
                         Number = "number1",
                         Sex = SexType.Female,
@@ -221,7 +223,8 @@ public static class MajorityElectionMockedData
                         DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                         Incumbent = false,
                         Position = 2,
-                        Party = LanguageUtil.MockAllLanguages("Test"),
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("Test"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("Test long descscription"),
                         Locality = "locality",
                         Number = "number5",
                         Sex = SexType.Male,
@@ -260,7 +263,8 @@ public static class MajorityElectionMockedData
                                 DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                                 Incumbent = true,
                                 Position = 1,
-                                Party = LanguageUtil.MockAllLanguages("Test"),
+                                PartyShortDescription = LanguageUtil.MockAllLanguages("Test"),
+                                PartyLongDescription = LanguageUtil.MockAllLanguages("Test long descscription"),
                                 Locality = "locality",
                                 Number = "number1",
                                 Sex = SexType.Female,
@@ -285,7 +289,8 @@ public static class MajorityElectionMockedData
                                 DateOfBirth = new DateTime(1982, 12, 31, 0, 0, 0, DateTimeKind.Utc),
                                 Incumbent = false,
                                 Position = 2,
-                                Party = LanguageUtil.MockAllLanguages("CVP"),
+                                PartyShortDescription = LanguageUtil.MockAllLanguages("CVP"),
+                                PartyLongDescription = LanguageUtil.MockAllLanguages("Christian Swiss party"),
                                 Locality = "locality",
                                 Number = "number2",
                                 Sex = SexType.Male,
@@ -323,7 +328,8 @@ public static class MajorityElectionMockedData
                                 DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                                 Incumbent = true,
                                 Position = 1,
-                                Party = LanguageUtil.MockAllLanguages("Test"),
+                                PartyShortDescription = LanguageUtil.MockAllLanguages("Test"),
+                                PartyLongDescription = LanguageUtil.MockAllLanguages("Test long descscription"),
                                 Locality = "locality",
                                 Number = "number1",
                                 Sex = SexType.Female,
@@ -348,7 +354,8 @@ public static class MajorityElectionMockedData
                                 DateOfBirth = new DateTime(1982, 12, 31, 0, 0, 0, DateTimeKind.Utc),
                                 Incumbent = false,
                                 Position = 2,
-                                Party = LanguageUtil.MockAllLanguages("CVP"),
+                                PartyShortDescription = LanguageUtil.MockAllLanguages("CVP"),
+                                PartyLongDescription = LanguageUtil.MockAllLanguages("Christian Swiss party"),
                                 Locality = "locality",
                                 Number = "number2",
                                 Sex = SexType.Male,
@@ -451,7 +458,8 @@ public static class MajorityElectionMockedData
                         DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                         Incumbent = true,
                         Position = 1,
-                        Party = LanguageUtil.MockAllLanguages("SP"),
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("SP"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("SP long description"),
                         Locality = "locality",
                         Number = "number1",
                         Sex = SexType.Female,
@@ -475,7 +483,8 @@ public static class MajorityElectionMockedData
                         DateOfBirth = new DateTime(1980, 3, 27, 0, 0, 0, DateTimeKind.Utc),
                         Incumbent = false,
                         Position = 2,
-                        Party = LanguageUtil.MockAllLanguages("SVP"),
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("SVP"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("SVP long description"),
                         Locality = "locality 2",
                         Number = "number2",
                         Sex = SexType.Female,
@@ -528,7 +537,8 @@ public static class MajorityElectionMockedData
                         DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                         Incumbent = true,
                         Position = 1,
-                        Party = LanguageUtil.MockAllLanguages("FDP"),
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("FDP"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("FDP long description"),
                         Locality = "locality",
                         Number = "number1",
                         Sex = SexType.Female,
@@ -566,7 +576,8 @@ public static class MajorityElectionMockedData
                                 DateOfBirth = new DateTime(1960, 2, 13, 0, 0, 0, DateTimeKind.Utc),
                                 Incumbent = true,
                                 Position = 1,
-                                Party = LanguageUtil.MockAllLanguages("Test"),
+                                PartyShortDescription = LanguageUtil.MockAllLanguages("Test"),
+                                PartyLongDescription = LanguageUtil.MockAllLanguages("Test long descscription"),
                                 Locality = "locality",
                                 Number = "number1",
                                 Sex = SexType.Male,
@@ -672,7 +683,8 @@ public static class MajorityElectionMockedData
                         DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                         Incumbent = true,
                         Position = 1,
-                        Party = LanguageUtil.MockAllLanguages("GLP"),
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("GLP"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("GLP long description"),
                         Locality = "locality",
                         Number = "number1",
                         Sex = SexType.Female,
@@ -725,7 +737,8 @@ public static class MajorityElectionMockedData
                         DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                         Incumbent = true,
                         Position = 1,
-                        Party = LanguageUtil.MockAllLanguages("CVP"),
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("CVP"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("Christian Swiss party"),
                         Locality = "locality",
                         Number = "number1",
                         Sex = SexType.Female,
@@ -749,7 +762,8 @@ public static class MajorityElectionMockedData
                         DateOfBirth = new DateTime(1940, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                         Incumbent = false,
                         Position = 2,
-                        Party = LanguageUtil.MockAllLanguages("CVP"),
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("CVP"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("Christian Swiss party"),
                         Locality = "locality 2",
                         Number = "number2",
                         Sex = SexType.Female,
@@ -787,7 +801,8 @@ public static class MajorityElectionMockedData
                                 DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                                 Incumbent = true,
                                 Position = 1,
-                                Party = LanguageUtil.MockAllLanguages("Test"),
+                                PartyShortDescription = LanguageUtil.MockAllLanguages("Test"),
+                                PartyLongDescription = LanguageUtil.MockAllLanguages("Test long descscription"),
                                 Locality = "locality",
                                 Number = "number1",
                                 Sex = SexType.Female,
@@ -812,7 +827,8 @@ public static class MajorityElectionMockedData
                                 DateOfBirth = new DateTime(1982, 12, 31, 0, 0, 0, DateTimeKind.Utc),
                                 Incumbent = false,
                                 Position = 2,
-                                Party = LanguageUtil.MockAllLanguages("CVP"),
+                                PartyShortDescription = LanguageUtil.MockAllLanguages("CVP"),
+                                PartyLongDescription = LanguageUtil.MockAllLanguages("Christian Swiss party"),
                                 Locality = "locality",
                                 Number = "number2",
                                 Sex = SexType.Male,
@@ -873,7 +889,8 @@ public static class MajorityElectionMockedData
                         DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                         Incumbent = true,
                         Position = 1,
-                        Party = LanguageUtil.MockAllLanguages("CVP"),
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("CVP"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("Christian Swiss party"),
                         Locality = "locality",
                         Number = "number1",
                         Sex = SexType.Female,
@@ -912,7 +929,8 @@ public static class MajorityElectionMockedData
                                 DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                                 Incumbent = true,
                                 Position = 1,
-                                Party = LanguageUtil.MockAllLanguages("Test"),
+                                PartyShortDescription = LanguageUtil.MockAllLanguages("Test"),
+                                PartyLongDescription = LanguageUtil.MockAllLanguages("Test long descscription"),
                                 Locality = "locality",
                                 Number = "number1",
                                 Sex = SexType.Female,
@@ -937,7 +955,8 @@ public static class MajorityElectionMockedData
                                 DateOfBirth = new DateTime(1982, 12, 31, 0, 0, 0, DateTimeKind.Utc),
                                 Incumbent = false,
                                 Position = 2,
-                                Party = LanguageUtil.MockAllLanguages("CVP"),
+                                PartyShortDescription = LanguageUtil.MockAllLanguages("CVP"),
+                                PartyLongDescription = LanguageUtil.MockAllLanguages("Christian Swiss party"),
                                 Locality = "locality",
                                 Number = "number2",
                                 Sex = SexType.Male,
@@ -1040,7 +1059,8 @@ public static class MajorityElectionMockedData
                         DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                         Incumbent = true,
                         Position = 1,
-                        Party = LanguageUtil.MockAllLanguages("Test"),
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("Test"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("Test long descscription"),
                         Locality = "locality",
                         Number = "number1",
                         Sex = SexType.Female,
@@ -1064,7 +1084,8 @@ public static class MajorityElectionMockedData
                         DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                         Incumbent = false,
                         Position = 2,
-                        Party = LanguageUtil.MockAllLanguages("Test"),
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("Test"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("Test long descscription"),
                         Locality = "locality",
                         Number = "number5",
                         Sex = SexType.Male,
@@ -1102,7 +1123,8 @@ public static class MajorityElectionMockedData
                                 DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                                 Incumbent = true,
                                 Position = 1,
-                                Party = LanguageUtil.MockAllLanguages("Test"),
+                                PartyShortDescription = LanguageUtil.MockAllLanguages("Test"),
+                                PartyLongDescription = LanguageUtil.MockAllLanguages("Test long descscription"),
                                 Locality = "locality",
                                 Number = "number1",
                                 Sex = SexType.Female,
@@ -1127,7 +1149,8 @@ public static class MajorityElectionMockedData
                                 DateOfBirth = new DateTime(1982, 12, 31, 0, 0, 0, DateTimeKind.Utc),
                                 Incumbent = false,
                                 Position = 2,
-                                Party = LanguageUtil.MockAllLanguages("CVP"),
+                                PartyShortDescription = LanguageUtil.MockAllLanguages("CVP"),
+                                PartyLongDescription = LanguageUtil.MockAllLanguages("Christian Swiss party"),
                                 Locality = "locality",
                                 Number = "number2",
                                 Sex = SexType.Male,
@@ -1295,7 +1318,8 @@ public static class MajorityElectionMockedData
                         DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                         Incumbent = true,
                         Position = 1,
-                        Party = LanguageUtil.MockAllLanguages("Test"),
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("Test"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("Test long descscription"),
                         Locality = "locality",
                         Number = "number1",
                         Sex = SexType.Female,
@@ -1348,7 +1372,8 @@ public static class MajorityElectionMockedData
                         DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                         Incumbent = true,
                         Position = 1,
-                        Party = LanguageUtil.MockAllLanguages("None"),
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("None"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("No party"),
                         Locality = "locality",
                         Number = "number1",
                         Sex = SexType.Female,
@@ -1452,7 +1477,8 @@ public static class MajorityElectionMockedData
                         DateOfBirth = new DateTime(1970, 1, 13, 0, 0, 0, DateTimeKind.Utc),
                         Incumbent = false,
                         Position = 1,
-                        Party = LanguageUtil.MockAllLanguages("test"),
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("Test"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("Test long descscription"),
                         Locality = "locality",
                         Number = "number1",
                         Sex = SexType.Male,
@@ -1489,7 +1515,8 @@ public static class MajorityElectionMockedData
                                 DateOfBirth = new DateTime(1980, 12, 13, 0, 0, 0, DateTimeKind.Utc),
                                 Incumbent = false,
                                 Position = 1,
-                                Party = LanguageUtil.MockAllLanguages("Test"),
+                                PartyShortDescription = LanguageUtil.MockAllLanguages("Test"),
+                                PartyLongDescription = LanguageUtil.MockAllLanguages("Test long descscription"),
                                 Locality = "locality",
                                 Number = "number1",
                                 Sex = SexType.Male,
@@ -1660,9 +1687,18 @@ public static class MajorityElectionMockedData
         var aggregate = aggregateFactory.New<MajorityElectionAggregate>();
         var domainElection = mapper.Map<Core.Domain.MajorityElection>(majorityElection);
         var doi = DomainOfInfluenceMockedData.All.First(x => x.Id == domainElection.DomainOfInfluenceId);
-        var candidateValidationParams = new CandidateValidationParams(doi);
+        var candidateValidationParams = new CandidateValidationParams(doi, false);
+        var activeByElectionId = new Dictionary<Guid, bool>();
+        var eVotingApprovedByElectionId = new Dictionary<Guid, bool?>();
 
+        var active = domainElection.Active;
         var eVotingApproved = domainElection.EVotingApproved;
+
+        if (active)
+        {
+            domainElection.Active = false;
+        }
+
         if (eVotingApproved.HasValue)
         {
             domainElection.EVotingApproved = false;
@@ -1684,17 +1720,22 @@ public static class MajorityElectionMockedData
             aggregate.CreateElectionGroupFrom(domainElectionGroup);
         }
 
-        if (eVotingApproved == true)
-        {
-            aggregate.UpdateEVotingApproval(true);
-        }
-
         foreach (var secondaryElection in majorityElection.SecondaryMajorityElections)
         {
             var domainSecondaryElection = mapper.Map<Core.Domain.SecondaryMajorityElection>(secondaryElection);
             domainSecondaryElection.PrimaryMajorityElectionId = domainElection.Id;
 
+            var smeActive = domainSecondaryElection.Active;
             var smeEVotingApproved = domainSecondaryElection.EVotingApproved;
+
+            activeByElectionId.Add(domainSecondaryElection.Id, smeActive);
+            eVotingApprovedByElectionId.Add(domainSecondaryElection.Id, smeEVotingApproved);
+
+            if (smeActive)
+            {
+                domainSecondaryElection.Active = false;
+            }
+
             if (smeEVotingApproved.HasValue)
             {
                 domainSecondaryElection.EVotingApproved = false;
@@ -1715,7 +1756,7 @@ public static class MajorityElectionMockedData
                         CandidateId = candidate.CandidateReferenceId.Value,
                         Number = candidate.Number,
                     };
-                    aggregate.CreateCandidateReferenceFrom(domainCandidateReference);
+                    aggregate.CreateCandidateReferenceFrom(domainCandidateReference, false);
                 }
                 else
                 {
@@ -1723,11 +1764,6 @@ public static class MajorityElectionMockedData
                     domainCandidate.MajorityElectionId = domainSecondaryElection.Id;
                     aggregate.CreateSecondaryMajorityElectionCandidateFrom(domainCandidate, candidateValidationParams);
                 }
-            }
-
-            if (smeEVotingApproved == true)
-            {
-                aggregate.UpdateSecondaryMajorityElectionEVotingApproval(domainSecondaryElection.Id, true);
             }
         }
 
@@ -1763,6 +1799,31 @@ public static class MajorityElectionMockedData
             }
 
             aggregate.UpdateBallotGroupCandidates(candidates, false);
+        }
+
+        if (active)
+        {
+            aggregate.UpdateActiveState(true);
+        }
+
+        if (eVotingApproved == true)
+        {
+            aggregate.UpdateEVotingApproval(true);
+        }
+
+        foreach (var secondaryElection in majorityElection.SecondaryMajorityElections)
+        {
+            var smeId = secondaryElection.Id;
+
+            if (activeByElectionId.GetValueOrDefault(smeId))
+            {
+                aggregate.UpdateSecondaryMajorityElectionActiveState(smeId, true);
+            }
+
+            if (eVotingApprovedByElectionId.GetValueOrDefault(secondaryElection.Id) == true)
+            {
+                aggregate.UpdateSecondaryMajorityElectionEVotingApproval(smeId, true);
+            }
         }
 
         return aggregate;

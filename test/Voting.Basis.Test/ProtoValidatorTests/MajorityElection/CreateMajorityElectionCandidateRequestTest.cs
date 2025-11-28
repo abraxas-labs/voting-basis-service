@@ -36,8 +36,10 @@ public class CreateMajorityElectionCandidateRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.OccupationTitle, RandomStringUtil.GenerateAlphabetic(2), string.Empty));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.OccupationTitle, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.OccupationTitle, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(250)));
-        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Party, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
-        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Party, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(12)));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.PartyShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.PartyShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(12)));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.PartyLongDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.PartyLongDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(100)));
         yield return NewValidRequest(x => x.Incumbent = false);
         yield return NewValidRequest(x => x.ZipCode = string.Empty);
         yield return NewValidRequest(x => x.ZipCode = RandomStringUtil.GenerateComplexSingleLineText(1));
@@ -90,11 +92,16 @@ public class CreateMajorityElectionCandidateRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.OccupationTitle, RandomStringUtil.GenerateAlphabetic(1), "test"));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.OccupationTitle, RandomStringUtil.GenerateAlphabetic(3), "test"));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.OccupationTitle, "de", RandomStringUtil.GenerateComplexSingleLineText(251)));
-        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Party, string.Empty, "test"));
-        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Party, RandomStringUtil.GenerateAlphabetic(1), "test"));
-        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Party, RandomStringUtil.GenerateAlphabetic(3), "test"));
-        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Party, "de", string.Empty));
-        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.Party, "de", RandomStringUtil.GenerateComplexSingleLineText(13)));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.PartyShortDescription, string.Empty, "test"));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.PartyShortDescription, RandomStringUtil.GenerateAlphabetic(1), "test"));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.PartyShortDescription, RandomStringUtil.GenerateAlphabetic(3), "test"));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.PartyShortDescription, "de", string.Empty));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.PartyShortDescription, "de", RandomStringUtil.GenerateComplexSingleLineText(13)));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.PartyLongDescription, string.Empty, "test"));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.PartyLongDescription, RandomStringUtil.GenerateAlphabetic(1), "test"));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.PartyLongDescription, RandomStringUtil.GenerateAlphabetic(3), "test"));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.PartyLongDescription, "de", string.Empty));
+        yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.PartyLongDescription, "de", RandomStringUtil.GenerateComplexSingleLineText(101)));
         yield return NewValidRequest(x => x.ZipCode = RandomStringUtil.GenerateComplexSingleLineText(16));
         yield return NewValidRequest(x => x.ZipCode = "9000\n12");
         yield return NewValidRequest(x => x.Locality = RandomStringUtil.GenerateComplexSingleLineText(41));
@@ -123,7 +130,8 @@ public class CreateMajorityElectionCandidateRequestTest : ProtoValidatorBaseTest
             Occupation = { LanguageUtil.MockAllLanguages("occupation") },
             Title = "title",
             OccupationTitle = { LanguageUtil.MockAllLanguages("occupation title") },
-            Party = { LanguageUtil.MockAllLanguages("SP") },
+            PartyShortDescription = { LanguageUtil.MockAllLanguages("SP") },
+            PartyLongDescription = { LanguageUtil.MockAllLanguages("Sozialdemokratische Partei der Schweiz") },
             Incumbent = true,
             ZipCode = "1234",
             Locality = "locality",

@@ -9,38 +9,30 @@ using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Export.Models;
 using Voting.Basis.Core.Services.Permission;
-using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Converters;
 using Voting.Lib.Database.Repositories;
-using Voting.Lib.VotingExports.Models;
-using Voting.Lib.VotingExports.Repository.Basis;
 
-namespace Voting.Basis.Core.Export.Generators;
+namespace Voting.Basis.Core.Export.Generators.Xml;
 
-public class VoteEchExportGenerator : IExportGenerator
+public abstract class VoteEchExportGeneratorBase
 {
     private readonly IDbRepository<DataContext, Vote> _voteRepo;
     private readonly EchSerializerProvider _echSerializerProvider;
     private readonly PermissionService _permissionService;
-    private readonly CountingCircleReader _countingCircleReader;
 
-    public VoteEchExportGenerator(
+    public VoteEchExportGeneratorBase(
         IDbRepository<DataContext, Vote> voteRepo,
         EchSerializerProvider echSerializerProvider,
-        PermissionService permissionService,
-        CountingCircleReader countingCircleReader)
+        PermissionService permissionService)
     {
         _voteRepo = voteRepo;
         _echSerializerProvider = echSerializerProvider;
         _permissionService = permissionService;
-        _countingCircleReader = countingCircleReader;
     }
 
-    public TemplateModel Template => BasisXmlVoteTemplates.Ech0159;
-
-    public async Task<ExportFile> GenerateExport(Guid voteId)
+    public async Task<ExportFile> GenerateExport(Guid entityId, bool v5)
     {
         var vote = await _voteRepo.Query()
             .AsSplitQuery()
@@ -50,13 +42,12 @@ public class VoteEchExportGenerator : IExportGenerator
                 .ThenInclude(b => b.BallotQuestions)
             .Include(v => v.Ballots)
                 .ThenInclude(b => b.TieBreakQuestions)
-            .Where(v => v.Id == voteId)
+            .Where(v => v.Id == entityId)
             .FirstOrDefaultAsync()
-            ?? throw new EntityNotFoundException(voteId);
+            ?? throw new EntityNotFoundException(entityId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(vote.DomainOfInfluenceId, true);
-        var eCounting = await _countingCircleReader.OwnsAnyECountingCountingCircle();
-        var ech0159Serializer = _echSerializerProvider.GetEch0159Serializer(eCounting);
+        var ech0159Serializer = _echSerializerProvider.GetEch0159Serializer(v5);
 
         var xmlBytes = await ech0159Serializer.ToEventInitialDelivery(vote.Contest, vote);
 

@@ -10,7 +10,7 @@
         "it": "Liste 3 it",
         "rm": "Liste 3 rm"
       },
-      "BlankRowCount": 3,
+      "BlankRowCount": 2,
       "Position": 1,
       "Description": {
         "de": "Liste 3 de",
@@ -58,7 +58,7 @@
         "it": "Liste 2 it",
         "rm": "Liste 2 rm"
       },
-      "BlankRowCount": 0,
+      "BlankRowCount": 2,
       "Position": 3,
       "Description": {
         "de": "Liste 2 de",

@@ -117,12 +117,24 @@ public class ProportionalElectionListDeleteTest : PoliticalBusinessAuthorization
     }
 
     [Fact]
+    public async Task ListInListUnionShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.DeleteListAsync(new DeleteProportionalElectionListRequest
+            {
+                Id = ProportionalElectionMockedData.ListId1GossauProportionalElectionInContestBund,
+            }),
+            StatusCode.FailedPrecondition,
+            nameof(ProportionalElectionListIsInListUnionException));
+    }
+
+    [Fact]
     public async Task ModificationWithEVotingApprovedShouldThrow()
     {
         await AssertStatus(
             async () => await CantonAdminClient.DeleteListAsync(new DeleteProportionalElectionListRequest
             {
-                Id = ProportionalElectionMockedData.ListIdGossauProportionalElectionEVotingApprovedInContestStGallen,
+                Id = ProportionalElectionMockedData.ListId1GossauProportionalElectionEVotingApprovedInContestStGallen,
             }),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingApprovedException));

@@ -35,6 +35,7 @@ public class ExceptionMappingTest
             new DuplicatedPoliticalBusinessNumberException("PBN"),
             new ContestInMergeSetAsPreviousContestException(),
             new SecondaryMajorityElectionCandidateNotSelectedInPrimaryElectionException(),
+            new PoliticalBusinessNotCompleteException("ERR"),
         };
 
         var hiddenExceptions = new HashSet<Exception>()

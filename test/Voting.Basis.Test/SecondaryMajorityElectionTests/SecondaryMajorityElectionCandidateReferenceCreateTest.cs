@@ -19,6 +19,7 @@ using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
+using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.SecondaryMajorityElectionTests;
 
@@ -72,6 +73,7 @@ public class SecondaryMajorityElectionCandidateReferenceCreateTest : PoliticalBu
                     CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit("9.1"),
                     Incumbent = false,
                     CandidateId = MajorityElectionMockedData.CandidateId2StGallenMajorityElectionInContestBund,
+                    ReportingType = SharedProto.MajorityElectionCandidateReportingType.CountToIndividual,
                 },
             });
 
@@ -124,6 +126,7 @@ public class SecondaryMajorityElectionCandidateReferenceCreateTest : PoliticalBu
         {
             x.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund;
             x.CandidateId = MajorityElectionMockedData.CandidateId2GossauMajorityElectionInContestBund;
+            x.ReportingType = SharedProto.MajorityElectionCandidateReportingType.Candidate;
         }));
 
         var eventData = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateReferenceCreated>();
@@ -137,6 +140,41 @@ public class SecondaryMajorityElectionCandidateReferenceCreateTest : PoliticalBu
             async () => await CantonAdminClient.CreateMajorityElectionCandidateReferenceAsync(NewValidRequest(o => o.Number = "number1")),
             StatusCode.AlreadyExists,
             "NonUniqueCandidateNumber");
+    }
+
+    [Fact]
+    public async Task ReportingTypeInTestingPhaseShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateMajorityElectionCandidateReferenceAsync(NewValidRequest(o => o.ReportingType = SharedProto.MajorityElectionCandidateReportingType.Candidate)),
+            StatusCode.InvalidArgument,
+            "Candidate reporting type cannot be set during testing phase");
+    }
+
+    [Fact]
+    public async Task NoReportingTypeAfterTestingPhaseShouldThrow()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateMajorityElectionCandidateReferenceAsync(NewValidRequest()),
+            StatusCode.InvalidArgument,
+            "Candidates created after the testing phase must have a reporting type");
+    }
+
+    internal static CreateMajorityElectionCandidateReferenceRequest NewValidRequest(
+        Action<CreateMajorityElectionCandidateReferenceRequest>? customizer = null)
+    {
+        var request = new CreateMajorityElectionCandidateReferenceRequest
+        {
+            SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+            Position = 3,
+            Incumbent = false,
+            Number = "1.2",
+            CandidateId = MajorityElectionMockedData.CandidateId2StGallenMajorityElectionInContestBund,
+        };
+
+        customizer?.Invoke(request);
+        return request;
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
@@ -156,21 +194,5 @@ public class SecondaryMajorityElectionCandidateReferenceCreateTest : PoliticalBu
         {
             Id = response.Id,
         });
-    }
-
-    private CreateMajorityElectionCandidateReferenceRequest NewValidRequest(
-        Action<CreateMajorityElectionCandidateReferenceRequest>? customizer = null)
-    {
-        var request = new CreateMajorityElectionCandidateReferenceRequest
-        {
-            SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
-            Position = 3,
-            Incumbent = false,
-            Number = "1.2",
-            CandidateId = MajorityElectionMockedData.CandidateId2StGallenMajorityElectionInContestBund,
-        };
-
-        customizer?.Invoke(request);
-        return request;
     }
 }

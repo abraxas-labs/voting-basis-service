@@ -35,8 +35,8 @@
         </contestDescriptionInfo>
       </contestDescription>
       <eVotingPeriod xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
-        <eVotingPeriodFrom>2020-01-01T10:00:00Z</eVotingPeriodFrom>
-        <eVotingPeriodTill>2020-01-02T10:00:00Z</eVotingPeriodTill>
+        <eVotingPeriodFrom>2020-01-01T11:00:00</eVotingPeriodFrom>
+        <eVotingPeriodTill>2020-01-02T11:00:00</eVotingPeriodTill>
       </eVotingPeriod>
     </contest>
     <voteInformation>

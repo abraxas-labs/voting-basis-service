@@ -280,7 +280,7 @@ public class MajorityElectionProcessor :
 
         foreach (var candidateReference in candidateReferences)
         {
-            // cannot use the mapper here, since that would overwrite some fields that should be untouched (id, position, incumbent)
+            // cannot use the mapper here, since that would overwrite some fields that should be untouched (id, position, incumbent, reporting type)
             candidateReference.FirstName = candidate.FirstName;
             candidateReference.LastName = candidate.LastName;
             candidateReference.PoliticalFirstName = candidate.PoliticalFirstName;
@@ -288,7 +288,8 @@ public class MajorityElectionProcessor :
             candidateReference.Occupation = candidate.Occupation;
             candidateReference.OccupationTitle = candidate.OccupationTitle;
             candidateReference.Locality = candidate.Locality;
-            candidateReference.Party = candidate.Party;
+            candidateReference.PartyShortDescription = candidate.PartyShortDescription;
+            candidateReference.PartyLongDescription = candidate.PartyLongDescription;
             candidateReference.DateOfBirth = candidate.DateOfBirth;
             candidateReference.Sex = candidate.Sex;
             candidateReference.Title = candidate.Title;

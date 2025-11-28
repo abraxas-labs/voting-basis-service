@@ -35,6 +35,7 @@ public class ImportService
     private readonly IAggregateFactory _aggregateFactory;
     private readonly IAggregateRepository _aggregateRepository;
     private readonly ProportionalElectionWriter _proportionalElectionWriter;
+    private readonly VoteWriter _voteWriter;
     private readonly EventSignatureService _eventSignatureService;
     private readonly IClock _clock;
     private readonly DomainOfInfluenceReader _domainOfInfluenceReader;
@@ -50,6 +51,7 @@ public class ImportService
         IAggregateFactory aggregateFactory,
         IAggregateRepository aggregateRepository,
         ProportionalElectionWriter proportionalElectionWriter,
+        VoteWriter voteWriter,
         EventSignatureService eventSignatureService,
         IClock clock,
         DomainOfInfluenceReader domainOfInfluenceReader,
@@ -64,6 +66,7 @@ public class ImportService
         _aggregateFactory = aggregateFactory;
         _aggregateRepository = aggregateRepository;
         _proportionalElectionWriter = proportionalElectionWriter;
+        _voteWriter = voteWriter;
         _eventSignatureService = eventSignatureService;
         _clock = clock;
         _domainOfInfluenceReader = domainOfInfluenceReader;
@@ -108,9 +111,9 @@ public class ImportService
         await Import(aggregateImport);
     }
 
-    public ContestImport DeserializeImport(ImportType importType, Stream stream, CancellationToken ct)
+    public async Task<ContestImport> DeserializeImport(ImportType importType, Stream stream, CancellationToken ct)
     {
-        _malwareScannerService.EnsureFileIsClean(stream, ct);
+        await _malwareScannerService.EnsureFileIsClean(stream, ct);
         stream.Seek(0, SeekOrigin.Begin);
 
         return importType switch
@@ -155,6 +158,10 @@ public class ImportService
 
         foreach (var vote in votes)
         {
+            await _voteWriter.EnsureValidVoteResultAlgorithm(
+                vote.Vote.ResultAlgorithm,
+                vote.Vote.DomainOfInfluenceId);
+
             vote.Vote.ContestId = contestId;
             var aggregate = CreateVoteAggregate(vote, idVerifier);
             result.VoteAggregates.Add(aggregate);
@@ -196,7 +203,8 @@ public class ImportService
         var electionId = electionImport.Election.Id;
         idVerifier.EnsureUnique(electionId);
         var doi = await _domainOfInfluenceReader.Get(majorityElection.DomainOfInfluenceId);
-        var candidateValidationParams = new CandidateValidationParams(doi, true);
+
+        var candidateValidationParams = new CandidateValidationParams(doi, false, true);
 
         foreach (var candidate in electionImport.Candidates)
         {
@@ -216,7 +224,7 @@ public class ImportService
         var electionId = electionImport.Election.Id;
         idVerifier.EnsureUnique(electionId);
         var doi = await _domainOfInfluenceReader.Get(proportionalElection.DomainOfInfluenceId);
-        var candidateValidationParams = new CandidateValidationParams(doi);
+        var candidateValidationParams = new CandidateValidationParams(doi, false);
 
         foreach (var list in electionImport.Lists)
         {

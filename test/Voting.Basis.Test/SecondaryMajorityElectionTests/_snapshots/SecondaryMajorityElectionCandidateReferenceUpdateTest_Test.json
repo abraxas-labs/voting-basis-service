@@ -25,7 +25,8 @@
       "PrimaryMajorityElectionId": "b0da46f8-a721-4e1a-ac36-25284d68f34b",
       "IsOnSeparateBallot": false,
       "Number": "3.2",
-      "CheckDigit": 9
+      "CheckDigit": 9,
+      "ReportingType": 0
     }
   }
 }

@@ -5,7 +5,7 @@ using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
 using Voting.Basis.Core.Export.Models;
-using Voting.Lib.Rest.Files;
+using Voting.Lib.Common.Files;
 
 namespace Voting.Basis.Controllers.Models;
 
@@ -18,7 +18,7 @@ public class ExportFileWrapper : IFile
         _exportFile = exportFile;
     }
 
-    public string Filename => _exportFile.Filename;
+    public string FileName => _exportFile.Filename;
 
     public string MimeType => _exportFile.ContentType;
 

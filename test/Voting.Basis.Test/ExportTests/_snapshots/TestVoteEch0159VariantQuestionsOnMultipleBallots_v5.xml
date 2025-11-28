@@ -1,4 +1,4 @@
-<delivery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.ech.ch/xmlns/eCH-0159/4">
+<delivery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.ech.ch/xmlns/eCH-0159/5">
   <deliveryHeader>
     <senderId xmlns="http://www.ech.ch/xmlns/eCH-0058/5">ABX-VOTING</senderId>
     <messageId xmlns="http://www.ech.ch/xmlns/eCH-0058/5">mock-id</messageId>
@@ -14,9 +14,9 @@
   </deliveryHeader>
   <initialDelivery>
     <contest>
-      <contestIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">2d98b9a1-404e-44b7-b217-f496949a7639</contestIdentification>
-      <contestDate xmlns="http://www.ech.ch/xmlns/eCH-0155/4">2027-03-03</contestDate>
-      <contestDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+      <contestIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">2d98b9a1-404e-44b7-b217-f496949a7639</contestIdentification>
+      <contestDate xmlns="http://www.ech.ch/xmlns/eCH-0155/5">2027-03-03</contestDate>
+      <contestDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
         <contestDescriptionInfo>
           <language>de</language>
           <contestDescription>Zürich Urnengang de</contestDescription>
@@ -25,39 +25,44 @@
     </contest>
     <voteInformation>
       <vote>
-        <voteIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">daf1dc06-3b08-4a24-9c76-e25e05b9d0ef</voteIdentification>
-        <domainOfInfluenceIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">8af17c9d-6bae-45bf-a85b-b77239f2eefb</domainOfInfluenceIdentification>
-        <voteDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+        <voteIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">daf1dc06-3b08-4a24-9c76-e25e05b9d0ef</voteIdentification>
+        <domainOfInfluence xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+          <domainOfInfluenceType>CT</domainOfInfluenceType>
+          <domainOfInfluenceIdentification>8af17c9d-6bae-45bf-a85b-b77239f2eefb</domainOfInfluenceIdentification>
+          <domainOfInfluenceName>Zürich</domainOfInfluenceName>
+          <domainOfInfluenceShortname>ZH</domainOfInfluenceShortname>
+        </domainOfInfluence>
+        <voteDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
           <voteDescriptionInfo>
             <language>de</language>
             <voteDescription>Kantonale Volksabstimmung vom 03.03.2027</voteDescription>
           </voteDescriptionInfo>
         </voteDescription>
       </vote>
-      <ballot>
-        <ballotIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">b8c09df7-54a8-4d52-88eb-a469c81e4264</ballotIdentification>
-        <ballotPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/4">1</ballotPosition>
-        <ballotDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
-          <ballotDescriptionInfo>
+      <electronicBallot>
+        <electronicBallotIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">b8c09df7-54a8-4d52-88eb-a469c81e4264</electronicBallotIdentification>
+        <electronicBallotPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1</electronicBallotPosition>
+        <electronicBallotDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+          <electronicBallotDescriptionInfo>
             <language>de</language>
-            <ballotDescriptionLong>Abstimmung Hauptvorlage de</ballotDescriptionLong>
-            <ballotDescriptionShort>Hauptvorlage de</ballotDescriptionShort>
-          </ballotDescriptionInfo>
-        </ballotDescription>
-        <standardBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <electronicBallotDescriptionLong>Abstimmung Hauptvorlage de</electronicBallotDescriptionLong>
+            <electronicBallotDescriptionShort>Hauptvorlage de</electronicBallotDescriptionShort>
+          </electronicBallotDescriptionInfo>
+        </electronicBallotDescription>
+        <standardElectronicBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
           <questionIdentification>b8c09df7-54a8-4d52-88eb-a469c81e4264_n_1</questionIdentification>
-          <ballotQuestionNumber>1</ballotQuestionNumber>
+          <electronicBallotQuestionNumber>1</electronicBallotQuestionNumber>
           <answerInformation>
             <answerType>2</answerType>
           </answerInformation>
-          <ballotQuestion>
-            <ballotQuestionInfo>
+          <electronicBallotQuestion>
+            <electronicBallotQuestionInfo>
               <language>de</language>
-              <ballotQuestion>Hauptvorlage de</ballotQuestion>
-            </ballotQuestionInfo>
-          </ballotQuestion>
-        </standardBallot>
-        <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+              <electronicBallotQuestion>Hauptvorlage de</electronicBallotQuestion>
+            </electronicBallotQuestionInfo>
+          </electronicBallotQuestion>
+        </standardElectronicBallot>
+        <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
           <BallotExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
             <voteId>daf1dc06-3b08-4a24-9c76-e25e05b9d0ef</voteId>
             <voteType>VariantQuestionsOnMultipleBallots</voteType>
@@ -76,31 +81,31 @@
             <ballotSubType>MainBallot</ballotSubType>
           </BallotExtension>
         </extension>
-      </ballot>
-      <ballot>
-        <ballotIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">d5609342-d3e8-4f76-9208-971ff85f5c38</ballotIdentification>
-        <ballotPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/4">3</ballotPosition>
-        <ballotDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
-          <ballotDescriptionInfo>
+      </electronicBallot>
+      <electronicBallot>
+        <electronicBallotIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">d5609342-d3e8-4f76-9208-971ff85f5c38</electronicBallotIdentification>
+        <electronicBallotPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/5">3</electronicBallotPosition>
+        <electronicBallotDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+          <electronicBallotDescriptionInfo>
             <language>de</language>
-            <ballotDescriptionLong>Abstimmung Gegenvorschlag de</ballotDescriptionLong>
-            <ballotDescriptionShort>Gegenvorschlag de</ballotDescriptionShort>
-          </ballotDescriptionInfo>
-        </ballotDescription>
-        <standardBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <electronicBallotDescriptionLong>Abstimmung Gegenvorschlag de</electronicBallotDescriptionLong>
+            <electronicBallotDescriptionShort>Gegenvorschlag de</electronicBallotDescriptionShort>
+          </electronicBallotDescriptionInfo>
+        </electronicBallotDescription>
+        <standardElectronicBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
           <questionIdentification>d5609342-d3e8-4f76-9208-971ff85f5c38_n_1</questionIdentification>
-          <ballotQuestionNumber>3</ballotQuestionNumber>
+          <electronicBallotQuestionNumber>3</electronicBallotQuestionNumber>
           <answerInformation>
             <answerType>2</answerType>
           </answerInformation>
-          <ballotQuestion>
-            <ballotQuestionInfo>
+          <electronicBallotQuestion>
+            <electronicBallotQuestionInfo>
               <language>de</language>
-              <ballotQuestion>Gegenvorschlag de</ballotQuestion>
-            </ballotQuestionInfo>
-          </ballotQuestion>
-        </standardBallot>
-        <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+              <electronicBallotQuestion>Gegenvorschlag de</electronicBallotQuestion>
+            </electronicBallotQuestionInfo>
+          </electronicBallotQuestion>
+        </standardElectronicBallot>
+        <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
           <BallotExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
             <voteId>daf1dc06-3b08-4a24-9c76-e25e05b9d0ef</voteId>
             <voteType>VariantQuestionsOnMultipleBallots</voteType>
@@ -119,31 +124,31 @@
             <ballotSubType>CounterProposal1</ballotSubType>
           </BallotExtension>
         </extension>
-      </ballot>
-      <ballot>
-        <ballotIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/4">44063379-53b3-48dc-9bbd-f84ff2d35ae2</ballotIdentification>
-        <ballotPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/4">5</ballotPosition>
-        <ballotDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
-          <ballotDescriptionInfo>
+      </electronicBallot>
+      <electronicBallot>
+        <electronicBallotIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">44063379-53b3-48dc-9bbd-f84ff2d35ae2</electronicBallotIdentification>
+        <electronicBallotPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/5">5</electronicBallotPosition>
+        <electronicBallotDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+          <electronicBallotDescriptionInfo>
             <language>de</language>
-            <ballotDescriptionLong>Abstimmung Stichfrage de</ballotDescriptionLong>
-            <ballotDescriptionShort>Stichfrage de</ballotDescriptionShort>
-          </ballotDescriptionInfo>
-        </ballotDescription>
-        <standardBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+            <electronicBallotDescriptionLong>Abstimmung Stichfrage de</electronicBallotDescriptionLong>
+            <electronicBallotDescriptionShort>Stichfrage de</electronicBallotDescriptionShort>
+          </electronicBallotDescriptionInfo>
+        </electronicBallotDescription>
+        <standardElectronicBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
           <questionIdentification>44063379-53b3-48dc-9bbd-f84ff2d35ae2_n_1</questionIdentification>
-          <ballotQuestionNumber>5</ballotQuestionNumber>
+          <electronicBallotQuestionNumber>5</electronicBallotQuestionNumber>
           <answerInformation>
             <answerType>2</answerType>
           </answerInformation>
-          <ballotQuestion>
-            <ballotQuestionInfo>
+          <electronicBallotQuestion>
+            <electronicBallotQuestionInfo>
               <language>de</language>
-              <ballotQuestion>Stichfrage de</ballotQuestion>
-            </ballotQuestionInfo>
-          </ballotQuestion>
-        </standardBallot>
-        <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
+              <electronicBallotQuestion>Stichfrage de</electronicBallotQuestion>
+            </electronicBallotQuestionInfo>
+          </electronicBallotQuestion>
+        </standardElectronicBallot>
+        <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
           <BallotExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
             <voteId>daf1dc06-3b08-4a24-9c76-e25e05b9d0ef</voteId>
             <voteType>VariantQuestionsOnMultipleBallots</voteType>
@@ -162,7 +167,7 @@
             <ballotSubType>TieBreak1</ballotSubType>
           </BallotExtension>
         </extension>
-      </ballot>
+      </electronicBallot>
     </voteInformation>
   </initialDelivery>
 </delivery>

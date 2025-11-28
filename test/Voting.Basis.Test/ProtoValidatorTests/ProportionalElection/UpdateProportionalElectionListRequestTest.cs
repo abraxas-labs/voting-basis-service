@@ -16,7 +16,7 @@ public class UpdateProportionalElectionListRequestTest : ProtoValidatorBaseTest<
     {
         yield return NewValidRequest();
         yield return NewValidRequest(x => x.OrderNumber = RandomStringUtil.GenerateAlphanumericWhitespace(1));
-        yield return NewValidRequest(x => x.OrderNumber = RandomStringUtil.GenerateAlphanumericWhitespace(6));
+        yield return NewValidRequest(x => x.OrderNumber = RandomStringUtil.GenerateAlphanumericWhitespace(4));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(20)));
         yield return NewValidRequest(x => x.BlankRowCount = 0);
@@ -35,7 +35,7 @@ public class UpdateProportionalElectionListRequestTest : ProtoValidatorBaseTest<
         yield return NewValidRequest(x => x.ProportionalElectionId = "invalid-guid");
         yield return NewValidRequest(x => x.ProportionalElectionId = string.Empty);
         yield return NewValidRequest(x => x.OrderNumber = string.Empty);
-        yield return NewValidRequest(x => x.OrderNumber = RandomStringUtil.GenerateAlphanumericWhitespace(7));
+        yield return NewValidRequest(x => x.OrderNumber = RandomStringUtil.GenerateAlphanumericWhitespace(5));
         yield return NewValidRequest(x => x.OrderNumber = "num-2");
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, string.Empty, "test"));
         yield return NewValidRequest(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(1), "test"));

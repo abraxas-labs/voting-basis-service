@@ -75,11 +75,13 @@
           <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/4">1</mrMrs>
           <title xmlns="http://www.ech.ch/xmlns/eCH-0155/4">title</title>
           <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/4">de</languageOfCorrespondence>
+          <incumbentYesNo xmlns="http://www.ech.ch/xmlns/eCH-0155/4">true</incumbentYesNo>
           <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/4">number1</candidateReference>
           <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
             <partyAffiliationInfo>
               <language>de</language>
               <partyAffiliationShort>CVP de</partyAffiliationShort>
+              <partyAffiliationLong>CVP long desc de</partyAffiliationLong>
             </partyAffiliationInfo>
           </partyAffiliation>
         </candidate>
@@ -141,11 +143,13 @@
           <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/4">1</mrMrs>
           <title xmlns="http://www.ech.ch/xmlns/eCH-0155/4">title</title>
           <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/4">de</languageOfCorrespondence>
+          <incumbentYesNo xmlns="http://www.ech.ch/xmlns/eCH-0155/4">true</incumbentYesNo>
           <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/4">number1</candidateReference>
           <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
             <partyAffiliationInfo>
               <language>de</language>
               <partyAffiliationShort>Test de</partyAffiliationShort>
+              <partyAffiliationLong>Test long descscription de</partyAffiliationLong>
             </partyAffiliationInfo>
           </partyAffiliation>
         </candidate>
@@ -185,11 +189,13 @@
           <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/4">2</mrMrs>
           <title xmlns="http://www.ech.ch/xmlns/eCH-0155/4">title</title>
           <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/4">de</languageOfCorrespondence>
+          <incumbentYesNo xmlns="http://www.ech.ch/xmlns/eCH-0155/4">false</incumbentYesNo>
           <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/4">number2</candidateReference>
           <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
             <partyAffiliationInfo>
               <language>de</language>
               <partyAffiliationShort>CVP de</partyAffiliationShort>
+              <partyAffiliationLong>Christian Swiss party de</partyAffiliationLong>
             </partyAffiliationInfo>
           </partyAffiliation>
         </candidate>
@@ -248,11 +254,13 @@
           <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/4">1</mrMrs>
           <title xmlns="http://www.ech.ch/xmlns/eCH-0155/4">title</title>
           <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/4">de</languageOfCorrespondence>
+          <incumbentYesNo xmlns="http://www.ech.ch/xmlns/eCH-0155/4">true</incumbentYesNo>
           <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/4">number1</candidateReference>
           <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
             <partyAffiliationInfo>
               <language>de</language>
               <partyAffiliationShort>Test de</partyAffiliationShort>
+              <partyAffiliationLong>Test long descscription de</partyAffiliationLong>
             </partyAffiliationInfo>
           </partyAffiliation>
         </candidate>
@@ -292,11 +300,13 @@
           <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/4">2</mrMrs>
           <title xmlns="http://www.ech.ch/xmlns/eCH-0155/4">title</title>
           <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/4">de</languageOfCorrespondence>
+          <incumbentYesNo xmlns="http://www.ech.ch/xmlns/eCH-0155/4">false</incumbentYesNo>
           <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/4">number2</candidateReference>
           <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
             <partyAffiliationInfo>
               <language>de</language>
               <partyAffiliationShort>CVP de</partyAffiliationShort>
+              <partyAffiliationLong>Christian Swiss party de</partyAffiliationLong>
             </partyAffiliationInfo>
           </partyAffiliation>
         </candidate>
@@ -359,11 +369,13 @@
           <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/4">1</mrMrs>
           <title xmlns="http://www.ech.ch/xmlns/eCH-0155/4">title</title>
           <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/4">de</languageOfCorrespondence>
+          <incumbentYesNo xmlns="http://www.ech.ch/xmlns/eCH-0155/4">true</incumbentYesNo>
           <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/4">number1</candidateReference>
           <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
             <partyAffiliationInfo>
               <language>de</language>
               <partyAffiliationShort>Test de</partyAffiliationShort>
+              <partyAffiliationLong>Test long descscription de</partyAffiliationLong>
             </partyAffiliationInfo>
           </partyAffiliation>
         </candidate>
@@ -403,11 +415,13 @@
           <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/4">2</mrMrs>
           <title xmlns="http://www.ech.ch/xmlns/eCH-0155/4">title</title>
           <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/4">de</languageOfCorrespondence>
+          <incumbentYesNo xmlns="http://www.ech.ch/xmlns/eCH-0155/4">false</incumbentYesNo>
           <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/4">number5</candidateReference>
           <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
             <partyAffiliationInfo>
               <language>de</language>
               <partyAffiliationShort>Test de</partyAffiliationShort>
+              <partyAffiliationLong>Test long descscription de</partyAffiliationLong>
             </partyAffiliationInfo>
           </partyAffiliation>
         </candidate>
@@ -469,11 +483,13 @@
           <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/4">1</mrMrs>
           <title xmlns="http://www.ech.ch/xmlns/eCH-0155/4">title</title>
           <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/4">de</languageOfCorrespondence>
+          <incumbentYesNo xmlns="http://www.ech.ch/xmlns/eCH-0155/4">true</incumbentYesNo>
           <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/4">number1</candidateReference>
           <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
             <partyAffiliationInfo>
               <language>de</language>
               <partyAffiliationShort>Test de</partyAffiliationShort>
+              <partyAffiliationLong>Test long descscription de</partyAffiliationLong>
             </partyAffiliationInfo>
           </partyAffiliation>
         </candidate>
@@ -513,11 +529,13 @@
           <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/4">2</mrMrs>
           <title xmlns="http://www.ech.ch/xmlns/eCH-0155/4">title</title>
           <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/4">de</languageOfCorrespondence>
+          <incumbentYesNo xmlns="http://www.ech.ch/xmlns/eCH-0155/4">false</incumbentYesNo>
           <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/4">number2</candidateReference>
           <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
             <partyAffiliationInfo>
               <language>de</language>
               <partyAffiliationShort>CVP de</partyAffiliationShort>
+              <partyAffiliationLong>Christian Swiss party de</partyAffiliationLong>
             </partyAffiliationInfo>
           </partyAffiliation>
         </candidate>
@@ -576,11 +594,13 @@
           <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/4">1</mrMrs>
           <title xmlns="http://www.ech.ch/xmlns/eCH-0155/4">title</title>
           <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/4">de</languageOfCorrespondence>
+          <incumbentYesNo xmlns="http://www.ech.ch/xmlns/eCH-0155/4">true</incumbentYesNo>
           <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/4">number1</candidateReference>
           <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
             <partyAffiliationInfo>
               <language>de</language>
               <partyAffiliationShort>Test de</partyAffiliationShort>
+              <partyAffiliationLong>Test long descscription de</partyAffiliationLong>
             </partyAffiliationInfo>
           </partyAffiliation>
         </candidate>
@@ -620,11 +640,13 @@
           <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/4">2</mrMrs>
           <title xmlns="http://www.ech.ch/xmlns/eCH-0155/4">title</title>
           <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/4">de</languageOfCorrespondence>
+          <incumbentYesNo xmlns="http://www.ech.ch/xmlns/eCH-0155/4">false</incumbentYesNo>
           <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/4">number5</candidateReference>
           <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/4">
             <partyAffiliationInfo>
               <language>de</language>
               <partyAffiliationShort>Test de</partyAffiliationShort>
+              <partyAffiliationLong>Test long descscription de</partyAffiliationLong>
             </partyAffiliationInfo>
           </partyAffiliation>
         </candidate>

@@ -52,7 +52,7 @@ public class PoliticalBusinessApproveEVotingTest : BaseTest
 
         voteEvs.Count().Should().Be(3);
         voteEvs.All(x => x.Approved).Should().BeTrue();
-        peEvs.Count().Should().Be(4);
+        peEvs.Count().Should().Be(3);
         peEvs.All(x => x.Approved).Should().BeTrue();
         meEvs.Count().Should().Be(4);
         meEvs.All(x => x.Approved).Should().BeTrue();

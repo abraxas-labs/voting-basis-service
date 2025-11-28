@@ -24,11 +24,17 @@
     "it": "new occupation title it",
     "rm": "new occupation title rm"
   },
-  "Party": {
+  "PartyShortDescription": {
     "de": "SVP de",
     "fr": "SVP fr",
     "it": "SVP it",
     "rm": "SVP rm"
+  },
+  "PartyLongDescription": {
+    "de": "SVP long updated de",
+    "fr": "SVP long updated fr",
+    "it": "SVP long updated it",
+    "rm": "SVP long updated rm"
   },
   "Incumbent": false,
   "ZipCode": "new zip code",
@@ -38,5 +44,6 @@
   "CheckDigit": 0,
   "Country": "CH",
   "Street": "new street",
-  "HouseNumber": "new 1a"
+  "HouseNumber": "new 1a",
+  "ReportingType": 2
 }

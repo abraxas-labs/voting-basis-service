@@ -125,6 +125,11 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         ValidationUtils.EnsureNotModified(DomainOfInfluenceId, proportionalElection.DomainOfInfluenceId);
         ValidationUtils.EnsureNotModified(MandateAlgorithm, proportionalElection.MandateAlgorithm);
 
+        if (Active)
+        {
+            ValidationUtils.EnsureNotModified(NumberOfMandates, proportionalElection.NumberOfMandates);
+        }
+
         var ev = new ProportionalElectionUpdated
         {
             ProportionalElection = _mapper.Map<ProportionalElectionEventData>(proportionalElection),
@@ -174,7 +179,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
 
     public void UpdateActiveState(bool active)
     {
-        EnsureNotDeleted();
+        EnsureCanSetActive(active);
         EnsureEVotingNotApproved();
         var ev = new ProportionalElectionActiveStateUpdated
         {
@@ -188,7 +193,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
 
     public void UpdateEVotingApproval(bool approved)
     {
-        EnsureNotDeleted();
+        EnsureCanSetActive(approved);
 
         if (EVotingApproved == null)
         {
@@ -361,6 +366,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         EnsureNotDeleted();
         EnsureEVotingNotApproved();
         EnsureListExists(listId);
+        EnsureListNotInUnion(listId);
 
         var ev = new ProportionalElectionListDeleted
         {
@@ -495,6 +501,11 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
             {
                 throw new ValidationException("SubListUnion may only contain Lists which are in the RootListUnion");
             }
+        }
+
+        if (listUnionEntries.ProportionalElectionListIds.Count < 2)
+        {
+            throw new ProportionalElectionListUnionMissingListsException(Id);
         }
 
         var listUnionEntriesEventData = _mapper.Map<ProportionalElectionListUnionEntriesEventData>(listUnionEntries);
@@ -1180,11 +1191,58 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         }
     }
 
+    private void EnsureListNotInUnion(Guid listId)
+    {
+        if (ListUnions.Any(l => l.ProportionalElectionListIds.Contains(listId)))
+        {
+            throw new ProportionalElectionListIsInListUnionException(listId);
+        }
+    }
+
+    private void EnsureCanSetActive(bool active)
+    {
+        EnsureNotDeleted();
+
+        if (active)
+        {
+            EnsureValidListsAndListUnions();
+        }
+    }
+
     private void EnsureEVotingNotApproved()
     {
         if (EVotingApproved == true)
         {
             throw new PoliticalBusinessEVotingApprovedException();
+        }
+    }
+
+    private void EnsureValidListsAndListUnions()
+    {
+        if (Lists.Count == 0)
+        {
+            throw new PoliticalBusinessNotCompleteException("A proportional election requires at least one list");
+        }
+
+        foreach (var list in Lists)
+        {
+            if (list.Candidates.Count == 0)
+            {
+                throw new PoliticalBusinessNotCompleteException("A proportional election list requires at least one candidate");
+            }
+
+            if (list.Candidates.Sum(c => !c.Accumulated ? 1 : 2) + list.BlankRowCount != NumberOfMandates)
+            {
+                throw new PoliticalBusinessNotCompleteException("The count of candidates plus the blank row count of a list must match the number of mandates");
+            }
+        }
+
+        foreach (var listUnion in ListUnions)
+        {
+            if (listUnion.ProportionalElectionListIds.Count < 2)
+            {
+                throw new ProportionalElectionListUnionMissingListsException(Id);
+            }
         }
     }
 }

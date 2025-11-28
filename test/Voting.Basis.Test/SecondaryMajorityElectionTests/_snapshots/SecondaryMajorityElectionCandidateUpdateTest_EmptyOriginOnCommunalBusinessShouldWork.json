@@ -56,7 +56,14 @@
       "CheckDigit": 6,
       "Country": "CH",
       "Street": "street",
-      "HouseNumber": "1a"
+      "HouseNumber": "1a",
+      "PartyLongDescription": {
+        "de": "Long description FDP de",
+        "fr": "Long description FDP fr",
+        "it": "Long description FDP it",
+        "rm": "Long description FDP rm"
+      },
+      "ReportingType": 0
     },
     "PrimaryMajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
     "IsOnSeparateBallot": false

@@ -500,7 +500,7 @@
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
-      "Active": true,
+      "Active": false,
       "EVotingApproved": null
     },
     {
@@ -1223,7 +1223,7 @@
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
-      "Active": true,
+      "Active": false,
       "EVotingApproved": null
     },
     {

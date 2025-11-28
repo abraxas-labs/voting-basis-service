@@ -119,7 +119,7 @@ public class ProportionalElectionCandidateDeleteTest : PoliticalBusinessAuthoriz
         await AssertStatus(
             async () => await CantonAdminClient.DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest
             {
-                Id = ProportionalElectionMockedData.CandidateIdGossauProportionalElectionEVotingApprovedInContestStGallen,
+                Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionEVotingApprovedInContestStGallen,
             }),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingApprovedException));
@@ -127,6 +127,18 @@ public class ProportionalElectionCandidateDeleteTest : PoliticalBusinessAuthoriz
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
+        await ElectionAdminClient.UpdateListAsync(new()
+        {
+            Id = ProportionalElectionMockedData.ListIdStGallenProportionalElectionInContestStGallen,
+            BlankRowCount = 0,
+            OrderNumber = "upd1",
+            Position = 1,
+            ProportionalElectionId = ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallen,
+            Description = { LanguageUtil.MockAllLanguages("Updated list") },
+            ShortDescription = { LanguageUtil.MockAllLanguages("updated s.d.") },
+            PartyId = DomainOfInfluenceMockedData.PartyIdBundAndere,
+        });
+
         if (_authTestCandidateId == null)
         {
             var response = await ElectionAdminClient.CreateCandidateAsync(new CreateProportionalElectionCandidateRequest
@@ -143,7 +155,7 @@ public class ProportionalElectionCandidateDeleteTest : PoliticalBusinessAuthoriz
                 Incumbent = true,
                 Accumulated = false,
                 Locality = "locality",
-                Number = "number2",
+                Number = "num2",
                 Sex = SharedProto.SexType.Female,
                 Title = "title",
                 ZipCode = "2000",

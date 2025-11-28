@@ -94,6 +94,30 @@ public class ProportionalElectionActiveStateUpdateTest : PoliticalBusinessAuthor
             nameof(PoliticalBusinessEVotingApprovedException));
     }
 
+    [Fact]
+    public async Task IncompleteListOrListUnionsShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateActiveStateAsync(NewValidRequest(x =>
+            {
+                x.Id = ProportionalElectionMockedData.IdKircheProportionalElectionInContestKirche;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessNotCompleteException));
+    }
+
+    [Fact]
+    public async Task NoListShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateActiveStateAsync(NewValidRequest(x =>
+            {
+                x.Id = ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallenWithoutChilds;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessNotCompleteException));
+    }
+
     protected override IEnumerable<string> AuthorizedRoles()
     {
         yield return Roles.CantonAdmin;

@@ -15,9 +15,11 @@ using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Utils;
+using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
+using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Test.SecondaryMajorityElectionTests;
 
@@ -80,6 +82,7 @@ public class SecondaryMajorityElectionCandidateReferenceUpdateTest : PoliticalBu
                     Position = 1,
                     Number = "2.1",
                     CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit("2.1"),
+                    ReportingType = SharedProto.MajorityElectionCandidateReportingType.CountToIndividual,
                 },
             });
 
@@ -123,6 +126,96 @@ public class SecondaryMajorityElectionCandidateReferenceUpdateTest : PoliticalBu
             nameof(PoliticalBusinessEVotingApprovedException));
     }
 
+    [Fact]
+    public async Task ReportingTypeInTestingPhaseShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateMajorityElectionCandidateReferenceAsync(
+                NewValidRequest(x => x.ReportingType = SharedProto.MajorityElectionCandidateReportingType.Candidate)),
+            StatusCode.InvalidArgument,
+            "Candidate reporting type cannot be set during testing phase");
+    }
+
+    [Fact]
+    public async Task UpdateAfterTestingPhaseShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await CantonAdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequestAfterTestingPhaseEnded());
+
+        var ev = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateReferenceUpdated>();
+        ev.MatchSnapshot("event");
+    }
+
+    [Fact]
+    public async Task UpdateCandidateCreatedAfterTestingPhaseShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+
+        var createRequest = SecondaryMajorityElectionCandidateReferenceCreateTest.NewValidRequest(x => x.ReportingType = SharedProto.MajorityElectionCandidateReportingType.Candidate);
+        var response = await CantonAdminClient.CreateMajorityElectionCandidateReferenceAsync(createRequest);
+
+        await CantonAdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest(r =>
+        {
+            r.Id = response.Id;
+            r.CandidateId = createRequest.CandidateId;
+            r.SecondaryMajorityElectionId = createRequest.SecondaryMajorityElectionId;
+            r.Number = createRequest.Number;
+            r.Position = createRequest.Position;
+            r.ReportingType = SharedProto.MajorityElectionCandidateReportingType.CountToIndividual;
+        }));
+
+        var ev = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateReferenceUpdated>();
+        ev.MajorityElectionCandidateReference.Id.Should().Be(response.Id);
+        ev.MatchSnapshot("event", r => r.MajorityElectionCandidateReference.Id);
+    }
+
+    [Fact]
+    public async Task UpdateCandidateAfterTestingPhaseShouldRestrictSomeFields()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest(o =>
+            {
+                o.Number = "new number";
+            })),
+            StatusCode.FailedPrecondition,
+            "ModificationNotAllowedException: Some modifications are not allowed because the testing phase has ended.");
+    }
+
+    [Fact]
+    public async Task NoReportingTypeForCandidateCreatedAfterTestingPhaseShouldThrow()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+
+        var createRequest = SecondaryMajorityElectionCandidateReferenceCreateTest.NewValidRequest(x => x.ReportingType = SharedProto.MajorityElectionCandidateReportingType.Candidate);
+        var response = await CantonAdminClient.CreateMajorityElectionCandidateReferenceAsync(createRequest);
+
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest(r =>
+            {
+                r.Id = response.Id;
+                r.CandidateId = createRequest.CandidateId;
+                r.SecondaryMajorityElectionId = createRequest.SecondaryMajorityElectionId;
+                r.Number = createRequest.Number;
+                r.Position = createRequest.Position;
+            })),
+            StatusCode.InvalidArgument,
+            "Candidates created after the testing phase must have a reporting type");
+    }
+
+    [Fact]
+    public async Task NoReportingTypeForCandidateCreatedBeforeTestingPhaseShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+        var request = NewValidRequestAfterTestingPhaseEnded();
+        await CantonAdminClient.UpdateMajorityElectionCandidateReferenceAsync(request);
+
+        var (eventData, _) = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateReferenceUpdated, EventSignatureBusinessMetadata>();
+
+        eventData.MajorityElectionCandidateReference.Id.Should().Be(request.Id);
+        eventData.MajorityElectionCandidateReference.ReportingType.Should().Be(SharedProto.MajorityElectionCandidateReportingType.Unspecified);
+    }
+
     protected override IEnumerable<string> AuthorizedRoles()
     {
         yield return Roles.CantonAdmin;
@@ -149,6 +242,23 @@ public class SecondaryMajorityElectionCandidateReferenceUpdateTest : PoliticalBu
             CandidateId = MajorityElectionMockedData.CandidateId1StGallenMajorityElectionInContestBund,
             Incumbent = true,
             Number = "3.2",
+            Position = 1,
+        };
+
+        customizer?.Invoke(request);
+        return request;
+    }
+
+    private UpdateMajorityElectionCandidateReferenceRequest NewValidRequestAfterTestingPhaseEnded(
+        Action<UpdateMajorityElectionCandidateReferenceRequest>? customizer = null)
+    {
+        var request = new UpdateMajorityElectionCandidateReferenceRequest
+        {
+            Id = MajorityElectionMockedData.SecondaryElectionCandidateId1StGallenMajorityElectionInContestBund,
+            SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+            CandidateId = MajorityElectionMockedData.CandidateId1StGallenMajorityElectionInContestBund,
+            Incumbent = true,
+            Number = "number1",
             Position = 1,
         };
 

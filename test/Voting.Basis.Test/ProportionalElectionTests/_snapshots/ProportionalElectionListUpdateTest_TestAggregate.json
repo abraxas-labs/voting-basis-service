@@ -18,7 +18,7 @@
   },
   "CountOfCandidates": 0,
   "CandidateCountOk": false,
-  "ListUnionDescription": "<span><span>1a</span>, <span>o2</span>, <span>2</span></span>",
+  "ListUnionDescription": "<span><span>1a</span>, <span>o2</span>, <span>o2</span>, <span>2</span>, <span>2</span></span>",
   "SubListUnionDescription": "<span><span class=\"main-list\">o2</span>, <span>2</span></span>",
   "Party": {
     "Id": "6fe8af5a-9f98-4457-90e7-49657a3df14f",

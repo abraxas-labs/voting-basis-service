@@ -433,7 +433,7 @@
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
-      "Active": true,
+      "Active": false,
       "EVotingApproved": null,
       "PoliticalBusinessUnionDescription": "Bund Union",
       "PoliticalBusinessUnionId": "10c37ad2-4d62-4662-8aff-57a07112621c",

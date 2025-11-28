@@ -116,7 +116,7 @@ public class ProportionalElectionCandidateReorderTest : PoliticalBusinessAuthori
         await AssertStatus(
             async () => await CantonAdminClient.ReorderCandidatesAsync(NewValidRequest(x =>
             {
-                x.ProportionalElectionListId = ProportionalElectionMockedData.ListIdGossauProportionalElectionEVotingApprovedInContestStGallen;
+                x.ProportionalElectionListId = ProportionalElectionMockedData.ListId1GossauProportionalElectionEVotingApprovedInContestStGallen;
             })),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingApprovedException));

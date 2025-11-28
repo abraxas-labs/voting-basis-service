@@ -36,9 +36,7 @@ public class ProportionalElectionListUnionEntryRepo : DbRepository<DataContext, 
     public async Task DeleteSubListUnionListEntriesByRootListIds(List<Guid> subListUnionIds, List<Guid> rootListIds)
     {
         var subListUnionEntries = Set.Where(e => subListUnionIds.Contains(e.ProportionalElectionListUnionId));
-        var toDelete = subListUnionEntries.Where(e => !rootListIds.Contains(e.ProportionalElectionListId));
-
-        Set.RemoveRange(toDelete);
+        await subListUnionEntries.Where(e => !rootListIds.Contains(e.ProportionalElectionListId)).ExecuteDeleteAsync();
         await Context.SaveChangesAsync();
     }
 }

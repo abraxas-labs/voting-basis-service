@@ -262,6 +262,35 @@ public class VoteCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
             StatusCode.AlreadyExists);
     }
 
+    [Fact]
+    public async Task NonPolularMajorityAlgorithmOnPoliticalVoteShuldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(o =>
+            {
+                o.ResultAlgorithm = SharedProto.VoteResultAlgorithm.CountingCircleUnanimity;
+            })),
+            StatusCode.InvalidArgument,
+            "Political domain of influence does not allow vote result algorithm CountingCircleUnanimity");
+    }
+
+    [Fact]
+    public async Task NonPolularMajorityAlgorithmOnNonPoliticalVoteShouldWork()
+    {
+        await ModifyDbEntities<DomainOfInfluence>(
+            doi => doi.Id == DomainOfInfluenceMockedData.GuidStGallen,
+            doi => doi.Type = DomainOfInfluenceType.Og);
+
+        var response = await CantonAdminClient.CreateAsync(NewValidRequest(o =>
+        {
+            o.ResultAlgorithm = SharedProto.VoteResultAlgorithm.CountingCircleUnanimity;
+        }));
+
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<VoteCreated>();
+        eventData.Vote.Id.Should().Be(response.Id);
+        eventData.Vote.ResultAlgorithm.Should().Be(SharedProto.VoteResultAlgorithm.CountingCircleUnanimity);
+    }
+
     protected override IEnumerable<string> AuthorizedRoles()
     {
         yield return Roles.CantonAdmin;

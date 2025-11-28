@@ -26,11 +26,17 @@
         "it": "occupation title 2 it",
         "rm": "occupation title 2 rm"
       },
-      "Party": {
+      "PartyShortDescription": {
         "de": "CVP de",
         "fr": "CVP fr",
         "it": "CVP it",
         "rm": "CVP rm"
+      },
+      "PartyLongDescription": {
+        "de": "Christian Swiss party de",
+        "fr": "Christian Swiss party fr",
+        "it": "Christian Swiss party it",
+        "rm": "Christian Swiss party rm"
       },
       "Incumbent": false,
       "ZipCode": "",
@@ -40,7 +46,8 @@
       "CheckDigit": 7,
       "Country": "CH",
       "Street": "street",
-      "HouseNumber": "1a"
+      "HouseNumber": "1a",
+      "ReportingType": 0
     },
     {
       "Id": "77ce6bf0-b27c-4d9d-926f-ced7863aff2f",
@@ -68,11 +75,17 @@
         "it": "occupation title it",
         "rm": "occupation title rm"
       },
-      "Party": {
+      "PartyShortDescription": {
         "de": "CVP de",
         "fr": "CVP fr",
         "it": "CVP it",
         "rm": "CVP rm"
+      },
+      "PartyLongDescription": {
+        "de": "Christian Swiss party de",
+        "fr": "Christian Swiss party fr",
+        "it": "Christian Swiss party it",
+        "rm": "Christian Swiss party rm"
       },
       "Incumbent": true,
       "ZipCode": "8000",
@@ -82,7 +95,8 @@
       "CheckDigit": 9,
       "Country": "CH",
       "Street": "street",
-      "HouseNumber": "1a"
+      "HouseNumber": "1a",
+      "ReportingType": 0
     }
   ]
 }

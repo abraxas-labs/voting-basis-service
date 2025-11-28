@@ -117,7 +117,6 @@ public class ProportionalElectionWriter : PoliticalBusinessWriter
         var existingProportionalElection = await _proportionalElectionRepo.GetByKey(data.Id)
             ?? throw new EntityNotFoundException(nameof(Domain.ProportionalElection), data.Id);
 
-        await EnsureValidProportionalElectionMandateAlgorithm(data.MandateAlgorithm, data.DomainOfInfluenceId);
         if (existingProportionalElection.ContestId != data.ContestId)
         {
             throw new ValidationException($"{nameof(existingProportionalElection.ContestId)} is immutable.");
@@ -306,7 +305,7 @@ public class ProportionalElectionWriter : PoliticalBusinessWriter
         await _contestValidationService.EnsureInTestingPhase(proportionalElection.ContestId);
         var doi = await _doiRepo.GetByKey(proportionalElection.DomainOfInfluenceId)
                   ?? throw new EntityNotFoundException(proportionalElection.DomainOfInfluenceId);
-        var candidateValidationParams = new CandidateValidationParams(doi);
+        var candidateValidationParams = new CandidateValidationParams(doi, false);
 
         await EnsureValidParty(data, proportionalElection.DomainOfInfluenceId);
 
@@ -319,16 +318,17 @@ public class ProportionalElectionWriter : PoliticalBusinessWriter
         var proportionalElection = await GetAggregateFromListId(data.ProportionalElectionListId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(proportionalElection.DomainOfInfluenceId, false);
         var contestState = await _contestValidationService.EnsureNotLocked(proportionalElection.ContestId);
+        var testingPhaseEnded = contestState.TestingPhaseEnded();
         var doi = await _doiRepo.GetByKey(proportionalElection.DomainOfInfluenceId)
             ?? throw new EntityNotFoundException(proportionalElection.DomainOfInfluenceId);
-        var candidateValidationParams = new CandidateValidationParams(doi);
+        var candidateValidationParams = new CandidateValidationParams(doi, testingPhaseEnded);
 
         await EnsureValidParty(
             data,
             proportionalElection.DomainOfInfluenceId,
             proportionalElection.FindCandidate(data.ProportionalElectionListId, data.Id).PartyId);
 
-        if (contestState.TestingPhaseEnded())
+        if (testingPhaseEnded)
         {
             proportionalElection.UpdateCandidateAfterTestingPhaseEnded(data, candidateValidationParams);
         }

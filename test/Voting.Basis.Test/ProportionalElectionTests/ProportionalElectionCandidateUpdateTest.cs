@@ -243,7 +243,7 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
             x.Position = 3;
             x.Accumulated = false;
             x.AccumulatedPosition = 0;
-            x.Number = "number2";
+            x.Number = "num2";
         }));
 
         var eventData = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionCandidateUpdated>();
@@ -501,7 +501,7 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
             {
                 o.Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionInContestBund;
                 o.ProportionalElectionListId = ProportionalElectionMockedData.ListId1GossauProportionalElectionInContestBund;
-                o.Number = "newnumber";
+                o.Number = "newn4";
             })),
             StatusCode.FailedPrecondition,
             "ModificationNotAllowedException: Some modifications are not allowed because the testing phase has ended.");
@@ -527,8 +527,8 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
         await AssertStatus(
             async () => await CantonAdminClient.UpdateCandidateAsync(NewValidRequest(x =>
             {
-                x.Id = ProportionalElectionMockedData.CandidateIdGossauProportionalElectionEVotingApprovedInContestStGallen;
-                x.ProportionalElectionListId = ProportionalElectionMockedData.ListIdGossauProportionalElectionEVotingApprovedInContestStGallen;
+                x.Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionEVotingApprovedInContestStGallen;
+                x.ProportionalElectionListId = ProportionalElectionMockedData.ListId1GossauProportionalElectionEVotingApprovedInContestStGallen;
             })),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingApprovedException));
@@ -644,7 +644,7 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
             Accumulated = true,
             AccumulatedPosition = 2,
             Locality = "locality",
-            Number = "number1",
+            Number = "num1",
             Sex = SharedProto.SexType.Female,
             Title = "title",
             ZipCode = "2000",
@@ -666,7 +666,7 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
         {
             Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionInContestBund,
             ProportionalElectionListId = ProportionalElectionMockedData.ListId1GossauProportionalElectionInContestBund,
-            Number = "number1",
+            Number = "num1",
             FirstName = "update first name",
             LastName = "updated last name",
             PoliticalFirstName = "updated p. first name",

@@ -49,7 +49,14 @@
     "IsOnSeparateBallot": false,
     "Country": "CH",
     "Street": "street",
-    "HouseNumber": "1a"
+    "HouseNumber": "1a",
+    "PartyLongDescription": {
+      "de": "Long description PU de",
+      "fr": "Long description PU fr",
+      "it": "Long description PU it",
+      "rm": "Long description PU rm"
+    },
+    "ReportingType": 0
   },
   "response": {
     "Id": "50eae8b0-53a0-44d1-a8c0-bdc28405a9c2",
@@ -72,11 +79,17 @@
     },
     "Title": "",
     "OccupationTitle": {},
-    "Party": {
+    "PartyShortDescription": {
       "de": "PU de",
       "fr": "PU fr",
       "it": "PU it",
       "rm": "PU rm"
+    },
+    "PartyLongDescription": {
+      "de": "Long description PU de",
+      "fr": "Long description PU fr",
+      "it": "Long description PU it",
+      "rm": "Long description PU rm"
     },
     "Incumbent": true,
     "ZipCode": "",
@@ -86,6 +99,7 @@
     "CheckDigit": 7,
     "Country": "CH",
     "Street": "street",
-    "HouseNumber": "1a"
+    "HouseNumber": "1a",
+    "ReportingType": 0
   }
 }

@@ -32,7 +32,7 @@
         "rm": "Proporzwahl rm"
       },
       "InternalDescription": "",
-      "NumberOfMandates": 2,
+      "NumberOfMandates": 5,
       "MandateAlgorithm": 1,
       "CandidateCheckDigit": false,
       "BallotBundleSize": 25,

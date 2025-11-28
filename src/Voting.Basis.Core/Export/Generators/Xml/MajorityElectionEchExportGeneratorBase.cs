@@ -9,38 +9,30 @@ using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Export.Models;
 using Voting.Basis.Core.Services.Permission;
-using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Converters;
 using Voting.Lib.Database.Repositories;
-using Voting.Lib.VotingExports.Models;
-using Voting.Lib.VotingExports.Repository.Basis;
 
-namespace Voting.Basis.Core.Export.Generators;
+namespace Voting.Basis.Core.Export.Generators.Xml;
 
-public class MajorityElectionEchExportGenerator : IExportGenerator
+public class MajorityElectionEchExportGeneratorBase
 {
     private readonly IDbRepository<DataContext, MajorityElection> _electionRepo;
     private readonly EchSerializerProvider _echSerializerProvider;
     private readonly PermissionService _permissionService;
-    private readonly CountingCircleReader _countingCircleReader;
 
-    public MajorityElectionEchExportGenerator(
+    public MajorityElectionEchExportGeneratorBase(
         IDbRepository<DataContext, MajorityElection> electionRepo,
         EchSerializerProvider echSerializerProvider,
-        PermissionService permissionService,
-        CountingCircleReader countingCircleReader)
+        PermissionService permissionService)
     {
         _electionRepo = electionRepo;
         _echSerializerProvider = echSerializerProvider;
         _permissionService = permissionService;
-        _countingCircleReader = countingCircleReader;
     }
 
-    public TemplateModel Template => BasisXmlMajorityElectionTemplates.Ech0157;
-
-    public async Task<ExportFile> GenerateExport(Guid electionId)
+    public async Task<ExportFile> GenerateExport(Guid entityId, bool v5)
     {
         var majorityElection = await _electionRepo.Query()
             .AsSplitQuery()
@@ -50,13 +42,12 @@ public class MajorityElectionEchExportGenerator : IExportGenerator
             .Include(me => me.SecondaryMajorityElections)
                 .ThenInclude(se => se.Candidates)
             .Include(me => me.DomainOfInfluence)
-            .Where(me => me.Id == electionId)
+            .Where(me => me.Id == entityId)
             .FirstOrDefaultAsync()
-            ?? throw new EntityNotFoundException(electionId);
+            ?? throw new EntityNotFoundException(entityId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, true);
-        var eCounting = await _countingCircleReader.OwnsAnyECountingCountingCircle();
-        var ech0157Serializer = _echSerializerProvider.GetEch0157Serializer(eCounting);
+        var ech0157Serializer = _echSerializerProvider.GetEch0157Serializer(v5);
 
         var xmlBytes = await ech0157Serializer.ToDelivery(majorityElection.Contest, majorityElection);
 

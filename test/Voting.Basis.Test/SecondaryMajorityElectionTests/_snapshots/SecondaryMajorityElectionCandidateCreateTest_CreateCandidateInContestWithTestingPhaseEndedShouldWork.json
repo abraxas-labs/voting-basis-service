@@ -56,7 +56,14 @@
       "CheckDigit": 8,
       "Country": "CH",
       "Street": "street",
-      "HouseNumber": "1a"
+      "HouseNumber": "1a",
+      "PartyLongDescription": {
+        "de": "Long description de",
+        "fr": "Long description fr",
+        "it": "Long description it",
+        "rm": "Long description rm"
+      },
+      "ReportingType": 1
     },
     "PrimaryMajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
     "IsOnSeparateBallot": false

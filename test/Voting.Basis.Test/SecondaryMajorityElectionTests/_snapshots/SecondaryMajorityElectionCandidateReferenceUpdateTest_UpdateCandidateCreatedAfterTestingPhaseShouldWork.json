@@ -1,0 +1,32 @@
+{
+  "event": {
+    "EventInfo": {
+      "User": {
+        "Id": "default-user-id",
+        "Username": "default username",
+        "FirstName": "default user firstname",
+        "LastName": "default user lastname"
+      },
+      "Tenant": {
+        "Id": "000000000000000000",
+        "Name": "Default"
+      },
+      "Timestamp": {
+        "Seconds": 1578661930,
+        "Nanos": 200000000
+      }
+    },
+    "MajorityElectionCandidateReference": {
+      "Id": "",
+      "SecondaryMajorityElectionId": "0741da26-add2-4c4c-960d-7e251b82e91b",
+      "CandidateId": "efdbb5e3-16bf-4a53-95c3-a35ed6371819",
+      "Incumbent": true,
+      "Position": 3,
+      "PrimaryMajorityElectionId": "b0da46f8-a721-4e1a-ac36-25284d68f34b",
+      "IsOnSeparateBallot": false,
+      "Number": "1.2",
+      "CheckDigit": 4,
+      "ReportingType": 2
+    }
+  }
+}

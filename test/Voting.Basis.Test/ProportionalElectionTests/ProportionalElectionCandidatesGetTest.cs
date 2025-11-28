@@ -55,7 +55,7 @@ public class ProportionalElectionCandidatesGetTest : PoliticalBusinessAuthorizat
         await new ProportionalElectionService.ProportionalElectionServiceClient(channel)
             .GetCandidatesAsync(new GetProportionalElectionCandidatesRequest
             {
-                ProportionalElectionListId = ProportionalElectionMockedData.ListIdGossauProportionalElectionInContestGossau,
+                ProportionalElectionListId = ProportionalElectionMockedData.List1IdGossauProportionalElectionInContestGossau,
             });
     }
 

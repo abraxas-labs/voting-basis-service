@@ -2,7 +2,7 @@
   "ElectionCandidates_": [
     {
       "Id": "8b4837a9-c3ba-4ec5-9e50-536a9b4347a9",
-      "Number": "1a.number1",
+      "Number": "1a.num1",
       "FirstName": "firstName",
       "LastName": "lastName",
       "DateOfBirth": {
@@ -18,7 +18,7 @@
     },
     {
       "Id": "9e131f21-4483-4375-b014-484c272615ee",
-      "Number": "1a.number1",
+      "Number": "1a.num1",
       "FirstName": "firstName",
       "LastName": "lastName",
       "DateOfBirth": {
@@ -33,8 +33,40 @@
       "Origin": "origin"
     },
     {
+      "Id": "3847c950-831e-47f4-b422-3f131e1082e6",
+      "Number": "2.num1",
+      "FirstName": "firstName3",
+      "LastName": "lastName3",
+      "DateOfBirth": {
+        "Seconds": -314582400,
+        "Nanos": 0
+      },
+      "Sex": 2,
+      "Title": "title",
+      "Incumbent": true,
+      "ZipCode": "7000",
+      "Locality": "locality",
+      "Origin": "origin"
+    },
+    {
+      "Id": "a5663e0d-2e0b-4d25-860d-047e018d8d70",
+      "Number": "3a.num1",
+      "FirstName": "firstName4",
+      "LastName": "lastName4",
+      "DateOfBirth": {
+        "Seconds": -314582400,
+        "Nanos": 0
+      },
+      "Sex": 2,
+      "Title": "title",
+      "Incumbent": true,
+      "ZipCode": "7000",
+      "Locality": "locality",
+      "Origin": "origin"
+    },
+    {
       "Id": "9efe090f-883b-4e86-89c2-cd132ea84cbd",
-      "Number": "1a.number2",
+      "Number": "1a.num2",
       "FirstName": "candidate",
       "LastName": "number 2",
       "DateOfBirth": {

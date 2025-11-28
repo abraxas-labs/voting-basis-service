@@ -49,6 +49,13 @@
     "IsOnSeparateBallot": false,
     "Country": "CH",
     "Street": "street",
-    "HouseNumber": "1a"
+    "HouseNumber": "1a",
+    "PartyLongDescription": {
+      "de": "Long description PU de",
+      "fr": "Long description PU fr",
+      "it": "Long description PU it",
+      "rm": "Long description PU rm"
+    },
+    "ReportingType": 0
   }
 }

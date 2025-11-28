@@ -22,5 +22,5 @@ public class ExportFile
 
     public string ContentType { get; }
 
-    public async Task Write(PipeWriter writer, CancellationToken ct = default) => await writer.WriteAsync(_data, ct);
+    public virtual async Task Write(PipeWriter writer, CancellationToken ct = default) => await writer.WriteAsync(_data, ct);
 }

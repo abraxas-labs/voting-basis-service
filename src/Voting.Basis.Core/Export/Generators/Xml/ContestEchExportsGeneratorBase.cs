@@ -11,44 +11,37 @@ using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Export.Models;
 using Voting.Basis.Core.Services.Permission;
-using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Converters;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Iam.Exceptions;
 using Voting.Lib.Iam.Store;
-using Voting.Lib.VotingExports.Models;
 
-namespace Voting.Basis.Core.Export.Generators;
+namespace Voting.Basis.Core.Export.Generators.Xml;
 
-public abstract class ContestEchExportsGeneratorBase : IExportsGenerator
+public abstract class ContestEchExportsGeneratorBase
 {
     private readonly IAuth _auth;
     private readonly IDbRepository<DataContext, Contest> _contestRepo;
     private readonly EchSerializerProvider _echSerializerProvider;
     private readonly PermissionService _permissionService;
-    private readonly CountingCircleReader _countingCircleReader;
 
-    public ContestEchExportsGeneratorBase(
+    protected ContestEchExportsGeneratorBase(
         IAuth auth,
         IDbRepository<DataContext, Contest> contestRepo,
         EchSerializerProvider echSerializerProvider,
-        PermissionService permissionService,
-        CountingCircleReader countingCircleReader)
+        PermissionService permissionService)
     {
         _auth = auth;
         _contestRepo = contestRepo;
         _echSerializerProvider = echSerializerProvider;
         _permissionService = permissionService;
-        _countingCircleReader = countingCircleReader;
     }
 
-    public abstract TemplateModel Template { get; }
-
-    public async IAsyncEnumerable<ExportFile> GenerateExports(Guid contestId)
+    public async IAsyncEnumerable<ExportFile> GenerateExports(Guid entityId, bool v5)
     {
-        var contest = await FetchContestData(contestId);
+        var contest = await FetchContestData(entityId);
 
         var doiHierarchyGroups = await _permissionService.GetAccessibleDomainOfInfluenceHierarchyGroups();
         var accessibleDoiIds = doiHierarchyGroups.AccessibleDoiIds.ToHashSet();
@@ -66,9 +59,8 @@ public abstract class ContestEchExportsGeneratorBase : IExportsGenerator
                 .ToList();
         }
 
-        var eCounting = await _countingCircleReader.OwnsAnyECountingCountingCircle();
-        var ech0157Serializer = _echSerializerProvider.GetEch0157Serializer(eCounting);
-        var ech0159Serializer = _echSerializerProvider.GetEch0159Serializer(eCounting);
+        var ech0157Serializer = _echSerializerProvider.GetEch0157Serializer(v5);
+        var ech0159Serializer = _echSerializerProvider.GetEch0159Serializer(v5);
 
         if (contest.Votes.Count > 0)
         {

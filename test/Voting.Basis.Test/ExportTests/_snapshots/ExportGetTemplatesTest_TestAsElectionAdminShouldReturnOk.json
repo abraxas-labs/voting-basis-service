@@ -1,14 +1,32 @@
 {
   "ExportTemplates_": [
     {
-      "Key": "contest_ech_0157_and_0159",
-      "Description": "eCH-0157 / eCH-0159",
+      "Key": "contest_candidate_list",
+      "Description": "Kandidierendenverzeichnis",
+      "EntityType": 1,
+      "Format": 1
+    },
+    {
+      "Key": "contest_ech_0157_and_0159_4_0",
+      "Description": "eCH-0157 / eCH-0159 v4.0",
       "EntityType": 1,
       "Format": 3
     },
     {
-      "Key": "contest_ech_0157_and_0159_e_voting",
-      "Description": "eCH-0157 / eCH-0159 (nur E-Voting)",
+      "Key": "contest_ech_0157_and_0159_4_0_e_voting",
+      "Description": "eCH-0157 / eCH-0159 v4.0 (nur E-Voting)",
+      "EntityType": 1,
+      "Format": 3
+    },
+    {
+      "Key": "contest_ech_0157_and_0159_5_1",
+      "Description": "eCH-0157 / eCH-0159 v4.2",
+      "EntityType": 1,
+      "Format": 3
+    },
+    {
+      "Key": "contest_ech_0157_and_0159_5_1_e_voting",
+      "Description": "eCH-0157 / eCH-0159 v4.2 (nur E-Voting)",
       "EntityType": 1,
       "Format": 3
     }

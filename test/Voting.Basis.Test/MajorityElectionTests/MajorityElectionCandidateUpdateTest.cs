@@ -81,6 +81,7 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
                     Incumbent = false,
                     Position = 1,
                     Party = { LanguageUtil.MockAllLanguages("SVP") },
+                    PartyLongDescription = { LanguageUtil.MockAllLanguages("SVP long updated") },
                     Locality = "locality",
                     Number = "numberNew",
                     Sex = SharedProto.SexType.Male,
@@ -91,6 +92,7 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
                     Street = "new street",
                     HouseNumber = "new 1a",
                     Country = "CH",
+                    ReportingType = SharedProto.MajorityElectionCandidateReportingType.CountToIndividual,
                 },
             });
 
@@ -121,6 +123,7 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
                     Incumbent = false,
                     Position = 5,
                     Party = { LanguageUtil.MockAllLanguages("SVP") },
+                    PartyLongDescription = { LanguageUtil.MockAllLanguages("SVP long updated") },
                     Locality = "updated locality",
                     Number = "updatedNum",
                     Sex = SharedProto.SexType.Male,
@@ -131,6 +134,7 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
                     Street = "updated street",
                     HouseNumber = "u1a",
                     Country = "DE",
+                    ReportingType = SharedProto.MajorityElectionCandidateReportingType.CountToIndividual,
                 },
             });
 
@@ -159,6 +163,7 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
                     Incumbent = false,
                     Position = 1,
                     Party = { LanguageUtil.MockAllLanguages("SVP") },
+                    PartyLongDescription = { LanguageUtil.MockAllLanguages("SVP long updated") },
                     Locality = "locality",
                     Number = "numberNew",
                     Sex = SharedProto.SexType.Undefined,
@@ -199,6 +204,7 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
                     Incumbent = false,
                     Position = 1,
                     Party = { LanguageUtil.MockAllLanguages("SVP") },
+                    PartyLongDescription = { LanguageUtil.MockAllLanguages("SVP long updated") },
                     Locality = "locality",
                     Number = "numberNewtoolong",
                     Sex = SharedProto.SexType.Male,
@@ -272,6 +278,27 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
     }
 
     [Fact]
+    public async Task UpdateCandidateCreatedAfterTestingPhaseShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
+
+        var createRequest = MajorityElectionCandidateCreateTest.NewValidRequestAfterTestingPhaseEnded();
+        var response = await CantonAdminClient.CreateCandidateAsync(createRequest);
+
+        await CantonAdminClient.UpdateCandidateAsync(NewValidRequest(r =>
+        {
+            r.Id = response.Id;
+            r.Number = createRequest.Number;
+            r.Position = createRequest.Position;
+            r.ReportingType = SharedProto.MajorityElectionCandidateReportingType.CountToIndividual;
+        }));
+
+        var ev = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionCandidateAfterTestingPhaseUpdated>();
+        ev.Id.Should().Be(response.Id);
+        ev.MatchSnapshot("event", r => r.Id);
+    }
+
+    [Fact]
     public async Task ModificationWithEVotingApprovedShouldThrow()
     {
         await AssertStatus(
@@ -300,6 +327,7 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
                 DateOfBirth = new DateTime(1961, 2, 26, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
                 Incumbent = false,
                 Party = { LanguageUtil.MockAllLanguages("SVP") },
+                PartyLongDescription = { LanguageUtil.MockAllLanguages("SVP long updated") },
                 Locality = "locality",
                 Sex = SharedProto.SexType.Undefined,
                 Title = "new title",
@@ -359,6 +387,72 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
     }
 
     [Fact]
+    public async Task ReportingTypeInTestingPhaseShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateCandidateAsync(NewValidRequest(o => o.ReportingType = SharedProto.MajorityElectionCandidateReportingType.Candidate)),
+            StatusCode.InvalidArgument,
+            "Candidate reporting type cannot be set during testing phase");
+    }
+
+    [Fact]
+    public async Task NoReportingTypeForCandidateCreatedAfterTestingPhaseShouldThrow()
+    {
+        await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
+
+        var createRequest = MajorityElectionCandidateCreateTest.NewValidRequestAfterTestingPhaseEnded();
+        var response = await CantonAdminClient.CreateCandidateAsync(createRequest);
+
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateCandidateAsync(NewValidRequest(r =>
+            {
+                r.Id = response.Id;
+                r.Number = createRequest.Number;
+                r.Position = createRequest.Position;
+            })),
+            StatusCode.InvalidArgument,
+            "Candidates created after the testing phase must have a reporting type");
+    }
+
+    [Fact]
+    public async Task NoReportingTypeForCandidateCreatedBeforeTestingPhaseShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
+        var request = NewValidRequest();
+        await CantonAdminClient.UpdateCandidateAsync(NewValidRequest());
+
+        var (eventData, _) = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionCandidateAfterTestingPhaseUpdated, EventSignatureBusinessMetadata>();
+
+        eventData.Id.Should().Be(request.Id);
+        eventData.ReportingType.Should().Be(SharedProto.MajorityElectionCandidateReportingType.Unspecified);
+    }
+
+    [Fact]
+    public async Task ReportingTypeWithIndividualCandidatesDisabledAfterTestingPhaseShouldThrow()
+    {
+        await SetIndividualCandidatesDisabled();
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateCandidateAsync(
+                NewValidRequestAfterTestingPhase(x => x.ReportingType = SharedProto.MajorityElectionCandidateReportingType.Candidate)),
+            StatusCode.InvalidArgument,
+            "Cannot set reporting type if individual candidates are disabled");
+    }
+
+    [Fact]
+    public async Task NoReportingTypeWithIndividualCandidatesDisabledAfterTestingPhaseShouldWork()
+    {
+        await SetIndividualCandidatesDisabled();
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+        var request = NewValidRequestAfterTestingPhase();
+        var response = await CantonAdminClient.UpdateCandidateAsync(request);
+        var ev = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionCandidateAfterTestingPhaseUpdated>();
+        ev.Id.Should().Be(request.Id);
+        ev.ReportingType.Should().Be(SharedProto.MajorityElectionCandidateReportingType.Unspecified);
+    }
+
+    [Fact]
     public async Task EmptyOriginShouldThrow()
     {
         await ModifyDbEntities<DomainOfInfluence>(
@@ -374,7 +468,7 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
     public async Task EmptyPartyShouldThrow()
     {
         await AssertStatus(
-            async () => await CantonAdminClient.UpdateCandidateAsync(NewValidRequest(o => o.Party.Clear())),
+            async () => await CantonAdminClient.UpdateCandidateAsync(NewValidRequest(o => o.PartyLongDescription.Clear())),
             StatusCode.InvalidArgument);
     }
 
@@ -382,7 +476,7 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
     public async Task NotAllPartyLanguagesShouldThrow()
     {
         await AssertStatus(
-            async () => await CantonAdminClient.UpdateCandidateAsync(NewValidRequest(o => o.Party.Remove(Languages.German))),
+            async () => await CantonAdminClient.UpdateCandidateAsync(NewValidRequest(o => o.PartyShortDescription.Remove(Languages.German))),
             StatusCode.InvalidArgument);
     }
 
@@ -494,7 +588,11 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
     public async Task EmptyPartyAfterTestingPhaseEndedShouldWork()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
-        var request = NewValidRequestAfterTestingPhase(o => o.Party.Clear());
+        var request = NewValidRequestAfterTestingPhase(o =>
+        {
+            o.PartyShortDescription.Clear();
+            o.PartyLongDescription.Clear();
+        });
         await CantonAdminClient.UpdateCandidateAsync(request);
         var (eventData, _) = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionCandidateAfterTestingPhaseUpdated, EventSignatureBusinessMetadata>();
 
@@ -550,7 +648,8 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
             PoliticalLastName = "pol last name",
             Occupation = { LanguageUtil.MockAllLanguages("occupation") },
             OccupationTitle = { LanguageUtil.MockAllLanguages("occupation title") },
-            Party = { LanguageUtil.MockAllLanguages("Test") },
+            PartyShortDescription = { LanguageUtil.MockAllLanguages("Updated") },
+            PartyLongDescription = { LanguageUtil.MockAllLanguages("Updated long desc") },
             DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc).ToTimestamp(),
             Incumbent = true,
             Position = 1,
@@ -586,7 +685,8 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
             Locality = "locality updated",
             Sex = SharedProto.SexType.Male,
             Occupation = { LanguageUtil.MockAllLanguages("occupation updated") },
-            Party = { LanguageUtil.MockAllLanguages("PU") },
+            PartyShortDescription = { LanguageUtil.MockAllLanguages("PU") },
+            PartyLongDescription = { LanguageUtil.MockAllLanguages("PU long desc") },
             Origin = "origin",
             Street = "street updated",
             HouseNumber = "1a updated",
@@ -595,5 +695,29 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
 
         customizer?.Invoke(request);
         return request;
+    }
+
+    private async Task SetIndividualCandidatesDisabled()
+    {
+        await CantonAdminClient.UpdateAsync(new UpdateMajorityElectionRequest
+        {
+            Id = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund,
+            DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau,
+            ContestId = ContestMockedData.IdBundContest,
+            PoliticalBusinessNumber = "5478new",
+            OfficialDescription = { LanguageUtil.MockAllLanguages("Majorzwahl Update") },
+            ShortDescription = { LanguageUtil.MockAllLanguages("Majorzwahl Update") },
+            Active = true,
+            AutomaticBallotBundleNumberGeneration = MajorityElectionMockedData.GossauMajorityElectionInContestBund.AutomaticBallotBundleNumberGeneration,
+            BallotBundleSize = MajorityElectionMockedData.GossauMajorityElectionInContestBund.BallotBundleSize,
+            BallotBundleSampleSize = MajorityElectionMockedData.GossauMajorityElectionInContestBund.BallotBundleSampleSize,
+            BallotNumberGeneration = SharedProto.BallotNumberGeneration.RestartForEachBundle,
+            MandateAlgorithm = SharedProto.MajorityElectionMandateAlgorithm.RelativeMajority,
+            ResultEntry = SharedProto.MajorityElectionResultEntry.Detailed,
+            NumberOfMandates = MajorityElectionMockedData.GossauMajorityElectionInContestBund.NumberOfMandates,
+            ReviewProcedure = SharedProto.MajorityElectionReviewProcedure.Electronically,
+            EnforceReviewProcedureForCountingCircles = true,
+            IndividualCandidatesDisabled = true,
+        });
     }
 }

@@ -48,7 +48,7 @@ internal static class MajorityElectionMapping
 
         var candidates = majorityElection.MajorityElectionCandidates
             .OrderBy(c => c.Number)
-            .Select(c => c.ToEchCandidateType(c.Party, majorityElection.Contest.DomainOfInfluence.CantonDefaults.Canton, eVoting, PoliticalBusinessType.MajorityElection))
+            .Select(c => c.ToEchCandidateType(c.PartyShortDescription, c.PartyLongDescription, majorityElection.Contest.DomainOfInfluence.CantonDefaults.Canton, eVoting, PoliticalBusinessType.MajorityElection))
             .ToList();
 
         return new EventInitialDeliveryElectionGroupBallotElectionInformation
@@ -119,7 +119,7 @@ internal static class MajorityElectionMapping
 
         var candidates = secondaryElection.Candidates
             .OrderBy(c => c.Number)
-            .Select(c => c.ToEchCandidateType(c.Party, secondaryElection.Contest.DomainOfInfluence.CantonDefaults.Canton, secondaryElection.Contest.EVoting, PoliticalBusinessType.SecondaryMajorityElection))
+            .Select(c => c.ToEchCandidateType(c.PartyShortDescription, c.PartyLongDescription, secondaryElection.Contest.DomainOfInfluence.CantonDefaults.Canton, secondaryElection.Contest.EVoting, PoliticalBusinessType.SecondaryMajorityElection))
             .ToList();
 
         return new EventInitialDeliveryElectionGroupBallotElectionInformation()
@@ -155,7 +155,8 @@ internal static class MajorityElectionMapping
         var partyInfos = candidate.PartyAffiliation;
         if (partyInfos.Count > 0)
         {
-            basisCandidate.Party = partyInfos.ToLanguageDictionary(x => x.Language, x => x.PartyAffiliationShort ?? x.PartyAffiliationLong, string.Empty);
+            basisCandidate.PartyShortDescription = partyInfos.ToLanguageDictionary(x => x.Language, x => x.PartyAffiliationShort, string.Empty);
+            basisCandidate.PartyLongDescription = partyInfos.ToLanguageDictionary(x => x.Language, x => x.PartyAffiliationLong ?? x.PartyAffiliationShort, string.Empty);
         }
 
         return basisCandidate;

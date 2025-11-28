@@ -52,12 +52,12 @@ public class ExportGenerateTest : BaseRestTest
             () => AdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(ContestMockedData.IdBundContest),
-                Key = BasisXmlContestTemplates.Ech0157And0159.Key,
+                Key = BasisXmlContestTemplates.Ech0157And0159_4_0.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Zip);
 
-        await ZipEntriesShouldMatchSnapshot(response, nameof(TestAsAdminShouldReturnOk));
+        await ZipEntriesShouldMatchSnapshot(response, nameof(TestAsAdminShouldReturnOk), false);
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(ContestMockedData.IdBundContest),
-                Key = BasisXmlContestTemplates.Ech0157And0159.Key,
+                Key = BasisXmlContestTemplates.Ech0157And0159_4_0.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Zip);
@@ -76,24 +76,76 @@ public class ExportGenerateTest : BaseRestTest
     }
 
     [Fact]
-    public async Task TestAsElectionAdminWithEch0157And0159V5ShouldReturnOk()
+    public async Task TestContestCandidateListShouldReturnOk()
     {
-        await SetECountingForElectionAdmin();
-
         var response = await AssertStatus(
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(ContestMockedData.IdBundContest),
-                Key = BasisXmlContestTemplates.Ech0157And0159.Key,
+                Key = BasisCsvContestTemplates.CandidateList.Key,
+            }),
+            HttpStatusCode.OK);
+
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Text.Csv);
+        response.Content.Headers.ContentDisposition!.FileName.Should().Be("\"candidate_list_Nationalratswahlen in der Zukunft de.csv\"");
+        var csv = await response.Content.ReadAsStringAsync();
+        csv = csv.ReplaceLineEndings("\n");
+        csv.MatchRawTextSnapshot("ExportTests", "_snapshots", nameof(TestContestCandidateListShouldReturnOk) + ".csv");
+    }
+
+    [Fact]
+    public async Task TestProportionalCandidateListShouldReturnOk()
+    {
+        var response = await AssertStatus(
+            () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(ProportionalElectionMockedData.IdGossauProportionalElectionInContestGossau),
+                Key = BasisCsvProportionalElectionTemplates.CandidateList.Key,
+            }),
+            HttpStatusCode.OK);
+
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Text.Csv);
+        var csv = await response.Content.ReadAsStringAsync();
+        csv = csv.ReplaceLineEndings("\n");
+        csv.MatchRawTextSnapshot("ExportTests", "_snapshots", nameof(TestProportionalCandidateListShouldReturnOk) + ".csv");
+    }
+
+    [Fact]
+    public async Task TestMajorityCandidateListShouldReturnOk()
+    {
+        var response = await AssertStatus(
+            () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(MajorityElectionMockedData.IdGossauMajorityElectionInContestBund),
+                Key = BasisCsvMajorityElectionTemplates.CandidateList.Key,
+            }),
+            HttpStatusCode.OK);
+
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Text.Csv);
+        var csv = await response.Content.ReadAsStringAsync();
+        csv = csv.ReplaceLineEndings("\n");
+        csv.MatchRawTextSnapshot("ExportTests", "_snapshots", nameof(TestMajorityCandidateListShouldReturnOk) + ".csv");
+    }
+
+    [Fact]
+    public async Task TestAsElectionAdminWithEch0157And0159V5ShouldReturnOk()
+    {
+        var response = await AssertStatus(
+            () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(ContestMockedData.IdBundContest),
+                Key = BasisXmlContestTemplates.Ech0157And0159_5_1.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Zip);
 
-        await ZipEntriesShouldMatchSnapshot(response, nameof(TestAsElectionAdminWithEch0157And0159V5ShouldReturnOk));
+        await ZipEntriesShouldMatchSnapshot(response, nameof(TestAsElectionAdminWithEch0157And0159V5ShouldReturnOk), true);
     }
 
-    [Fact]
-    public async Task TestOnlyEVoting()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task TestOnlyEVoting(bool v5)
     {
         await RunOnDb(async db =>
         {
@@ -129,12 +181,12 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = ContestMockedData.BundContest.Id,
-                Key = BasisXmlContestTemplates.Ech0157And0159EVotingOnly.Key,
+                Key = v5 ? BasisXmlContestTemplates.Ech0157And0159_5_1.Key : BasisXmlContestTemplates.Ech0157And0159_4_0_EVotingOnly.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Zip);
 
-        await ZipEntriesShouldMatchSnapshot(response, nameof(TestOnlyEVoting));
+        await ZipEntriesShouldMatchSnapshot(response, nameof(TestOnlyEVoting), v5);
     }
 
     [Theory]
@@ -142,23 +194,18 @@ public class ExportGenerateTest : BaseRestTest
     [InlineData(true, false)]
     [InlineData(false, true)]
     [InlineData(true, true)]
-    public async Task TestVoteEch0159(bool eVoting, bool eCounting)
+    public async Task TestVoteEch0159(bool eVoting, bool v5)
     {
         if (eVoting)
         {
             await SetEVotingContest(ContestMockedData.IdGossau);
         }
 
-        if (eCounting)
-        {
-            await SetECountingForElectionAdmin();
-        }
-
         var response = await AssertStatus(
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(VoteMockedData.IdGossauVoteInContestGossau),
-                Key = BasisXmlVoteTemplates.Ech0159.Key,
+                Key = v5 ? BasisXmlVoteTemplates.Ech0159_5_1.Key : BasisXmlVoteTemplates.Ech0159_4_0.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
@@ -166,8 +213,8 @@ public class ExportGenerateTest : BaseRestTest
         var xml = await response.Content.ReadAsStringAsync();
         VerifyXml(
             xml,
-            BuildTestFilename(nameof(TestVoteEch0159), eVoting, eCounting),
-            eCounting ? Ech0159SchemasV5.LoadEch0159Schemas() : Ech0159Schemas.LoadEch0159Schemas());
+            BuildTestFilename(nameof(TestVoteEch0159), eVoting, v5),
+            v5 ? Ech0159SchemasV5.LoadEch0159Schemas() : Ech0159Schemas.LoadEch0159Schemas());
     }
 
     [Fact]
@@ -184,7 +231,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(VoteMockedData.IdGossauVoteInContestGossau),
-                Key = BasisXmlVoteTemplates.Ech0159.Key,
+                Key = BasisXmlVoteTemplates.Ech0159_4_0.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
@@ -201,23 +248,18 @@ public class ExportGenerateTest : BaseRestTest
     [InlineData(true, false)]
     [InlineData(false, true)]
     [InlineData(true, true)]
-    public async Task TestVoteEch0159VariantQuestionsOnMultipleBallots(bool eVoting, bool eCounting)
+    public async Task TestVoteEch0159VariantQuestionsOnMultipleBallots(bool eVoting, bool v5)
     {
         if (eVoting)
         {
             await SetEVotingContest(ContestMockedData.IdZurichContest);
         }
 
-        if (eCounting)
-        {
-            await SetECountingForElectionAdmin();
-        }
-
         var response = await AssertStatus(
             () => ZurichCantonAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(VoteMockedData.IdZurichVoteInContestZurich),
-                Key = BasisXmlVoteTemplates.Ech0159.Key,
+                Key = v5 ? BasisXmlVoteTemplates.Ech0159_5_1.Key : BasisXmlVoteTemplates.Ech0159_4_0.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
@@ -225,8 +267,8 @@ public class ExportGenerateTest : BaseRestTest
         var xml = await response.Content.ReadAsStringAsync();
         VerifyXml(
             xml,
-            BuildTestFilename(nameof(TestVoteEch0159VariantQuestionsOnMultipleBallots), eVoting, eCounting),
-            eCounting ? Ech0159SchemasV5.LoadEch0159Schemas() : Ech0159Schemas.LoadEch0159Schemas());
+            BuildTestFilename(nameof(TestVoteEch0159VariantQuestionsOnMultipleBallots), eVoting, v5),
+            v5 ? Ech0159SchemasV5.LoadEch0159Schemas() : Ech0159Schemas.LoadEch0159Schemas());
     }
 
     [Theory]
@@ -234,16 +276,11 @@ public class ExportGenerateTest : BaseRestTest
     [InlineData(true, false)]
     [InlineData(false, true)]
     [InlineData(true, true)]
-    public async Task TestMajorityElectionEch0157(bool eVoting, bool eCounting)
+    public async Task TestMajorityElectionEch0157(bool eVoting, bool v5)
     {
         if (eVoting)
         {
             await SetEVotingContest(ContestMockedData.IdGossau);
-        }
-
-        if (eCounting)
-        {
-            await SetECountingForElectionAdmin();
         }
 
         await RunOnDb(async db =>
@@ -257,7 +294,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(MajorityElectionMockedData.IdGossauMajorityElectionInContestGossau),
-                Key = BasisXmlMajorityElectionTemplates.Ech0157.Key,
+                Key = v5 ? BasisXmlMajorityElectionTemplates.Ech0157_5_1.Key : BasisXmlMajorityElectionTemplates.Ech0157_4_0.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
@@ -265,8 +302,8 @@ public class ExportGenerateTest : BaseRestTest
         var xml = await response.Content.ReadAsStringAsync();
         VerifyXml(
             xml,
-            BuildTestFilename(nameof(TestMajorityElectionEch0157), eVoting, eCounting),
-            eCounting ? Ech0157SchemasV5.LoadEch0157Schemas() : Ech0157Schemas.LoadEch0157Schemas());
+            BuildTestFilename(nameof(TestMajorityElectionEch0157), eVoting, v5),
+            v5 ? Ech0157SchemasV5.LoadEch0157Schemas() : Ech0157Schemas.LoadEch0157Schemas());
     }
 
     [Fact]
@@ -287,7 +324,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(MajorityElectionMockedData.IdGossauMajorityElectionInContestGossau),
-                Key = BasisXmlMajorityElectionTemplates.Ech0157.Key,
+                Key = BasisXmlMajorityElectionTemplates.Ech0157_4_0.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
@@ -304,23 +341,18 @@ public class ExportGenerateTest : BaseRestTest
     [InlineData(true, false)]
     [InlineData(false, true)]
     [InlineData(true, true)]
-    public async Task TestProportionalElectionEch0157(bool eVoting, bool eCounting)
+    public async Task TestProportionalElectionEch0157(bool eVoting, bool v5)
     {
         if (eVoting)
         {
             await SetEVotingContest(ContestMockedData.IdBundContest);
         }
 
-        if (eCounting)
-        {
-            await SetECountingForElectionAdmin();
-        }
-
         var response = await AssertStatus(
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund),
-                Key = BasisXmlProportionalElectionTemplates.Ech0157.Key,
+                Key = v5 ? BasisXmlProportionalElectionTemplates.Ech0157_5_1.Key : BasisXmlProportionalElectionTemplates.Ech0157_4_0.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
@@ -328,8 +360,8 @@ public class ExportGenerateTest : BaseRestTest
         var xml = await response.Content.ReadAsStringAsync();
         VerifyXml(
             xml,
-            BuildTestFilename(nameof(TestProportionalElectionEch0157), eVoting, eCounting),
-            eCounting ? Ech0157SchemasV5.LoadEch0157Schemas() : Ech0157Schemas.LoadEch0157Schemas());
+            BuildTestFilename(nameof(TestProportionalElectionEch0157), eVoting, v5),
+            v5 ? Ech0157SchemasV5.LoadEch0157Schemas() : Ech0157Schemas.LoadEch0157Schemas());
     }
 
     [Fact]
@@ -346,7 +378,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund),
-                Key = BasisXmlProportionalElectionTemplates.Ech0157.Key,
+                Key = BasisXmlProportionalElectionTemplates.Ech0157_4_0.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
@@ -377,7 +409,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(IdNotFound),
-                Key = BasisXmlVoteTemplates.Ech0159.Key,
+                Key = BasisXmlVoteTemplates.Ech0159_4_0.Key,
             }),
             HttpStatusCode.NotFound);
     }
@@ -389,7 +421,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(ContestMockedData.IdKirche),
-                Key = BasisXmlContestTemplates.Ech0157And0159.Key,
+                Key = BasisXmlContestTemplates.Ech0157And0159_4_0.Key,
             }),
             HttpStatusCode.NotFound);
     }
@@ -401,7 +433,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(VoteMockedData.IdBundVoteInContestStGallen),
-                Key = BasisXmlVoteTemplates.Ech0159.Key,
+                Key = BasisXmlVoteTemplates.Ech0159_4_0.Key,
             }),
             HttpStatusCode.Forbidden);
     }
@@ -413,7 +445,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(VoteMockedData.IdKircheVoteInContestKircheWithoutChilds),
-                Key = BasisXmlVoteTemplates.Ech0159.Key,
+                Key = BasisXmlVoteTemplates.Ech0159_4_0.Key,
             }),
             HttpStatusCode.Forbidden);
     }
@@ -425,7 +457,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(MajorityElectionMockedData.IdBundMajorityElectionInContestStGallen),
-                Key = BasisXmlMajorityElectionTemplates.Ech0157.Key,
+                Key = BasisXmlMajorityElectionTemplates.Ech0157_4_0.Key,
             }),
             HttpStatusCode.Forbidden);
     }
@@ -437,7 +469,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(MajorityElectionMockedData.IdKircheMajorityElectionInContestKirche),
-                Key = BasisXmlMajorityElectionTemplates.Ech0157.Key,
+                Key = BasisXmlMajorityElectionTemplates.Ech0157_4_0.Key,
             }),
             HttpStatusCode.Forbidden);
     }
@@ -449,7 +481,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(ProportionalElectionMockedData.IdBundProportionalElectionInContestStGallen),
-                Key = BasisXmlProportionalElectionTemplates.Ech0157.Key,
+                Key = BasisXmlProportionalElectionTemplates.Ech0157_4_0.Key,
             }),
             HttpStatusCode.Forbidden);
     }
@@ -461,7 +493,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(ProportionalElectionMockedData.IdKircheProportionalElectionInContestKirche),
-                Key = BasisXmlProportionalElectionTemplates.Ech0157.Key,
+                Key = BasisXmlProportionalElectionTemplates.Ech0157_4_0.Key,
             }),
             HttpStatusCode.Forbidden);
     }
@@ -471,7 +503,7 @@ public class ExportGenerateTest : BaseRestTest
         return httpClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
         {
             EntityId = Guid.Parse(ContestMockedData.IdBundContest),
-            Key = BasisXmlContestTemplates.Ech0157And0159.Key,
+            Key = BasisXmlContestTemplates.Ech0157And0159_4_0.Key,
         });
     }
 
@@ -485,10 +517,14 @@ public class ExportGenerateTest : BaseRestTest
         yield return Roles.ElectionSupporter;
     }
 
-    private async Task ZipEntriesShouldMatchSnapshot(HttpResponseMessage response, string testName)
+    private async Task ZipEntriesShouldMatchSnapshot(HttpResponseMessage response, string testName, bool v5 = false)
     {
         await using var zipStream = await response.Content.ReadAsStreamAsync();
         using var zipArchive = new ZipArchive(zipStream);
+
+        var ech0157Schemas = v5 ? Ech0157SchemasV5.LoadEch0157Schemas() : Ech0157Schemas.LoadEch0157Schemas();
+        var ech0159Schemas = v5 ? Ech0159SchemasV5.LoadEch0159Schemas() : Ech0159Schemas.LoadEch0159Schemas();
+        var versionSuffix = v5 ? "_v5" : string.Empty;
 
         zipArchive.Entries.Count.Should().Be(3);
 
@@ -499,15 +535,15 @@ public class ExportGenerateTest : BaseRestTest
 
             if (entry.Name.Contains("_votes"))
             {
-                VerifyXml(content, $"{testName}_votes", Ech0159Schemas.LoadEch0159Schemas());
+                VerifyXml(content, $"{testName}_votes{versionSuffix}", ech0159Schemas);
             }
             else if (entry.Name.Contains("_proportional_elections"))
             {
-                VerifyXml(content, $"{testName}_proportional_elections", Ech0157Schemas.LoadEch0157Schemas());
+                VerifyXml(content, $"{testName}_proportional_elections{versionSuffix}", ech0157Schemas);
             }
             else if (entry.Name.Contains("_majority_elections"))
             {
-                VerifyXml(content, $"{testName}_majority_elections", Ech0157Schemas.LoadEch0157Schemas());
+                VerifyXml(content, $"{testName}_majority_elections{versionSuffix}", ech0157Schemas);
             }
             else
             {
@@ -524,16 +560,6 @@ public class ExportGenerateTest : BaseRestTest
             contest.EVoting = true;
             contest.EVotingFrom = new DateTime(2020, 1, 1, 10, 0, 0, DateTimeKind.Utc);
             contest.EVotingTo = new DateTime(2020, 1, 2, 10, 0, 0, DateTimeKind.Utc);
-            await db.SaveChangesAsync();
-        });
-    }
-
-    private async Task SetECountingForElectionAdmin()
-    {
-        await RunOnDb(async db =>
-        {
-            var cc = await db.CountingCircles.AsTracking().SingleAsync(cc => cc.Id == Guid.Parse(CountingCircleMockedData.IdUzwil));
-            cc.ECounting = true;
             await db.SaveChangesAsync();
         });
     }

@@ -2,6 +2,7 @@
 // For license information see LICENSE file
 
 using System;
+using Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Core.Domain;
 
@@ -17,6 +18,8 @@ public class MajorityElectionCandidateReference
     public int Position { get; internal set; }
 
     public string Number { get; internal set; } = string.Empty;
+
+    public MajorityElectionCandidateReportingType ReportingType { get; internal set; }
 
     public Guid CandidateId { get; set; }
 

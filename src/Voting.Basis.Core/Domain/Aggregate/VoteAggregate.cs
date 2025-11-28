@@ -499,7 +499,7 @@ public class VoteAggregate : BaseHasContestAggregate
     {
         if (Ballots.Count == 0)
         {
-            throw new ValidationException("The vote does not have a ballot");
+            throw new PoliticalBusinessNotCompleteException("The vote does not have a ballot");
         }
 
         if (Type == VoteType.QuestionsOnSingleBallot)

@@ -1,4 +1,4 @@
-# ✨ Changelog (`v2.66.3`)
+# ✨ Changelog (`v2.70.6`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,92 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v2.66.3
-Previous version ---- v2.54.6
+This version -------- v2.70.6
+Previous version ---- v2.66.3
 Initial version ----- v1.27.15
-Total commits ------- 32
+Total commits ------- 15
 ```
+
+## [v2.70.6] - 2025-10-24
+
+### 🔄 Changed
+
+- ensure CSV file extension is always present in exports
+
+## [v2.70.5] - 2025-10-24
+
+### 🆕 Added
+
+- add candidate incumbent value to eCH-0157 export
+
+## [v2.70.4] - 2025-10-15
+
+### 🆕 Added
+
+- add proportional election mandate algorithm and vote result algorithm restrictions
+
+## [v2.70.3] - 2025-10-15
+
+### 🔄 Changed
+
+- ensure political business is complete before activation
+
+## [v2.70.2] - 2025-10-14
+
+### 🔄 Changed
+
+- update voting library adding input validation support for plus-minus sign
+
+## [v2.70.1] - 2025-10-14
+
+### 🔄 Changed
+
+- normalize attributes of type `GUID` according to event signature concept before generating binary payload
+
+## [v2.70.0] - 2025-10-13
+
+### 🆕 Added
+
+- add majority election candidate reporting type
+
+## [v2.69.0] - 2025-10-08
+
+### 🆕 Added
+
+- add party long description to majority election candidates
+
+## [v2.68.0] - 2025-10-03
+
+### 🆕 Added
+
+- add choice to export specific eCH versions
+
+## [v2.67.0] - 2025-10-01
+
+### 🔄 Changed
+
+- improve code quality
+
+### 🔄 Changed
+
+- update proto
+- update lib and and fix file wrapper interface change
+
+### 🔄 Changed
+
+- correct headers in candidate list CSV
+
+### 🔄 Changed
+
+- use malware scanner correctly during eCH import
+
+### 🔄 Changed
+
+- restrict list and candidate number length
+
+### 🆕 Added
+
+- add candidate list CSV export
 
 ## [v2.66.3] - 2025-09-16
 
@@ -210,95 +291,64 @@ Total commits ------- 32
 
 ### 🔄 Changed
 
-- delete domain of influence related data for backward compatibility
-
-## [v2.54.3] - 2025-04-14
-
-### 🔄 Changed
-
-- fix existing political assembly states
-
-## [v2.54.2] - 2025-04-11
+- ensure CSV file extension is always present in exports
 
 ### 🆕 Added
 
-- PastLockedPoliticalAssemblyJob, job to change state of political assemblies to passed
-- ArchivePoliticalAssemblyJob, job to change state of political assemblies to archived
-- properties State, ArchivePer, PastLockPer and fuctions TrySetPastLocked(), TryArchive(), Archive(DateTime? archivePer = null) to PoliticalAssemblyAgregate
-- functions Archive(), TrySetPastLocked(), TryArchive() to PoliticalAssemblyWriter
-- PoliticalAssemblyStateExtension
-- Model PoliticalAssemblyState
-- endpoint Archive() in PoliticalAssemblyService
-
-### 🔄 Changed
-
-- mapping in PoliticalAssemblyProfile
-- function List() in PoliticalAssemblyReader - selection enhanced with state
-- PoliticalAssemblyModelBuilder, added Property ArchivePer and PastLockPer. added Index for doi and state
-- Model PoliticalAssembly, added State, ArchivePer and PastLockPer
-
-## [v2.54.1] - 2025-03-31
-
-### 🔄 Changed
-
-- check for unqiue political business number also for secondary majority elections
-
-## [v2.54.0] - 2025-03-27
+- add candidate incumbent value to eCH-0157 export
 
 ### 🆕 Added
 
-- add domain of influence franking licence away number
+- add proportional election mandate algorithm and vote result algorithm restrictions
 
-## [v2.53.0] - 2025-03-26
+### 🔄 Changed
+
+- ensure political business is complete before activation
+
+### 🔄 Changed
+
+- update voting library adding input validation support for plus-minus sign
+
+### 🔄 Changed
+
+- normalize attributes of type `GUID` according to event signature concept before generating binary payload
 
 ### 🆕 Added
 
-- add e-collecting settings on dois
-
-## [v2.52.0] - 2025-03-14
+- add majority election candidate reporting type
 
 ### 🆕 Added
 
-- add country, street and house number to election candidate
+- add party long description to majority election candidates
 
-## [v2.51.3] - 2025-03-13
+### 🆕 Added
 
-### ❌ Removed
-
-- Enum Values Chamois and Gold in VotingCardColor
-
-## [v2.51.2] - 2025-03-11
+- add choice to export specific eCH versions
 
 ### 🔄 Changed
 
-- soft-delete domain of influences and cleanly delete related entities
-
-## [v2.51.1] - 2025-03-06
+- improve code quality
 
 ### 🔄 Changed
 
-- add tests for doi hierarchy and permissions changes
-- improve domain of influence permission and hierarchy event processing speed
-
-## [v2.51.0] - 2025-03-05
+- update proto
+- update lib and and fix file wrapper interface change
 
 ### 🔄 Changed
 
-- do not publish event processed messages for catch-ups
-
-## [v2.50.1] - 2025-03-04
+- correct headers in candidate list CSV
 
 ### 🔄 Changed
 
-- ensure valid majority election ballot groups
-
-## [v2.50.0] - 2025-02-28
+- use malware scanner correctly during eCH import
 
 ### 🔄 Changed
 
-- switched to a more generic event watching mechanism
+- restrict list and candidate number length
 
-## [v2.49.1] - 2025-02-27
+### 🆕 Added
+
+- add candidate list CSV export
 
 ### 🔄 Changed
 
@@ -437,69 +487,3 @@ Total commits ------- 32
 ### 🔄 Changed
 
 - fix missing domain of influence post data
-
-### 🔄 Changed
-
-- delete domain of influence related data for backward compatibility
-
-### 🔄 Changed
-
-- fix existing political assembly states
-
-### 🆕 Added
-
-- PastLockedPoliticalAssemblyJob, job to change state of political assemblies to passed
-- ArchivePoliticalAssemblyJob, job to change state of political assemblies to archived
-- properties State, ArchivePer, PastLockPer and fuctions TrySetPastLocked(), TryArchive(), Archive(DateTime? archivePer = null) to PoliticalAssemblyAgregate
-- functions Archive(), TrySetPastLocked(), TryArchive() to PoliticalAssemblyWriter
-- PoliticalAssemblyStateExtension
-- Model PoliticalAssemblyState
-- endpoint Archive() in PoliticalAssemblyService
-
-### 🔄 Changed
-
-- mapping in PoliticalAssemblyProfile
-- function List() in PoliticalAssemblyReader - selection enhanced with state
-- PoliticalAssemblyModelBuilder, added Property ArchivePer and PastLockPer. added Index for doi and state
-- Model PoliticalAssembly, added State, ArchivePer and PastLockPer
-
-### 🔄 Changed
-
-- check for unqiue political business number also for secondary majority elections
-
-### 🆕 Added
-
-- add domain of influence franking licence away number
-
-### 🆕 Added
-
-- add e-collecting settings on dois
-
-### 🆕 Added
-
-- add country, street and house number to election candidate
-
-### ❌ Removed
-
-- Enum Values Chamois and Gold in VotingCardColor
-
-### 🔄 Changed
-
-- soft-delete domain of influences and cleanly delete related entities
-
-### 🔄 Changed
-
-- add tests for doi hierarchy and permissions changes
-- improve domain of influence permission and hierarchy event processing speed
-
-### 🔄 Changed
-
-- do not publish event processed messages for catch-ups
-
-### 🔄 Changed
-
-- ensure valid majority election ballot groups
-
-### 🔄 Changed
-
-- switched to a more generic event watching mechanism

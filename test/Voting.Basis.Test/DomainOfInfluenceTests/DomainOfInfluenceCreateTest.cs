@@ -136,8 +136,8 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     [Fact]
     public async Task TestChildDoiShouldGiveTenantAccessToParents()
     {
+        const string tenantId = "1345-mock";
         var newId = Guid.Parse("3c3f3ae2-0439-4998-85ff-ae1f7eac94a5");
-        var tenantId = "1345-mock";
 
         await TestEventPublisher.Publish(new DomainOfInfluenceCreated
         {

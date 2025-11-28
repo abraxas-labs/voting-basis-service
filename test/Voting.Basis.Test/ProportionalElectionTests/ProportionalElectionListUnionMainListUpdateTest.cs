@@ -66,7 +66,7 @@ public class ProportionalElectionListUnionMainListUpdateTest : PoliticalBusiness
         lists[1].ProportionalElectionList.SubListUnionDescription
             .Should()
             .Be(
-                "<span><span>1a</span>, <span class=\"main-list\">1a</span>, <span class=\"main-list\">2</span>, <span>2</span>, <span>2</span>, <span class=\"main-list\">2</span>, <span class=\"main-list\">3a</span></span>");
+                "<span><span>1a</span>, <span class=\"main-list\">1a</span>, <span class=\"main-list\">2</span>, <span>2</span>, <span>2</span>, <span class=\"main-list\">3a</span></span>");
     }
 
     [Fact]
@@ -90,26 +90,21 @@ public class ProportionalElectionListUnionMainListUpdateTest : PoliticalBusiness
         var lists = await RunOnDb(db =>
             db.ProportionalElectionListUnionEntries
                 .Include(x => x.ProportionalElectionList)
+                .OrderBy(x => x.ProportionalElectionList.Position)
                 .Where(x => x.ProportionalElectionListUnionId == listUnionId).ToListAsync());
         lists.Should().HaveCount(3);
 
-        var singleListUnionId = Guid.Parse(ProportionalElectionMockedData.ListId3GossauProportionalElectionInContestStGallen);
-        foreach (var list in lists)
-        {
-            if (list.ProportionalElectionListId == singleListUnionId)
-            {
-                list.ProportionalElectionList.ListUnionDescription
-                    .Should()
-                    .Be(
-                        "<span><span>1a</span>, <span class=\"main-list\">2</span>, <span>3a</span></span>");
-                continue;
-            }
+        lists[0].ProportionalElectionList.ListUnionDescription
+            .Should()
+            .Be("<span><span>1a</span>, <span>1a</span>, <span class=\"main-list\">2</span>, <span>2</span>, <span>3a</span></span>");
 
-            list.ProportionalElectionList.ListUnionDescription
-                .Should()
-                .Be(
-                    "<span><span>1a</span>, <span>1a</span>, <span class=\"main-list\">2</span>, <span>2</span>, <span>3a</span></span>");
-        }
+        lists[1].ProportionalElectionList.ListUnionDescription
+            .Should()
+            .Be("<span><span>1a</span>, <span>1a</span>, <span class=\"main-list\">2</span>, <span>2</span>, <span>2</span>, <span>3a</span>, <span>3a</span></span>");
+
+        lists[2].ProportionalElectionList.ListUnionDescription
+            .Should()
+            .Be("<span><span>1a</span>, <span class=\"main-list\">2</span>, <span>2</span>, <span>3a</span>, <span>3a</span></span>");
     }
 
     [Fact]
@@ -180,7 +175,7 @@ public class ProportionalElectionListUnionMainListUpdateTest : PoliticalBusiness
             async () => await CantonAdminClient.UpdateListUnionMainListAsync(NewValidRequest(x =>
             {
                 x.ProportionalElectionListUnionId = ProportionalElectionMockedData.ListUnionIdGossauProportionalElectionEVotingApprovedInContestStGallen;
-                x.ProportionalElectionMainListId = ProportionalElectionMockedData.ListIdGossauProportionalElectionEVotingApprovedInContestStGallen;
+                x.ProportionalElectionMainListId = ProportionalElectionMockedData.ListId1GossauProportionalElectionEVotingApprovedInContestStGallen;
             })),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingApprovedException));

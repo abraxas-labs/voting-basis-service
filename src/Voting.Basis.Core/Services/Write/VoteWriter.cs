@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
+using Voting.Basis.Core.Extensions;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Validation;
 using Voting.Basis.Data;
@@ -60,6 +61,7 @@ public class VoteWriter : PoliticalBusinessWriter
             data.PoliticalBusinessNumber,
             PoliticalBusinessType.Vote,
             data.ReportDomainOfInfluenceLevel);
+        await EnsureValidVoteResultAlgorithm(data.ResultAlgorithm, data.DomainOfInfluenceId);
         await _contestValidationService.EnsureInTestingPhase(data.ContestId);
         await HandleEVotingDuringCreation(data);
 
@@ -211,6 +213,19 @@ public class VoteWriter : PoliticalBusinessWriter
             var aggregate = await _aggregateRepository.GetById<VoteAggregate>(id);
             aggregate.Delete(true);
             await _aggregateRepository.Save(aggregate);
+        }
+    }
+
+    internal async Task EnsureValidVoteResultAlgorithm(
+        VoteResultAlgorithm algo,
+        Guid domainOfInfluenceId)
+    {
+        var doi = await _doiRepository.GetByKey(domainOfInfluenceId)
+            ?? throw new EntityNotFoundException(domainOfInfluenceId);
+
+        if (doi.Type.IsPolitical() && algo != VoteResultAlgorithm.PopularMajority)
+        {
+            throw new ValidationException($"Political domain of influence does not allow vote result algorithm {algo}");
         }
     }
 

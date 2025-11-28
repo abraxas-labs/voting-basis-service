@@ -42,6 +42,8 @@
     "Origin": "origin",
     "Country": "CH",
     "Street": "street updated",
-    "HouseNumber": "1a updated"
+    "HouseNumber": "1a updated",
+    "PartyLongDescription": {},
+    "ReportingType": 0
   }
 }

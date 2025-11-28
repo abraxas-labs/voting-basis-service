@@ -43,10 +43,10 @@
         "rm": "occupation title rm"
       },
       "Party": {
-        "de": "Test de",
-        "fr": "Test fr",
-        "it": "Test it",
-        "rm": "Test rm"
+        "de": "Updated de",
+        "fr": "Updated fr",
+        "it": "Updated it",
+        "rm": "Updated rm"
       },
       "Incumbent": true,
       "ZipCode": "2000",
@@ -56,7 +56,14 @@
       "CheckDigit": 9,
       "Country": "CH",
       "Street": "street",
-      "HouseNumber": "1a"
+      "HouseNumber": "1a",
+      "PartyLongDescription": {
+        "de": "Updated long desc de",
+        "fr": "Updated long desc fr",
+        "it": "Updated long desc it",
+        "rm": "Updated long desc rm"
+      },
+      "ReportingType": 0
     }
   }
 }

@@ -248,6 +248,7 @@ public class SecondaryMajorityElectionProcessor :
         existingCandidate.Incumbent = eventData.MajorityElectionCandidateReference.Incumbent;
         existingCandidate.Number = eventData.MajorityElectionCandidateReference.Number;
         existingCandidate.CheckDigit = eventData.MajorityElectionCandidateReference.CheckDigit;
+        existingCandidate.ReportingType = _mapper.Map<MajorityElectionCandidateReportingType>(eventData.MajorityElectionCandidateReference.ReportingType);
         await _candidateRepo.Update(existingCandidate);
         await _eventLogger.LogSecondaryMajorityElectionCandidateEvent(eventData, existingCandidate);
     }

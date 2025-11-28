@@ -21,7 +21,8 @@ public class MajorityElectionCandidate
         OccupationTitle = new Dictionary<string, string>();
         ZipCode = string.Empty;
         Locality = string.Empty;
-        Party = new Dictionary<string, string>();
+        PartyShortDescription = new Dictionary<string, string>();
+        PartyLongDescription = new Dictionary<string, string>();
         Origin = string.Empty;
         Country = string.Empty;
         Street = string.Empty;
@@ -50,7 +51,9 @@ public class MajorityElectionCandidate
 
     public Dictionary<string, string> OccupationTitle { get; private set; }
 
-    public Dictionary<string, string> Party { get; set; }
+    public Dictionary<string, string> PartyShortDescription { get; set; }
+
+    public Dictionary<string, string> PartyLongDescription { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether the candidate is incumbent (in german: Bisher).
@@ -74,4 +77,6 @@ public class MajorityElectionCandidate
     public string Street { get; private set; }
 
     public string HouseNumber { get; private set; }
+
+    public MajorityElectionCandidateReportingType ReportingType { get; internal set; }
 }

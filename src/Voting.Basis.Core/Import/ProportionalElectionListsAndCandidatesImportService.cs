@@ -114,7 +114,7 @@ public class ProportionalElectionListsAndCandidatesImportService
         IReadOnlySet<Guid> partyIds,
         IdVerifier idVerifier)
     {
-        var candidateValidationParams = new CandidateValidationParams(doi);
+        var candidateValidationParams = new CandidateValidationParams(doi, false);
 
         foreach (var candidate in candidates)
         {

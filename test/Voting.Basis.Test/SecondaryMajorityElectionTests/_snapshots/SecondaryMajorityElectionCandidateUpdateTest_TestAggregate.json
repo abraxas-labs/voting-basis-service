@@ -27,11 +27,17 @@
           "it": "occupation title it",
           "rm": "occupation title rm"
         },
-        "Party": {
+        "PartyShortDescription": {
           "de": "Test de",
           "fr": "Test fr",
           "it": "Test it",
           "rm": "Test rm"
+        },
+        "PartyLongDescription": {
+          "de": "Test long descscription de",
+          "fr": "Test long descscription fr",
+          "it": "Test long descscription it",
+          "rm": "Test long descscription rm"
         },
         "Incumbent": true,
         "ZipCode": "8000",
@@ -41,7 +47,8 @@
         "CheckDigit": 9,
         "Country": "CH",
         "Street": "street",
-        "HouseNumber": "1a"
+        "HouseNumber": "1a",
+        "ReportingType": 0
       },
       "IsReferenced": true,
       "ReferencedCandidateId": "81a11b8e-51b8-40c5-aa94-b7a854e2c726"
@@ -73,11 +80,17 @@
           "it": "new occupation title it",
           "rm": "new occupation title rm"
         },
-        "Party": {
+        "PartyShortDescription": {
           "de": "NEW de",
           "fr": "NEW fr",
           "it": "NEW it",
           "rm": "NEW rm"
+        },
+        "PartyLongDescription": {
+          "de": "party long updated de",
+          "fr": "party long updated fr",
+          "it": "party long updated it",
+          "rm": "party long updated rm"
         },
         "Incumbent": false,
         "ZipCode": "new zip code",
@@ -87,7 +100,8 @@
         "CheckDigit": 0,
         "Country": "CH",
         "Street": "street",
-        "HouseNumber": "1a"
+        "HouseNumber": "1a",
+        "ReportingType": 1
       },
       "IsReferenced": false,
       "ReferencedCandidateId": ""

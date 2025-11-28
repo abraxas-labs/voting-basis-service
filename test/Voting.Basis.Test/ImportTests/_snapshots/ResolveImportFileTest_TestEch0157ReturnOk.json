@@ -89,7 +89,13 @@
           "Occupation": {},
           "Title": "",
           "OccupationTitle": {},
-          "Party": {
+          "PartyShortDescription": {
+            "de": "SP",
+            "fr": "SP",
+            "it": "SP",
+            "rm": "SP"
+          },
+          "PartyLongDescription": {
             "de": "SP",
             "fr": "SP",
             "it": "SP",
@@ -103,7 +109,8 @@
           "CheckDigit": 0,
           "Country": "CH",
           "Street": "street",
-          "HouseNumber": "1a"
+          "HouseNumber": "1a",
+          "ReportingType": 0
         },
         {
           "Id": "",
@@ -126,7 +133,13 @@
             "it": "Director Librarian",
             "rm": "Director Librarian"
           },
-          "Party": {
+          "PartyShortDescription": {
+            "de": "FDP",
+            "fr": "FDP",
+            "it": "FDP",
+            "rm": "FDP"
+          },
+          "PartyLongDescription": {
             "de": "FDP",
             "fr": "FDP",
             "it": "FDP",
@@ -140,7 +153,8 @@
           "CheckDigit": 0,
           "Country": "CH",
           "Street": "street",
-          "HouseNumber": "1a"
+          "HouseNumber": "1a",
+          "ReportingType": 0
         },
         {
           "Id": "",
@@ -163,7 +177,13 @@
             "it": "Chief Executive Officer Accountant",
             "rm": "Chief Executive Officer Accountant"
           },
-          "Party": {
+          "PartyShortDescription": {
+            "de": "FDP",
+            "fr": "FDP",
+            "it": "FDP",
+            "rm": "FDP"
+          },
+          "PartyLongDescription": {
             "de": "FDP",
             "fr": "FDP",
             "it": "FDP",
@@ -177,7 +197,8 @@
           "CheckDigit": 0,
           "Country": "CH",
           "Street": "street",
-          "HouseNumber": "1a"
+          "HouseNumber": "1a",
+          "ReportingType": 0
         }
       ]
     }

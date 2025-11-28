@@ -16,10 +16,12 @@ using Voting.Basis.Core.Models;
 using Voting.Basis.Core.Utils;
 using Voting.Lib.Common;
 using BallotNumberGeneration = Voting.Basis.Data.Models.BallotNumberGeneration;
+using MajorityElectionCandidateReportingType = Voting.Basis.Data.Models.MajorityElectionCandidateReportingType;
 using MajorityElectionMandateAlgorithm = Voting.Basis.Data.Models.MajorityElectionMandateAlgorithm;
 using MajorityElectionResultEntry = Voting.Basis.Data.Models.MajorityElectionResultEntry;
 using MajorityElectionReviewProcedure = Voting.Basis.Data.Models.MajorityElectionReviewProcedure;
 using SexType = Abraxas.Voting.Basis.Shared.V1.SexType;
+using SharedProto = Abraxas.Voting.Basis.Shared.V1;
 
 namespace Voting.Basis.Core.Domain.Aggregate;
 
@@ -294,7 +296,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             throw new ValidationException("Candidate position should be continuous");
         }
 
-        EnsureCandidateIsValid(candidate, candidateValidationParams);
+        EnsureCandidateIsValid(candidate, null, candidateValidationParams, IndividualCandidatesDisabled);
         EnsureUniqueCandidatePosition(candidate);
         EnsureUniqueCandidateNumber(candidate);
 
@@ -321,7 +323,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             throw new ValidationException("Cannot change the candidate position via an update");
         }
 
-        EnsureCandidateIsValid(candidate, candidateValidationParams);
+        EnsureCandidateIsValid(candidate, existingCandidate, candidateValidationParams, IndividualCandidatesDisabled);
         EnsureUniqueCandidatePosition(candidate);
         EnsureUniqueCandidateNumber(candidate);
 
@@ -350,6 +352,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         ValidationUtils.EnsureNotModified(existingCandidate.Number, candidate.Number);
         ValidationUtils.EnsureNotModified(existingCandidate.CheckDigit, candidate.CheckDigit);
         ValidationUtils.EnsureNotModified(existingCandidate.Position, candidate.Position);
+        EnsureCandidateIsValid(candidate, existingCandidate, candidateValidationParams, IndividualCandidatesDisabled);
 
         var ev = new MajorityElectionCandidateAfterTestingPhaseUpdated
         {
@@ -368,11 +371,13 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             Incumbent = candidate.Incumbent,
             ZipCode = candidate.ZipCode,
             Locality = candidate.Locality,
-            Party = { candidate.Party },
+            Party = { candidate.PartyShortDescription },
+            PartyLongDescription = { candidate.PartyLongDescription },
             Origin = candidate.Origin,
             Country = candidate.Country,
             Street = candidate.Street,
             HouseNumber = candidate.HouseNumber,
+            ReportingType = _mapper.Map<SharedProto.MajorityElectionCandidateReportingType>(candidate.ReportingType),
         };
 
         RaiseEvent(ev);
@@ -614,10 +619,11 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             data.Id = Guid.NewGuid();
         }
 
-        _candidateValidator.ValidateAndThrow(data);
-        EnsureCandidateIsValid(data, candidateValidationParams);
-
         var sme = GetSecondaryMajorityElection(data.MajorityElectionId);
+        EnsureCandidateIsValid(data, null, candidateValidationParams, sme.IndividualCandidatesDisabled);
+
+        _candidateValidator.ValidateAndThrow(data);
+
         sme.EnsureValidCandidatePosition(data, true);
         sme.EnsureUniqueCandidateNumber(data, sme.CandidateReferences);
 
@@ -639,12 +645,11 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         EnsureNotDeleted();
         EnsureEVotingNotApproved(data.MajorityElectionId);
         _candidateValidator.ValidateAndThrow(data);
-        EnsureCandidateIsValid(data, candidateValidationParams);
 
         var sme = GetSecondaryMajorityElection(data.MajorityElectionId);
+        var existingSmeCandidate = sme.GetCandidate(data.Id);
 
-        // ensure candidate exists
-        sme.GetCandidate(data.Id);
+        EnsureCandidateIsValid(data, existingSmeCandidate, candidateValidationParams, sme.IndividualCandidatesDisabled);
         sme.EnsureValidCandidatePosition(data, false);
         sme.EnsureUniqueCandidateNumber(data, sme.CandidateReferences);
 
@@ -675,6 +680,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         ValidationUtils.EnsureNotModified(existingCandidate.Number, data.Number);
         ValidationUtils.EnsureNotModified(existingCandidate.CheckDigit, data.CheckDigit);
         ValidationUtils.EnsureNotModified(existingCandidate.Position, data.Position);
+        EnsureCandidateIsValid(data, existingCandidate, candidateValidationParams, sme.IndividualCandidatesDisabled);
 
         var ev = new SecondaryMajorityElectionCandidateAfterTestingPhaseUpdated
         {
@@ -695,11 +701,13 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             Incumbent = data.Incumbent,
             ZipCode = data.ZipCode,
             Locality = data.Locality,
-            Party = { data.Party },
+            Party = { data.PartyShortDescription },
+            PartyLongDescription = { data.PartyLongDescription },
             Origin = data.Origin,
             Country = data.Country,
             Street = data.Street,
             HouseNumber = data.HouseNumber,
+            ReportingType = _mapper.Map<SharedProto.MajorityElectionCandidateReportingType>(data.ReportingType),
         };
 
         RaiseEvent(ev);
@@ -729,7 +737,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void CreateCandidateReferenceFrom(MajorityElectionCandidateReference data)
+    public void CreateCandidateReferenceFrom(MajorityElectionCandidateReference data, bool testingPhaseEnded)
     {
         EnsureNotDeleted();
         EnsureEVotingNotApproved(data.SecondaryMajorityElectionId);
@@ -752,6 +760,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         candidateReferenceEventData.PrimaryMajorityElectionId = Id.ToString();
         candidateReferenceEventData.IsOnSeparateBallot = sme.IsOnSeparateBallot;
         candidateReferenceEventData.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
+        EnsureValidCandidateReportingType(data, null, testingPhaseEnded, sme.IndividualCandidatesDisabled, c => c?.ReportingType);
 
         var ev = new SecondaryMajorityElectionCandidateReferenceCreated
         {
@@ -762,7 +771,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateCandidateReferenceFrom(MajorityElectionCandidateReference data)
+    public void UpdateCandidateReferenceFrom(MajorityElectionCandidateReference data, bool testingPhaseEnded)
     {
         EnsureNotDeleted();
         EnsureEVotingNotApproved(data.SecondaryMajorityElectionId);
@@ -774,6 +783,12 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             throw new ValidationException($"{nameof(data.CandidateId)} is immutable");
         }
 
+        if (testingPhaseEnded)
+        {
+            ValidationUtils.EnsureNotModified(existingReference.Number, data.Number);
+            ValidationUtils.EnsureNotModified(existingReference.Position, data.Position);
+        }
+
         sme.EnsureValidCandidatePosition(data, false);
         sme.EnsureUniqueCandidateNumber(data, sme.CandidateReferences, data.Number);
 
@@ -781,6 +796,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         candidateReferenceEventData.PrimaryMajorityElectionId = Id.ToString();
         candidateReferenceEventData.IsOnSeparateBallot = sme.IsOnSeparateBallot;
         candidateReferenceEventData.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
+        EnsureValidCandidateReportingType(data, existingReference, testingPhaseEnded, sme.IndividualCandidatesDisabled, c => c?.ReportingType);
 
         var ev = new SecondaryMajorityElectionCandidateReferenceUpdated
         {
@@ -845,6 +861,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
     public void CreateBallotGroupFrom(MajorityElectionBallotGroup data)
     {
+        EnsureNotDeleted();
+
         if (data.Id == default)
         {
             data.Id = Guid.NewGuid();
@@ -858,7 +876,6 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             }
         }
 
-        EnsureNotDeleted();
         _ballotGroupValidator.ValidateAndThrow(data);
         EnsureValidCreateUpdateBallotGroupEntries(data.Entries);
 
@@ -884,7 +901,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateBallotGroup(MajorityElectionBallotGroup data, bool testingPhaseEnded)
+    public void UpdateBallotGroup(MajorityElectionBallotGroup data)
     {
         EnsureNotDeleted();
 
@@ -1553,9 +1570,20 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         throw new ValidationException("A ballot group cannot contain only blank rows");
     }
 
-    private void EnsureCandidateIsValid(MajorityElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
+    private void EnsureCandidateIsValid(
+        MajorityElectionCandidate candidate,
+        MajorityElectionCandidate? existingCandidate,
+        CandidateValidationParams candidateValidationParams,
+        bool individualCandidatesDisabled)
     {
-        if (candidateValidationParams.OnlyNamesAndNumberRequired)
+        EnsureValidCandidateReportingType(
+            candidate,
+            existingCandidate,
+            candidateValidationParams.TestingPhaseEnded,
+            individualCandidatesDisabled,
+            c => c?.ReportingType);
+
+        if (candidateValidationParams.OnlyNamesAndNumberRequired == true)
         {
             return;
         }
@@ -1580,9 +1608,65 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             throw new ValidationException("Candidate origin is required for non communal political businesses during testing phase.");
         }
 
-        if (!candidate.Party.Keys.OrderBy(x => x).SequenceEqual(Languages.All.OrderBy(x => x)))
+        if (!candidate.PartyShortDescription.Keys.OrderBy(x => x).SequenceEqual(Languages.All.OrderBy(x => x)))
         {
             throw new ValidationException("Party is required during testing phase.");
+        }
+
+        if (!candidate.PartyLongDescription.Keys.OrderBy(x => x).SequenceEqual(Languages.All.OrderBy(x => x)))
+        {
+            throw new ValidationException("Party is required during testing phase.");
+        }
+    }
+
+    private void EnsureValidCandidateReportingType<T>(
+        T data,
+        T? existingData,
+        bool testingPhaseEnded,
+        bool individualCandidatesDisabled,
+        Func<T?, MajorityElectionCandidateReportingType?> selector)
+    {
+        var newReportingType = selector(data)!.Value;
+
+        if (individualCandidatesDisabled)
+        {
+            if (newReportingType is MajorityElectionCandidateReportingType.Unspecified)
+            {
+                return;
+            }
+
+            throw new ValidationException("Cannot set reporting type if individual candidates are disabled");
+        }
+
+        var existingReportingType = selector(existingData);
+        var existingCandidateCreatedBeforeTestingPhaseEnded = existingReportingType is MajorityElectionCandidateReportingType.Unspecified;
+
+        if (existingReportingType is MajorityElectionCandidateReportingType.Unspecified
+            && newReportingType is MajorityElectionCandidateReportingType.Unspecified)
+        {
+            return;
+        }
+
+        if (!testingPhaseEnded)
+        {
+            if (newReportingType is not MajorityElectionCandidateReportingType.Unspecified)
+            {
+                throw new ValidationException("Candidate reporting type cannot be set during testing phase");
+            }
+        }
+        else
+        {
+            if (existingCandidateCreatedBeforeTestingPhaseEnded
+                && newReportingType is not MajorityElectionCandidateReportingType.Unspecified)
+            {
+                throw new ValidationException("Candidate created before testing phase ended cannot set a reporting type");
+            }
+
+            if (!existingCandidateCreatedBeforeTestingPhaseEnded
+                && newReportingType is MajorityElectionCandidateReportingType.Unspecified)
+            {
+                throw new ValidationException("Candidates created after the testing phase must have a reporting type");
+            }
         }
     }
 

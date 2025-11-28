@@ -14,12 +14,12 @@ public class FileNameUtilTests
     {
         var result = FileNameUtil.GetXmlFileName(
             "0157",
-            "4",
+            "4_0",
             DomainOfInfluenceCanton.Sg,
             new DateTime(2024, 04, 14),
             "test");
 
-        result.Should().Be("ech0157v4_SG_20240414_test.xml");
+        result.Should().Be("eCH-0157_v4_0_SG_20240414_test.xml");
     }
 
     [Fact]

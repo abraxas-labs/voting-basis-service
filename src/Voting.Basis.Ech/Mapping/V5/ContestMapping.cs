@@ -22,7 +22,11 @@ internal static class ContestMapping
             .ToList();
 
         var eVotingPeriod = contest.EVoting
-            ? new EVotingPeriodType { EVotingPeriodFrom = contest.EVotingFrom!.Value, EVotingPeriodTill = contest.EVotingTo!.Value }
+            ? new EVotingPeriodType
+            {
+                EVotingPeriodFrom = contest.EVotingFrom!.Value.ConvertUtcTimeToSwissTime(),
+                EVotingPeriodTill = contest.EVotingTo!.Value.ConvertUtcTimeToSwissTime(),
+            }
             : null;
 
         var contestType = new ContestType

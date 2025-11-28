@@ -27,11 +27,17 @@
           "it": "occupation title it",
           "rm": "occupation title rm"
         },
-        "Party": {
+        "PartyShortDescription": {
           "de": "Test de",
           "fr": "Test fr",
           "it": "Test it",
           "rm": "Test rm"
+        },
+        "PartyLongDescription": {
+          "de": "Test long descscription de",
+          "fr": "Test long descscription fr",
+          "it": "Test long descscription it",
+          "rm": "Test long descscription rm"
         },
         "Incumbent": true,
         "ZipCode": "8000",
@@ -41,7 +47,8 @@
         "CheckDigit": 3,
         "Country": "CH",
         "Street": "street",
-        "HouseNumber": "1a"
+        "HouseNumber": "1a",
+        "ReportingType": 2
       },
       "IsReferenced": true,
       "ReferencedCandidateId": "81a11b8e-51b8-40c5-aa94-b7a854e2c726"
@@ -73,11 +80,17 @@
           "it": "occupation title it",
           "rm": "occupation title rm"
         },
-        "Party": {
+        "PartyShortDescription": {
           "de": "CVP de",
           "fr": "CVP fr",
           "it": "CVP it",
           "rm": "CVP rm"
+        },
+        "PartyLongDescription": {
+          "de": "Christian Swiss party de",
+          "fr": "Christian Swiss party fr",
+          "it": "Christian Swiss party it",
+          "rm": "Christian Swiss party rm"
         },
         "Incumbent": false,
         "ZipCode": "8000",
@@ -87,7 +100,8 @@
         "CheckDigit": 7,
         "Country": "CH",
         "Street": "street",
-        "HouseNumber": "1a"
+        "HouseNumber": "1a",
+        "ReportingType": 0
       },
       "IsReferenced": false,
       "ReferencedCandidateId": ""

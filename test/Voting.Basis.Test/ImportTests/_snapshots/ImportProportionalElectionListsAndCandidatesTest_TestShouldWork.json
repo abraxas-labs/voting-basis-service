@@ -29,7 +29,7 @@
             "rm": "CVP"
           },
           "BlankRowCount": 2,
-          "Position": 1,
+          "Position": 2,
           "Description": {
             "de": "CVP",
             "fr": "CVP",
@@ -67,7 +67,7 @@
             "rm": "CVP Senioren"
           },
           "BlankRowCount": 4,
-          "Position": 2,
+          "Position": 3,
           "Description": {
             "de": "CVP Senioren",
             "fr": "CVP Senioren",
@@ -105,7 +105,7 @@
             "rm": "SP"
           },
           "BlankRowCount": 2,
-          "Position": 3,
+          "Position": 4,
           "Description": {
             "de": "SP",
             "fr": "SP",
@@ -143,7 +143,7 @@
             "rm": "CVP Junioren"
           },
           "BlankRowCount": 3,
-          "Position": 4,
+          "Position": 5,
           "Description": {
             "de": "CVP Junioren",
             "fr": "CVP Junioren",
@@ -181,7 +181,7 @@
             "rm": "SVP"
           },
           "BlankRowCount": 0,
-          "Position": 5,
+          "Position": 6,
           "Description": {
             "de": "SVP",
             "fr": "SVP",

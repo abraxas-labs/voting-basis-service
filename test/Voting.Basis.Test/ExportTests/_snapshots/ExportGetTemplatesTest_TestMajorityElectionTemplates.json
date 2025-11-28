@@ -1,8 +1,20 @@
 {
   "ExportTemplates_": [
     {
-      "Key": "majority_election_ech_0157",
-      "Description": "eCH-0157",
+      "Key": "majority_election_candidate_list",
+      "Description": "Kandidierendenverzeichnis",
+      "EntityType": 3,
+      "Format": 1
+    },
+    {
+      "Key": "majority_election_ech_0157_4_0",
+      "Description": "eCH-0157 v4.0",
+      "EntityType": 3,
+      "Format": 3
+    },
+    {
+      "Key": "majority_election_ech_0157_5_1",
+      "Description": "eCH-0157 v4.2",
       "EntityType": 3,
       "Format": 3
     }

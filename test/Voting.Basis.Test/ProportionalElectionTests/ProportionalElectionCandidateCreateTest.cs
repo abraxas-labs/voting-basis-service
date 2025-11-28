@@ -45,13 +45,13 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
 
         eventData.ProportionalElectionCandidate.Id.Should().Be(response.Id);
         eventData.MatchSnapshot("event", d => d.ProportionalElectionCandidate.Id);
-        eventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
+        eventMetadata!.ContestId.Should().Be(ContestMockedData.IdBundContest);
     }
 
     [Fact]
     public async Task TestShouldTriggerEventSignatureAndSignEvent()
     {
-        await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
+        await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdBundContest, async () =>
         {
             await CantonAdminClient.CreateCandidateAsync(NewValidRequest());
             return EventPublisherMock.GetSinglePublishedEventWithMetadata<ProportionalElectionCandidateCreated>();
@@ -219,7 +219,7 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
     public async Task DuplicateNumberShouldThrow()
     {
         await AssertStatus(
-            async () => await CantonAdminClient.CreateCandidateAsync(NewValidRequest(o => o.Number = "number1")),
+            async () => await CantonAdminClient.CreateCandidateAsync(NewValidRequest(o => o.Number = "num1")),
             StatusCode.AlreadyExists,
             "NonUniqueCandidateNumber");
     }
@@ -276,12 +276,17 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
             c.Position = 4;
             c.Number = "n3";
         }));
+        await CantonAdminClient.CreateCandidateAsync(NewValidRequest(c =>
+        {
+            c.Position = 5;
+            c.Number = "n4";
+        }));
 
         await AssertStatus(
             async () => await CantonAdminClient.CreateCandidateAsync(NewValidRequest(c =>
             {
-                c.Position = 5;
-                c.Number = "n4";
+                c.Position = 6;
+                c.Number = "n5";
             })),
             StatusCode.InvalidArgument);
     }
@@ -290,13 +295,18 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
     public async Task TooManyCandidatesWithAccumulationShouldThrow()
     {
         await CantonAdminClient.CreateCandidateAsync(NewValidRequest());
+        await CantonAdminClient.CreateCandidateAsync(NewValidRequest(c =>
+        {
+            c.Position = 4;
+            c.Number = "n3";
+        }));
 
         await AssertStatus(
             async () => await CantonAdminClient.CreateCandidateAsync(NewValidRequest(c =>
             {
-                c.Position = 4;
+                c.Position = 5;
                 c.Accumulated = true;
-                c.AccumulatedPosition = 5;
+                c.AccumulatedPosition = 6;
                 c.Number = "n4";
             })),
             StatusCode.InvalidArgument);
@@ -359,6 +369,7 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
         {
             o.ProportionalElectionListId = ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestBund;
             o.Locality = string.Empty;
+            o.Number = "X";
         }));
         response.Id.Should().NotBeNull();
     }
@@ -373,6 +384,7 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
         var response = await CantonAdminClient.CreateCandidateAsync(NewValidRequest(o =>
         {
             o.ProportionalElectionListId = ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestBund;
+            o.Number = "X";
             o.Origin = string.Empty;
         }));
         response.Id.Should().NotBeNull();
@@ -398,7 +410,7 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
         await AssertStatus(
             async () => await CantonAdminClient.CreateCandidateAsync(NewValidRequest(x =>
             {
-                x.ProportionalElectionListId = ProportionalElectionMockedData.ListIdGossauProportionalElectionEVotingApprovedInContestStGallen;
+                x.ProportionalElectionListId = ProportionalElectionMockedData.ListId1GossauProportionalElectionEVotingApprovedInContestStGallen;
             })),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingApprovedException));
@@ -428,7 +440,7 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
     {
         var request = new CreateProportionalElectionCandidateRequest
         {
-            ProportionalElectionListId = ProportionalElectionMockedData.ListIdStGallenProportionalElectionInContestStGallen,
+            ProportionalElectionListId = ProportionalElectionMockedData.List1IdStGallenProportionalElectionInContestBund,
             Position = 3,
             FirstName = "firstName",
             LastName = "lastName",
@@ -440,7 +452,7 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
             Incumbent = true,
             Accumulated = false,
             Locality = "locality",
-            Number = "number2",
+            Number = "num2",
             Sex = SharedProto.SexType.Female,
             Title = "title",
             ZipCode = "1234",

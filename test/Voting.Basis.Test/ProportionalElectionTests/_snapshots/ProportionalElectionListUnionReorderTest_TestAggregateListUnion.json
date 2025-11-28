@@ -12,7 +12,10 @@
       "Position": 1,
       "ProportionalElectionRootListUnionId": "",
       "ProportionalElectionSubListUnions": [],
-      "ProportionalElectionListIds": [],
+      "ProportionalElectionListIds": [
+        "afebb285-599d-415f-89ac-04ebcbc4eaeb",
+        "bfe54c2a-6bdf-41a3-bf11-321203c380d3"
+      ],
       "ProportionalElectionMainListId": ""
     },
     {
@@ -44,23 +47,6 @@
             "bfe54c2a-6bdf-41a3-bf11-321203c380d3"
           ],
           "ProportionalElectionMainListId": "9091a3b6-3785-4adc-a486-f486e686503e"
-        },
-        {
-          "Id": "7fd14367-ff96-4ddc-89bc-47fb658527df",
-          "ProportionalElectionId": "fa69e964-0a02-4d16-b417-247e8987021a",
-          "Description": {
-            "de": "Unterlistenverbindung 1.2 de",
-            "fr": "Unterlistenverbindung 1.2 fr",
-            "it": "Unterlistenverbindung 1.2 it",
-            "rm": "Unterlistenverbindung 1.2 rm"
-          },
-          "Position": 2,
-          "ProportionalElectionRootListUnionId": "16892ba3-9b8c-42c7-914e-4b4692d170f4",
-          "ProportionalElectionSubListUnions": [],
-          "ProportionalElectionListIds": [
-            "bfe54c2a-6bdf-41a3-bf11-321203c380d3"
-          ],
-          "ProportionalElectionMainListId": "bfe54c2a-6bdf-41a3-bf11-321203c380d3"
         }
       ],
       "ProportionalElectionListIds": [

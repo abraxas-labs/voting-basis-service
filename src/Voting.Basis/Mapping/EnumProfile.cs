@@ -39,6 +39,7 @@ public class EnumProfile : Profile
         CreateEnumMap<SharedProto.VotingChannel, VotingChannel>();
         CreateEnumMap<SharedProto.ExportGenerator, VotingApp>();
         CreateEnumMap<SharedProto.BallotQuestionType, BallotQuestionType>();
+        CreateEnumMap<SharedProto.MajorityElectionCandidateReportingType, MajorityElectionCandidateReportingType>();
 
         // map by value since the political business union type enum in the proto has the wrong prefix.
         CreateMap<SharedProto.PoliticalBusinessUnionType, PoliticalBusinessUnionType>()

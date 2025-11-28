@@ -8,6 +8,7 @@ using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.EventSignature;
 using Voting.Basis.Core.Export;
 using Voting.Basis.Core.Export.Generators;
+using Voting.Basis.Core.Export.Generators.Csv;
 using Voting.Basis.Core.Import;
 using Voting.Basis.Core.Jobs;
 using Voting.Basis.Core.ObjectStorage;
@@ -119,10 +120,12 @@ internal static class PublisherServiceCollection
 
     private static IServiceCollection AddExports(this IServiceCollection services)
     {
-        return services.AddScoped<ExportService>()
+        return services
+            .AddScoped<ExportService>()
+            .AddScoped<CsvService>()
             .Scan(scan => scan.FromAssemblyOf<IExportGenerator>()
                 .AddClasses(classes => classes.AssignableTo<IExportGenerator>())
-                .AsImplementedInterfaces()
+                .AsSelfWithInterfaces()
                 .WithScopedLifetime()
                 .AddClasses(classes => classes.AssignableTo<IExportsGenerator>())
                 .AsImplementedInterfaces()

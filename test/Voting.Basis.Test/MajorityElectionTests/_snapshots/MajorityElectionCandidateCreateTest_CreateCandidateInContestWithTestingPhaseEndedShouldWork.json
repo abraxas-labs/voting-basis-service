@@ -56,7 +56,14 @@
       "CheckDigit": 7,
       "Country": "CH",
       "Street": "street",
-      "HouseNumber": "1a"
+      "HouseNumber": "1a",
+      "PartyLongDescription": {
+        "de": "SP long description de",
+        "fr": "SP long description fr",
+        "it": "SP long description it",
+        "rm": "SP long description rm"
+      },
+      "ReportingType": 1
     }
   }
 }

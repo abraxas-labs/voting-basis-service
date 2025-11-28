@@ -104,7 +104,11 @@ public class MajorityElectionModelBuilder :
             .HasJsonConversion();
 
         builder
-            .Property(x => x.Party)
+            .Property(x => x.PartyShortDescription)
+            .HasJsonConversion();
+
+        builder
+            .Property(x => x.PartyLongDescription)
             .HasJsonConversion();
     }
 
@@ -152,7 +156,11 @@ public class MajorityElectionModelBuilder :
             .HasJsonConversion();
 
         builder
-            .Property(x => x.Party)
+            .Property(x => x.PartyShortDescription)
+            .HasJsonConversion();
+
+        builder
+            .Property(x => x.PartyLongDescription)
             .HasJsonConversion();
     }
 

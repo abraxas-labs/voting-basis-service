@@ -1240,7 +1240,11 @@ namespace Voting.Basis.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Party")
+                    b.Property<string>("PartyLongDescription")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("PartyShortDescription")
                         .IsRequired()
                         .HasColumnType("jsonb");
 
@@ -1253,6 +1257,9 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("Position")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ReportingType")
                         .HasColumnType("integer");
 
                     b.Property<int>("Sex")
@@ -1861,7 +1868,11 @@ namespace Voting.Basis.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Party")
+                    b.Property<string>("PartyLongDescription")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("PartyShortDescription")
                         .IsRequired()
                         .HasColumnType("jsonb");
 
@@ -1874,6 +1885,9 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("Position")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ReportingType")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("SecondaryMajorityElectionId")

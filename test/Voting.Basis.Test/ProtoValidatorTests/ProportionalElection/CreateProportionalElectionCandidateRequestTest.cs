@@ -18,7 +18,7 @@ public class CreateProportionalElectionCandidateRequestTest : ProtoValidatorBase
     {
         yield return NewValidRequest();
         yield return NewValidRequest(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(1));
-        yield return NewValidRequest(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(10));
+        yield return NewValidRequest(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(5));
         yield return NewValidRequest(x => x.FirstName = RandomStringUtil.GenerateComplexSingleLineText(1));
         yield return NewValidRequest(x => x.FirstName = RandomStringUtil.GenerateComplexSingleLineText(100));
         yield return NewValidRequest(x => x.LastName = RandomStringUtil.GenerateComplexSingleLineText(1));
@@ -63,7 +63,7 @@ public class CreateProportionalElectionCandidateRequestTest : ProtoValidatorBase
         yield return NewValidRequest(x => x.ProportionalElectionListId = "invalid-guid");
         yield return NewValidRequest(x => x.ProportionalElectionListId = string.Empty);
         yield return NewValidRequest(x => x.Number = string.Empty);
-        yield return NewValidRequest(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(11));
+        yield return NewValidRequest(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(6));
         yield return NewValidRequest(x => x.Number = "number-2");
         yield return NewValidRequest(x => x.FirstName = string.Empty);
         yield return NewValidRequest(x => x.FirstName = RandomStringUtil.GenerateComplexSingleLineText(101));
@@ -109,7 +109,7 @@ public class CreateProportionalElectionCandidateRequestTest : ProtoValidatorBase
         var request = new CreateProportionalElectionCandidateRequest
         {
             ProportionalElectionListId = "da36912c-7eaf-43fe-86d4-70c816f17c5a",
-            Number = "number2",
+            Number = "num2",
             FirstName = "firstName",
             LastName = "lastName",
             PoliticalFirstName = "pol first name",

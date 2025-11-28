@@ -3,7 +3,7 @@
     {
       "Id": "8b4837a9-c3ba-4ec5-9e50-536a9b4347a9",
       "ProportionalElectionListId": "9091a3b6-3785-4adc-a486-f486e686503e",
-      "Number": "number1",
+      "Number": "num1",
       "FirstName": "firstName",
       "LastName": "lastName",
       "PoliticalFirstName": "pol first name",
@@ -57,7 +57,7 @@
     {
       "Id": "9efe090f-883b-4e86-89c2-cd132ea84cbd",
       "ProportionalElectionListId": "9091a3b6-3785-4adc-a486-f486e686503e",
-      "Number": "number2",
+      "Number": "num2",
       "FirstName": "candidate",
       "LastName": "number 2",
       "PoliticalFirstName": "pol first name 2",

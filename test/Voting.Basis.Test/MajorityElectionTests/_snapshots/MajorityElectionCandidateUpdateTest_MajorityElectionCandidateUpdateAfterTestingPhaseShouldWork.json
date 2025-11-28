@@ -47,7 +47,14 @@
     "Origin": "origin",
     "Country": "CH",
     "Street": "street updated",
-    "HouseNumber": "1a updated"
+    "HouseNumber": "1a updated",
+    "PartyLongDescription": {
+      "de": "PU long desc de",
+      "fr": "PU long desc fr",
+      "it": "PU long desc it",
+      "rm": "PU long desc rm"
+    },
+    "ReportingType": 0
   },
   "response": {
     "Id": "f5d75dbd-8a22-4fa8-b580-f0c1ed965303",
@@ -70,11 +77,17 @@
     },
     "Title": "",
     "OccupationTitle": {},
-    "Party": {
+    "PartyShortDescription": {
       "de": "PU de",
       "fr": "PU fr",
       "it": "PU it",
       "rm": "PU rm"
+    },
+    "PartyLongDescription": {
+      "de": "PU long desc de",
+      "fr": "PU long desc fr",
+      "it": "PU long desc it",
+      "rm": "PU long desc rm"
     },
     "Incumbent": false,
     "ZipCode": "",
@@ -84,6 +97,7 @@
     "CheckDigit": 9,
     "Country": "CH",
     "Street": "street updated",
-    "HouseNumber": "1a updated"
+    "HouseNumber": "1a updated",
+    "ReportingType": 0
   }
 }

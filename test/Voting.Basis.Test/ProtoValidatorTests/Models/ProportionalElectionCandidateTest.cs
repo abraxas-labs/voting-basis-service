@@ -20,7 +20,7 @@ public class ProportionalElectionCandidateTest : ProtoValidatorBaseTest<ProtoMod
         {
             Id = "da36912c-7eaf-43fe-86d4-70c816f17c5a",
             ProportionalElectionListId = "da36912c-7eaf-43fe-86d4-70c816f17c5a",
-            Number = "number2",
+            Number = "num2",
             FirstName = "firstName",
             LastName = "lastName",
             PoliticalFirstName = "pol first name",
@@ -51,7 +51,7 @@ public class ProportionalElectionCandidateTest : ProtoValidatorBaseTest<ProtoMod
     {
         yield return NewValid();
         yield return NewValid(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(1));
-        yield return NewValid(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(10));
+        yield return NewValid(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(5));
         yield return NewValid(x => x.FirstName = RandomStringUtil.GenerateSimpleSingleLineText(1));
         yield return NewValid(x => x.FirstName = RandomStringUtil.GenerateSimpleSingleLineText(100));
         yield return NewValid(x => x.LastName = RandomStringUtil.GenerateSimpleSingleLineText(1));
@@ -92,8 +92,8 @@ public class ProportionalElectionCandidateTest : ProtoValidatorBaseTest<ProtoMod
         yield return NewValid(x => x.ProportionalElectionListId = "invalid-guid");
         yield return NewValid(x => x.ProportionalElectionListId = string.Empty);
         yield return NewValid(x => x.Number = string.Empty);
-        yield return NewValid(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(11));
-        yield return NewValid(x => x.Number = "number-2");
+        yield return NewValid(x => x.Number = RandomStringUtil.GenerateAlphanumericWhitespace(6));
+        yield return NewValid(x => x.Number = "num-2");
         yield return NewValid(x => x.FirstName = string.Empty);
         yield return NewValid(x => x.FirstName = RandomStringUtil.GenerateSimpleSingleLineText(101));
         yield return NewValid(x => x.FirstName = "first\nname");

@@ -6,12 +6,19 @@
         "MajorityElection": null,
         "CandidateReferences": [],
         "BallotGroupEntries": [],
-        "Party": {
+        "PartyShortDescription": {
           "de": "SP",
           "fr": "SP",
           "it": "SP",
           "rm": "SP"
         },
+        "PartyLongDescription": {
+          "de": "SP",
+          "fr": "SP",
+          "it": "SP",
+          "rm": "SP"
+        },
+        "ReportingType": 0,
         "Number": "1",
         "FirstName": "Urs",
         "LastName": "Niederer",
@@ -38,12 +45,19 @@
         "MajorityElection": null,
         "CandidateReferences": [],
         "BallotGroupEntries": [],
-        "Party": {
+        "PartyShortDescription": {
           "de": "FDP",
           "fr": "FDP",
           "it": "FDP",
           "rm": "FDP"
         },
+        "PartyLongDescription": {
+          "de": "FDP",
+          "fr": "FDP",
+          "it": "FDP",
+          "rm": "FDP"
+        },
+        "ReportingType": 0,
         "Number": "2",
         "FirstName": "Mirta",
         "LastName": "Zumstein",
@@ -75,12 +89,19 @@
         "MajorityElection": null,
         "CandidateReferences": [],
         "BallotGroupEntries": [],
-        "Party": {
+        "PartyShortDescription": {
           "de": "FDP",
           "fr": "FDP",
           "it": "FDP",
           "rm": "FDP"
         },
+        "PartyLongDescription": {
+          "de": "FDP",
+          "fr": "FDP",
+          "it": "FDP",
+          "rm": "FDP"
+        },
+        "ReportingType": 0,
         "Number": "3",
         "FirstName": "Kurt",
         "LastName": "Inge",

@@ -42,7 +42,8 @@ public class MajorityElectionCandidatesImportService
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
 
         var doi = await _domainOfInfluenceReader.Get(majorityElection.DomainOfInfluenceId);
-        var candidateValidationParams = new CandidateValidationParams(doi, true);
+
+        var candidateValidationParams = new CandidateValidationParams(doi, false, true);
         var contest = await _contestReader.Get(majorityElection.ContestId);
         if (contest.TestingPhaseEnded)
         {

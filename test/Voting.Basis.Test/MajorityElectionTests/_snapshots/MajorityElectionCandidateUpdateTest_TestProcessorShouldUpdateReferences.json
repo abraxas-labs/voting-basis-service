@@ -4,12 +4,19 @@
   "CandidateReferenceId": "81a11b8e-51b8-40c5-aa94-b7a854e2c726",
   "CandidateReference": null,
   "BallotGroupEntries": [],
-  "Party": {
+  "PartyShortDescription": {
     "de": "SVP de",
     "fr": "SVP fr",
     "it": "SVP it",
     "rm": "SVP rm"
   },
+  "PartyLongDescription": {
+    "de": "SVP long updated de",
+    "fr": "SVP long updated fr",
+    "it": "SVP long updated it",
+    "rm": "SVP long updated rm"
+  },
+  "ReportingType": 0,
   "Number": "number1",
   "FirstName": "updated first name",
   "LastName": "updated last name",

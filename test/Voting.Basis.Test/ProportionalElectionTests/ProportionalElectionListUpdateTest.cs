@@ -91,23 +91,27 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
             .Select(x => x.ProportionalElectionList)
             .OrderBy(x => x.Position)
             .ToListAsync());
-        lists.Should().HaveCount(5);
+        lists.Should().HaveCount(7);
         lists.Select(x => x.ListUnionDescription)
             .Should()
             .BeEquivalentTo(
-                "<span><span>1a</span>, <span>o2</span>, <span>2</span></span>",
+                "<span><span>1a</span>, <span>o2</span>, <span>o2</span>, <span>2</span>, <span>2</span></span>",
+                "<span><span>1a</span>, <span>o2</span>, <span>o2</span>, <span>2</span>, <span>2</span></span>",
+                "<span><span>1a</span>, <span>o2</span>, <span>o2</span>, <span>2</span>, <span>2</span></span>",
                 "<span><span>1a</span>, <span>1a</span>, <span>o2</span>, <span>2</span>, <span>2</span></span>",
-                "<span><span>1a</span>, <span>o2</span>, <span>2</span></span>",
-                "<span><span>1a</span>, <span>1a</span>, <span>o2</span>, <span>2</span>, <span>2</span></span>",
-                "<span><span>1a</span>, <span>1a</span>, <span>o2</span>, <span>2</span>, <span>2</span></span>");
+                "<span><span>1a</span>, <span>1a</span>, <span>o2</span>, <span>o2</span>, <span>2</span>, <span>2</span>, <span>2</span></span>",
+                "<span><span>1a</span>, <span>1a</span>, <span>o2</span>, <span>o2</span>, <span>2</span>, <span>2</span>, <span>2</span></span>",
+                "<span><span>1a</span>, <span>1a</span>, <span>o2</span>, <span>o2</span>, <span>2</span>, <span>2</span>, <span>2</span></span>");
         lists.Select(x => x.SubListUnionDescription)
             .Should()
             .BeEquivalentTo(
                 "<span><span class=\"main-list\">o2</span>, <span>2</span></span>",
-                "<span><span class=\"main-list\">1a</span>, <span class=\"main-list\">1a</span>, <span>2</span>, <span>2</span></span>",
                 "<span><span class=\"main-list\">o2</span>, <span>2</span></span>",
-                "<span><span class=\"main-list\">1a</span>, <span class=\"main-list\">1a</span>, <span class=\"main-list\">o2</span>, <span>2</span>, <span>2</span>, <span>2</span>, <span class=\"main-list\">2</span></span>",
-                "<span><span class=\"main-list\">1a</span>, <span class=\"main-list\">1a</span>, <span class=\"main-list\">o2</span>, <span>2</span>, <span>2</span>, <span>2</span>, <span class=\"main-list\">2</span></span>");
+                "<span><span class=\"main-list\">o2</span>, <span>2</span></span>",
+                "<span><span class=\"main-list\">1a</span>, <span class=\"main-list\">1a</span>, <span>2</span>, <span>2</span></span>",
+                "<span><span class=\"main-list\">1a</span>, <span class=\"main-list\">1a</span>, <span class=\"main-list\">o2</span>, <span>2</span>, <span>2</span>, <span>2</span></span>",
+                "<span><span class=\"main-list\">1a</span>, <span class=\"main-list\">1a</span>, <span class=\"main-list\">o2</span>, <span>2</span>, <span>2</span>, <span>2</span></span>",
+                "<span><span class=\"main-list\">1a</span>, <span class=\"main-list\">1a</span>, <span class=\"main-list\">o2</span>, <span>2</span>, <span>2</span>, <span>2</span></span>");
 
         await AssertHasPublishedEventProcessedMessage(ProportionalElectionListUpdated.Descriptor, listId);
     }
@@ -229,7 +233,7 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
         await AssertStatus(
             async () => await CantonAdminClient.UpdateListAsync(NewValidRequest(x =>
             {
-                x.Id = ProportionalElectionMockedData.ListIdGossauProportionalElectionEVotingApprovedInContestStGallen;
+                x.Id = ProportionalElectionMockedData.ListId1GossauProportionalElectionEVotingApprovedInContestStGallen;
                 x.ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionEVotingApprovedInContestStGallen;
             })),
             StatusCode.FailedPrecondition,
@@ -253,7 +257,7 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
         var request = new UpdateProportionalElectionListRequest
         {
             Id = ProportionalElectionMockedData.ListIdStGallenProportionalElectionInContestStGallen,
-            BlankRowCount = 1,
+            BlankRowCount = 3,
             OrderNumber = "upd1",
             Position = 1,
             ProportionalElectionId = ProportionalElectionMockedData.IdStGallenProportionalElectionInContestStGallen,

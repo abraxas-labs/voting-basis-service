@@ -75,6 +75,17 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
     }
 
     [Fact]
+    public async Task TestInvalidVoteResultAlgorithmByDomainOfInfluenceTypeShouldThrow()
+    {
+        var request = await CreateValidRequest();
+        request.Votes[0].Vote.ResultAlgorithm = SharedProto.VoteResultAlgorithm.PopularAndCountingCircleMajority;
+        await AssertStatus(
+            async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
+            StatusCode.InvalidArgument,
+            "Political domain of influence does not allow vote result algorithm");
+    }
+
+    [Fact]
     public async Task TestWithDuplicatedCandidateIdShouldThrow()
     {
         var request = await CreateValidRequest();

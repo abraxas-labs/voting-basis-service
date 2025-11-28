@@ -12,7 +12,7 @@ public static class FileNameUtil
         var cantonFormatted = FormatCanton(canton);
         var dateFormatted = FormatDate(date);
 
-        return $"ech{echNumber}v{echVersion}_{cantonFormatted}_{dateFormatted}_{description}{FileExtensions.Xml}";
+        return $"eCH-{echNumber}_v{echVersion}_{cantonFormatted}_{dateFormatted}_{description}{FileExtensions.Xml}";
     }
 
     public static string GetZipFileName(DomainOfInfluenceCanton canton, DateTime date, string description)

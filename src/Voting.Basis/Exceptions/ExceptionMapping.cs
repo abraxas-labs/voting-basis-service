@@ -67,6 +67,8 @@ internal readonly struct ExceptionMapping
             ContestInMergeSetAsPreviousContestException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
             ProportionalElectionEditMandateAlgorithmInUnionException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed),
             ProportionalElectionUnionMultipleMandateAlgorithmsException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed),
+            ProportionalElectionListUnionMissingListsException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
+            ProportionalElectionListIsInListUnionException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
             AutoMapperMappingException autoMapperException when autoMapperException.InnerException is not null => Map(autoMapperException.InnerException),
             AutoMapperMappingException autoMapperException when string.Equals(autoMapperException.Source, EnumMappingErrorSource) => new(StatusCode.InvalidArgument, StatusCodes.Status400BadRequest),
             ValidationException => new(StatusCode.InvalidArgument, StatusCodes.Status400BadRequest),
@@ -74,7 +76,9 @@ internal readonly struct ExceptionMapping
             MajorityElectionActiveNumberOfMandatesChangeException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
             MajorityElectionBallotGroupVoteCountException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
             SecondaryMajorityElectionCreateWithActiveElectionsAndBallotGroupsException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
+            MajorityElectionActiveBallotGroupCreateException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
             SecondaryMajorityElectionCandidateNotSelectedInPrimaryElectionException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
+            PoliticalBusinessNotCompleteException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
             _ => new(StatusCode.Internal, StatusCodes.Status500InternalServerError),
         };
 }

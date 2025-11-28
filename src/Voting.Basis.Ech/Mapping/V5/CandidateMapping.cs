@@ -18,9 +18,15 @@ internal static class CandidateMapping
 {
     private static readonly DateTime DefaultDateOfBirth = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-    internal static CandidateType ToEchCandidateType(this DataModels.ElectionCandidate candidate, Dictionary<string, string>? party, DataModels.DomainOfInfluenceCanton canton, bool eVoting, DataModels.PoliticalBusinessType politicalBusinessType)
+    internal static CandidateType ToEchCandidateType(
+        this DataModels.ElectionCandidate candidate,
+        Dictionary<string, string>? partyShort,
+        Dictionary<string, string>? partyLong,
+        DataModels.DomainOfInfluenceCanton canton,
+        bool eVoting,
+        DataModels.PoliticalBusinessType politicalBusinessType)
     {
-        var text = candidate.ToEchCandidateText(canton, eVoting, politicalBusinessType, party);
+        var text = candidate.ToEchCandidateText(canton, eVoting, politicalBusinessType, partyShort);
 
         var occupationInfos = candidate.Occupation
             .FilterEchExportLanguages(eVoting)
@@ -32,12 +38,13 @@ internal static class CandidateMapping
             })
             .ToList();
 
-        var partyInfos = party?
+        var partyInfos = partyShort?
             .FilterEchExportLanguages(eVoting)
             .Select(x => new PartyAffiliationInformationTypePartyAffiliationInfo
             {
                 Language = x.Key,
                 PartyAffiliationShort = x.Value,
+                PartyAffiliationLong = partyLong?.GetValueOrDefault(x.Key),
             })
             .ToList();
 
@@ -55,6 +62,7 @@ internal static class CandidateMapping
             CandidateText = text.CandidateTextInfo,
             DateOfBirth = candidate.DateOfBirth ?? DefaultDateOfBirth,
             Sex = candidate.Sex.ToEchSexType(),
+            IncumbentYesNo = candidate.Incumbent,
             OccupationalTitle = occupationInfos.Count == 0 ? null : occupationInfos,
             DwellingAddress = new AddressInformationType
             {

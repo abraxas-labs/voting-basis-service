@@ -19,7 +19,7 @@
     "ProportionalElectionCandidate": {
       "Id": "",
       "ProportionalElectionListId": "6eedf849-0ecc-4a02-a43b-99ef4b11d795",
-      "Number": "number1",
+      "Number": "num1",
       "FirstName": "new first name",
       "LastName": "new last name",
       "PoliticalFirstName": "pol first name",

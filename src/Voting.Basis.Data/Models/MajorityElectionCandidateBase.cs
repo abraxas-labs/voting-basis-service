@@ -7,5 +7,9 @@ namespace Voting.Basis.Data.Models;
 
 public abstract class MajorityElectionCandidateBase : ElectionCandidate
 {
-    public Dictionary<string, string> Party { get; set; } = new Dictionary<string, string>();
+    public Dictionary<string, string> PartyShortDescription { get; set; } = new();
+
+    public Dictionary<string, string> PartyLongDescription { get; set; } = new();
+
+    public MajorityElectionCandidateReportingType ReportingType { get; set; }
 }

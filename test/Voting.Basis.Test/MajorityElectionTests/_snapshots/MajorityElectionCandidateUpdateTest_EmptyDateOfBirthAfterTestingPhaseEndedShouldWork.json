@@ -44,6 +44,13 @@
     "Origin": "origin",
     "Country": "CH",
     "Street": "street updated",
-    "HouseNumber": "1a updated"
+    "HouseNumber": "1a updated",
+    "PartyLongDescription": {
+      "de": "PU long desc de",
+      "fr": "PU long desc fr",
+      "it": "PU long desc it",
+      "rm": "PU long desc rm"
+    },
+    "ReportingType": 0
   }
 }

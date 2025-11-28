@@ -52,8 +52,8 @@ public class ImportController : ControllerBase
                 Request,
                 async data =>
                 {
-                    var echStream = await BufferToMemoryStream(data.FileContent);
-                    var contestImport = _importService.DeserializeImport(data.RequestData.ImportType, echStream, ct);
+                    echStream = await BufferToMemoryStream(data.FileContent);
+                    var contestImport = await _importService.DeserializeImport(data.RequestData.ImportType, echStream, ct);
                     return _mapper.Map<ContestImport>(contestImport);
                 },
                 null,

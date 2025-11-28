@@ -158,6 +158,15 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     }
 
     [Fact]
+    public Task UpdateNumberOfMandatesOnActiveElectionShouldThrow()
+    {
+        return AssertStatus(
+            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(v => v.NumberOfMandates = 10)),
+            StatusCode.FailedPrecondition,
+            nameof(ModificationNotAllowedException));
+    }
+
+    [Fact]
     public async Task DomainOfInfluenceChangeShouldThrow()
     {
         await AssertStatus(
@@ -207,15 +216,6 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
             })),
             StatusCode.InvalidArgument,
             "BallotNumberGeneration");
-    }
-
-    [Fact]
-    public async Task InvalidMandateAlgorithmByCantonShouldThrow()
-    {
-        await AssertStatus(
-            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o => o.MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiQuorum)),
-            StatusCode.InvalidArgument,
-            "Canton settings does not allow proportional election mandate algorithm");
     }
 
     [Fact]
@@ -366,7 +366,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
             CandidateCheckDigit = false,
             EnforceEmptyVoteCountingForCountingCircles = true,
             MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.HagenbachBischoff,
-            NumberOfMandates = 2,
+            NumberOfMandates = 5,
             ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
             EnforceCandidateCheckDigitForCountingCircles = true,

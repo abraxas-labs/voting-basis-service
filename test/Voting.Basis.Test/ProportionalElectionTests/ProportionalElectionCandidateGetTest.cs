@@ -34,7 +34,7 @@ public class ProportionalElectionCandidateGetTest : PoliticalBusinessAuthorizati
     {
         var response = await ElectionAdminClient.GetCandidateAsync(new GetProportionalElectionCandidateRequest
         {
-            Id = ProportionalElectionMockedData.CandidateIdGossauProportionalElectionInContestGossau,
+            Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionInContestGossau,
         });
         response.MatchSnapshot();
     }
@@ -55,7 +55,7 @@ public class ProportionalElectionCandidateGetTest : PoliticalBusinessAuthorizati
         await new ProportionalElectionService.ProportionalElectionServiceClient(channel)
             .GetCandidateAsync(new GetProportionalElectionCandidateRequest
             {
-                Id = ProportionalElectionMockedData.CandidateIdGossauProportionalElectionInContestGossau,
+                Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionInContestGossau,
             });
     }
 

@@ -48,7 +48,7 @@ internal static class ProportionalElectionMapping
         {
             ElectionIdentification = proportionalElection.Id.ToString(),
             TypeOfElection = TypeOfElectionType.Item1,
-            ElectionPosition = "0",
+            ElectionPosition = "1",
             ElectionDescription = description.ElectionDescriptionInfo,
             NumberOfMandates = proportionalElection.NumberOfMandates.ToString(),
         };
@@ -257,7 +257,7 @@ internal static class ProportionalElectionMapping
 
     private static CandidateType ToEchProportionalCandidateType(this ProportionalElectionCandidate candidate, DomainOfInfluenceCanton canton, bool eVoting)
     {
-        var candidateType = candidate.ToEchCandidateType(candidate.Party?.ShortDescription, canton, eVoting, PoliticalBusinessType.ProportionalElection);
+        var candidateType = candidate.ToEchCandidateType(candidate.Party?.ShortDescription, candidate.Party?.Name, canton, eVoting, PoliticalBusinessType.ProportionalElection);
         candidateType.CandidateReference = CandidateNumberUtils.GenerateCandidateReference(candidate.ProportionalElectionList.OrderNumber, candidate.Number);
         return candidateType;
     }

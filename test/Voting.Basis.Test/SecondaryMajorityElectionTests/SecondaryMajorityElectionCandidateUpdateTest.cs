@@ -82,11 +82,13 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
                     Title = "new title",
                     ZipCode = "new zip code",
                     Party = { LanguageUtil.MockAllLanguages("NEW") },
+                    PartyLongDescription = { LanguageUtil.MockAllLanguages("party long updated") },
                     Origin = "origin",
                     CheckDigit = 0,
                     Street = "street",
                     HouseNumber = "1a",
                     Country = "CH",
+                    ReportingType = SharedProto.MajorityElectionCandidateReportingType.Candidate,
                 },
             });
 
@@ -122,6 +124,7 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
                     Title = "new title",
                     ZipCode = "new zip code",
                     Party = { LanguageUtil.MockAllLanguages("NEW") },
+                    PartyLongDescription = { LanguageUtil.MockAllLanguages("party long updated") },
                     Origin = "origin",
                     CheckDigit = 0,
                     Street = "street",
@@ -165,6 +168,7 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
                     Title = "new title",
                     ZipCode = "new zip code",
                     Party = { LanguageUtil.MockAllLanguages("NEW") },
+                    PartyLongDescription = { LanguageUtil.MockAllLanguages("party long updated") },
                     Origin = "origin",
                     CheckDigit = 0,
                     Street = "street",
@@ -233,6 +237,27 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
     }
 
     [Fact]
+    public async Task UpdateCandidateCreatedAfterTestingPhaseShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+
+        var createRequest = SecondaryMajorityElectionCandidateCreateTest.NewValidRequestAfterTestingPhaseEnded();
+        var response = await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(createRequest);
+
+        await CantonAdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequest(r =>
+        {
+            r.Id = response.Id;
+            r.Number = createRequest.Number;
+            r.Position = createRequest.Position;
+            r.ReportingType = SharedProto.MajorityElectionCandidateReportingType.CountToIndividual;
+        }));
+
+        var ev = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateAfterTestingPhaseUpdated>();
+        ev.Id.Should().Be(response.Id);
+        ev.MatchSnapshot("event", r => r.Id);
+    }
+
+    [Fact]
     public async Task ModificationWithEVotingApprovedShouldThrow()
     {
         await AssertStatus(
@@ -265,10 +290,12 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
                 Title = "new title",
                 ZipCode = "new zip code",
                 Party = { LanguageUtil.MockAllLanguages("NEW") },
+                PartyLongDescription = { LanguageUtil.MockAllLanguages("party long updated") },
                 Origin = "origin",
                 Street = "street",
                 HouseNumber = "1a",
                 Country = "CH",
+                ReportingType = SharedProto.MajorityElectionCandidateReportingType.CountToIndividual,
             });
 
         var candidates = await CantonAdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
@@ -338,7 +365,7 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
     public async Task EmptyPartyShouldThrow()
     {
         await AssertStatus(
-            async () => await CantonAdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Party.Clear())),
+            async () => await CantonAdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.PartyLongDescription.Clear())),
             StatusCode.InvalidArgument);
     }
 
@@ -346,7 +373,7 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
     public async Task NotAllPartyLanguagesShouldThrow()
     {
         await AssertStatus(
-            async () => await CantonAdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.Party.Remove(Languages.German))),
+            async () => await CantonAdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.PartyShortDescription.Remove(Languages.German))),
             StatusCode.InvalidArgument);
     }
 
@@ -451,7 +478,11 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
     public async Task EmptyPartyAfterTestingPhaseEndedShouldWork()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
-        var request = NewValidRequestAfterTestingPhase(o => o.Party.Clear());
+        var request = NewValidRequestAfterTestingPhase(o =>
+        {
+            o.PartyShortDescription.Clear();
+            o.PartyLongDescription.Clear();
+        });
         await CantonAdminClient.UpdateSecondaryMajorityElectionCandidateAsync(request);
         var (eventData, _) = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateAfterTestingPhaseUpdated, EventSignatureBusinessMetadata>();
 
@@ -481,6 +512,72 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
 
         eventData.Id.Should().Be(request.Id);
         eventData.MatchSnapshot("event", d => d.Id);
+    }
+
+    [Fact]
+    public async Task ReportingTypeInTestingPhaseShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequest(o => o.ReportingType = SharedProto.MajorityElectionCandidateReportingType.Candidate)),
+            StatusCode.InvalidArgument,
+            "Candidate reporting type cannot be set during testing phase");
+    }
+
+    [Fact]
+    public async Task NoReportingTypeForCandidateCreatedAfterTestingPhaseShouldThrow()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+
+        var createRequest = SecondaryMajorityElectionCandidateCreateTest.NewValidRequestAfterTestingPhaseEnded();
+        var response = await CantonAdminClient.CreateSecondaryMajorityElectionCandidateAsync(createRequest);
+
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateSecondaryMajorityElectionCandidateAsync(NewValidRequest(r =>
+            {
+                r.Id = response.Id;
+                r.Number = createRequest.Number;
+                r.Position = createRequest.Position;
+            })),
+            StatusCode.InvalidArgument,
+            "Candidates created after the testing phase must have a reporting type");
+    }
+
+    [Fact]
+    public async Task NoReportingTypeForCandidateCreatedBeforeTestingPhaseShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+        var request = NewValidRequestAfterTestingPhase();
+        await CantonAdminClient.UpdateSecondaryMajorityElectionCandidateAsync(request);
+
+        var (eventData, _) = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateAfterTestingPhaseUpdated, EventSignatureBusinessMetadata>();
+
+        eventData.Id.Should().Be(request.Id);
+        eventData.ReportingType.Should().Be(SharedProto.MajorityElectionCandidateReportingType.Unspecified);
+    }
+
+    [Fact]
+    public async Task ReportingTypeWithIndividualCandidatesDisabledAfterTestingPhaseShouldThrow()
+    {
+        await SetIndividualCandidatesDisabled();
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateSecondaryMajorityElectionCandidateAsync(
+                NewValidRequestAfterTestingPhase(x => x.ReportingType = SharedProto.MajorityElectionCandidateReportingType.Candidate)),
+            StatusCode.InvalidArgument,
+            "Cannot set reporting type if individual candidates are disabled");
+    }
+
+    [Fact]
+    public async Task NoReportingTypeWithIndividualCandidatesDisabledAfterTestingPhaseShouldWork()
+    {
+        await SetIndividualCandidatesDisabled();
+        await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+        var request = NewValidRequestAfterTestingPhase();
+        var response = await CantonAdminClient.UpdateSecondaryMajorityElectionCandidateAsync(request);
+        var ev = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateAfterTestingPhaseUpdated>();
+        ev.Id.Should().Be(request.Id);
+        ev.ReportingType.Should().Be(SharedProto.MajorityElectionCandidateReportingType.Unspecified);
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
@@ -515,7 +612,8 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
             Sex = SharedProto.SexType.Female,
             Title = "title",
             ZipCode = "2000",
-            Party = { LanguageUtil.MockAllLanguages("FDP") },
+            PartyShortDescription = { LanguageUtil.MockAllLanguages("FDP") },
+            PartyLongDescription = { LanguageUtil.MockAllLanguages("Long description FDP") },
             Origin = "origin",
             Street = "street",
             HouseNumber = "1a",
@@ -543,7 +641,8 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
             Locality = "locality updated",
             Sex = SharedProto.SexType.Male,
             Occupation = { LanguageUtil.MockAllLanguages("occupation updated") },
-            Party = { LanguageUtil.MockAllLanguages("PU") },
+            PartyShortDescription = { LanguageUtil.MockAllLanguages("PU") },
+            PartyLongDescription = { LanguageUtil.MockAllLanguages("Long description PU") },
             Incumbent = true,
             Origin = "origin",
             Street = "street",
@@ -553,5 +652,26 @@ public class SecondaryMajorityElectionCandidateUpdateTest : PoliticalBusinessAut
 
         customizer?.Invoke(request);
         return request;
+    }
+
+    private async Task SetIndividualCandidatesDisabled()
+    {
+        var primaryElectionId = Guid.Parse(MajorityElectionMockedData.IdGossauMajorityElectionInContestBund);
+
+        await ModifyDbEntities<MajorityElectionBallotGroupEntry>(
+            x => true,
+            x => x.IndividualCandidatesVoteCount = 0);
+
+        await CantonAdminClient.UpdateSecondaryMajorityElectionAsync(new UpdateSecondaryMajorityElectionRequest
+        {
+            Id = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund,
+            PoliticalBusinessNumber = "10546",
+            OfficialDescription = { LanguageUtil.MockAllLanguages("Update Nebenwahl") },
+            ShortDescription = { LanguageUtil.MockAllLanguages("Update Nebenwahl") },
+            NumberOfMandates = 1,
+            PrimaryMajorityElectionId = primaryElectionId.ToString(),
+            Active = true,
+            IndividualCandidatesDisabled = true,
+        });
     }
 }

@@ -37,7 +37,7 @@ public class ProportionalElectionListTest : ProtoValidatorBaseTest<ProtoModels.P
     {
         yield return NewValid();
         yield return NewValid(x => x.OrderNumber = RandomStringUtil.GenerateAlphanumericWhitespace(1));
-        yield return NewValid(x => x.OrderNumber = RandomStringUtil.GenerateAlphanumericWhitespace(6));
+        yield return NewValid(x => x.OrderNumber = RandomStringUtil.GenerateAlphanumericWhitespace(4));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(1)));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexSingleLineText(20)));
         yield return NewValid(x => x.BlankRowCount = 0);
@@ -64,7 +64,7 @@ public class ProportionalElectionListTest : ProtoValidatorBaseTest<ProtoModels.P
         yield return NewValid(x => x.ProportionalElectionId = "invalid-guid");
         yield return NewValid(x => x.ProportionalElectionId = string.Empty);
         yield return NewValid(x => x.OrderNumber = string.Empty);
-        yield return NewValid(x => x.OrderNumber = RandomStringUtil.GenerateAlphanumericWhitespace(7));
+        yield return NewValid(x => x.OrderNumber = RandomStringUtil.GenerateAlphanumericWhitespace(5));
         yield return NewValid(x => x.OrderNumber = "num-2");
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, string.Empty, "test"));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.ShortDescription, RandomStringUtil.GenerateAlphabetic(1), "test"));

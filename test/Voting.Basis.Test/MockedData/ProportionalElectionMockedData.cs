@@ -46,16 +46,19 @@ public static class ProportionalElectionMockedData
     public const string ListIdBundProportionalElectionInContestBund = "5af18d6d-83b7-40c6-997f-248359817a0d";
     public const string List1IdStGallenProportionalElectionInContestBund = "6fa5262f-bf27-4eb9-81d4-23bb1a49d031";
     public const string List2IdStGallenProportionalElectionInContestBund = "05b72caf-23a9-411d-bac3-7d587666b48a";
-    public const string ListIdBundProportionalElectionInContestStGallen = "ead283f5-5b06-4d94-b23a-1ddf8fa9079f";
+    public const string ListId1BundProportionalElectionInContestStGallen = "ead283f5-5b06-4d94-b23a-1ddf8fa9079f";
+    public const string ListId2BundProportionalElectionInContestStGallen = "dad33663-cc2c-49ec-9e72-1b0b88e96a49";
     public const string ListIdUzwilProportionalElectionInContestStGallen = "66dbbea3-0c99-469f-94c5-4314c32e8eab";
     public const string ListIdStGallenProportionalElectionInContestStGallen = "6eedf849-0ecc-4a02-a43b-99ef4b11d795";
     public const string ListId1GossauProportionalElectionInContestStGallen = "9091a3b6-3785-4adc-a486-f486e686503e";
     public const string ListId2GossauProportionalElectionInContestStGallen = "bfe54c2a-6bdf-41a3-bf11-321203c380d3";
     public const string ListId3GossauProportionalElectionInContestStGallen = "afebb285-599d-415f-89ac-04ebcbc4eaeb";
-    public const string ListIdGossauProportionalElectionEVotingApprovedInContestStGallen = "b6be16cb-ee0d-4465-b85f-5a4344f4e21c";
+    public const string ListId1GossauProportionalElectionEVotingApprovedInContestStGallen = "b6be16cb-ee0d-4465-b85f-5a4344f4e21c";
+    public const string ListId2GossauProportionalElectionEVotingApprovedInContestStGallen = "c31c2fad-598d-469a-98cd-081e836e31b1";
     public const string ListId1GossauProportionalElectionInContestBund = "afab6f5d-4b4b-4e7c-87c4-6eb32b85163b";
     public const string ListId2GossauProportionalElectionInContestBund = "3f834c4b-eabe-4dad-97b2-03d4fc770bf5";
-    public const string ListIdGossauProportionalElectionInContestGossau = "84a0c2dd-9c18-4a64-a08f-d2478c0d3a5b";
+    public const string List1IdGossauProportionalElectionInContestGossau = "84a0c2dd-9c18-4a64-a08f-d2478c0d3a5b";
+    public const string List2IdGossauProportionalElectionInContestGossau = "a05fb241-8835-4ee3-a64d-b586753474a7";
     public const string ListIdUzwilProportionalElectionInContestUzwil = "3808a9cc-c523-40d8-b341-230d801be63b";
     public const string ListIdKircheProportionalElectionInContestKirche = "3561571f-7b4c-469c-9e1b-65166e8f00f0";
 
@@ -63,7 +66,6 @@ public static class ProportionalElectionMockedData
     public const string ListUnion2IdGossauProportionalElectionInContestStGallen = "6a8913a3-bd03-4cb3-a0f9-317db5de8959";
     public const string ListUnion3IdGossauProportionalElectionInContestStGallen = "687970fd-aeae-48d0-b291-7b6333912907";
     public const string SubListUnion11IdGossauProportionalElectionInContestStGallen = "5f53066c-1922-497d-a48b-cfd69579d892";
-    public const string SubListUnion12IdGossauProportionalElectionInContestStGallen = "7fd14367-ff96-4ddc-89bc-47fb658527df";
     public const string SubListUnion21IdGossauProportionalElectionInContestStGallen = "49715fbf-5399-4981-bee5-01705469ec8c";
     public const string SubListUnion22IdGossauProportionalElectionInContestStGallen = "6a839c1a-c94a-4b5a-b59b-4c0edea82307";
     public const string ListUnionIdGossauProportionalElectionEVotingApprovedInContestStGallen = "1bcf5103-83a4-42e1-9e1c-fc190fa4d0ff";
@@ -71,7 +73,6 @@ public static class ProportionalElectionMockedData
     public const string SubListUnionIdGossauProportionalElectionInContestBund = "93cd8201-f82e-4142-b57d-980e4b80d1a9";
     public const string ListUnionIdStGallenProportionalElectionInContestBund = "007ff21f-e61a-48f0-ab1f-6b3aa2c04c53";
     public const string ListUnionIdBundProportionalElectionInContestStGallen = "c0938e89-e5a4-4ee9-bd78-4ca972ddd68e";
-    public const string ListUnionIdUzwilProportionalElectionInContestStGallen = "9d5cb38e-0a75-445f-970d-f97ae129f054";
     public const string ListUnionIdKircheProportionalElectionInContestKirche = "9cb1bb16-d284-427b-841c-6e04cea35b2d";
     public const string ListUnionIdGossauProportionalElectionInContestGossau = "0a8f4968-5546-4198-8c2f-b98b154fd0c6";
 
@@ -79,14 +80,21 @@ public static class ProportionalElectionMockedData
     public const string CandidateIdStGallenProportionalElectionInContestBund = "bba39596-a5f6-4729-a56f-e63871b30acc";
     public const string CandidateId1BundProportionalElectionInContestStGallen = "a31bf965-4824-4a05-a4fe-a43a7605b1f8";
     public const string CandidateId2BundProportionalElectionInContestStGallen = "7eaa113f-4273-4a06-b6b2-ee65919249d6";
+    public const string CandidateId3BundProportionalElectionInContestStGallen = "bc6ec14a-cda5-4276-8270-ec3a30d059cc";
     public const string CandidateIdUzwilProportionalElectionInContestStGallen = "d009d110-6269-4b6e-b9d1-84508de08d42";
     public const string CandidateIdStGallenProportionalElectionInContestStGallen = "9e131f21-4483-4375-b014-484c272615ee";
     public const string CandidateId1GossauProportionalElectionInContestStGallen = "8b4837a9-c3ba-4ec5-9e50-536a9b4347a9";
     public const string CandidateId2GossauDeletedPartyProportionalElectionInContestStGallen = "9efe090f-883b-4e86-89c2-cd132ea84cbd";
-    public const string CandidateIdGossauProportionalElectionEVotingApprovedInContestStGallen = "d119d735-41fe-479a-8a22-d13c891b463f";
+    public const string CandidateId3GossauProportionalElectionInContestStGallen = "3847c950-831e-47f4-b422-3f131e1082e6";
+    public const string CandidateId4GossauProportionalElectionInContestStGallen = "a5663e0d-2e0b-4d25-860d-047e018d8d70";
+
+    public const string CandidateId1GossauProportionalElectionEVotingApprovedInContestStGallen = "d119d735-41fe-479a-8a22-d13c891b463f";
+    public const string CandidateId2GossauProportionalElectionEVotingApprovedInContestStGallen = "ba567317-6977-4faf-8717-d882cd9ffca7";
     public const string CandidateId1GossauProportionalElectionInContestBund = "7c13d762-4166-41f6-b3a5-2c5f21c9dc43";
     public const string CandidateId2GossauProportionalElectionInContestBund = "21f29d48-349d-48e4-862f-723f5929db52";
-    public const string CandidateIdGossauProportionalElectionInContestGossau = "dd49aaba-ab8d-4eda-b83b-54beb8222af0";
+    public const string CandidateId3GossauProportionalElectionInContestBund = "e79159b1-436e-4b96-8592-c9cb8d425fd0";
+    public const string CandidateId1GossauProportionalElectionInContestGossau = "dd49aaba-ab8d-4eda-b83b-54beb8222af0";
+    public const string CandidateId2GossauProportionalElectionInContestGossau = "54c2161b-dbc6-4b3d-a2aa-b42b601d63aa";
     public const string CandidateIdUzwilProportionalElectionInContestUzwil = "7ddfff64-f55a-41ec-8ff5-0fde639a76c0";
     public const string CandidateIdKircheProportionalElectionInContestKirche = "e2000614-8633-4e35-b667-0eae6edc77e4";
 
@@ -118,7 +126,7 @@ public static class ProportionalElectionMockedData
                     {
                         Id = Guid.Parse(ListIdBundProportionalElectionInContestBund),
                         Position = 1,
-                        BlankRowCount = 0,
+                        BlankRowCount = 3,
                         OrderNumber = "1a",
                         Description = LanguageUtil.MockAllLanguages("Liste 1 der Partei SVP"),
                         ShortDescription = LanguageUtil.MockAllLanguages("Liste 1"),
@@ -140,7 +148,7 @@ public static class ProportionalElectionMockedData
                                 Accumulated = true,
                                 AccumulatedPosition = 2,
                                 Locality = "locality",
-                                Number = "number1",
+                                Number = "num1",
                                 Sex = SexType.Female,
                                 Title = "title",
                                 ZipCode = "7000",
@@ -165,7 +173,7 @@ public static class ProportionalElectionMockedData
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl SG"),
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidStGallen,
             ContestId = ContestMockedData.BundContest.Id,
-            Active = true,
+            Active = false,
             AutomaticEmptyVoteCounting = false,
             EnforceEmptyVoteCountingForCountingCircles = true,
             BallotBundleSize = 25,
@@ -205,7 +213,7 @@ public static class ProportionalElectionMockedData
                                 Accumulated = true,
                                 AccumulatedPosition = 2,
                                 Locality = "locality",
-                                Number = "number1",
+                                Number = "num1",
                                 Sex = SexType.Female,
                                 Title = "title",
                                 ZipCode = "7000",
@@ -265,7 +273,7 @@ public static class ProportionalElectionMockedData
             {
                     new ProportionalElectionList
                     {
-                        Id = Guid.Parse(ListIdBundProportionalElectionInContestStGallen),
+                        Id = Guid.Parse(ListId1BundProportionalElectionInContestStGallen),
                         Position = 1,
                         BlankRowCount = 2,
                         OrderNumber = "1a",
@@ -288,7 +296,7 @@ public static class ProportionalElectionMockedData
                                 Accumulated = true,
                                 AccumulatedPosition = 2,
                                 Locality = "locality",
-                                Number = "number1",
+                                Number = "num1",
                                 Sex = SexType.Female,
                                 Title = "title",
                                 ZipCode = "7000",
@@ -312,13 +320,51 @@ public static class ProportionalElectionMockedData
                                 Incumbent = false,
                                 Position = 3,
                                 Locality = "locality 2",
-                                Number = "number2",
+                                Number = "num2",
                                 Sex = SexType.Female,
                                 Title = "title2",
                                 ZipCode = "2325",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
                                 Origin = "origin 2",
                                 CheckDigit = 4,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
+                            },
+                        },
+                    },
+                    new ProportionalElectionList
+                    {
+                        Id = Guid.Parse(ListId2BundProportionalElectionInContestStGallen),
+                        Position = 2,
+                        BlankRowCount = 3,
+                        OrderNumber = "2a",
+                        Description = LanguageUtil.MockAllLanguages("Liste 2"),
+                        ShortDescription = LanguageUtil.MockAllLanguages("Liste 2"),
+                        ProportionalElectionCandidates = new List<ProportionalElectionCandidate>
+                        {
+                            new ProportionalElectionCandidate
+                            {
+                                Id = Guid.Parse(CandidateId3BundProportionalElectionInContestStGallen),
+                                FirstName = "firstName",
+                                LastName = "lastName",
+                                PoliticalFirstName = "pol first name",
+                                PoliticalLastName = "pol last name",
+                                Occupation = LanguageUtil.MockAllLanguages("occupation"),
+                                OccupationTitle = LanguageUtil.MockAllLanguages("occupation title"),
+                                DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
+                                Incumbent = true,
+                                Position = 1,
+                                Accumulated = true,
+                                AccumulatedPosition = 2,
+                                Locality = "locality",
+                                Number = "num1",
+                                Sex = SexType.Female,
+                                Title = "title",
+                                ZipCode = "7000",
+                                PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
+                                Origin = "origin",
+                                CheckDigit = 6,
                                 Street = "street",
                                 HouseNumber = "1a",
                                 Country = "CH",
@@ -337,7 +383,11 @@ public static class ProportionalElectionMockedData
                         {
                             new ProportionalElectionListUnionEntry
                             {
-                                ProportionalElectionListId = Guid.Parse(ListIdBundProportionalElectionInContestStGallen),
+                                ProportionalElectionListId = Guid.Parse(ListId1BundProportionalElectionInContestStGallen),
+                            },
+                            new ProportionalElectionListUnionEntry
+                            {
+                                ProportionalElectionListId = Guid.Parse(ListId2BundProportionalElectionInContestStGallen),
                             },
                         },
                     },
@@ -372,7 +422,7 @@ public static class ProportionalElectionMockedData
                     {
                         Id = Guid.Parse(ListIdUzwilProportionalElectionInContestStGallen),
                         Position = 1,
-                        BlankRowCount = 0,
+                        BlankRowCount = 3,
                         OrderNumber = "1a",
                         Description = LanguageUtil.MockAllLanguages("Liste 1"),
                         ShortDescription = LanguageUtil.MockAllLanguages("L1"),
@@ -393,7 +443,7 @@ public static class ProportionalElectionMockedData
                                 Accumulated = true,
                                 AccumulatedPosition = 2,
                                 Locality = "locality",
-                                Number = "number1",
+                                Number = "num1",
                                 Sex = SexType.Female,
                                 Title = "title",
                                 ZipCode = "7000",
@@ -405,15 +455,6 @@ public static class ProportionalElectionMockedData
                                 Country = "CH",
                             },
                         },
-                    },
-            },
-            ProportionalElectionListUnions = new List<ProportionalElectionListUnion>
-            {
-                    new ProportionalElectionListUnion
-                    {
-                        Id = Guid.Parse(ListUnionIdUzwilProportionalElectionInContestStGallen),
-                        Position = 1,
-                        Description = LanguageUtil.MockAllLanguages("Listenverbindung 1"),
                     },
             },
         };
@@ -447,7 +488,7 @@ public static class ProportionalElectionMockedData
                     {
                         Id = Guid.Parse(ListIdStGallenProportionalElectionInContestStGallen),
                         Position = 1,
-                        BlankRowCount = 1,
+                        BlankRowCount = 3,
                         OrderNumber = "1a",
                         Description = LanguageUtil.MockAllLanguages("Liste 1"),
                         ShortDescription = LanguageUtil.MockAllLanguages("Liste 1"),
@@ -468,7 +509,7 @@ public static class ProportionalElectionMockedData
                                 Accumulated = true,
                                 AccumulatedPosition = 2,
                                 Locality = "locality",
-                                Number = "number1",
+                                Number = "num1",
                                 Sex = SexType.Female,
                                 Title = "title",
                                 ZipCode = "7000",
@@ -534,7 +575,7 @@ public static class ProportionalElectionMockedData
                                 Accumulated = true,
                                 AccumulatedPosition = 2,
                                 Locality = "locality",
-                                Number = "number1",
+                                Number = "num1",
                                 Sex = SexType.Female,
                                 Title = "title",
                                 ZipCode = "7000",
@@ -559,7 +600,7 @@ public static class ProportionalElectionMockedData
                                 Position = 3,
                                 Accumulated = false,
                                 Locality = "locality 2",
-                                Number = "number2",
+                                Number = "num2",
                                 Sex = SexType.Female,
                                 Title = "title 2",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyGossauDeleted,
@@ -576,19 +617,75 @@ public static class ProportionalElectionMockedData
                     {
                         Id = Guid.Parse(ListId2GossauProportionalElectionInContestStGallen),
                         Position = 2,
-                        BlankRowCount = 0,
+                        BlankRowCount = 2,
                         OrderNumber = "2",
                         Description = LanguageUtil.MockAllLanguages("Liste 2"),
                         ShortDescription = LanguageUtil.MockAllLanguages("Liste 2"),
+                        ProportionalElectionCandidates = new List<ProportionalElectionCandidate>
+                        {
+                            new ProportionalElectionCandidate
+                            {
+                                Id = Guid.Parse(CandidateId3GossauProportionalElectionInContestStGallen),
+                                FirstName = "firstName3",
+                                LastName = "lastName3",
+                                PoliticalFirstName = "pol first name3",
+                                PoliticalLastName = "pol last name3",
+                                Occupation = LanguageUtil.MockAllLanguages("occupation3"),
+                                OccupationTitle = LanguageUtil.MockAllLanguages("occupation title3"),
+                                DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
+                                Incumbent = true,
+                                Position = 1,
+                                Accumulated = false,
+                                Locality = "locality",
+                                Number = "num1",
+                                Sex = SexType.Female,
+                                Title = "title",
+                                ZipCode = "7000",
+                                PartyId = DomainOfInfluenceMockedData.GuidPartyGossauFLiG,
+                                Origin = "origin",
+                                CheckDigit = 6,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
+                            },
+                        },
                     },
                     new ProportionalElectionList
                     {
                         Id = Guid.Parse(ListId3GossauProportionalElectionInContestStGallen),
                         Position = 3,
-                        BlankRowCount = 3,
+                        BlankRowCount = 2,
                         OrderNumber = "3a",
                         Description = LanguageUtil.MockAllLanguages("Liste 3"),
                         ShortDescription = LanguageUtil.MockAllLanguages("Liste 3"),
+                        ProportionalElectionCandidates = new List<ProportionalElectionCandidate>
+                        {
+                            new ProportionalElectionCandidate
+                            {
+                                Id = Guid.Parse(CandidateId4GossauProportionalElectionInContestStGallen),
+                                FirstName = "firstName4",
+                                LastName = "lastName4",
+                                PoliticalFirstName = "pol first name4",
+                                PoliticalLastName = "pol last name4",
+                                Occupation = LanguageUtil.MockAllLanguages("occupation4"),
+                                OccupationTitle = LanguageUtil.MockAllLanguages("occupation title4"),
+                                DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
+                                Incumbent = true,
+                                Position = 1,
+                                Accumulated = false,
+                                Locality = "locality",
+                                Number = "num1",
+                                Sex = SexType.Female,
+                                Title = "title",
+                                ZipCode = "7000",
+                                PartyId = DomainOfInfluenceMockedData.GuidPartyGossauFLiG,
+                                Origin = "origin",
+                                CheckDigit = 6,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
+                            },
+                        },
                     },
             },
             ProportionalElectionListUnions = new List<ProportionalElectionListUnion>
@@ -636,6 +733,17 @@ public static class ProportionalElectionMockedData
                         Id = Guid.Parse(ListUnion3IdGossauProportionalElectionInContestStGallen),
                         Position = 3,
                         Description = LanguageUtil.MockAllLanguages("Listenverbindung 3"),
+                        ProportionalElectionListUnionEntries = new List<ProportionalElectionListUnionEntry>
+                        {
+                            new ProportionalElectionListUnionEntry
+                            {
+                                ProportionalElectionListId = Guid.Parse(ListId2GossauProportionalElectionInContestStGallen),
+                            },
+                            new ProportionalElectionListUnionEntry
+                            {
+                                ProportionalElectionListId = Guid.Parse(ListId3GossauProportionalElectionInContestStGallen),
+                            },
+                        },
                     },
                     new ProportionalElectionListUnion
                     {
@@ -655,21 +763,6 @@ public static class ProportionalElectionMockedData
                             },
                         },
                         ProportionalElectionMainListId = Guid.Parse(ListId1GossauProportionalElectionInContestStGallen),
-                    },
-                    new ProportionalElectionListUnion
-                    {
-                        Id = Guid.Parse(SubListUnion12IdGossauProportionalElectionInContestStGallen),
-                        Position = 2,
-                        Description = LanguageUtil.MockAllLanguages("Unterlistenverbindung 1.2"),
-                        ProportionalElectionRootListUnionId = Guid.Parse(ListUnion1IdGossauProportionalElectionInContestStGallen),
-                        ProportionalElectionListUnionEntries = new List<ProportionalElectionListUnionEntry>
-                        {
-                            new ProportionalElectionListUnionEntry
-                            {
-                                ProportionalElectionListId = Guid.Parse(ListId2GossauProportionalElectionInContestStGallen),
-                            },
-                        },
-                        ProportionalElectionMainListId = Guid.Parse(ListId2GossauProportionalElectionInContestStGallen),
                     },
                     new ProportionalElectionListUnion
                     {
@@ -739,9 +832,9 @@ public static class ProportionalElectionMockedData
             {
                     new ProportionalElectionList
                     {
-                        Id = Guid.Parse(ListIdGossauProportionalElectionEVotingApprovedInContestStGallen),
+                        Id = Guid.Parse(ListId1GossauProportionalElectionEVotingApprovedInContestStGallen),
                         Position = 1,
-                        BlankRowCount = 0,
+                        BlankRowCount = 1,
                         OrderNumber = "1",
                         Description = LanguageUtil.MockAllLanguages("Liste 1"),
                         ShortDescription = LanguageUtil.MockAllLanguages("Liste 1"),
@@ -749,7 +842,7 @@ public static class ProportionalElectionMockedData
                         {
                             new ProportionalElectionCandidate
                             {
-                                Id = Guid.Parse(CandidateIdGossauProportionalElectionEVotingApprovedInContestStGallen),
+                                Id = Guid.Parse(CandidateId1GossauProportionalElectionEVotingApprovedInContestStGallen),
                                 FirstName = "firstName",
                                 LastName = "lastName",
                                 PoliticalFirstName = "pol first name",
@@ -762,7 +855,45 @@ public static class ProportionalElectionMockedData
                                 Accumulated = true,
                                 AccumulatedPosition = 2,
                                 Locality = "locality",
-                                Number = "number1",
+                                Number = "num1",
+                                Sex = SexType.Female,
+                                Title = "title",
+                                ZipCode = "7000",
+                                PartyId = DomainOfInfluenceMockedData.GuidPartyGossauFLiG,
+                                Origin = "origin",
+                                CheckDigit = 6,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
+                            },
+                        },
+                    },
+                    new ProportionalElectionList
+                    {
+                        Id = Guid.Parse(ListId2GossauProportionalElectionEVotingApprovedInContestStGallen),
+                        Position = 2,
+                        BlankRowCount = 1,
+                        OrderNumber = "2",
+                        Description = LanguageUtil.MockAllLanguages("Liste 2"),
+                        ShortDescription = LanguageUtil.MockAllLanguages("Liste 2"),
+                        ProportionalElectionCandidates = new List<ProportionalElectionCandidate>
+                        {
+                            new ProportionalElectionCandidate
+                            {
+                                Id = Guid.Parse(CandidateId2GossauProportionalElectionEVotingApprovedInContestStGallen),
+                                FirstName = "firstName",
+                                LastName = "lastName",
+                                PoliticalFirstName = "pol first name",
+                                PoliticalLastName = "pol last name",
+                                Occupation = LanguageUtil.MockAllLanguages("occupation"),
+                                OccupationTitle = LanguageUtil.MockAllLanguages("occupation title"),
+                                DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
+                                Incumbent = true,
+                                Position = 1,
+                                Accumulated = true,
+                                AccumulatedPosition = 2,
+                                Locality = "locality",
+                                Number = "num1",
                                 Sex = SexType.Female,
                                 Title = "title",
                                 ZipCode = "7000",
@@ -787,7 +918,11 @@ public static class ProportionalElectionMockedData
                         {
                             new ProportionalElectionListUnionEntry
                             {
-                                ProportionalElectionListId = Guid.Parse(ListIdGossauProportionalElectionEVotingApprovedInContestStGallen),
+                                ProportionalElectionListId = Guid.Parse(ListId1GossauProportionalElectionEVotingApprovedInContestStGallen),
+                            },
+                            new ProportionalElectionListUnionEntry
+                            {
+                                ProportionalElectionListId = Guid.Parse(ListId2GossauProportionalElectionEVotingApprovedInContestStGallen),
                             },
                         },
                     },
@@ -803,7 +938,7 @@ public static class ProportionalElectionMockedData
             ShortDescription = LanguageUtil.MockAllLanguages("Proporzwahl Gossau"),
             DomainOfInfluenceId = DomainOfInfluenceMockedData.GuidGossau,
             ContestId = ContestMockedData.BundContest.Id,
-            Active = true,
+            Active = false,
             AutomaticEmptyVoteCounting = true,
             EnforceEmptyVoteCountingForCountingCircles = true,
             BallotBundleSize = 10,
@@ -843,7 +978,7 @@ public static class ProportionalElectionMockedData
                                 Accumulated = true,
                                 AccumulatedPosition = 2,
                                 Locality = "locality",
-                                Number = "number1",
+                                Number = "num1",
                                 Sex = SexType.Female,
                                 Title = "title",
                                 ZipCode = "7000",
@@ -868,7 +1003,7 @@ public static class ProportionalElectionMockedData
                                 Position = 3,
                                 Accumulated = false,
                                 Locality = "locality 2",
-                                Number = "number2",
+                                Number = "num2",
                                 Sex = SexType.Female,
                                 Title = "title 2",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyStGallenSVP,
@@ -888,6 +1023,33 @@ public static class ProportionalElectionMockedData
                         OrderNumber = "2",
                         Description = LanguageUtil.MockAllLanguages("Liste 2"),
                         ShortDescription = LanguageUtil.MockAllLanguages("Liste 2"),
+                        ProportionalElectionCandidates = new List<ProportionalElectionCandidate>
+                        {
+                            new ProportionalElectionCandidate
+                            {
+                                Id = Guid.Parse(CandidateId3GossauProportionalElectionInContestBund),
+                                FirstName = "candidate",
+                                LastName = "number 3",
+                                PoliticalFirstName = "pol first name 3",
+                                PoliticalLastName = "pol last name 3",
+                                Occupation = LanguageUtil.MockAllLanguages("occupation 3"),
+                                OccupationTitle = LanguageUtil.MockAllLanguages("occupation title 3"),
+                                DateOfBirth = new DateTime(1940, 1, 13, 0, 0, 0, DateTimeKind.Utc),
+                                Incumbent = false,
+                                Position = 1,
+                                Accumulated = false,
+                                Locality = "locality 3",
+                                Number = "num2",
+                                Sex = SexType.Female,
+                                Title = "title 3",
+                                PartyId = DomainOfInfluenceMockedData.GuidPartyStGallenSVP,
+                                Origin = "origin 3",
+                                CheckDigit = 4,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
+                            },
+                        },
                     },
             },
             ProportionalElectionListUnions = new List<ProportionalElectionListUnion>
@@ -982,9 +1144,9 @@ public static class ProportionalElectionMockedData
             {
                     new ProportionalElectionList
                     {
-                        Id = Guid.Parse(ListIdGossauProportionalElectionInContestGossau),
+                        Id = Guid.Parse(List1IdGossauProportionalElectionInContestGossau),
                         Position = 1,
-                        BlankRowCount = 0,
+                        BlankRowCount = 3,
                         OrderNumber = "1a",
                         Description = LanguageUtil.MockAllLanguages("Liste 1"),
                         ShortDescription = LanguageUtil.MockAllLanguages("Liste 1"),
@@ -992,7 +1154,7 @@ public static class ProportionalElectionMockedData
                         {
                             new ProportionalElectionCandidate
                             {
-                                Id = Guid.Parse(CandidateIdGossauProportionalElectionInContestGossau),
+                                Id = Guid.Parse(CandidateId1GossauProportionalElectionInContestGossau),
                                 FirstName = "firstName",
                                 LastName = "lastName",
                                 PoliticalFirstName = "pol first name",
@@ -1005,7 +1167,45 @@ public static class ProportionalElectionMockedData
                                 Accumulated = true,
                                 AccumulatedPosition = 2,
                                 Locality = "locality",
-                                Number = "number1",
+                                Number = "num1",
+                                Sex = SexType.Female,
+                                Title = "title",
+                                ZipCode = "7000",
+                                PartyId = DomainOfInfluenceMockedData.GuidPartyBundAndere,
+                                Origin = "origin",
+                                CheckDigit = 6,
+                                Street = "street",
+                                HouseNumber = "1a",
+                                Country = "CH",
+                            },
+                        },
+                    },
+                    new ProportionalElectionList
+                    {
+                        Id = Guid.Parse(List2IdGossauProportionalElectionInContestGossau),
+                        Position = 2,
+                        BlankRowCount = 3,
+                        OrderNumber = "2a",
+                        Description = LanguageUtil.MockAllLanguages("Liste 2"),
+                        ShortDescription = LanguageUtil.MockAllLanguages("Liste 2"),
+                        ProportionalElectionCandidates = new List<ProportionalElectionCandidate>
+                        {
+                            new ProportionalElectionCandidate
+                            {
+                                Id = Guid.Parse(CandidateId2GossauProportionalElectionInContestGossau),
+                                FirstName = "firstName",
+                                LastName = "lastName",
+                                PoliticalFirstName = "pol first name",
+                                PoliticalLastName = "pol last name",
+                                Occupation = LanguageUtil.MockAllLanguages("occupation"),
+                                OccupationTitle = LanguageUtil.MockAllLanguages("occupation title"),
+                                DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
+                                Incumbent = true,
+                                Position = 1,
+                                Accumulated = true,
+                                AccumulatedPosition = 2,
+                                Locality = "locality",
+                                Number = "num1",
                                 Sex = SexType.Female,
                                 Title = "title",
                                 ZipCode = "7000",
@@ -1026,6 +1226,17 @@ public static class ProportionalElectionMockedData
                         Id = Guid.Parse(ListUnionIdGossauProportionalElectionInContestGossau),
                         Position = 1,
                         Description = LanguageUtil.MockAllLanguages("Listenverbindung 1"),
+                        ProportionalElectionListUnionEntries = new List<ProportionalElectionListUnionEntry>
+                        {
+                            new()
+                            {
+                                ProportionalElectionListId = Guid.Parse(List1IdGossauProportionalElectionInContestGossau),
+                            },
+                            new()
+                            {
+                                ProportionalElectionListId = Guid.Parse(List2IdGossauProportionalElectionInContestGossau),
+                            },
+                        },
                     },
             },
         };
@@ -1058,7 +1269,7 @@ public static class ProportionalElectionMockedData
                     {
                         Id = Guid.Parse(ListIdUzwilProportionalElectionInContestUzwil),
                         Position = 1,
-                        BlankRowCount = 0,
+                        BlankRowCount = 3,
                         OrderNumber = "1a",
                         Description = LanguageUtil.MockAllLanguages("Liste 1"),
                         ShortDescription = LanguageUtil.MockAllLanguages("Liste 1"),
@@ -1079,7 +1290,7 @@ public static class ProportionalElectionMockedData
                                 Accumulated = true,
                                 AccumulatedPosition = 2,
                                 Locality = "locality",
-                                Number = "number1",
+                                Number = "num1",
                                 Sex = SexType.Female,
                                 Title = "title",
                                 ZipCode = "7000",
@@ -1190,7 +1401,7 @@ public static class ProportionalElectionMockedData
                                 Accumulated = true,
                                 AccumulatedPosition = 2,
                                 Locality = "locality",
-                                Number = "number1",
+                                Number = "num1",
                                 Sex = SexType.Male,
                                 Title = "title",
                                 PartyId = DomainOfInfluenceMockedData.GuidPartyKirchgemeindeEVP,
@@ -1311,12 +1522,19 @@ public static class ProportionalElectionMockedData
         var aggregate = aggregateFactory.New<ProportionalElectionAggregate>();
         var election = mapper.Map<Core.Domain.ProportionalElection>(proportionalElection);
         var doi = DomainOfInfluenceMockedData.All.First(x => x.Id == proportionalElection.DomainOfInfluenceId);
-        var candidateValidationParams = new CandidateValidationParams(doi);
+        var candidateValidationParams = new CandidateValidationParams(doi, false);
+
+        var active = election.Active;
 
         var eVotingApproved = election.EVotingApproved;
         if (eVotingApproved.HasValue)
         {
             election.EVotingApproved = false;
+        }
+
+        if (active)
+        {
+            election.Active = false;
         }
 
         aggregate.CreateFrom(election);
@@ -1344,12 +1562,21 @@ public static class ProportionalElectionMockedData
             var protoListUnionEntries = new ProportionalElectionListUnionEntries { ProportionalElectionListUnionId = listUnion.Id };
             protoListUnionEntries.ProportionalElectionListIds.AddRange(
                 listUnion.ProportionalElectionListUnionEntries.Select(e => e.ProportionalElectionListId));
-            aggregate.UpdateListUnionEntriesFrom(protoListUnionEntries);
+
+            if (protoListUnionEntries.ProportionalElectionListIds.Count > 0)
+            {
+                aggregate.UpdateListUnionEntriesFrom(protoListUnionEntries);
+            }
 
             if (listUnion.ProportionalElectionMainListId.HasValue)
             {
                 aggregate.UpdateListUnionMainList(listUnion.Id, listUnion.ProportionalElectionMainListId);
             }
+        }
+
+        if (active)
+        {
+            aggregate.UpdateActiveState(true);
         }
 
         if (eVotingApproved == true)

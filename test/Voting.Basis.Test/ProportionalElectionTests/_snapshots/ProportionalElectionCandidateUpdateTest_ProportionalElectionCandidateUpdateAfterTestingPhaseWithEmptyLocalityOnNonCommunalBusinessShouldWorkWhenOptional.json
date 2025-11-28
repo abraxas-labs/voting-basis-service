@@ -47,7 +47,7 @@
   "response": {
     "Id": "bba39596-a5f6-4729-a56f-e63871b30acc",
     "ProportionalElectionListId": "6fa5262f-bf27-4eb9-81d4-23bb1a49d031",
-    "Number": "number1",
+    "Number": "num1",
     "FirstName": "update first name",
     "LastName": "updated last name",
     "PoliticalFirstName": "updated p. first name",
