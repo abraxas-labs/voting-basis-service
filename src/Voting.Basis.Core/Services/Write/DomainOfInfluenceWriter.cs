@@ -196,7 +196,8 @@ public class DomainOfInfluenceWriter
                 data.VotingCardColor,
                 domainOfInfluence.StistatMunicipality,
                 domainOfInfluence.VotingCardFlatRateDisabled,
-                domainOfInfluence.IsMainVotingCardsDomainOfInfluence);
+                domainOfInfluence.IsMainVotingCardsDomainOfInfluence,
+                domainOfInfluence.HasEmptyVotingCards);
         }
 
         await _aggregateRepository.Save(domainOfInfluence);
@@ -456,12 +457,6 @@ public class DomainOfInfluenceWriter
         {
             throw new ValidationException(
                 "Domain of influence needs to be 'responsible for voting cards' in order to be able to use the electoral registration.");
-        }
-
-        if (!data.ElectoralRegistrationEnabled && data.ElectoralRegisterMultipleEnabled)
-        {
-            throw new ValidationException(
-                "Domain of influence needs to have enabled electoral registration to be able to use multiple electoral registers.");
         }
     }
 

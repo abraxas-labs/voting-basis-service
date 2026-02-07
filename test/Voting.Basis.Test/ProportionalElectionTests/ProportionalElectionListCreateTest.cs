@@ -134,10 +134,10 @@ public class ProportionalElectionListCreateTest : PoliticalBusinessAuthorization
     }
 
     [Fact]
-    public async Task MoreBlankRowsThanNumberOfMandatesShouldThrow()
+    public async Task SameBlankRowsAsNumberOfMandatesShouldThrow()
     {
         await AssertStatus(
-            async () => await CantonAdminClient.CreateListAsync(NewValidRequest(o => o.BlankRowCount = 564)),
+            async () => await CantonAdminClient.CreateListAsync(NewValidRequest(o => o.BlankRowCount = 5)),
             StatusCode.InvalidArgument);
     }
 

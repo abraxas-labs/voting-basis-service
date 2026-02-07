@@ -62,7 +62,8 @@
       "ECollectingReferendumMinSignatureCount": null,
       "ECollectingReferendumMaxElectronicSignaturePercent": null,
       "ECollectingEmail": "",
-      "IsMainVotingCardsDomainOfInfluence": false
+      "IsMainVotingCardsDomainOfInfluence": false,
+      "HasEmptyVotingCards": false
     },
     {
       "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
@@ -126,7 +127,8 @@
       "ECollectingReferendumMinSignatureCount": null,
       "ECollectingReferendumMaxElectronicSignaturePercent": null,
       "ECollectingEmail": "",
-      "IsMainVotingCardsDomainOfInfluence": false
+      "IsMainVotingCardsDomainOfInfluence": false,
+      "HasEmptyVotingCards": false
     }
   ]
 }

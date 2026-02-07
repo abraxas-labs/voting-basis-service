@@ -101,6 +101,8 @@ public class DomainOfInfluence
 
     public bool IsMainVotingCardsDomainOfInfluence { get; set; }
 
+    public bool HasEmptyVotingCards { get; set; }
+
     /// <summary>
     /// Gets or sets a value indicating whether domain of influences lower in the hierarchy than this should not be displayed in reports.
     /// </summary>

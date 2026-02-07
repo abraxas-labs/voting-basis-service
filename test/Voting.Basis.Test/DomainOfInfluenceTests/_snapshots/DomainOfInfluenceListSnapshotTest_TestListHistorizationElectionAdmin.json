@@ -66,7 +66,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -130,7 +131,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       }
     ]
   },
@@ -201,7 +203,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -265,7 +268,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       }
     ]
   },
@@ -336,7 +340,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -400,7 +405,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       }
     ]
   },

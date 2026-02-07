@@ -83,6 +83,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
     public bool AutomaticBallotBundleNumberGeneration { get; private set; }
 
+    public bool AutomaticBallotNumberGeneration { get; private set; }
+
     public BallotNumberGeneration BallotNumberGeneration { get; private set; }
 
     public bool AutomaticEmptyVoteCounting { get; private set; }
@@ -178,6 +180,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         ValidationUtils.EnsureNotModified(CandidateCheckDigit, majorityElection.CandidateCheckDigit);
         ValidationUtils.EnsureNotModified(BallotBundleSize, majorityElection.BallotBundleSize);
         ValidationUtils.EnsureNotModified(AutomaticBallotBundleNumberGeneration, majorityElection.AutomaticBallotBundleNumberGeneration);
+        ValidationUtils.EnsureNotModified(AutomaticBallotNumberGeneration, majorityElection.AutomaticBallotNumberGeneration);
         ValidationUtils.EnsureNotModified(BallotNumberGeneration, majorityElection.BallotNumberGeneration);
         ValidationUtils.EnsureNotModified(AutomaticEmptyVoteCounting, majorityElection.AutomaticEmptyVoteCounting);
         ValidationUtils.EnsureNotModified(DomainOfInfluenceId, majorityElection.DomainOfInfluenceId);
@@ -1160,24 +1163,28 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
     private void Apply(MajorityElectionCreated ev)
     {
-        // Set default review procedure value since the old eventData (before introducing the review procedure) can contain the unspecified value.
-        if (ev.MajorityElection.ReviewProcedure == Abraxas.Voting.Basis.Shared.V1.MajorityElectionReviewProcedure.Unspecified)
-        {
-            ev.MajorityElection.ReviewProcedure = Abraxas.Voting.Basis.Shared.V1.MajorityElectionReviewProcedure.Electronically;
-        }
-
+        PatchOldEvents(ev.MajorityElection);
         _mapper.Map(ev.MajorityElection, this);
     }
 
     private void Apply(MajorityElectionUpdated ev)
     {
+        PatchOldEvents(ev.MajorityElection);
+        _mapper.Map(ev.MajorityElection, this);
+    }
+
+    private void PatchOldEvents(MajorityElectionEventData majorityElection)
+    {
         // Set default review procedure value since the old eventData (before introducing the review procedure) can contain the unspecified value.
-        if (ev.MajorityElection.ReviewProcedure == Abraxas.Voting.Basis.Shared.V1.MajorityElectionReviewProcedure.Unspecified)
+        if (majorityElection.ReviewProcedure == Abraxas.Voting.Basis.Shared.V1.MajorityElectionReviewProcedure.Unspecified)
         {
-            ev.MajorityElection.ReviewProcedure = Abraxas.Voting.Basis.Shared.V1.MajorityElectionReviewProcedure.Electronically;
+            majorityElection.ReviewProcedure = Abraxas.Voting.Basis.Shared.V1.MajorityElectionReviewProcedure.Electronically;
         }
 
-        _mapper.Map(ev.MajorityElection, this);
+        if (majorityElection.AutomaticBallotNumberGeneration == null)
+        {
+            majorityElection.AutomaticBallotNumberGeneration = true;
+        }
     }
 
     private void Apply(MajorityElectionAfterTestingPhaseUpdated ev)

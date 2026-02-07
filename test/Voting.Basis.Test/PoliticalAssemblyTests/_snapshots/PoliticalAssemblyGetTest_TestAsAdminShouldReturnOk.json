@@ -90,7 +90,8 @@
     "ECollectingReferendumMinSignatureCount": 1000,
     "ECollectingReferendumMaxElectronicSignaturePercent": 20,
     "ECollectingEmail": "ecollecting@gossau.ch",
-    "IsMainVotingCardsDomainOfInfluence": true
+    "IsMainVotingCardsDomainOfInfluence": true,
+    "HasEmptyVotingCards": true
   },
   "EVoting": false,
   "State": 1,

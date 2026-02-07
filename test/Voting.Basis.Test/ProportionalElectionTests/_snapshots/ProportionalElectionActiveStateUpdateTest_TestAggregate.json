@@ -18,6 +18,7 @@
   "CandidateCheckDigit": true,
   "BallotBundleSize": 10,
   "AutomaticBallotBundleNumberGeneration": true,
+  "AutomaticBallotNumberGeneration": false,
   "BallotNumberGeneration": 1,
   "AutomaticEmptyVoteCounting": true,
   "EnforceEmptyVoteCountingForCountingCircles": true,

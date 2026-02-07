@@ -281,6 +281,7 @@ public static class DomainOfInfluenceMockedData
             ElectoralRegistrationEnabled = true,
             StistatMunicipality = true,
             IsMainVotingCardsDomainOfInfluence = true,
+            HasEmptyVotingCards = true,
             PublishResultsDisabled = true,
             VotingCardFlatRateDisabled = true,
             ECollectingEnabled = true,

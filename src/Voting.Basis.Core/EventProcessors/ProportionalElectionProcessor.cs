@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
+using Abraxas.Voting.Basis.Events.V1.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -87,14 +88,7 @@ public class ProportionalElectionProcessor :
 
     public async Task Process(ProportionalElectionCreated eventData)
     {
-        var model = _mapper.Map<ProportionalElection>(eventData.ProportionalElection);
-
-        // Set default review procedure value since the old eventData (before introducing the review procedure) can contain the unspecified value.
-        if (model.ReviewProcedure == ProportionalElectionReviewProcedure.Unspecified)
-        {
-            model.ReviewProcedure = ProportionalElectionReviewProcedure.Electronically;
-        }
-
+        var model = MapToProportionalElection(eventData.ProportionalElection);
         await _repo.Create(model);
         await _simplePoliticalBusinessBuilder.Create(model);
         await _eventLogger.LogProportionalElectionEvent(eventData, model);
@@ -102,14 +96,7 @@ public class ProportionalElectionProcessor :
 
     public async Task Process(ProportionalElectionUpdated eventData)
     {
-        var model = _mapper.Map<ProportionalElection>(eventData.ProportionalElection);
-
-        // Set default review procedure value since the old eventData (before introducing the review procedure) can contain the unspecified value.
-        if (model.ReviewProcedure == ProportionalElectionReviewProcedure.Unspecified)
-        {
-            model.ReviewProcedure = ProportionalElectionReviewProcedure.Electronically;
-        }
-
+        var model = MapToProportionalElection(eventData.ProportionalElection);
         var existingModel = await _repo.GetByKey(model.Id)
             ?? throw new EntityNotFoundException(model.Id);
 
@@ -588,6 +575,24 @@ public class ProportionalElectionProcessor :
         existingModel.MandateAlgorithm = _mapper.Map<ProportionalElectionMandateAlgorithm>(eventData.MandateAlgorithm);
         await _repo.Update(existingModel);
         await _eventLogger.LogProportionalElectionEvent(eventData, existingModel);
+    }
+
+    private ProportionalElection MapToProportionalElection(ProportionalElectionEventData proportionalElectionEventData)
+    {
+        var proportionalElection = _mapper.Map<ProportionalElection>(proportionalElectionEventData);
+
+        // Set default review procedure value since the old eventData (before introducing the review procedure) can contain the unspecified value.
+        if (proportionalElection.ReviewProcedure == ProportionalElectionReviewProcedure.Unspecified)
+        {
+            proportionalElection.ReviewProcedure = ProportionalElectionReviewProcedure.Electronically;
+        }
+
+        if (proportionalElectionEventData.AutomaticBallotNumberGeneration == null)
+        {
+            proportionalElection.AutomaticBallotNumberGeneration = true;
+        }
+
+        return proportionalElection;
     }
 
     private Task UpdateListCandidateCount(ProportionalElectionList list, bool added, bool accumulated)

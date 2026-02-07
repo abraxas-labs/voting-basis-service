@@ -236,6 +236,8 @@ public class VoteUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
             o.ResultAlgorithm = _mapper.Map<SharedProto.VoteResultAlgorithm>(VoteMockedData.GossauVoteInContestBund.ResultAlgorithm);
             o.ReportDomainOfInfluenceLevel = 0;
             o.PoliticalBusinessNumber = "1661new";
+            o.AutomaticBallotBundleNumberGeneration = true;
+            o.AutomaticBallotNumberGeneration = true;
         }));
 
         var ev = EventPublisherMock.GetSinglePublishedEvent<VoteAfterTestingPhaseUpdated>();
@@ -268,6 +270,8 @@ public class VoteUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
             o.ResultAlgorithm = _mapper.Map<SharedProto.VoteResultAlgorithm>(VoteMockedData.GossauVoteInContestBund.ResultAlgorithm);
             o.ReportDomainOfInfluenceLevel = 0;
             o.PoliticalBusinessNumber = "1661new";
+            o.AutomaticBallotNumberGeneration = true;
+            o.AutomaticBallotBundleNumberGeneration = true;
         }));
 
         EventPublisherMock.GetPublishedEvents<VoteAfterTestingPhaseUpdated>().Should().HaveCount(1);

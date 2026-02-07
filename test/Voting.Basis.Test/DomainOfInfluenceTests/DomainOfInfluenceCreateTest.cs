@@ -12,6 +12,7 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Data.Models;
@@ -623,7 +624,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
     }
 
     [Fact]
-    public async Task MultipleElectoralRegistersWithoutElectoralRegistrationShouldTrow()
+    public async Task MultipleElectoralRegistersWithoutElectoralRegistrationShouldWork()
     {
         var req = NewValidResponsibleForVotingCardsRequest(x =>
         {
@@ -632,10 +633,12 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
             x.ElectoralRegisterMultipleEnabled = true;
         });
 
-        await AssertStatus(
-            async () => await CantonAdminClient.CreateAsync(req),
-            StatusCode.InvalidArgument,
-            "multiple electoral registers");
+        var response = await CantonAdminClient.CreateAsync(req);
+
+        var doiCreated = EventPublisherMock.GetSinglePublishedEvent<DomainOfInfluenceCreated>();
+        doiCreated.DomainOfInfluence.Id.Should().Be(response.Id);
+        doiCreated.DomainOfInfluence.ElectoralRegistrationEnabled.Should().BeFalse();
+        doiCreated.DomainOfInfluence.ElectoralRegisterMultipleEnabled.Should().BeTrue();
     }
 
     [Fact]
@@ -935,6 +938,7 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
             VotingCardFlatRateDisabled = true,
             ElectoralRegisterMultipleEnabled = true,
             IsMainVotingCardsDomainOfInfluence = true,
+            HasEmptyVotingCards = true,
             ECollectingEnabled = true,
             ECollectingInitiativeMinSignatureCount = 10000,
             ECollectingInitiativeMaxElectronicSignaturePercent = 50,

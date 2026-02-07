@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
+using Abraxas.Voting.Basis.Events.V1.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -64,14 +65,7 @@ public class MajorityElectionProcessor :
 
     public async Task Process(MajorityElectionCreated eventData)
     {
-        var model = _mapper.Map<MajorityElection>(eventData.MajorityElection);
-
-        // Set default review procedure value since the old eventData (before introducing the review procedure) can contain the unspecified value.
-        if (model.ReviewProcedure == MajorityElectionReviewProcedure.Unspecified)
-        {
-            model.ReviewProcedure = MajorityElectionReviewProcedure.Electronically;
-        }
-
+        var model = MapToMajorityElection(eventData.MajorityElection);
         await _repo.Create(model);
         await _simplePoliticalBusinessBuilder.Create(model);
         await _eventLogger.LogMajorityElectionEvent(eventData, model);
@@ -79,13 +73,7 @@ public class MajorityElectionProcessor :
 
     public async Task Process(MajorityElectionUpdated eventData)
     {
-        var model = _mapper.Map<MajorityElection>(eventData.MajorityElection);
-
-        // Set default review procedure value since the old eventData (before introducing the review procedure) can contain the unspecified value.
-        if (model.ReviewProcedure == MajorityElectionReviewProcedure.Unspecified)
-        {
-            model.ReviewProcedure = MajorityElectionReviewProcedure.Electronically;
-        }
+        var model = MapToMajorityElection(eventData.MajorityElection);
 
         var existingModel = await GetMajorityElection(model.Id);
         model.ElectionGroup = existingModel.ElectionGroup;
@@ -254,6 +242,24 @@ public class MajorityElectionProcessor :
             // skip event processing to prevent race condition if majority election candidate was deleted from other process.
             _logger.LogWarning("event 'MajorityElectionCandidateDeleted' skipped. majority election candidate {id} has already been deleted", id);
         }
+    }
+
+    private MajorityElection MapToMajorityElection(MajorityElectionEventData majorityElectionEventData)
+    {
+        var majorityElection = _mapper.Map<MajorityElection>(majorityElectionEventData);
+
+        // Set default review procedure value since the old eventData (before introducing the review procedure) can contain the unspecified value.
+        if (majorityElection.ReviewProcedure == MajorityElectionReviewProcedure.Unspecified)
+        {
+            majorityElection.ReviewProcedure = MajorityElectionReviewProcedure.Electronically;
+        }
+
+        if (majorityElectionEventData.AutomaticBallotNumberGeneration == null)
+        {
+            majorityElection.AutomaticBallotNumberGeneration = true;
+        }
+
+        return majorityElection;
     }
 
     private async Task<MajorityElection> GetMajorityElection(Guid id)

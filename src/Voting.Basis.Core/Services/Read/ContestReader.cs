@@ -81,7 +81,9 @@ public class ContestReader
                     .ThenBy(pb => pb.PoliticalBusinessNumber)
                     .ThenBy(pb => pb.BusinessType)
                     .ThenBy(pb => pb.Id))
-                .ThenInclude(x => x.DomainOfInfluence);
+                .ThenInclude(x => x.DomainOfInfluence)
+                .Include(c => c.ProportionalElectionUnions)
+                .Include(c => c.MajorityElectionUnions);
         }
         else
         {
@@ -94,15 +96,15 @@ public class ContestReader
                     .ThenBy(pb => pb.PoliticalBusinessNumber)
                     .ThenBy(pb => pb.BusinessType)
                     .ThenBy(pb => pb.Id))
-                .ThenInclude(v => v.DomainOfInfluence);
+                .ThenInclude(v => v.DomainOfInfluence)
+                .Include(c => c.ProportionalElectionUnions.Where(u => u.SecureConnectId == _auth.Tenant.Id))
+                .Include(c => c.MajorityElectionUnions.Where(u => u.SecureConnectId == _auth.Tenant.Id));
         }
 
         var contest = await query
-                          .Include(c => c.DomainOfInfluence)
-                          .Include(c => c.ProportionalElectionUnions)
-                          .Include(c => c.MajorityElectionUnions)
-                          .FirstOrDefaultAsync(x => x.Id == id)
-                      ?? throw new EntityNotFoundException(nameof(Contest), id);
+            .Include(c => c.DomainOfInfluence)
+            .FirstOrDefaultAsync(x => x.Id == id)
+            ?? throw new EntityNotFoundException(nameof(Contest), id);
 
         if (_auth.HasPermission(Permissions.Contest.ReadSameCanton)
             && !_auth.HasPermission(Permissions.Contest.ReadAll)

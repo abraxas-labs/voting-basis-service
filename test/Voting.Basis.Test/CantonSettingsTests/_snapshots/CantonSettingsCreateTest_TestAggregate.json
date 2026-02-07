@@ -253,6 +253,7 @@
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
         "ECollectingInitiativeMinSignatureCount": null,

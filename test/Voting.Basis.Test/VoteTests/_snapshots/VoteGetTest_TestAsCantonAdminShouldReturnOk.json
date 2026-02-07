@@ -126,6 +126,7 @@
   "ResultEntry": 1,
   "BallotBundleSampleSizePercent": 0,
   "AutomaticBallotBundleNumberGeneration": false,
+  "AutomaticBallotNumberGeneration": false,
   "EnforceResultEntryForCountingCircles": true,
   "ReviewProcedure": 1,
   "EnforceReviewProcedureForCountingCircles": true,

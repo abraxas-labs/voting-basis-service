@@ -77,7 +77,8 @@
     "ECollectingReferendumMinSignatureCount": null,
     "ECollectingReferendumMaxElectronicSignaturePercent": null,
     "ECollectingEmail": "",
-    "IsMainVotingCardsDomainOfInfluence": false
+    "IsMainVotingCardsDomainOfInfluence": false,
+    "HasEmptyVotingCards": false
   },
   "EVoting": true,
   "EVotingFrom": {
@@ -166,7 +167,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -250,7 +252,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -334,7 +337,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -418,7 +422,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -502,7 +507,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -586,7 +592,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -670,7 +677,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -754,7 +762,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -838,7 +847,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -922,7 +932,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -1006,7 +1017,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -1090,7 +1102,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -1191,7 +1204,8 @@
         "ECollectingReferendumMinSignatureCount": 1000,
         "ECollectingReferendumMaxElectronicSignaturePercent": 20,
         "ECollectingEmail": "ecollecting@gossau.ch",
-        "IsMainVotingCardsDomainOfInfluence": true
+        "IsMainVotingCardsDomainOfInfluence": true,
+        "HasEmptyVotingCards": true
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 1,
@@ -1292,7 +1306,8 @@
         "ECollectingReferendumMinSignatureCount": 1000,
         "ECollectingReferendumMaxElectronicSignaturePercent": 20,
         "ECollectingEmail": "ecollecting@gossau.ch",
-        "IsMainVotingCardsDomainOfInfluence": true
+        "IsMainVotingCardsDomainOfInfluence": true,
+        "HasEmptyVotingCards": true
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -1393,7 +1408,8 @@
         "ECollectingReferendumMinSignatureCount": 1000,
         "ECollectingReferendumMaxElectronicSignaturePercent": 20,
         "ECollectingEmail": "ecollecting@gossau.ch",
-        "IsMainVotingCardsDomainOfInfluence": true
+        "IsMainVotingCardsDomainOfInfluence": true,
+        "HasEmptyVotingCards": true
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -1494,7 +1510,8 @@
         "ECollectingReferendumMinSignatureCount": 1000,
         "ECollectingReferendumMaxElectronicSignaturePercent": 20,
         "ECollectingEmail": "ecollecting@gossau.ch",
-        "IsMainVotingCardsDomainOfInfluence": true
+        "IsMainVotingCardsDomainOfInfluence": true,
+        "HasEmptyVotingCards": true
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -1578,7 +1595,8 @@
         "ECollectingReferendumMinSignatureCount": null,
         "ECollectingReferendumMaxElectronicSignaturePercent": null,
         "ECollectingEmail": "",
-        "IsMainVotingCardsDomainOfInfluence": false
+        "IsMainVotingCardsDomainOfInfluence": false,
+        "HasEmptyVotingCards": false
       },
       "PoliticalBusinessType": 4,
       "PoliticalBusinessSubType": 0,
@@ -1679,7 +1697,8 @@
         "ECollectingReferendumMinSignatureCount": 1000,
         "ECollectingReferendumMaxElectronicSignaturePercent": 20,
         "ECollectingEmail": "ecollecting@gossau.ch",
-        "IsMainVotingCardsDomainOfInfluence": true
+        "IsMainVotingCardsDomainOfInfluence": true,
+        "HasEmptyVotingCards": true
       },
       "PoliticalBusinessType": 4,
       "PoliticalBusinessSubType": 0,
@@ -1780,7 +1799,8 @@
         "ECollectingReferendumMinSignatureCount": 1000,
         "ECollectingReferendumMaxElectronicSignaturePercent": 20,
         "ECollectingEmail": "ecollecting@gossau.ch",
-        "IsMainVotingCardsDomainOfInfluence": true
+        "IsMainVotingCardsDomainOfInfluence": true,
+        "HasEmptyVotingCards": true
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,
@@ -1881,7 +1901,8 @@
         "ECollectingReferendumMinSignatureCount": 1000,
         "ECollectingReferendumMaxElectronicSignaturePercent": 20,
         "ECollectingEmail": "ecollecting@gossau.ch",
-        "IsMainVotingCardsDomainOfInfluence": true
+        "IsMainVotingCardsDomainOfInfluence": true,
+        "HasEmptyVotingCards": true
       },
       "PoliticalBusinessType": 4,
       "PoliticalBusinessSubType": 0,
@@ -1982,7 +2003,8 @@
         "ECollectingReferendumMinSignatureCount": 1000,
         "ECollectingReferendumMaxElectronicSignaturePercent": 20,
         "ECollectingEmail": "ecollecting@gossau.ch",
-        "IsMainVotingCardsDomainOfInfluence": true
+        "IsMainVotingCardsDomainOfInfluence": true,
+        "HasEmptyVotingCards": true
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -2020,22 +2042,6 @@
       "ContestId": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
       "Description": "St. Gallen 2",
       "SecureConnectId": "000000000000000000",
-      "Type": 2,
-      "PoliticalBusinessIds": []
-    },
-    {
-      "Id": "3d8f3164-c094-4c17-b314-b9d41d037515",
-      "ContestId": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
-      "Description": "St. Gallen different Tenant",
-      "SecureConnectId": "200200200200200200",
-      "Type": 1,
-      "PoliticalBusinessIds": []
-    },
-    {
-      "Id": "ae335b68-1977-4459-a854-9718a6d8e276",
-      "ContestId": "95825eb0-0f52-461a-a5f8-23fb35fa69e1",
-      "Description": "St. Gallen different Tenant",
-      "SecureConnectId": "200200200200200200",
       "Type": 2,
       "PoliticalBusinessIds": []
     }

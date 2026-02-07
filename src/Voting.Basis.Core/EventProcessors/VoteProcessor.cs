@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
+using Abraxas.Voting.Basis.Events.V1.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -62,9 +63,7 @@ public class VoteProcessor :
 
     public async Task Process(VoteCreated eventData)
     {
-        var model = _mapper.Map<Vote>(eventData.Vote);
-
-        PatchOldEventIfNecessary(model);
+        var model = MapToVote(eventData.Vote);
 
         await _repo.Create(model);
         await _simplePoliticalBusinessBuilder.Create(model);
@@ -74,9 +73,8 @@ public class VoteProcessor :
 
     public async Task Process(VoteUpdated eventData)
     {
-        var model = _mapper.Map<Vote>(eventData.Vote);
+        var model = MapToVote(eventData.Vote);
 
-        PatchOldEventIfNecessary(model);
         await CalculateSubTypeForVoteWithoutFetchedBallots(model);
 
         await _repo.Update(model);
@@ -212,8 +210,10 @@ public class VoteProcessor :
         await _eventLogger.LogVoteEvent(eventData, existingModel);
     }
 
-    private void PatchOldEventIfNecessary(Vote vote)
+    private Vote MapToVote(VoteEventData voteEventData)
     {
+        var vote = _mapper.Map<Vote>(voteEventData);
+
         if (vote.ReviewProcedure == VoteReviewProcedure.Unspecified)
         {
             vote.ReviewProcedure = VoteReviewProcedure.Electronically;
@@ -223,6 +223,13 @@ public class VoteProcessor :
         {
             vote.Type = VoteType.QuestionsOnSingleBallot;
         }
+
+        if (voteEventData.AutomaticBallotNumberGeneration == null)
+        {
+            vote.AutomaticBallotNumberGeneration = true;
+        }
+
+        return vote;
     }
 
     private async Task CalculateSubTypeForVoteWithoutFetchedBallots(Vote vote)

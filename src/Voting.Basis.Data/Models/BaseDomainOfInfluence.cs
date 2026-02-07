@@ -57,6 +57,10 @@ public abstract class BaseDomainOfInfluence : BaseEntity
     /// </summary>
     public bool ElectoralRegistrationEnabled { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether multiple voter lists from source system "VOTING Stimmregister" are enabled (if electoral registration is enabled)
+    /// and voter duplicates across all voter lists within a domain of influence are enabled. ("Mehrere Elektorate mit selbem Versand bedienen").
+    /// </summary>
     public bool ElectoralRegisterMultipleEnabled { get; set; }
 
     public bool StistatMunicipality { get; set; }
@@ -66,6 +70,8 @@ public abstract class BaseDomainOfInfluence : BaseEntity
     public bool VotingCardFlatRateDisabled { get; set; }
 
     public bool IsMainVotingCardsDomainOfInfluence { get; set; }
+
+    public bool HasEmptyVotingCards { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether domain of influences lower in the hierarchy than this should not be displayed in reports.

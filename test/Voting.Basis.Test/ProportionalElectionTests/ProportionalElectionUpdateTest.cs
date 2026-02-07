@@ -206,19 +206,6 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     }
 
     [Fact]
-    public async Task ContinuousBallotNumberGenerationWithoutAutomaticGenerationShouldThrow()
-    {
-        await AssertStatus(
-            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
-            {
-                o.AutomaticBallotBundleNumberGeneration = false;
-                o.BallotNumberGeneration = SharedProto.BallotNumberGeneration.ContinuousForAllBundles;
-            })),
-            StatusCode.InvalidArgument,
-            "BallotNumberGeneration");
-    }
-
-    [Fact]
     public async Task UpdateMandateAlgorithmWithPbUnionsShouldThrow()
     {
         await ModifyDbEntities<DomainOfInfluence>(

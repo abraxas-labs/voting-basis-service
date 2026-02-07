@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Voting.Basis.Data;
@@ -12,9 +13,11 @@ using Voting.Basis.Data;
 namespace Voting.Basis.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20251112082429_AddAutomaticBallotNumberGeneration")]
+    partial class AddAutomaticBallotNumberGeneration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -623,9 +626,6 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<string>("ExternalPrintingCenterEaiMessageType")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<bool>("HasEmptyVotingCards")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("HasForeignerVoters")
                         .HasColumnType("boolean");
@@ -2236,9 +2236,6 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<string>("ExternalPrintingCenterEaiMessageType")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<bool>("HasEmptyVotingCards")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("HideLowerDomainOfInfluencesInReports")
                         .HasColumnType("boolean");

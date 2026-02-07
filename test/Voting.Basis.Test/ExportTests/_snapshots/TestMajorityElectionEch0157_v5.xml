@@ -52,7 +52,7 @@
           <candidateText xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
             <candidateTextInfo>
               <language>de</language>
-              <candidateText>13.01.1960, occupation title de, locality, Test de, bisher</candidateText>
+              <candidateText>13.01.1960, occupation title de, locality, bisher</candidateText>
             </candidateTextInfo>
           </candidateText>
           <dateOfBirth xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1960-01-13</dateOfBirth>

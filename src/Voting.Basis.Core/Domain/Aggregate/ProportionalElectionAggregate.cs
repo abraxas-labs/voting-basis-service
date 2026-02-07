@@ -71,6 +71,8 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
 
     public bool AutomaticBallotBundleNumberGeneration { get; private set; }
 
+    public bool AutomaticBallotNumberGeneration { get; private set; }
+
     public BallotNumberGeneration BallotNumberGeneration { get; private set; }
 
     public bool AutomaticEmptyVoteCounting { get; private set; }
@@ -154,6 +156,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         ValidationUtils.EnsureNotModified(CandidateCheckDigit, proportionalElection.CandidateCheckDigit);
         ValidationUtils.EnsureNotModified(BallotBundleSize, proportionalElection.BallotBundleSize);
         ValidationUtils.EnsureNotModified(AutomaticBallotBundleNumberGeneration, proportionalElection.AutomaticBallotBundleNumberGeneration);
+        ValidationUtils.EnsureNotModified(AutomaticBallotNumberGeneration, proportionalElection.AutomaticBallotNumberGeneration);
         ValidationUtils.EnsureNotModified(BallotNumberGeneration, proportionalElection.BallotNumberGeneration);
         ValidationUtils.EnsureNotModified(AutomaticEmptyVoteCounting, proportionalElection.AutomaticEmptyVoteCounting);
         ValidationUtils.EnsureNotModified(DomainOfInfluenceId, proportionalElection.DomainOfInfluenceId);
@@ -271,9 +274,9 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
 
         EnsureUniqueListPosition(list);
 
-        if (list.BlankRowCount > NumberOfMandates)
+        if (list.BlankRowCount >= NumberOfMandates)
         {
-            throw new ValidationException("The BlankRowCount can't be greater than the NumberOfMandates");
+            throw new ValidationException("The BlankRowCount must be smaller than the NumberOfMandates");
         }
 
         var ev = new ProportionalElectionListCreated
@@ -293,9 +296,9 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         var existingList = FindList(list.Id);
         EnsureUniqueListPosition(list);
 
-        if (list.BlankRowCount > NumberOfMandates)
+        if (list.BlankRowCount >= NumberOfMandates)
         {
-            throw new ValidationException("The BlankRowCount can't be greater than the NumberOfMandates");
+            throw new ValidationException("The BlankRowCount must be smaller than the NumberOfMandates");
         }
 
         if (list.Position != existingList.Position)
@@ -806,24 +809,28 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
 
     private void Apply(ProportionalElectionCreated ev)
     {
-        // Set default review procedure value since the old eventData (before introducing the review procedure) can contain the unspecified value.
-        if (ev.ProportionalElection.ReviewProcedure == Abraxas.Voting.Basis.Shared.V1.ProportionalElectionReviewProcedure.Unspecified)
-        {
-            ev.ProportionalElection.ReviewProcedure = Abraxas.Voting.Basis.Shared.V1.ProportionalElectionReviewProcedure.Electronically;
-        }
-
+        PatchOldEvents(ev.ProportionalElection);
         _mapper.Map(ev.ProportionalElection, this);
     }
 
     private void Apply(ProportionalElectionUpdated ev)
     {
+        PatchOldEvents(ev.ProportionalElection);
+        _mapper.Map(ev.ProportionalElection, this);
+    }
+
+    private void PatchOldEvents(ProportionalElectionEventData proportionalElection)
+    {
         // Set default review procedure value since the old eventData (before introducing the review procedure) can contain the unspecified value.
-        if (ev.ProportionalElection.ReviewProcedure == Abraxas.Voting.Basis.Shared.V1.ProportionalElectionReviewProcedure.Unspecified)
+        if (proportionalElection.ReviewProcedure == Abraxas.Voting.Basis.Shared.V1.ProportionalElectionReviewProcedure.Unspecified)
         {
-            ev.ProportionalElection.ReviewProcedure = Abraxas.Voting.Basis.Shared.V1.ProportionalElectionReviewProcedure.Electronically;
+            proportionalElection.ReviewProcedure = Abraxas.Voting.Basis.Shared.V1.ProportionalElectionReviewProcedure.Electronically;
         }
 
-        _mapper.Map(ev.ProportionalElection, this);
+        if (proportionalElection.AutomaticBallotNumberGeneration == null)
+        {
+            proportionalElection.AutomaticBallotNumberGeneration = true;
+        }
     }
 
     private void Apply(ProportionalElectionAfterTestingPhaseUpdated ev)

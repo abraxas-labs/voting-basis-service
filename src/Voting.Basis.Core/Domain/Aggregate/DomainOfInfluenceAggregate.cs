@@ -129,6 +129,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
 
     public bool IsMainVotingCardsDomainOfInfluence { get; private set; }
 
+    public bool HasEmptyVotingCards { get; private set; }
+
     public bool HideLowerDomainOfInfluencesInReports { get; set; }
 
     public bool ECollectingEnabled { get; private set; }
@@ -237,7 +239,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         VotingCardColor votingCardColor,
         bool stistatMunicipality,
         bool votingCardFlatRateDisabled,
-        bool isMainVotingCardsDomainOfInfluence)
+        bool isMainVotingCardsDomainOfInfluence,
+        bool hasEmptyVotingCards)
     {
         EnsureNotDeleted();
 
@@ -267,6 +270,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
             StistatMunicipality = stistatMunicipality,
             VotingCardFlatRateDisabled = votingCardFlatRateDisabled,
             IsMainVotingCardsDomainOfInfluence = isMainVotingCardsDomainOfInfluence,
+            HasEmptyVotingCards = hasEmptyVotingCards,
         };
 
         RaiseEvent(ev);
@@ -625,7 +629,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
                 domainOfInfluence.VotingCardColor,
                 domainOfInfluence.StistatMunicipality,
                 domainOfInfluence.VotingCardFlatRateDisabled,
-                domainOfInfluence.IsMainVotingCardsDomainOfInfluence);
+                domainOfInfluence.IsMainVotingCardsDomainOfInfluence,
+                domainOfInfluence.HasEmptyVotingCards);
         }
     }
 

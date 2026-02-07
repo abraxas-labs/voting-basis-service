@@ -118,6 +118,18 @@ public class CantonSettingsCreateTest : BaseGrpcTest<CantonSettingsService.Canto
         affectedDois.MatchSnapshot("affectedDomainOfInfluences");
     }
 
+    [Fact]
+    public async Task TestCantonAr()
+    {
+        await AdminClient.CreateAsync(NewValidRequest(x => x.Canton = SharedProto.DomainOfInfluenceCanton.Ar));
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<CantonSettingsCreated>();
+        eventData.CantonSettings.Canton.Should().Be(SharedProto.DomainOfInfluenceCanton.Ar);
+
+        await TestEventPublisher.Publish(eventData);
+        var cantonSettings = await AdminClient.GetAsync(new() { Id = eventData.CantonSettings.Id });
+        cantonSettings.Canton.Should().Be(SharedProto.DomainOfInfluenceCanton.Ar);
+    }
+
     [Theory]
     [InlineData(SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim0Quorum, SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportional1Doi0DoiQuorum)]
     [InlineData(SharedProto.ProportionalElectionMandateAlgorithm.DoppelterPukelsheim5Quorum, SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum)]

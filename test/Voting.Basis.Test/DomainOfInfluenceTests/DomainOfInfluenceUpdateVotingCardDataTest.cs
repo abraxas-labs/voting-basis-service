@@ -64,6 +64,7 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
             StistatMunicipality = true,
             VotingCardFlatRateDisabled = true,
             IsMainVotingCardsDomainOfInfluence = true,
+            HasEmptyVotingCards = true,
             EventInfo = GetMockedEventInfo(),
         });
 
@@ -78,6 +79,7 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
         protoDoi.StistatMunicipality.Should().BeTrue();
         protoDoi.IsMainVotingCardsDomainOfInfluence.Should().BeTrue();
         protoDoi.VotingCardColor.Should().Be(SharedProto.VotingCardColor.Unspecified);
+        protoDoi.HasEmptyVotingCards.Should().BeTrue();
     }
 
     [Fact]

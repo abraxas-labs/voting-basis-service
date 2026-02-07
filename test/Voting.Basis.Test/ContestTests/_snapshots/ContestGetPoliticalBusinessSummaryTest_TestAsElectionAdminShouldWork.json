@@ -76,7 +76,8 @@
       "ECollectingReferendumMinSignatureCount": null,
       "ECollectingReferendumMaxElectronicSignaturePercent": null,
       "ECollectingEmail": "",
-      "IsMainVotingCardsDomainOfInfluence": false
+      "IsMainVotingCardsDomainOfInfluence": false,
+      "HasEmptyVotingCards": false
     },
     "PoliticalBusinessType": 4,
     "PoliticalBusinessSubType": 0,
@@ -164,7 +165,8 @@
       "ECollectingReferendumMinSignatureCount": null,
       "ECollectingReferendumMaxElectronicSignaturePercent": null,
       "ECollectingEmail": "",
-      "IsMainVotingCardsDomainOfInfluence": false
+      "IsMainVotingCardsDomainOfInfluence": false,
+      "HasEmptyVotingCards": false
     },
     "PoliticalBusinessType": 1,
     "PoliticalBusinessSubType": 0,
@@ -252,7 +254,8 @@
       "ECollectingReferendumMinSignatureCount": null,
       "ECollectingReferendumMaxElectronicSignaturePercent": null,
       "ECollectingEmail": "",
-      "IsMainVotingCardsDomainOfInfluence": false
+      "IsMainVotingCardsDomainOfInfluence": false,
+      "HasEmptyVotingCards": false
     },
     "PoliticalBusinessType": 3,
     "PoliticalBusinessSubType": 0,
@@ -340,7 +343,8 @@
       "ECollectingReferendumMinSignatureCount": null,
       "ECollectingReferendumMaxElectronicSignaturePercent": null,
       "ECollectingEmail": "",
-      "IsMainVotingCardsDomainOfInfluence": false
+      "IsMainVotingCardsDomainOfInfluence": false,
+      "HasEmptyVotingCards": false
     },
     "PoliticalBusinessType": 2,
     "PoliticalBusinessSubType": 0,

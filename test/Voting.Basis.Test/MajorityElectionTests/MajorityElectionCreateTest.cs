@@ -168,19 +168,6 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
     }
 
     [Fact]
-    public async Task ContinuousBallotNumberGenerationWithoutAutomaticGenerationShouldThrow()
-    {
-        await AssertStatus(
-            async () => await CantonAdminClient.CreateAsync(NewValidRequest(o =>
-            {
-                o.AutomaticBallotBundleNumberGeneration = false;
-                o.BallotNumberGeneration = SharedProto.BallotNumberGeneration.ContinuousForAllBundles;
-            })),
-            StatusCode.InvalidArgument,
-            "BallotNumberGeneration");
-    }
-
-    [Fact]
     public async Task InvalidReportDomainOfInfluenceLevelShouldThrow()
     {
         await AssertStatus(

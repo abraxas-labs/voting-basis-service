@@ -63,6 +63,10 @@ public class VoteAggregate : BaseHasContestAggregate
 
     public VoteReviewProcedure ReviewProcedure { get; private set; }
 
+    public bool AutomaticBallotNumberGeneration { get; private set; }
+
+    public bool AutomaticBallotBundleNumberGeneration { get; private set; }
+
     public bool EnforceReviewProcedureForCountingCircles { get; private set; }
 
     public VoteType Type { get; private set; }
@@ -128,6 +132,8 @@ public class VoteAggregate : BaseHasContestAggregate
         ValidationUtils.EnsureNotModified(ResultAlgorithm, vote.ResultAlgorithm);
         ValidationUtils.EnsureNotModified(ReviewProcedure, vote.ReviewProcedure);
         ValidationUtils.EnsureNotModified(EnforceReviewProcedureForCountingCircles, vote.EnforceReviewProcedureForCountingCircles);
+        ValidationUtils.EnsureNotModified(AutomaticBallotNumberGeneration, vote.AutomaticBallotNumberGeneration);
+        ValidationUtils.EnsureNotModified(AutomaticBallotNumberGeneration, vote.AutomaticBallotBundleNumberGeneration);
         ValidationUtils.EnsureNotModified(Type, vote.Type);
 
         var ev = new VoteAfterTestingPhaseUpdated
@@ -391,34 +397,33 @@ public class VoteAggregate : BaseHasContestAggregate
 
     private void Apply(VoteCreated ev)
     {
-        // Set default review procedure value since the old eventData (before introducing the review procedure) can contain the unspecified value.
-        if (ev.Vote.ReviewProcedure == Abraxas.Voting.Basis.Shared.V1.VoteReviewProcedure.Unspecified)
-        {
-            ev.Vote.ReviewProcedure = Abraxas.Voting.Basis.Shared.V1.VoteReviewProcedure.Electronically;
-        }
-
-        if (ev.Vote.Type == Abraxas.Voting.Basis.Shared.V1.VoteType.Unspecified)
-        {
-            ev.Vote.Type = Abraxas.Voting.Basis.Shared.V1.VoteType.QuestionsOnSingleBallot;
-        }
-
+        PatchOldEvents(ev.Vote);
         _mapper.Map(ev.Vote, this);
     }
 
     private void Apply(VoteUpdated ev)
     {
-        // Set default review procedure value since the old eventData (before introducing the review procedure) can contain the unspecified value.
-        if (ev.Vote.ReviewProcedure == Abraxas.Voting.Basis.Shared.V1.VoteReviewProcedure.Unspecified)
-        {
-            ev.Vote.ReviewProcedure = Abraxas.Voting.Basis.Shared.V1.VoteReviewProcedure.Electronically;
-        }
-
-        if (ev.Vote.Type == Abraxas.Voting.Basis.Shared.V1.VoteType.Unspecified)
-        {
-            ev.Vote.Type = Abraxas.Voting.Basis.Shared.V1.VoteType.QuestionsOnSingleBallot;
-        }
-
+        PatchOldEvents(ev.Vote);
         _mapper.Map(ev.Vote, this);
+    }
+
+    private void PatchOldEvents(VoteEventData vote)
+    {
+        // Set default review procedure value since the old eventData (before introducing the review procedure) can contain the unspecified value.
+        if (vote.ReviewProcedure == Abraxas.Voting.Basis.Shared.V1.VoteReviewProcedure.Unspecified)
+        {
+            vote.ReviewProcedure = Abraxas.Voting.Basis.Shared.V1.VoteReviewProcedure.Electronically;
+        }
+
+        if (vote.Type == Abraxas.Voting.Basis.Shared.V1.VoteType.Unspecified)
+        {
+            vote.Type = Abraxas.Voting.Basis.Shared.V1.VoteType.QuestionsOnSingleBallot;
+        }
+
+        if (vote.AutomaticBallotNumberGeneration == null)
+        {
+            vote.AutomaticBallotNumberGeneration = true;
+        }
     }
 
     private void Apply(VoteAfterTestingPhaseUpdated ev)

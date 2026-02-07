@@ -62,7 +62,8 @@
       "ECollectingReferendumMinSignatureCount": null,
       "ECollectingReferendumMaxElectronicSignaturePercent": null,
       "ECollectingEmail": "",
-      "IsMainVotingCardsDomainOfInfluence": false
+      "IsMainVotingCardsDomainOfInfluence": false,
+      "HasEmptyVotingCards": false
     },
     {
       "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
@@ -126,7 +127,8 @@
       "ECollectingReferendumMinSignatureCount": null,
       "ECollectingReferendumMaxElectronicSignaturePercent": null,
       "ECollectingEmail": "",
-      "IsMainVotingCardsDomainOfInfluence": false
+      "IsMainVotingCardsDomainOfInfluence": false,
+      "HasEmptyVotingCards": false
     },
     {
       "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
@@ -207,7 +209,8 @@
       "ECollectingReferendumMinSignatureCount": 1000,
       "ECollectingReferendumMaxElectronicSignaturePercent": 20,
       "ECollectingEmail": "ecollecting@gossau.ch",
-      "IsMainVotingCardsDomainOfInfluence": true
+      "IsMainVotingCardsDomainOfInfluence": true,
+      "HasEmptyVotingCards": true
     }
   ]
 }
