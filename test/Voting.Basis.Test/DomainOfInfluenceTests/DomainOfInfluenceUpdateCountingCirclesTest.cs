@@ -156,7 +156,9 @@ public class DomainOfInfluenceUpdateCountingCirclesTest : BaseGrpcTest<DomainOfI
     [Fact]
     public async Task TestProcessorWithSameCountingCircleInDoiTree()
     {
+        var eventIdCounter = 0;
         await TestEventPublisher.Publish(
+            eventIdCounter,
             new DomainOfInfluenceCountingCircleEntriesUpdated
             {
                 DomainOfInfluenceCountingCircleEntries = new DomainOfInfluenceCountingCircleEntriesEventData
@@ -183,6 +185,7 @@ public class DomainOfInfluenceUpdateCountingCirclesTest : BaseGrpcTest<DomainOfI
                 },
                 EventInfo = GetMockedEventInfo(),
             });
+        eventIdCounter += 2;
 
         var parentDoiCcs = await RunOnDb(db => db.DomainOfInfluenceCountingCircles
             .Where(doiCc => doiCc.DomainOfInfluenceId == DomainOfInfluenceMockedData.GuidStGallen)
@@ -217,6 +220,7 @@ public class DomainOfInfluenceUpdateCountingCirclesTest : BaseGrpcTest<DomainOfI
         gossauDoiUzwilKircheCc.Inherited.Should().BeFalse();
 
         await TestEventPublisher.Publish(
+            eventIdCounter,
             new DomainOfInfluenceCountingCircleEntriesUpdated
             {
                 DomainOfInfluenceCountingCircleEntries = new DomainOfInfluenceCountingCircleEntriesEventData

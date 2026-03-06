@@ -11,6 +11,7 @@ using FluentAssertions;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Voting.Basis.Core.EventProcessors;
 using Voting.Basis.Core.Extensions;
 using Voting.Basis.Data;
 using Voting.Basis.EventSignature;
@@ -28,6 +29,7 @@ public class BaseTest : BaseTest<TestApplicationFactory, TestStartup>
     public BaseTest(TestApplicationFactory factory)
         : base(factory)
     {
+        GetService<EventProcessingInMemoryStateHolder>().ResetState();
         TestEventPublisher = GetService<TestEventPublisherAdapter>();
         EventPublisherMock = GetService<EventPublisherMock>();
         AggregateRepositoryMock = GetService<AggregateRepositoryMock>();

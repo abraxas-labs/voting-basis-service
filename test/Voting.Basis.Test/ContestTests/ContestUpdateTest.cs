@@ -112,6 +112,7 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
     [Fact]
     public async Task TestShouldResetEVotingApprovalWhenDueDateIsInFuture()
     {
+        var eventIdCounter = 0;
         var id = Guid.Parse(ContestMockedData.IdGossau);
         await CantonAdminClient.UpdateAsync(NewValidRequest(x =>
         {
@@ -123,9 +124,11 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
             x.EVotingApprovalDueDate = MockedClock.GetDate(-2).ToTimestamp();
         }));
         await RunEvents<ContestUpdated>();
+        eventIdCounter++;
 
         await RunScoped<ApproveContestEVotingJob>(job => job.Run(CancellationToken.None));
         await RunEvents<ContestEVotingApprovalUpdated>();
+        eventIdCounter++;
 
         var contest = await RunOnDb(async db => await db.Contests.SingleAsync(c => c.Id == id));
         contest.EVotingApproved.Should().BeTrue();
@@ -142,11 +145,11 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
 
         var updateEvent = EventPublisherMock.GetSinglePublishedEvent<ContestUpdated>();
         updateEvent.MatchSnapshot("updateEvent");
-        await TestEventPublisher.Publish(updateEvent);
+        await TestEventPublisher.Publish(eventIdCounter++, updateEvent);
 
         var approvalEvent = EventPublisherMock.GetSinglePublishedEvent<ContestEVotingApprovalUpdated>();
         approvalEvent.MatchSnapshot("approvalEvent");
-        await TestEventPublisher.Publish(approvalEvent);
+        await TestEventPublisher.Publish(eventIdCounter, approvalEvent);
 
         var updatedContest = await RunOnDb(async db => await db.Contests.SingleAsync(c => c.Id == id));
         updatedContest.EVotingApproved.Should().BeFalse();

@@ -15,7 +15,7 @@ using Voting.Lib.VotingExports.Repository.Basis;
 
 namespace Voting.Basis.Core.Export.Generators.Xml.V5;
 
-public class ContestEchOnlyEVotingExportsGenerator : ContestEchExportsGeneratorBase, IExportsGenerator
+public class ContestEchOnlyEVotingExportsGenerator : ContestEchOnlyEVotingExportsGeneratorBase, IExportsGenerator
 {
     public ContestEchOnlyEVotingExportsGenerator(
         IAuth auth,
@@ -30,7 +30,7 @@ public class ContestEchOnlyEVotingExportsGenerator : ContestEchExportsGeneratorB
 
     public async IAsyncEnumerable<ExportFile> GenerateExports(Guid entityId)
     {
-        await foreach (var exportFile in GenerateExports(entityId, false))
+        await foreach (var exportFile in GenerateExports(entityId, true))
         {
             yield return exportFile;
         }

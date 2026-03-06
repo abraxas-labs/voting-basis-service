@@ -244,6 +244,7 @@ public class ContestArchiveTest : BaseGrpcTest<ContestService.ContestServiceClie
 
         await testEventPublisher.Publish(
             true,
+            _eventIdCounter++,
             new ContestArchived
             {
                 EventInfo = GetMockedEventInfo(),
@@ -273,6 +274,7 @@ public class ContestArchiveTest : BaseGrpcTest<ContestService.ContestServiceClie
 
         await testEventPublisher.Publish(
             false,
+            _eventIdCounter++,
             new ContestArchived
             {
                 EventInfo = GetMockedEventInfo(),
@@ -304,6 +306,7 @@ public class ContestArchiveTest : BaseGrpcTest<ContestService.ContestServiceClie
 
         await testEventPublisher.Publish(
             false,
+            _eventIdCounter++,
             new ContestArchived
             {
                 EventInfo = GetMockedEventInfo(),

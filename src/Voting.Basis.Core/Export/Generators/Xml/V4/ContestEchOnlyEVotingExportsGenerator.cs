@@ -15,7 +15,7 @@ using Voting.Lib.VotingExports.Repository.Basis;
 
 namespace Voting.Basis.Core.Export.Generators.Xml.V4;
 
-public class ContestEchOnlyEVotingExportsGenerator : ContestEchExportsGeneratorBase, IExportsGenerator
+public class ContestEchOnlyEVotingExportsGenerator : ContestEchOnlyEVotingExportsGeneratorBase, IExportsGenerator
 {
     public ContestEchOnlyEVotingExportsGenerator(
         IAuth auth,

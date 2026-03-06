@@ -152,28 +152,18 @@ public class ExportGenerateTest : BaseRestTest
             var contest = await db.Contests
                 .AsSplitQuery()
                 .AsTracking()
-                .Include(c => c.Votes)
-                .Include(c => c.ProportionalElections)
-                .Include(c => c.MajorityElections)
                 .SingleAsync(c => c.Id == ContestMockedData.BundContest.Id);
             contest.EVoting = true;
             contest.EVotingFrom = new DateTime(2020, 1, 1, 10, 0, 0, DateTimeKind.Utc);
             contest.EVotingTo = new DateTime(2020, 1, 2, 10, 0, 0, DateTimeKind.Utc);
-            foreach (var vote in contest.Votes)
-            {
-                vote.EVotingApproved = false;
-            }
 
-            foreach (var election in contest.ProportionalElections)
-            {
-                election.EVotingApproved = false;
-            }
+            var vote = await db.Votes.AsTracking().SingleAsync(x => x.Id == Guid.Parse(VoteMockedData.IdBundVoteInContestBund));
+            var pe = await db.ProportionalElections.AsTracking().SingleAsync(x => x.Id == Guid.Parse(ProportionalElectionMockedData.IdStGallenProportionalElectionInContestBund));
+            var me = await db.MajorityElections.AsTracking().SingleAsync(x => x.Id == Guid.Parse(MajorityElectionMockedData.IdGossauMajorityElectionInContestBund));
 
-            foreach (var election in contest.MajorityElections)
-            {
-                election.EVotingApproved = false;
-            }
-
+            vote.EVotingApproved = false;
+            pe.EVotingApproved = false;
+            me.EVotingApproved = false;
             await db.SaveChangesAsync();
         });
 
@@ -181,7 +171,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = ContestMockedData.BundContest.Id,
-                Key = v5 ? BasisXmlContestTemplates.Ech0157And0159_5_1.Key : BasisXmlContestTemplates.Ech0157And0159_4_0_EVotingOnly.Key,
+                Key = v5 ? BasisXmlContestTemplates.Ech0157And0159_5_1_EVotingOnly.Key : BasisXmlContestTemplates.Ech0157And0159_4_0_EVotingOnly.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Zip);

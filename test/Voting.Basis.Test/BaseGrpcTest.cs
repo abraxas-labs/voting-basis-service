@@ -19,6 +19,7 @@ using MassTransit.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.EventProcessors;
 using Voting.Basis.Core.Extensions;
 using Voting.Basis.Core.Messaging;
 using Voting.Basis.Data;
@@ -59,6 +60,7 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
         TestEventPublisher = GetService<TestEventPublisherAdapter>();
         EventPublisherMock = GetService<EventPublisherMock>();
         AggregateRepositoryMock = GetService<AggregateRepositoryMock>();
+        GetService<EventProcessingInMemoryStateHolder>().ResetState();
         EventPublisherMock.Clear();
         AggregateRepositoryMock.Clear();
 

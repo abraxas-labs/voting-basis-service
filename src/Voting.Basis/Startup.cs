@@ -132,6 +132,9 @@ public class Startup
 
     private void UsePublisher(IApplicationBuilder app)
     {
+        app.UseHttpMetrics();
+        app.UseGrpcMetrics();
+
         app.UseMiddleware<ExceptionHandler>();
 
         if (_appConfig.Publisher.EnableGrpcWeb)
@@ -140,8 +143,6 @@ public class Startup
             app.UseCorsFromConfig();
         }
 
-        app.UseHttpMetrics();
-        app.UseGrpcMetrics();
         app.UseAuthentication();
         app.UseAuthorization();
 

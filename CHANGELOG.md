@@ -1,4 +1,4 @@
-# ✨ Changelog (`v2.74.1`)
+# ✨ Changelog (`v2.75.0`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v2.74.1
-Previous version ---- v2.66.3
+This version -------- v2.75.0
+Previous version ---- v2.74.1
 Initial version ----- v1.27.15
-Total commits ------- 29
+Total commits ------- 3
 ```
+
+## [v2.75.0] - 2026-03-04
+
+### 🔄 Changed
+
+- feat: detect db event processing lag
+
+## [v2.74.3] - 2026-02-18
+
+### 🔄 Changed
+
+- reorder metrics middleware calls in Startup configuration to catch final response status.
+
+## [v2.74.2] - 2026-02-12
+
+### 🔄 Changed
+
+- fix version and filter political businesses in contest e-voting export
 
 ## [v2.74.1] - 2026-02-06
 

@@ -148,7 +148,7 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportPoliti
         createListUnionEvents2.Should().HaveCount(createListUnionEvents1.Count);
         updateListUnionEntriesEvents2.Should().HaveCount(updateListUnionEntriesEvents1.Count);
 
-        var nrOfEvents2 = await Publish(0, deleteListUnionEvents2);
+        var nrOfEvents2 = await Publish(nrOfEvents1 + 1, deleteListUnionEvents2);
         nrOfEvents2 = await Publish(nrOfEvents2, deleteListEvents2);
         nrOfEvents2 = await Publish(nrOfEvents2, createListEvents2);
         nrOfEvents2 = await Publish(nrOfEvents2, createCandidateEvents2);
