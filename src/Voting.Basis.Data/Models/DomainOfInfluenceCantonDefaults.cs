@@ -40,4 +40,6 @@ public class DomainOfInfluenceCantonDefaults
     public bool SecondaryMajorityElectionOnSeparateBallot { get; set; }
 
     public bool HideOccupationTitle { get; set; }
+
+    public bool EnableAdditionalCandidateFields { get; set; }
 }

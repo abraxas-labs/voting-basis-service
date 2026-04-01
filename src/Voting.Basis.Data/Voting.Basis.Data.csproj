@@ -13,4 +13,10 @@
         <Compile Remove="DataContextFactory.cs" Condition="'$(Configuration)' == 'Release'" />
     </ItemGroup>
 
+    <ItemGroup>
+      <SonarQubeSetting Include="sonar.cpd.exclusions">
+        <Value>Models/BaseDomainOfInfluence.cs</Value>
+      </SonarQubeSetting>
+    </ItemGroup>
+
 </Project>

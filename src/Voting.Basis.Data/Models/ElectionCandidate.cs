@@ -46,4 +46,10 @@ public abstract class ElectionCandidate : BaseEntity
     public string Street { get; set; } = string.Empty;
 
     public string HouseNumber { get; set; } = string.Empty;
+
+    public string Comment { get; set; } = string.Empty;
+
+    public string WahlvorschlagDescription { get; set; } = string.Empty;
+
+    public bool Audited { get; set; }
 }

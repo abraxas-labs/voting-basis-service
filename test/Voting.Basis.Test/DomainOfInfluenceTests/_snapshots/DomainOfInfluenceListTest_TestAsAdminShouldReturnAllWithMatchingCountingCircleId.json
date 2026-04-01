@@ -56,14 +56,11 @@
       "HideLowerDomainOfInfluencesInReports": false,
       "ElectoralRegisterMultipleEnabled": false,
       "ECollectingEnabled": false,
-      "ECollectingInitiativeMinSignatureCount": null,
-      "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-      "ECollectingInitiativeNumberOfMembersCommittee": null,
-      "ECollectingReferendumMinSignatureCount": null,
-      "ECollectingReferendumMaxElectronicSignaturePercent": null,
-      "ECollectingEmail": "",
       "IsMainVotingCardsDomainOfInfluence": false,
-      "HasEmptyVotingCards": false
+      "HasEmptyVotingCards": false,
+      "EVoting": null,
+      "StistatExportEnabled": true,
+      "StistatExportEaiMessageType": "5577812"
     },
     {
       "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
@@ -121,14 +118,11 @@
       "HideLowerDomainOfInfluencesInReports": false,
       "ElectoralRegisterMultipleEnabled": false,
       "ECollectingEnabled": false,
-      "ECollectingInitiativeMinSignatureCount": null,
-      "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-      "ECollectingInitiativeNumberOfMembersCommittee": null,
-      "ECollectingReferendumMinSignatureCount": null,
-      "ECollectingReferendumMaxElectronicSignaturePercent": null,
-      "ECollectingEmail": "",
       "IsMainVotingCardsDomainOfInfluence": false,
-      "HasEmptyVotingCards": false
+      "HasEmptyVotingCards": false,
+      "EVoting": null,
+      "StistatExportEnabled": false,
+      "StistatExportEaiMessageType": ""
     }
   ]
 }

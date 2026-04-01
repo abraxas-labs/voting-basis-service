@@ -44,6 +44,7 @@
     "StistatMunicipality": true,
     "VotingCardFlatRateDisabled": true,
     "IsMainVotingCardsDomainOfInfluence": true,
-    "HasEmptyVotingCards": true
+    "HasEmptyVotingCards": true,
+    "StistatExportEaiMessageType": ""
   }
 }

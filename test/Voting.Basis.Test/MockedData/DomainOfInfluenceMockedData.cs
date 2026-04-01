@@ -118,6 +118,7 @@ public static class DomainOfInfluenceMockedData
             {
                     PartyBundAndere,
             },
+            StistatExportEaiMessageType = "5577812",
         };
 
     public static DomainOfInfluence StGallen
@@ -285,12 +286,6 @@ public static class DomainOfInfluenceMockedData
             PublishResultsDisabled = true,
             VotingCardFlatRateDisabled = true,
             ECollectingEnabled = true,
-            ECollectingInitiativeMinSignatureCount = 10000,
-            ECollectingInitiativeMaxElectronicSignaturePercent = 50,
-            ECollectingInitiativeNumberOfMembersCommittee = 15,
-            ECollectingReferendumMinSignatureCount = 1000,
-            ECollectingReferendumMaxElectronicSignaturePercent = 20,
-            ECollectingEmail = "ecollecting@gossau.ch",
         };
 
     public static DomainOfInfluence Kirchgemeinde

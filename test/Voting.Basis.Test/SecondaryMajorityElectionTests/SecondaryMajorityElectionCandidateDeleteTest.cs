@@ -118,7 +118,25 @@ public class SecondaryMajorityElectionCandidateDeleteTest : PoliticalBusinessAut
                 Id = MajorityElectionMockedData.SecondaryElectionCandidateId2GossauMajorityElectionEVotingApprovedInContestStGallen,
             }),
             StatusCode.FailedPrecondition,
-            nameof(PoliticalBusinessEVotingApprovedException));
+            nameof(PoliticalBusinessEVotingEverApprovedException));
+    }
+
+    [Fact]
+    public async Task DeleteWithEVotingEverApprovedShouldThrow()
+    {
+        await EVotingAdminClient.UpdateSecondaryMajorityElectionEVotingApprovalAsync(new UpdateSecondaryMajorityElectionEVotingApprovalRequest
+        {
+            Id = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen,
+            Approved = false,
+        });
+
+        await AssertStatus(
+            async () => await CantonAdminClient.DeleteSecondaryMajorityElectionCandidateAsync(new DeleteSecondaryMajorityElectionCandidateRequest
+            {
+                Id = MajorityElectionMockedData.SecondaryElectionCandidateId2GossauMajorityElectionEVotingApprovedInContestStGallen,
+            }),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingEverApprovedException));
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

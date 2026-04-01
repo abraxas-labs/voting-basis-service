@@ -63,7 +63,10 @@
         "it": "SP long description it",
         "rm": "SP long description rm"
       },
-      "ReportingType": 0
+      "ReportingType": 0,
+      "Comment": "",
+      "WahlvorschlagDescription": "",
+      "Audited": false
     }
   }
 }

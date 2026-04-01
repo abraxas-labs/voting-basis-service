@@ -90,5 +90,6 @@ public class DomainOfInfluenceGetTest : BaseGrpcTest<DomainOfInfluenceService.Do
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
+        yield return Roles.EVotingAdmin;
     }
 }

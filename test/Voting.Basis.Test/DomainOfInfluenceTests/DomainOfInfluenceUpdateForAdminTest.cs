@@ -12,7 +12,6 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
-using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
 using Voting.Basis.Core.Exceptions;
@@ -711,54 +710,6 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
             "VirtualTopLevel");
     }
 
-    [Fact]
-    public async Task NoECollectingReferendumValuesShouldThrow()
-    {
-        await AssertStatus(
-            async () => await CantonAdminClient.UpdateAsync(NewValidRootDoiRequest(x => x.ECollectingReferendumMinSignatureCount = null)),
-            StatusCode.InvalidArgument,
-            "Referendum minimum signature count is required");
-
-        await AssertStatus(
-            async () => await CantonAdminClient.UpdateAsync(NewValidRootDoiRequest(x => x.ECollectingReferendumMaxElectronicSignaturePercent = null)),
-            StatusCode.InvalidArgument,
-            "Referendum maximum electronic signature percent is required");
-
-        await AssertStatus(
-            async () => await CantonAdminClient.UpdateAsync(NewValidRootDoiRequest(x => x.ECollectingInitiativeNumberOfMembersCommittee = null)),
-            StatusCode.InvalidArgument,
-            "Initiative number of members committee is required");
-
-        await AssertStatus(
-            async () => await CantonAdminClient.UpdateAsync(NewValidRootDoiRequest(x => x.ECollectingEmail = string.Empty)),
-            StatusCode.InvalidArgument,
-            "ECollecting email is required");
-    }
-
-    [Fact]
-    public async Task NoECollectingInitiativeValuesOnCommunalShouldThrow()
-    {
-        await AssertStatus(
-            async () => await CantonAdminClient.UpdateAsync(NewValidRootDoiRequest(x =>
-            {
-                x.Type = SharedProto.DomainOfInfluenceType.Mu;
-                x.Bfs = "1111";
-                x.ECollectingInitiativeMinSignatureCount = null;
-            })),
-            StatusCode.InvalidArgument,
-            "Initiative minimum signature count is required for communal domain of influence");
-
-        await AssertStatus(
-            async () => await CantonAdminClient.UpdateAsync(NewValidRootDoiRequest(x =>
-            {
-                x.Type = SharedProto.DomainOfInfluenceType.Mu;
-                x.Bfs = "1111";
-                x.ECollectingInitiativeMaxElectronicSignaturePercent = null;
-            })),
-            StatusCode.InvalidArgument,
-            "Initiative maximum electronic signature percent is required for communal domain of influence");
-    }
-
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
         => await new DomainOfInfluenceService.DomainOfInfluenceServiceClient(channel)
             .UpdateAsync(NewValidRequest());
@@ -860,6 +811,7 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
                 VotingCardColor = SharedProto.VotingCardColor.Green,
                 ElectoralRegistrationEnabled = true,
                 StistatMunicipality = true,
+                StistatExportEaiMessageType = "1234568",
                 VotingCardFlatRateDisabled = true,
                 IsMainVotingCardsDomainOfInfluence = true,
                 HasEmptyVotingCards = true,
@@ -920,12 +872,6 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
                     },
                 PlausibilisationConfiguration = DomainOfInfluenceMockedData.BuildPlausibilisationConfiguration(),
                 ECollectingEnabled = true,
-                ECollectingInitiativeMinSignatureCount = 10000,
-                ECollectingInitiativeMaxElectronicSignaturePercent = 50,
-                ECollectingInitiativeNumberOfMembersCommittee = 15,
-                ECollectingReferendumMinSignatureCount = 1000,
-                ECollectingReferendumMaxElectronicSignaturePercent = 20,
-                ECollectingEmail = "ecollecting@uzwil.ch",
             },
         };
         customizer?.Invoke(request.AdminRequest);

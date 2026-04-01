@@ -71,14 +71,11 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingInitiativeMinSignatureCount": null,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-        "ECollectingInitiativeNumberOfMembersCommittee": null,
-        "ECollectingReferendumMinSignatureCount": null,
-        "ECollectingReferendumMaxElectronicSignaturePercent": null,
-        "ECollectingEmail": "",
         "IsMainVotingCardsDomainOfInfluence": false,
-        "HasEmptyVotingCards": false
+        "HasEmptyVotingCards": false,
+        "EVoting": null,
+        "StistatExportEnabled": false,
+        "StistatExportEaiMessageType": ""
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,

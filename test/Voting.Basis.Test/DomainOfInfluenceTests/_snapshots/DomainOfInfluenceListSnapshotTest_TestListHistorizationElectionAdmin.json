@@ -60,14 +60,11 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingInitiativeMinSignatureCount": null,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-        "ECollectingInitiativeNumberOfMembersCommittee": null,
-        "ECollectingReferendumMinSignatureCount": null,
-        "ECollectingReferendumMaxElectronicSignaturePercent": null,
-        "ECollectingEmail": "",
         "IsMainVotingCardsDomainOfInfluence": false,
-        "HasEmptyVotingCards": false
+        "HasEmptyVotingCards": false,
+        "EVoting": null,
+        "StistatExportEnabled": false,
+        "StistatExportEaiMessageType": ""
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -125,14 +122,11 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingInitiativeMinSignatureCount": null,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-        "ECollectingInitiativeNumberOfMembersCommittee": null,
-        "ECollectingReferendumMinSignatureCount": null,
-        "ECollectingReferendumMaxElectronicSignaturePercent": null,
-        "ECollectingEmail": "",
         "IsMainVotingCardsDomainOfInfluence": false,
-        "HasEmptyVotingCards": false
+        "HasEmptyVotingCards": false,
+        "EVoting": null,
+        "StistatExportEnabled": false,
+        "StistatExportEaiMessageType": ""
       }
     ]
   },
@@ -197,14 +191,11 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingInitiativeMinSignatureCount": null,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-        "ECollectingInitiativeNumberOfMembersCommittee": null,
-        "ECollectingReferendumMinSignatureCount": null,
-        "ECollectingReferendumMaxElectronicSignaturePercent": null,
-        "ECollectingEmail": "",
         "IsMainVotingCardsDomainOfInfluence": false,
-        "HasEmptyVotingCards": false
+        "HasEmptyVotingCards": false,
+        "EVoting": null,
+        "StistatExportEnabled": false,
+        "StistatExportEaiMessageType": ""
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -262,14 +253,11 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingInitiativeMinSignatureCount": null,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-        "ECollectingInitiativeNumberOfMembersCommittee": null,
-        "ECollectingReferendumMinSignatureCount": null,
-        "ECollectingReferendumMaxElectronicSignaturePercent": null,
-        "ECollectingEmail": "",
         "IsMainVotingCardsDomainOfInfluence": false,
-        "HasEmptyVotingCards": false
+        "HasEmptyVotingCards": false,
+        "EVoting": null,
+        "StistatExportEnabled": false,
+        "StistatExportEaiMessageType": ""
       }
     ]
   },
@@ -334,14 +322,11 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingInitiativeMinSignatureCount": null,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-        "ECollectingInitiativeNumberOfMembersCommittee": null,
-        "ECollectingReferendumMinSignatureCount": null,
-        "ECollectingReferendumMaxElectronicSignaturePercent": null,
-        "ECollectingEmail": "",
         "IsMainVotingCardsDomainOfInfluence": false,
-        "HasEmptyVotingCards": false
+        "HasEmptyVotingCards": false,
+        "EVoting": null,
+        "StistatExportEnabled": false,
+        "StistatExportEaiMessageType": ""
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -399,14 +384,11 @@
         "HideLowerDomainOfInfluencesInReports": false,
         "ElectoralRegisterMultipleEnabled": false,
         "ECollectingEnabled": false,
-        "ECollectingInitiativeMinSignatureCount": null,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-        "ECollectingInitiativeNumberOfMembersCommittee": null,
-        "ECollectingReferendumMinSignatureCount": null,
-        "ECollectingReferendumMaxElectronicSignaturePercent": null,
-        "ECollectingEmail": "",
         "IsMainVotingCardsDomainOfInfluence": false,
-        "HasEmptyVotingCards": false
+        "HasEmptyVotingCards": false,
+        "EVoting": null,
+        "StistatExportEnabled": false,
+        "StistatExportEaiMessageType": ""
       }
     ]
   },

@@ -54,7 +54,8 @@
       "CandidateOriginRequired": false,
       "DomainOfInfluencePublishResultsOptionEnabled": true,
       "SecondaryMajorityElectionOnSeparateBallot": false,
-      "HideOccupationTitle": false
+      "HideOccupationTitle": false,
+      "EnableAdditionalCandidateFields": false
     },
     {
       "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -115,7 +116,8 @@
       "CandidateOriginRequired": true,
       "DomainOfInfluencePublishResultsOptionEnabled": false,
       "SecondaryMajorityElectionOnSeparateBallot": false,
-      "HideOccupationTitle": true
+      "HideOccupationTitle": true,
+      "EnableAdditionalCandidateFields": true
     }
   ]
 }

@@ -113,6 +113,8 @@ public class CreateMajorityElectionCandidateRequestTest : ProtoValidatorBaseTest
         yield return NewValidRequest(x => x.Country = RandomStringUtil.GenerateAlphabetic(1));
         yield return NewValidRequest(x => x.Country = RandomStringUtil.GenerateAlphabetic(3));
         yield return NewValidRequest(x => x.Country = string.Empty);
+        yield return NewValidRequest(x => x.WahlvorschlagDescription = RandomStringUtil.GenerateComplexSingleLineText(101));
+        yield return NewValidRequest(x => x.Comment = RandomStringUtil.GenerateComplexSingleLineText(501));
     }
 
     private CreateMajorityElectionCandidateRequest NewValidRequest(Action<CreateMajorityElectionCandidateRequest>? action = null)

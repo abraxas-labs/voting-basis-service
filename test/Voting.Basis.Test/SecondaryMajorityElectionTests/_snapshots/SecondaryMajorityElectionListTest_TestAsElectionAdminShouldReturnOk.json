@@ -20,7 +20,8 @@
       "Active": false,
       "IndividualCandidatesDisabled": false,
       "IsOnSeparateBallot": false,
-      "EVotingApproved": false
+      "EVotingApproved": false,
+      "EVotingEverApproved": false
     }
   ]
 }

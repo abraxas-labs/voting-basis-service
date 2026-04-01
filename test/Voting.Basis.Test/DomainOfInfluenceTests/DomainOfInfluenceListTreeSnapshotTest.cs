@@ -147,6 +147,7 @@ public class DomainOfInfluenceListTreeSnapshotTest : BaseGrpcTest<DomainOfInflue
         yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
         yield return Roles.ApiReader;
+        yield return Roles.EVotingAdmin;
     }
 
     private async Task<IEnumerable<ProtoModels.DomainOfInfluence>> ElectionAdminListTreeSnapshotRequest(DateTime dateTime, bool includeDeleted = true)

@@ -55,7 +55,8 @@
         "CandidateOriginRequired": false,
         "DomainOfInfluencePublishResultsOptionEnabled": true,
         "SecondaryMajorityElectionOnSeparateBallot": true,
-        "HideOccupationTitle": true
+        "HideOccupationTitle": true,
+        "EnableAdditionalCandidateFields": true
       },
       {
         "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -116,7 +117,8 @@
         "CandidateOriginRequired": true,
         "DomainOfInfluencePublishResultsOptionEnabled": false,
         "SecondaryMajorityElectionOnSeparateBallot": false,
-        "HideOccupationTitle": true
+        "HideOccupationTitle": true,
+        "EnableAdditionalCandidateFields": true
       }
     ]
   },
@@ -157,7 +159,8 @@
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
-          "HideOccupationTitle": true
+          "HideOccupationTitle": true,
+          "EnableAdditionalCandidateFields": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -199,18 +202,14 @@
         "ElectoralRegistrationEnabled": false,
         "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
+        "StistatExportEaiMessageType": "",
+        "StistatExportEnabled": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
-        "ECollectingInitiativeMinSignatureCount": null,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-        "ECollectingInitiativeNumberOfMembersCommittee": null,
-        "ECollectingReferendumMinSignatureCount": null,
-        "ECollectingReferendumMaxElectronicSignaturePercent": null,
-        "ECollectingEmail": "",
         "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79"
       },
       {
@@ -248,7 +247,8 @@
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
-          "HideOccupationTitle": true
+          "HideOccupationTitle": true,
+          "EnableAdditionalCandidateFields": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -290,18 +290,14 @@
         "ElectoralRegistrationEnabled": false,
         "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
+        "StistatExportEaiMessageType": "",
+        "StistatExportEnabled": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
-        "ECollectingInitiativeMinSignatureCount": null,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-        "ECollectingInitiativeNumberOfMembersCommittee": null,
-        "ECollectingReferendumMinSignatureCount": null,
-        "ECollectingReferendumMaxElectronicSignaturePercent": null,
-        "ECollectingEmail": "",
         "Id": "22949a1e-fb09-47ec-9e9f-d26675676565"
       },
       {
@@ -339,7 +335,8 @@
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
-          "HideOccupationTitle": true
+          "HideOccupationTitle": true,
+          "EnableAdditionalCandidateFields": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -381,18 +378,14 @@
         "ElectoralRegistrationEnabled": false,
         "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
+        "StistatExportEaiMessageType": "",
+        "StistatExportEnabled": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
-        "ECollectingInitiativeMinSignatureCount": null,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-        "ECollectingInitiativeNumberOfMembersCommittee": null,
-        "ECollectingReferendumMinSignatureCount": null,
-        "ECollectingReferendumMaxElectronicSignaturePercent": null,
-        "ECollectingEmail": "",
         "Id": "692be088-00e2-490c-b1fd-828adc38571d"
       },
       {
@@ -430,7 +423,8 @@
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
-          "HideOccupationTitle": true
+          "HideOccupationTitle": true,
+          "EnableAdditionalCandidateFields": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -472,18 +466,14 @@
         "ElectoralRegistrationEnabled": false,
         "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
+        "StistatExportEaiMessageType": "",
+        "StistatExportEnabled": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
-        "ECollectingInitiativeMinSignatureCount": null,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-        "ECollectingInitiativeNumberOfMembersCommittee": null,
-        "ECollectingReferendumMinSignatureCount": null,
-        "ECollectingReferendumMaxElectronicSignaturePercent": null,
-        "ECollectingEmail": "",
         "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752"
       },
       {
@@ -521,7 +511,8 @@
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
-          "HideOccupationTitle": true
+          "HideOccupationTitle": true,
+          "EnableAdditionalCandidateFields": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -580,18 +571,14 @@
         "ElectoralRegistrationEnabled": true,
         "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": true,
+        "StistatExportEaiMessageType": "",
+        "StistatExportEnabled": false,
         "PublishResultsDisabled": true,
         "VotingCardFlatRateDisabled": true,
         "IsMainVotingCardsDomainOfInfluence": true,
         "HasEmptyVotingCards": true,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": true,
-        "ECollectingInitiativeMinSignatureCount": 10000,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": 50,
-        "ECollectingInitiativeNumberOfMembersCommittee": 15,
-        "ECollectingReferendumMinSignatureCount": 1000,
-        "ECollectingReferendumMaxElectronicSignaturePercent": 20,
-        "ECollectingEmail": "ecollecting@gossau.ch",
         "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd"
       },
       {
@@ -629,7 +616,8 @@
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
-          "HideOccupationTitle": true
+          "HideOccupationTitle": true,
+          "EnableAdditionalCandidateFields": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -671,18 +659,14 @@
         "ElectoralRegistrationEnabled": false,
         "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
+        "StistatExportEaiMessageType": "",
+        "StistatExportEnabled": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
-        "ECollectingInitiativeMinSignatureCount": null,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-        "ECollectingInitiativeNumberOfMembersCommittee": null,
-        "ECollectingReferendumMinSignatureCount": null,
-        "ECollectingReferendumMaxElectronicSignaturePercent": null,
-        "ECollectingEmail": "",
         "Id": "ade30989-5e28-40c7-918c-2c9408f853ba"
       },
       {
@@ -720,7 +704,8 @@
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
-          "HideOccupationTitle": true
+          "HideOccupationTitle": true,
+          "EnableAdditionalCandidateFields": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -762,18 +747,14 @@
         "ElectoralRegistrationEnabled": false,
         "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
+        "StistatExportEaiMessageType": "",
+        "StistatExportEnabled": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
-        "ECollectingInitiativeMinSignatureCount": null,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-        "ECollectingInitiativeNumberOfMembersCommittee": null,
-        "ECollectingReferendumMinSignatureCount": null,
-        "ECollectingReferendumMaxElectronicSignaturePercent": null,
-        "ECollectingEmail": "",
         "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b"
       },
       {
@@ -811,7 +792,8 @@
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
-          "HideOccupationTitle": true
+          "HideOccupationTitle": true,
+          "EnableAdditionalCandidateFields": true
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -853,18 +835,14 @@
         "ElectoralRegistrationEnabled": false,
         "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
+        "StistatExportEaiMessageType": "5577812",
+        "StistatExportEnabled": true,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
-        "ECollectingInitiativeMinSignatureCount": null,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-        "ECollectingInitiativeNumberOfMembersCommittee": null,
-        "ECollectingReferendumMinSignatureCount": null,
-        "ECollectingReferendumMaxElectronicSignaturePercent": null,
-        "ECollectingEmail": "",
         "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da"
       }
     ]

@@ -196,9 +196,9 @@ public class DomainOfInfluenceReader
             var domainsForCantons = await _repo.Query()
                 .Where(d => cantons.Contains(d.Canton))
                 .ToListAsync();
-            var countingCircles = await _doiCountingCirclesRepo.CountingCirclesByDomainOfInfluenceId(
+            var countingCirclesForCantons = await _doiCountingCirclesRepo.CountingCirclesByDomainOfInfluenceId(
                 filteredDomainOfInfluenceIds: domainsForCantons.ConvertAll(d => d.Id));
-            return DomainOfInfluenceTreeBuilder.BuildTree(domainsForCantons, countingCircles);
+            return DomainOfInfluenceTreeBuilder.BuildTree(domainsForCantons, countingCirclesForCantons);
         }
 
         var authEntries = await _permissionRepo.Query()
@@ -209,9 +209,20 @@ public class DomainOfInfluenceReader
         var domainsOfInfluence = await _repo.Query()
             .Where(d => doiIds.Contains(d.Id))
             .ToListAsync();
-        var countingCirclesByDoiId =
-            await _doiCountingCirclesRepo.CountingCirclesByDomainOfInfluenceId(countingCircleIds, doiIds);
-        return DomainOfInfluenceTreeBuilder.BuildTree(domainsOfInfluence, countingCirclesByDoiId);
+
+        var countingCirclesByDoiId = await _doiCountingCirclesRepo.CountingCirclesByDomainOfInfluenceId(countingCircleIds, doiIds);
+        var tree = DomainOfInfluenceTreeBuilder.BuildTree(domainsOfInfluence, countingCirclesByDoiId);
+
+        // To get the domain of influence E-Voting info, we need to set assign all CCs to the DOI.
+        // Note that the CCs itself wont get exposed by the API model.
+        var allCountingCirclesByDoiId = await _doiCountingCirclesRepo.CountingCirclesByDomainOfInfluenceId();
+        foreach (var doiLeaf in tree.Flatten(doi => doi.Children))
+        {
+            doiLeaf.CountingCircles = allCountingCirclesByDoiId.GetValueOrDefault(doiLeaf.Id)
+                ?? new List<DomainOfInfluenceCountingCircle>();
+        }
+
+        return tree;
     }
 
     /// <summary>

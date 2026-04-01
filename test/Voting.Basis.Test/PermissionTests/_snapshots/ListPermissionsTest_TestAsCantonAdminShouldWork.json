@@ -27,7 +27,7 @@
     "PoliticalBusiness:write-actions-tenant-same-canton",
     "PoliticalBusiness:read-actions-same-tenant",
     "PoliticalBusiness:write-actions-same-tenant",
-    "PoliticalBusinessUnion:actions-tenant-same-canton",
+    "PoliticalBusinessUnion:write-actions-tenant-same-canton",
     "Vote:create",
     "Vote:update",
     "Vote:e-voting-approve",

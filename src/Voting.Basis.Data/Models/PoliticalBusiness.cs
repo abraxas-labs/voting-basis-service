@@ -30,4 +30,6 @@ public abstract class PoliticalBusiness : BaseEntity
     public abstract PoliticalBusinessSubType PoliticalBusinessSubType { get; }
 
     public bool? EVotingApproved { get; set; }
+
+    public bool EVotingEverApproved { get; set; }
 }

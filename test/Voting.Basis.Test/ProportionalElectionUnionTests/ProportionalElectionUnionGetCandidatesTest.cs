@@ -66,6 +66,7 @@ public class ProportionalElectionUnionGetCandidatesTest : BaseGrpcTest<Proportio
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
+        yield return Roles.EVotingAdmin;
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

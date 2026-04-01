@@ -100,6 +100,8 @@ public class ProportionalElectionProcessor :
         var existingModel = await _repo.GetByKey(model.Id)
             ?? throw new EntityNotFoundException(model.Id);
 
+        model.EVotingEverApproved = existingModel.EVotingEverApproved;
+
         await _repo.Update(model);
         await _simplePoliticalBusinessBuilder.Update(model);
 
@@ -168,6 +170,11 @@ public class ProportionalElectionProcessor :
     {
         var electionId = GuidParser.Parse(eventData.ProportionalElectionId);
         var existingModel = await GetElection(electionId);
+
+        if (eventData.Approved)
+        {
+            existingModel.EVotingEverApproved = true;
+        }
 
         existingModel.EVotingApproved = eventData.Approved;
         await _repo.Update(existingModel);
@@ -551,11 +558,14 @@ public class ProportionalElectionProcessor :
                 .Where(c => c.ProportionalElectionListId == existingCandidate.ProportionalElectionListId
                     && c.Position > existingCandidate.Position)
                 .ToListAsync();
-            DecreaseCandidatePositions(candidatesToUpdate, existingCandidate.Position);
+
+            // decrease the accumulated position first, since this is higher than the actual position
             if (existingCandidate.Accumulated)
             {
                 DecreaseCandidatePositions(candidatesToUpdate, existingCandidate.AccumulatedPosition);
             }
+
+            DecreaseCandidatePositions(candidatesToUpdate, existingCandidate.Position);
 
             await _candidateRepo.UpdateRange(candidatesToUpdate);
             await _eventLogger.LogProportionalElectionCandidateEvent(eventData, existingCandidate);

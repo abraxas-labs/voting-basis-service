@@ -165,6 +165,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("DomainOfInfluencePublishResultsOptionEnabled")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("EnableAdditionalCandidateFields")
+                        .HasColumnType("boolean");
+
                     b.Property<int[]>("EnabledPoliticalBusinessUnionTypes")
                         .IsRequired()
                         .HasColumnType("integer[]");
@@ -589,27 +592,8 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("ECollectingEmail")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<bool>("ECollectingEnabled")
                         .HasColumnType("boolean");
-
-                    b.Property<int?>("ECollectingInitiativeMaxElectronicSignaturePercent")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ECollectingInitiativeMinSignatureCount")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ECollectingInitiativeNumberOfMembersCommittee")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ECollectingReferendumMaxElectronicSignaturePercent")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ECollectingReferendumMinSignatureCount")
-                        .HasColumnType("integer");
 
                     b.Property<bool>("ElectoralRegisterMultipleEnabled")
                         .HasColumnType("boolean");
@@ -676,6 +660,10 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<int>("SortNumber")
                         .HasColumnType("integer");
+
+                    b.Property<string>("StistatExportEaiMessageType")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("StistatMunicipality")
                         .HasColumnType("boolean");
@@ -1047,6 +1035,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool?>("EVotingApproved")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("EVotingEverApproved")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("EnforceCandidateCheckDigitForCountingCircles")
                         .HasColumnType("boolean");
 
@@ -1198,8 +1189,15 @@ namespace Voting.Basis.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("Audited")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("CheckDigit")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Country")
                         .IsRequired()
@@ -1276,6 +1274,10 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("WahlvorschlagDescription")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -1439,6 +1441,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool?>("EVotingApproved")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("EVotingEverApproved")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("EnforceCandidateCheckDigitForCountingCircles")
                         .HasColumnType("boolean");
 
@@ -1493,8 +1498,15 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<int>("AccumulatedPosition")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("Audited")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("CheckDigit")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Country")
                         .IsRequired()
@@ -1563,6 +1575,10 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("WahlvorschlagDescription")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -1787,6 +1803,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool?>("EVotingApproved")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("EVotingEverApproved")
+                        .HasColumnType("boolean");
+
                     b.Property<Guid>("ElectionGroupId")
                         .HasColumnType("uuid");
 
@@ -1829,11 +1848,18 @@ namespace Voting.Basis.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("Audited")
+                        .HasColumnType("boolean");
+
                     b.Property<Guid?>("CandidateReferenceId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("CheckDigit")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Country")
                         .IsRequired()
@@ -1913,6 +1939,10 @@ namespace Voting.Basis.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("WahlvorschlagDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("ZipCode")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1948,6 +1978,9 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<bool?>("EVotingApproved")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("EVotingEverApproved")
                         .HasColumnType("boolean");
 
                     b.Property<string>("OfficialDescription")
@@ -2202,27 +2235,8 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("ECollectingEmail")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<bool>("ECollectingEnabled")
                         .HasColumnType("boolean");
-
-                    b.Property<int?>("ECollectingInitiativeMaxElectronicSignaturePercent")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ECollectingInitiativeMinSignatureCount")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ECollectingInitiativeNumberOfMembersCommittee")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ECollectingReferendumMaxElectronicSignaturePercent")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ECollectingReferendumMinSignatureCount")
-                        .HasColumnType("integer");
 
                     b.Property<bool>("ElectoralRegisterMultipleEnabled")
                         .HasColumnType("boolean");
@@ -2274,6 +2288,10 @@ namespace Voting.Basis.Data.Migrations
 
                     b.Property<int>("SortNumber")
                         .HasColumnType("integer");
+
+                    b.Property<string>("StistatExportEaiMessageType")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("StistatMunicipality")
                         .HasColumnType("boolean");
@@ -2366,6 +2384,9 @@ namespace Voting.Basis.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<bool?>("EVotingApproved")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("EVotingEverApproved")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("EnforceResultEntryForCountingCircles")
@@ -2719,6 +2740,9 @@ namespace Voting.Basis.Data.Migrations
                                 .HasColumnType("boolean");
 
                             b1.Property<bool>("DomainOfInfluencePublishResultsOptionEnabled")
+                                .HasColumnType("boolean");
+
+                            b1.Property<bool>("EnableAdditionalCandidateFields")
                                 .HasColumnType("boolean");
 
                             b1.Property<int[]>("EnabledPoliticalBusinessUnionTypes")

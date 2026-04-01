@@ -245,7 +245,10 @@
           "CheckDigit": 6,
           "Country": "CH",
           "Street": "street",
-          "HouseNumber": "1a"
+          "HouseNumber": "1a",
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
         }
       },
       {
@@ -298,7 +301,10 @@
           "CheckDigit": 2,
           "Country": "CH",
           "Street": "street",
-          "HouseNumber": "1a"
+          "HouseNumber": "1a",
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
         }
       },
       {
@@ -346,7 +352,10 @@
           "CheckDigit": 6,
           "Country": "CH",
           "Street": "street",
-          "HouseNumber": "1a"
+          "HouseNumber": "1a",
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
         }
       },
       {
@@ -394,7 +403,10 @@
           "CheckDigit": 3,
           "Country": "CH",
           "Street": "street",
-          "HouseNumber": "1a"
+          "HouseNumber": "1a",
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
         }
       },
       {
@@ -442,7 +454,10 @@
           "CheckDigit": 1,
           "Country": "CH",
           "Street": "street",
-          "HouseNumber": "1a"
+          "HouseNumber": "1a",
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
         }
       },
       {
@@ -490,7 +505,10 @@
           "CheckDigit": 0,
           "Country": "CH",
           "Street": "street",
-          "HouseNumber": "1a"
+          "HouseNumber": "1a",
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
         }
       },
       {
@@ -538,7 +556,10 @@
           "CheckDigit": 6,
           "Country": "CH",
           "Street": "street",
-          "HouseNumber": "1a"
+          "HouseNumber": "1a",
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
         }
       },
       {
@@ -586,7 +607,10 @@
           "CheckDigit": 0,
           "Country": "CH",
           "Street": "street",
-          "HouseNumber": "1a"
+          "HouseNumber": "1a",
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
         }
       },
       {
@@ -634,7 +658,10 @@
           "CheckDigit": 9,
           "Country": "CH",
           "Street": "street",
-          "HouseNumber": "1a"
+          "HouseNumber": "1a",
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
         }
       },
       {
@@ -682,7 +709,10 @@
           "CheckDigit": 7,
           "Country": "CH",
           "Street": "street",
-          "HouseNumber": "1a"
+          "HouseNumber": "1a",
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
         }
       },
       {
@@ -730,7 +760,10 @@
           "CheckDigit": 3,
           "Country": "CH",
           "Street": "street",
-          "HouseNumber": "1a"
+          "HouseNumber": "1a",
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
         }
       }
     ]

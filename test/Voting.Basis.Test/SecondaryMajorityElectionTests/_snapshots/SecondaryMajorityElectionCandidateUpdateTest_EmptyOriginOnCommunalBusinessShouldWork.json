@@ -63,7 +63,10 @@
         "it": "Long description FDP it",
         "rm": "Long description FDP rm"
       },
-      "ReportingType": 0
+      "ReportingType": 0,
+      "Comment": "",
+      "WahlvorschlagDescription": "",
+      "Audited": false
     },
     "PrimaryMajorityElectionId": "e74b6879-9e2b-4799-a156-d0321b967dcf",
     "IsOnSeparateBallot": false

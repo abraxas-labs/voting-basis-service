@@ -47,7 +47,10 @@
       "Country": "CH",
       "Street": "street",
       "HouseNumber": "1a",
-      "ReportingType": 0
+      "ReportingType": 0,
+      "Comment": "",
+      "WahlvorschlagDescription": "",
+      "Audited": false
     },
     {
       "Id": "77ce6bf0-b27c-4d9d-926f-ced7863aff2f",
@@ -96,7 +99,10 @@
       "Country": "CH",
       "Street": "street",
       "HouseNumber": "1a",
-      "ReportingType": 0
+      "ReportingType": 0,
+      "Comment": "",
+      "WahlvorschlagDescription": "",
+      "Audited": false
     }
   ]
 }

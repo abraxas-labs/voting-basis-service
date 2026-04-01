@@ -98,6 +98,9 @@
     "Country": "CH",
     "Street": "street updated",
     "HouseNumber": "1a updated",
-    "ReportingType": 0
+    "ReportingType": 0,
+    "Comment": "test comment",
+    "WahlvorschlagDescription": "Description of this candidate",
+    "Audited": true
   }
 }

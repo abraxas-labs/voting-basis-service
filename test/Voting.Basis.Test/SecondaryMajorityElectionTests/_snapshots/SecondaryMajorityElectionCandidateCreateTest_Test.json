@@ -63,7 +63,10 @@
         "it": "Long description it",
         "rm": "Long description rm"
       },
-      "ReportingType": 0
+      "ReportingType": 0,
+      "Comment": "",
+      "WahlvorschlagDescription": "",
+      "Audited": false
     },
     "PrimaryMajorityElectionId": "b0da46f8-a721-4e1a-ac36-25284d68f34b",
     "IsOnSeparateBallot": false

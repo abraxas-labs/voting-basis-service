@@ -19,7 +19,8 @@
     "Active": true,
     "IndividualCandidatesDisabled": true,
     "IsOnSeparateBallot": false,
-    "EVotingApproved": null
+    "EVotingApproved": null,
+    "EVotingEverApproved": false
   },
   "simple-political-business": {
     "PoliticalBusinessType": 4,
@@ -45,6 +46,7 @@
     "ContestId": "20361fdf-7d18-47b9-bdef-fd82efe8a6a7",
     "Contest": null,
     "EVotingApproved": null,
+    "EVotingEverApproved": false,
     "Id": "0741da26-add2-4c4c-960d-7e251b82e91b"
   }
 }

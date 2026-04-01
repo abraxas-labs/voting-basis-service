@@ -865,6 +865,7 @@ public static class MajorityElectionMockedData
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
             EVotingApproved = true,
+            EVotingEverApproved = true,
             AutomaticEmptyVoteCounting = true,
             EnforceEmptyVoteCountingForCountingCircles = true,
             BallotBundleSize = 10,
@@ -918,6 +919,7 @@ public static class MajorityElectionMockedData
                         ElectionGroupId = Guid.Parse(ElectionGroupIdGossauMajorityElectionEVotingApprovedInContestStGallen),
                         Active = true,
                         EVotingApproved = true,
+                        EVotingEverApproved = true,
                         Candidates = new List<SecondaryMajorityElectionCandidate>
                         {
                             new SecondaryMajorityElectionCandidate
@@ -1074,6 +1076,9 @@ public static class MajorityElectionMockedData
                         Street = "street",
                         HouseNumber = "1a",
                         Country = "CH",
+                        Audited = true,
+                        Comment = "test comment",
+                        WahlvorschlagDescription = "Description of this candidate",
                     },
                     new MajorityElectionCandidate
                     {

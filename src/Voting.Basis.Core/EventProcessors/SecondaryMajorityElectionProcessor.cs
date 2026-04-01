@@ -89,6 +89,8 @@ public class SecondaryMajorityElectionProcessor :
             ?? throw new EntityNotFoundException(model.Id);
 
         model.ElectionGroupId = existingModel.ElectionGroupId;
+        model.EVotingEverApproved = existingModel.EVotingEverApproved;
+
         await _repo.Update(model);
 
         if (existingModel.NumberOfMandates != model.NumberOfMandates)
@@ -145,6 +147,11 @@ public class SecondaryMajorityElectionProcessor :
     {
         var smeId = GuidParser.Parse(eventData.SecondaryMajorityElectionId);
         var existingModel = await GetElection(smeId);
+
+        if (eventData.Approved)
+        {
+            existingModel.EVotingEverApproved = true;
+        }
 
         existingModel.EVotingApproved = eventData.Approved;
         await _repo.Update(existingModel);

@@ -19,7 +19,8 @@
     "Active": true,
     "IndividualCandidatesDisabled": true,
     "IsOnSeparateBallot": false,
-    "EVotingApproved": null
+    "EVotingApproved": null,
+    "EVotingEverApproved": false
   },
   "2": {
     "Id": "348f2f1a-063d-49ce-955a-81b464fcc256",
@@ -41,6 +42,7 @@
     "Active": false,
     "IndividualCandidatesDisabled": false,
     "IsOnSeparateBallot": false,
-    "EVotingApproved": null
+    "EVotingApproved": null,
+    "EVotingEverApproved": false
   }
 }

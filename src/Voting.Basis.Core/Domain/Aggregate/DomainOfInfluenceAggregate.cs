@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
@@ -52,7 +53,6 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         NameForProtocol = string.Empty;
         ContactPerson = new ContactPerson();
         PlausibilisationConfiguration = new PlausibilisationConfiguration();
-        ECollectingEmail = string.Empty;
         _parties = new List<DomainOfInfluenceParty>();
         _countingCircles = new List<string>();
         _mapper = mapper;
@@ -123,6 +123,11 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
 
     public bool StistatMunicipality { get; private set; }
 
+    public string StistatExportEaiMessageType { get; private set; } = string.Empty;
+
+    [MemberNotNullWhen(true, nameof(StistatExportEaiMessageType))]
+    public bool StistatExportEnabled => !string.IsNullOrEmpty(StistatExportEaiMessageType);
+
     public bool PublishResultsDisabled { get; private set; }
 
     public bool VotingCardFlatRateDisabled { get; private set; }
@@ -134,18 +139,6 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
     public bool HideLowerDomainOfInfluencesInReports { get; set; }
 
     public bool ECollectingEnabled { get; private set; }
-
-    public int? ECollectingInitiativeMinSignatureCount { get; set; }
-
-    public int? ECollectingInitiativeMaxElectronicSignaturePercent { get; set; }
-
-    public int? ECollectingInitiativeNumberOfMembersCommittee { get; set; }
-
-    public int? ECollectingReferendumMinSignatureCount { get; set; }
-
-    public int? ECollectingReferendumMaxElectronicSignaturePercent { get; set; }
-
-    public string ECollectingEmail { get; private set; }
 
     public void CreateFrom(DomainOfInfluence domainOfInfluence)
     {
@@ -238,6 +231,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         DomainOfInfluenceVotingCardSwissPostData? swissPostData,
         VotingCardColor votingCardColor,
         bool stistatMunicipality,
+        string stistatExportEaiMessageType,
         bool votingCardFlatRateDisabled,
         bool isMainVotingCardsDomainOfInfluence,
         bool hasEmptyVotingCards)
@@ -268,6 +262,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
             SapCustomerOrderNumber = sapCustomerOrderNumber,
             VotingCardColor = _mapper.Map<SharedProto.VotingCardColor>(votingCardColor),
             StistatMunicipality = stistatMunicipality,
+            StistatExportEaiMessageType = stistatExportEaiMessageType,
             VotingCardFlatRateDisabled = votingCardFlatRateDisabled,
             IsMainVotingCardsDomainOfInfluence = isMainVotingCardsDomainOfInfluence,
             HasEmptyVotingCards = hasEmptyVotingCards,
@@ -628,6 +623,7 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
                 domainOfInfluence.SwissPostData ?? throw new ValidationException(nameof(domainOfInfluence.SwissPostData) + " must be set"),
                 domainOfInfluence.VotingCardColor,
                 domainOfInfluence.StistatMunicipality,
+                domainOfInfluence.StistatExportEaiMessageType ?? string.Empty,
                 domainOfInfluence.VotingCardFlatRateDisabled,
                 domainOfInfluence.IsMainVotingCardsDomainOfInfluence,
                 domainOfInfluence.HasEmptyVotingCards);

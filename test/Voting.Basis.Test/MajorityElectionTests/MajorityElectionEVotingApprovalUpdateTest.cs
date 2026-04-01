@@ -172,6 +172,7 @@ public class MajorityElectionEVotingApprovalUpdateTest : PoliticalBusinessAuthor
         yield return Roles.CantonAdmin;
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionSupporter;
+        yield return Roles.EVotingAdmin;
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

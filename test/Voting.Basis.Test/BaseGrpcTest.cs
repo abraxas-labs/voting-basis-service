@@ -44,6 +44,7 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
     private readonly Lazy<TService> _electionAdminEVotingAdminClient;
     private readonly Lazy<TService> _electionAdminReadOnlyClient;
     private readonly Lazy<TService> _electionSupporterClient;
+    private readonly Lazy<TService> _eVotingAdminClient;
     private readonly Lazy<TService> _cantonAdminClient;
     private readonly Lazy<TService> _cantonAdminReadOnlyClient;
     private readonly Lazy<TService> _electionAdminUzwilClient;
@@ -69,6 +70,7 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
         _cantonAdminReadOnlyClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.CantonAdminReadOnly));
         _electionAdminEVotingAdminClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ElectionAdmin, Roles.EVotingAdmin));
         _electionAdminClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ElectionAdmin));
+        _eVotingAdminClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.EVotingAdmin));
         _electionAdminReadOnlyClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ElectionAdminReadOnly));
         _electionAdminUzwilClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantUzwil.Id, Roles.ElectionAdmin));
         _electionSupporterClient = new(() => CreateAuthorizedClient(SecureConnectTestDefaults.MockedTenantDefault.Id, Roles.ElectionSupporter));
@@ -97,6 +99,8 @@ public abstract class BaseGrpcTest<TService> : GrpcAuthorizationBaseTest<TestApp
     protected TService ElectionAdminClient => _electionAdminClient.Value;
 
     protected TService ElectionAdminReadOnlyClient => _electionAdminReadOnlyClient.Value;
+
+    protected TService EVotingAdminClient => _eVotingAdminClient.Value;
 
     protected TService ElectionSupporterClient => _electionSupporterClient.Value;
 

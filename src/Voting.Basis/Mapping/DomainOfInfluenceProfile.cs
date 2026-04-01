@@ -2,6 +2,7 @@
 // For license information see LICENSE file
 
 using System.Collections.Generic;
+using System.Linq;
 using Abraxas.Voting.Basis.Services.V1.Requests;
 using AutoMapper;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
@@ -30,7 +31,8 @@ public class DomainOfInfluenceProfile : Profile
             .ForMember(dst => dst.CountingCircles, opts => opts.Ignore())
             .ForMember(dst => dst.Children, opts => opts.Ignore());
         CreateMap<Data.Models.DomainOfInfluence, ProtoModels.DomainOfInfluence>()
-            .ForMember(dst => dst.Info, opts => opts.MapFrom(src => src));
+            .ForMember(dst => dst.Info, opts => opts.MapFrom(src => src))
+            .ForMember(dst => dst.EVoting, opts => opts.MapFrom(src => src.CountingCircles.Count > 0 ? (bool?)src.CountingCircles.Any(doiCc => doiCc.CountingCircle.EVoting) : null));
 
         CreateMap<Data.Models.DomainOfInfluenceCantonDefaults, ProtoModels.DomainOfInfluenceCantonDefaults>();
         CreateMap<Data.Models.DomainOfInfluenceVotingCardPrintData, ProtoModels.DomainOfInfluenceVotingCardPrintData>();

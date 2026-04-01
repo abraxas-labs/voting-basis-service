@@ -54,7 +54,10 @@
       "CheckDigit": 6,
       "Country": "CH",
       "Street": "street",
-      "HouseNumber": "1a"
+      "HouseNumber": "1a",
+      "Comment": "",
+      "WahlvorschlagDescription": "",
+      "Audited": false
     }
   }
 }

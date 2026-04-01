@@ -9,7 +9,6 @@
     "PoliticalAssembly:read-same-canton",
     "PoliticalBusiness:read-actions-tenant-same-canton",
     "PoliticalBusiness:read-actions-same-tenant",
-    "PoliticalBusinessUnion:actions-tenant-same-canton",
     "Vote:read",
     "VoteBallot:read",
     "ProportionalElection:read",

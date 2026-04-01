@@ -52,5 +52,6 @@
   "CandidateOriginRequired": false,
   "DomainOfInfluencePublishResultsOptionEnabled": true,
   "SecondaryMajorityElectionOnSeparateBallot": false,
-  "HideOccupationTitle": false
+  "HideOccupationTitle": false,
+  "EnableAdditionalCandidateFields": false
 }

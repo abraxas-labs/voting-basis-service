@@ -121,6 +121,8 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
     public bool? EVotingApproved { get; private set; }
 
+    public bool EVotingEverApproved { get; private set; }
+
     public void CreateFrom(MajorityElection majorityElection)
     {
         if (majorityElection.Id == default)
@@ -242,7 +244,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public bool TryApproveEVoting()
+    public bool TrySetActiveAndApproveEVoting()
     {
         if (EVotingApproved == true)
         {
@@ -251,6 +253,11 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
         try
         {
+            if (!Active)
+            {
+                UpdateActiveState(true);
+            }
+
             UpdateEVotingApproval(true);
             return true;
         }
@@ -416,7 +423,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void DeleteCandidate(Guid candidateId)
     {
         EnsureNotDeleted();
-        EnsureEVotingNotApproved();
+        EnsureEVotingNeverApproved();
         EnsureCandidateExists(candidateId);
         EnsureIsNotInBallotGroup(candidateId);
 
@@ -593,7 +600,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public bool TryApproveSecondaryMajorityElectionEVoting(Guid id)
+    public bool TrySetActiveAndApproveSecondaryMajorityElectionEVoting(Guid id)
     {
         var sme = GetSecondaryMajorityElection(id);
         if (sme.EVotingApproved == true)
@@ -603,6 +610,11 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
         try
         {
+            if (!sme.Active)
+            {
+                UpdateSecondaryMajorityElectionActiveState(id, true);
+            }
+
             UpdateSecondaryMajorityElectionEVotingApproval(id, true);
             return true;
         }
@@ -719,7 +731,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void DeleteSecondaryMajorityElectionCandidate(Guid secondaryMajorityElectionId, Guid candidateId)
     {
         EnsureNotDeleted();
-        EnsureEVotingNotApproved(secondaryMajorityElectionId);
+        EnsureEVotingNeverApproved(secondaryMajorityElectionId);
 
         var sme = GetSecondaryMajorityElection(secondaryMajorityElectionId);
 
@@ -813,7 +825,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     public void DeleteCandidateReference(Guid secondaryMajorityElectionId, Guid candidateId)
     {
         EnsureNotDeleted();
-        EnsureEVotingNotApproved(secondaryMajorityElectionId);
+        EnsureEVotingNeverApproved(secondaryMajorityElectionId);
         EnsureIsNotInBallotGroup(candidateId);
 
         var sme = GetSecondaryMajorityElection(secondaryMajorityElectionId);
@@ -1200,6 +1212,11 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     private void Apply(MajorityElectionEVotingApprovalUpdated ev)
     {
         EVotingApproved = ev.Approved;
+
+        if (ev.Approved)
+        {
+            EVotingEverApproved = true;
+        }
     }
 
     private void Apply(MajorityElectionCandidateCreated ev)
@@ -1357,6 +1374,11 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     {
         var sme = GetSecondaryMajorityElection(GuidParser.Parse(ev.SecondaryMajorityElectionId));
         sme.EVotingApproved = ev.Approved;
+
+        if (ev.Approved)
+        {
+            sme.EVotingEverApproved = true;
+        }
     }
 
     private void Apply(SecondaryMajorityElectionCandidateCreated ev)
@@ -1753,6 +1775,24 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         if (sme.EVotingApproved == true)
         {
             throw new PoliticalBusinessEVotingApprovedException();
+        }
+    }
+
+    private void EnsureEVotingNeverApproved()
+    {
+        if (EVotingEverApproved)
+        {
+            throw new PoliticalBusinessEVotingEverApprovedException();
+        }
+    }
+
+    private void EnsureEVotingNeverApproved(Guid smeId)
+    {
+        var sme = GetSecondaryMajorityElection(smeId);
+
+        if (sme.EVotingEverApproved)
+        {
+            throw new PoliticalBusinessEVotingEverApprovedException();
         }
     }
 }

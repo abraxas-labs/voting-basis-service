@@ -111,7 +111,7 @@ public abstract class PoliticalBusinessUnionWriter<TPoliticalBusiness, TPolitica
 
         var hasPermission = false;
 
-        if (Auth.HasPermission(Permissions.PoliticalBusinessUnion.ActionsTenantSameCanton))
+        if (Auth.HasPermission(Permissions.PoliticalBusinessUnion.WriteActionsTenantSameCanton))
         {
             var canton = politicalBusinessUnion.Contest.DomainOfInfluence.Canton;
             hasPermission = await _cantonSettingsRepo.Query()

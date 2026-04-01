@@ -74,7 +74,7 @@ public class PermissionProvider : IPermissionProvider
             Permissions.PoliticalBusiness.ReadActionsSameTenant,
             Permissions.PoliticalBusiness.WriteActionsSameTenant,
 
-            Permissions.PoliticalBusinessUnion.ActionsTenantSameCanton,
+            Permissions.PoliticalBusinessUnion.WriteActionsTenantSameCanton,
 
             Permissions.Vote.Create,
             Permissions.Vote.Update,
@@ -173,8 +173,6 @@ public class PermissionProvider : IPermissionProvider
 
             Permissions.PoliticalBusiness.ReadActionsTenantSameCanton,
             Permissions.PoliticalBusiness.ReadActionsSameTenant,
-
-            Permissions.PoliticalBusinessUnion.ActionsTenantSameCanton,
 
             Permissions.Vote.Read,
 
@@ -479,6 +477,35 @@ public class PermissionProvider : IPermissionProvider
         };
         _permissionsPerRole[Roles.EVotingAdmin] = new HashSet<string>
         {
+            Permissions.CantonSettings.ReadSameTenant,
+            Permissions.DomainOfInfluenceLogo.Read,
+            Permissions.DomainOfInfluenceHierarchy.ReadSameCanton,
+            Permissions.DomainOfInfluence.ReadSameCanton,
+            Permissions.CountingCircle.ReadSameCanton,
+
+            Permissions.Contest.ReadSameCanton,
+            Permissions.PoliticalAssembly.ReadSameCanton,
+            Permissions.PoliticalBusiness.ReadActionsTenantSameCanton,
+            Permissions.PoliticalBusiness.ReadActionsSameTenant,
+
+            Permissions.Vote.Read,
+            Permissions.VoteBallot.Read,
+            Permissions.ProportionalElection.Read,
+            Permissions.ProportionalElectionList.Read,
+            Permissions.ProportionalElectionListUnion.Read,
+            Permissions.ProportionalElectionCandidate.Read,
+            Permissions.ProportionalElectionUnion.Read,
+            Permissions.MajorityElection.Read,
+            Permissions.MajorityElectionCandidate.Read,
+            Permissions.MajorityElectionBallotGroup.Read,
+            Permissions.MajorityElectionUnion.Read,
+            Permissions.SecondaryMajorityElection.Read,
+            Permissions.SecondaryMajorityElectionCandidate.Read,
+
+            Permissions.EventLog.ReadSameTenant,
+            Permissions.EventLog.Watch,
+            Permissions.Country.Read,
+
             Permissions.Vote.EVotingApprove,
             Permissions.Vote.EVotingApproveRevert,
             Permissions.ProportionalElection.EVotingApprove,

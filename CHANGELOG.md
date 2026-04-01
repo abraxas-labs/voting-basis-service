@@ -1,4 +1,4 @@
-# ✨ Changelog (`v2.75.0`)
+# ✨ Changelog (`v2.77.4`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,53 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v2.75.0
-Previous version ---- v2.74.1
+This version -------- v2.77.4
+Previous version ---- v2.75.0
 Initial version ----- v1.27.15
-Total commits ------- 3
+Total commits ------- 10
 ```
+
+## [v2.77.4] - 2026-03-23
+
+### 🔄 Changed
+
+- deactivate political business e-voting
+
+## [v2.77.3] - 2026-03-13
+
+### 🔄 Changed
+
+- delete candidate updates aggregate
+
+## [v2.77.2] - 2026-03-12
+
+### 🔄 Changed
+
+- removing accumulated candidates preserves the order of the positions
+
+## [v2.77.1] - 2026-03-12
+
+### 🔄 Changed
+
+- consider e-voting approval on imports
+
+## [v2.77.0] - 2026-03-12
+
+### 🆕 Added
+
+- feat(VOTING-6623): stistat export settings
+
+## [v2.76.0] - 2026-03-11
+
+- feat(VOTING-6334): rm ecollecting settings
+
+- e-voting approval fixes and prevent deletion of candidates after e-voting ever approved
+
+### 🔄 Changed
+
+- delete list when last proportional election candidate is deleted
+
+- add additional candidate fields
 
 ## [v2.75.0] - 2026-03-04
 

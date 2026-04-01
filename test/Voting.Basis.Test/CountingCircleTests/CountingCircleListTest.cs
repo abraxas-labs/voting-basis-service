@@ -54,5 +54,6 @@ public class CountingCircleListTest : BaseGrpcTest<CountingCircleService.Countin
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
+        yield return Roles.EVotingAdmin;
     }
 }

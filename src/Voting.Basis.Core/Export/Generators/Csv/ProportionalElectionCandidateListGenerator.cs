@@ -133,6 +133,9 @@ public class ProportionalElectionCandidateListGenerator : IExportGenerator
             ListDescriptionShort = LanguageUtil.GetInCurrentLanguage(list.ShortDescription),
             ListUnionName = GetListUnionDescription(list, false),
             ListSubUnionName = GetListUnionDescription(list, true),
+            Audited = candidate.Audited,
+            Comment = candidate.Comment,
+            WahlvorschlagDescription = candidate.WahlvorschlagDescription,
         };
     }
 

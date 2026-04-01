@@ -54,6 +54,7 @@
     "Active": false,
     "IndividualCandidatesDisabled": false,
     "IsOnSeparateBallot": false,
-    "EVotingApproved": null
+    "EVotingApproved": null,
+    "EVotingEverApproved": false
   }
 }

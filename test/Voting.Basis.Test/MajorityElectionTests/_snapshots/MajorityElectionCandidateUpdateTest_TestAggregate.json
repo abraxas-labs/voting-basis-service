@@ -45,5 +45,8 @@
   "Country": "CH",
   "Street": "new street",
   "HouseNumber": "new 1a",
-  "ReportingType": 2
+  "ReportingType": 2,
+  "Comment": "",
+  "WahlvorschlagDescription": "",
+  "Audited": false
 }

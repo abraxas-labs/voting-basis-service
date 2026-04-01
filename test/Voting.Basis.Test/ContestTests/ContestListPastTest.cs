@@ -79,6 +79,7 @@ public class ContestListPastTest : BaseGrpcTest<ContestService.ContestServiceCli
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
+        yield return Roles.EVotingAdmin;
     }
 
     private ListContestPastRequest NewValidRequest(

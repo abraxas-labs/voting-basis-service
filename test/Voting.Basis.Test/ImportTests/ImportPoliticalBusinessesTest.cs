@@ -1,10 +1,14 @@
 ﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
+using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
@@ -32,6 +36,26 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
     {
         var request = await CreateValidRequest();
         await CantonAdminClient.ImportPoliticalBusinessesAsync(request);
+    }
+
+    [Fact]
+    public async Task TestShouldNotEnableEVotingApproval()
+    {
+        var request = await CreateValidRequest(contestId: ContestMockedData.IdStGallenEvoting);
+        request.Votes[0].Vote.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdUzwil;
+        request.MajorityElections[0].Election.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdUzwil;
+
+        await CantonAdminClient.ImportPoliticalBusinessesAsync(request);
+
+        var peCreatedEvents = EventPublisherMock.GetPublishedEvents<ProportionalElectionCreated>();
+        var meCreatedEvents = EventPublisherMock.GetPublishedEvents<MajorityElectionCreated>();
+        var voteCreatedEvents = EventPublisherMock.GetPublishedEvents<VoteCreated>();
+
+        // political business e-voting is currently disabled.
+        voteCreatedEvents.First().Vote.EVotingApproved.Should().BeNull();
+        meCreatedEvents.First().MajorityElection.EVotingApproved.Should().BeNull();
+        voteCreatedEvents.Any(v => v.Vote.EVotingApproved == false).Should().BeFalse();
+        peCreatedEvents.Any(pe => pe.ProportionalElection.EVotingApproved == false).Should().BeFalse();
     }
 
     [Fact]
@@ -94,6 +118,21 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
             async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
             StatusCode.InvalidArgument,
             "This id is not unique");
+    }
+
+    [Fact]
+    public async Task TestShouldThrowIfEVotingPoliticalBusinessAndPastEVotingApprovalDate()
+    {
+        var request = await CreateValidRequest(contestId: ContestMockedData.IdStGallenEvoting);
+
+        await ModifyDbEntities<Data.Models.Contest>(
+            c => c.Id == Guid.Parse(request.ContestId),
+            c => c.EVotingApproved = true);
+
+        await AssertStatus(
+            async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
+            StatusCode.InvalidArgument,
+            "Cannot create a new e-voting political business when the contest e-voting approval has been set.");
     }
 
     [Fact]

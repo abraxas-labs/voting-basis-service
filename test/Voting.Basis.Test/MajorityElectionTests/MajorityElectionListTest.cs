@@ -74,5 +74,6 @@ public class MajorityElectionListTest : BaseGrpcTest<MajorityElectionService.Maj
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
+        yield return Roles.EVotingAdmin;
     }
 }

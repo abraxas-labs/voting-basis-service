@@ -104,6 +104,7 @@ public class CountingCircleListAssignedSnapshotTest : BaseGrpcTest<CountingCircl
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
+        yield return Roles.EVotingAdmin;
     }
 
     private async Task<IEnumerable<ProtoModels.DomainOfInfluenceCountingCircle>> ElectionAdminListForDoiSnapshotRequest(

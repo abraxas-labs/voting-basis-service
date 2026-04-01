@@ -52,7 +52,10 @@
       "CheckDigit": 4,
       "Country": "IT",
       "Street": "street",
-      "HouseNumber": "1a"
+      "HouseNumber": "1a",
+      "Comment": "",
+      "WahlvorschlagDescription": "",
+      "Audited": false
     },
     {
       "Id": "8b4837a9-c3ba-4ec5-9e50-536a9b4347a9",
@@ -106,7 +109,10 @@
       "CheckDigit": 6,
       "Country": "CH",
       "Street": "street",
-      "HouseNumber": "1a"
+      "HouseNumber": "1a",
+      "Comment": "",
+      "WahlvorschlagDescription": "",
+      "Audited": false
     }
   ]
 }

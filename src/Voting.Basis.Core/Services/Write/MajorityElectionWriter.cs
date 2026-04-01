@@ -13,12 +13,12 @@ using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Models;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Validation;
+using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
-using Contest = Voting.Basis.Data.Models.Contest;
 using DomainOfInfluence = Voting.Basis.Data.Models.DomainOfInfluence;
 using ElectionGroup = Voting.Basis.Data.Models.ElectionGroup;
 using MajorityElection = Voting.Basis.Data.Models.MajorityElection;
@@ -55,8 +55,8 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
         IDbRepository<DataContext, ElectionGroup> electionGroupRepo,
         IDbRepository<DataContext, SecondaryMajorityElection> secondaryMajorityElectionRepo,
         IDbRepository<DataContext, MajorityElectionBallotGroup> ballotGroupRepo,
-        IDbRepository<DataContext, Contest> contestRepo)
-        : base(domainOfInfluenceRepo, contestRepo)
+        PoliticalBusinessEVotingApprovalInitializer politicalBusinessEVotingApprovalInitializer)
+        : base(politicalBusinessEVotingApprovalInitializer)
     {
         _aggregateRepository = aggregateRepository;
         _aggregateFactory = aggregateFactory;
@@ -508,7 +508,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
     {
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(majorityElectionId);
 
-        if (!majorityElection.TryApproveEVoting())
+        if (!majorityElection.TrySetActiveAndApproveEVoting())
         {
             return false;
         }
@@ -521,7 +521,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
     {
         var majorityElection = await GetAggregateFromSecondaryMajorityElection(secondaryMajorityElectionId);
 
-        if (!majorityElection.TryApproveSecondaryMajorityElectionEVoting(secondaryMajorityElectionId))
+        if (!majorityElection.TrySetActiveAndApproveSecondaryMajorityElectionEVoting(secondaryMajorityElectionId))
         {
             return false;
         }

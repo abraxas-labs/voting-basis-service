@@ -36,7 +36,8 @@
       "EnforceCandidateCheckDigitForCountingCircles": true,
       "IndividualCandidatesDisabled": false,
       "FederalIdentification": null,
-      "EVotingApproved": false
+      "EVotingApproved": false,
+      "EVotingEverApproved": false
     },
     {
       "Id": "50415df8-6ee9-4eb4-9e31-68c0d3021e76",
@@ -74,7 +75,8 @@
       "EnforceCandidateCheckDigitForCountingCircles": false,
       "IndividualCandidatesDisabled": false,
       "FederalIdentification": null,
-      "EVotingApproved": false
+      "EVotingApproved": false,
+      "EVotingEverApproved": false
     },
     {
       "Id": "a6ab97b9-ce86-4973-876e-a128ff279bf7",
@@ -112,7 +114,8 @@
       "EnforceCandidateCheckDigitForCountingCircles": false,
       "IndividualCandidatesDisabled": false,
       "FederalIdentification": null,
-      "EVotingApproved": false
+      "EVotingApproved": false,
+      "EVotingEverApproved": false
     },
     {
       "Id": "72addd15-0e86-4109-bc35-92a71c9a9adf",
@@ -150,7 +153,8 @@
       "EnforceCandidateCheckDigitForCountingCircles": false,
       "IndividualCandidatesDisabled": false,
       "FederalIdentification": null,
-      "EVotingApproved": true
+      "EVotingApproved": true,
+      "EVotingEverApproved": true
     }
   ]
 }

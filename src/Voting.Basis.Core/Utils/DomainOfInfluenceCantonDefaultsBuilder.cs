@@ -70,6 +70,7 @@ public class DomainOfInfluenceCantonDefaultsBuilder
             DomainOfInfluencePublishResultsOptionEnabled = cantonSettings.DomainOfInfluencePublishResultsOptionEnabled,
             SecondaryMajorityElectionOnSeparateBallot = cantonSettings.SecondaryMajorityElectionOnSeparateBallot,
             HideOccupationTitle = cantonSettings.HideOccupationTitle,
+            EnableAdditionalCandidateFields = cantonSettings.EnableAdditionalCandidateFields,
         };
     }
 

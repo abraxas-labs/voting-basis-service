@@ -71,5 +71,6 @@ public class DomainOfInfluenceGetCantonDefaultsTest : BaseGrpcTest<DomainOfInflu
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
+        yield return Roles.EVotingAdmin;
     }
 }

@@ -38,6 +38,9 @@
         "Country": "CH",
         "Street": "street",
         "HouseNumber": "1a",
+        "Comment": "",
+        "WahlvorschlagDescription": "",
+        "Audited": false,
         "Id": "00000000-0000-0000-0000-000000000000"
       },
       {
@@ -82,6 +85,9 @@
         "Country": "CH",
         "Street": "street",
         "HouseNumber": "1a",
+        "Comment": "",
+        "WahlvorschlagDescription": "",
+        "Audited": false,
         "Id": "00000000-0000-0000-0000-000000000000"
       },
       {
@@ -126,6 +132,9 @@
         "Country": "CH",
         "Street": "street",
         "HouseNumber": "1a",
+        "Comment": "",
+        "WahlvorschlagDescription": "",
+        "Audited": false,
         "Id": "00000000-0000-0000-0000-000000000000"
       }
     ]

@@ -39,5 +39,6 @@ public class CountryListTest : BaseGrpcTest<CountryService.CountryServiceClient>
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
+        yield return Roles.EVotingAdmin;
     }
 }

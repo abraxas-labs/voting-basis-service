@@ -62,6 +62,7 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
                 FrankingLicenceReturnNumber = "965333145",
             },
             StistatMunicipality = true,
+            StistatExportEaiMessageType = "1234567",
             VotingCardFlatRateDisabled = true,
             IsMainVotingCardsDomainOfInfluence = true,
             HasEmptyVotingCards = true,
@@ -77,6 +78,7 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
         protoDoi.ExternalPrintingCenterEaiMessageType.Should().Be("GOSSAU-Updated");
         protoDoi.SapCustomerOrderNumber.Should().Be("915421");
         protoDoi.StistatMunicipality.Should().BeTrue();
+        protoDoi.StistatExportEaiMessageType.Should().Be("1234567");
         protoDoi.IsMainVotingCardsDomainOfInfluence.Should().BeTrue();
         protoDoi.VotingCardColor.Should().Be(SharedProto.VotingCardColor.Unspecified);
         protoDoi.HasEmptyVotingCards.Should().BeTrue();
@@ -116,6 +118,7 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
                 FrankingLicenceReturnNumber = "965333145",
             },
             StistatMunicipality = true,
+            StistatExportEaiMessageType = "1234567",
             VotingCardFlatRateDisabled = true,
             EventInfo = GetMockedEventInfo(),
             VotingCardColor = SharedProto.VotingCardColor.Chamois,
@@ -160,6 +163,7 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
                 FrankingLicenceReturnNumber = "965333145",
             },
             StistatMunicipality = true,
+            StistatExportEaiMessageType = "1234567",
             VotingCardFlatRateDisabled = true,
             EventInfo = GetMockedEventInfo(),
             VotingCardColor = SharedProto.VotingCardColor.Gold,

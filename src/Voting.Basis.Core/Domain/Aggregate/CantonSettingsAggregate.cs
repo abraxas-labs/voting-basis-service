@@ -87,6 +87,8 @@ public class CantonSettingsAggregate : BaseEventSourcingAggregate
 
     public bool HideOccupationTitle { get; private set; }
 
+    public bool EnableAdditionalCandidateFields { get; set; }
+
     public void CreateFrom(CantonSettings cantonSettings)
     {
         cantonSettings.Id = BasisUuidV5.BuildCantonSettings(cantonSettings.Canton);

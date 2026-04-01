@@ -72,4 +72,6 @@ public class CantonSettings : BaseEntity
     public bool SecondaryMajorityElectionOnSeparateBallot { get; set; }
 
     public bool HideOccupationTitle { get; set; }
+
+    public bool EnableAdditionalCandidateFields { get; set; }
 }

@@ -330,6 +330,7 @@ public static class VoteMockedData
             ResultAlgorithm = VoteResultAlgorithm.PopularMajority,
             Active = true,
             EVotingApproved = true,
+            EVotingEverApproved = true,
             BallotBundleSampleSizePercent = 25,
             AutomaticBallotBundleNumberGeneration = true,
             ResultEntry = VoteResultEntry.FinalResults,

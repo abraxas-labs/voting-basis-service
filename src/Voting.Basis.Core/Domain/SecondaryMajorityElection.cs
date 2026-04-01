@@ -47,6 +47,8 @@ public class SecondaryMajorityElection
 
     public bool? EVotingApproved { get; set; }
 
+    public bool EVotingEverApproved { get; set; }
+
     internal MajorityElectionCandidate GetCandidate(Guid candidateId)
     {
         return Candidates.SingleOrDefault(c => c.Id == candidateId)

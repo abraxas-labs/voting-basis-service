@@ -71,6 +71,7 @@
     "EnforceCandidateCheckDigitForCountingCircles": false,
     "IndividualCandidatesDisabled": false,
     "FederalIdentification": null,
-    "EVotingApproved": null
+    "EVotingApproved": null,
+    "EVotingEverApproved": false
   }
 }

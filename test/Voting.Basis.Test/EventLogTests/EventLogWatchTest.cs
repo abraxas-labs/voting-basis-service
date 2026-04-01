@@ -207,6 +207,7 @@ public class EventLogWatchTest : BaseGrpcTest<EventLogService.EventLogServiceCli
         yield return Roles.ElectionSupporter;
         yield return Roles.CantonAdminReadOnly;
         yield return Roles.ElectionAdminReadOnly;
+        yield return Roles.EVotingAdmin;
     }
 
     private async Task<List<Event>> PublishAndWatchEvents<TEvent>(

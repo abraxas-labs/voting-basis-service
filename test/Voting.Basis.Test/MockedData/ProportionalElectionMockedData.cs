@@ -819,6 +819,7 @@ public static class ProportionalElectionMockedData
             ContestId = ContestMockedData.StGallenEvotingContest.Id,
             Active = true,
             EVotingApproved = true,
+            EVotingEverApproved = true,
             AutomaticEmptyVoteCounting = true,
             EnforceEmptyVoteCountingForCountingCircles = true,
             BallotBundleSize = 10,

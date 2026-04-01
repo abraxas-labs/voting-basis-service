@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Core.Domain;
@@ -95,6 +96,11 @@ public class DomainOfInfluence
 
     public bool StistatMunicipality { get; set; }
 
+    public string StistatExportEaiMessageType { get; set; } = string.Empty;
+
+    [MemberNotNullWhen(true, nameof(StistatExportEaiMessageType))]
+    public bool StistatExportEnabled => !string.IsNullOrEmpty(StistatExportEaiMessageType);
+
     public bool PublishResultsDisabled { get; set; }
 
     public bool VotingCardFlatRateDisabled { get; set; }
@@ -109,16 +115,4 @@ public class DomainOfInfluence
     public bool HideLowerDomainOfInfluencesInReports { get; set; }
 
     public bool ECollectingEnabled { get; set; }
-
-    public int? ECollectingInitiativeMinSignatureCount { get; set; }
-
-    public int? ECollectingInitiativeMaxElectronicSignaturePercent { get; set; }
-
-    public int? ECollectingInitiativeNumberOfMembersCommittee { get; set; }
-
-    public int? ECollectingReferendumMinSignatureCount { get; set; }
-
-    public int? ECollectingReferendumMaxElectronicSignaturePercent { get; set; }
-
-    public string ECollectingEmail { get; set; } = string.Empty;
 }

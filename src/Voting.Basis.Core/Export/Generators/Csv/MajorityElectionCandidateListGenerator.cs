@@ -129,6 +129,9 @@ public class MajorityElectionCandidateListGenerator : IExportGenerator
             Gender = candidate.Sex,
             Incumbent = candidate.Incumbent,
             Party = LanguageUtil.GetInCurrentLanguage(candidate.PartyShortDescription),
+            Audited = candidate.Audited,
+            Comment = candidate.Comment,
+            WahlvorschlagDescription = candidate.WahlvorschlagDescription,
         };
     }
 }

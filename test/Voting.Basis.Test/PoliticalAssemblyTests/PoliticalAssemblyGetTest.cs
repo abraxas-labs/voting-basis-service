@@ -100,5 +100,6 @@ public class PoliticalAssemblyGetTest : BaseGrpcTest<PoliticalAssemblyService.Po
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
+        yield return Roles.EVotingAdmin;
     }
 }

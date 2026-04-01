@@ -23,6 +23,7 @@ csharp_prefer_braces = true:warning
 
 # disable primary constructor recommendations
 dotnet_diagnostic.IDE0290.severity = none
+dotnet_diagnostic.S107.severity = none
 csharp_style_prefer_primary_constructors = false
 resharper_convert_to_primary_constructor_highlighting = none
 

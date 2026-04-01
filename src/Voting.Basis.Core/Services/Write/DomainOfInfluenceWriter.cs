@@ -112,7 +112,6 @@ public class DomainOfInfluenceWriter
         await ValidateExportConfigurations(null, data.ExportConfigurations);
         await ValidateSuperiorAuthority(data, parent?.Canton ?? data.Canton);
         ValidatePublishResults(data, cantonDefaults.DomainOfInfluencePublishResultsOptionEnabled);
-        ValidateECollecting(data);
         await EnsureCanCreate(data, parent);
 
         var domainOfInfluence = _aggregateFactory.New<DomainOfInfluenceAggregate>();
@@ -138,7 +137,6 @@ public class DomainOfInfluenceWriter
 
         await ValidateSuperiorAuthority(data, parent?.Canton ?? data.Canton);
         ValidatePublishResults(data, cantonDefaults.DomainOfInfluencePublishResultsOptionEnabled);
-        ValidateECollecting(data);
 
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(data.Id);
 
@@ -195,6 +193,7 @@ public class DomainOfInfluenceWriter
                 null,
                 data.VotingCardColor,
                 domainOfInfluence.StistatMunicipality,
+                domainOfInfluence.StistatExportEaiMessageType,
                 domainOfInfluence.VotingCardFlatRateDisabled,
                 domainOfInfluence.IsMainVotingCardsDomainOfInfluence,
                 domainOfInfluence.HasEmptyVotingCards);
@@ -590,49 +589,6 @@ public class DomainOfInfluenceWriter
         if (!doi.Type.IsCommunal())
         {
             throw new ValidationException("Cannot disable publish results on non-communal domain of influence");
-        }
-    }
-
-    private void ValidateECollecting(Domain.DomainOfInfluence doi)
-    {
-        if (!doi.ECollectingEnabled)
-        {
-            return;
-        }
-
-        if (!doi.ECollectingReferendumMinSignatureCount.HasValue)
-        {
-            throw new ValidationException("Referendum minimum signature count is required");
-        }
-
-        if (!doi.ECollectingReferendumMaxElectronicSignaturePercent.HasValue)
-        {
-            throw new ValidationException("Referendum maximum electronic signature percent is required");
-        }
-
-        if (!doi.ECollectingInitiativeNumberOfMembersCommittee.HasValue)
-        {
-            throw new ValidationException("Initiative number of members committee is required");
-        }
-
-        if (string.IsNullOrWhiteSpace(doi.ECollectingEmail))
-        {
-            throw new ValidationException("ECollecting email is required");
-        }
-
-        if (doi.Type < DomainOfInfluenceType.Mu)
-        {
-            return;
-        }
-
-        if (!doi.ECollectingInitiativeMinSignatureCount.HasValue)
-        {
-            throw new ValidationException("Initiative minimum signature count is required for communal domain of influence");
-        }
-
-        if (!doi.ECollectingInitiativeMaxElectronicSignaturePercent.HasValue)
-        {
-            throw new ValidationException("Initiative maximum electronic signature percent is required for communal domain of influence");
         }
     }
 }

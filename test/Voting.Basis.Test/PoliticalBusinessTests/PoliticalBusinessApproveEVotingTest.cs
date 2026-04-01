@@ -45,19 +45,29 @@ public class PoliticalBusinessApproveEVotingTest : BaseTest
 
         await RunScoped<ApprovePoliticalBusinessEVotingJob>(job => job.Run(CancellationToken.None));
 
-        var voteEvs = EventPublisherMock.GetPublishedEvents<VoteEVotingApprovalUpdated>();
-        var peEvs = EventPublisherMock.GetPublishedEvents<ProportionalElectionEVotingApprovalUpdated>();
-        var meEvs = EventPublisherMock.GetPublishedEvents<MajorityElectionEVotingApprovalUpdated>();
-        var smeEvs = EventPublisherMock.GetPublishedEvents<SecondaryMajorityElectionEVotingApprovalUpdated>();
+        var voteActiveStateEvs = EventPublisherMock.GetPublishedEvents<VoteActiveStateUpdated>();
+        var voteEVotingEvs = EventPublisherMock.GetPublishedEvents<VoteEVotingApprovalUpdated>();
+        var peActiveStateEvs = EventPublisherMock.GetPublishedEvents<ProportionalElectionActiveStateUpdated>();
+        var peEVotingEvs = EventPublisherMock.GetPublishedEvents<ProportionalElectionEVotingApprovalUpdated>();
+        var meActiveStateEvs = EventPublisherMock.GetPublishedEvents<MajorityElectionActiveStateUpdated>();
+        var meEVotingEvs = EventPublisherMock.GetPublishedEvents<MajorityElectionEVotingApprovalUpdated>();
+        var smeActiveStateEvs = EventPublisherMock.GetPublishedEvents<SecondaryMajorityElectionActiveStateUpdated>();
+        var smeEVotingEvs = EventPublisherMock.GetPublishedEvents<SecondaryMajorityElectionEVotingApprovalUpdated>();
 
-        voteEvs.Count().Should().Be(3);
-        voteEvs.All(x => x.Approved).Should().BeTrue();
-        peEvs.Count().Should().Be(3);
-        peEvs.All(x => x.Approved).Should().BeTrue();
-        meEvs.Count().Should().Be(4);
-        meEvs.All(x => x.Approved).Should().BeTrue();
-        smeEvs.Count().Should().Be(1);
-        smeEvs.All(x => x.Approved).Should().BeTrue();
+        voteActiveStateEvs.Count().Should().Be(0);
+        voteEVotingEvs.Count().Should().Be(3);
+        voteEVotingEvs.All(x => x.Approved).Should().BeTrue();
+        peActiveStateEvs.Count().Should().Be(0);
+        peEVotingEvs.Count().Should().Be(3);
+        peEVotingEvs.All(x => x.Approved).Should().BeTrue();
+        meActiveStateEvs.Count().Should().Be(1);
+        meActiveStateEvs.All(x => x.Active).Should().BeTrue();
+        meEVotingEvs.Count().Should().Be(4);
+        meEVotingEvs.All(x => x.Approved).Should().BeTrue();
+        smeActiveStateEvs.Count().Should().Be(1);
+        smeActiveStateEvs.All(x => x.Active).Should().BeTrue();
+        smeEVotingEvs.Count().Should().Be(1);
+        smeEVotingEvs.All(x => x.Approved).Should().BeTrue();
     }
 
     [Fact]

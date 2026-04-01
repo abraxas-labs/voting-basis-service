@@ -73,6 +73,8 @@ public class VoteAggregate : BaseHasContestAggregate
 
     public bool? EVotingApproved { get; private set; }
 
+    public bool EVotingEverApproved { get; private set; }
+
     private bool TypeImmutable { get; set; }
 
     public void CreateFrom(Vote vote)
@@ -184,7 +186,7 @@ public class VoteAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public bool TryApproveEVoting()
+    public bool TrySetActiveAndApproveEVoting()
     {
         if (EVotingApproved == true)
         {
@@ -193,6 +195,11 @@ public class VoteAggregate : BaseHasContestAggregate
 
         try
         {
+            if (!Active)
+            {
+                UpdateActiveState(true);
+            }
+
             UpdateEVotingApproval(true);
             return true;
         }
@@ -439,6 +446,11 @@ public class VoteAggregate : BaseHasContestAggregate
     private void Apply(VoteEVotingApprovalUpdated ev)
     {
         EVotingApproved = ev.Approved;
+
+        if (ev.Approved)
+        {
+            EVotingEverApproved = true;
+        }
     }
 
     private void Apply(BallotCreated ev)

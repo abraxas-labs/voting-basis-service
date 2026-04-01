@@ -77,6 +77,7 @@ public class MajorityElectionProcessor :
 
         var existingModel = await GetMajorityElection(model.Id);
         model.ElectionGroup = existingModel.ElectionGroup;
+        model.EVotingEverApproved = existingModel.EVotingEverApproved;
 
         await _repo.Update(model);
         await _simplePoliticalBusinessBuilder.Update(model);
@@ -143,6 +144,11 @@ public class MajorityElectionProcessor :
     {
         var majorityElectionId = GuidParser.Parse(eventData.MajorityElectionId);
         var existingModel = await GetMajorityElection(majorityElectionId);
+
+        if (eventData.Approved)
+        {
+            existingModel.EVotingEverApproved = true;
+        }
 
         existingModel.EVotingApproved = eventData.Approved;
         await _repo.Update(existingModel);

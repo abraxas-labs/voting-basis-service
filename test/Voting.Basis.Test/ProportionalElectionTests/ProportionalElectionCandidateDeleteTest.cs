@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Metadata;
@@ -77,6 +78,23 @@ public class ProportionalElectionCandidateDeleteTest : PoliticalBusinessAuthoriz
     }
 
     [Fact]
+    public async Task TestDeletingLastCandidateShouldAlsoDeleteList()
+    {
+        await CantonAdminClient.DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest
+        {
+            Id = ProportionalElectionMockedData.CandidateIdStGallenProportionalElectionInContestStGallen,
+        });
+
+        var (candidateEventData, candidateEventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionCandidateDeleted, EventSignatureBusinessMetadata>();
+        candidateEventData.ProportionalElectionCandidateId.Should().Be(ProportionalElectionMockedData.CandidateIdStGallenProportionalElectionInContestStGallen);
+        candidateEventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
+
+        var (listEventData, listEventMetadata) = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionListDeleted, EventSignatureBusinessMetadata>();
+        listEventData.ProportionalElectionListId.Should().Be(ProportionalElectionMockedData.ListIdStGallenProportionalElectionInContestStGallen);
+        listEventMetadata!.ContestId.Should().Be(ContestMockedData.IdStGallenEvoting);
+    }
+
+    [Fact]
     public async Task TestShouldTriggerEventSignatureAndSignEvent()
     {
         await ShouldTriggerEventSignatureAndSignEvent(ContestMockedData.IdStGallenEvoting, async () =>
@@ -92,12 +110,21 @@ public class ProportionalElectionCandidateDeleteTest : PoliticalBusinessAuthoriz
     [Fact]
     public async Task TestAggregate()
     {
-        var id = ProportionalElectionMockedData.CandidateIdStGallenProportionalElectionInContestStGallen;
+        var id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionInContestStGallen;
         await TestEventPublisher.Publish(new ProportionalElectionCandidateDeleted { ProportionalElectionCandidateId = id });
 
         var idGuid = Guid.Parse(id);
         (await RunOnDb(db => db.ProportionalElectionCandidates.CountAsync(c => c.Id == idGuid)))
             .Should().Be(0);
+
+        var listId = Guid.Parse(ProportionalElectionMockedData.ListId1GossauProportionalElectionInContestStGallen);
+        var remainingCandidatesPositions = await RunOnDb(db => db.ProportionalElectionCandidates
+            .Where(x => x.ProportionalElectionListId == listId)
+            .OrderBy(x => x.Position)
+            .Select(x => x.Position)
+            .ToListAsync());
+
+        remainingCandidatesPositions.Should().BeEquivalentTo(Enumerable.Range(1, remainingCandidatesPositions.Count));
     }
 
     [Fact]
@@ -122,7 +149,25 @@ public class ProportionalElectionCandidateDeleteTest : PoliticalBusinessAuthoriz
                 Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionEVotingApprovedInContestStGallen,
             }),
             StatusCode.FailedPrecondition,
-            nameof(PoliticalBusinessEVotingApprovedException));
+            nameof(PoliticalBusinessEVotingEverApprovedException));
+    }
+
+    [Fact]
+    public async Task DeleteWithEVotingEverApprovedShouldThrow()
+    {
+        await EVotingAdminClient.UpdateEVotingApprovalAsync(new UpdateProportionalElectionEVotingApprovalRequest
+        {
+            Id = ProportionalElectionMockedData.IdGossauProportionalElectionEVotingApprovedInContestStGallen,
+            Approved = false,
+        });
+
+        await AssertStatus(
+            async () => await CantonAdminClient.DeleteCandidateAsync(new DeleteProportionalElectionCandidateRequest
+            {
+                Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionEVotingApprovedInContestStGallen,
+            }),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingEverApprovedException));
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

@@ -90,6 +90,7 @@ internal static class PublisherServiceCollection
             .AddForwardRefScoped<PoliticalBusinessUnionWriter, MajorityElectionUnionWriter>()
             .AddScoped<CantonSettingsWriter>()
             .AddScoped<ContestMerger>()
+            .AddScoped<PoliticalBusinessEVotingApprovalInitializer>()
             .AddScoped<ContestDeleter>()
             .AddScoped<PoliticalBusinessDeleter>()
             .AddScoped<EventSignatureWriter>()

@@ -27,6 +27,8 @@ public class MajorityElectionCandidate
         Country = string.Empty;
         Street = string.Empty;
         HouseNumber = string.Empty;
+        Comment = string.Empty;
+        WahlvorschlagDescription = string.Empty;
     }
 
     public Guid Id { get; internal set; }
@@ -79,4 +81,10 @@ public class MajorityElectionCandidate
     public string HouseNumber { get; private set; }
 
     public MajorityElectionCandidateReportingType ReportingType { get; internal set; }
+
+    public string Comment { get; private set; }
+
+    public string WahlvorschlagDescription { get; private set; }
+
+    public bool Audited { get; private set; }
 }

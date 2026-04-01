@@ -51,6 +51,26 @@ public class ImportContestTest : BaseImportTest
     }
 
     [Fact]
+    public async Task TestShouldNotEnableEVotingApproval()
+    {
+        var contest = await CreateValidContestImport();
+        contest.Contest.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen;
+        contest.Votes[0].Vote.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdUzwil;
+
+        await CantonAdminClient.ImportContestAsync(new ImportContestRequest { Contest = contest });
+
+        var peCreatedEvents = EventPublisherMock.GetPublishedEvents<ProportionalElectionCreated>();
+        var meCreatedEvents = EventPublisherMock.GetPublishedEvents<MajorityElectionCreated>();
+        var voteCreatedEvents = EventPublisherMock.GetPublishedEvents<VoteCreated>();
+
+        // political business e-voting is currently disabled.
+        voteCreatedEvents.First().Vote.EVotingApproved.Should().BeNull();
+        voteCreatedEvents.Any(v => v.Vote.EVotingApproved == null).Should().BeTrue();
+        peCreatedEvents.Any(pe => pe.ProportionalElection.EVotingApproved == null).Should().BeTrue();
+        meCreatedEvents.Any(me => me.MajorityElection.EVotingApproved == null).Should().BeTrue();
+    }
+
+    [Fact]
     public async Task TestShouldTriggerEventSignatureAndSignEvents()
     {
         var contest = await CreateValidContestImport();

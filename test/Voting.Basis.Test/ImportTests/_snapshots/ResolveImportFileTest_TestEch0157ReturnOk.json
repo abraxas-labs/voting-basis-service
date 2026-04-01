@@ -71,7 +71,8 @@
         "EnforceCandidateCheckDigitForCountingCircles": false,
         "IndividualCandidatesDisabled": false,
         "FederalIdentification": null,
-        "EVotingApproved": null
+        "EVotingApproved": null,
+        "EVotingEverApproved": false
       },
       "Candidates": [
         {
@@ -111,7 +112,10 @@
           "Country": "CH",
           "Street": "street",
           "HouseNumber": "1a",
-          "ReportingType": 0
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
         },
         {
           "Id": "",
@@ -155,7 +159,10 @@
           "Country": "CH",
           "Street": "street",
           "HouseNumber": "1a",
-          "ReportingType": 0
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
         },
         {
           "Id": "",
@@ -199,7 +206,10 @@
           "Country": "CH",
           "Street": "street",
           "HouseNumber": "1a",
-          "ReportingType": 0
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
         }
       ]
     }
@@ -238,7 +248,8 @@
         "EnforceReviewProcedureForCountingCircles": false,
         "EnforceCandidateCheckDigitForCountingCircles": false,
         "FederalIdentification": null,
-        "EVotingApproved": null
+        "EVotingApproved": null,
+        "EVotingEverApproved": false
       },
       "Lists": [
         {
@@ -310,7 +321,10 @@
                 "CheckDigit": 0,
                 "Country": "CH",
                 "Street": "street",
-                "HouseNumber": "1a"
+                "HouseNumber": "1a",
+                "Comment": "",
+                "WahlvorschlagDescription": "",
+                "Audited": false
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -353,7 +367,10 @@
                 "CheckDigit": 0,
                 "Country": "CH",
                 "Street": "street",
-                "HouseNumber": "1a"
+                "HouseNumber": "1a",
+                "Comment": "",
+                "WahlvorschlagDescription": "",
+                "Audited": false
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -424,7 +441,10 @@
                 "CheckDigit": 0,
                 "Country": "CH",
                 "Street": "street",
-                "HouseNumber": "1a"
+                "HouseNumber": "1a",
+                "Comment": "",
+                "WahlvorschlagDescription": "",
+                "Audited": false
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -495,7 +515,10 @@
                 "CheckDigit": 0,
                 "Country": "CH",
                 "Street": "street",
-                "HouseNumber": "1a"
+                "HouseNumber": "1a",
+                "Comment": "",
+                "WahlvorschlagDescription": "",
+                "Audited": false
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -533,7 +556,10 @@
                 "CheckDigit": 0,
                 "Country": "CH",
                 "Street": "street",
-                "HouseNumber": "1a"
+                "HouseNumber": "1a",
+                "Comment": "",
+                "WahlvorschlagDescription": "",
+                "Audited": false
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -571,7 +597,10 @@
                 "CheckDigit": 0,
                 "Country": "CH",
                 "Street": "street",
-                "HouseNumber": "1a"
+                "HouseNumber": "1a",
+                "Comment": "",
+                "WahlvorschlagDescription": "",
+                "Audited": false
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -642,7 +671,10 @@
                 "CheckDigit": 0,
                 "Country": "CH",
                 "Street": "street",
-                "HouseNumber": "1a"
+                "HouseNumber": "1a",
+                "Comment": "",
+                "WahlvorschlagDescription": "",
+                "Audited": false
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -713,7 +745,10 @@
                 "CheckDigit": 0,
                 "Country": "CH",
                 "Street": "street",
-                "HouseNumber": "1a"
+                "HouseNumber": "1a",
+                "Comment": "",
+                "WahlvorschlagDescription": "",
+                "Audited": false
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -751,7 +786,10 @@
                 "CheckDigit": 0,
                 "Country": "CH",
                 "Street": "street",
-                "HouseNumber": "1a"
+                "HouseNumber": "1a",
+                "Comment": "",
+                "WahlvorschlagDescription": "",
+                "Audited": false
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -789,7 +827,10 @@
                 "CheckDigit": 0,
                 "Country": "CH",
                 "Street": "street",
-                "HouseNumber": "1a"
+                "HouseNumber": "1a",
+                "Comment": "",
+                "WahlvorschlagDescription": "",
+                "Audited": false
               },
               "SourcePartyShort": {},
               "SourceParty": {}
@@ -827,7 +868,10 @@
                 "CheckDigit": 0,
                 "Country": "CH",
                 "Street": "street",
-                "HouseNumber": "1a"
+                "HouseNumber": "1a",
+                "Comment": "",
+                "WahlvorschlagDescription": "",
+                "Audited": false
               },
               "SourcePartyShort": {},
               "SourceParty": {}

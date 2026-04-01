@@ -74,8 +74,11 @@ public class VoteProcessor :
     public async Task Process(VoteUpdated eventData)
     {
         var model = MapToVote(eventData.Vote);
-
+        var existingModel = await _repo.GetByKey(model.Id)
+            ?? throw new EntityNotFoundException(model.Id);
         await CalculateSubTypeForVoteWithoutFetchedBallots(model);
+
+        model.EVotingEverApproved = existingModel.EVotingEverApproved;
 
         await _repo.Update(model);
         await _simplePoliticalBusinessBuilder.Update(model);
@@ -203,6 +206,11 @@ public class VoteProcessor :
     {
         var voteId = GuidParser.Parse(eventData.VoteId);
         var existingModel = await GetVote(voteId);
+
+        if (eventData.Approved)
+        {
+            existingModel.EVotingEverApproved = true;
+        }
 
         existingModel.EVotingApproved = eventData.Approved;
         await _repo.Update(existingModel);

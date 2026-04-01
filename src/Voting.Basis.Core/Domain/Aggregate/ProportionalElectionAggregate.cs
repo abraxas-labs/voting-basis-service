@@ -97,6 +97,8 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
 
     public bool? EVotingApproved { get; private set; }
 
+    public bool EVotingEverApproved { get; private set; }
+
     public void CreateFrom(ProportionalElection proportionalElection)
     {
         if (proportionalElection.Id == default)
@@ -213,7 +215,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public bool TryApproveEVoting()
+    public bool TrySetActiveAndApproveEVoting()
     {
         if (EVotingApproved == true)
         {
@@ -222,6 +224,11 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
 
         try
         {
+            if (!Active)
+            {
+                UpdateActiveState(true);
+            }
+
             UpdateEVotingApproval(true);
             return true;
         }
@@ -367,7 +374,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void DeleteList(Guid listId)
     {
         EnsureNotDeleted();
-        EnsureEVotingNotApproved();
+        EnsureEVotingNeverApproved();
         EnsureListExists(listId);
         EnsureListNotInUnion(listId);
 
@@ -690,7 +697,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     public void DeleteCandidate(Guid listId, Guid candidateId)
     {
         EnsureNotDeleted();
-        EnsureEVotingNotApproved();
+        EnsureEVotingNeverApproved();
         var list = FindList(listId);
         EnsureCandidateExists(list, candidateId);
 
@@ -703,6 +710,12 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         };
 
         RaiseEvent(ev);
+
+        // Lists without candidates should not exist. Instead, the whole list should be deleted.
+        if (list.Candidates.Count == 0)
+        {
+            DeleteList(list.Id);
+        }
     }
 
     public override void MoveToNewContest(Guid newContestId)
@@ -846,6 +859,11 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
     private void Apply(ProportionalElectionEVotingApprovalUpdated ev)
     {
         EVotingApproved = ev.Approved;
+
+        if (ev.Approved)
+        {
+            EVotingEverApproved = true;
+        }
     }
 
     private void Apply(ProportionalElectionListCreated ev)
@@ -1000,11 +1018,13 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
 
         list.Candidates.Remove(existingCandidate);
 
-        DecreaseCandidatePositions(list.Candidates, existingCandidate.Position);
+        // decrease the accumulated position first, since this is higher than the actual position
         if (existingCandidate.Accumulated)
         {
             DecreaseCandidatePositions(list.Candidates, existingCandidate.AccumulatedPosition);
         }
+
+        DecreaseCandidatePositions(list.Candidates, existingCandidate.Position);
     }
 
     private void Apply(ProportionalElectionMandateAlgorithmUpdated ev)
@@ -1221,6 +1241,14 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         if (EVotingApproved == true)
         {
             throw new PoliticalBusinessEVotingApprovedException();
+        }
+    }
+
+    private void EnsureEVotingNeverApproved()
+    {
+        if (EVotingEverApproved)
+        {
+            throw new PoliticalBusinessEVotingEverApprovedException();
         }
     }
 

@@ -10,6 +10,7 @@ using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Extensions;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Validation;
+using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Lib.Database.Repositories;
@@ -37,8 +38,8 @@ public class VoteWriter : PoliticalBusinessWriter
         ContestValidationService contestValidationService,
         IDbRepository<DataContext, Vote> voteRepository,
         IDbRepository<DataContext, DomainOfInfluence> doiRepository,
-        IDbRepository<DataContext, Contest> contestRepo)
-        : base(doiRepository, contestRepo)
+        PoliticalBusinessEVotingApprovalInitializer politicalBusinessEVotingApprovalInitializer)
+        : base(politicalBusinessEVotingApprovalInitializer)
     {
         _aggregateRepository = aggregateRepository;
         _aggregateFactory = aggregateFactory;
@@ -197,7 +198,7 @@ public class VoteWriter : PoliticalBusinessWriter
     {
         var vote = await _aggregateRepository.GetById<VoteAggregate>(voteId);
 
-        if (!vote.TryApproveEVoting())
+        if (!vote.TrySetActiveAndApproveEVoting())
         {
             return false;
         }

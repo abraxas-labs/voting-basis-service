@@ -48,7 +48,10 @@
         "Country": "CH",
         "Street": "street",
         "HouseNumber": "1a",
-        "ReportingType": 0
+        "ReportingType": 0,
+        "Comment": "",
+        "WahlvorschlagDescription": "",
+        "Audited": false
       },
       "IsReferenced": true,
       "ReferencedCandidateId": "81a11b8e-51b8-40c5-aa94-b7a854e2c726"
@@ -101,7 +104,10 @@
         "Country": "CH",
         "Street": "street",
         "HouseNumber": "1a",
-        "ReportingType": 0
+        "ReportingType": 0,
+        "Comment": "",
+        "WahlvorschlagDescription": "",
+        "Audited": false
       },
       "IsReferenced": false,
       "ReferencedCandidateId": ""
@@ -154,7 +160,10 @@
         "Country": "CH",
         "Street": "street",
         "HouseNumber": "1a",
-        "ReportingType": 2
+        "ReportingType": 2,
+        "Comment": "",
+        "WahlvorschlagDescription": "",
+        "Audited": false
       },
       "IsReferenced": true,
       "ReferencedCandidateId": "efdbb5e3-16bf-4a53-95c3-a35ed6371819"

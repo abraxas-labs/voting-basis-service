@@ -15,6 +15,7 @@ using Voting.Basis.Core.Models;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Validation;
+using Voting.Basis.Core.Utils;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Lib.Database.Repositories;
@@ -22,7 +23,6 @@ using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
 using Voting.Lib.Iam.Exceptions;
 using Voting.Lib.Iam.Store;
-using Contest = Voting.Basis.Data.Models.Contest;
 using DomainOfInfluence = Voting.Basis.Data.Models.DomainOfInfluence;
 using ProportionalElection = Voting.Basis.Data.Models.ProportionalElection;
 using ProportionalElectionCandidate = Voting.Basis.Data.Models.ProportionalElectionCandidate;
@@ -59,11 +59,11 @@ public class ProportionalElectionWriter : PoliticalBusinessWriter
         IDbRepository<DataContext, ProportionalElectionUnionEntry> proportionalElectionUnionEntryRepo,
         IDbRepository<DataContext, ProportionalElectionUnion> proportionalElectionUnionRepo,
         IDbRepository<DataContext, DomainOfInfluence> doiRepo,
-        IDbRepository<DataContext, Contest> contestRepo,
         DomainOfInfluenceReader doiReader,
         IAuth auth,
-        IDbRepository<DataContext, Data.Models.CantonSettings> cantonSettingsRepo)
-        : base(doiRepo, contestRepo)
+        IDbRepository<DataContext, Data.Models.CantonSettings> cantonSettingsRepo,
+        PoliticalBusinessEVotingApprovalInitializer politicalBusinessEVotingApprovalInitializer)
+        : base(politicalBusinessEVotingApprovalInitializer)
     {
         _aggregateRepository = aggregateRepository;
         _aggregateFactory = aggregateFactory;
@@ -389,7 +389,7 @@ public class ProportionalElectionWriter : PoliticalBusinessWriter
                 EnsureValidProportionalElectionMandateAlgorithm(mandateAlgorithm, proportionalElection.DomainOfInfluence!);
 
                 bool hasPermission;
-                if (_auth.HasPermission(Permissions.PoliticalBusinessUnion.ActionsTenantSameCanton))
+                if (_auth.HasPermission(Permissions.PoliticalBusinessUnion.WriteActionsTenantSameCanton))
                 {
                     var canton = union.Contest.DomainOfInfluence.Canton;
                     hasPermission = cantonSettingsList.Any(c => c.SecureConnectId == tenantId && c.Canton == canton);
@@ -448,7 +448,7 @@ public class ProportionalElectionWriter : PoliticalBusinessWriter
     {
         var proportionalElection = await _aggregateRepository.GetById<ProportionalElectionAggregate>(proportionalElectionId);
 
-        if (!proportionalElection.TryApproveEVoting())
+        if (!proportionalElection.TrySetActiveAndApproveEVoting())
         {
             return false;
         }

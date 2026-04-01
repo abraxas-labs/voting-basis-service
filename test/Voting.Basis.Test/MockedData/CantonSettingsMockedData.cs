@@ -160,6 +160,7 @@ public static class CantonSettingsMockedData
             CandidateLocalityRequired = true,
             CandidateOriginRequired = true,
             HideOccupationTitle = true,
+            EnableAdditionalCandidateFields = true,
         };
 
     public static IEnumerable<CantonSettings> All

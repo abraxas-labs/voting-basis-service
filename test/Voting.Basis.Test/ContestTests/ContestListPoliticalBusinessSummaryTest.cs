@@ -98,6 +98,7 @@ public class ContestListPoliticalBusinessSummaryTest : BaseGrpcTest<ContestServi
         yield return Roles.ElectionAdmin;
         yield return Roles.ElectionAdminReadOnly;
         yield return Roles.ElectionSupporter;
+        yield return Roles.EVotingAdmin;
     }
 
     private ListPoliticalBusinessSummariesRequest NewValidRequest(

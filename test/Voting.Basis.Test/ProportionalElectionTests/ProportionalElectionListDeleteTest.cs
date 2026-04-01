@@ -137,7 +137,25 @@ public class ProportionalElectionListDeleteTest : PoliticalBusinessAuthorization
                 Id = ProportionalElectionMockedData.ListId1GossauProportionalElectionEVotingApprovedInContestStGallen,
             }),
             StatusCode.FailedPrecondition,
-            nameof(PoliticalBusinessEVotingApprovedException));
+            nameof(PoliticalBusinessEVotingEverApprovedException));
+    }
+
+    [Fact]
+    public async Task DeleteWithEVotingEverApprovedShouldThrow()
+    {
+        await EVotingAdminClient.UpdateEVotingApprovalAsync(new UpdateProportionalElectionEVotingApprovalRequest
+        {
+            Id = ProportionalElectionMockedData.IdGossauProportionalElectionEVotingApprovedInContestStGallen,
+            Approved = false,
+        });
+
+        await AssertStatus(
+            async () => await CantonAdminClient.DeleteListAsync(new DeleteProportionalElectionListRequest
+            {
+                Id = ProportionalElectionMockedData.ListId1GossauProportionalElectionEVotingApprovedInContestStGallen,
+            }),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingEverApprovedException));
     }
 
     protected override async Task AuthorizationTestCall(GrpcChannel channel)

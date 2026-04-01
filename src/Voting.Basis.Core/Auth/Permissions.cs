@@ -120,7 +120,7 @@ public static class Permissions
 
     public static class PoliticalBusinessUnion
     {
-        public const string ActionsTenantSameCanton = Prefix + ":actions-tenant-same-canton";
+        public const string WriteActionsTenantSameCanton = Prefix + ":write-actions-tenant-same-canton";
 
         private const string Prefix = "PoliticalBusinessUnion";
     }

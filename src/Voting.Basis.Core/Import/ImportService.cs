@@ -17,6 +17,7 @@ using Voting.Basis.Core.Models;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Write;
+using Voting.Basis.Core.Utils;
 using Voting.Basis.Ech.Converters.V4;
 using Voting.Lib.Common;
 using Voting.Lib.Eventing.Domain;
@@ -42,6 +43,7 @@ public class ImportService
     private readonly IMalwareScannerService _malwareScannerService;
     private readonly Ech0157Deserializer _ech0157Deserializer;
     private readonly Ech0159Deserializer _ech0159Deserializer;
+    private readonly PoliticalBusinessEVotingApprovalInitializer _politicalBusinessEVotingApprovalInitializer;
 
     public ImportService(
         IMapper mapper,
@@ -57,7 +59,8 @@ public class ImportService
         DomainOfInfluenceReader domainOfInfluenceReader,
         IMalwareScannerService malwareScannerService,
         Ech0157Deserializer ech0157Deserializer,
-        Ech0159Deserializer ech0159Deserializer)
+        Ech0159Deserializer ech0159Deserializer,
+        PoliticalBusinessEVotingApprovalInitializer politicalBusinessEVotingApprovalInitializer)
     {
         _mapper = mapper;
         _permissionService = permissionService;
@@ -73,12 +76,16 @@ public class ImportService
         _malwareScannerService = malwareScannerService;
         _ech0157Deserializer = ech0157Deserializer;
         _ech0159Deserializer = ech0159Deserializer;
+        _politicalBusinessEVotingApprovalInitializer = politicalBusinessEVotingApprovalInitializer;
     }
 
     public async Task Import(ContestImport contestImport)
     {
         contestImport.Contest.Id = Guid.NewGuid();
         await EnsureActiveEventSignature(contestImport.Contest.Id);
+        await _politicalBusinessEVotingApprovalInitializer.InitializeForNewContest(
+            MapToPoliticalBusinesses(contestImport.MajorityElections, contestImport.ProportionalElections, contestImport.Votes),
+            contestImport.Contest.EVoting);
 
         var aggregateImport = await CreateValidatedAggregates(
             contestImport.Contest.Id,
@@ -106,6 +113,12 @@ public class ImportService
         }
 
         await EnsureActiveEventSignature(contestId);
+
+        // The contest id is set when the aggregates are created, thats why we pass it explicitly here.
+        await _politicalBusinessEVotingApprovalInitializer.Initialize(
+            MapToPoliticalBusinesses(majorityElections, proportionalElections, votes),
+            contestId);
+
         var aggregateImport = await CreateValidatedAggregates(contestId, contest.DomainOfInfluenceId, majorityElections, proportionalElections, votes);
         await _contestWriter.StartPoliticalBusinessImport(contest.Id);
         await Import(aggregateImport);
@@ -338,5 +351,16 @@ public class ImportService
         // The ValidFrom value of the event signature will be equal to the event timestamp of the first uncommitted event of A2.
         // Saving A1 will now lead to an exception because the timestamps of the A1 events are earlier than the ValidFrom of the signature.
         await _eventSignatureService.EnsureActiveSignature(contestId, _clock.UtcNow);
+    }
+
+    private List<PoliticalBusiness> MapToPoliticalBusinesses(
+        IEnumerable<MajorityElectionImport> majorityElections,
+        IEnumerable<ProportionalElectionImport> proportionalElections,
+        IEnumerable<VoteImport> votes)
+    {
+        return votes.Select(x => x.Vote).OfType<PoliticalBusiness>()
+            .Concat(proportionalElections.Select(x => x.Election))
+            .Concat(majorityElections.Select(x => x.Election))
+            .ToList();
     }
 }

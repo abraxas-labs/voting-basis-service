@@ -55,7 +55,8 @@
         "CandidateOriginRequired": false,
         "DomainOfInfluencePublishResultsOptionEnabled": true,
         "SecondaryMajorityElectionOnSeparateBallot": false,
-        "HideOccupationTitle": false
+        "HideOccupationTitle": false,
+        "EnableAdditionalCandidateFields": false
       },
       {
         "Id": "2d203a3c-40ba-4b53-a57e-38909d71390c",
@@ -107,7 +108,8 @@
         "CandidateOriginRequired": false,
         "DomainOfInfluencePublishResultsOptionEnabled": false,
         "SecondaryMajorityElectionOnSeparateBallot": false,
-        "HideOccupationTitle": false
+        "HideOccupationTitle": false,
+        "EnableAdditionalCandidateFields": false
       },
       {
         "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -168,7 +170,8 @@
         "CandidateOriginRequired": true,
         "DomainOfInfluencePublishResultsOptionEnabled": false,
         "SecondaryMajorityElectionOnSeparateBallot": false,
-        "HideOccupationTitle": true
+        "HideOccupationTitle": true,
+        "EnableAdditionalCandidateFields": true
       }
     ]
   },
@@ -208,7 +211,8 @@
           "CandidateOriginRequired": false,
           "DomainOfInfluencePublishResultsOptionEnabled": false,
           "SecondaryMajorityElectionOnSeparateBallot": false,
-          "HideOccupationTitle": false
+          "HideOccupationTitle": false,
+          "EnableAdditionalCandidateFields": false
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -250,18 +254,14 @@
         "ElectoralRegistrationEnabled": false,
         "ElectoralRegisterMultipleEnabled": false,
         "StistatMunicipality": false,
+        "StistatExportEaiMessageType": "",
+        "StistatExportEnabled": false,
         "PublishResultsDisabled": false,
         "VotingCardFlatRateDisabled": false,
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
-        "ECollectingInitiativeMinSignatureCount": null,
-        "ECollectingInitiativeMaxElectronicSignaturePercent": null,
-        "ECollectingInitiativeNumberOfMembersCommittee": null,
-        "ECollectingReferendumMinSignatureCount": null,
-        "ECollectingReferendumMaxElectronicSignaturePercent": null,
-        "ECollectingEmail": "",
         "Id": "e84a3f1e-c2ea-422c-904e-130b822aad64"
       }
     ]

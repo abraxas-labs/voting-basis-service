@@ -119,7 +119,25 @@ public class MajorityElectionCandidateDeleteTest : PoliticalBusinessAuthorizatio
                 Id = MajorityElectionMockedData.CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen,
             }),
             StatusCode.FailedPrecondition,
-            nameof(PoliticalBusinessEVotingApprovedException));
+            nameof(PoliticalBusinessEVotingEverApprovedException));
+    }
+
+    [Fact]
+    public async Task DeleteWithEVotingEverApprovedShouldThrow()
+    {
+        await EVotingAdminClient.UpdateEVotingApprovalAsync(new UpdateMajorityElectionEVotingApprovalRequest
+        {
+            Id = MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen,
+            Approved = false,
+        });
+
+        await AssertStatus(
+            async () => await CantonAdminClient.DeleteCandidateAsync(new DeleteMajorityElectionCandidateRequest
+            {
+                Id = MajorityElectionMockedData.CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen,
+            }),
+            StatusCode.FailedPrecondition,
+            nameof(PoliticalBusinessEVotingEverApprovedException));
     }
 
     [Fact]
