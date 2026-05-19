@@ -112,6 +112,7 @@ public class DomainOfInfluenceWriter
         await ValidateExportConfigurations(null, data.ExportConfigurations);
         await ValidateSuperiorAuthority(data, parent?.Canton ?? data.Canton);
         ValidatePublishResults(data, cantonDefaults.DomainOfInfluencePublishResultsOptionEnabled);
+        await ValidateShortName(data);
         await EnsureCanCreate(data, parent);
 
         var domainOfInfluence = _aggregateFactory.New<DomainOfInfluenceAggregate>();
@@ -137,6 +138,7 @@ public class DomainOfInfluenceWriter
 
         await ValidateSuperiorAuthority(data, parent?.Canton ?? data.Canton);
         ValidatePublishResults(data, cantonDefaults.DomainOfInfluencePublishResultsOptionEnabled);
+        await ValidateShortName(data);
 
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(data.Id);
 
@@ -161,6 +163,7 @@ public class DomainOfInfluenceWriter
         await ValidateUniqueBfs(data);
         await ValidatePlausibilisationConfig(data, cantonDefaults.InternalPlausibilisationDisabled);
         await ValidateParties(data.Id, data.Parties);
+        await ValidateShortName(data);
         await EnsureCanEdit(existingDoi.SecureConnectId, existingDoi.Canton);
 
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(data.Id);
@@ -275,6 +278,25 @@ public class DomainOfInfluenceWriter
         await _aggregateRepository.Save(domainOfInfluence);
 
         await _logoStorage.Delete(logoRef!);
+    }
+
+    public async Task<bool> HasValidShortName(Guid? id, DomainOfInfluenceType type, string shortName)
+    {
+        var exists = await _repo.Query().AnyAsync(x =>
+            x.Type == type &&
+            x.ResponsibleForVotingCards &&
+            x.Id != id &&
+            x.ShortName == shortName);
+
+        return !exists;
+    }
+
+    private async Task ValidateShortName(Domain.DomainOfInfluence data)
+    {
+        if (data.ResponsibleForVotingCards && !await HasValidShortName(data.Id, data.Type, data.ShortName))
+        {
+            throw new ValidationException("Shortname has duplicate value for same type");
+        }
     }
 
     private async Task<DomainOfInfluence?> ValidateHierarchy(Domain.DomainOfInfluence data)

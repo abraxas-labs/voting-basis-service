@@ -232,7 +232,7 @@ public static class DomainOfInfluenceMockedData
                             AusmittlungXmlVoteTemplates.Ech0110.Key,
                             AusmittlungCsvProportionalElectionTemplates.CandidateCountingCircleResultsWithVoteSources.Key,
                         },
-                        EaiMessageType = "001",
+                        EaiMessageType = "0000001",
                         Provider = ExportProvider.Seantis,
                     },
                     new ExportConfiguration
@@ -244,7 +244,7 @@ public static class DomainOfInfluenceMockedData
                             AusmittlungXmlVoteTemplates.Ech0222.Key,
                             AusmittlungCsvProportionalElectionTemplates.CandidatesNumerical.Key,
                         },
-                        EaiMessageType = "002",
+                        EaiMessageType = "0000002",
                         Provider = ExportProvider.Standard,
                     },
             },

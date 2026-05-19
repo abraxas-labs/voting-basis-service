@@ -17,6 +17,7 @@ public class DomainOfInfluenceProfile : Profile
         CreateMap<CreateDomainOfInfluenceRequest, Core.Domain.DomainOfInfluence>();
         CreateMap<UpdateDomainOfInfluenceForAdminRequest, Core.Domain.DomainOfInfluence>();
         CreateMap<UpdateDomainOfInfluenceForElectionAdminRequest, Core.Domain.DomainOfInfluence>();
+        CreateMap<ValidateShortNameDomainOfInfluenceRequest, Core.Domain.DomainOfInfluence>();
         CreateMap<UpdateDomainOfInfluenceCountingCircleEntriesRequest, Core.Domain.DomainOfInfluenceCountingCircleEntries>();
         CreateMap<ProtoModels.DomainOfInfluenceVotingCardReturnAddress, Core.Domain.DomainOfInfluenceVotingCardReturnAddress>();
         CreateMap<ProtoModels.DomainOfInfluenceVotingCardPrintData, Core.Domain.DomainOfInfluenceVotingCardPrintData>();

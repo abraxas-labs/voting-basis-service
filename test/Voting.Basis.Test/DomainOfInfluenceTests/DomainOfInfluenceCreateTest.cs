@@ -738,6 +738,50 @@ public class DomainOfInfluenceCreateTest : BaseGrpcTest<DomainOfInfluenceService
             "Canton does not allow to disable publish results");
     }
 
+    [Fact]
+    public async Task TestAsCantonAdminValidationOnCreateShouldThrowError()
+    {
+        await RunOnDb(async db =>
+        {
+            var doi = await db.DomainOfInfluences.FirstAsync(x => x.Id == DomainOfInfluenceMockedData.GuidUzwil);
+            doi.ResponsibleForVotingCards = true;
+            doi.PrintData = new Data.Models.DomainOfInfluenceVotingCardPrintData
+            {
+                ShippingAway = VotingCardShippingFranking.B2,
+                ShippingReturn = VotingCardShippingFranking.GasB,
+                ShippingMethod = VotingCardShippingMethod.OnlyPrintingPackagingToMunicipality,
+                ShippingVotingCardsToDeliveryAddress = true,
+            };
+            doi.ReturnAddress = new DomainOfInfluenceVotingCardReturnAddress
+            {
+                AddressLine1 = "Stadtverwaltung Uzwil",
+                Street = "Bahnhofplatz 1",
+                ZipCode = "9040",
+                City = "Uzwil",
+                Country = "Schweiz",
+            };
+            doi.ExternalPrintingCenter = true;
+            doi.ExternalPrintingCenterEaiMessageType = "EAI-Uzwil";
+            doi.SapCustomerOrderNumber = "0005400492";
+            doi.SwissPostData = new DomainOfInfluenceVotingCardSwissPostData
+            {
+                InvoiceReferenceNumber = "958473825",
+                FrankingLicenceAwayNumber = "73155598",
+                FrankingLicenceReturnNumber = "562984257",
+            };
+            db.Update(doi);
+            await db.SaveChangesAsync();
+        });
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateAsync(NewValidResponsibleForVotingCardsRequest(x =>
+            {
+                x.Type = SharedProto.DomainOfInfluenceType.Sk;
+                x.ShortName = "UZW";
+            })),
+            StatusCode.InvalidArgument,
+            "Shortname has duplicate value for same type");
+    }
+
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
         => await new DomainOfInfluenceService.DomainOfInfluenceServiceClient(channel)
             .CreateAsync(NewValidRequest());

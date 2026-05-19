@@ -1,4 +1,4 @@
-# ✨ Changelog (`v2.77.4`)
+# ✨ Changelog (`v2.78.0`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v2.77.4
-Previous version ---- v2.75.0
+This version -------- v2.78.0
+Previous version ---- v2.77.4
 Initial version ----- v1.27.15
-Total commits ------- 10
+Total commits ------- 1
 ```
+
+## [v2.78.0] - 2026-04-21
+
+### :new: Added
+
+- function HasValidShortname in DomainOfInfluenceReader service
+- mapping BooleanProfile for mapping of boolean values from and to proto-file definitions
+- service ValidateShortName in DomainOfInfluenceService
+
+### :arrows_counterclockwise: Changed
+
+- DomainOfInfluenceProfile: added mapping for ValidateShortNameDomainOfInfluenceRequest
 
 ## [v2.77.4] - 2026-03-23
 

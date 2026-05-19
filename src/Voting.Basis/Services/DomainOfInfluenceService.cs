@@ -162,4 +162,11 @@ public class DomainOfInfluenceService : ServiceBase
     {
         return _mapper.Map<DomainOfInfluenceParties>(await _domainOfInfluenceReader.ListParties(GuidParser.Parse(request.DomainOfInfluenceId)));
     }
+
+    [AuthorizeAnyPermission(Permissions.DomainOfInfluence.CreateSameCanton, Permissions.DomainOfInfluence.UpdateSameTenant, Permissions.DomainOfInfluence.UpdateSameCanton)]
+    public override async Task<BoolValue> ValidateShortName(ValidateShortNameDomainOfInfluenceRequest request, ServerCallContext context)
+    {
+        var data = _mapper.Map<Core.Domain.DomainOfInfluence>(request);
+        return _mapper.Map<BoolValue>(await _domainOfInfluenceWriter.HasValidShortName(data.Id, data.Type, request.ShortName));
+    }
 }
