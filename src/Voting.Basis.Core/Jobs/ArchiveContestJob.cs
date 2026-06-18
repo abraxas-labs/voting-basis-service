@@ -3,6 +3,7 @@
 
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Voting.Basis.Core.Services.Permission;
@@ -32,6 +33,6 @@ internal class ArchiveContestJob : ContestStateJob
     protected override IQueryable<Contest> BuildQuery(IQueryable<Contest> query, DateTime now)
         => query.Where(c => c.ArchivePer < now && c.State == ContestState.PastLocked);
 
-    protected override Task<bool> SetContestState(Guid contestId)
+    protected override Task<bool> SetContestState(Guid contestId, CancellationToken ct)
         => _contestWriter.TryArchive(contestId);
 }

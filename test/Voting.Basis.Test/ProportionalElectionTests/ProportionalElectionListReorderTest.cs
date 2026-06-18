@@ -12,6 +12,7 @@ using Abraxas.Voting.Basis.Services.V1.Requests;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -78,6 +79,7 @@ public class ProportionalElectionListReorderTest : PoliticalBusinessAuthorizatio
     public async Task ListsInContestWithEndedTestingPhaseShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund);
         await AssertStatus(
             async () => await ElectionAdminClient.ReorderListsAsync(new ReorderProportionalElectionListsRequest
             {

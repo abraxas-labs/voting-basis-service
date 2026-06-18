@@ -57,5 +57,5 @@ public class MajorityElection : PoliticalBusiness
 
     public bool IndividualCandidatesDisabled { get; set; }
 
-    public int? FederalIdentification { get; set; }
+    public string FederalIdentification { get; set; } = string.Empty;
 }

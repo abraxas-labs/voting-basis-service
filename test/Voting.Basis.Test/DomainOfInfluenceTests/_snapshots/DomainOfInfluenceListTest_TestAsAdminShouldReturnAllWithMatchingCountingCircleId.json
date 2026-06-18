@@ -60,7 +60,8 @@
       "HasEmptyVotingCards": false,
       "EVoting": null,
       "StistatExportEnabled": true,
-      "StistatExportEaiMessageType": "5577812"
+      "StistatExportEaiMessageType": "5577812",
+      "ECollectingImportRoot": true
     },
     {
       "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
@@ -122,7 +123,8 @@
       "HasEmptyVotingCards": false,
       "EVoting": null,
       "StistatExportEnabled": false,
-      "StistatExportEaiMessageType": ""
+      "StistatExportEaiMessageType": "",
+      "ECollectingImportRoot": false
     }
   ]
 }

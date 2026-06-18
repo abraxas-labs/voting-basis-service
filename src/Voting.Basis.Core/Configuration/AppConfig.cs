@@ -79,4 +79,9 @@ public class AppConfig
     /// Gets or sets the auth store configuration.
     /// </summary>
     public AuthStoreConfig AuthStore { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the preconfigured contest dates ("Blankotermine").
+    /// </summary>
+    public List<DateOnly> PreconfiguredContestDates { get; set; } = [];
 }

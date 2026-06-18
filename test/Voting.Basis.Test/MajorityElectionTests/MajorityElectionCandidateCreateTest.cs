@@ -14,6 +14,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -175,8 +176,12 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
     public async Task ContestPastShouldThrow()
     {
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.PastLocked);
+
+        var request = NewValidRequest();
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(request.MajorityElectionId);
+
         await AssertStatus(
-            async () => await CantonAdminClient.CreateCandidateAsync(NewValidRequest()),
+            async () => await CantonAdminClient.CreateCandidateAsync(request),
             StatusCode.FailedPrecondition,
             "Contest is past locked or archived");
     }
@@ -306,7 +311,11 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
     public async Task EmptyDateOfBirthAfterTestingPhaseEndedShouldWork()
     {
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
-        var response = await CantonAdminClient.CreateCandidateAsync(NewValidRequestAfterTestingPhaseEnded(o => o.DateOfBirth = null));
+
+        var request = NewValidRequestAfterTestingPhaseEnded(o => o.DateOfBirth = null);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(request.MajorityElectionId);
+
+        var response = await CantonAdminClient.CreateCandidateAsync(request);
         response.Id.Should().NotBeNull();
     }
 
@@ -314,7 +323,11 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
     public async Task EmptySexAfterTestingPhaseEndedShouldWork()
     {
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
-        var response = await CantonAdminClient.CreateCandidateAsync(NewValidRequestAfterTestingPhaseEnded(o => o.Sex = SharedProto.SexType.Unspecified));
+
+        var request = NewValidRequestAfterTestingPhaseEnded(o => o.Sex = SharedProto.SexType.Unspecified);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(request.MajorityElectionId);
+
+        var response = await CantonAdminClient.CreateCandidateAsync(request);
         response.Id.Should().NotBeNull();
     }
 
@@ -322,11 +335,15 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
     public async Task EmptyPartyAfterTestingPhaseEndedShouldWork()
     {
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
-        var response = await CantonAdminClient.CreateCandidateAsync(NewValidRequestAfterTestingPhaseEnded(o =>
+
+        var request = NewValidRequestAfterTestingPhaseEnded(o =>
         {
             o.PartyShortDescription.Clear();
             o.PartyLongDescription.Clear();
-        }));
+        });
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(request.MajorityElectionId);
+
+        var response = await CantonAdminClient.CreateCandidateAsync(request);
         response.Id.Should().NotBeNull();
     }
 
@@ -350,11 +367,16 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
     public async Task CreateCandidateInContestWithTestingPhaseEndedShouldWork()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
-        await CantonAdminClient.CreateCandidateAsync(NewValidRequestAfterTestingPhaseEnded(o =>
+
+        var request = NewValidRequestAfterTestingPhaseEnded(o =>
         {
             o.MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund;
             o.Position = 3;
-        }));
+        });
+
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(request.MajorityElectionId);
+
+        await CantonAdminClient.CreateCandidateAsync(request);
         var eventData = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionCandidateCreated>();
         eventData.MatchSnapshot("event", c => c.MajorityElectionCandidate.Id);
     }
@@ -363,8 +385,12 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
     public async Task NoReportingTypeAfterTestingPhaseShouldThrow()
     {
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
+
+        var request = NewValidRequest();
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(request.MajorityElectionId);
+
         await AssertStatus(
-            async () => await CantonAdminClient.CreateCandidateAsync(NewValidRequest()),
+            async () => await CantonAdminClient.CreateCandidateAsync(request),
             StatusCode.InvalidArgument,
             "Candidates created after the testing phase must have a reporting type");
     }
@@ -375,8 +401,11 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
         await SetIndividualCandidatesDisabled();
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
 
+        var request = NewValidRequestAfterTestingPhaseEnded();
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(request.MajorityElectionId);
+
         await AssertStatus(
-            async () => await CantonAdminClient.CreateCandidateAsync(NewValidRequestAfterTestingPhaseEnded()),
+            async () => await CantonAdminClient.CreateCandidateAsync(request),
             StatusCode.InvalidArgument,
             "Cannot set reporting type if individual candidates are disabled");
     }
@@ -387,7 +416,10 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
         await SetIndividualCandidatesDisabled();
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
 
-        var response = await CantonAdminClient.CreateCandidateAsync(NewValidRequest());
+        var request = NewValidRequest();
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(request.MajorityElectionId);
+
+        var response = await CantonAdminClient.CreateCandidateAsync(request);
         var ev = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionCandidateCreated>();
         ev.MajorityElectionCandidate.Id.Should().Be(response.Id);
         ev.MajorityElectionCandidate.ReportingType.Should().Be(SharedProto.MajorityElectionCandidateReportingType.Unspecified);
@@ -403,6 +435,22 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
             })),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedAndActiveContestShouldWork()
+    {
+        var request = NewValidRequest(x =>
+        {
+            x.MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen;
+            x.ReportingType = SharedProto.MajorityElectionCandidateReportingType.Candidate;
+        });
+
+        await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(request.MajorityElectionId);
+
+        await CantonAdminClient.CreateCandidateAsync(request);
+        EventPublisherMock.GetSinglePublishedEvent<MajorityElectionCandidateCreated>().Should().NotBeNull();
     }
 
     [Fact]

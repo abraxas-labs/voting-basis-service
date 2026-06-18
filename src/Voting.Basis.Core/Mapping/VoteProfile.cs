@@ -49,7 +49,9 @@ public class VoteProfile : Profile
                 }
             });
 
-        CreateMap<BallotQuestionEventData, BallotQuestion>();
-        CreateMap<TieBreakQuestionEventData, TieBreakQuestion>();
+        CreateMap<BallotQuestionEventData, BallotQuestion>()
+            .ForMember(dst => dst.FederalIdentification, opt => opt.MapFrom(src => src.FederalIdentificationString));
+        CreateMap<TieBreakQuestionEventData, TieBreakQuestion>()
+            .ForMember(dst => dst.FederalIdentification, opt => opt.MapFrom(src => src.FederalIdentificationString));
     }
 }

@@ -54,8 +54,9 @@
       "EnforceReviewProcedureForCountingCircles": true,
       "EnforceCandidateCheckDigitForCountingCircles": true,
       "IndividualCandidatesDisabled": true,
-      "FederalIdentification": 92834984,
-      "EVotingApproved": false
+      "FederalIdentification": null,
+      "EVotingApproved": false,
+      "FederalIdentificationString": "92834984"
     }
   }
 }

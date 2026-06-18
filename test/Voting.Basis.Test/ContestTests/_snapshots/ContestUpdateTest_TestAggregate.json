@@ -92,7 +92,8 @@
     "HasEmptyVotingCards": true,
     "EVoting": null,
     "StistatExportEnabled": false,
-    "StistatExportEaiMessageType": ""
+    "StistatExportEaiMessageType": "",
+    "ECollectingImportRoot": false
   },
   "EVoting": false,
   "EVotingFrom": null,
@@ -190,7 +191,8 @@
         "HasEmptyVotingCards": true,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       "PoliticalBusinessType": 1,
       "PoliticalBusinessSubType": 0,
@@ -289,7 +291,8 @@
         "HasEmptyVotingCards": true,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,
@@ -388,7 +391,8 @@
         "HasEmptyVotingCards": true,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       "PoliticalBusinessType": 3,
       "PoliticalBusinessSubType": 0,

@@ -14,6 +14,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -316,6 +317,7 @@ public class ProportionalElectionCandidateCreateTest : PoliticalBusinessAuthoriz
     public async Task CreateCandidateInContestWithEndedTestingPhaseShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund);
         await AssertStatus(
             async () => await CantonAdminClient.CreateCandidateAsync(NewValidRequest(c =>
             {

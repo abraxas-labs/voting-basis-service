@@ -45,7 +45,7 @@
       "ReviewProcedure": 2,
       "EnforceReviewProcedureForCountingCircles": true,
       "Type": 1,
-      "EVotingApproved": null
+      "EVotingApproved": false
     }
   }
 }

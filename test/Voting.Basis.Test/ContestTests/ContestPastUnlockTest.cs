@@ -95,26 +95,16 @@ public class ContestPastUnlockTest : BaseGrpcTest<ContestService.ContestServiceC
     }
 
     [Fact]
-    public async Task ShouldWorkAsNonOwnerButWithReadPermissions()
+    public async Task NonOwnerShouldThrow()
     {
         await SeedContest(ContestId, doiId: DomainOfInfluenceMockedData.IdUzwil);
-        await ElectionAdminClient.PastUnlockAsync(new PastUnlockContestRequest { Id = ContestId });
-
-        var eventData = EventPublisherMock.GetSinglePublishedEvent<ContestPastUnlocked>();
-        eventData.ContestId.Should().Be(ContestId);
-        eventData.ShouldMatchSnapshot();
-    }
-
-    [Fact]
-    public async Task ShouldThrowAsNonOwnerWithNoReadPermissions()
-    {
-        await SeedContest(ContestId, doiId: DomainOfInfluenceMockedData.IdGenf);
         await AssertStatus(
             async () => await ElectionAdminClient.PastUnlockAsync(new PastUnlockContestRequest
             {
                 Id = ContestId,
             }),
-            StatusCode.PermissionDenied);
+            StatusCode.InvalidArgument,
+            "Invalid domain of influence, does not belong to this tenant");
     }
 
     [Fact]

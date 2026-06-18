@@ -262,6 +262,7 @@
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
+        "ECollectingImportRoot": false,
         "Id": "e84a3f1e-c2ea-422c-904e-130b822aad64"
       }
     ]

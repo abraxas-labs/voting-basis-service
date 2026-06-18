@@ -76,7 +76,8 @@
             "HasEmptyVotingCards": false,
             "EVoting": null,
             "StistatExportEnabled": false,
-            "StistatExportEaiMessageType": ""
+            "StistatExportEaiMessageType": "",
+            "ECollectingImportRoot": false
           }
         ],
         "Canton": 1,
@@ -130,7 +131,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       }
     ]
   },
@@ -205,7 +207,8 @@
             "HasEmptyVotingCards": false,
             "EVoting": null,
             "StistatExportEnabled": false,
-            "StistatExportEaiMessageType": ""
+            "StistatExportEaiMessageType": "",
+            "ECollectingImportRoot": false
           }
         ],
         "Canton": 1,
@@ -259,7 +262,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       }
     ]
   },
@@ -337,7 +341,8 @@
             "HasEmptyVotingCards": false,
             "EVoting": null,
             "StistatExportEnabled": false,
-            "StistatExportEaiMessageType": ""
+            "StistatExportEaiMessageType": "",
+            "ECollectingImportRoot": false
           }
         ],
         "Canton": 1,
@@ -391,7 +396,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       }
     ]
   },
@@ -469,7 +475,8 @@
             "HasEmptyVotingCards": false,
             "EVoting": null,
             "StistatExportEnabled": false,
-            "StistatExportEaiMessageType": ""
+            "StistatExportEaiMessageType": "",
+            "ECollectingImportRoot": false
           }
         ],
         "Canton": 1,
@@ -526,7 +533,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       }
     ]
   }

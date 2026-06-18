@@ -13,6 +13,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -100,11 +101,14 @@ public class BallotDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     [Fact]
     public async Task BallotInContestWithEndedTestingPhaseShouldThrow()
     {
+        var voteId = VoteMockedData.IdGossauVoteInContestBund;
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<VoteAggregate>(voteId);
+
         await AssertStatus(
             async () => await ElectionAdminClient.DeleteBallotAsync(NewValidRequest(b =>
             {
-                b.VoteId = VoteMockedData.IdGossauVoteInContestBund;
+                b.VoteId = voteId;
                 b.Id = VoteMockedData.BallotIdGossauVoteInContestBund;
             })),
             StatusCode.FailedPrecondition,

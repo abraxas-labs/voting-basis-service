@@ -15,6 +15,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -157,12 +158,11 @@ public class ProportionalElectionListCreateTest : PoliticalBusinessAuthorization
     [Fact]
     public async Task ListInContestWithEndedTestingPhaseShouldThrow()
     {
+        var id = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(id);
         await AssertStatus(
-            async () => await CantonAdminClient.CreateListAsync(NewValidRequest(o =>
-            {
-                o.ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
-            })),
+            async () => await CantonAdminClient.CreateListAsync(NewValidRequest(o => o.ProportionalElectionId = id)),
             StatusCode.FailedPrecondition,
             "Testing phase ended, cannot modify the contest");
     }

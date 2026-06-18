@@ -1,6 +1,7 @@
 ﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using Abraxas.Voting.Basis.Events.V1.Data;
@@ -31,10 +32,73 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
     [Fact]
     public async Task TestProcessor()
     {
-        var id = DomainOfInfluenceMockedData.IdGossau;
-        await TestEventPublisher.Publish(new DomainOfInfluenceVotingCardDataUpdated
+        await TestEventPublisher.Publish(NewValidEvent());
+
+        var doi = await GetDbEntity<DomainOfInfluence>(x => x.Id == DomainOfInfluenceMockedData.GuidGossau);
+        var protoDoi = RunScoped<TestMapper, ProtoModels.DomainOfInfluence>(mapper => mapper.Map<ProtoModels.DomainOfInfluence>(doi));
+        protoDoi.ReturnAddress.MatchSnapshot("returnAddress");
+        protoDoi.PrintData.MatchSnapshot("printData");
+        protoDoi.SwissPostData.MatchSnapshot("swissPostData");
+        protoDoi.ExternalPrintingCenter.Should().BeTrue();
+        protoDoi.ExternalPrintingCenterEaiMessageType.Should().Be("GOSSAU-Updated");
+        protoDoi.SapCustomerOrderNumber.Should().Be("915421");
+        protoDoi.StistatMunicipality.Should().BeTrue();
+        protoDoi.StistatExportEaiMessageType.Should().Be(string.Empty);
+        protoDoi.IsMainVotingCardsDomainOfInfluence.Should().BeTrue();
+        protoDoi.VotingCardColor.Should().Be(SharedProto.VotingCardColor.Unspecified);
+        protoDoi.HasEmptyVotingCards.Should().BeTrue();
+    }
+
+    [Theory]
+    [InlineData(SharedProto.VotingCardColor.Chamois)]
+    [InlineData(SharedProto.VotingCardColor.Gold)]
+    public async Task TestProcessorDeprecatedColors(SharedProto.VotingCardColor color)
+    {
+        await TestEventPublisher.Publish(NewValidEvent(x => x.VotingCardColor = color));
+
+        var doi = await GetDbEntity<DomainOfInfluence>(x => x.Id == DomainOfInfluenceMockedData.GuidGossau);
+        var protoDoi = RunScoped<TestMapper, ProtoModels.DomainOfInfluence>(mapper => mapper.Map<ProtoModels.DomainOfInfluence>(doi));
+        protoDoi.VotingCardColor.Should().Be(SharedProto.VotingCardColor.Unspecified);
+    }
+
+    [Fact]
+    public async Task TestProcessorWithOldStistatExportEaiMessageType()
+    {
+#pragma warning disable CS0612
+        await TestEventPublisher.Publish(NewValidEvent(x =>
         {
-            DomainOfInfluenceId = id,
+            x.StistatExportEaiMessageType = "1234567";
+            x.StistatExportEaiMessageTypeDeprecated = false;
+        }));
+#pragma warning restore CS0612
+
+        var doi = await GetDbEntity<DomainOfInfluence>(x => x.Id == DomainOfInfluenceMockedData.GuidGossau);
+        var protoDoi = RunScoped<TestMapper, ProtoModels.DomainOfInfluence>(mapper => mapper.Map<ProtoModels.DomainOfInfluence>(doi));
+        protoDoi.StistatExportEaiMessageType.Should().Be("1234567");
+    }
+
+    [Fact]
+    public async Task TestProcessorWithDeprecatedFlagStistatExportEaiMessageTypeShouldNotMap()
+    {
+#pragma warning disable CS0612
+        await TestEventPublisher.Publish(NewValidEvent(x =>
+        {
+            x.StistatExportEaiMessageType = "1234567";
+            x.StistatExportEaiMessageTypeDeprecated = true;
+        }));
+#pragma warning restore CS0612
+
+        var doi = await GetDbEntity<DomainOfInfluence>(x => x.Id == DomainOfInfluenceMockedData.GuidGossau);
+        var protoDoi = RunScoped<TestMapper, ProtoModels.DomainOfInfluence>(mapper => mapper.Map<ProtoModels.DomainOfInfluence>(doi));
+        protoDoi.StistatExportEaiMessageType.Should().Be(string.Empty);
+    }
+
+    private DomainOfInfluenceVotingCardDataUpdated NewValidEvent(
+        Action<DomainOfInfluenceVotingCardDataUpdated>? customizer = null)
+    {
+        var ev = new DomainOfInfluenceVotingCardDataUpdated
+        {
+            DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau,
             ReturnAddress = new DomainOfInfluenceVotingCardReturnAddressEventData
             {
                 AddressLine1 = "Updated Zeile 1",
@@ -62,115 +126,14 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
                 FrankingLicenceReturnNumber = "965333145",
             },
             StistatMunicipality = true,
-            StistatExportEaiMessageType = "1234567",
+            StistatExportEaiMessageTypeDeprecated = true,
             VotingCardFlatRateDisabled = true,
             IsMainVotingCardsDomainOfInfluence = true,
             HasEmptyVotingCards = true,
             EventInfo = GetMockedEventInfo(),
-        });
+        };
 
-        var doi = await GetDbEntity<DomainOfInfluence>(x => x.Id == DomainOfInfluenceMockedData.GuidGossau);
-        var protoDoi = RunScoped<TestMapper, ProtoModels.DomainOfInfluence>(mapper => mapper.Map<ProtoModels.DomainOfInfluence>(doi));
-        protoDoi.ReturnAddress.MatchSnapshot("returnAddress");
-        protoDoi.PrintData.MatchSnapshot("printData");
-        protoDoi.SwissPostData.MatchSnapshot("swissPostData");
-        protoDoi.ExternalPrintingCenter.Should().BeTrue();
-        protoDoi.ExternalPrintingCenterEaiMessageType.Should().Be("GOSSAU-Updated");
-        protoDoi.SapCustomerOrderNumber.Should().Be("915421");
-        protoDoi.StistatMunicipality.Should().BeTrue();
-        protoDoi.StistatExportEaiMessageType.Should().Be("1234567");
-        protoDoi.IsMainVotingCardsDomainOfInfluence.Should().BeTrue();
-        protoDoi.VotingCardColor.Should().Be(SharedProto.VotingCardColor.Unspecified);
-        protoDoi.HasEmptyVotingCards.Should().BeTrue();
-    }
-
-    [Fact]
-    public async Task TestProcessorColorChamois()
-    {
-        var id = DomainOfInfluenceMockedData.IdGossau;
-        await TestEventPublisher.Publish(new DomainOfInfluenceVotingCardDataUpdated
-        {
-            DomainOfInfluenceId = id,
-            ReturnAddress = new DomainOfInfluenceVotingCardReturnAddressEventData
-            {
-                AddressLine1 = "Updated Zeile 1",
-                AddressLine2 = "Updated Zeile 2",
-                AddressAddition = "Updated Addition",
-                City = "Updated City",
-                Country = "Updated Schweiz",
-                Street = "Updated Street",
-                ZipCode = "1000",
-            },
-            PrintData = new DomainOfInfluenceVotingCardPrintDataEventData
-            {
-                ShippingAway = SharedProto.VotingCardShippingFranking.A,
-                ShippingReturn = SharedProto.VotingCardShippingFranking.GasB,
-                ShippingMethod = SharedProto.VotingCardShippingMethod.OnlyPrintingPackagingToMunicipality,
-                ShippingVotingCardsToDeliveryAddress = true,
-            },
-            ExternalPrintingCenter = true,
-            ExternalPrintingCenterEaiMessageType = "GOSSAU-Updated",
-            SapCustomerOrderNumber = "915421",
-            SwissPostData = new DomainOfInfluenceVotingCardSwissPostDataEventData
-            {
-                InvoiceReferenceNumber = "505964478",
-                FrankingLicenceAwayNumber = "71025642",
-                FrankingLicenceReturnNumber = "965333145",
-            },
-            StistatMunicipality = true,
-            StistatExportEaiMessageType = "1234567",
-            VotingCardFlatRateDisabled = true,
-            EventInfo = GetMockedEventInfo(),
-            VotingCardColor = SharedProto.VotingCardColor.Chamois,
-        });
-
-        var doi = await GetDbEntity<DomainOfInfluence>(x => x.Id == DomainOfInfluenceMockedData.GuidGossau);
-        var protoDoi = RunScoped<TestMapper, ProtoModels.DomainOfInfluence>(mapper => mapper.Map<ProtoModels.DomainOfInfluence>(doi));
-        protoDoi.VotingCardColor.Should().Be(SharedProto.VotingCardColor.Unspecified);
-    }
-
-    [Fact]
-    public async Task TestProcessorColorGold()
-    {
-        var id = DomainOfInfluenceMockedData.IdGossau;
-        await TestEventPublisher.Publish(new DomainOfInfluenceVotingCardDataUpdated
-        {
-            DomainOfInfluenceId = id,
-            ReturnAddress = new DomainOfInfluenceVotingCardReturnAddressEventData
-            {
-                AddressLine1 = "Updated Zeile 1",
-                AddressLine2 = "Updated Zeile 2",
-                AddressAddition = "Updated Addition",
-                City = "Updated City",
-                Country = "Updated Schweiz",
-                Street = "Updated Street",
-                ZipCode = "1000",
-            },
-            PrintData = new DomainOfInfluenceVotingCardPrintDataEventData
-            {
-                ShippingAway = SharedProto.VotingCardShippingFranking.A,
-                ShippingReturn = SharedProto.VotingCardShippingFranking.GasB,
-                ShippingMethod = SharedProto.VotingCardShippingMethod.OnlyPrintingPackagingToMunicipality,
-                ShippingVotingCardsToDeliveryAddress = true,
-            },
-            ExternalPrintingCenter = true,
-            ExternalPrintingCenterEaiMessageType = "GOSSAU-Updated",
-            SapCustomerOrderNumber = "915421",
-            SwissPostData = new DomainOfInfluenceVotingCardSwissPostDataEventData
-            {
-                InvoiceReferenceNumber = "505964478",
-                FrankingLicenceAwayNumber = "71025643",
-                FrankingLicenceReturnNumber = "965333145",
-            },
-            StistatMunicipality = true,
-            StistatExportEaiMessageType = "1234567",
-            VotingCardFlatRateDisabled = true,
-            EventInfo = GetMockedEventInfo(),
-            VotingCardColor = SharedProto.VotingCardColor.Gold,
-        });
-
-        var doi = await GetDbEntity<DomainOfInfluence>(x => x.Id == DomainOfInfluenceMockedData.GuidGossau);
-        var protoDoi = RunScoped<TestMapper, ProtoModels.DomainOfInfluence>(mapper => mapper.Map<ProtoModels.DomainOfInfluence>(doi));
-        protoDoi.VotingCardColor.Should().Be(SharedProto.VotingCardColor.Unspecified);
+        customizer?.Invoke(ev);
+        return ev;
     }
 }

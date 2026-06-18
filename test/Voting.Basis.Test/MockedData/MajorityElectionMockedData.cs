@@ -1764,7 +1764,7 @@ public static class MajorityElectionMockedData
                         CandidateId = candidate.CandidateReferenceId.Value,
                         Number = candidate.Number,
                     };
-                    aggregate.CreateCandidateReferenceFrom(domainCandidateReference, false);
+                    aggregate.CreateCandidateReferenceFrom(domainCandidateReference);
                 }
                 else
                 {

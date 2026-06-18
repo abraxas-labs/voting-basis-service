@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Services.V1;
 using Abraxas.Voting.Basis.Services.V1.Requests;
@@ -11,6 +12,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Configuration;
 using Voting.Basis.Test.MockedData;
 using Xunit;
 using SharedProto = Abraxas.Voting.Basis.Shared.V1;
@@ -59,8 +61,11 @@ public class ContestCheckAvailabilityTest : BaseGrpcTest<ContestService.ContestS
     [Fact]
     public async Task TestSameAsPreconfiguredDate()
     {
+        var appConfig = GetService<AppConfig>();
+        var date = appConfig.PreconfiguredContestDates.Last();
+        var timestamp = date.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc).ToTimestamp();
         var response = await AdminClient.CheckAvailabilityAsync(
-            NewValidRequest(r => r.Date = PreconfiguredContestDateMockedData.Date20200209.ToTimestamp()));
+            NewValidRequest(r => r.Date = timestamp));
         response.Availability.Should().Be(SharedProto.ContestDateAvailability.SameAsPreConfiguredDate);
     }
 

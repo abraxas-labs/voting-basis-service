@@ -5,6 +5,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Shared.V1;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,10 @@ public class ContestWriter
     private readonly ContestMerger _contestMerger;
     private readonly ContestDeleter _contestDeleter;
     private readonly IAuth _auth;
+    private readonly VoteWriter _voteWriter;
+    private readonly ProportionalElectionWriter _proportionalElectionWriter;
+    private readonly MajorityElectionWriter _majorityElectionWriter;
+    private readonly IDbRepository<DataContext, SimplePoliticalBusiness> _simplePoliticalBusinessRepo;
 
     public ContestWriter(
         ILogger<ContestWriter> logger,
@@ -48,7 +53,11 @@ public class ContestWriter
         IDbRepository<DataContext, DomainOfInfluence> doiRepo,
         ContestMerger contestMerger,
         ContestDeleter contestDeleter,
-        IAuth auth)
+        IAuth auth,
+        VoteWriter voteWriter,
+        ProportionalElectionWriter proportionalElectionWriter,
+        MajorityElectionWriter majorityElectionWriter,
+        IDbRepository<DataContext, SimplePoliticalBusiness> simplePoliticalBusinessRepo)
     {
         _logger = logger;
         _aggregateRepository = aggregateRepository;
@@ -60,6 +69,10 @@ public class ContestWriter
         _contestMerger = contestMerger;
         _contestDeleter = contestDeleter;
         _auth = auth;
+        _voteWriter = voteWriter;
+        _proportionalElectionWriter = proportionalElectionWriter;
+        _majorityElectionWriter = majorityElectionWriter;
+        _simplePoliticalBusinessRepo = simplePoliticalBusinessRepo;
     }
 
     [SuppressMessage(
@@ -155,15 +168,32 @@ public class ContestWriter
     {
         var contest = await _aggregateRepository.GetById<ContestAggregate>(contestId);
 
-        await _permissionService.EnsureCanReadContest(contestId);
+        await _permissionService.EnsureIsOwnerOfDomainOfInfluence(contest.DomainOfInfluenceId);
 
         contest.PastUnlock();
         await _aggregateRepository.Save(contest);
         _logger.LogInformation("Unlocked past contest {ContestId}.", contestId);
     }
 
-    internal async Task<bool> TryEndTestingPhase(Guid id)
+    internal async Task<bool> TryEndTestingPhase(Guid id, CancellationToken ct)
     {
+        // 1. All political businesses should have have the testing phase ended state.
+        var pbs = _simplePoliticalBusinessRepo.Query()
+            .Where(pb => pb.ContestId == id && pb.Contest.State == Data.Models.ContestState.TestingPhase)
+            .ToAsyncEnumerable();
+
+        var previousPbTestingPhaseEnded = true;
+        await foreach (var pb in pbs.WithCancellation(ct))
+        {
+            if (!previousPbTestingPhaseEnded)
+            {
+                return false;
+            }
+
+            previousPbTestingPhaseEnded = await EndPoliticalBusinessTestingPhase(pb);
+        }
+
+        // 2. End testing phase for contest.
         var contest = await _aggregateRepository.GetById<ContestAggregate>(id);
         if (!contest.TryEndTestingPhase())
         {
@@ -225,6 +255,31 @@ public class ContestWriter
         }
 
         await _aggregateRepository.Save(contest);
+        return true;
+    }
+
+    private async Task<bool> EndPoliticalBusinessTestingPhase(SimplePoliticalBusiness pb)
+    {
+        var approveTask = pb.BusinessType switch
+        {
+            Data.Models.PoliticalBusinessType.Vote => _voteWriter.EndTestingPhase(pb.Id),
+            Data.Models.PoliticalBusinessType.ProportionalElection => _proportionalElectionWriter.EndTestingPhase(pb.Id),
+            Data.Models.PoliticalBusinessType.MajorityElection => _majorityElectionWriter.EndTestingPhase(pb.Id),
+            Data.Models.PoliticalBusinessType.SecondaryMajorityElection => Task.CompletedTask,
+            _ => throw new InvalidOperationException(),
+        };
+
+        try
+        {
+            await approveTask;
+            _logger.LogInformation("Ended testing phase for political business {Id}", pb.Id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Could not end testing phase for political business {PoliticalBusinessId}", pb.Id);
+            return false;
+        }
+
         return true;
     }
 

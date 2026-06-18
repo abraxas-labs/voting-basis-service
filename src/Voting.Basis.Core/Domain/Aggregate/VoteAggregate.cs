@@ -19,7 +19,7 @@ namespace Voting.Basis.Core.Domain.Aggregate;
 /// <summary>
 /// Terminology is explained in <see cref="Vote"/>.
 /// </summary>
-public class VoteAggregate : BaseHasContestAggregate
+public class VoteAggregate : PoliticalBusinessAggregate
 {
     private readonly IMapper _mapper;
     private readonly EventInfoProvider _eventInfoProvider;
@@ -135,7 +135,7 @@ public class VoteAggregate : BaseHasContestAggregate
         ValidationUtils.EnsureNotModified(ReviewProcedure, vote.ReviewProcedure);
         ValidationUtils.EnsureNotModified(EnforceReviewProcedureForCountingCircles, vote.EnforceReviewProcedureForCountingCircles);
         ValidationUtils.EnsureNotModified(AutomaticBallotNumberGeneration, vote.AutomaticBallotNumberGeneration);
-        ValidationUtils.EnsureNotModified(AutomaticBallotNumberGeneration, vote.AutomaticBallotBundleNumberGeneration);
+        ValidationUtils.EnsureNotModified(AutomaticBallotBundleNumberGeneration, vote.AutomaticBallotBundleNumberGeneration);
         ValidationUtils.EnsureNotModified(Type, vote.Type);
 
         var ev = new VoteAfterTestingPhaseUpdated
@@ -207,6 +207,21 @@ public class VoteAggregate : BaseHasContestAggregate
         {
             return false;
         }
+    }
+
+    public override void EndTestingPhase()
+    {
+        if (TestingPhaseEnded)
+        {
+            return;
+        }
+
+        var ev = new VoteTestingPhaseEnded
+        {
+            VoteId = Id.ToString(),
+            EventInfo = _eventInfoProvider.NewEventInfo(),
+        };
+        RaiseEvent(ev);
     }
 
     public void CreateBallot(Ballot ballot)
@@ -377,6 +392,9 @@ public class VoteAggregate : BaseHasContestAggregate
             case VoteActiveStateUpdated e:
                 Apply(e);
                 break;
+            case VoteTestingPhaseEnded _:
+                TestingPhaseEnded = true;
+                break;
             case VoteEVotingApprovalUpdated e:
                 Apply(e);
                 break;
@@ -433,6 +451,41 @@ public class VoteAggregate : BaseHasContestAggregate
         }
     }
 
+    private void PatchOldEvents(BallotEventData ballot)
+    {
+        foreach (var ballotQuestion in ballot.BallotQuestions)
+        {
+            PatchOldEvents(ballotQuestion);
+        }
+
+        foreach (var tieBreakQuestion in ballot.TieBreakQuestions)
+        {
+            PatchOldEvents(tieBreakQuestion);
+        }
+    }
+
+    private void PatchOldEvents(BallotQuestionEventData ballotQuestion)
+    {
+        // federal identification of type int is deprecated, it was replaced with data type string
+#pragma warning disable CS0612
+        if (ballotQuestion.FederalIdentification != null)
+        {
+            ballotQuestion.FederalIdentificationString = ballotQuestion.FederalIdentification.ToString();
+        }
+#pragma warning restore CS0612
+    }
+
+    private void PatchOldEvents(TieBreakQuestionEventData tieBreakQuestion)
+    {
+        // federal identification of type int is deprecated, it was replaced with data type string
+#pragma warning disable CS0612
+        if (tieBreakQuestion.FederalIdentification != null)
+        {
+            tieBreakQuestion.FederalIdentificationString = tieBreakQuestion.FederalIdentification.ToString();
+        }
+#pragma warning restore CS0612
+    }
+
     private void Apply(VoteAfterTestingPhaseUpdated ev)
     {
         _mapper.Map(ev, this);
@@ -455,6 +508,7 @@ public class VoteAggregate : BaseHasContestAggregate
 
     private void Apply(BallotCreated ev)
     {
+        PatchOldEvents(ev.Ballot);
         TypeImmutable = true;
         Ballots.Add(_mapper.Map<Ballot>(ev.Ballot));
     }
@@ -471,6 +525,16 @@ public class VoteAggregate : BaseHasContestAggregate
 
     private void Apply(BallotAfterTestingPhaseUpdated ev)
     {
+        foreach (var ballotQuestion in ev.BallotQuestions)
+        {
+            PatchOldEvents(ballotQuestion);
+        }
+
+        foreach (var tieBreakQuestion in ev.TieBreakQuestions)
+        {
+            PatchOldEvents(tieBreakQuestion);
+        }
+
         var id = GuidParser.Parse(ev.Id);
         var existingBallot = Ballots.Single(b => b.Id == id);
 
@@ -561,7 +625,7 @@ public class VoteAggregate : BaseHasContestAggregate
 
     private void EnsureEVotingNotApproved()
     {
-        if (EVotingApproved == true)
+        if (!TestingPhaseEnded && EVotingApproved == true)
         {
             throw new PoliticalBusinessEVotingApprovedException();
         }

@@ -19,5 +19,5 @@ public class BallotQuestion
 
     public BallotQuestionType Type { get; private set; }
 
-    public int? FederalIdentification { get; private set; }
+    public string FederalIdentification { get; set; } = string.Empty;
 }

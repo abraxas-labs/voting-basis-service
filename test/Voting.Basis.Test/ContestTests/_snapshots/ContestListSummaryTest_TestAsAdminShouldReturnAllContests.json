@@ -76,7 +76,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": true,
-        "StistatExportEaiMessageType": "5577812"
+        "StistatExportEaiMessageType": "5577812",
+        "ECollectingImportRoot": true
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -176,7 +177,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -268,7 +270,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -374,7 +377,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -472,7 +476,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -581,7 +586,8 @@
         "HasEmptyVotingCards": true,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -673,7 +679,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       "EVoting": false,
       "EVotingFrom": null,
@@ -760,7 +767,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": true,
-        "StistatExportEaiMessageType": "5577812"
+        "StistatExportEaiMessageType": "5577812",
+        "ECollectingImportRoot": true
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -853,7 +861,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": true,
-        "StistatExportEaiMessageType": "5577812"
+        "StistatExportEaiMessageType": "5577812",
+        "ECollectingImportRoot": true
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -946,7 +955,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": true,
-        "StistatExportEaiMessageType": "5577812"
+        "StistatExportEaiMessageType": "5577812",
+        "ECollectingImportRoot": true
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -1056,7 +1066,8 @@
         "HasEmptyVotingCards": true,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       "EVoting": false,
       "EVotingFrom": null,

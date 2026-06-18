@@ -114,5 +114,13 @@ public class DomainOfInfluence
     /// </summary>
     public bool HideLowerDomainOfInfluencesInReports { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether eCollecting is enabled (collecting electronical signatures) for this domain of influence.
+    /// </summary>
     public bool ECollectingEnabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether eCollecting should import this domain of influence's tree.
+    /// </summary>
+    public bool ECollectingImportRoot { get; set; }
 }

@@ -14,6 +14,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -227,6 +228,7 @@ public class VoteUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         var id = Guid.Parse(VoteMockedData.IdGossauVoteInContestBund);
+        await SetPoliticalBusinessTestingPhaseEnded<VoteAggregate>(id.ToString());
         await ElectionAdminClient.UpdateAsync(NewValidRequest(o =>
         {
             o.Id = id.ToString();
@@ -254,34 +256,37 @@ public class VoteUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
     }
 
     [Fact]
-    public async Task VoteUpdateAfterTestingPhaseJobNotYetRunShouldWork()
+    public async Task VoteUpdateAfterTestingPhaseJobNotYetRunShouldThrow()
     {
         await ModifyDbEntities<Contest>(
             c => c.Id == ContestMockedData.BundContest.Id,
             c => c.EndOfTestingPhase = DateTime.MinValue);
 
         var id = Guid.Parse(VoteMockedData.IdGossauVoteInContestBund);
-        await ElectionAdminClient.UpdateAsync(NewValidRequest(o =>
-        {
-            o.Id = id.ToString();
-            o.ContestId = ContestMockedData.IdBundContest;
-            o.DomainOfInfluenceId = VoteMockedData.GossauVoteInContestBund.DomainOfInfluenceId.ToString();
-            o.Active = VoteMockedData.GossauVoteInContestBund.Active;
-            o.ResultAlgorithm = _mapper.Map<SharedProto.VoteResultAlgorithm>(VoteMockedData.GossauVoteInContestBund.ResultAlgorithm);
-            o.ReportDomainOfInfluenceLevel = 0;
-            o.PoliticalBusinessNumber = "1661new";
-            o.AutomaticBallotNumberGeneration = true;
-            o.AutomaticBallotBundleNumberGeneration = true;
-        }));
 
-        EventPublisherMock.GetPublishedEvents<VoteAfterTestingPhaseUpdated>().Should().HaveCount(1);
-        EventPublisherMock.GetPublishedEvents<VoteUpdated>().Should().HaveCount(0);
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(o =>
+            {
+                o.Id = id.ToString();
+                o.ContestId = ContestMockedData.IdBundContest;
+                o.DomainOfInfluenceId = VoteMockedData.GossauVoteInContestBund.DomainOfInfluenceId.ToString();
+                o.Active = VoteMockedData.GossauVoteInContestBund.Active;
+                o.ResultAlgorithm = _mapper.Map<SharedProto.VoteResultAlgorithm>(VoteMockedData.GossauVoteInContestBund.ResultAlgorithm);
+                o.ReportDomainOfInfluenceLevel = 0;
+                o.PoliticalBusinessNumber = "1661new";
+                o.AutomaticBallotNumberGeneration = true;
+                o.AutomaticBallotBundleNumberGeneration = true;
+            })),
+            StatusCode.FailedPrecondition,
+            nameof(ContestTestingPhaseEndedMismatchException));
     }
 
     [Fact]
     public async Task VoteUpdateAfterTestingPhaseShouldRestrictSomeFields()
     {
+        var voteId = VoteMockedData.IdGossauVoteInContestBund;
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<VoteAggregate>(voteId);
         await AssertStatus(
             async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(o =>
             {
@@ -297,11 +302,13 @@ public class VoteUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
     [Fact]
     public async Task VoteInLockedContestShouldThrow()
     {
+        var voteId = VoteMockedData.IdGossauVoteInContestBund;
         await SetContestState(ContestMockedData.IdBundContest, ContestState.Archived);
+        await SetPoliticalBusinessTestingPhaseEnded<VoteAggregate>(voteId);
         await AssertStatus(
             async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(o =>
             {
-                o.Id = VoteMockedData.IdGossauVoteInContestBund;
+                o.Id = voteId;
                 o.ContestId = ContestMockedData.IdBundContest;
                 o.DomainOfInfluenceId = VoteMockedData.GossauVoteInContestBund.DomainOfInfluenceId.ToString();
                 o.ReportDomainOfInfluenceLevel = 0;
@@ -321,6 +328,30 @@ public class VoteUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
             })),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedAndActiveContestShouldWork()
+    {
+        var voteId = VoteMockedData.IdGossauVoteEVotingApprovedInContestStGallen;
+        await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
+        await SetPoliticalBusinessTestingPhaseEnded<VoteAggregate>(voteId);
+
+        await ElectionAdminClient.UpdateAsync(NewValidRequest(o =>
+        {
+            o.Id = VoteMockedData.IdGossauVoteEVotingApprovedInContestStGallen;
+            o.ContestId = ContestMockedData.IdStGallenEvoting;
+            o.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
+            o.ResultAlgorithm = SharedProto.VoteResultAlgorithm.PopularMajority;
+            o.ReviewProcedure = SharedProto.VoteReviewProcedure.Electronically;
+            o.EnforceReviewProcedureForCountingCircles = true;
+            o.AutomaticBallotBundleNumberGeneration = true;
+            o.AutomaticBallotNumberGeneration = false;
+            o.ReportDomainOfInfluenceLevel = 0;
+        }));
+
+        var ev = EventPublisherMock.GetSinglePublishedEvent<VoteAfterTestingPhaseUpdated>();
+        ev.Should().NotBeNull();
     }
 
     [Fact]

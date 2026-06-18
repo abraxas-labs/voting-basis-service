@@ -20,6 +20,7 @@ public class TieBreakQuestionTest : ProtoValidatorBaseTest<TieBreakQuestion>
             Question = { LanguageUtil.MockAllLanguages("Frage 1") },
             Question1Number = 1,
             Question2Number = 2,
+            FederalIdentification = "1239842",
         };
 
         action?.Invoke(ballotQuestion);
@@ -37,6 +38,8 @@ public class TieBreakQuestionTest : ProtoValidatorBaseTest<TieBreakQuestion>
         yield return NewValid(x => x.Question1Number = 50);
         yield return NewValid(x => x.Question2Number = 1);
         yield return NewValid(x => x.Question2Number = 50);
+        yield return NewValid(x => x.FederalIdentification = string.Empty);
+        yield return NewValid(x => x.FederalIdentification = RandomStringUtil.GenerateComplexSingleLineText(50));
     }
 
     protected override IEnumerable<TieBreakQuestion> NotOkMessages()
@@ -52,5 +55,7 @@ public class TieBreakQuestionTest : ProtoValidatorBaseTest<TieBreakQuestion>
         yield return NewValid(x => x.Question1Number = 51);
         yield return NewValid(x => x.Question2Number = 0);
         yield return NewValid(x => x.Question2Number = 51);
+        yield return NewValid(x => x.FederalIdentification = RandomStringUtil.GenerateSimpleSingleLineText(51));
+        yield return NewValid(x => x.FederalIdentification = "invalid\n-number");
     }
 }

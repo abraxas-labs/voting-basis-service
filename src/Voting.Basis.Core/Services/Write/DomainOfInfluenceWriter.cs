@@ -114,6 +114,7 @@ public class DomainOfInfluenceWriter
         ValidatePublishResults(data, cantonDefaults.DomainOfInfluencePublishResultsOptionEnabled);
         await ValidateShortName(data);
         await EnsureCanCreate(data, parent);
+        ValidateECollecting(data);
 
         var domainOfInfluence = _aggregateFactory.New<DomainOfInfluenceAggregate>();
         domainOfInfluence.CreateFrom(data);
@@ -139,6 +140,7 @@ public class DomainOfInfluenceWriter
         await ValidateSuperiorAuthority(data, parent?.Canton ?? data.Canton);
         ValidatePublishResults(data, cantonDefaults.DomainOfInfluencePublishResultsOptionEnabled);
         await ValidateShortName(data);
+        ValidateECollecting(data);
 
         var domainOfInfluence = await _aggregateRepository.GetById<DomainOfInfluenceAggregate>(data.Id);
 
@@ -196,7 +198,6 @@ public class DomainOfInfluenceWriter
                 null,
                 data.VotingCardColor,
                 domainOfInfluence.StistatMunicipality,
-                domainOfInfluence.StistatExportEaiMessageType,
                 domainOfInfluence.VotingCardFlatRateDisabled,
                 domainOfInfluence.IsMainVotingCardsDomainOfInfluence,
                 domainOfInfluence.HasEmptyVotingCards);
@@ -611,6 +612,19 @@ public class DomainOfInfluenceWriter
         if (!doi.Type.IsCommunal())
         {
             throw new ValidationException("Cannot disable publish results on non-communal domain of influence");
+        }
+    }
+
+    private void ValidateECollecting(Domain.DomainOfInfluence doi)
+    {
+        if (!doi.ECollectingImportRoot)
+        {
+            return;
+        }
+
+        if (doi.Type != DomainOfInfluenceType.Ch)
+        {
+            throw new ValidationException("Cannot set E-Collecting import root for non-federal domain of influence");
         }
     }
 }

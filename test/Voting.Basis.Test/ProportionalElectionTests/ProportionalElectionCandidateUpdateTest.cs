@@ -14,6 +14,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -316,7 +317,7 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
     [Fact]
     public async Task ProportionalElectionCandidateUpdateAfterTestingPhaseShouldWork()
     {
-        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetContestStateAndEndElectionTestingPhase(ContestState.Active, ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund);
 
         await CantonAdminClient.UpdateCandidateAsync(NewValidRequestAfterTestingPhase());
 
@@ -371,7 +372,7 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
             doi => true,
             doi => doi.CantonDefaults.CandidateLocalityRequired = true);
 
-        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetContestStateAndEndElectionTestingPhase(ContestState.PastUnlocked, ProportionalElectionMockedData.IdStGallenProportionalElectionInContestBund);
         await AssertStatus(
             async () => await CantonAdminClient.UpdateCandidateAsync(NewValidRequestAfterTestingPhase(x =>
             {
@@ -390,7 +391,7 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
             doi => true,
             doi => doi.CantonDefaults.CandidateOriginRequired = true);
 
-        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetContestStateAndEndElectionTestingPhase(ContestState.PastUnlocked, ProportionalElectionMockedData.IdStGallenProportionalElectionInContestBund);
         await AssertStatus(
             async () => await CantonAdminClient.UpdateCandidateAsync(NewValidRequestAfterTestingPhase(x =>
             {
@@ -409,7 +410,7 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
             doi => true,
             doi => doi.CantonDefaults.CandidateLocalityRequired = true);
 
-        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetContestStateAndEndElectionTestingPhase(ContestState.PastUnlocked, ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund);
         await CantonAdminClient.UpdateCandidateAsync(NewValidRequestAfterTestingPhase(x => x.Locality = string.Empty));
 
         var ev = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionCandidateAfterTestingPhaseUpdated>();
@@ -430,7 +431,7 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
             doi => true,
             doi => doi.CantonDefaults.CandidateOriginRequired = true);
 
-        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetContestStateAndEndElectionTestingPhase(ContestState.PastUnlocked, ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund);
         await CantonAdminClient.UpdateCandidateAsync(NewValidRequestAfterTestingPhase(x => x.Origin = string.Empty));
 
         var ev = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionCandidateAfterTestingPhaseUpdated>();
@@ -447,7 +448,7 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
     [Fact]
     public async Task ProportionalElectionCandidateUpdateAfterTestingPhaseWithEmptyLocalityOnNonCommunalBusinessShouldWorkWhenOptional()
     {
-        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetContestStateAndEndElectionTestingPhase(ContestState.PastUnlocked, ProportionalElectionMockedData.IdStGallenProportionalElectionInContestBund);
         await CantonAdminClient.UpdateCandidateAsync(NewValidRequestAfterTestingPhase(x =>
         {
             x.Id = ProportionalElectionMockedData.CandidateIdStGallenProportionalElectionInContestBund;
@@ -471,7 +472,7 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
     [Fact]
     public async Task ProportionalElectionCandidateUpdateAfterTestingPhaseWithEmptyOriginOnNonCommunalBusinessShouldWorkWhenOptional()
     {
-        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetContestStateAndEndElectionTestingPhase(ContestState.PastUnlocked, ProportionalElectionMockedData.IdStGallenProportionalElectionInContestBund);
         await CantonAdminClient.UpdateCandidateAsync(NewValidRequestAfterTestingPhase(x =>
         {
             x.Id = ProportionalElectionMockedData.CandidateIdStGallenProportionalElectionInContestBund;
@@ -495,7 +496,7 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
     [Fact]
     public async Task ProportionalElectionCandidateUpdateAfterTestingPhaseShouldRestrictSomeFields()
     {
-        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetContestStateAndEndElectionTestingPhase(ContestState.PastUnlocked, ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund);
         await AssertStatus(
             async () => await CantonAdminClient.UpdateCandidateAsync(NewValidRequest(o =>
             {
@@ -510,7 +511,7 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
     [Fact]
     public async Task ProportionalElectionCandidateInLockedContestShouldThrow()
     {
-        await SetContestState(ContestMockedData.IdBundContest, ContestState.PastLocked);
+        await SetContestStateAndEndElectionTestingPhase(ContestState.PastLocked, ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund);
         await AssertStatus(
             async () => await CantonAdminClient.UpdateCandidateAsync(NewValidRequest(o =>
             {
@@ -532,6 +533,22 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
             })),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedAndActiveContestShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(ProportionalElectionMockedData.IdGossauProportionalElectionEVotingApprovedInContestStGallen);
+
+        await CantonAdminClient.UpdateCandidateAsync(NewValidRequest(x =>
+        {
+            x.Id = ProportionalElectionMockedData.CandidateId1GossauProportionalElectionEVotingApprovedInContestStGallen;
+            x.ProportionalElectionListId = ProportionalElectionMockedData.ListId1GossauProportionalElectionEVotingApprovedInContestStGallen;
+            x.PartyId = DomainOfInfluenceMockedData.PartyIdGossauFLiG;
+        }));
+
+        EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionCandidateAfterTestingPhaseUpdated>().Should().NotBeNull();
     }
 
     [Fact]
@@ -687,5 +704,11 @@ public class ProportionalElectionCandidateUpdateTest : PoliticalBusinessAuthoriz
 
         customizer?.Invoke(request);
         return request;
+    }
+
+    private async Task SetContestStateAndEndElectionTestingPhase(ContestState state, string electionId)
+    {
+        await SetContestState(ContestMockedData.IdBundContest, state);
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(electionId);
     }
 }

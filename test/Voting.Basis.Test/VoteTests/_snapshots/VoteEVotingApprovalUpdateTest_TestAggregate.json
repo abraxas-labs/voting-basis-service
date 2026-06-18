@@ -32,7 +32,7 @@
             "rm": "Frage 1 Gossau rm"
           },
           "Type": 1,
-          "FederalIdentification": null
+          "FederalIdentification": ""
         },
         {
           "Number": 2,
@@ -43,7 +43,7 @@
             "rm": "Frage 2 Gossau rm"
           },
           "Type": 2,
-          "FederalIdentification": null
+          "FederalIdentification": ""
         }
       ],
       "VoteId": "8076dee2-f19b-4af9-80b1-69b0c7b1402b",
@@ -59,7 +59,7 @@
           },
           "Question1Number": 1,
           "Question2Number": 2,
-          "FederalIdentification": null
+          "FederalIdentification": ""
         }
       ],
       "SubType": 0,

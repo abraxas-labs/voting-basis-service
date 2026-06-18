@@ -110,6 +110,7 @@ public class CreateDomainOfInfluenceRequestTest : ProtoValidatorBaseTest<CreateD
             ExternalPrintingCenterEaiMessageType = "1234567",
             NameForProtocol = "Bezirk Uzwil (Protokoll)",
             ECollectingEnabled = true,
+            ECollectingImportRoot = true,
         };
 
         action?.Invoke(request);

@@ -69,7 +69,8 @@
           "HasEmptyVotingCards": false,
           "EVoting": false,
           "StistatExportEnabled": false,
-          "StistatExportEaiMessageType": ""
+          "StistatExportEaiMessageType": "",
+          "ECollectingImportRoot": false
         }
       ],
       "Canton": 1,
@@ -123,7 +124,8 @@
       "HasEmptyVotingCards": false,
       "EVoting": false,
       "StistatExportEnabled": false,
-      "StistatExportEaiMessageType": ""
+      "StistatExportEaiMessageType": "",
+      "ECollectingImportRoot": false
     }
   ]
 }

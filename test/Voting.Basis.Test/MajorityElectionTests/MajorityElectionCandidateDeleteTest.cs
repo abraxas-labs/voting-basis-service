@@ -15,6 +15,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -101,6 +102,8 @@ public class MajorityElectionCandidateDeleteTest : PoliticalBusinessAuthorizatio
     public async Task CandidateInContestWithEndedTestingPhaseShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(MajorityElectionMockedData.IdGossauMajorityElectionInContestBund);
+
         await AssertStatus(
             async () => await ElectionAdminClient.DeleteCandidateAsync(new DeleteMajorityElectionCandidateRequest
             {

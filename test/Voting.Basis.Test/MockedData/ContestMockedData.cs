@@ -191,8 +191,6 @@ public static class ContestMockedData
             await DomainOfInfluenceMockedData.Seed(runScoped);
         }
 
-        await PreconfiguredContestDateMockedData.Seed(runScoped);
-
         var all = All.ToList();
 
         foreach (var contest in all)

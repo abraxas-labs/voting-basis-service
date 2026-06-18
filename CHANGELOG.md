@@ -1,4 +1,4 @@
-# ✨ Changelog (`v2.78.0`)
+# ✨ Changelog (`v2.79.0`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,67 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v2.78.0
-Previous version ---- v2.77.4
+This version -------- v2.79.0
+Previous version ---- v2.78.0
 Initial version ----- v1.27.15
-Total commits ------- 1
+Total commits ------- 14
 ```
+
+## [v2.79.0] - 2026-06-16
+
+### 🔄 Changed
+
+- change federal identification to complex single line text
+
+### 🔄 Changed
+
+- move stistat export eai message type to domain of influence event data
+
+### 🔄 Changed
+
+- correctly ensure unique candidate number during majority election import
+
+### 🆕 Added
+
+- add federal identification for ct political businesses
+
+### 🔄 Changed
+
+- read preconfigured contest dates from config
+
+### 🔄 Changed
+
+- reactivate political business e-voting
+
+### 🆕 Added
+
+- add ecollecting import root flag
+
+### 🔄 Changed
+
+- update candidates instead of deleting in majority election import
+
+### 🔄 Changed
+
+- ignore e-voting approved after testing phase ended
+
+### 🆕 Added
+
+- add additional protection layer for grpc reflection service endpoint
+
+### 🔒 Security
+
+- ensure is contest owner to past unlock
+
+### 🆕 Added
+
+- add import ech0157 / ech0159 v4.2
+
+## [v2.78.1] - 2026-05-19
+
+### 🆕 Added
+
+- add ecollecting import root flag
 
 ## [v2.78.0] - 2026-04-21
 

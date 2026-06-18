@@ -140,6 +140,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
 
     public bool ECollectingEnabled { get; private set; }
 
+    public bool ECollectingImportRoot { get; private set; }
+
     public void CreateFrom(DomainOfInfluence domainOfInfluence)
     {
         if (domainOfInfluence.Id == default)
@@ -155,6 +157,10 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
             DomainOfInfluence = _mapper.Map<DomainOfInfluenceEventData>(domainOfInfluence),
             EventInfo = _eventInfoProvider.NewEventInfo(),
         };
+
+        // StistatExportEaiMessageType was previously on the DomainOfInfluenceVotingCardDataUpdated event,
+        // this flag is set to true to ensure it is correctly mapped for new events.
+        ev.DomainOfInfluence.StistatExportEaiMessageTypeSupported = true;
 
         RaiseEvent(ev);
         UpdateChildrenFrom(domainOfInfluence);
@@ -179,6 +185,10 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
             DomainOfInfluence = _mapper.Map<DomainOfInfluenceEventData>(domainOfInfluence),
             EventInfo = _eventInfoProvider.NewEventInfo(),
         };
+
+        // StistatExportEaiMessageType was previously on the DomainOfInfluenceVotingCardDataUpdated event,
+        // this flag is set to true to ensure it is correctly mapped for new events.
+        ev.DomainOfInfluence.StistatExportEaiMessageTypeSupported = true;
 
         RaiseEvent(ev);
         UpdateChildrenFrom(domainOfInfluence);
@@ -231,7 +241,6 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
         DomainOfInfluenceVotingCardSwissPostData? swissPostData,
         VotingCardColor votingCardColor,
         bool stistatMunicipality,
-        string stistatExportEaiMessageType,
         bool votingCardFlatRateDisabled,
         bool isMainVotingCardsDomainOfInfluence,
         bool hasEmptyVotingCards)
@@ -262,10 +271,13 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
             SapCustomerOrderNumber = sapCustomerOrderNumber,
             VotingCardColor = _mapper.Map<SharedProto.VotingCardColor>(votingCardColor),
             StistatMunicipality = stistatMunicipality,
-            StistatExportEaiMessageType = stistatExportEaiMessageType,
             VotingCardFlatRateDisabled = votingCardFlatRateDisabled,
             IsMainVotingCardsDomainOfInfluence = isMainVotingCardsDomainOfInfluence,
             HasEmptyVotingCards = hasEmptyVotingCards,
+
+            // StistatExportEaiMessageType is for new events on the DomainOfInfluenceEventData,
+            // this flag is set to true to ensure it is correctly mapped for new events.
+            StistatExportEaiMessageTypeDeprecated = true,
         };
 
         RaiseEvent(ev);
@@ -623,7 +635,6 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
                 domainOfInfluence.SwissPostData ?? throw new ValidationException(nameof(domainOfInfluence.SwissPostData) + " must be set"),
                 domainOfInfluence.VotingCardColor,
                 domainOfInfluence.StistatMunicipality,
-                domainOfInfluence.StistatExportEaiMessageType ?? string.Empty,
                 domainOfInfluence.VotingCardFlatRateDisabled,
                 domainOfInfluence.IsMainVotingCardsDomainOfInfluence,
                 domainOfInfluence.HasEmptyVotingCards);

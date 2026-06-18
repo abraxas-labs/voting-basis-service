@@ -71,7 +71,7 @@
                   "rm": "Frage Bund1"
                 },
                 "Type": 1,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               }
             ],
             "VoteId": "",
@@ -130,7 +130,7 @@
                   "rm": "Frage Bund2"
                 },
                 "Type": 1,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               }
             ],
             "VoteId": "",
@@ -189,7 +189,7 @@
                   "rm": "Frage Kanton"
                 },
                 "Type": 1,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               }
             ],
             "VoteId": "",

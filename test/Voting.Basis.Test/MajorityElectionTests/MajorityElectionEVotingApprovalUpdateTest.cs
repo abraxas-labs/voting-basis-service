@@ -12,6 +12,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -114,19 +115,28 @@ public class MajorityElectionEVotingApprovalUpdateTest : PoliticalBusinessAuthor
     public async Task MajorityElectionInContestWithEndedTestingPhaseShouldWork()
     {
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.PastUnlocked);
-        await ElectionAdminClient.UpdateEVotingApprovalAsync(NewValidRequest());
-        EventPublisherMock.GetSinglePublishedEvent<MajorityElectionEVotingApprovalUpdated>()
-            .Should().NotBeNull();
+
+        var request = NewValidRequest();
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(request.Id);
+
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateEVotingApprovalAsync(request),
+            StatusCode.FailedPrecondition,
+            nameof(ContestTestingPhaseEndedException));
     }
 
     [Fact]
     public async Task MajorityElectionInContestLockedShouldThrow()
     {
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.PastLocked);
+
+        var request = NewValidRequest();
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(request.Id);
+
         await AssertStatus(
-            async () => await ElectionAdminClient.UpdateEVotingApprovalAsync(NewValidRequest()),
+            async () => await ElectionAdminClient.UpdateEVotingApprovalAsync(request),
             StatusCode.FailedPrecondition,
-            nameof(ContestLockedException));
+            nameof(ContestTestingPhaseEndedException));
     }
 
     [Fact]

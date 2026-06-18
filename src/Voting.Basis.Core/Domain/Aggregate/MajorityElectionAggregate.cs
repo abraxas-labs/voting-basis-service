@@ -28,7 +28,7 @@ namespace Voting.Basis.Core.Domain.Aggregate;
 /// <summary>
 /// Terminology is explained in <see cref="MajorityElection"/>.
 /// </summary>
-public class MajorityElectionAggregate : BaseHasContestAggregate
+public class MajorityElectionAggregate : PoliticalBusinessAggregate
 {
     private readonly IMapper _mapper;
     private readonly EventInfoProvider _eventInfoProvider;
@@ -57,6 +57,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         PoliticalBusinessNumber = string.Empty;
         OfficialDescription = new Dictionary<string, string>();
         ShortDescription = new Dictionary<string, string>();
+        FederalIdentification = string.Empty;
 
         Candidates = new List<MajorityElectionCandidate>();
         BallotGroups = new List<MajorityElectionBallotGroup>();
@@ -115,7 +116,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
     public bool IndividualCandidatesDisabled { get; private set; }
 
-    public int? FederalIdentification { get; private set; }
+    public string FederalIdentification { get; private set; }
 
     public List<SecondaryMajorityElection> SecondaryMajorityElectionsOnSameBallot => SecondaryMajorityElections.Where(sme => !sme.IsOnSeparateBallot).ToList();
 
@@ -265,6 +266,22 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         {
             return false;
         }
+    }
+
+    public override void EndTestingPhase()
+    {
+        if (TestingPhaseEnded)
+        {
+            return;
+        }
+
+        var ev = new MajorityElectionTestingPhaseEnded
+        {
+            MajorityElectionId = Id.ToString(),
+            EventInfo = _eventInfoProvider.NewEventInfo(),
+        };
+
+        RaiseEvent(ev);
     }
 
     public void Delete(bool ignoreChecks = false)
@@ -752,7 +769,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void CreateCandidateReferenceFrom(MajorityElectionCandidateReference data, bool testingPhaseEnded)
+    public void CreateCandidateReferenceFrom(MajorityElectionCandidateReference data)
     {
         EnsureNotDeleted();
         EnsureEVotingNotApproved(data.SecondaryMajorityElectionId);
@@ -775,7 +792,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         candidateReferenceEventData.PrimaryMajorityElectionId = Id.ToString();
         candidateReferenceEventData.IsOnSeparateBallot = sme.IsOnSeparateBallot;
         candidateReferenceEventData.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
-        EnsureValidCandidateReportingType(data, null, testingPhaseEnded, sme.IndividualCandidatesDisabled, c => c?.ReportingType);
+        EnsureValidCandidateReportingType(data, null, sme.IndividualCandidatesDisabled, c => c?.ReportingType);
 
         var ev = new SecondaryMajorityElectionCandidateReferenceCreated
         {
@@ -786,7 +803,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         RaiseEvent(ev);
     }
 
-    public void UpdateCandidateReferenceFrom(MajorityElectionCandidateReference data, bool testingPhaseEnded)
+    public void UpdateCandidateReferenceFrom(MajorityElectionCandidateReference data)
     {
         EnsureNotDeleted();
         EnsureEVotingNotApproved(data.SecondaryMajorityElectionId);
@@ -798,7 +815,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             throw new ValidationException($"{nameof(data.CandidateId)} is immutable");
         }
 
-        if (testingPhaseEnded)
+        if (TestingPhaseEnded)
         {
             ValidationUtils.EnsureNotModified(existingReference.Number, data.Number);
             ValidationUtils.EnsureNotModified(existingReference.Position, data.Position);
@@ -811,7 +828,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         candidateReferenceEventData.PrimaryMajorityElectionId = Id.ToString();
         candidateReferenceEventData.IsOnSeparateBallot = sme.IsOnSeparateBallot;
         candidateReferenceEventData.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
-        EnsureValidCandidateReportingType(data, existingReference, testingPhaseEnded, sme.IndividualCandidatesDisabled, c => c?.ReportingType);
+        EnsureValidCandidateReportingType(data, existingReference, sme.IndividualCandidatesDisabled, c => c?.ReportingType);
 
         var ev = new SecondaryMajorityElectionCandidateReferenceUpdated
         {
@@ -1085,6 +1102,9 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             case MajorityElectionActiveStateUpdated e:
                 Apply(e);
                 break;
+            case MajorityElectionTestingPhaseEnded _:
+                TestingPhaseEnded = true;
+                break;
             case MajorityElectionEVotingApprovalUpdated e:
                 Apply(e);
                 break;
@@ -1197,6 +1217,14 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         {
             majorityElection.AutomaticBallotNumberGeneration = true;
         }
+
+        // federal identification of type int is deprecated, it was replaced with data type string
+#pragma warning disable CS0612
+        if (majorityElection.FederalIdentification != null)
+        {
+            majorityElection.FederalIdentificationString = majorityElection.FederalIdentification.ToString();
+        }
+#pragma warning restore CS0612
     }
 
     private void Apply(MajorityElectionAfterTestingPhaseUpdated ev)
@@ -1608,7 +1636,6 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
         EnsureValidCandidateReportingType(
             candidate,
             existingCandidate,
-            candidateValidationParams.TestingPhaseEnded,
             individualCandidatesDisabled,
             c => c?.ReportingType);
 
@@ -1651,7 +1678,6 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     private void EnsureValidCandidateReportingType<T>(
         T data,
         T? existingData,
-        bool testingPhaseEnded,
         bool individualCandidatesDisabled,
         Func<T?, MajorityElectionCandidateReportingType?> selector)
     {
@@ -1676,7 +1702,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
             return;
         }
 
-        if (!testingPhaseEnded)
+        if (!TestingPhaseEnded)
         {
             if (newReportingType is not MajorityElectionCandidateReportingType.Unspecified)
             {
@@ -1762,7 +1788,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
 
     private void EnsureEVotingNotApproved()
     {
-        if (EVotingApproved == true)
+        if (!TestingPhaseEnded && EVotingApproved == true)
         {
             throw new PoliticalBusinessEVotingApprovedException();
         }
@@ -1772,7 +1798,7 @@ public class MajorityElectionAggregate : BaseHasContestAggregate
     {
         var sme = GetSecondaryMajorityElection(smeId);
 
-        if (sme.EVotingApproved == true)
+        if (!TestingPhaseEnded && sme.EVotingApproved == true)
         {
             throw new PoliticalBusinessEVotingApprovedException();
         }

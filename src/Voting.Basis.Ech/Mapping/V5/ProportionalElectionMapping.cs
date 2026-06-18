@@ -41,6 +41,61 @@ internal static class ProportionalElectionMapping
         return electionGroupBallot;
     }
 
+    internal static ProportionalElection ToBasisProportionalElection(this EventInitialDeliveryElectionGroupElectionInformation election, IdLookup idLookup)
+    {
+        var electionIdentification = election.Election.ElectionIdentification;
+        var id = idLookup.GuidForId(electionIdentification);
+
+        var shortDescriptionInfos = election
+            .Election
+            .ElectionDescription;
+        var shortDescriptions = shortDescriptionInfos.ToLanguageDictionary(
+            x => x.Language,
+            x => x.ElectionDescriptionShort ?? UnknownMapping.UnknownValue,
+            UnknownMapping.UnknownValue);
+
+        var descriptionInfos = election
+            .Election
+            .ElectionDescription;
+        var descriptions = descriptionInfos.ToLanguageDictionary(
+            x => x.Language,
+            x => x.ElectionDescription ?? UnknownMapping.UnknownValue,
+            UnknownMapping.UnknownValue);
+
+        var alreadyTakenListPositions = election.List
+            .Where(x => !string.IsNullOrEmpty(x.ListOrderOfPrecedence))
+            .Select(x => int.Parse(x.ListOrderOfPrecedence))
+            .ToList();
+
+        var electionInformationExtension = ElectionMapping.GetExtension(election.Extension?.Any);
+
+        var lists = election.List
+            ?.Where(l => !l.IsEmptyList)
+            .Select((l, i) => l.ToBasisList(id, idLookup, election.Candidate.ToArray(), electionInformationExtension?.Candidates, i + 1, alreadyTakenListPositions))
+            .OrderBy(x => x.Position)
+            .ToList()
+            ?? new List<ProportionalElectionList>();
+
+        var listUnions = election.ListUnion
+            ?.Select((lu, i) => lu.ToBasisListUnion(id, idLookup, i + 1))
+            .ToList()
+            ?? new List<ProportionalElectionListUnion>();
+
+        return new ProportionalElection
+        {
+            Id = id,
+            OfficialDescription = descriptions,
+            ShortDescription = shortDescriptions,
+            PoliticalBusinessNumber = election.Election.ElectionPosition,
+            NumberOfMandates = int.Parse(election.Election.NumberOfMandates),
+            ProportionalElectionLists = lists,
+            ProportionalElectionListUnions = listUnions,
+            MandateAlgorithm = ProportionalElectionMandateAlgorithm.HagenbachBischoff,
+            BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
+            ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
+        };
+    }
+
     private static EventInitialDeliveryElectionGroupElectionInformation ToEchElectionInformation(this ProportionalElection proportionalElection, bool eVoting)
     {
         var description = proportionalElection.ToEchElectionDescription(eVoting);

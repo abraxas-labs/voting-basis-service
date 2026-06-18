@@ -60,6 +60,8 @@ internal readonly struct ExceptionMapping
             MajorityElectionWithExistingSecondaryElectionsException => new(StatusCode.FailedPrecondition, StatusCodes.Status424FailedDependency, true),
             MajorityElectionCandidateIsInBallotGroupException => new(StatusCode.FailedPrecondition, StatusCodes.Status424FailedDependency, true),
             ContestTestingPhaseEndedException => new(StatusCode.FailedPrecondition, StatusCodes.Status424FailedDependency),
+            ContestTestingPhaseNotEndedException => new(StatusCode.FailedPrecondition, StatusCodes.Status424FailedDependency),
+            ContestTestingPhaseEndedMismatchException => new(StatusCode.FailedPrecondition, StatusCodes.Status424FailedDependency),
             ModificationNotAllowedException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed),
             CountingCircleInScheduledMergeException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
             CountingCirclesInScheduledMergeException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),

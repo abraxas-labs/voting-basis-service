@@ -13,8 +13,13 @@ public class MajorityElectionProfile : Profile
 {
     public MajorityElectionProfile()
     {
-        CreateMap<MajorityElection, MajorityElectionEventData>();
-        CreateMap<MajorityElectionEventData, MajorityElectionAggregate>();
+        CreateMap<MajorityElection, MajorityElectionEventData>()
+#pragma warning disable CS0612
+            .ForMember(dst => dst.FederalIdentification, opt => opt.Ignore())
+#pragma warning restore CS0612
+            .ForMember(dst => dst.FederalIdentificationString, opt => opt.MapFrom(src => src.FederalIdentification));
+        CreateMap<MajorityElectionEventData, MajorityElectionAggregate>()
+            .ForMember(dst => dst.FederalIdentification, opt => opt.MapFrom(src => src.FederalIdentificationString));
 
         CreateMap<MajorityElectionCandidate, MajorityElectionCandidateEventData>()
             .ForMember(dst => dst.Party, opts => opts.MapFrom(src => src.PartyShortDescription))

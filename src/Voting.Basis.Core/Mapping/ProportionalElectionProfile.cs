@@ -18,7 +18,8 @@ public class ProportionalElectionProfile : Profile
         CreateMap<ProportionalElectionListAfterTestingPhaseUpdated, ProportionalElectionList>(MemberList.Source)
             .ForSourceMember(src => src.EventInfo, opts => opts.DoNotValidate());
 
-        CreateMap<ProportionalElectionEventData, ProportionalElection>();
+        CreateMap<ProportionalElectionEventData, ProportionalElection>()
+            .ForMember(dst => dst.FederalIdentification, opt => opt.MapFrom(src => src.FederalIdentificationString));
         CreateMap<ProportionalElectionCandidateEventData, ProportionalElectionCandidate>();
         CreateMap<ProportionalElectionListEventData, ProportionalElectionList>();
         CreateMap<ProportionalElectionUnionEventData, ProportionalElectionUnion>();

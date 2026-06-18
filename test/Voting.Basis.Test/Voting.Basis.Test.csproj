@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-  
   <ItemGroup>
     <PackageReference Include="Voting.Lib.Database.Testing" Version="$(VotingLibVersion)" />
     <PackageReference Include="Voting.Lib.Eventing.Testing" Version="$(VotingLibVersion)" />
@@ -14,18 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ImportTests\TestFiles\eCH0157_both_election_types.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="ImportTests\TestFiles\eCH0159.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="ImportTests\TestFiles\eCH0159_invalid.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="ImportTests\TestFiles\eCH0159_all_types.xml">
+    <None Update="ImportTests\TestFiles\*.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  
 </Project>

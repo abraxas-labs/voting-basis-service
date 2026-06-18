@@ -14,7 +14,8 @@ public class MajorityElectionProfile : Profile
 {
     public MajorityElectionProfile()
     {
-        CreateMap<MajorityElectionEventData, MajorityElection>();
+        CreateMap<MajorityElectionEventData, MajorityElection>()
+            .ForMember(dst => dst.FederalIdentification, opt => opt.MapFrom(src => src.FederalIdentificationString));
         CreateMap<SecondaryMajorityElectionEventData, SecondaryMajorityElection>();
         CreateMap<MajorityElectionAfterTestingPhaseUpdated, MajorityElection>(MemberList.Source)
             .ForSourceMember(src => src.EventInfo, opts => opts.DoNotValidate());

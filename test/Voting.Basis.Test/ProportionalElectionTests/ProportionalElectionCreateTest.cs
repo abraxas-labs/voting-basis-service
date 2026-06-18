@@ -80,7 +80,7 @@ public class ProportionalElectionCreateTest : PoliticalBusinessAuthorizationGrpc
                     EnforceReviewProcedureForCountingCircles = true,
                     CandidateCheckDigit = false,
                     EnforceCandidateCheckDigitForCountingCircles = true,
-                    FederalIdentification = 29348929,
+                    FederalIdentificationString = "29348929",
                 },
             },
             new ProportionalElectionCreated
@@ -169,6 +169,7 @@ public class ProportionalElectionCreateTest : PoliticalBusinessAuthorizationGrpc
         {
             pe.ContestId = ContestMockedData.IdStGallenEvoting;
             pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
+            pe.FederalIdentification = string.Empty;
         }));
 
         var eventData = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionCreated>();
@@ -214,6 +215,7 @@ public class ProportionalElectionCreateTest : PoliticalBusinessAuthorizationGrpc
             {
                 o.ContestId = ContestMockedData.IdPastUnlockedContest;
                 o.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
+                o.FederalIdentification = string.Empty;
             })),
             StatusCode.FailedPrecondition,
             "Testing phase ended, cannot modify the contest");
@@ -237,6 +239,47 @@ public class ProportionalElectionCreateTest : PoliticalBusinessAuthorizationGrpc
         return AssertStatus(
             async () => await CantonAdminClient.CreateAsync(NewValidRequest(v => v.PoliticalBusinessNumber = "155")),
             StatusCode.AlreadyExists);
+    }
+
+    [Fact]
+    public Task FederalIdentificationOnMuShouldThrow()
+    {
+        return AssertStatus(
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(v => v.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau)),
+            StatusCode.InvalidArgument,
+            "Federal identification is only allowed for political businesses on federal or cantonal level.");
+    }
+
+    [Fact]
+    public async Task TestProcessorWithDeprecatedFederalIdentification()
+    {
+        var id = Guid.Parse("f6ebc06e-a252-4cf4-9aa7-9ad46dd517f3");
+        await TestEventPublisher.Publish(
+            new ProportionalElectionCreated
+            {
+                ProportionalElection = new ProportionalElectionEventData
+                {
+                    Id = id.ToString(),
+                    PoliticalBusinessNumber = "6001",
+                    OfficialDescription = { LanguageUtil.MockAllLanguages("Neue Proporzwahl") },
+                    ShortDescription = { LanguageUtil.MockAllLanguages("Proporzwahl") },
+                    DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen,
+                    ContestId = ContestMockedData.IdBundContest,
+                    NumberOfMandates = 3,
+                    MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.DoubleProportionalNDois5DoiOr3TotQuorum,
+                    BallotNumberGeneration = SharedProto.BallotNumberGeneration.RestartForEachBundle,
+                    ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Physically,
+#pragma warning disable CS0612
+                    FederalIdentification = 12345,
+#pragma warning restore CS0612
+                },
+            });
+
+        var proportionalElection = await CantonAdminClient.GetAsync(new GetProportionalElectionRequest
+        {
+            Id = id.ToString(),
+        });
+        proportionalElection.FederalIdentification.Should().Be("12345");
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
@@ -272,7 +315,7 @@ public class ProportionalElectionCreateTest : PoliticalBusinessAuthorizationGrpc
             ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
             EnforceCandidateCheckDigitForCountingCircles = true,
-            FederalIdentification = 29348929,
+            FederalIdentification = "29348929",
         };
 
         customizer?.Invoke(request);

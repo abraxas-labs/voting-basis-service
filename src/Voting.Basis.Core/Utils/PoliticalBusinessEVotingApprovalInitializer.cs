@@ -87,11 +87,7 @@ public class PoliticalBusinessEVotingApprovalInitializer
             }
             else
             {
-                // Deactivatess e-voting on political businesses,
-                politicalBusiness.EVotingApproved = null;
-
-                // To reactivate e-voting on political businesses, uncomment the following line.
-                // politicalBusiness.EVotingApproved = false;
+                politicalBusiness.EVotingApproved = false;
             }
         }
     }

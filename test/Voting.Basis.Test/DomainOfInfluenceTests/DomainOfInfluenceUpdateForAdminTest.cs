@@ -227,6 +227,31 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
     }
 
     [Fact]
+    public async Task TestProcessorWithNotSupportedStistatExportEaiMessageType()
+    {
+        await TestEventPublisher.Publish(new DomainOfInfluenceUpdated
+        {
+            DomainOfInfluence = new DomainOfInfluenceEventData
+            {
+                Id = DomainOfInfluenceMockedData.IdGossau,
+                Name = "Bund",
+                NameForProtocol = "Bund",
+                ShortName = "Bund",
+                SecureConnectId = SecureConnectTestDefaults.MockedTenantDefault.Id,
+                ParentId = string.Empty,
+                Type = SharedProto.DomainOfInfluenceType.Ch,
+                Canton = SharedProto.DomainOfInfluenceCanton.Zh,
+                StistatExportEaiMessageTypeSupported = false,
+                StistatExportEaiMessageType = "1234567",
+            },
+            EventInfo = GetMockedEventInfo(),
+        });
+
+        var doi = await AdminClient.GetAsync(new GetDomainOfInfluenceRequest { Id = DomainOfInfluenceMockedData.IdGossau });
+        doi.StistatExportEaiMessageType.Should().Be(string.Empty);
+    }
+
+    [Fact]
     public Task TestAggregateNotFound()
         => Assert.ThrowsAsync<EntityNotFoundException>(async () => await TestEventPublisher.Publish(
             new DomainOfInfluenceUpdated
@@ -298,6 +323,8 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
         votingCardDataUpdated.MatchSnapshot("votingCardDataUpdated");
 
         doiUpdated.DomainOfInfluence.ElectoralRegisterMultipleEnabled.Should().BeTrue();
+        doiUpdated.DomainOfInfluence.StistatExportEaiMessageType.Should().Be("1234568");
+        doiUpdated.DomainOfInfluence.StistatExportEaiMessageTypeSupported.Should().Be(true);
     }
 
     [Fact]
@@ -755,6 +782,15 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
             "Shortname has duplicate value for same type");
     }
 
+    [Fact]
+    public async Task ECollectingImportRootOnNonFederalLevelShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o => o.ECollectingImportRoot = true)),
+            StatusCode.InvalidArgument,
+            "Cannot set E-Collecting import root for non-federal domain of influence");
+    }
+
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
         => await new DomainOfInfluenceService.DomainOfInfluenceServiceClient(channel)
             .UpdateAsync(NewValidRequest());
@@ -917,6 +953,7 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
                     },
                 PlausibilisationConfiguration = DomainOfInfluenceMockedData.BuildPlausibilisationConfiguration(),
                 ECollectingEnabled = true,
+                ECollectingImportRoot = true,
             },
         };
         customizer?.Invoke(request.AdminRequest);

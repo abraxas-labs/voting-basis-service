@@ -45,6 +45,7 @@
     "VotingCardFlatRateDisabled": true,
     "IsMainVotingCardsDomainOfInfluence": true,
     "HasEmptyVotingCards": true,
-    "StistatExportEaiMessageType": ""
+    "StistatExportEaiMessageType": "",
+    "StistatExportEaiMessageTypeDeprecated": true
   }
 }

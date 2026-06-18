@@ -15,7 +15,17 @@ public class VoteProfile : Profile
         CreateMap<Vote, VoteEventData>();
         CreateMap<VoteEventData, VoteAggregate>();
         CreateMap<Ballot, BallotEventData>().ReverseMap();
-        CreateMap<BallotQuestion, BallotQuestionEventData>().ReverseMap();
-        CreateMap<TieBreakQuestion, TieBreakQuestionEventData>().ReverseMap();
+        CreateMap<BallotQuestion, BallotQuestionEventData>()
+#pragma warning disable CS0612
+            .ForMember(dst => dst.FederalIdentification, opt => opt.Ignore())
+#pragma warning restore CS0612
+            .ForMember(dst => dst.FederalIdentificationString, opt => opt.MapFrom(src => src.FederalIdentification))
+            .ReverseMap();
+        CreateMap<TieBreakQuestion, TieBreakQuestionEventData>()
+#pragma warning disable CS0612
+            .ForMember(dst => dst.FederalIdentification, opt => opt.Ignore())
+#pragma warning restore CS0612
+            .ForMember(dst => dst.FederalIdentificationString, opt => opt.MapFrom(src => src.FederalIdentification))
+            .ReverseMap();
     }
 }

@@ -13,7 +13,7 @@ using Voting.Lib.Ech.Ech0157_4_0.Schemas;
 
 namespace Voting.Basis.Ech.Converters.V4;
 
-public class Ech0157Deserializer
+public class Ech0157Deserializer : IEch0157Deserializer
 {
     private readonly EchDeserializer _deserializer;
 

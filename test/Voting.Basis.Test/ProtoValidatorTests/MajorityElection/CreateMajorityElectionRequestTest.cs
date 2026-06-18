@@ -38,6 +38,8 @@ public class CreateMajorityElectionRequestTest : ProtoValidatorBaseTest<CreateMa
         yield return NewValidRequest(x => x.ReportDomainOfInfluenceLevel = 10);
         yield return NewValidRequest(x => x.EnforceReviewProcedureForCountingCircles = false);
         yield return NewValidRequest(x => x.EnforceCandidateCheckDigitForCountingCircles = false);
+        yield return NewValidRequest(x => x.FederalIdentification = string.Empty);
+        yield return NewValidRequest(x => x.FederalIdentification = RandomStringUtil.GenerateComplexSingleLineText(50));
     }
 
     protected override IEnumerable<CreateMajorityElectionRequest> NotOkMessages()
@@ -75,6 +77,8 @@ public class CreateMajorityElectionRequestTest : ProtoValidatorBaseTest<CreateMa
         yield return NewValidRequest(x => x.ReportDomainOfInfluenceLevel = 11);
         yield return NewValidRequest(x => x.ReviewProcedure = MajorityElectionReviewProcedure.Unspecified);
         yield return NewValidRequest(x => x.ReviewProcedure = (MajorityElectionReviewProcedure)10);
+        yield return NewValidRequest(x => x.FederalIdentification = RandomStringUtil.GenerateSimpleSingleLineText(51));
+        yield return NewValidRequest(x => x.FederalIdentification = "invalid\n-number");
     }
 
     private CreateMajorityElectionRequest NewValidRequest(Action<CreateMajorityElectionRequest>? action = null)
@@ -102,6 +106,7 @@ public class CreateMajorityElectionRequestTest : ProtoValidatorBaseTest<CreateMa
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
             EnforceCandidateCheckDigitForCountingCircles = true,
+            FederalIdentification = "292834984",
         };
 
         action?.Invoke(request);

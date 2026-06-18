@@ -61,6 +61,32 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportPoliti
     }
 
     [Fact]
+    public async Task TestWithV5ShouldWork()
+    {
+        var request = await CreateValidRequest(true);
+        await CantonAdminClient.ImportProportionalElectionListsAndCandidatesAsync(request);
+
+        var listEvents = EventPublisherMock.GetPublishedEvents<ProportionalElectionListCreated>().ToList();
+
+        foreach (var listEvent in listEvents)
+        {
+            listEvent.ProportionalElectionList.Id = string.Empty;
+        }
+
+        listEvents.MatchSnapshot("lists");
+
+        var candidateCreatedEvents = EventPublisherMock.GetPublishedEvents<ProportionalElectionCandidateCreated>().ToList();
+
+        foreach (var candCreatedEvent in candidateCreatedEvents)
+        {
+            candCreatedEvent.ProportionalElectionCandidate.Id = string.Empty;
+            candCreatedEvent.ProportionalElectionCandidate.ProportionalElectionListId = string.Empty;
+        }
+
+        candidateCreatedEvents.MatchSnapshot("candidates");
+    }
+
+    [Fact]
     public async Task TestWithPartyShouldWork()
     {
         var request = await CreateValidRequest();
@@ -194,9 +220,9 @@ public class ImportProportionalElectionListsAndCandidatesTest : BaseImportPoliti
         yield return Roles.ElectionSupporter;
     }
 
-    private async Task<ImportProportionalElectionListsAndCandidatesRequest> CreateValidRequest()
+    private async Task<ImportProportionalElectionListsAndCandidatesRequest> CreateValidRequest(bool v5 = false)
     {
-        var contest = await LoadContestImport(SharedProto.ImportType.Ech157, EchTestFiles.GetTestFilePath(EchTestFiles.Ech0157FileName));
+        var contest = await LoadContestImport(SharedProto.ImportType.Ech157, EchTestFiles.GetTestFilePath(v5 ? EchTestFiles.Ech0157V5FileName : EchTestFiles.Ech0157FileName));
 
         var proportionalElectionImport = contest.ProportionalElections[0];
 

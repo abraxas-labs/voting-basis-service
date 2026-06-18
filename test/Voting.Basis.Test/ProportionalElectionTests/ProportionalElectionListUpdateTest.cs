@@ -15,6 +15,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -173,9 +174,13 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
     {
         var listId = Guid.Parse(ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestBund);
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+
+        var electionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(electionId);
+
         await CantonAdminClient.UpdateListAsync(new UpdateProportionalElectionListRequest
         {
-            ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund,
+            ProportionalElectionId = electionId,
             Id = listId.ToString(),
             BlankRowCount = 0,
             Position = 2,
@@ -201,10 +206,14 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
     public async Task ProportionalElectionListUpdateAfterTestingPhaseShouldRestrictSomeFields()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+
+        var electionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(electionId);
+
         await AssertStatus(
             async () => await CantonAdminClient.UpdateListAsync(NewValidRequest(o =>
             {
-                o.ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
+                o.ProportionalElectionId = electionId;
                 o.Id = ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestBund;
                 o.Position = 2;
             })),
@@ -216,10 +225,14 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
     public async Task ProportionalElectionListInLockedContestShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastLocked);
+
+        var electionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(electionId);
+
         await AssertStatus(
             async () => await CantonAdminClient.UpdateListAsync(NewValidRequest(o =>
             {
-                o.ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
+                o.ProportionalElectionId = electionId;
                 o.Id = ProportionalElectionMockedData.ListId2GossauProportionalElectionInContestBund;
                 o.Position = 2;
             })),
@@ -238,6 +251,24 @@ public class ProportionalElectionListUpdateTest : PoliticalBusinessAuthorization
             })),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedAndActiveContestShouldWork()
+    {
+        var request = NewValidRequest(x =>
+        {
+            x.Id = ProportionalElectionMockedData.ListId1GossauProportionalElectionEVotingApprovedInContestStGallen;
+            x.ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionEVotingApprovedInContestStGallen;
+            x.OrderNumber = "1";
+            x.BlankRowCount = 1;
+        });
+
+        await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(request.ProportionalElectionId);
+
+        await CantonAdminClient.UpdateListAsync(request);
+        EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionListAfterTestingPhaseUpdated>().Should().NotBeNull();
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

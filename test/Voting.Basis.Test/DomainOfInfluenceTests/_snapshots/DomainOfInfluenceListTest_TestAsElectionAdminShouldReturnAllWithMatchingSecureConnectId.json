@@ -60,7 +60,8 @@
       "HasEmptyVotingCards": false,
       "EVoting": null,
       "StistatExportEnabled": false,
-      "StistatExportEaiMessageType": ""
+      "StistatExportEaiMessageType": "",
+      "ECollectingImportRoot": false
     },
     {
       "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
@@ -122,7 +123,8 @@
       "HasEmptyVotingCards": false,
       "EVoting": null,
       "StistatExportEnabled": false,
-      "StistatExportEaiMessageType": ""
+      "StistatExportEaiMessageType": "",
+      "ECollectingImportRoot": false
     },
     {
       "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd",
@@ -201,7 +203,8 @@
       "HasEmptyVotingCards": true,
       "EVoting": null,
       "StistatExportEnabled": false,
-      "StistatExportEaiMessageType": ""
+      "StistatExportEaiMessageType": "",
+      "ECollectingImportRoot": false
     }
   ]
 }

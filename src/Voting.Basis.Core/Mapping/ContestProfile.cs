@@ -14,8 +14,5 @@ public sealed class ContestProfile : Profile
     {
         CreateMap<ContestEventData, Contest>()
             .ForMember(dst => dst.PastLockPer, opts => opts.MapFrom(src => src.Date.ToDateTime().NextUtcDate(true)));
-
-        CreateMap<PreconfiguredContestDateEventData, PreconfiguredContestDate>()
-            .ForMember(dst => dst.Id, opts => opts.MapFrom(src => src.Date));
     }
 }

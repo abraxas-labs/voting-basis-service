@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Voting.Basis.Core.Domain.Aggregate;
@@ -43,31 +44,58 @@ public class MajorityElectionCandidatesImportService
 
         var doi = await _domainOfInfluenceReader.Get(majorityElection.DomainOfInfluenceId);
 
-        var candidateValidationParams = new CandidateValidationParams(doi, false, true);
+        var candidateValidationParams = new CandidateValidationParams(doi, true);
         var contest = await _contestReader.Get(majorityElection.ContestId);
         if (contest.TestingPhaseEnded)
         {
             throw new ContestTestingPhaseEndedException();
         }
 
-        var currentCandidatePosition = majorityElection.Candidates.MaxOrDefault(c => c.Position);
-
+        var candidatesToImport = candidates.ToList();
         var idVerifier = new IdVerifier();
 
-        // An import always deletes all existing candidates.
-        var existingCandidates = majorityElection.Candidates.ToList();
-        for (var i = 0; i < existingCandidates.Count; i++)
+        foreach (var existingCandidate in majorityElection.Candidates)
         {
-            majorityElection.DeleteCandidate(existingCandidates[i].Id);
+            idVerifier.Add(existingCandidate.Id);
+
+            var matchingCandidate = candidatesToImport.Find(c => c.PoliticalFirstName == existingCandidate.PoliticalFirstName && c.PoliticalLastName == existingCandidate.PoliticalLastName);
+            if (matchingCandidate != null)
+            {
+                matchingCandidate.Id = existingCandidate.Id;
+                matchingCandidate.MajorityElectionId = existingCandidate.MajorityElectionId;
+                matchingCandidate.Position = existingCandidate.Position;
+                EnsureUniqueCandidateNumber(matchingCandidate, majorityElection);
+                majorityElection.UpdateCandidateFrom(matchingCandidate, candidateValidationParams);
+
+                candidatesToImport.Remove(matchingCandidate);
+            }
         }
 
-        foreach (var candidate in candidates)
+        foreach (var candidate in candidatesToImport)
         {
             candidate.MajorityElectionId = majorityElectionId;
+            candidate.Position = majorityElection.Candidates.Count + 1;
+            EnsureUniqueCandidateNumber(candidate, majorityElection);
             majorityElection.CreateCandidateFrom(candidate, candidateValidationParams);
+
             idVerifier.EnsureUnique(candidate.Id);
         }
 
         await _aggregateRepository.Save(majorityElection);
+    }
+
+    private void EnsureUniqueCandidateNumber(MajorityElectionCandidate candidate, MajorityElectionAggregate aggregate, int? currentNumber = null)
+    {
+        var alreadyExists = aggregate.Candidates.Any(c => c.Id != candidate.Id && c.Number == candidate.Number);
+        if (!alreadyExists)
+        {
+            return;
+        }
+
+        var newNumber = currentNumber.HasValue
+            ? currentNumber.Value + 1
+            : candidate.Position;
+        candidate.Number = newNumber.ToString(CultureInfo.InvariantCulture);
+        EnsureUniqueCandidateNumber(candidate, aggregate, newNumber);
     }
 }

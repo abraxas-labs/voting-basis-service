@@ -64,7 +64,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -126,7 +127,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       }
     ]
   },
@@ -195,7 +197,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -257,7 +260,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       }
     ]
   },
@@ -326,7 +330,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       {
         "Id": "c34f2f41-fca6-4248-86d7-091379cfd991",
@@ -388,7 +393,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       }
     ]
   },

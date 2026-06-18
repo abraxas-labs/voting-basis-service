@@ -93,7 +93,8 @@
         "HasEmptyVotingCards": true,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       "EVoting": true,
       "EVotingFrom": {
@@ -203,7 +204,8 @@
         "HasEmptyVotingCards": true,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       "EVoting": false,
       "EVotingFrom": null,

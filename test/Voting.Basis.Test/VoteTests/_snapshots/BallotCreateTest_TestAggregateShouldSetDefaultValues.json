@@ -32,7 +32,7 @@
             "rm": "Variante 1 neu rm"
           },
           "Type": 1,
-          "FederalIdentification": null
+          "FederalIdentification": ""
         },
         {
           "Number": 2,
@@ -43,7 +43,7 @@
             "rm": "Variante 2 neu rm"
           },
           "Type": 2,
-          "FederalIdentification": null
+          "FederalIdentification": ""
         },
         {
           "Number": 3,
@@ -54,7 +54,7 @@
             "rm": "Variante 3 neu rm"
           },
           "Type": 2,
-          "FederalIdentification": null
+          "FederalIdentification": ""
         }
       ],
       "VoteId": "607a9dbc-250a-4bbf-ab31-73c81f6556ba",
@@ -70,7 +70,7 @@
           },
           "Question1Number": 1,
           "Question2Number": 2,
-          "FederalIdentification": null
+          "FederalIdentification": ""
         },
         {
           "Number": 2,
@@ -82,7 +82,7 @@
           },
           "Question1Number": 1,
           "Question2Number": 3,
-          "FederalIdentification": null
+          "FederalIdentification": ""
         },
         {
           "Number": 3,
@@ -94,7 +94,7 @@
           },
           "Question1Number": 2,
           "Question2Number": 3,
-          "FederalIdentification": null
+          "FederalIdentification": ""
         }
       ],
       "SubType": 0,

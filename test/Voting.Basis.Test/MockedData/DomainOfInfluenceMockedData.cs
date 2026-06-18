@@ -119,6 +119,7 @@ public static class DomainOfInfluenceMockedData
                     PartyBundAndere,
             },
             StistatExportEaiMessageType = "5577812",
+            ECollectingImportRoot = true,
         };
 
     public static DomainOfInfluence StGallen

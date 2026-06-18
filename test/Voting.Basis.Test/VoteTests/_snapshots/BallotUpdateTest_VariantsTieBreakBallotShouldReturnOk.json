@@ -30,7 +30,8 @@
             "rm": "Frage 1 rm"
           },
           "Type": 1,
-          "FederalIdentification": 29348929
+          "FederalIdentification": null,
+          "FederalIdentificationString": "29348929"
         },
         {
           "Number": 2,
@@ -41,7 +42,8 @@
             "rm": "Frage 2 rm"
           },
           "Type": 3,
-          "FederalIdentification": null
+          "FederalIdentification": null,
+          "FederalIdentificationString": ""
         },
         {
           "Number": 3,
@@ -52,7 +54,8 @@
             "rm": "Frage 3 rm"
           },
           "Type": 3,
-          "FederalIdentification": null
+          "FederalIdentification": null,
+          "FederalIdentificationString": ""
         }
       ],
       "VoteId": "96d8275f-f1f8-4933-a097-5c0c19f54567",
@@ -68,7 +71,8 @@
           },
           "Question1Number": 1,
           "Question2Number": 2,
-          "FederalIdentification": null
+          "FederalIdentification": null,
+          "FederalIdentificationString": ""
         },
         {
           "Number": 2,
@@ -80,7 +84,8 @@
           },
           "Question1Number": 1,
           "Question2Number": 3,
-          "FederalIdentification": null
+          "FederalIdentification": null,
+          "FederalIdentificationString": ""
         },
         {
           "Number": 3,
@@ -92,7 +97,8 @@
           },
           "Question1Number": 2,
           "Question2Number": 3,
-          "FederalIdentification": null
+          "FederalIdentification": null,
+          "FederalIdentificationString": ""
         }
       ],
       "SubType": 0,

@@ -30,7 +30,8 @@
             "rm": "Stichfrage 2 rm"
           },
           "Type": 1,
-          "FederalIdentification": null
+          "FederalIdentification": null,
+          "FederalIdentificationString": ""
         }
       ],
       "VoteId": "daf1dc06-3b08-4a24-9c76-e25e05b9d0ef",

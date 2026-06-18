@@ -14,6 +14,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -171,6 +172,7 @@ public class MajorityElectionBallotGroupUpdateTest : PoliticalBusinessAuthorizat
     public async Task BallotGroupInLockedContestShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.Archived);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(MajorityElectionMockedData.IdGossauMajorityElectionInContestBund);
         await AssertStatus(
             async () => await CantonAdminClient.UpdateBallotGroupAsync(new UpdateMajorityElectionBallotGroupRequest
             {

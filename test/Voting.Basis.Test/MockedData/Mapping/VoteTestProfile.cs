@@ -19,7 +19,15 @@ public class VoteTestProfile : Profile
 
         CreateMap<ProtoModels.Vote, VoteEventData>();
         CreateMap<ProtoModels.Ballot, BallotEventData>();
-        CreateMap<ProtoModels.BallotQuestion, BallotQuestionEventData>();
-        CreateMap<ProtoModels.TieBreakQuestion, TieBreakQuestionEventData>();
+        CreateMap<ProtoModels.BallotQuestion, BallotQuestionEventData>()
+#pragma warning disable CS0612
+            .ForMember(dst => dst.FederalIdentification, opt => opt.Ignore())
+#pragma warning restore CS0612
+            .ForMember(dst => dst.FederalIdentificationString, opt => opt.MapFrom(src => src.FederalIdentification));
+        CreateMap<ProtoModels.TieBreakQuestion, TieBreakQuestionEventData>()
+#pragma warning disable CS0612
+            .ForMember(dst => dst.FederalIdentification, opt => opt.Ignore())
+#pragma warning restore CS0612
+            .ForMember(dst => dst.FederalIdentificationString, opt => opt.MapFrom(src => src.FederalIdentification));
     }
 }

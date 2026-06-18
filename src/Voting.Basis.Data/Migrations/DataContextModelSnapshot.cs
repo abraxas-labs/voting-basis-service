@@ -114,8 +114,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<Guid>("BallotId")
                         .HasColumnType("uuid");
 
-                    b.Property<int?>("FederalIdentification")
-                        .HasColumnType("integer");
+                    b.Property<string>("FederalIdentification")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("Number")
                         .HasColumnType("integer");
@@ -595,6 +596,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("ECollectingEnabled")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("ECollectingImportRoot")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("ElectoralRegisterMultipleEnabled")
                         .HasColumnType("boolean");
 
@@ -1050,8 +1054,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("EnforceReviewProcedureForCountingCircles")
                         .HasColumnType("boolean");
 
-                    b.Property<int?>("FederalIdentification")
-                        .HasColumnType("integer");
+                    b.Property<string>("FederalIdentification")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("IndividualCandidatesDisabled")
                         .HasColumnType("boolean");
@@ -1392,16 +1397,6 @@ namespace Voting.Basis.Data.Migrations
                     b.ToTable("PoliticalAssemblies");
                 });
 
-            modelBuilder.Entity("Voting.Basis.Data.Models.PreconfiguredContestDate", b =>
-                {
-                    b.Property<DateTime>("Id")
-                        .HasColumnType("date");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PreconfiguredContestDates");
-                });
-
             modelBuilder.Entity("Voting.Basis.Data.Models.ProportionalElection", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1453,8 +1448,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("EnforceReviewProcedureForCountingCircles")
                         .HasColumnType("boolean");
 
-                    b.Property<int?>("FederalIdentification")
-                        .HasColumnType("integer");
+                    b.Property<string>("FederalIdentification")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("MandateAlgorithm")
                         .HasColumnType("integer");
@@ -2238,6 +2234,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("ECollectingEnabled")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("ECollectingImportRoot")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("ElectoralRegisterMultipleEnabled")
                         .HasColumnType("boolean");
 
@@ -2335,8 +2334,9 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<Guid>("BallotId")
                         .HasColumnType("uuid");
 
-                    b.Property<int?>("FederalIdentification")
-                        .HasColumnType("integer");
+                    b.Property<string>("FederalIdentification")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("Number")
                         .HasColumnType("integer");

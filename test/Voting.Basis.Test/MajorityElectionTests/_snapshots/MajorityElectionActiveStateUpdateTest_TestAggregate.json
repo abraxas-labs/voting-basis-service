@@ -33,7 +33,7 @@
   "EnforceReviewProcedureForCountingCircles": true,
   "EnforceCandidateCheckDigitForCountingCircles": false,
   "IndividualCandidatesDisabled": false,
-  "FederalIdentification": null,
+  "FederalIdentification": "",
   "EVotingApproved": false,
   "EVotingEverApproved": false
 }

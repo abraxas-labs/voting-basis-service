@@ -27,7 +27,8 @@
           "rm": "Frage 1 Gossau (geändert) rm"
         },
         "Type": 1,
-        "FederalIdentification": null
+        "FederalIdentification": null,
+        "FederalIdentificationString": ""
       },
       {
         "Number": 2,
@@ -38,7 +39,8 @@
           "rm": "Frage 2 Gossau (geändert) rm"
         },
         "Type": 3,
-        "FederalIdentification": null
+        "FederalIdentification": null,
+        "FederalIdentificationString": ""
       }
     ],
     "TieBreakQuestions": [
@@ -52,7 +54,8 @@
         },
         "Question1Number": 1,
         "Question2Number": 2,
-        "FederalIdentification": null
+        "FederalIdentification": null,
+        "FederalIdentificationString": ""
       }
     ],
     "VoteId": "76d9b4bd-52e6-462e-9613-f344f7b860df"
@@ -91,7 +94,7 @@
               "rm": "Frage 1 Gossau (geändert) rm"
             },
             "Type": 1,
-            "FederalIdentification": null
+            "FederalIdentification": ""
           },
           {
             "Number": 2,
@@ -102,7 +105,7 @@
               "rm": "Frage 2 Gossau (geändert) rm"
             },
             "Type": 3,
-            "FederalIdentification": null
+            "FederalIdentification": ""
           }
         ],
         "VoteId": "76d9b4bd-52e6-462e-9613-f344f7b860df",
@@ -118,7 +121,7 @@
             },
             "Question1Number": 1,
             "Question2Number": 2,
-            "FederalIdentification": null
+            "FederalIdentification": ""
           }
         ],
         "SubType": 0,

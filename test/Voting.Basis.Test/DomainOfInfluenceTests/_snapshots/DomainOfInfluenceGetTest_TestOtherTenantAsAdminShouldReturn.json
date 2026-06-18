@@ -166,5 +166,6 @@
   "HasEmptyVotingCards": false,
   "EVoting": false,
   "StistatExportEnabled": false,
-  "StistatExportEaiMessageType": ""
+  "StistatExportEaiMessageType": "",
+  "ECollectingImportRoot": false
 }

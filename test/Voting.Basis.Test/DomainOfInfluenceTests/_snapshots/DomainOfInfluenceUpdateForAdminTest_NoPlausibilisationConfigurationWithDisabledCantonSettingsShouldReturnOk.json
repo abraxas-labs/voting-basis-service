@@ -39,7 +39,10 @@
       "PublishResultsDisabled": true,
       "HideLowerDomainOfInfluencesInReports": false,
       "ElectoralRegisterMultipleEnabled": false,
-      "ECollectingEnabled": false
+      "ECollectingEnabled": false,
+      "ECollectingImportRoot": false,
+      "StistatExportEaiMessageType": "",
+      "StistatExportEaiMessageTypeSupported": true
     }
   }
 }

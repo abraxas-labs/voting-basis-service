@@ -12,6 +12,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -112,20 +113,27 @@ public class ProportionalElectionEVotingApprovalUpdateTest : PoliticalBusinessAu
     [Fact]
     public async Task ProportionalElectionInContestWithEndedTestingPhaseShouldWork()
     {
+        var request = NewValidRequest();
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.PastUnlocked);
-        await CantonAdminClient.UpdateEVotingApprovalAsync(NewValidRequest());
-        EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionEVotingApprovalUpdated>()
-            .Should().NotBeNull();
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(request.Id);
+
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateEVotingApprovalAsync(request),
+            StatusCode.FailedPrecondition,
+            nameof(ContestTestingPhaseEndedException));
     }
 
     [Fact]
     public async Task ProportionalElectionInContestLockedShouldThrow()
     {
+        var request = NewValidRequest();
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.PastLocked);
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(request.Id);
+
         await AssertStatus(
-            async () => await CantonAdminClient.UpdateEVotingApprovalAsync(NewValidRequest()),
+            async () => await CantonAdminClient.UpdateEVotingApprovalAsync(request),
             StatusCode.FailedPrecondition,
-            nameof(ContestLockedException));
+            nameof(ContestTestingPhaseEndedException));
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

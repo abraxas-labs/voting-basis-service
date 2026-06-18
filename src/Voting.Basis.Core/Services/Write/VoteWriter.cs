@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using Voting.Basis.Core.Domain.Aggregate;
@@ -82,7 +83,8 @@ public class VoteWriter : PoliticalBusinessWriter
             data.PoliticalBusinessNumber,
             PoliticalBusinessType.Vote,
             data.ReportDomainOfInfluenceLevel);
-        var contestState = await _contestValidationService.EnsureNotLocked(data.ContestId);
+        var vote = await _aggregateRepository.GetById<VoteAggregate>(data.Id);
+        var contestState = await _contestValidationService.EnsureNotLockedAndContestStateSynced(vote);
 
         var voteModel = await _voteRepository.GetByKey(data.Id)
             ?? throw new EntityNotFoundException(nameof(Domain.Vote), data.Id);
@@ -92,7 +94,6 @@ public class VoteWriter : PoliticalBusinessWriter
             throw new ValidationException($"{nameof(voteModel.ContestId)} is immutable.");
         }
 
-        var vote = await _aggregateRepository.GetById<VoteAggregate>(data.Id);
         if (contestState.TestingPhaseEnded())
         {
             vote.UpdateAfterTestingPhaseEnded(data);
@@ -110,7 +111,7 @@ public class VoteWriter : PoliticalBusinessWriter
         var vote = await _aggregateRepository.GetById<VoteAggregate>(voteId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(vote.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(vote);
 
         vote.UpdateActiveState(active);
         await _aggregateRepository.Save(vote);
@@ -124,7 +125,7 @@ public class VoteWriter : PoliticalBusinessWriter
 
         // E-Voting approval is a special permission, which can be applied even if the user has only read political business readpermissions.
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(vote.DomainOfInfluenceId, true);
-        await _contestValidationService.EnsureNotLocked(vote.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(vote);
         await _contestValidationService.EnsureCanChangePoliticalBusinessEVotingApproval(vote.ContestId, approved);
 
         if (approved && !vote.Active)
@@ -141,7 +142,7 @@ public class VoteWriter : PoliticalBusinessWriter
         var vote = await _aggregateRepository.GetById<VoteAggregate>(voteId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(vote.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(vote);
 
         vote.Delete();
         await _aggregateRepository.Save(vote);
@@ -152,7 +153,8 @@ public class VoteWriter : PoliticalBusinessWriter
         var vote = await _aggregateRepository.GetById<VoteAggregate>(data.VoteId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(vote.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(vote);
+        await EnsureFederalIdentificationOnlyOnChOrCtLevel(vote.DomainOfInfluenceId, data);
 
         if (data.Position != 1)
         {
@@ -169,7 +171,8 @@ public class VoteWriter : PoliticalBusinessWriter
         var vote = await _aggregateRepository.GetById<VoteAggregate>(data.VoteId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(vote.DomainOfInfluenceId, false);
-        var contestState = await _contestValidationService.EnsureNotLocked(vote.ContestId);
+        var contestState = await _contestValidationService.EnsureNotLockedAndContestStateSynced(vote);
+        await EnsureFederalIdentificationOnlyOnChOrCtLevel(vote.DomainOfInfluenceId, data);
 
         if (contestState.TestingPhaseEnded())
         {
@@ -188,7 +191,7 @@ public class VoteWriter : PoliticalBusinessWriter
         var vote = await _aggregateRepository.GetById<VoteAggregate>(voteId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(vote.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureInTestingPhase(vote.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(vote);
 
         vote.DeleteBallot(id);
         await _aggregateRepository.Save(vote);
@@ -205,6 +208,13 @@ public class VoteWriter : PoliticalBusinessWriter
 
         await _aggregateRepository.Save(vote);
         return true;
+    }
+
+    internal async Task EndTestingPhase(Guid id)
+    {
+        var vote = await _aggregateRepository.GetById<VoteAggregate>(id);
+        vote.EndTestingPhase();
+        await _aggregateRepository.Save(vote, false);
     }
 
     internal override async Task DeleteWithoutChecks(List<Guid> ids)
@@ -249,5 +259,25 @@ public class VoteWriter : PoliticalBusinessWriter
         }
 
         throw new ValidationException($"The ballot position {ballotPosition} is invalid, is non-continuous.");
+    }
+
+    private async Task EnsureFederalIdentificationOnlyOnChOrCtLevel(
+        Guid domainOfInfluenceId,
+        Ballot ballot)
+    {
+        var doi = await _doiRepository.GetByKey(domainOfInfluenceId)
+                  ?? throw new EntityNotFoundException(nameof(DomainOfInfluence), domainOfInfluenceId);
+
+        if (doi.Type is DomainOfInfluenceType.Ch or DomainOfInfluenceType.Ct)
+        {
+            return;
+        }
+
+        if (ballot.BallotQuestions.Any(ballotQuestion => !string.IsNullOrEmpty(ballotQuestion.FederalIdentification)) ||
+            ballot.TieBreakQuestions.Any(tieBreakQuestion => !string.IsNullOrEmpty(tieBreakQuestion.FederalIdentification)))
+        {
+            throw new ValidationException(
+                "Federal identification is only allowed for political businesses on federal or cantonal level.");
+        }
     }
 }

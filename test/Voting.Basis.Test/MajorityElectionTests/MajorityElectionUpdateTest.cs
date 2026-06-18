@@ -15,6 +15,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -140,6 +141,7 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
             async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
             {
                 o.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
+                o.FederalIdentification = string.Empty;
             })),
             StatusCode.FailedPrecondition,
             nameof(ModificationNotAllowedException));
@@ -178,6 +180,7 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         var id = Guid.Parse(MajorityElectionMockedData.IdGossauMajorityElectionInContestBund);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(id.ToString());
 
         await ElectionAdminClient.UpdateAsync(new UpdateMajorityElectionRequest
         {
@@ -216,12 +219,17 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
     public async Task MajorityElectionUpdateAfterTestingPhaseShouldRestrictSomeFields()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+
+        var id = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund;
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(id);
+
         await AssertStatus(
             async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(o =>
             {
                 o.Id = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund;
                 o.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
                 o.ContestId = ContestMockedData.IdBundContest;
+                o.FederalIdentification = string.Empty;
             })),
             StatusCode.FailedPrecondition,
             "ModificationNotAllowedException: Some modifications are not allowed because the testing phase has ended.");
@@ -231,12 +239,17 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
     public async Task MajorityElectionInLockedContestShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastLocked);
+
+        var id = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund;
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(id);
+
         await AssertStatus(
             async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(o =>
             {
-                o.Id = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund;
+                o.Id = id;
                 o.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
                 o.ContestId = ContestMockedData.IdPastLockedContest;
+                o.FederalIdentification = string.Empty;
             })),
             StatusCode.FailedPrecondition,
             "Contest is past locked or archived");
@@ -252,6 +265,42 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
             })),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedAndActiveContestShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
+
+        var electionId = MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen;
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(electionId);
+
+        await CantonAdminClient.UpdateAsync(new()
+        {
+            Id = electionId,
+            ContestId = ContestMockedData.IdStGallenEvoting,
+            PoliticalBusinessNumber = "MEV",
+            OfficialDescription = { LanguageUtil.MockAllLanguages("Majorzwahl Gossau E-Voting Update") },
+            ShortDescription = { LanguageUtil.MockAllLanguages("Majorzwahl Gossau E-Voting Update") },
+            DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau,
+            Active = true,
+            AutomaticEmptyVoteCounting = true,
+            EnforceEmptyVoteCountingForCountingCircles = true,
+            BallotBundleSize = 10,
+            AutomaticBallotBundleNumberGeneration = true,
+            BallotNumberGeneration = SharedProto.BallotNumberGeneration.RestartForEachBundle,
+            ResultEntry = SharedProto.MajorityElectionResultEntry.FinalResults,
+            EnforceResultEntryForCountingCircles = false,
+            CandidateCheckDigit = true,
+            MandateAlgorithm = SharedProto.MajorityElectionMandateAlgorithm.AbsoluteMajority,
+            NumberOfMandates = 3,
+            ReviewProcedure = SharedProto.MajorityElectionReviewProcedure.Electronically,
+            EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = false,
+        });
+
+        var ev = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionAfterTestingPhaseUpdated>();
+        ev.Should().NotBeNull();
     }
 
     [Fact]
@@ -295,6 +344,7 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
             {
                 x.Id = MajorityElectionMockedData.IdUzwilMajorityElectionInContestStGallen;
                 x.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdUzwil;
+                x.FederalIdentification = string.Empty;
             })),
             StatusCode.InvalidArgument,
             "Cannot disable individual candidates when there are individual candidates vote count defined on ballot group entries");
@@ -307,6 +357,33 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
             async () => await ElectionAdminClient.UpdateAsync(NewValidRequest(v => v.NumberOfMandates = 1)),
             StatusCode.FailedPrecondition,
             nameof(MajorityElectionActiveNumberOfMandatesChangeException));
+    }
+
+    [Fact]
+    public Task FederalIdentificationOnMuShouldThrow()
+    {
+        return AssertStatus(
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(v =>
+            {
+                v.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
+                v.ReportDomainOfInfluenceLevel = 0;
+            })),
+            StatusCode.InvalidArgument,
+            "Federal identification is only allowed for political businesses on federal or cantonal level.");
+    }
+
+    [Fact]
+    public async Task TestProcessorWithDeprecatedFederalIdentification()
+    {
+#pragma warning disable CS0612
+        await TestEventPublisher.Publish(NewValidEvent(x => x.MajorityElection.FederalIdentification = 12345));
+#pragma warning restore CS0612
+
+        var majorityElection = await CantonAdminClient.GetAsync(new GetMajorityElectionRequest
+        {
+            Id = MajorityElectionMockedData.IdStGallenMajorityElectionInContestStGallen,
+        });
+        majorityElection.FederalIdentification.Should().Be("12345");
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
@@ -347,7 +424,7 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
             EnforceReviewProcedureForCountingCircles = true,
             EnforceCandidateCheckDigitForCountingCircles = true,
             IndividualCandidatesDisabled = true,
-            FederalIdentification = 92834984,
+            FederalIdentification = "92834984",
         };
 
         customizer?.Invoke(request);
@@ -383,7 +460,7 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
                 EnforceReviewProcedureForCountingCircles = true,
                 EnforceCandidateCheckDigitForCountingCircles = true,
                 IndividualCandidatesDisabled = true,
-                FederalIdentification = 92834984,
+                FederalIdentificationString = "92834984",
             },
         };
 

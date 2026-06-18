@@ -14,6 +14,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -225,10 +226,13 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     [Fact]
     public async Task BallotUpdateAfterTestingPhaseShouldWork()
     {
+        var voteId = VoteMockedData.IdGossauVoteInContestBund;
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<VoteAggregate>(voteId);
+
         await ElectionAdminClient.UpdateBallotAsync(new UpdateBallotRequest
         {
-            VoteId = VoteMockedData.IdGossauVoteInContestBund,
+            VoteId = voteId,
             Id = VoteMockedData.BallotIdGossauVoteInContestBund,
             BallotType = SharedProto.BallotType.VariantsBallot,
             BallotQuestions =
@@ -273,11 +277,14 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     [Fact]
     public async Task BallotUpdateAfterTestingPhaseShouldRestrictSomeFields()
     {
+        var voteId = VoteMockedData.IdGossauVoteInContestBund;
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<VoteAggregate>(voteId);
+
         await AssertStatus(
             async () => await ElectionAdminClient.UpdateBallotAsync(new UpdateBallotRequest
             {
-                VoteId = VoteMockedData.IdGossauVoteInContestBund,
+                VoteId = voteId,
                 Id = VoteMockedData.BallotIdGossauVoteInContestBund,
                 BallotType = SharedProto.BallotType.StandardBallot,
                 BallotQuestions =
@@ -347,11 +354,14 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     [Fact]
     public async Task BallotInLockedContestShouldThrow()
     {
+        var voteId = VoteMockedData.IdGossauVoteInContestBund;
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastLocked);
+        await SetPoliticalBusinessTestingPhaseEnded<VoteAggregate>(voteId);
+
         await AssertStatus(
             async () => await ElectionAdminClient.UpdateBallotAsync(NewValidRequest(x =>
             {
-                x.VoteId = VoteMockedData.IdGossauVoteInContestBund;
+                x.VoteId = voteId;
                 x.Id = VoteMockedData.BallotIdGossauVoteInContestBund;
             })),
             StatusCode.FailedPrecondition,
@@ -361,14 +371,77 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     [Fact]
     public async Task ModificationWithEVotingApprovedShouldThrow()
     {
+        var request = NewValidRequest(x =>
+        {
+            x.VoteId = VoteMockedData.IdGossauVoteEVotingApprovedInContestStGallen;
+            x.Id = VoteMockedData.BallotIdGossauVoteEVotingApprovedInContestStGallen;
+        });
+        request.BallotQuestions[0].FederalIdentification = string.Empty;
         await AssertStatus(
-            async () => await ElectionAdminClient.UpdateBallotAsync(NewValidRequest(x =>
-            {
-                x.VoteId = VoteMockedData.IdGossauVoteEVotingApprovedInContestStGallen;
-                x.Id = VoteMockedData.BallotIdGossauVoteEVotingApprovedInContestStGallen;
-            })),
+            async () => await ElectionAdminClient.UpdateBallotAsync(request),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedAndActiveContestShouldWork()
+    {
+        var request = NewValidRequest(x =>
+        {
+            x.VoteId = VoteMockedData.IdGossauVoteEVotingApprovedInContestStGallen;
+            x.Id = VoteMockedData.BallotIdGossauVoteEVotingApprovedInContestStGallen;
+        });
+        request.BallotQuestions[0].FederalIdentification = string.Empty;
+
+        await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
+        await SetPoliticalBusinessTestingPhaseEnded<VoteAggregate>(request.VoteId);
+
+        await ElectionAdminClient.UpdateBallotAsync(request);
+        EventPublisherMock.GetSinglePublishedEvent<BallotAfterTestingPhaseUpdated>().Should().NotBeNull();
+    }
+
+    [Fact]
+    public Task FederalIdentificationOnMuShouldThrow()
+    {
+        return AssertStatus(
+            async () => await CantonAdminClient.UpdateBallotAsync(NewValidRequest(v => v.VoteId = VoteMockedData.IdUzwilVoteInContestBund)),
+            StatusCode.InvalidArgument,
+            "Federal identification is only allowed for political businesses on federal or cantonal level.");
+    }
+
+    [Fact]
+    public async Task TestProcessorWithDeprecatedFederalIdentification()
+    {
+        await TestEventPublisher.Publish(
+            new BallotUpdated
+            {
+                Ballot = NewValidEventData(x =>
+                {
+                    x.VoteId = VoteMockedData.IdUzwilVoteInContestBund;
+                    foreach (var ballotQuestion in x.BallotQuestions)
+                    {
+#pragma warning disable CS0612
+                        ballotQuestion.FederalIdentification = 12345;
+#pragma warning restore CS0612
+                    }
+
+                    foreach (var tieBreakQuestion in x.TieBreakQuestions)
+                    {
+#pragma warning disable CS0612
+                        tieBreakQuestion.FederalIdentification = 12345;
+#pragma warning restore CS0612
+                    }
+                }),
+            });
+
+        var response = await CantonAdminClient.GetAsync(new GetVoteRequest
+        {
+            Id = VoteMockedData.IdUzwilVoteInContestBund,
+        });
+
+        response.Ballots[0].BallotQuestions[0].FederalIdentification.Should().Be("12345");
+        response.Ballots[0].BallotQuestions[1].FederalIdentification.Should().Be("12345");
+        response.Ballots[0].TieBreakQuestions[0].FederalIdentification.Should().Be("12345");
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
@@ -397,7 +470,7 @@ public class BallotUpdateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
                         Number = 1,
                         Question = { LanguageUtil.MockAllLanguages("Frage 1") },
                         Type = SharedProto.BallotQuestionType.MainBallot,
-                        FederalIdentification = 29348929,
+                        FederalIdentification = "29348929",
                     },
                 },
         };

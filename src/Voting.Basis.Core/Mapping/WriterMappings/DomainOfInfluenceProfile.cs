@@ -13,8 +13,14 @@ public class DomainOfInfluenceProfile : Profile
     public DomainOfInfluenceProfile()
     {
         CreateMap<Domain.DomainOfInfluence, DomainOfInfluenceEventData>();
-        CreateMap<DomainOfInfluenceEventData, DomainOfInfluenceAggregate>();
-        CreateMap<DomainOfInfluenceVotingCardDataUpdated, DomainOfInfluenceAggregate>();
+        CreateMap<DomainOfInfluenceEventData, DomainOfInfluenceAggregate>()
+            .ForMember(
+                dst => dst.StistatExportEaiMessageType,
+                opt => opt.Condition(src => src.StistatExportEaiMessageTypeSupported));
+        CreateMap<DomainOfInfluenceVotingCardDataUpdated, DomainOfInfluenceAggregate>()
+            .ForMember(
+                dst => dst.StistatExportEaiMessageType,
+                opt => opt.Condition(src => !src.StistatExportEaiMessageTypeDeprecated));
         CreateMap<Domain.DomainOfInfluenceCountingCircleEntries, DomainOfInfluenceCountingCircleEntriesEventData>();
         CreateMap<Domain.DomainOfInfluenceVotingCardReturnAddress, DomainOfInfluenceVotingCardReturnAddressEventData>().ReverseMap();
         CreateMap<Domain.DomainOfInfluenceVotingCardPrintData, DomainOfInfluenceVotingCardPrintDataEventData>().ReverseMap();

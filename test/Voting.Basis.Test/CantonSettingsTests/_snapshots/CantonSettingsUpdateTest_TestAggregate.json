@@ -210,6 +210,7 @@
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
+        "ECollectingImportRoot": false,
         "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79"
       },
       {
@@ -298,6 +299,7 @@
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
+        "ECollectingImportRoot": false,
         "Id": "22949a1e-fb09-47ec-9e9f-d26675676565"
       },
       {
@@ -386,6 +388,7 @@
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
+        "ECollectingImportRoot": false,
         "Id": "692be088-00e2-490c-b1fd-828adc38571d"
       },
       {
@@ -474,6 +477,7 @@
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
+        "ECollectingImportRoot": false,
         "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752"
       },
       {
@@ -579,6 +583,7 @@
         "HasEmptyVotingCards": true,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": true,
+        "ECollectingImportRoot": false,
         "Id": "a18b1c6a-6b66-43e4-a7d2-a440a7025dbd"
       },
       {
@@ -667,6 +672,7 @@
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
+        "ECollectingImportRoot": false,
         "Id": "ade30989-5e28-40c7-918c-2c9408f853ba"
       },
       {
@@ -755,6 +761,7 @@
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
+        "ECollectingImportRoot": false,
         "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b"
       },
       {
@@ -843,6 +850,7 @@
         "HasEmptyVotingCards": false,
         "HideLowerDomainOfInfluencesInReports": false,
         "ECollectingEnabled": false,
+        "ECollectingImportRoot": true,
         "Id": "eae2cfaf-c787-48b9-a108-c975b0a580da"
       }
     ]

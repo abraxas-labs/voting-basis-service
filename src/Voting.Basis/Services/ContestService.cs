@@ -81,11 +81,22 @@ public class ContestService : ServiceBase
     }
 
     [AuthorizeAnyPermission(Permissions.Contest.ReadTenantHierarchy, Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll)]
-    public override async Task<PreconfiguredContestDates> ListFuturePreconfiguredDates(
+    public override Task<PreconfiguredContestDates> ListFuturePreconfiguredDates(
         ListFuturePreconfiguredDatesRequest request, ServerCallContext context)
     {
-        var preconfiguredDates = await _contestReader.ListFuturePreconfiguredDates();
-        return _mapper.Map<PreconfiguredContestDates>(preconfiguredDates);
+        var preconfiguredDates = _contestReader.ListFuturePreconfiguredDates();
+        var result = new PreconfiguredContestDates
+        {
+            PreconfiguredContestDates_ =
+            {
+                preconfiguredDates.Select(d => new PreconfiguredContestDate
+                {
+                    Date = d.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc).ToTimestamp(),
+                }),
+            },
+        };
+
+        return Task.FromResult(result);
     }
 
     [AuthorizeAnyPermission(Permissions.Contest.ReadTenantHierarchy, Permissions.Contest.ReadSameCanton, Permissions.Contest.ReadAll)]

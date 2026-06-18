@@ -13,6 +13,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -80,10 +81,14 @@ public class MajorityElectionCandidateReorderTest : PoliticalBusinessAuthorizati
     public async Task MajorityElectionInContestWithEndedTestingPhaseShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+
+        var electionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund;
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(electionId);
+
         await AssertStatus(
             async () => await ElectionAdminClient.ReorderCandidatesAsync(new ReorderMajorityElectionCandidatesRequest
             {
-                MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestBund,
+                MajorityElectionId = electionId,
                 Orders = new ProtoModels.EntityOrders
                 {
                     Orders =

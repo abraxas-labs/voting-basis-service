@@ -30,7 +30,8 @@
             "rm": "Frage 1 rm"
           },
           "Type": 1,
-          "FederalIdentification": 29348929
+          "FederalIdentification": null,
+          "FederalIdentificationString": "29348929"
         },
         {
           "Number": 2,
@@ -41,7 +42,8 @@
             "rm": "Frage 2 rm"
           },
           "Type": 2,
-          "FederalIdentification": null
+          "FederalIdentification": null,
+          "FederalIdentificationString": ""
         }
       ],
       "VoteId": "607a9dbc-250a-4bbf-ab31-73c81f6556ba",

@@ -43,5 +43,5 @@ public class ProportionalElection : PoliticalBusiness
 
     public bool EnforceCandidateCheckDigitForCountingCircles { get; set; }
 
-    public int? FederalIdentification { get; set; }
+    public string FederalIdentification { get; set; } = string.Empty;
 }

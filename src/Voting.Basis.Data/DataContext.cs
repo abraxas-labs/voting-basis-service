@@ -33,8 +33,6 @@ public class DataContext : DbContext
 
     public DbSet<PoliticalAssembly> PoliticalAssemblies { get; set; } = null!;
 
-    public DbSet<PreconfiguredContestDate> PreconfiguredContestDates { get; set; } = null!;
-
     public DbSet<Vote> Votes { get; set; } = null!;
 
     public DbSet<Ballot> Ballots { get; set; } = null!;

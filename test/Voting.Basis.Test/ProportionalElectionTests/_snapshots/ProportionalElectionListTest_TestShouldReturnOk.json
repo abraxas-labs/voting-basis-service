@@ -31,7 +31,7 @@
       "ReviewProcedure": 1,
       "EnforceReviewProcedureForCountingCircles": true,
       "EnforceCandidateCheckDigitForCountingCircles": true,
-      "FederalIdentification": null,
+      "FederalIdentification": "",
       "EVotingApproved": false,
       "EVotingEverApproved": false
     },
@@ -66,7 +66,7 @@
       "ReviewProcedure": 1,
       "EnforceReviewProcedureForCountingCircles": true,
       "EnforceCandidateCheckDigitForCountingCircles": false,
-      "FederalIdentification": null,
+      "FederalIdentification": "",
       "EVotingApproved": false,
       "EVotingEverApproved": false
     },
@@ -101,7 +101,7 @@
       "ReviewProcedure": 1,
       "EnforceReviewProcedureForCountingCircles": true,
       "EnforceCandidateCheckDigitForCountingCircles": true,
-      "FederalIdentification": null,
+      "FederalIdentification": "",
       "EVotingApproved": false,
       "EVotingEverApproved": false
     },
@@ -136,7 +136,7 @@
       "ReviewProcedure": 1,
       "EnforceReviewProcedureForCountingCircles": true,
       "EnforceCandidateCheckDigitForCountingCircles": false,
-      "FederalIdentification": null,
+      "FederalIdentification": "",
       "EVotingApproved": true,
       "EVotingEverApproved": true
     }

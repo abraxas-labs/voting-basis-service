@@ -35,6 +35,8 @@ public class CreateProportionalElectionRequestTest : ProtoValidatorBaseTest<Crea
         yield return NewValidRequest(x => x.BallotBundleSampleSize = 500);
         yield return NewValidRequest(x => x.EnforceReviewProcedureForCountingCircles = false);
         yield return NewValidRequest(x => x.EnforceCandidateCheckDigitForCountingCircles = false);
+        yield return NewValidRequest(x => x.FederalIdentification = string.Empty);
+        yield return NewValidRequest(x => x.FederalIdentification = RandomStringUtil.GenerateComplexSingleLineText(50));
     }
 
     protected override IEnumerable<CreateProportionalElectionRequest> NotOkMessages()
@@ -68,6 +70,8 @@ public class CreateProportionalElectionRequestTest : ProtoValidatorBaseTest<Crea
         yield return NewValidRequest(x => x.BallotBundleSampleSize = 501);
         yield return NewValidRequest(x => x.ReviewProcedure = ProportionalElectionReviewProcedure.Unspecified);
         yield return NewValidRequest(x => x.ReviewProcedure = (ProportionalElectionReviewProcedure)10);
+        yield return NewValidRequest(x => x.FederalIdentification = RandomStringUtil.GenerateSimpleSingleLineText(51));
+        yield return NewValidRequest(x => x.FederalIdentification = "invalid\n-number");
     }
 
     private CreateProportionalElectionRequest NewValidRequest(Action<CreateProportionalElectionRequest>? action = null)
@@ -92,6 +96,7 @@ public class CreateProportionalElectionRequestTest : ProtoValidatorBaseTest<Crea
             ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
             EnforceCandidateCheckDigitForCountingCircles = true,
+            FederalIdentification = "292834984",
         };
 
         action?.Invoke(request);

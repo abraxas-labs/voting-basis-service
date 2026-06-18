@@ -30,7 +30,8 @@
             "rm": "Frage 1 rm"
           },
           "Type": 1,
-          "FederalIdentification": 29348929
+          "FederalIdentification": null,
+          "FederalIdentificationString": "29348929"
         }
       ],
       "VoteId": "96d8275f-f1f8-4933-a097-5c0c19f54567",

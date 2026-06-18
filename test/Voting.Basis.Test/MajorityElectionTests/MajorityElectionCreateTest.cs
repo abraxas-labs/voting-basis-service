@@ -81,7 +81,7 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
                     CandidateCheckDigit = true,
                     EnforceCandidateCheckDigitForCountingCircles = true,
                     IndividualCandidatesDisabled = true,
-                    FederalIdentification = 92834984,
+                    FederalIdentificationString = "92834984",
                 },
             },
             new MajorityElectionCreated
@@ -137,6 +137,7 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
             pe.ContestId = ContestMockedData.IdStGallenEvoting;
             pe.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
             pe.ReportDomainOfInfluenceLevel = 0;
+            pe.FederalIdentification = string.Empty;
         }));
 
         var eventData = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionCreated>();
@@ -184,6 +185,7 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
                 o.ContestId = ContestMockedData.IdPastUnlockedContest;
                 o.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
                 o.ReportDomainOfInfluenceLevel = 0;
+                o.FederalIdentification = string.Empty;
             })),
             StatusCode.FailedPrecondition,
             "Testing phase ended, cannot modify the contest");
@@ -234,9 +236,55 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
             pe.DomainOfInfluenceId = VoteMockedData.GossauVoteInContestBund.DomainOfInfluenceId.ToString();
             pe.PoliticalBusinessNumber = VoteMockedData.GossauVoteInContestBund.PoliticalBusinessNumber;
             pe.ReportDomainOfInfluenceLevel = 0;
+            pe.FederalIdentification = string.Empty;
         }));
 
         // If we get here, everything is fine
+    }
+
+    [Fact]
+    public Task FederalIdentificationOnMuShouldThrow()
+    {
+        return AssertStatus(
+            async () => await CantonAdminClient.CreateAsync(NewValidRequest(v =>
+            {
+                v.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
+                v.ReportDomainOfInfluenceLevel = 0;
+            })),
+            StatusCode.InvalidArgument,
+            "Federal identification is only allowed for political businesses on federal or cantonal level.");
+    }
+
+    [Fact]
+    public async Task TestProcessorWithDeprecatedFederalIdentification()
+    {
+        var id = Guid.Parse("f6ebc06e-a252-4cf4-9aa7-9ad46dd517f3");
+        await TestEventPublisher.Publish(
+            new MajorityElectionCreated
+            {
+                MajorityElection = new MajorityElectionEventData
+                {
+                    Id = id.ToString(),
+                    PoliticalBusinessNumber = "8001",
+                    OfficialDescription = { LanguageUtil.MockAllLanguages("Neue Majorzwahl") },
+                    ShortDescription = { LanguageUtil.MockAllLanguages("Neue Majorzwahl") },
+                    DomainOfInfluenceId = DomainOfInfluenceMockedData.IdStGallen,
+                    ContestId = ContestMockedData.IdBundContest,
+                    NumberOfMandates = 3,
+                    MandateAlgorithm = SharedProto.MajorityElectionMandateAlgorithm.RelativeMajority,
+                    ResultEntry = SharedProto.MajorityElectionResultEntry.Detailed,
+                    ReviewProcedure = SharedProto.MajorityElectionReviewProcedure.Physically,
+#pragma warning disable CS0612
+                    FederalIdentification = 12345,
+#pragma warning restore CS0612
+                },
+            });
+
+        var majorityElection = await CantonAdminClient.GetAsync(new GetMajorityElectionRequest
+        {
+            Id = id.ToString(),
+        });
+        majorityElection.FederalIdentification.Should().Be("12345");
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
@@ -277,7 +325,7 @@ public class MajorityElectionCreateTest : PoliticalBusinessAuthorizationGrpcBase
             EnforceReviewProcedureForCountingCircles = true,
             EnforceCandidateCheckDigitForCountingCircles = true,
             IndividualCandidatesDisabled = true,
-            FederalIdentification = 92834984,
+            FederalIdentification = "292834984",
         };
 
         customizer?.Invoke(request);

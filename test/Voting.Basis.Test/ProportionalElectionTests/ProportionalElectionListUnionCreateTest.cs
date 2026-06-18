@@ -13,6 +13,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -138,11 +139,13 @@ public class ProportionalElectionListUnionCreateTest : PoliticalBusinessAuthoriz
     [Fact]
     public async Task ListUnionInContestWithEndedTestingPhaseShouldThrow()
     {
+        var id = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(id);
         await AssertStatus(
             async () => await CantonAdminClient.CreateListUnionAsync(NewValidRequest(o =>
             {
-                o.ProportionalElectionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
+                o.ProportionalElectionId = id;
                 o.Position = 2;
             })),
             StatusCode.FailedPrecondition,

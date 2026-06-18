@@ -33,7 +33,7 @@ public class MajorityElectionCandidate
 
     public Guid Id { get; internal set; }
 
-    public string Number { get; private set; }
+    public string Number { get; set; }
 
     public string FirstName { get; private set; }
 

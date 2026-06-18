@@ -9,7 +9,9 @@ namespace Voting.Basis.Core.Import;
 
 public class IdVerifier
 {
-    private readonly HashSet<Guid> _uniqueGuids = new();
+    private readonly HashSet<Guid> _uniqueGuids = [];
+
+    public void Add(Guid id) => _uniqueGuids.Add(id);
 
     public void EnsureUnique(Guid id)
     {

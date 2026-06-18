@@ -32,7 +32,7 @@
             "rm": "Hauptvorlage rm"
           },
           "Type": 1,
-          "FederalIdentification": null
+          "FederalIdentification": ""
         }
       ],
       "VoteId": "daf1dc06-3b08-4a24-9c76-e25e05b9d0ef",
@@ -66,7 +66,7 @@
             "rm": "Gegenvorschlag rm"
           },
           "Type": 1,
-          "FederalIdentification": null
+          "FederalIdentification": ""
         }
       ],
       "VoteId": "daf1dc06-3b08-4a24-9c76-e25e05b9d0ef",
@@ -100,7 +100,7 @@
             "rm": "Stichfrage rm"
           },
           "Type": 1,
-          "FederalIdentification": null
+          "FederalIdentification": ""
         }
       ],
       "VoteId": "daf1dc06-3b08-4a24-9c76-e25e05b9d0ef",

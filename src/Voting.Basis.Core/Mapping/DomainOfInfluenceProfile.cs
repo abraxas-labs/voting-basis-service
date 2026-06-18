@@ -12,12 +12,18 @@ public sealed class DomainOfInfluenceProfile : Profile
 {
     public DomainOfInfluenceProfile()
     {
-        CreateMap<DomainOfInfluenceEventData, DomainOfInfluence>();
+        CreateMap<DomainOfInfluenceEventData, DomainOfInfluence>()
+            .ForMember(
+                dst => dst.StistatExportEaiMessageType,
+                opt => opt.Condition(src => src.StistatExportEaiMessageTypeSupported));
         CreateMap<DomainOfInfluencePartyEventData, DomainOfInfluenceParty>();
         CreateMap<DomainOfInfluenceVotingCardPrintDataEventData, Domain.DomainOfInfluenceVotingCardPrintData>();
         CreateMap<DomainOfInfluenceVotingCardPrintDataEventData, DomainOfInfluenceVotingCardPrintData>();
         CreateMap<DomainOfInfluenceVotingCardReturnAddressEventData, DomainOfInfluenceVotingCardReturnAddress>();
-        CreateMap<DomainOfInfluenceVotingCardDataUpdated, DomainOfInfluence>();
+        CreateMap<DomainOfInfluenceVotingCardDataUpdated, DomainOfInfluence>()
+            .ForMember(
+                dst => dst.StistatExportEaiMessageType,
+                opt => opt.Condition(src => !src.StistatExportEaiMessageTypeDeprecated));
         CreateMap<DomainOfInfluenceVotingCardSwissPostDataEventData, Domain.DomainOfInfluenceVotingCardSwissPostData>();
         CreateMap<DomainOfInfluenceVotingCardSwissPostDataEventData, DomainOfInfluenceVotingCardSwissPostData>();
     }

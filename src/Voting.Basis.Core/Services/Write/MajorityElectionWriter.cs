@@ -82,7 +82,8 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
             data.DomainOfInfluenceId,
             data.PoliticalBusinessNumber,
             PoliticalBusinessType.MajorityElection,
-            data.ReportDomainOfInfluenceLevel);
+            data.ReportDomainOfInfluenceLevel,
+            data.FederalIdentification);
         await _contestValidationService.EnsureInTestingPhase(data.ContestId);
         await HandleEVotingDuringCreation(data);
 
@@ -101,8 +102,11 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
             data.DomainOfInfluenceId,
             data.PoliticalBusinessNumber,
             PoliticalBusinessType.MajorityElection,
-            data.ReportDomainOfInfluenceLevel);
-        var contestState = await _contestValidationService.EnsureNotLocked(data.ContestId);
+            data.ReportDomainOfInfluenceLevel,
+            data.FederalIdentification);
+
+        var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(data.Id);
+        var contestState = await _contestValidationService.EnsureNotLockedAndContestStateSynced(majorityElection);
 
         var existingMajorityElection = await _majorityElectionRepo.Query()
                 .Include(x => x.DomainOfInfluence)
@@ -119,7 +123,6 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
             await EnsureNoPrimaryElectionIndividualCandidates(data.Id);
         }
 
-        var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(data.Id);
         if (contestState.TestingPhaseEnded())
         {
             majorityElection.UpdateAfterTestingPhaseEnded(data);
@@ -137,7 +140,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(majorityElectionId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureInTestingPhase(majorityElection.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
         majorityElection.UpdateActiveState(active);
         await _aggregateRepository.Save(majorityElection);
@@ -151,7 +154,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
 
         // E-Voting approval is a special permission, which can be applied even if the user has only read political business readpermissions.
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, true);
-        await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
         await _contestValidationService.EnsureCanChangePoliticalBusinessEVotingApproval(majorityElection.ContestId, approved);
 
         if (approved && !majorityElection.Active)
@@ -168,7 +171,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(majorityElectionId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureInTestingPhase(majorityElection.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
         majorityElection.Delete();
         await _aggregateRepository.Save(majorityElection);
@@ -179,12 +182,12 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
     {
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(data.MajorityElectionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        var contestState = await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
+        var contestState = await _contestValidationService.EnsureNotLockedAndContestStateSynced(majorityElection);
         var testingPhaseEnded = contestState.TestingPhaseEnded();
 
         var doi = await _domainOfInfluenceRepo.GetByKey(majorityElection.DomainOfInfluenceId)
                   ?? throw new EntityNotFoundException(majorityElection.DomainOfInfluenceId);
-        var candidateValidationParams = new CandidateValidationParams(doi, testingPhaseEnded, testingPhaseEnded);
+        var candidateValidationParams = new CandidateValidationParams(doi, testingPhaseEnded);
 
         majorityElection.CreateCandidateFrom(data, candidateValidationParams);
         await _aggregateRepository.Save(majorityElection);
@@ -194,12 +197,12 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
     {
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(data.MajorityElectionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        var contestState = await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
+        var contestState = await _contestValidationService.EnsureNotLockedAndContestStateSynced(majorityElection);
         var testingPhaseEnded = contestState.TestingPhaseEnded();
 
         var doi = await _domainOfInfluenceRepo.GetByKey(majorityElection.DomainOfInfluenceId)
                   ?? throw new EntityNotFoundException(majorityElection.DomainOfInfluenceId);
-        var candidateValidationParams = new CandidateValidationParams(doi, testingPhaseEnded, testingPhaseEnded);
+        var candidateValidationParams = new CandidateValidationParams(doi, testingPhaseEnded);
 
         if (contestState.TestingPhaseEnded())
         {
@@ -217,7 +220,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
     {
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(electionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureInTestingPhase(majorityElection.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
         majorityElection.ReorderCandidates(orders);
         await _aggregateRepository.Save(majorityElection);
@@ -231,7 +234,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
         var electionId = candidate.MajorityElectionId;
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(electionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureInTestingPhase(majorityElection.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
         majorityElection.DeleteCandidate(candidateId);
         await _aggregateRepository.Save(majorityElection);
@@ -247,7 +250,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
             majorityElection.DomainOfInfluenceId,
             data.PoliticalBusinessNumber,
             PoliticalBusinessType.SecondaryMajorityElection);
-        await _contestValidationService.EnsureInTestingPhase(majorityElection.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
         if (majorityElection.SecondaryMajorityElections.Count == 0)
         {
@@ -270,7 +273,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
             majorityElection.DomainOfInfluenceId,
             data.PoliticalBusinessNumber,
             PoliticalBusinessType.SecondaryMajorityElection);
-        var contestState = await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
+        var contestState = await _contestValidationService.EnsureNotLockedAndContestStateSynced(majorityElection);
 
         if (data.IndividualCandidatesDisabled)
         {
@@ -293,7 +296,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
     {
         var majorityElection = await GetAggregateFromSecondaryMajorityElection(id);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureInTestingPhase(majorityElection.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
         DeleteSecondaryMajorityElection(majorityElection, id);
         await _aggregateRepository.Save(majorityElection);
@@ -303,7 +306,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
     {
         var majorityElection = await GetAggregateFromSecondaryMajorityElection(id);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureInTestingPhase(majorityElection.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
         majorityElection.UpdateSecondaryMajorityElectionActiveState(id, active);
         await _aggregateRepository.Save(majorityElection);
@@ -317,7 +320,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
 
         // E-Voting approval is a special permission, which can be applied even if the user has only read political business readpermissions.
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, true);
-        await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
         await _contestValidationService.EnsureCanChangePoliticalBusinessEVotingApproval(majorityElection.ContestId, approved);
 
         var sme = majorityElection.SecondaryMajorityElections.Single(sme => sme.Id == id);
@@ -336,11 +339,11 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
     {
         var majorityElection = await GetAggregateFromSecondaryMajorityElection(data.MajorityElectionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        var contestState = await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
+        var contestState = await _contestValidationService.EnsureNotLockedAndContestStateSynced(majorityElection);
         var testingPhaseEnded = contestState.TestingPhaseEnded();
         var doi = await _domainOfInfluenceRepo.GetByKey(majorityElection.DomainOfInfluenceId)
                   ?? throw new EntityNotFoundException(majorityElection.DomainOfInfluenceId);
-        var candidateValidationParams = new CandidateValidationParams(doi, testingPhaseEnded, testingPhaseEnded);
+        var candidateValidationParams = new CandidateValidationParams(doi, testingPhaseEnded);
 
         majorityElection.CreateSecondaryMajorityElectionCandidateFrom(data, candidateValidationParams);
         await _aggregateRepository.Save(majorityElection);
@@ -350,11 +353,11 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
     {
         var majorityElection = await GetAggregateFromSecondaryMajorityElection(data.MajorityElectionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        var contestState = await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
+        var contestState = await _contestValidationService.EnsureNotLockedAndContestStateSynced(majorityElection);
         var testingPhaseEnded = contestState.TestingPhaseEnded();
         var doi = await _domainOfInfluenceRepo.GetByKey(majorityElection.DomainOfInfluenceId)
                   ?? throw new EntityNotFoundException(majorityElection.DomainOfInfluenceId);
-        var candidateValidationParams = new CandidateValidationParams(doi, testingPhaseEnded, testingPhaseEnded);
+        var candidateValidationParams = new CandidateValidationParams(doi, testingPhaseEnded);
 
         if (contestState.TestingPhaseEnded())
         {
@@ -377,7 +380,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
 
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(secondaryMajorityElection.PrimaryMajorityElectionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureInTestingPhase(majorityElection.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
         majorityElection.DeleteSecondaryMajorityElectionCandidate(secondaryMajorityElection.Id, candidateId);
         await _aggregateRepository.Save(majorityElection);
@@ -388,9 +391,9 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
     {
         var majorityElection = await GetAggregateFromSecondaryMajorityElection(data.SecondaryMajorityElectionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        var contestState = await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
+        await _contestValidationService.EnsureNotLockedAndContestStateSynced(majorityElection);
 
-        majorityElection.CreateCandidateReferenceFrom(data, contestState.TestingPhaseEnded());
+        majorityElection.CreateCandidateReferenceFrom(data);
         await _aggregateRepository.Save(majorityElection);
     }
 
@@ -398,9 +401,9 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
     {
         var majorityElection = await GetAggregateFromSecondaryMajorityElection(data.SecondaryMajorityElectionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        var contestState = await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
+        await _contestValidationService.EnsureNotLockedAndContestStateSynced(majorityElection);
 
-        majorityElection.UpdateCandidateReferenceFrom(data, contestState.TestingPhaseEnded());
+        majorityElection.UpdateCandidateReferenceFrom(data);
         await _aggregateRepository.Save(majorityElection);
     }
 
@@ -413,7 +416,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
 
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(secondaryMajorityElection.PrimaryMajorityElectionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureInTestingPhase(majorityElection.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
         majorityElection.DeleteCandidateReference(secondaryMajorityElection.Id, candidateId);
         await _aggregateRepository.Save(majorityElection);
@@ -423,7 +426,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
     {
         var majorityElection = await GetAggregateFromSecondaryMajorityElection(secondaryMajorityElectionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureInTestingPhase(majorityElection.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
         majorityElection.ReorderSecondaryMajorityElectionCandidates(secondaryMajorityElectionId, orders);
         await _aggregateRepository.Save(majorityElection);
@@ -434,7 +437,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
     {
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(data.MajorityElectionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
+        await _contestValidationService.EnsureNotLockedAndContestStateSynced(majorityElection);
 
         majorityElection.CreateBallotGroupFrom(data);
         await _aggregateRepository.Save(majorityElection);
@@ -445,7 +448,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
     {
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(data.MajorityElectionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
+        await _contestValidationService.EnsureNotLockedAndContestStateSynced(majorityElection);
 
         majorityElection.UpdateBallotGroup(data);
         await _aggregateRepository.Save(majorityElection);
@@ -459,7 +462,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
         var electionId = ballotGroup.MajorityElectionId;
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(electionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        await _contestValidationService.EnsureInTestingPhase(majorityElection.ContestId);
+        await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
         majorityElection.DeleteBallotGroup(id);
         await _aggregateRepository.Save(majorityElection);
@@ -481,7 +484,7 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
         var electionId = ballotGroup.MajorityElectionId;
         var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(electionId);
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
-        var contestState = await _contestValidationService.EnsureNotLocked(majorityElection.ContestId);
+        var contestState = await _contestValidationService.EnsureNotLockedAndContestStateSynced(majorityElection);
 
         majorityElection.UpdateBallotGroupCandidates(data, contestState.TestingPhaseEnded());
         await _aggregateRepository.Save(majorityElection);
@@ -515,6 +518,13 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
 
         await _aggregateRepository.Save(majorityElection);
         return true;
+    }
+
+    internal async Task EndTestingPhase(Guid majorityElectionId)
+    {
+        var majorityElection = await _aggregateRepository.GetById<MajorityElectionAggregate>(majorityElectionId);
+        majorityElection.EndTestingPhase();
+        await _aggregateRepository.Save(majorityElection, false);
     }
 
     internal async Task<bool> TryApproveSecondaryMajorityElectionEVoting(Guid secondaryMajorityElectionId)

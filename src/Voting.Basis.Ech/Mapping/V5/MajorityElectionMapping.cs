@@ -1,11 +1,13 @@
 ﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ech0155_5_1;
 using Ech0157_5_1;
 using Voting.Basis.Data.Models;
+using Voting.Lib.Ech.Ech0157_5_1.Models;
 
 namespace Voting.Basis.Ech.Mapping.V5;
 
@@ -59,6 +61,50 @@ internal static class MajorityElectionMapping
         };
     }
 
+    internal static MajorityElection ToBasisMajorityElection(this EventInitialDeliveryElectionGroupElectionInformation election, IdLookup idLookup)
+    {
+        var electionIdentification = election.Election.ElectionIdentification;
+        var electionId = idLookup.GuidForId(electionIdentification);
+
+        var officialDescriptionInfos = election
+            .Election
+            .ElectionDescription;
+        var officialDescriptions = officialDescriptionInfos.ToLanguageDictionary(x => x.Language, x => x.ElectionDescription ?? electionIdentification, electionIdentification);
+
+        var shortDescriptionInfos = election
+            .Election
+            .ElectionDescription;
+        var shortDescriptions = shortDescriptionInfos.ToLanguageDictionary(x => x.Language, x => x.ElectionDescriptionShort ?? electionIdentification, electionIdentification);
+
+        var electionInformationExtension = ElectionMapping.GetExtension(election.Extension?.Any);
+
+        var candidates = (election.Candidate ?? Enumerable.Empty<CandidateType>())
+            .Select(c => c.ToBasisMajorityCandidate(
+                electionId,
+                idLookup,
+                electionInformationExtension?.Candidates?.FirstOrDefault(e => e.CandidateIdentification == c.CandidateIdentification)))
+            .ToList();
+
+        for (var i = 0; i < candidates.Count; i++)
+        {
+            candidates[i].Position = i + 1;
+        }
+
+        return new MajorityElection
+        {
+            Id = electionId,
+            OfficialDescription = officialDescriptions,
+            ShortDescription = shortDescriptions,
+            PoliticalBusinessNumber = election.Election.ElectionPosition,
+            NumberOfMandates = int.Parse(election.Election.NumberOfMandates),
+            MajorityElectionCandidates = candidates,
+            ResultEntry = MajorityElectionResultEntry.Detailed,
+            MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
+            BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
+            ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
+        };
+    }
+
     private static EventInitialDeliveryElectionGroupElectionInformation ToEchElectionInformation(this SecondaryMajorityElection secondaryElection, int electionPosition, bool eVoting)
     {
         var description = secondaryElection.ToEchElectionDescription(eVoting);
@@ -102,5 +148,20 @@ internal static class MajorityElectionMapping
             ReferencedElection = election.Id.ToString(),
             ElectionRelation = ElectionRelationType.Item1,
         };
+    }
+
+    private static MajorityElectionCandidate ToBasisMajorityCandidate(this CandidateType candidate, Guid electionId, IdLookup idLookup, ElectionInformationExtensionCandidate? candidateExtension)
+    {
+        var basisCandidate = candidate.ToBasisCandidate<MajorityElectionCandidate>(idLookup, candidateExtension);
+
+        basisCandidate.MajorityElectionId = electionId;
+        var partyInfos = candidate.PartyAffiliation;
+        if (partyInfos?.Count > 0)
+        {
+            basisCandidate.PartyShortDescription = partyInfos.ToLanguageDictionary(x => x.Language, x => x.PartyAffiliationShort, string.Empty);
+            basisCandidate.PartyLongDescription = partyInfos.ToLanguageDictionary(x => x.Language, x => x.PartyAffiliationLong ?? x.PartyAffiliationShort, string.Empty);
+        }
+
+        return basisCandidate;
     }
 }

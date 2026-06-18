@@ -13,6 +13,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -92,11 +93,14 @@ public class VoteDeleteTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteSer
     [Fact]
     public async Task VoteInContestWithEndedTestingPhaseShouldThrow()
     {
+        var voteId = VoteMockedData.IdGossauVoteInContestBund;
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<VoteAggregate>(voteId);
+
         await AssertStatus(
             async () => await ElectionAdminClient.DeleteAsync(new DeleteVoteRequest
             {
-                Id = VoteMockedData.IdGossauVoteInContestBund,
+                Id = voteId,
             }),
             StatusCode.FailedPrecondition,
             "Testing phase ended, cannot modify the contest");

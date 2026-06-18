@@ -14,6 +14,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -158,6 +159,7 @@ public class ProportionalElectionListUnionMainListUpdateTest : PoliticalBusiness
     public async Task ContestWithEndedTestingPhaseShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund);
         await AssertStatus(
             async () => await CantonAdminClient.UpdateListUnionMainListAsync(new UpdateProportionalElectionListUnionMainListRequest
             {

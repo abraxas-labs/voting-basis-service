@@ -16,5 +16,5 @@ public class ProportionalElection : Election
     /// </summary>
     public bool EnforceReviewProcedureForCountingCircles { get; set; }
 
-    public int? FederalIdentification { get; set; }
+    public string FederalIdentification { get; set; } = string.Empty;
 }

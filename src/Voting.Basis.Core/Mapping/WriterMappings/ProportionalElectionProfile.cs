@@ -13,8 +13,13 @@ public class ProportionalElectionProfile : Profile
 {
     public ProportionalElectionProfile()
     {
-        CreateMap<ProportionalElection, ProportionalElectionEventData>();
-        CreateMap<ProportionalElectionEventData, ProportionalElectionAggregate>();
+        CreateMap<ProportionalElection, ProportionalElectionEventData>()
+#pragma warning disable CS0612
+            .ForMember(dst => dst.FederalIdentification, opt => opt.Ignore())
+#pragma warning restore CS0612
+            .ForMember(dst => dst.FederalIdentificationString, opt => opt.MapFrom(src => src.FederalIdentification));
+        CreateMap<ProportionalElectionEventData, ProportionalElectionAggregate>()
+            .ForMember(dst => dst.FederalIdentification, opt => opt.MapFrom(src => src.FederalIdentificationString));
 
         CreateMap<ProportionalElectionCandidate, ProportionalElectionCandidateEventData>().ReverseMap();
 

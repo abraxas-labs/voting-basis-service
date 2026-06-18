@@ -39,7 +39,14 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
     }
 
     [Fact]
-    public async Task TestShouldNotEnableEVotingApproval()
+    public async Task TestWithV5ShouldWork()
+    {
+        var request = await CreateValidRequest(v5: true);
+        await CantonAdminClient.ImportPoliticalBusinessesAsync(request);
+    }
+
+    [Fact]
+    public async Task TestShouldEnableEVotingApproval()
     {
         var request = await CreateValidRequest(contestId: ContestMockedData.IdStGallenEvoting);
         request.Votes[0].Vote.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdUzwil;
@@ -51,11 +58,10 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
         var meCreatedEvents = EventPublisherMock.GetPublishedEvents<MajorityElectionCreated>();
         var voteCreatedEvents = EventPublisherMock.GetPublishedEvents<VoteCreated>();
 
-        // political business e-voting is currently disabled.
         voteCreatedEvents.First().Vote.EVotingApproved.Should().BeNull();
         meCreatedEvents.First().MajorityElection.EVotingApproved.Should().BeNull();
-        voteCreatedEvents.Any(v => v.Vote.EVotingApproved == false).Should().BeFalse();
-        peCreatedEvents.Any(pe => pe.ProportionalElection.EVotingApproved == false).Should().BeFalse();
+        voteCreatedEvents.Any(v => v.Vote.EVotingApproved == false).Should().BeTrue();
+        peCreatedEvents.Any(pe => pe.ProportionalElection.EVotingApproved == false).Should().BeTrue();
     }
 
     [Fact]
@@ -178,10 +184,11 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
 
     private async Task<ImportPoliticalBusinessesRequest> CreateValidRequest(
         string doiId = DomainOfInfluenceMockedData.IdGossau,
-        string contestId = ContestMockedData.IdGossau)
+        string contestId = ContestMockedData.IdGossau,
+        bool v5 = false)
     {
-        var contest1 = await LoadContestImport(SharedProto.ImportType.Ech157, EchTestFiles.GetTestFilePath(EchTestFiles.Ech0157FileName));
-        var contest2 = await LoadContestImport(SharedProto.ImportType.Ech159, EchTestFiles.GetTestFilePath(EchTestFiles.Ech0159FileName));
+        var contest1 = await LoadContestImport(SharedProto.ImportType.Ech157, EchTestFiles.GetTestFilePath(v5 ? EchTestFiles.Ech0157V5FileName : EchTestFiles.Ech0157FileName));
+        var contest2 = await LoadContestImport(SharedProto.ImportType.Ech159, EchTestFiles.GetTestFilePath(v5 ? EchTestFiles.Ech0159V5FileName : EchTestFiles.Ech0159FileName));
 
         contest1.MajorityElections.AddRange(contest2.MajorityElections);
         contest1.ProportionalElections.AddRange(contest2.ProportionalElections);

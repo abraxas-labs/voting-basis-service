@@ -15,6 +15,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -409,10 +410,14 @@ public class BallotCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     [Fact]
     public async Task BallotInContestWithEndedTestingPhaseShouldThrow()
     {
+        var voteId = VoteMockedData.IdGossauVoteInContestBund;
+
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<VoteAggregate>(voteId);
+
         await AssertStatus(
             async () => await ElectionAdminClient.CreateBallotAsync(NewValidRequest(x =>
-                x.VoteId = VoteMockedData.IdGossauVoteInContestBund)),
+                x.VoteId = voteId)),
             StatusCode.FailedPrecondition,
             "Testing phase ended, cannot modify the contest");
     }
@@ -442,11 +447,80 @@ public class BallotCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
     [Fact]
     public async Task ModificationWithEVotingApprovedShouldThrow()
     {
+        var req = NewValidRequest(x =>
+            x.VoteId = VoteMockedData.IdGossauVoteEVotingApprovedInContestStGallen);
+        req.BallotQuestions[0].FederalIdentification = string.Empty;
         await AssertStatus(
-            async () => await ElectionAdminClient.CreateBallotAsync(NewValidRequest(x =>
-                x.VoteId = VoteMockedData.IdGossauVoteEVotingApprovedInContestStGallen)),
+            async () => await ElectionAdminClient.CreateBallotAsync(req),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
+    [Fact]
+    public Task FederalIdentificationOnMuShouldThrow()
+    {
+        return AssertStatus(
+            async () => await CantonAdminClient.CreateBallotAsync(NewValidRequest(v => v.VoteId = VoteMockedData.IdUzwilVoteInContestBund)),
+            StatusCode.InvalidArgument,
+            "Federal identification is only allowed for political businesses on federal or cantonal level.");
+    }
+
+    [Fact]
+    public async Task TestProcessorWithDeprecatedFederalIdentification()
+    {
+        var id = Guid.Parse("f6ebc06e-a252-4cf4-9aa7-9ad46dd517f3");
+
+        await TestEventPublisher.Publish(
+            new BallotCreated
+            {
+                Ballot = new BallotEventData
+                {
+                    Id = id.ToString(),
+                    Position = 1,
+                    VoteId = VoteMockedData.IdUzwilVoteInContestBund,
+                    BallotType = SharedProto.BallotType.StandardBallot,
+                    BallotQuestions =
+                    {
+                        new BallotQuestionEventData
+                        {
+                            Number = 1,
+                            Question = { LanguageUtil.MockAllLanguages("Frage 1 neu") },
+                            Type = SharedProto.BallotQuestionType.MainBallot,
+#pragma warning disable CS0612
+                            FederalIdentification = 12345,
+#pragma warning restore CS0612
+                        },
+                        new BallotQuestionEventData
+                        {
+                            Number = 2,
+                            Question = { LanguageUtil.MockAllLanguages("Frage 2 neu") },
+                            Type = SharedProto.BallotQuestionType.MainBallot,
+#pragma warning disable CS0612
+                            FederalIdentification = 5555,
+#pragma warning restore CS0612
+                        },
+                    },
+                    TieBreakQuestions =
+                    {
+                        new TieBreakQuestionEventData
+                        {
+                            Number = 1,
+                            Question = { LanguageUtil.MockAllLanguages("Stichfrage 1 neu") },
+#pragma warning disable CS0612
+                            FederalIdentification = 333,
+#pragma warning restore CS0612
+                        },
+                    },
+                },
+            });
+
+        var response = await CantonAdminClient.GetAsync(new GetVoteRequest
+        {
+            Id = VoteMockedData.IdUzwilVoteInContestBund,
+        });
+        response.Ballots[0].BallotQuestions[0].FederalIdentification.Should().Be("12345");
+        response.Ballots[0].BallotQuestions[1].FederalIdentification.Should().Be("5555");
+        response.Ballots[0].TieBreakQuestions[0].FederalIdentification.Should().Be("333");
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
@@ -482,7 +556,7 @@ public class BallotCreateTest : PoliticalBusinessAuthorizationGrpcBaseTest<VoteS
                         Number = 1,
                         Question = { LanguageUtil.MockAllLanguages("Frage 1") },
                         Type = SharedProto.BallotQuestionType.MainBallot,
-                        FederalIdentification = 29348929,
+                        FederalIdentification = "29348929",
                     },
                 },
         };

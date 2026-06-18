@@ -60,7 +60,8 @@
       "HasEmptyVotingCards": false,
       "EVoting": null,
       "StistatExportEnabled": false,
-      "StistatExportEaiMessageType": ""
+      "StistatExportEaiMessageType": "",
+      "ECollectingImportRoot": false
     }
   ]
 }

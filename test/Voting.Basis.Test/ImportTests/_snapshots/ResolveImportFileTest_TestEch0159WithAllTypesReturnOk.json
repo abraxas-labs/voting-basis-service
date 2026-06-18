@@ -71,7 +71,7 @@
                   "rm": "Frage 1"
                 },
                 "Type": 1,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               }
             ],
             "VoteId": "",
@@ -130,7 +130,7 @@
                   "rm": "Frage Hauptvorlage"
                 },
                 "Type": 1,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               },
               {
                 "Number": 2,
@@ -141,7 +141,7 @@
                   "rm": "Frage Gegenvorschlag"
                 },
                 "Type": 2,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               },
               {
                 "Number": 3,
@@ -152,7 +152,7 @@
                   "rm": "Frage Gegenvorschlag 2"
                 },
                 "Type": 2,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               }
             ],
             "VoteId": "",
@@ -168,7 +168,7 @@
                 },
                 "Question1Number": 1,
                 "Question2Number": 2,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               },
               {
                 "Number": 2,
@@ -180,7 +180,7 @@
                 },
                 "Question1Number": 1,
                 "Question2Number": 3,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               },
               {
                 "Number": 3,
@@ -192,7 +192,7 @@
                 },
                 "Question1Number": 2,
                 "Question2Number": 3,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               }
             ],
             "SubType": 0,
@@ -248,7 +248,7 @@
                   "rm": "Frage von Hauptvorlage"
                 },
                 "Type": 1,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               }
             ],
             "VoteId": "",
@@ -282,7 +282,7 @@
                   "rm": "Frage Gegenvorschlag 1"
                 },
                 "Type": 1,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               }
             ],
             "VoteId": "",
@@ -316,7 +316,7 @@
                   "rm": "Frage Variante 2"
                 },
                 "Type": 1,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               }
             ],
             "VoteId": "",
@@ -350,7 +350,7 @@
                   "rm": "Frage S 1"
                 },
                 "Type": 1,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               }
             ],
             "VoteId": "",
@@ -384,7 +384,7 @@
                   "rm": "stichfrage 2"
                 },
                 "Type": 1,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               }
             ],
             "VoteId": "",
@@ -418,7 +418,7 @@
                   "rm": "Stichfrage 3"
                 },
                 "Type": 1,
-                "FederalIdentification": null
+                "FederalIdentification": ""
               }
             ],
             "VoteId": "",

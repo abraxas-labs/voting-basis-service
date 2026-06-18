@@ -15,6 +15,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -146,6 +147,7 @@ public class SecondaryMajorityElectionUpdateTest : PoliticalBusinessAuthorizatio
     public async Task SecondaryMajorityElectionUpdateAfterTestingPhaseShouldWork()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(MajorityElectionMockedData.IdGossauMajorityElectionInContestBund);
         var id = Guid.Parse(MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund);
 
         await CantonAdminClient.UpdateSecondaryMajorityElectionAsync(new UpdateSecondaryMajorityElectionRequest
@@ -175,6 +177,7 @@ public class SecondaryMajorityElectionUpdateTest : PoliticalBusinessAuthorizatio
     public async Task SecondaryMajorityElectionUpdateAfterTestingPhaseShouldRestrictSomeFields()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(MajorityElectionMockedData.IdGossauMajorityElectionInContestBund);
         await AssertStatus(
             async () => await CantonAdminClient.UpdateSecondaryMajorityElectionAsync(NewValidRequest(o =>
             {
@@ -190,6 +193,7 @@ public class SecondaryMajorityElectionUpdateTest : PoliticalBusinessAuthorizatio
     public async Task SecondaryMajorityElectionInLockedContestShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastLocked);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(MajorityElectionMockedData.IdGossauMajorityElectionInContestBund);
         await AssertStatus(
             async () => await CantonAdminClient.UpdateSecondaryMajorityElectionAsync(NewValidRequest(o =>
             {
@@ -212,6 +216,31 @@ public class SecondaryMajorityElectionUpdateTest : PoliticalBusinessAuthorizatio
             })),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedAndActiveContestShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
+
+        var electionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen;
+        var primaryElectionId = MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen;
+
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(primaryElectionId);
+
+        await CantonAdminClient.UpdateSecondaryMajorityElectionAsync(new()
+        {
+            Id = electionId,
+            PrimaryMajorityElectionId = primaryElectionId,
+            PoliticalBusinessNumber = "MEV",
+            OfficialDescription = { LanguageUtil.MockAllLanguages("Majorzwahl Gossau E-Voting Update") },
+            ShortDescription = { LanguageUtil.MockAllLanguages("Majorzwahl Gossau E-Voting Update") },
+            Active = true,
+            NumberOfMandates = 3,
+        });
+
+        var ev = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionAfterTestingPhaseUpdated>();
+        ev.Should().NotBeNull();
     }
 
     [Fact]

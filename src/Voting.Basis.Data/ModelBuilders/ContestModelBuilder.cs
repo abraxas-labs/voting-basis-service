@@ -7,9 +7,7 @@ using Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Data.ModelBuilders;
 
-public class ContestModelBuilder :
-    IEntityTypeConfiguration<Contest>,
-    IEntityTypeConfiguration<PreconfiguredContestDate>
+public class ContestModelBuilder : IEntityTypeConfiguration<Contest>
 {
     public void Configure(EntityTypeBuilder<Contest> builder)
     {
@@ -57,13 +55,5 @@ public class ContestModelBuilder :
         builder
             .Property(x => x.Description)
             .HasJsonConversion();
-    }
-
-    public void Configure(EntityTypeBuilder<PreconfiguredContestDate> builder)
-    {
-        builder
-            .Property(d => d.Id)
-            .HasDateType()
-            .HasUtcConversion();
     }
 }

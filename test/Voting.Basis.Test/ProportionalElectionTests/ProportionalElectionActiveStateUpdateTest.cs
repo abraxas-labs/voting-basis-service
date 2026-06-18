@@ -12,6 +12,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -72,12 +73,11 @@ public class ProportionalElectionActiveStateUpdateTest : PoliticalBusinessAuthor
     [Fact]
     public async Task ProportionalElectionInContestWithEndedTestingPhaseShouldThrow()
     {
+        var id = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(id);
         await AssertStatus(
-            async () => await CantonAdminClient.UpdateActiveStateAsync(NewValidRequest(o =>
-            {
-                o.Id = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
-            })),
+            async () => await CantonAdminClient.UpdateActiveStateAsync(NewValidRequest(o => o.Id = id)),
             StatusCode.FailedPrecondition,
             "Testing phase ended, cannot modify the contest");
     }

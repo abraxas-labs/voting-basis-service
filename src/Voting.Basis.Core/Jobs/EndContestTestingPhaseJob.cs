@@ -3,6 +3,7 @@
 
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Voting.Basis.Core.Services.Permission;
@@ -32,6 +33,6 @@ internal class EndContestTestingPhaseJob : ContestStateJob
     protected override IQueryable<Contest> BuildQuery(IQueryable<Contest> query, DateTime endOfTestingPhaseAsOf)
         => query.Where(c => c.EndOfTestingPhase <= endOfTestingPhaseAsOf && c.State < ContestState.Active);
 
-    protected override Task<bool> SetContestState(Guid contestId)
-        => _contestWriter.TryEndTestingPhase(contestId);
+    protected override Task<bool> SetContestState(Guid contestId, CancellationToken ct)
+        => _contestWriter.TryEndTestingPhase(contestId, ct);
 }

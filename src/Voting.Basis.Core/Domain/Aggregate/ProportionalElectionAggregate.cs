@@ -23,7 +23,7 @@ namespace Voting.Basis.Core.Domain.Aggregate;
 /// <summary>
 /// Terminology is explained in <see cref="ProportionalElection"/>.
 /// </summary>
-public class ProportionalElectionAggregate : BaseHasContestAggregate
+public class ProportionalElectionAggregate : PoliticalBusinessAggregate
 {
     private readonly IMapper _mapper;
     private readonly EventInfoProvider _eventInfoProvider;
@@ -46,6 +46,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         PoliticalBusinessNumber = string.Empty;
         OfficialDescription = new Dictionary<string, string>();
         ShortDescription = new Dictionary<string, string>();
+        FederalIdentification = string.Empty;
 
         Lists = new List<ProportionalElectionList>();
         ListUnions = new List<ProportionalElectionListUnion>();
@@ -93,7 +94,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
 
     public bool EnforceCandidateCheckDigitForCountingCircles { get; private set; }
 
-    public int? FederalIdentification { get; set; }
+    public string FederalIdentification { get; set; }
 
     public bool? EVotingApproved { get; private set; }
 
@@ -236,6 +237,22 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         {
             return false;
         }
+    }
+
+    public override void EndTestingPhase()
+    {
+        if (TestingPhaseEnded)
+        {
+            return;
+        }
+
+        var ev = new ProportionalElectionTestingPhaseEnded
+        {
+            ProportionalElectionId = Id.ToString(),
+            EventInfo = _eventInfoProvider.NewEventInfo(),
+        };
+
+        RaiseEvent(ev);
     }
 
     public void UpdateMandatAlgorithm(ProportionalElectionMandateAlgorithm mandateAlgorithm)
@@ -756,6 +773,9 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
             case ProportionalElectionActiveStateUpdated e:
                 Apply(e);
                 break;
+            case ProportionalElectionTestingPhaseEnded _:
+                TestingPhaseEnded = true;
+                break;
             case ProportionalElectionEVotingApprovalUpdated e:
                 Apply(e);
                 break;
@@ -844,6 +864,14 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
         {
             proportionalElection.AutomaticBallotNumberGeneration = true;
         }
+
+        // federal identification of type int is deprecated, it was replaced with data type string
+#pragma warning disable CS0612
+        if (proportionalElection.FederalIdentification != null)
+        {
+            proportionalElection.FederalIdentificationString = proportionalElection.FederalIdentification.ToString();
+        }
+#pragma warning restore CS0612
     }
 
     private void Apply(ProportionalElectionAfterTestingPhaseUpdated ev)
@@ -1238,7 +1266,7 @@ public class ProportionalElectionAggregate : BaseHasContestAggregate
 
     private void EnsureEVotingNotApproved()
     {
-        if (EVotingApproved == true)
+        if (!TestingPhaseEnded && EVotingApproved == true)
         {
             throw new PoliticalBusinessEVotingApprovedException();
         }

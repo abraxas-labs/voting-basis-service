@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
@@ -26,6 +27,17 @@ public class ContestValidationService
         _clock = clock;
     }
 
+    internal async Task EnsureInTestingPhaseAndContestStateSynced(PoliticalBusinessAggregate politicalBusinessAggregate)
+    {
+        var state = await GetContestState(politicalBusinessAggregate.ContestId);
+        EnsureContestStateSynced(state, politicalBusinessAggregate);
+
+        if (state.TestingPhaseEnded())
+        {
+            throw new ContestTestingPhaseEndedException();
+        }
+    }
+
     internal async Task EnsureInTestingPhase(Guid contestId)
     {
         var state = await GetContestState(contestId);
@@ -43,9 +55,10 @@ public class ContestValidationService
         }
     }
 
-    internal async Task<ContestState> EnsureNotLocked(Guid contestId)
+    internal async Task<ContestState> EnsureNotLockedAndContestStateSynced(PoliticalBusinessAggregate politicalBusinessAggregate)
     {
-        var state = await GetContestState(contestId);
+        var state = await GetContestState(politicalBusinessAggregate.ContestId);
+        EnsureContestStateSynced(state, politicalBusinessAggregate);
 
         if (state.IsLocked())
         {
@@ -113,5 +126,15 @@ public class ContestValidationService
         }
 
         return state;
+    }
+
+    private void EnsureContestStateSynced(ContestState state, PoliticalBusinessAggregate politicalBusinessAggregate)
+    {
+        // A political business aggregate could already have a ended testing phase event applied,
+        // while a read model contest could still be in the testing phase.
+        if (state.TestingPhaseEnded() != politicalBusinessAggregate.TestingPhaseEnded)
+        {
+            throw new ContestTestingPhaseEndedMismatchException(politicalBusinessAggregate.ContestId, politicalBusinessAggregate.Id);
+        }
     }
 }

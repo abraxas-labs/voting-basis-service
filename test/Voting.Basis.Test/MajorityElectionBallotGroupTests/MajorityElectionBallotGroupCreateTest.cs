@@ -14,6 +14,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
@@ -165,6 +166,7 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
     public async Task MajorityElectionInPastContestShouldWork()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(MajorityElectionMockedData.IdGossauMajorityElectionInContestBund);
         await ElectionAdminClient.CreateBallotGroupAsync(new CreateMajorityElectionBallotGroupRequest
         {
             Description = "past",
@@ -191,6 +193,7 @@ public class MajorityElectionBallotGroupCreateTest : PoliticalBusinessAuthorizat
     public async Task MajorityElectionInLockedContestShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastLocked);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(MajorityElectionMockedData.IdGossauMajorityElectionInContestBund);
         await AssertStatus(
             async () => await ElectionAdminClient.CreateBallotGroupAsync(new CreateMajorityElectionBallotGroupRequest
             {

@@ -75,7 +75,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       "PoliticalBusinessType": 2,
       "PoliticalBusinessSubType": 0,

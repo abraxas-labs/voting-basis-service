@@ -15,6 +15,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -173,6 +174,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
             async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
             {
                 o.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
+                o.FederalIdentification = string.Empty;
             })),
             StatusCode.FailedPrecondition,
             nameof(ModificationNotAllowedException));
@@ -226,6 +228,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
         var id = Guid.Parse(ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund);
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(id.ToString());
 
         await CantonAdminClient.UpdateAsync(new UpdateProportionalElectionRequest
         {
@@ -258,19 +261,24 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
         });
         election.MatchSnapshot("reponse");
 
-        await AssertHasPublishedEventProcessedMessage(ProportionalElectionUpdated.Descriptor, id);
+        await AssertHasPublishedEventProcessedMessage(ProportionalElectionAfterTestingPhaseUpdated.Descriptor, id);
     }
 
     [Fact]
     public async Task ProportionalElectionUpdateAfterTestingPhaseShouldRestrictSomeFields()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+
+        var electionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(electionId);
+
         await AssertStatus(
             async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
             {
-                o.Id = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
+                o.Id = electionId;
                 o.ContestId = ContestMockedData.IdBundContest;
                 o.DomainOfInfluenceId = ProportionalElectionMockedData.GossauProportionalElectionInContestBund.DomainOfInfluenceId.ToString();
+                o.FederalIdentification = string.Empty;
             })),
             StatusCode.FailedPrecondition,
             "ModificationNotAllowedException: Some modifications are not allowed because the testing phase has ended.");
@@ -280,12 +288,17 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
     public async Task ProportionalElectionInLockedContestShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastLocked);
+
+        var electionId = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(electionId);
+
         await AssertStatus(
             async () => await CantonAdminClient.UpdateAsync(NewValidRequest(o =>
             {
-                o.Id = ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund;
+                o.Id = electionId;
                 o.ContestId = ContestMockedData.IdBundContest;
                 o.DomainOfInfluenceId = ProportionalElectionMockedData.GossauProportionalElectionInContestBund.DomainOfInfluenceId.ToString();
+                o.FederalIdentification = string.Empty;
             })),
             StatusCode.FailedPrecondition,
             "Contest is past locked or archived");
@@ -301,6 +314,41 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
             })),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingApprovedException));
+    }
+
+    [Fact]
+    public async Task ModificationWithEVotingApprovedAndActiveContestShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
+
+        var electionId = ProportionalElectionMockedData.IdGossauProportionalElectionEVotingApprovedInContestStGallen;
+        await SetPoliticalBusinessTestingPhaseEnded<ProportionalElectionAggregate>(electionId);
+
+        await CantonAdminClient.UpdateAsync(new()
+        {
+            Id = electionId,
+            PoliticalBusinessNumber = "PEV",
+            OfficialDescription = { LanguageUtil.MockAllLanguages("Proporzwahl Gossau E-Voting Update") },
+            ShortDescription = { LanguageUtil.MockAllLanguages("Proporzwahl Gossau E-Voting Update") },
+            DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau,
+            ContestId = ContestMockedData.IdStGallenEvoting,
+            Active = true,
+            AutomaticEmptyVoteCounting = true,
+            EnforceEmptyVoteCountingForCountingCircles = true,
+            BallotBundleSize = 10,
+            BallotBundleSampleSize = 1,
+            AutomaticBallotBundleNumberGeneration = true,
+            CandidateCheckDigit = true,
+            NumberOfMandates = 3,
+            EnforceReviewProcedureForCountingCircles = true,
+            EnforceCandidateCheckDigitForCountingCircles = false,
+            BallotNumberGeneration = SharedProto.BallotNumberGeneration.RestartForEachBundle,
+            MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.HagenbachBischoff,
+            ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
+        });
+
+        var ev = EventPublisherMock.GetSinglePublishedEvent<ProportionalElectionAfterTestingPhaseUpdated>();
+        ev.Should().NotBeNull();
     }
 
     [Fact]
@@ -321,6 +369,50 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
         return AssertStatus(
             async () => await CantonAdminClient.UpdateAsync(NewValidRequest(v => v.PoliticalBusinessNumber = "500")),
             StatusCode.AlreadyExists);
+    }
+
+    [Fact]
+    public Task FederalIdentificationOnMuShouldThrow()
+    {
+        return AssertStatus(
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(v => v.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau)),
+            StatusCode.InvalidArgument,
+            "Federal identification is only allowed for political businesses on federal or cantonal level.");
+    }
+
+    [Fact]
+    public async Task TestProcessorWithDeprecatedFederalIdentification()
+    {
+        var id = Guid.Parse(ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund);
+        await TestEventPublisher.Publish(
+            new ProportionalElectionUpdated
+            {
+                ProportionalElection = new ProportionalElectionEventData
+                {
+                    Id = id.ToString(),
+                    PoliticalBusinessNumber = "6000",
+                    OfficialDescription = { LanguageUtil.MockAllLanguages("Updated Official Description") },
+                    ShortDescription = { LanguageUtil.MockAllLanguages("Updated Short Description") },
+                    DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau,
+                    ContestId = ContestMockedData.IdGossau,
+                    NumberOfMandates = 6,
+                    MandateAlgorithm = SharedProto.ProportionalElectionMandateAlgorithm.HagenbachBischoff,
+                    BallotNumberGeneration = SharedProto.BallotNumberGeneration.RestartForEachBundle,
+                    ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
+                    EnforceReviewProcedureForCountingCircles = true,
+                    CandidateCheckDigit = false,
+                    EnforceCandidateCheckDigitForCountingCircles = true,
+#pragma warning disable CS0612
+                    FederalIdentification = 12345,
+#pragma warning restore CS0612
+                },
+            });
+
+        var proportionalElection = await CantonAdminClient.GetAsync(new GetProportionalElectionRequest
+        {
+            Id = id.ToString(),
+        });
+        proportionalElection.FederalIdentification.Should().Be("12345");
     }
 
     protected override IEnumerable<string> AuthorizedRoles()
@@ -357,7 +449,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
             ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
             EnforceReviewProcedureForCountingCircles = true,
             EnforceCandidateCheckDigitForCountingCircles = true,
-            FederalIdentification = 29348929,
+            FederalIdentification = "29348929",
         };
 
         customizer?.Invoke(request);
@@ -388,7 +480,7 @@ public class ProportionalElectionUpdateTest : PoliticalBusinessAuthorizationGrpc
                 ReviewProcedure = SharedProto.ProportionalElectionReviewProcedure.Electronically,
                 EnforceReviewProcedureForCountingCircles = true,
                 EnforceCandidateCheckDigitForCountingCircles = true,
-                FederalIdentification = 29348929,
+                FederalIdentificationString = "29348929",
             },
         };
 

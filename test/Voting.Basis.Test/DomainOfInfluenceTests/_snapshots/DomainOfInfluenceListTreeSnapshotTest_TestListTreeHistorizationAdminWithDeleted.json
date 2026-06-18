@@ -64,7 +64,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       }
     ]
   },
@@ -139,7 +140,8 @@
             "HasEmptyVotingCards": false,
             "EVoting": null,
             "StistatExportEnabled": false,
-            "StistatExportEaiMessageType": ""
+            "StistatExportEaiMessageType": "",
+            "ECollectingImportRoot": false
           }
         ],
         "Canton": 1,
@@ -193,7 +195,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       }
     ]
   },
@@ -268,7 +271,8 @@
             "HasEmptyVotingCards": false,
             "EVoting": null,
             "StistatExportEnabled": false,
-            "StistatExportEaiMessageType": ""
+            "StistatExportEaiMessageType": "",
+            "ECollectingImportRoot": false
           },
           {
             "Id": "ec1e23a1-bfba-4f1b-b75f-ca31ac53a80f",
@@ -330,7 +334,8 @@
             "HasEmptyVotingCards": false,
             "EVoting": null,
             "StistatExportEnabled": false,
-            "StistatExportEaiMessageType": ""
+            "StistatExportEaiMessageType": "",
+            "ECollectingImportRoot": false
           }
         ],
         "Canton": 1,
@@ -384,7 +389,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       }
     ]
   },
@@ -462,7 +468,8 @@
             "HasEmptyVotingCards": false,
             "EVoting": null,
             "StistatExportEnabled": false,
-            "StistatExportEaiMessageType": ""
+            "StistatExportEaiMessageType": "",
+            "ECollectingImportRoot": false
           },
           {
             "Id": "ec1e23a1-bfba-4f1b-b75f-ca31ac53a80f",
@@ -524,7 +531,8 @@
             "HasEmptyVotingCards": false,
             "EVoting": null,
             "StistatExportEnabled": false,
-            "StistatExportEaiMessageType": ""
+            "StistatExportEaiMessageType": "",
+            "ECollectingImportRoot": false
           }
         ],
         "Canton": 1,
@@ -578,7 +586,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       }
     ]
   },
@@ -656,7 +665,8 @@
             "HasEmptyVotingCards": false,
             "EVoting": null,
             "StistatExportEnabled": false,
-            "StistatExportEaiMessageType": ""
+            "StistatExportEaiMessageType": "",
+            "ECollectingImportRoot": false
           },
           {
             "Id": "ec1e23a1-bfba-4f1b-b75f-ca31ac53a80f",
@@ -721,7 +731,8 @@
             "HasEmptyVotingCards": false,
             "EVoting": null,
             "StistatExportEnabled": false,
-            "StistatExportEaiMessageType": ""
+            "StistatExportEaiMessageType": "",
+            "ECollectingImportRoot": false
           }
         ],
         "Canton": 1,
@@ -778,7 +789,8 @@
         "HasEmptyVotingCards": false,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       }
     ]
   }

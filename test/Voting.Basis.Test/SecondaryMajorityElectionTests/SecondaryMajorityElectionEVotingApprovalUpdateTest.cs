@@ -12,6 +12,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
@@ -87,19 +88,22 @@ public class SecondaryMajorityElectionEVotingApprovalUpdateTest : PoliticalBusin
     public async Task SecondaryMajorityElectionInContestWithEndedTestingPhaseShouldWork()
     {
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.PastUnlocked);
-        await ElectionAdminClient.UpdateSecondaryMajorityElectionEVotingApprovalAsync(NewValidRequest());
-        EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionEVotingApprovalUpdated>()
-            .Should().NotBeNull();
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(MajorityElectionMockedData.IdGossauMajorityElectionInContestStGallen);
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateSecondaryMajorityElectionEVotingApprovalAsync(NewValidRequest()),
+            StatusCode.FailedPrecondition,
+            nameof(ContestTestingPhaseEndedException));
     }
 
     [Fact]
     public async Task SecondaryMajorityElectionInContestLockedShouldThrow()
     {
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.PastLocked);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(MajorityElectionMockedData.IdGossauMajorityElectionInContestStGallen);
         await AssertStatus(
             async () => await ElectionAdminClient.UpdateSecondaryMajorityElectionEVotingApprovalAsync(NewValidRequest()),
             StatusCode.FailedPrecondition,
-            nameof(ContestLockedException));
+            nameof(ContestTestingPhaseEndedException));
     }
 
     [Fact]

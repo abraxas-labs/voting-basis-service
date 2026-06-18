@@ -70,7 +70,7 @@
         "EnforceReviewProcedureForCountingCircles": false,
         "EnforceCandidateCheckDigitForCountingCircles": false,
         "IndividualCandidatesDisabled": false,
-        "FederalIdentification": null,
+        "FederalIdentification": "",
         "EVotingApproved": null,
         "EVotingEverApproved": false
       },
@@ -247,7 +247,7 @@
         "ReviewProcedure": 1,
         "EnforceReviewProcedureForCountingCircles": false,
         "EnforceCandidateCheckDigitForCountingCircles": false,
-        "FederalIdentification": null,
+        "FederalIdentification": "",
         "EVotingApproved": null,
         "EVotingEverApproved": false
       },

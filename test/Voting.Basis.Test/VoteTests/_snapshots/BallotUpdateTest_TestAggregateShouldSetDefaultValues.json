@@ -32,7 +32,7 @@
             "rm": "Frage 1 update rm"
           },
           "Type": 1,
-          "FederalIdentification": null
+          "FederalIdentification": ""
         },
         {
           "Number": 2,
@@ -43,7 +43,7 @@
             "rm": "Frage 2 update rm"
           },
           "Type": 2,
-          "FederalIdentification": null
+          "FederalIdentification": ""
         }
       ],
       "VoteId": "8fbba43a-cd73-407a-b490-df13c41cc5ee",
@@ -59,7 +59,7 @@
           },
           "Question1Number": 1,
           "Question2Number": 2,
-          "FederalIdentification": null
+          "FederalIdentification": ""
         }
       ],
       "SubType": 0,

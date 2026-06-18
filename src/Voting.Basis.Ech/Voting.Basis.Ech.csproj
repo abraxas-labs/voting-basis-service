@@ -24,4 +24,10 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
+
+  <ItemGroup>
+    <SonarQubeSetting Include="sonar.cpd.exclusions">
+      <Value>Mapping/V4/*Mapping.cs,Mapping/V5/*Mapping.cs,Converters/V4/*Deserializer.cs,Converters/V4/*Serializer.cs,Converters/V5/*Deserializer.cs,Converters/V5/*Serializer.cs</Value>
+    </SonarQubeSetting>
+  </ItemGroup>
 </Project>

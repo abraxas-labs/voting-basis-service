@@ -2,31 +2,43 @@
   "PreconfiguredContestDates_": [
     {
       "Date": {
-        "Seconds": 1581206400,
+        "Seconds": 1900540800,
         "Nanos": 0
       }
     },
     {
       "Date": {
-        "Seconds": 1589673600,
+        "Seconds": 1907798400,
         "Nanos": 0
       }
     },
     {
       "Date": {
-        "Seconds": 1601164800,
+        "Seconds": 1916265600,
         "Nanos": 0
       }
     },
     {
       "Date": {
-        "Seconds": 1606608000,
+        "Seconds": 1921708800,
         "Nanos": 0
       }
     },
     {
       "Date": {
-        "Seconds": 1615075200,
+        "Seconds": 1931385600,
+        "Nanos": 0
+      }
+    },
+    {
+      "Date": {
+        "Seconds": 1938643200,
+        "Nanos": 0
+      }
+    },
+    {
+      "Date": {
+        "Seconds": 1950134400,
         "Nanos": 0
       }
     }

@@ -13,6 +13,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Data.Models;
@@ -88,6 +89,7 @@ public class SecondaryMajorityElectionCandidateReferenceCreateTest : PoliticalBu
     public async Task ContestLockedShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.Archived);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund);
         await AssertStatus(
             async () => await CantonAdminClient.CreateMajorityElectionCandidateReferenceAsync(NewValidRequest()),
             StatusCode.FailedPrecondition,
@@ -107,6 +109,20 @@ public class SecondaryMajorityElectionCandidateReferenceCreateTest : PoliticalBu
     }
 
     [Fact]
+    public async Task ModificationWithEVotingApprovedAndActiveContestShouldWork()
+    {
+        await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.Active);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen);
+
+        await CantonAdminClient.CreateMajorityElectionCandidateReferenceAsync(NewValidRequest(x =>
+        {
+            x.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen;
+            x.ReportingType = SharedProto.MajorityElectionCandidateReportingType.CountToIndividual;
+        }));
+        EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateReferenceCreated>().Should().NotBeNull();
+    }
+
+    [Fact]
     public async Task NonContinuousPositionShouldThrow()
     {
         await AssertStatus(
@@ -122,6 +138,7 @@ public class SecondaryMajorityElectionCandidateReferenceCreateTest : PoliticalBu
     public async Task CreateCandidateReferenceInContestWithTestingPhaseEndedShouldWork()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(MajorityElectionMockedData.IdGossauMajorityElectionInContestBund);
         await CantonAdminClient.CreateMajorityElectionCandidateReferenceAsync(NewValidRequest(x =>
         {
             x.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionInContestBund;
@@ -155,6 +172,7 @@ public class SecondaryMajorityElectionCandidateReferenceCreateTest : PoliticalBu
     public async Task NoReportingTypeAfterTestingPhaseShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.Active);
+        await SetPoliticalBusinessTestingPhaseEnded<MajorityElectionAggregate>(MajorityElectionMockedData.IdStGallenMajorityElectionInContestBund);
         await AssertStatus(
             async () => await CantonAdminClient.CreateMajorityElectionCandidateReferenceAsync(NewValidRequest()),
             StatusCode.InvalidArgument,

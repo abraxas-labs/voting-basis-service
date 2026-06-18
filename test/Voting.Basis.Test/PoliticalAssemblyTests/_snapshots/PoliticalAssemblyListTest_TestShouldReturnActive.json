@@ -90,7 +90,8 @@
         "HasEmptyVotingCards": true,
         "EVoting": null,
         "StistatExportEnabled": false,
-        "StistatExportEaiMessageType": ""
+        "StistatExportEaiMessageType": "",
+        "ECollectingImportRoot": false
       },
       "EVoting": false,
       "State": 1,

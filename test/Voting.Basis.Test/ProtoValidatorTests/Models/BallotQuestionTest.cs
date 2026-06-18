@@ -20,6 +20,7 @@ public class BallotQuestionTest : ProtoValidatorBaseTest<BallotQuestion>
             Number = 27,
             Question = { LanguageUtil.MockAllLanguages("Frage 1") },
             Type = BallotQuestionType.Variant,
+            FederalIdentification = "1239842",
         };
 
         action?.Invoke(ballotQuestion);
@@ -33,6 +34,8 @@ public class BallotQuestionTest : ProtoValidatorBaseTest<BallotQuestion>
         yield return NewValid(x => x.Number = 50);
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.Question, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexMultiLineText(1)));
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.Question, RandomStringUtil.GenerateAlphabetic(2), RandomStringUtil.GenerateComplexMultiLineText(700)));
+        yield return NewValid(x => x.FederalIdentification = string.Empty);
+        yield return NewValid(x => x.FederalIdentification = RandomStringUtil.GenerateComplexSingleLineText(50));
     }
 
     protected override IEnumerable<BallotQuestion> NotOkMessages()
@@ -46,5 +49,7 @@ public class BallotQuestionTest : ProtoValidatorBaseTest<BallotQuestion>
         yield return NewValid(x => MapFieldUtil.ClearAndAdd(x.Question, "de", RandomStringUtil.GenerateComplexMultiLineText(701)));
         yield return NewValid(x => x.Type = BallotQuestionType.Unspecified);
         yield return NewValid(x => x.Type = (BallotQuestionType)20);
+        yield return NewValid(x => x.FederalIdentification = RandomStringUtil.GenerateSimpleSingleLineText(51));
+        yield return NewValid(x => x.FederalIdentification = "invalid\n-number");
     }
 }

@@ -4,8 +4,11 @@
 using System;
 using System.Threading.Tasks;
 using Grpc.Core;
+using Microsoft.Extensions.DependencyInjection;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Test.MockedData;
+using Voting.Lib.Eventing.Persistence;
 using Xunit;
 
 namespace Voting.Basis.Test;
@@ -67,5 +70,19 @@ public abstract class PoliticalBusinessAuthorizationGrpcBaseTest<TService> : Bas
         {
             Assert.Fail($"Call failed {ex}");
         }
+    }
+
+    protected async Task SetPoliticalBusinessTestingPhaseEnded<TPoliticalBusinessAggregate>(string id)
+        where TPoliticalBusinessAggregate : PoliticalBusinessAggregate
+    {
+        await RunScoped<IServiceProvider>(async sp =>
+        {
+            var aggregateRepository = sp.GetRequiredService<IAggregateRepository>();
+            var auth = sp.GetRequiredService<Core.Services.Permission.PermissionService>();
+            auth.SetAbraxasAuthIfNotAuthenticated();
+            var pb = await aggregateRepository.GetById<TPoliticalBusinessAggregate>(Guid.Parse(id));
+            pb.EndTestingPhase();
+            await aggregateRepository.Save(pb);
+        });
     }
 }

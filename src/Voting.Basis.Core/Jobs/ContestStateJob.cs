@@ -46,7 +46,7 @@ public abstract class ContestStateJob : IScheduledJob
         {
             try
             {
-                if (await SetContestState(id))
+                if (await SetContestState(id, ct))
                 {
                     _logger.LogInformation("State of contest {Id} updated", id);
                 }
@@ -64,5 +64,5 @@ public abstract class ContestStateJob : IScheduledJob
 
     protected abstract IQueryable<Contest> BuildQuery(IQueryable<Contest> query, DateTime referenceDateTime);
 
-    protected abstract Task<bool> SetContestState(Guid contestId);
+    protected abstract Task<bool> SetContestState(Guid contestId, CancellationToken ct);
 }

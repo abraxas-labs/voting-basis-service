@@ -25,17 +25,16 @@ namespace Voting.Basis.Core.Services.Read;
 
 public class ContestReader
 {
-    private static readonly TimeSpan MaxPreconfiguredDatesDelta = TimeSpan.FromDays(2 * 365);
+    private static readonly int MaxPreconfiguredDatesDaysDelta = 2 * 365;
 
     private readonly IDbRepository<DataContext, Contest> _repo;
     private readonly IDbRepository<DataContext, Vote> _voteRepo;
     private readonly IDbRepository<DataContext, ProportionalElection> _proportionalElectionRepo;
     private readonly IDbRepository<DataContext, MajorityElection> _majorityElectionRepo;
     private readonly IDbRepository<DataContext, SecondaryMajorityElection> _secondaryMajorityElectionRepo;
-    private readonly IDbRepository<DataContext, DateTime, PreconfiguredContestDate> _preconfiguredDatesRepo;
     private readonly DomainOfInfluenceHierarchyRepo _hierarchyRepo;
     private readonly CantonSettingsRepo _cantonSettingsRepo;
-    private readonly PublisherConfig _config;
+    private readonly AppConfig _config;
     private readonly IAuth _auth;
     private readonly PermissionService _permissionService;
     private readonly IClock _clock;
@@ -46,10 +45,9 @@ public class ContestReader
         IDbRepository<DataContext, ProportionalElection> proportionalElectionRepo,
         IDbRepository<DataContext, MajorityElection> majorityElectionRepo,
         IDbRepository<DataContext, SecondaryMajorityElection> secondaryMajorityElectionRepo,
-        IDbRepository<DataContext, DateTime, PreconfiguredContestDate> preconfiguredDatesRepo,
         DomainOfInfluenceHierarchyRepo hierarchyRepo,
         CantonSettingsRepo cantonSettingsRepo,
-        PublisherConfig config,
+        AppConfig config,
         IAuth auth,
         PermissionService permissionService,
         IClock clock)
@@ -59,7 +57,6 @@ public class ContestReader
         _proportionalElectionRepo = proportionalElectionRepo;
         _majorityElectionRepo = majorityElectionRepo;
         _secondaryMajorityElectionRepo = secondaryMajorityElectionRepo;
-        _preconfiguredDatesRepo = preconfiguredDatesRepo;
         _hierarchyRepo = hierarchyRepo;
         _cantonSettingsRepo = cantonSettingsRepo;
         _config = config;
@@ -177,15 +174,14 @@ public class ContestReader
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<PreconfiguredContestDate>> ListFuturePreconfiguredDates()
+    public IEnumerable<DateOnly> ListFuturePreconfiguredDates()
     {
-        var from = _clock.UtcNow.Date;
-        var to = from.Add(MaxPreconfiguredDatesDelta).Date.AddDays(1);
+        var from = _clock.Today;
+        var to = from.AddDays(MaxPreconfiguredDatesDaysDelta);
 
-        return await _preconfiguredDatesRepo.Query()
-            .Where(p => p.Id >= from && p.Id <= to)
-            .OrderBy(x => x.Id)
-            .ToListAsync();
+        return _config.PreconfiguredContestDates
+            .Where(d => d >= from && d <= to)
+            .Order();
     }
 
     public async Task<SharedProto.ContestDateAvailability> CheckAvailability(DateTime date, Guid domainOfInfluenceId)
@@ -429,13 +425,14 @@ public class ContestReader
             return (SharedProto.ContestDateAvailability.ExistsOnChildTenant, childContests);
         }
 
-        if (await _preconfiguredDatesRepo.ExistsByKey(date))
+        var dateDay = DateOnly.FromDateTime(date);
+        if (_config.PreconfiguredContestDates.Contains(dateDay))
         {
             return (SharedProto.ContestDateAvailability.SameAsPreConfiguredDate, []);
         }
 
-        var maxDate = date.Add(_config.Contest.ContestCreationWarnPeriod);
-        var minDate = date.Subtract(_config.Contest.ContestCreationWarnPeriod);
+        var maxDate = date.Add(_config.Publisher.Contest.ContestCreationWarnPeriod);
+        var minDate = date.Subtract(_config.Publisher.Contest.ContestCreationWarnPeriod);
         if (await _repo.Query().AnyAsync(c =>
                 c.Date >= minDate && c.Date <= maxDate && hierarchy.ParentIds.Contains(c.DomainOfInfluenceId)))
         {

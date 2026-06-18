@@ -18,7 +18,7 @@ using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Read;
 using Voting.Basis.Core.Services.Write;
 using Voting.Basis.Core.Utils;
-using Voting.Basis.Ech.Converters.V4;
+using Voting.Basis.Ech.Converters;
 using Voting.Lib.Common;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
@@ -41,8 +41,7 @@ public class ImportService
     private readonly IClock _clock;
     private readonly DomainOfInfluenceReader _domainOfInfluenceReader;
     private readonly IMalwareScannerService _malwareScannerService;
-    private readonly Ech0157Deserializer _ech0157Deserializer;
-    private readonly Ech0159Deserializer _ech0159Deserializer;
+    private readonly EchDeserializerProvider _echDeserializerProvider;
     private readonly PoliticalBusinessEVotingApprovalInitializer _politicalBusinessEVotingApprovalInitializer;
 
     public ImportService(
@@ -58,8 +57,7 @@ public class ImportService
         IClock clock,
         DomainOfInfluenceReader domainOfInfluenceReader,
         IMalwareScannerService malwareScannerService,
-        Ech0157Deserializer ech0157Deserializer,
-        Ech0159Deserializer ech0159Deserializer,
+        EchDeserializerProvider echDeserializerProvider,
         PoliticalBusinessEVotingApprovalInitializer politicalBusinessEVotingApprovalInitializer)
     {
         _mapper = mapper;
@@ -74,8 +72,7 @@ public class ImportService
         _clock = clock;
         _domainOfInfluenceReader = domainOfInfluenceReader;
         _malwareScannerService = malwareScannerService;
-        _ech0157Deserializer = ech0157Deserializer;
-        _ech0159Deserializer = ech0159Deserializer;
+        _echDeserializerProvider = echDeserializerProvider;
         _politicalBusinessEVotingApprovalInitializer = politicalBusinessEVotingApprovalInitializer;
     }
 
@@ -217,7 +214,7 @@ public class ImportService
         idVerifier.EnsureUnique(electionId);
         var doi = await _domainOfInfluenceReader.Get(majorityElection.DomainOfInfluenceId);
 
-        var candidateValidationParams = new CandidateValidationParams(doi, false, true);
+        var candidateValidationParams = new CandidateValidationParams(doi, true);
 
         foreach (var candidate in electionImport.Candidates)
         {
@@ -328,13 +325,13 @@ public class ImportService
 
     private ContestImport DeserializeEch157(Stream stream)
     {
-        var contest = _ech0157Deserializer.DeserializeXml(stream);
+        var contest = _echDeserializerProvider.GetEch0157Deserializer(stream).DeserializeXml(stream);
         return _mapper.Map<ContestImport>(contest);
     }
 
     private ContestImport DeserializeEch159(Stream stream)
     {
-        var contest = _ech0159Deserializer.DeserializeXml(stream);
+        var contest = _echDeserializerProvider.GetEch0159Deserializer(stream).DeserializeXml(stream);
         return _mapper.Map<ContestImport>(contest);
     }
 

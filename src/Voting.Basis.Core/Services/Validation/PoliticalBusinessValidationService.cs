@@ -45,15 +45,20 @@ public class PoliticalBusinessValidationService
         Guid domainOfInfluenceId,
         string politicalBusinessNumber,
         PoliticalBusinessType politicalBusinessType,
-        int reportLevel)
+        int reportLevel,
+        string? federalIdentification = null)
     {
         // ensure user has read permissions of the contest
         var contest = await _contestReader.Get(contestId);
         await _permissionService.EnsureDomainOfInfluencesAreChildrenOrSelf(contest.DomainOfInfluenceId, domainOfInfluenceId);
 
+        var domainOfInfluence = await _doiRepo.GetByKey(domainOfInfluenceId)
+            ?? throw new EntityNotFoundException(domainOfInfluenceId);
+
         await EnsureUniquePoliticalBusinessNumber(politicalBusinessId, contestId, domainOfInfluenceId, politicalBusinessNumber, politicalBusinessType);
         await EnsureValidReportDomainOfInfluenceLevel(domainOfInfluenceId, reportLevel);
-        await EnsureNotVirtualTopLevelDomainOfInfluence(domainOfInfluenceId);
+        EnsureNotVirtualTopLevelDomainOfInfluence(domainOfInfluence);
+        EnsureFederalIdentificationOnlyOnChOrCtLevel(domainOfInfluence, federalIdentification);
     }
 
     public async Task EnsureUniquePoliticalBusinessNumber(
@@ -65,7 +70,8 @@ public class PoliticalBusinessValidationService
     {
         // majority elections and secondary majority elections cannot have the same political business number
         List<PoliticalBusinessType> politicalBusinessTypes =
-            politicalBusinessType == PoliticalBusinessType.MajorityElection || politicalBusinessType == PoliticalBusinessType.SecondaryMajorityElection
+            politicalBusinessType == PoliticalBusinessType.MajorityElection ||
+            politicalBusinessType == PoliticalBusinessType.SecondaryMajorityElection
                 ? [PoliticalBusinessType.MajorityElection, PoliticalBusinessType.SecondaryMajorityElection]
                 : [politicalBusinessType];
 
@@ -80,6 +86,27 @@ public class PoliticalBusinessValidationService
         if (alreadyExists)
         {
             throw new DuplicatedPoliticalBusinessNumberException(politicalBusinessNumber);
+        }
+    }
+
+    private static void EnsureNotVirtualTopLevelDomainOfInfluence(DomainOfInfluence domainOfInfluence)
+    {
+        if (domainOfInfluence.VirtualTopLevel)
+        {
+            throw new ValidationException(
+                "A virtual top level domain of influence is not allowed for political businesses.");
+        }
+    }
+
+    private static void EnsureFederalIdentificationOnlyOnChOrCtLevel(
+        DomainOfInfluence domainOfInfluence,
+        string? federalIdentification)
+    {
+        if (!string.IsNullOrEmpty(federalIdentification) && domainOfInfluence.Type != DomainOfInfluenceType.Ch &&
+            domainOfInfluence.Type != DomainOfInfluenceType.Ct)
+        {
+            throw new ValidationException(
+                "Federal identification is only allowed for political businesses on federal or cantonal level.");
         }
     }
 
@@ -118,18 +145,6 @@ public class PoliticalBusinessValidationService
         if (parentIdsList.All(ids => ids.Count - domainOfInfluenceParentCount < reportLevel))
         {
             throw new ValidationException($"Report domainOfInfluence level {reportLevel} is invalid.");
-        }
-    }
-
-    private async Task EnsureNotVirtualTopLevelDomainOfInfluence(Guid domainOfInfluenceId)
-    {
-        var domainOfInfluence = await _doiRepo.GetByKey(domainOfInfluenceId)
-            ?? throw new EntityNotFoundException(domainOfInfluenceId);
-
-        if (domainOfInfluence.VirtualTopLevel)
-        {
-            throw new ValidationException(
-                "A virtual top level domain of influence is not allowed for political businesses.");
         }
     }
 }

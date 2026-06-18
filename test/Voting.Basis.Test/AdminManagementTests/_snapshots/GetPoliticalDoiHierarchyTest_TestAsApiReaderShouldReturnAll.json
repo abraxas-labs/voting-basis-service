@@ -17,7 +17,8 @@
           "ReturnAddress": null,
           "ECollectingEnabled": false,
           "SortNumber": 0,
-          "NameForProtocol": "Kanton Genf"
+          "NameForProtocol": "Kanton Genf",
+          "ECollectingImportRoot": false
         },
         {
           "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
@@ -44,7 +45,8 @@
               },
               "ECollectingEnabled": true,
               "SortNumber": 1,
-              "NameForProtocol": "Stadt Gossau"
+              "NameForProtocol": "Stadt Gossau",
+              "ECollectingImportRoot": false
             },
             {
               "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
@@ -59,7 +61,8 @@
               "ReturnAddress": null,
               "ECollectingEnabled": false,
               "SortNumber": 0,
-              "NameForProtocol": "Stadt Uzwil"
+              "NameForProtocol": "Stadt Uzwil",
+              "ECollectingImportRoot": false
             }
           ],
           "Name": "St. Gallen",
@@ -71,7 +74,8 @@
           "ReturnAddress": null,
           "ECollectingEnabled": false,
           "SortNumber": 0,
-          "NameForProtocol": "Kanton St. Gallen"
+          "NameForProtocol": "Kanton St. Gallen",
+          "ECollectingImportRoot": false
         },
         {
           "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
@@ -86,7 +90,8 @@
           "ReturnAddress": null,
           "ECollectingEnabled": false,
           "SortNumber": 0,
-          "NameForProtocol": "Kanton Thurgau"
+          "NameForProtocol": "Kanton Thurgau",
+          "ECollectingImportRoot": false
         }
       ],
       "Name": "Bund",
@@ -98,7 +103,8 @@
       "ReturnAddress": null,
       "ECollectingEnabled": false,
       "SortNumber": 0,
-      "NameForProtocol": ""
+      "NameForProtocol": "",
+      "ECollectingImportRoot": true
     },
     {
       "Id": "22949a1e-fb09-47ec-9e9f-d26675676565",
@@ -117,7 +123,8 @@
           "ReturnAddress": null,
           "ECollectingEnabled": false,
           "SortNumber": 0,
-          "NameForProtocol": "Oberuzwil Kirche andere"
+          "NameForProtocol": "Oberuzwil Kirche andere",
+          "ECollectingImportRoot": false
         }
       ],
       "Name": "Kirchgemeinde Oberuzwil",
@@ -129,7 +136,8 @@
       "ReturnAddress": null,
       "ECollectingEnabled": false,
       "SortNumber": 0,
-      "NameForProtocol": ""
+      "NameForProtocol": "",
+      "ECollectingImportRoot": false
     },
     {
       "Id": "8af17c9d-6bae-45bf-a85b-b77239f2eefb",
@@ -144,7 +152,8 @@
       "ReturnAddress": null,
       "ECollectingEnabled": false,
       "SortNumber": 0,
-      "NameForProtocol": "Kanton Zürich"
+      "NameForProtocol": "Kanton Zürich",
+      "ECollectingImportRoot": false
     }
   ]
 }
