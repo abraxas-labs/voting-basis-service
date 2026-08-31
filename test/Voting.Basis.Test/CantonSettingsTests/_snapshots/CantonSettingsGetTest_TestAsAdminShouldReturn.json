@@ -58,5 +58,8 @@
   "DomainOfInfluencePublishResultsOptionEnabled": false,
   "SecondaryMajorityElectionOnSeparateBallot": false,
   "HideOccupationTitle": true,
-  "EnableAdditionalCandidateFields": true
+  "EnableAdditionalCandidateFields": true,
+  "ECountingCertificateChain": null,
+  "MonitoringAutoShowPoliticalBusinesses": false,
+  "MonitoringUseImprovedUi": false
 }

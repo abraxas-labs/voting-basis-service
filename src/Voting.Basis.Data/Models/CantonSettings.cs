@@ -74,4 +74,10 @@ public class CantonSettings : BaseEntity
     public bool HideOccupationTitle { get; set; }
 
     public bool EnableAdditionalCandidateFields { get; set; }
+
+    public CantonSettingsECountingCertificateChain? ECountingCertificateChain { get; set; }
+
+    public bool MonitoringAutoShowPoliticalBusinesses { get; set; }
+
+    public bool MonitoringUseImprovedUi { get; set; }
 }

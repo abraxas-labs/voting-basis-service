@@ -38,11 +38,13 @@ public class ImportContestTest : BaseImportTest
         var peListCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEvents<ProportionalElectionListCreated, EventSignatureBusinessMetadata>();
         var ballotCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEvents<BallotCreated, EventSignatureBusinessMetadata>();
         var meCandidateCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEvents<MajorityElectionCandidateCreated, EventSignatureBusinessMetadata>();
+        var smeCandidateCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEvents<SecondaryMajorityElectionCandidateCreated, EventSignatureBusinessMetadata>();
 
         var childEventsMetadata = peListCreatedEventsWithMetadata
             .Select(e => e.Metadata)
             .Concat(ballotCreatedEventsWithMetadata.Select(e => e.Metadata))
             .Concat(meCandidateCreatedEventsWithMetadata.Select(e => e.Metadata))
+            .Concat(smeCandidateCreatedEventsWithMetadata.Select(e => e.Metadata))
             .ToList();
 
         childEventsMetadata.Where(m => m == null).Should().HaveCount(0);
@@ -59,11 +61,13 @@ public class ImportContestTest : BaseImportTest
         var peListCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEvents<ProportionalElectionListCreated, EventSignatureBusinessMetadata>();
         var ballotCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEvents<BallotCreated, EventSignatureBusinessMetadata>();
         var meCandidateCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEvents<MajorityElectionCandidateCreated, EventSignatureBusinessMetadata>();
+        var smeCandidateCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEvents<SecondaryMajorityElectionCandidateCreated, EventSignatureBusinessMetadata>();
 
         var childEventsMetadata = peListCreatedEventsWithMetadata
             .Select(e => e.Metadata)
             .Concat(ballotCreatedEventsWithMetadata.Select(e => e.Metadata))
             .Concat(meCandidateCreatedEventsWithMetadata.Select(e => e.Metadata))
+            .Concat(smeCandidateCreatedEventsWithMetadata.Select(e => e.Metadata))
             .ToList();
 
         childEventsMetadata.Where(m => m == null).Should().HaveCount(0);
@@ -82,12 +86,14 @@ public class ImportContestTest : BaseImportTest
 
         var peCreatedEvents = EventPublisherMock.GetPublishedEvents<ProportionalElectionCreated>();
         var meCreatedEvents = EventPublisherMock.GetPublishedEvents<MajorityElectionCreated>();
+        var smeCreatedEvents = EventPublisherMock.GetPublishedEvents<SecondaryMajorityElectionCreated>();
         var voteCreatedEvents = EventPublisherMock.GetPublishedEvents<VoteCreated>();
 
         voteCreatedEvents.First().Vote.EVotingApproved.Should().BeNull();
         voteCreatedEvents.Any(v => v.Vote.EVotingApproved == false).Should().BeTrue();
         peCreatedEvents.Any(pe => pe.ProportionalElection.EVotingApproved == false).Should().BeTrue();
         meCreatedEvents.Any(me => me.MajorityElection.EVotingApproved == false).Should().BeTrue();
+        smeCreatedEvents.Any(me => me.SecondaryMajorityElection.EVotingApproved == false).Should().BeTrue();
     }
 
     [Fact]
@@ -99,10 +105,12 @@ public class ImportContestTest : BaseImportTest
         var peListCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEventsWithMetadata<ProportionalElectionListCreated>();
         var ballotCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEventsWithMetadata<BallotCreated>();
         var meCandidateCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEventsWithMetadata<MajorityElectionCandidateCreated>();
+        var smeCandidateCreatedEventsWithMetadata = EventPublisherMock.GetPublishedEventsWithMetadata<SecondaryMajorityElectionCandidateCreated>();
 
         var childEvents = peListCreatedEventsWithMetadata
             .Concat(ballotCreatedEventsWithMetadata)
             .Concat(meCandidateCreatedEventsWithMetadata)
+            .Concat(smeCandidateCreatedEventsWithMetadata)
             .ToList();
 
         childEvents.Where(m => m == null).Should().HaveCount(0);
@@ -131,6 +139,43 @@ public class ImportContestTest : BaseImportTest
             "This id is not unique");
     }
 
+    [Fact]
+    public async Task TestWithDuplicatedPoliticalBusinessNumberShouldThrow()
+    {
+        var contest = await CreateValidContestImport();
+        contest.MajorityElections[0].Election.PoliticalBusinessNumber = contest.SecondaryMajorityElections[0].Election.PoliticalBusinessNumber;
+        await AssertStatus(
+            async () => await CantonAdminClient.ImportContestAsync(new ImportContestRequest { Contest = contest }),
+            StatusCode.AlreadyExists,
+            $"DuplicatedPoliticalBusinessNumberException: The political business number {contest.MajorityElections[0].Election.PoliticalBusinessNumber} is already taken");
+    }
+
+    [Fact]
+    public async Task TestWithDuplicatedProportionalElectionPoliticalBusinessNumberShouldThrow()
+    {
+        var contest = await CreateValidContestImport();
+        var propElection = contest.ProportionalElections[0].Clone();
+        contest.ProportionalElections.Add(propElection);
+
+        await AssertStatus(
+            async () => await CantonAdminClient.ImportContestAsync(new ImportContestRequest { Contest = contest }),
+            StatusCode.AlreadyExists,
+            $"DuplicatedPoliticalBusinessNumberException: The political business number {propElection.Election.PoliticalBusinessNumber} is already taken");
+    }
+
+    [Fact]
+    public async Task TestWithDuplicatedVotePoliticalBusinessNumberShouldThrow()
+    {
+        var contest = await CreateValidContestImport();
+        var voteImport = contest.Votes[0].Clone();
+        contest.Votes.Add(voteImport);
+
+        await AssertStatus(
+            async () => await CantonAdminClient.ImportContestAsync(new ImportContestRequest { Contest = contest }),
+            StatusCode.AlreadyExists,
+            $"DuplicatedPoliticalBusinessNumberException: The political business number {voteImport.Vote.PoliticalBusinessNumber} is already taken");
+    }
+
     protected override async Task AuthorizationTestCall(GrpcChannel channel)
     {
         var contest = await CreateValidContestImport();
@@ -154,24 +199,30 @@ public class ImportContestTest : BaseImportTest
         var contest2 = await LoadContestImport(SharedProto.ImportType.Ech159, EchTestFiles.GetTestFilePath(v5 ? EchTestFiles.Ech0159V5FileName : EchTestFiles.Ech0159FileName));
 
         contest1.MajorityElections.AddRange(contest2.MajorityElections);
+        contest1.SecondaryMajorityElections.AddRange(contest2.SecondaryMajorityElections);
         contest1.ProportionalElections.AddRange(contest2.ProportionalElections);
         contest1.Votes.AddRange(contest2.Votes);
 
-        foreach (var majorityElection in contest1.MajorityElections)
+        foreach (var (majorityElection, index) in contest1.MajorityElections.Select((x, i) => (x, i)))
         {
-            majorityElection.Election.PoliticalBusinessNumber = "11new";
+            majorityElection.Election.PoliticalBusinessNumber = $"11newME{index}";
             majorityElection.Election.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
         }
 
-        foreach (var proportionalElection in contest1.ProportionalElections)
+        foreach (var (secondaryMajorityElection, index) in contest1.SecondaryMajorityElections.Select((x, i) => (x, i)))
         {
-            proportionalElection.Election.PoliticalBusinessNumber = "11new";
+            secondaryMajorityElection.Election.PoliticalBusinessNumber = $"12newSME{index}";
+        }
+
+        foreach (var (proportionalElection, index) in contest1.ProportionalElections.Select((x, i) => (x, i)))
+        {
+            proportionalElection.Election.PoliticalBusinessNumber = $"11newPE{index}";
             proportionalElection.Election.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
         }
 
-        foreach (var vote in contest1.Votes)
+        foreach (var (vote, index) in contest1.Votes.Select((x, i) => (x, i)))
         {
-            vote.Vote.PoliticalBusinessNumber = "11new";
+            vote.Vote.PoliticalBusinessNumber = $"11newV{index}";
             vote.Vote.DomainOfInfluenceId = DomainOfInfluenceMockedData.IdGossau;
         }
 

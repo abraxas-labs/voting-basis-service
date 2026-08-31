@@ -9,10 +9,6 @@ namespace Voting.Basis.Ech.Converters;
 
 public interface IEch0157Serializer
 {
-    string EchNumber => "0157";
-
-    string EchVersion { get; }
-
     Task<byte[]> ToDelivery(Contest contest, MajorityElection majorityElection);
 
     /// <summary>

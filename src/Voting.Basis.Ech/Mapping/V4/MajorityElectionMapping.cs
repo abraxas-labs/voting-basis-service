@@ -19,7 +19,7 @@ internal static class MajorityElectionMapping
         var electionInfos = majorityElection.SecondaryMajorityElections
             .OrderBy(s => s.PoliticalBusinessNumber)
             .Select(s => ToEchElectionInformation(s, eVoting))
-            .Append(majorityElection.ToEchElectionInformation(eVoting))
+            .Prepend(majorityElection.ToEchElectionInformation(eVoting))
             .ToList();
 
         return new EventInitialDeliveryElectionGroupBallot
@@ -58,7 +58,7 @@ internal static class MajorityElectionMapping
         };
     }
 
-    internal static MajorityElection ToBasisMajorityElection(this EventInitialDeliveryElectionGroupBallotElectionInformation election, IdLookup idLookup)
+    internal static MajorityElection ToBasisMajorityElection(this EventInitialDeliveryElectionGroupBallotElectionInformation election, IdLookup idLookup, IDictionary<string, EventInitialDeliveryElectionGroupBallotElectionInformation> secondaryElectionsById)
     {
         var electionIdentification = election.Election.ElectionIdentification;
         var electionId = idLookup.GuidForId(electionIdentification);
@@ -87,6 +87,11 @@ internal static class MajorityElectionMapping
             candidates[i].Position = i + 1;
         }
 
+        var secondaryElections = election.Election.ReferencedElection
+            .Where(r => secondaryElectionsById.ContainsKey(r.ReferencedElection))
+            .Select(r => secondaryElectionsById[r.ReferencedElection].ToBasisSecondaryMajorityElection(idLookup, electionId))
+            .ToList();
+
         return new MajorityElection
         {
             Id = electionId,
@@ -99,6 +104,48 @@ internal static class MajorityElectionMapping
             MandateAlgorithm = MajorityElectionMandateAlgorithm.AbsoluteMajority,
             BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
             ReviewProcedure = MajorityElectionReviewProcedure.Electronically,
+            SecondaryMajorityElections = secondaryElections,
+        };
+    }
+
+    private static SecondaryMajorityElection ToBasisSecondaryMajorityElection(this EventInitialDeliveryElectionGroupBallotElectionInformation election, IdLookup idLookup, Guid primaryMajorityElectionId)
+    {
+        var electionIdentification = election.Election.ElectionIdentification;
+        var electionId = idLookup.GuidForId(electionIdentification);
+
+        var officialDescriptionInfos = election
+            .Election
+            .ElectionDescription;
+        var officialDescriptions = officialDescriptionInfos.ToLanguageDictionary(x => x.Language, x => x.ElectionDescription ?? electionIdentification, electionIdentification);
+
+        var shortDescriptionInfos = election
+            .Election
+            .ElectionDescription;
+        var shortDescriptions = shortDescriptionInfos.ToLanguageDictionary(x => x.Language, x => x.ElectionDescriptionShort ?? electionIdentification, electionIdentification);
+
+        var electionInformationExtension = ElectionMapping.GetExtension(election.Extension?.Any);
+
+        var candidates = (election.Candidate ?? Enumerable.Empty<CandidateType>())
+            .Select(c => c.ToBasisSecondaryMajorityCandidate(
+                electionId,
+                idLookup,
+                electionInformationExtension?.Candidates?.FirstOrDefault(e => e.CandidateIdentification == c.CandidateIdentification)))
+            .ToList();
+
+        for (var i = 0; i < candidates.Count; i++)
+        {
+            candidates[i].Position = i + 1;
+        }
+
+        return new SecondaryMajorityElection
+        {
+            Id = electionId,
+            OfficialDescription = officialDescriptions,
+            ShortDescription = shortDescriptions,
+            PoliticalBusinessNumber = election.Election.ElectionPosition,
+            NumberOfMandates = int.Parse(election.Election.NumberOfMandates),
+            PrimaryMajorityElectionId = primaryMajorityElectionId,
+            Candidates = candidates,
         };
     }
 
@@ -154,6 +201,21 @@ internal static class MajorityElectionMapping
         basisCandidate.MajorityElectionId = electionId;
         var partyInfos = candidate.PartyAffiliation;
         if (partyInfos.Count > 0)
+        {
+            basisCandidate.PartyShortDescription = partyInfos.ToLanguageDictionary(x => x.Language, x => x.PartyAffiliationShort, string.Empty);
+            basisCandidate.PartyLongDescription = partyInfos.ToLanguageDictionary(x => x.Language, x => x.PartyAffiliationLong ?? x.PartyAffiliationShort, string.Empty);
+        }
+
+        return basisCandidate;
+    }
+
+    private static SecondaryMajorityElectionCandidate ToBasisSecondaryMajorityCandidate(this CandidateType candidate, Guid electionId, IdLookup idLookup, ElectionInformationExtensionCandidate? candidateExtension)
+    {
+        var basisCandidate = candidate.ToBasisCandidate<SecondaryMajorityElectionCandidate>(idLookup, candidateExtension);
+
+        basisCandidate.SecondaryMajorityElectionId = electionId;
+        var partyInfos = candidate.PartyAffiliation;
+        if (partyInfos?.Count > 0)
         {
             basisCandidate.PartyShortDescription = partyInfos.ToLanguageDictionary(x => x.Language, x => x.PartyAffiliationShort, string.Empty);
             basisCandidate.PartyLongDescription = partyInfos.ToLanguageDictionary(x => x.Language, x => x.PartyAffiliationLong ?? x.PartyAffiliationShort, string.Empty);

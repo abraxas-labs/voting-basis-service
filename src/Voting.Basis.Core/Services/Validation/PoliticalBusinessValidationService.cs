@@ -61,6 +61,25 @@ public class PoliticalBusinessValidationService
         EnsureFederalIdentificationOnlyOnChOrCtLevel(domainOfInfluence, federalIdentification);
     }
 
+    public async Task EnsureValidImportData(
+        Guid politicalBusinessId,
+        Guid contestId,
+        Guid contestDomainOfInfluenceId,
+        Guid domainOfInfluenceId,
+        string politicalBusinessNumber,
+        PoliticalBusinessType politicalBusinessType,
+        int reportLevel)
+    {
+        await _permissionService.EnsureDomainOfInfluencesAreChildrenOrSelf(contestDomainOfInfluenceId, domainOfInfluenceId);
+
+        var domainOfInfluence = await _doiRepo.GetByKey(domainOfInfluenceId)
+                                ?? throw new EntityNotFoundException(domainOfInfluenceId);
+
+        await EnsureUniquePoliticalBusinessNumber(politicalBusinessId, contestId, domainOfInfluenceId, politicalBusinessNumber, politicalBusinessType);
+        await EnsureValidReportDomainOfInfluenceLevel(domainOfInfluenceId, reportLevel);
+        EnsureNotVirtualTopLevelDomainOfInfluence(domainOfInfluence);
+    }
+
     public async Task EnsureUniquePoliticalBusinessNumber(
         Guid politicalBusinessId,
         Guid contestId,

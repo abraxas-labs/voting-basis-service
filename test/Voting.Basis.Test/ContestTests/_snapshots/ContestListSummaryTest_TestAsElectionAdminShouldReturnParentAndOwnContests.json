@@ -75,6 +75,7 @@
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": true,
         "StistatExportEaiMessageType": "5577812",
         "ECollectingImportRoot": true
@@ -176,6 +177,7 @@
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": false,
         "StistatExportEaiMessageType": "",
         "ECollectingImportRoot": false
@@ -300,6 +302,7 @@
         "IsMainVotingCardsDomainOfInfluence": true,
         "HasEmptyVotingCards": true,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": false,
         "StistatExportEaiMessageType": "",
         "ECollectingImportRoot": false
@@ -393,6 +396,7 @@
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": false,
         "StistatExportEaiMessageType": "",
         "ECollectingImportRoot": false
@@ -481,6 +485,7 @@
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": true,
         "StistatExportEaiMessageType": "5577812",
         "ECollectingImportRoot": true
@@ -575,6 +580,7 @@
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": true,
         "StistatExportEaiMessageType": "5577812",
         "ECollectingImportRoot": true
@@ -669,6 +675,7 @@
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": true,
         "StistatExportEaiMessageType": "5577812",
         "ECollectingImportRoot": true
@@ -780,6 +787,7 @@
         "IsMainVotingCardsDomainOfInfluence": true,
         "HasEmptyVotingCards": true,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": false,
         "StistatExportEaiMessageType": "",
         "ECollectingImportRoot": false

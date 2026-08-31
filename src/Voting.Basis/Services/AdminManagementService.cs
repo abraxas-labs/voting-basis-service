@@ -1,6 +1,7 @@
 ﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Services.V1.Models;
 using Abraxas.Voting.Basis.Services.V1.Requests;
@@ -45,6 +46,14 @@ public class AdminManagementService : ServiceBase
         GetPoliticalDomainOfInfluenceHierarchyRequest request,
         ServerCallContext context)
     {
-        return _mapper.Map<PoliticalDomainOfInfluenceHierarchies>(await _domainOfInfluenceReader.ListAll());
+        var doiList = await _domainOfInfluenceReader.ListAll();
+
+        // We only want to return directly assigned counting circles here
+        foreach (var doi in doiList)
+        {
+            doi.CountingCircles = doi.CountingCircles.Where(cc => !cc.Inherited).ToList();
+        }
+
+        return _mapper.Map<PoliticalDomainOfInfluenceHierarchies>(doiList);
     }
 }

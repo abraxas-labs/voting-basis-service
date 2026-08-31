@@ -444,6 +444,8 @@ public class MajorityElectionCandidateCreateTest : PoliticalBusinessAuthorizatio
         {
             x.MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen;
             x.ReportingType = SharedProto.MajorityElectionCandidateReportingType.Candidate;
+            x.Position = 3;
+            x.Number = "number3";
         });
 
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.PastUnlocked);

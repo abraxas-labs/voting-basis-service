@@ -540,22 +540,14 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
         return true;
     }
 
-    private void DeleteSecondaryMajorityElectionWithoutChecks(MajorityElectionAggregate aggregate, Guid id)
+    internal async Task<bool> AreSecondaryElectionsOnSeparateBallots(Guid doiId)
     {
-        DeleteSecondaryMajorityElection(aggregate, id, true);
+        return await _domainOfInfluenceRepo.Query()
+            .Where(x => x.Id == doiId && x.CantonDefaults.SecondaryMajorityElectionOnSeparateBallot)
+            .AnyAsync();
     }
 
-    private void DeleteSecondaryMajorityElection(MajorityElectionAggregate aggregate, Guid id, bool ignoreChecks = false)
-    {
-        aggregate.DeleteSecondaryMajorityElection(id, ignoreChecks);
-
-        if (aggregate.SecondaryMajorityElections.Count == 0)
-        {
-            aggregate.DeleteElectionGroup();
-        }
-    }
-
-    private async Task CreateElectionGroup(MajorityElectionAggregate aggregate)
+    internal async Task CreateElectionGroup(MajorityElectionAggregate aggregate)
     {
         var highestElectionGroupNumber = await _electionGroupRepo.Query()
             .Where(eg => eg.PrimaryMajorityElection.ContestId == aggregate.ContestId)
@@ -570,6 +562,21 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
         };
 
         aggregate.CreateElectionGroupFrom(electionGroup);
+    }
+
+    private void DeleteSecondaryMajorityElectionWithoutChecks(MajorityElectionAggregate aggregate, Guid id)
+    {
+        DeleteSecondaryMajorityElection(aggregate, id, true);
+    }
+
+    private void DeleteSecondaryMajorityElection(MajorityElectionAggregate aggregate, Guid id, bool ignoreChecks = false)
+    {
+        aggregate.DeleteSecondaryMajorityElection(id, ignoreChecks);
+
+        if (aggregate.SecondaryMajorityElections.Count == 0)
+        {
+            aggregate.DeleteElectionGroup();
+        }
     }
 
     private async Task<MajorityElectionAggregate> GetAggregateFromSecondaryMajorityElection(Guid id)
@@ -620,12 +627,5 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
         {
             throw new ValidationException("Cannot disable individual candidates when there are individual candidates vote count defined on ballot group entries");
         }
-    }
-
-    private async Task<bool> AreSecondaryElectionsOnSeparateBallots(Guid doiId)
-    {
-        return await _domainOfInfluenceRepo.Query()
-            .Where(x => x.Id == doiId && x.CantonDefaults.SecondaryMajorityElectionOnSeparateBallot)
-            .AnyAsync();
     }
 }

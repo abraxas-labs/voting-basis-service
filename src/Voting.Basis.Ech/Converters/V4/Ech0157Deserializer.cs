@@ -45,10 +45,15 @@ public class Ech0157Deserializer : IEch0157Deserializer
             .Select(x => x.ToBasisProportionalElection(idLookup))
             .ToList();
 
+        var secondaryElectionsById = delivery.InitialDelivery.ElectionGroupBallot
+            .SelectMany(x => x.ElectionInformation)
+            .Where(x => x.Election.TypeOfElection == TypeOfElectionType.Item2 && x.Election.ReferencedElection?.Any(y => y.ElectionRelation == ElectionRelationType.Item1) == true)
+            .ToDictionary(x => x.Election.ElectionIdentification, x => x);
+
         contest.MajorityElections = delivery.InitialDelivery.ElectionGroupBallot
             .SelectMany(x => x.ElectionInformation)
-            .Where(x => x.Election.TypeOfElection == TypeOfElectionType.Item2)
-            .Select(x => x.ToBasisMajorityElection(idLookup))
+            .Where(x => x.Election.TypeOfElection == TypeOfElectionType.Item2 && x.Election.ReferencedElection?.All(y => y.ElectionRelation == ElectionRelationType.Item2) != false)
+            .Select(x => x.ToBasisMajorityElection(idLookup, secondaryElectionsById))
             .ToList();
 
         return contest;

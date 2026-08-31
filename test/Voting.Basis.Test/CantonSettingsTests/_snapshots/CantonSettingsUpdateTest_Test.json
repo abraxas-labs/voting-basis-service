@@ -76,7 +76,9 @@
       "DomainOfInfluencePublishResultsOptionEnabled": true,
       "SecondaryMajorityElectionOnSeparateBallot": false,
       "HideOccupationTitle": false,
-      "EnableAdditionalCandidateFields": false
+      "EnableAdditionalCandidateFields": false,
+      "MonitoringAutoShowPoliticalBusinesses": false,
+      "MonitoringUseImprovedUi": false
     }
   }
 }

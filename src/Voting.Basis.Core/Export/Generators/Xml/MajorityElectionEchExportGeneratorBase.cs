@@ -13,26 +13,28 @@ using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Converters;
 using Voting.Lib.Database.Repositories;
+using Voting.Lib.VotingExports.Models;
 
 namespace Voting.Basis.Core.Export.Generators.Xml;
 
-public class MajorityElectionEchExportGeneratorBase
+public abstract class MajorityElectionEchExportGeneratorBase : IExportGenerator
 {
     private readonly IDbRepository<DataContext, MajorityElection> _electionRepo;
-    private readonly EchSerializerProvider _echSerializerProvider;
     private readonly PermissionService _permissionService;
 
     public MajorityElectionEchExportGeneratorBase(
         IDbRepository<DataContext, MajorityElection> electionRepo,
-        EchSerializerProvider echSerializerProvider,
         PermissionService permissionService)
     {
         _electionRepo = electionRepo;
-        _echSerializerProvider = echSerializerProvider;
         _permissionService = permissionService;
     }
 
-    public async Task<ExportFile> GenerateExport(Guid entityId, bool v5)
+    public abstract TemplateModel Template { get; }
+
+    protected abstract IEch0157Serializer Ech0157Serializer { get; }
+
+    public async Task<ExportFile> GenerateExport(Guid entityId)
     {
         var majorityElection = await _electionRepo.Query()
             .AsSplitQuery()
@@ -47,15 +49,13 @@ public class MajorityElectionEchExportGeneratorBase
             ?? throw new EntityNotFoundException(entityId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, true);
-        var ech0157Serializer = _echSerializerProvider.GetEch0157Serializer(v5);
 
-        var xmlBytes = await ech0157Serializer.ToDelivery(majorityElection.Contest, majorityElection);
+        var xmlBytes = await Ech0157Serializer.ToDelivery(majorityElection.Contest, majorityElection);
 
         var electionDescription = LanguageUtil.GetInCurrentLanguage(majorityElection.ShortDescription);
 
         var fileName = FileNameUtil.GetXmlFileName(
-            ech0157Serializer.EchNumber,
-            ech0157Serializer.EchVersion,
+            Template.Filename,
             majorityElection.Contest.DomainOfInfluence.Canton,
             majorityElection.Contest.Date,
             electionDescription);

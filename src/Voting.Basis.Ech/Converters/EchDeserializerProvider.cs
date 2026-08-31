@@ -5,9 +5,9 @@ using System;
 using System.IO;
 using Voting.Lib.Ech;
 using Ech0157DeserializerV4 = Voting.Basis.Ech.Converters.V4.Ech0157Deserializer;
-using Ech0157DeserializerV5 = Voting.Basis.Ech.Converters.V5.Ech0157Deserializer;
+using Ech0157DeserializerV5 = Voting.Basis.Ech.Converters.V5_1.Ech0157Deserializer;
 using Ech0159DeserializerV4 = Voting.Basis.Ech.Converters.V4.Ech0159Deserializer;
-using Ech0159DeserializerV5 = Voting.Basis.Ech.Converters.V5.Ech0159Deserializer;
+using Ech0159DeserializerV5 = Voting.Basis.Ech.Converters.V5_1.Ech0159Deserializer;
 
 namespace Voting.Basis.Ech.Converters;
 

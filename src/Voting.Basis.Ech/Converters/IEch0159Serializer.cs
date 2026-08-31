@@ -9,10 +9,6 @@ namespace Voting.Basis.Ech.Converters;
 
 public interface IEch0159Serializer
 {
-    string EchNumber => "0159";
-
-    string EchVersion { get; }
-
     /// <summary>
     /// Serialize to eCH-0159.
     /// </summary>

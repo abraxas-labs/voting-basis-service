@@ -1,13 +1,11 @@
 ﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
-using System;
-using System.Collections.Generic;
-using Voting.Basis.Core.Export.Models;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Converters;
+using Voting.Basis.Ech.Converters.V4;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Iam.Store;
 using Voting.Lib.VotingExports.Models;
@@ -15,24 +13,26 @@ using Voting.Lib.VotingExports.Repository.Basis;
 
 namespace Voting.Basis.Core.Export.Generators.Xml.V4;
 
-public class ContestEchOnlyEVotingExportsGenerator : ContestEchOnlyEVotingExportsGeneratorBase, IExportsGenerator
+public class ContestEchOnlyEVotingExportsGenerator : ContestEchOnlyEVotingExportsGeneratorBase
 {
+    private readonly Ech0157Serializer _ech0157Serializer;
+    private readonly Ech0159Serializer _ech0159Serializer;
+
     public ContestEchOnlyEVotingExportsGenerator(
         IAuth auth,
         IDbRepository<DataContext, Contest> contestRepo,
-        EchSerializerProvider echSerializerProvider,
-        PermissionService permissionService)
-        : base(auth, contestRepo, echSerializerProvider, permissionService)
+        PermissionService permissionService,
+        Ech0157Serializer ech0157Serializer,
+        Ech0159Serializer ech0159Serializer)
+        : base(auth, contestRepo, permissionService)
     {
+        _ech0157Serializer = ech0157Serializer;
+        _ech0159Serializer = ech0159Serializer;
     }
 
-    public TemplateModel Template => BasisXmlContestTemplates.Ech0157And0159_4_0_EVotingOnly;
+    public override TemplateModel Template => BasisXmlContestTemplates.Ech0157And0159_4_0_EVotingOnly;
 
-    public async IAsyncEnumerable<ExportFile> GenerateExports(Guid entityId)
-    {
-        await foreach (var exportFile in GenerateExports(entityId, false))
-        {
-            yield return exportFile;
-        }
-    }
+    protected override IEch0157Serializer Ech0157Serializer => _ech0157Serializer;
+
+    protected override IEch0159Serializer Ech0159Serializer => _ech0159Serializer;
 }

@@ -198,6 +198,124 @@
       ]
     }
   ],
+  "SecondaryMajorityElections": [
+    {
+      "Election": {
+        "Id": "",
+        "PoliticalBusinessNumber": "2",
+        "OfficialDescription": {
+          "de": "Nebenwahl",
+          "fr": "Nebenwahl",
+          "it": "Nebenwahl",
+          "rm": "Nebenwahl"
+        },
+        "ShortDescription": {
+          "de": "Nebenwahl",
+          "fr": "Nebenwahl",
+          "it": "Nebenwahl",
+          "rm": "Nebenwahl"
+        },
+        "NumberOfMandates": 1,
+        "PrimaryMajorityElectionId": "",
+        "Active": false,
+        "IndividualCandidatesDisabled": false,
+        "IsOnSeparateBallot": false,
+        "EVotingApproved": null,
+        "EVotingEverApproved": false
+      },
+      "Candidates": [
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "01",
+          "FirstName": "Urs",
+          "LastName": "Niederer",
+          "PoliticalFirstName": "Urs",
+          "PoliticalLastName": "Niederer",
+          "DateOfBirth": {
+            "Seconds": 747705600,
+            "Nanos": 0
+          },
+          "Sex": 1,
+          "Occupation": {},
+          "Title": "",
+          "OccupationTitle": {},
+          "PartyShortDescription": {
+            "de": "SP",
+            "fr": "SP",
+            "it": "SP",
+            "rm": "SP"
+          },
+          "PartyLongDescription": {
+            "de": "SP",
+            "fr": "SP",
+            "it": "SP",
+            "rm": "SP"
+          },
+          "Incumbent": false,
+          "ZipCode": "4200",
+          "Locality": "locality",
+          "Position": 1,
+          "Origin": "Heimatort",
+          "CheckDigit": 0,
+          "Country": "CH",
+          "Street": "street",
+          "HouseNumber": "1a",
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
+        },
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "02",
+          "FirstName": "Petra",
+          "LastName": "Muster",
+          "PoliticalFirstName": "Petra",
+          "PoliticalLastName": "Muster",
+          "DateOfBirth": {
+            "Seconds": 981590400,
+            "Nanos": 0
+          },
+          "Sex": 2,
+          "Occupation": {
+            "de": "Testerin",
+            "fr": "Testerin",
+            "it": "Testerin",
+            "rm": "Testerin"
+          },
+          "Title": "Dr.",
+          "OccupationTitle": {},
+          "PartyShortDescription": {
+            "de": "parteilos",
+            "fr": "parteilos",
+            "it": "parteilos",
+            "rm": "parteilos"
+          },
+          "PartyLongDescription": {
+            "de": "Parteilos",
+            "fr": "Parteilos",
+            "it": "Parteilos",
+            "rm": "Parteilos"
+          },
+          "Incumbent": false,
+          "ZipCode": "9000",
+          "Locality": "St. Gallen",
+          "Position": 2,
+          "Origin": "Buchs SG",
+          "CheckDigit": 0,
+          "Country": "CH",
+          "Street": "Teststrasse",
+          "HouseNumber": "21",
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
+        }
+      ]
+    }
+  ],
   "ProportionalElections": [
     {
       "Election": {

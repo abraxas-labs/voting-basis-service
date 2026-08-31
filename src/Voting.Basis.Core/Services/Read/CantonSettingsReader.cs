@@ -52,6 +52,8 @@ public class CantonSettingsReader
             .Where(c => canReadAll || c.SecureConnectId == _auth.Tenant.Id)
             .Include(x => x.EnabledVotingCardChannels.OrderBy(y => y.VotingChannel).ThenBy(y => y.Valid))
             .Include(x => x.CountingCircleResultStateDescriptions.OrderBy(y => y.State))
+            .Include(x => x.ECountingCertificateChain)
+            .ThenInclude(x => x!.Infos!.OrderBy(i => i.NotAfter).ThenBy(i => i.Subject))
             .OrderBy(c => c.Canton);
     }
 }

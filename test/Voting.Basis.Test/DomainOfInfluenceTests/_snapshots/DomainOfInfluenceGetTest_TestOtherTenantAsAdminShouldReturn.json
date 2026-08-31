@@ -165,6 +165,7 @@
   "IsMainVotingCardsDomainOfInfluence": false,
   "HasEmptyVotingCards": false,
   "EVoting": false,
+  "ECounting": false,
   "StistatExportEnabled": false,
   "StistatExportEaiMessageType": "",
   "ECollectingImportRoot": false

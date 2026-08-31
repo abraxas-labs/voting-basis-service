@@ -52,7 +52,12 @@ public class Startup
         services.AddCertificatePinning(_appConfig.CertificatePinning);
         ConfigureHealthChecks(services.AddHealthChecks());
 
-        services.AddAutoMapper(typeof(Startup), typeof(ConverterProfile), typeof(DataContext));
+        services.AddAutoMapper(
+            cfg => cfg.LicenseKey = _appConfig.AutoMapper.LicenseKey,
+            typeof(Startup),
+            typeof(ConverterProfile),
+            typeof(DataContext));
+
         AddMessaging(services);
 
         services.AddCore(_appConfig);

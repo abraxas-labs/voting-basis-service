@@ -9,6 +9,7 @@ using AutoMapper;
 using FluentAssertions;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Exceptions;
+using Voting.Lib.Cryptography.Exceptions;
 using Voting.Lib.Eventing.Exceptions;
 using Voting.Lib.Iam.Exceptions;
 using Xunit;
@@ -36,6 +37,7 @@ public class ExceptionMappingTest
             new ContestInMergeSetAsPreviousContestException(),
             new SecondaryMajorityElectionCandidateNotSelectedInPrimaryElectionException(),
             new PoliticalBusinessNotCompleteException("ERR"),
+            new X509ChainBuilderException("ERR"),
         };
 
         var hiddenExceptions = new HashSet<Exception>()

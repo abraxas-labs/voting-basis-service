@@ -25,6 +25,11 @@ public class AdminManagementProfile : Profile
             .ForMember(dst => dst.TenantId, opts => opts.MapFrom(src => src.SecureConnectId))
             .ForMember(dst => dst.Type, opts => opts.MapFrom(src => src.Type))
             .ForMember(dst => dst.Canton, opts => opts.MapFrom(src => src.Canton))
-            .ForMember(dst => dst.ReturnAddress, opts => opts.MapFrom(src => src.ReturnAddress));
+            .ForMember(dst => dst.ReturnAddress, opts => opts.MapFrom(src => src.ReturnAddress))
+            .ForMember(dst => dst.AssignedCountingCircles, opts => opts.MapFrom(src => src.CountingCircles));
+
+        CreateMap<Data.Models.DomainOfInfluenceCountingCircle, ProtoModels.PoliticalCountingCircle>()
+            .ForMember(dst => dst.Id, opts => opts.MapFrom(src => src.CountingCircleId))
+            .ForMember(dst => dst.Name, opts => opts.MapFrom(src => src.CountingCircle.Name));
     }
 }

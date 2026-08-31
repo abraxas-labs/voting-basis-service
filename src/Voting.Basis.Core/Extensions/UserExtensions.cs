@@ -18,4 +18,19 @@ public static class UserExtensions
             Username = user.Username ?? string.Empty,
         };
     }
+
+    public static Data.Models.User ToDataUser(this User user)
+    {
+        return user.ToEventInfoUser().ToDataUser();
+    }
+
+    public static Data.Models.User ToDataUser(this EventInfoUser user)
+    {
+        return new()
+        {
+            SecureConnectId = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+        };
+    }
 }

@@ -289,7 +289,7 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
                     BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId1GossauMajorityElectionEVotingApprovedInContestBund,
                     CandidateIds =
                     {
-                        MajorityElectionMockedData.CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen,
+                        MajorityElectionMockedData.CandidateId1GossauMajorityElectionEVotingApprovedInContestStGallen,
                     },
                     IndividualCandidatesVoteCount = 1,
                     BlankRowCount = 1,
@@ -384,7 +384,7 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
                         BallotGroupEntryId = MajorityElectionMockedData.BallotGroupEntryId1StGallenMajorityElectionInContestBund,
                         CandidateIds =
                         {
-                            MajorityElectionMockedData.CandidateId2BundMajorityElectionInContestStGallen,
+                            MajorityElectionMockedData.CandidateId2StGallenMajorityElectionInContestBund,
                         },
                     },
                     new ProtoModels.MajorityElectionBallotGroupEntryCandidates
@@ -400,6 +400,20 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
             }),
             StatusCode.FailedPrecondition,
             nameof(SecondaryMajorityElectionCandidateNotSelectedInPrimaryElectionException));
+    }
+
+    [Fact]
+    public async Task CandidateFromOtherElectionShouldThrow()
+    {
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(NewValidRequest(o =>
+            {
+                var entry = o.EntryCandidates[0];
+                entry.CandidateIds.Clear();
+                entry.CandidateIds.Add(MajorityElectionMockedData.CandidateId1BundMajorityElectionInContestStGallen);
+            })),
+            StatusCode.InvalidArgument,
+            "ValidationException: Some candidate IDs do not belong to this election");
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

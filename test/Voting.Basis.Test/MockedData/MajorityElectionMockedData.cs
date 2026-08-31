@@ -54,7 +54,8 @@ public static class MajorityElectionMockedData
     public const string CandidateIdStGallenMajorityElectionInContestStGallen = "1228f95d-8b39-44b1-8cc3-84a93f5e3bbc";
     public const string CandidateId1GossauMajorityElectionInContestStGallen = "77ce6bf0-b27c-4d9d-926f-ced7863aff2f";
     public const string CandidateId2GossauMajorityElectionInContestStGallen = "4a44cb35-05a7-41f9-aa1e-034bedd320ec";
-    public const string CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen = "2241765f-420c-4a7c-b063-b7698f0be83e";
+    public const string CandidateId1GossauMajorityElectionEVotingApprovedInContestStGallen = "2241765f-420c-4a7c-b063-b7698f0be83e";
+    public const string CandidateId2GossauMajorityElectionEVotingApprovedInContestStGallen = "16616b8c-e36f-4884-af4b-9db2939b7165";
     public const string CandidateId1GossauMajorityElectionInContestBund = "f5d75dbd-8a22-4fa8-b580-f0c1ed965303";
     public const string CandidateId2GossauMajorityElectionInContestBund = "9c2a6284-a83d-44e6-88aa-676616e4a774";
     public const string CandidateIdGossauMajorityElectionInContestGossau = "194ff485-6eb9-4d98-8bec-855a2ec92650";
@@ -883,7 +884,7 @@ public static class MajorityElectionMockedData
             {
                     new MajorityElectionCandidate
                     {
-                        Id = Guid.Parse(CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen),
+                        Id = Guid.Parse(CandidateId1GossauMajorityElectionEVotingApprovedInContestStGallen),
                         FirstName = "firstName",
                         LastName = "lastName",
                         PoliticalFirstName = "pol first name",
@@ -902,6 +903,31 @@ public static class MajorityElectionMockedData
                         ZipCode = "8000",
                         Origin = "origin",
                         CheckDigit = 9,
+                        Street = "street",
+                        HouseNumber = "1a",
+                        Country = "CH",
+                    },
+                    new MajorityElectionCandidate
+                    {
+                        Id = Guid.Parse(CandidateId2GossauMajorityElectionEVotingApprovedInContestStGallen),
+                        FirstName = "Peter",
+                        LastName = "Sample",
+                        PoliticalFirstName = "Pol Peter",
+                        PoliticalLastName = "Pol Sample",
+                        Occupation = LanguageUtil.MockAllLanguages("occupation"),
+                        OccupationTitle = LanguageUtil.MockAllLanguages("occupation title"),
+                        DateOfBirth = new DateTime(1960, 1, 13, 0, 0, 0, DateTimeKind.Utc),
+                        Incumbent = true,
+                        Position = 2,
+                        PartyShortDescription = LanguageUtil.MockAllLanguages("FDP"),
+                        PartyLongDescription = LanguageUtil.MockAllLanguages("FDP long"),
+                        Locality = "locality",
+                        Number = "number2",
+                        Sex = SexType.Male,
+                        Title = "title",
+                        ZipCode = "8000",
+                        Origin = "origin",
+                        CheckDigit = 3,
                         Street = "street",
                         HouseNumber = "1a",
                         Country = "CH",
@@ -941,7 +967,7 @@ public static class MajorityElectionMockedData
                                 Sex = SexType.Female,
                                 Title = "title",
                                 ZipCode = "8000",
-                                CandidateReferenceId = Guid.Parse(CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen),
+                                CandidateReferenceId = Guid.Parse(CandidateId1GossauMajorityElectionEVotingApprovedInContestStGallen),
                                 Origin = "origin",
                                 CheckDigit = 9,
                                 Street = "street",
@@ -1002,7 +1028,7 @@ public static class MajorityElectionMockedData
                                     new MajorityElectionBallotGroupEntryCandidate
                                     {
                                         Id = Guid.Parse("e7650dec-7317-46c4-8cde-59d8d5265415"),
-                                        PrimaryElectionCandidateId = Guid.Parse(CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen),
+                                        PrimaryElectionCandidateId = Guid.Parse(CandidateId1GossauMajorityElectionEVotingApprovedInContestStGallen),
                                     },
                                 },
                             },
@@ -1673,9 +1699,9 @@ public static class MajorityElectionMockedData
 
             var aggregates = All.Select(pe => ToAggregate(pe, aggregateFactory, mapper));
 
-            foreach (var proportionalElections in aggregates)
+            foreach (var majorityElection in aggregates)
             {
-                await aggregateRepository.Save(proportionalElections);
+                await aggregateRepository.Save(majorityElection);
             }
 
             sp.GetRequiredService<EventPublisherMock>().Clear();

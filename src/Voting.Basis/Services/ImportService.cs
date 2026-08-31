@@ -48,6 +48,7 @@ public class ImportService : ServiceBase
         await _importService.Import(
             GuidParser.Parse(request.ContestId),
             _mapper.Map<List<Core.Import.MajorityElectionImport>>(request.MajorityElections),
+            _mapper.Map<List<Core.Import.SecondaryMajorityElectionImport>>(request.SecondaryMajorityElections),
             _mapper.Map<List<Core.Import.ProportionalElectionImport>>(request.ProportionalElections),
             _mapper.Map<List<Core.Import.VoteImport>>(request.Votes));
         return ProtobufEmpty.Instance;

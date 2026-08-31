@@ -12,6 +12,7 @@ using FluentAssertions;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Data.Models;
 using Voting.Basis.Test.ImportTests.TestFiles;
 using Voting.Basis.Test.MockedData;
 using Xunit;
@@ -29,6 +30,9 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
     public override async Task InitializeAsync()
     {
         await ContestMockedData.Seed(RunScoped);
+        await MajorityElectionMockedData.Seed(RunScoped, false);
+        await ProportionalElectionMockedData.Seed(RunScoped, false);
+        await VoteMockedData.Seed(RunScoped, false);
     }
 
     [Fact]
@@ -56,10 +60,12 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
 
         var peCreatedEvents = EventPublisherMock.GetPublishedEvents<ProportionalElectionCreated>();
         var meCreatedEvents = EventPublisherMock.GetPublishedEvents<MajorityElectionCreated>();
+        var smeCreatedEvents = EventPublisherMock.GetPublishedEvents<SecondaryMajorityElectionCreated>();
         var voteCreatedEvents = EventPublisherMock.GetPublishedEvents<VoteCreated>();
 
         voteCreatedEvents.First().Vote.EVotingApproved.Should().BeNull();
         meCreatedEvents.First().MajorityElection.EVotingApproved.Should().BeNull();
+        smeCreatedEvents.First().SecondaryMajorityElection.EVotingApproved.Should().BeNull();
         voteCreatedEvents.Any(v => v.Vote.EVotingApproved == false).Should().BeTrue();
         peCreatedEvents.Any(pe => pe.ProportionalElection.EVotingApproved == false).Should().BeTrue();
     }
@@ -113,6 +119,112 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
             async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
             StatusCode.InvalidArgument,
             "Political domain of influence does not allow vote result algorithm");
+    }
+
+    [Fact]
+    public async Task TestWithDuplicatedMajorityElectionPoliticalBusinessNumberShouldThrow()
+    {
+        var request = await CreateValidRequest();
+        request.MajorityElections[0].Election.PoliticalBusinessNumber = request.SecondaryMajorityElections[0].Election.PoliticalBusinessNumber;
+        await AssertStatus(
+            async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
+            StatusCode.AlreadyExists,
+            $"DuplicatedPoliticalBusinessNumberException: The political business number {request.MajorityElections[0].Election.PoliticalBusinessNumber} is already taken");
+    }
+
+    [Fact]
+    public async Task TestWithExistingMajorityElectionPoliticalBusinessNumberShouldThrow()
+    {
+        var request = await CreateValidRequest();
+        request.MajorityElections[0].Election.PoliticalBusinessNumber = "324";
+        await AssertStatus(
+            async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
+            StatusCode.AlreadyExists,
+            $"DuplicatedPoliticalBusinessNumberException: The political business number {request.MajorityElections[0].Election.PoliticalBusinessNumber} is already taken");
+    }
+
+    [Fact]
+    public async Task TestWithInvalidMajorityElectionReportDomainOfInfluenceLevelShouldThrow()
+    {
+        var request = await CreateValidRequest();
+        request.MajorityElections[0].Election.ReportDomainOfInfluenceLevel = 9;
+        await AssertStatus(
+            async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
+            StatusCode.InvalidArgument,
+            $"Report domainOfInfluence level {request.MajorityElections[0].Election.ReportDomainOfInfluenceLevel} is invalid.");
+    }
+
+    [Fact]
+    public async Task TestWithDuplicatedProportionalElectionPoliticalBusinessNumberShouldThrow()
+    {
+        var request = await CreateValidRequest();
+        var propElection = request.ProportionalElections[0].Clone();
+        request.ProportionalElections.Add(propElection);
+
+        await AssertStatus(
+            async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
+            StatusCode.AlreadyExists,
+            $"DuplicatedPoliticalBusinessNumberException: The political business number {propElection.Election.PoliticalBusinessNumber} is already taken");
+    }
+
+    [Fact]
+    public async Task TestWithExistingProportionalElectionPoliticalBusinessNumberShouldThrow()
+    {
+        var request = await CreateValidRequest();
+        request.ProportionalElections[0].Election.PoliticalBusinessNumber = "324";
+        await AssertStatus(
+            async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
+            StatusCode.AlreadyExists,
+            $"DuplicatedPoliticalBusinessNumberException: The political business number {request.ProportionalElections[0].Election.PoliticalBusinessNumber} is already taken");
+    }
+
+    [Fact]
+    public async Task TestWithDuplicatedVotePoliticalBusinessNumberShouldThrow()
+    {
+        var request = await CreateValidRequest();
+        var voteImport = request.Votes[0].Clone();
+        request.Votes.Add(voteImport);
+
+        await AssertStatus(
+            async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
+            StatusCode.AlreadyExists,
+            $"DuplicatedPoliticalBusinessNumberException: The political business number {voteImport.Vote.PoliticalBusinessNumber} is already taken");
+    }
+
+    [Fact]
+    public async Task TestWithTopLevelDomainOfInfluenceLevelShouldThrow()
+    {
+        await ModifyDbEntities<DomainOfInfluence>(
+            x => x.Id == DomainOfInfluenceMockedData.GuidGossau,
+            x => x.VirtualTopLevel = true);
+
+        var request = await CreateValidRequest();
+        await AssertStatus(
+            async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
+            StatusCode.InvalidArgument,
+            "A virtual top level domain of influence is not allowed for political businesses.");
+    }
+
+    [Fact]
+    public async Task TestWithExistingVotePoliticalBusinessNumberShouldThrow()
+    {
+        var request = await CreateValidRequest();
+        request.Votes[0].Vote.PoliticalBusinessNumber = "324";
+        await AssertStatus(
+            async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
+            StatusCode.AlreadyExists,
+            $"DuplicatedPoliticalBusinessNumberException: The political business number {request.Votes[0].Vote.PoliticalBusinessNumber} is already taken");
+    }
+
+    [Fact]
+    public async Task TestWithInvalidVoteReportDomainOfInfluenceLevelShouldThrow()
+    {
+        var request = await CreateValidRequest();
+        request.Votes[0].Vote.ReportDomainOfInfluenceLevel = 9;
+        await AssertStatus(
+            async () => await CantonAdminClient.ImportPoliticalBusinessesAsync(request),
+            StatusCode.InvalidArgument,
+            $"Report domainOfInfluence level {request.Votes[0].Vote.ReportDomainOfInfluenceLevel} is invalid.");
     }
 
     [Fact]
@@ -191,24 +303,30 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
         var contest2 = await LoadContestImport(SharedProto.ImportType.Ech159, EchTestFiles.GetTestFilePath(v5 ? EchTestFiles.Ech0159V5FileName : EchTestFiles.Ech0159FileName));
 
         contest1.MajorityElections.AddRange(contest2.MajorityElections);
+        contest1.SecondaryMajorityElections.AddRange(contest2.SecondaryMajorityElections);
         contest1.ProportionalElections.AddRange(contest2.ProportionalElections);
         contest1.Votes.AddRange(contest2.Votes);
 
-        foreach (var majorityElection in contest1.MajorityElections)
+        foreach (var (majorityElection, index) in contest1.MajorityElections.Select((x, i) => (x, i)))
         {
-            majorityElection.Election.PoliticalBusinessNumber = "11new";
+            majorityElection.Election.PoliticalBusinessNumber = $"11newME{index}";
             majorityElection.Election.DomainOfInfluenceId = doiId;
         }
 
-        foreach (var proportionalElection in contest1.ProportionalElections)
+        foreach (var (secondaryMajorityElection, index) in contest1.SecondaryMajorityElections.Select((x, i) => (x, i)))
         {
-            proportionalElection.Election.PoliticalBusinessNumber = "11new";
+            secondaryMajorityElection.Election.PoliticalBusinessNumber = $"12newSME{index}";
+        }
+
+        foreach (var (proportionalElection, index) in contest1.ProportionalElections.Select((x, i) => (x, i)))
+        {
+            proportionalElection.Election.PoliticalBusinessNumber = $"11newPE{index}";
             proportionalElection.Election.DomainOfInfluenceId = doiId;
         }
 
-        foreach (var vote in contest1.Votes)
+        foreach (var (vote, index) in contest1.Votes.Select((x, i) => (x, i)))
         {
-            vote.Vote.PoliticalBusinessNumber = "11new";
+            vote.Vote.PoliticalBusinessNumber = $"11newV{index}";
             vote.Vote.DomainOfInfluenceId = doiId;
         }
 
@@ -216,6 +334,7 @@ public class ImportPoliticalBusinessesTest : BaseImportPoliticalBusinessAuthoriz
         {
             ContestId = contestId,
             MajorityElections = { contest1.MajorityElections },
+            SecondaryMajorityElections = { contest1.SecondaryMajorityElections },
             ProportionalElections = { contest1.ProportionalElections },
             Votes = { contest1.Votes },
         };

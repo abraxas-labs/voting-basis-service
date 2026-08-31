@@ -115,6 +115,10 @@ public class DataContext : DbContext
 
     public DbSet<SimplePoliticalBusiness> SimplePoliticalBusiness { get; set; } = null!;
 
+    public DbSet<CantonSettingsECountingCertificateChain> CantonSettingsECountingCertificateChains { get; set; } = null!;
+
+    public DbSet<CantonSettingsECountingCertificateInfo> CantonSettingsECountingCertificateInfos { get; set; } = null!;
+
     protected override void OnModelCreating(ModelBuilder model)
     {
         model.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);

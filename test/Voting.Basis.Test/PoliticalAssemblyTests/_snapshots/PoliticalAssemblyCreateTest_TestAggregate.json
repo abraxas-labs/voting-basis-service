@@ -89,6 +89,7 @@
         "IsMainVotingCardsDomainOfInfluence": true,
         "HasEmptyVotingCards": true,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": false,
         "StistatExportEaiMessageType": "",
         "ECollectingImportRoot": false
@@ -186,6 +187,7 @@
         "IsMainVotingCardsDomainOfInfluence": true,
         "HasEmptyVotingCards": true,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": false,
         "StistatExportEaiMessageType": "",
         "ECollectingImportRoot": false

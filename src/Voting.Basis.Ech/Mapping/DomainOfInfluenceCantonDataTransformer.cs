@@ -8,8 +8,13 @@ namespace Voting.Basis.Ech.Mapping;
 
 public static class DomainOfInfluenceCantonDataTransformer
 {
-    internal static string EchCandidateDateOfBirthText(DomainOfInfluenceCanton canton, DateTime dateOfBirth)
+    internal static string EchCandidateDateOfBirthText(DomainOfInfluenceCanton canton, DateTime? dateOfBirth)
     {
+        if (dateOfBirth == null)
+        {
+            return string.Empty;
+        }
+
         return canton switch
         {
             DomainOfInfluenceCanton.Sg => $"{dateOfBirth:yyyy}",

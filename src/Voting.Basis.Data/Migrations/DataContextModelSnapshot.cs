@@ -194,6 +194,12 @@ namespace Voting.Basis.Data.Migrations
                     b.Property<bool>("ManualPublishResultsEnabled")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("MonitoringAutoShowPoliticalBusinesses")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("MonitoringUseImprovedUi")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("MultipleVoteBallotsEnabled")
                         .HasColumnType("boolean");
 
@@ -240,6 +246,89 @@ namespace Voting.Basis.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("CantonSettings");
+                });
+
+            modelBuilder.Entity("Voting.Basis.Data.Models.CantonSettingsECountingCertificateChain", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CantonSettingsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ImportedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("RawPem")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.ComplexProperty<Dictionary<string, object>>("ImportedBy", "Voting.Basis.Data.Models.CantonSettingsECountingCertificateChain.ImportedBy#User", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("FirstName")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("LastName")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("SecureConnectId")
+                                .IsRequired()
+                                .HasColumnType("text");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CantonSettingsId")
+                        .IsUnique();
+
+                    b.ToTable("CantonSettingsECountingCertificateChains");
+                });
+
+            modelBuilder.Entity("Voting.Basis.Data.Models.CantonSettingsECountingCertificateInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CaThumbprint")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("CertificateChainId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Issuer")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("NotAfter")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("NotBefore")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("RawPem")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Thumbprint")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CertificateChainId");
+
+                    b.ToTable("CantonSettingsECountingCertificateInfos");
                 });
 
             modelBuilder.Entity("Voting.Basis.Data.Models.CantonSettingsVotingCardChannel", b =>
@@ -2468,6 +2557,28 @@ namespace Voting.Basis.Data.Migrations
                     b.Navigation("Ballot");
                 });
 
+            modelBuilder.Entity("Voting.Basis.Data.Models.CantonSettingsECountingCertificateChain", b =>
+                {
+                    b.HasOne("Voting.Basis.Data.Models.CantonSettings", "CantonSettings")
+                        .WithOne("ECountingCertificateChain")
+                        .HasForeignKey("Voting.Basis.Data.Models.CantonSettingsECountingCertificateChain", "CantonSettingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CantonSettings");
+                });
+
+            modelBuilder.Entity("Voting.Basis.Data.Models.CantonSettingsECountingCertificateInfo", b =>
+                {
+                    b.HasOne("Voting.Basis.Data.Models.CantonSettingsECountingCertificateChain", "CertificateChain")
+                        .WithMany("Infos")
+                        .HasForeignKey("CertificateChainId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CertificateChain");
+                });
+
             modelBuilder.Entity("Voting.Basis.Data.Models.CantonSettingsVotingCardChannel", b =>
                 {
                     b.HasOne("Voting.Basis.Data.Models.CantonSettings", "CantonSettings")
@@ -3442,7 +3553,14 @@ namespace Voting.Basis.Data.Migrations
                 {
                     b.Navigation("CountingCircleResultStateDescriptions");
 
+                    b.Navigation("ECountingCertificateChain");
+
                     b.Navigation("EnabledVotingCardChannels");
+                });
+
+            modelBuilder.Entity("Voting.Basis.Data.Models.CantonSettingsECountingCertificateChain", b =>
+                {
+                    b.Navigation("Infos");
                 });
 
             modelBuilder.Entity("Voting.Basis.Data.Models.Contest", b =>

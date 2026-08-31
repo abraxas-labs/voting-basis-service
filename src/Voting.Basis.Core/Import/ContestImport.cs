@@ -12,6 +12,8 @@ public class ContestImport
 
     public List<MajorityElectionImport> MajorityElections { get; private set; } = new();
 
+    public List<SecondaryMajorityElectionImport> SecondaryMajorityElections { get; private set; } = new();
+
     public List<ProportionalElectionImport> ProportionalElections { get; private set; } = new();
 
     public List<VoteImport> Votes { get; private set; } = new();

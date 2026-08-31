@@ -16,6 +16,7 @@ public class ContestImportTest : ProtoValidatorBaseTest<ContestImport>
         {
             Contest = ContestTest.NewValid(),
             MajorityElections = { MajorityElectionImportTest.NewValid() },
+            SecondaryMajorityElections = { SecondaryMajorityElectionImportTest.NewValid() },
             ProportionalElections = { ProportionalElectionImportTest.NewValid() },
             Votes = { VoteImportTest.NewValid() },
         };
@@ -28,6 +29,7 @@ public class ContestImportTest : ProtoValidatorBaseTest<ContestImport>
     {
         yield return NewValid();
         yield return NewValid(x => x.MajorityElections.Clear());
+        yield return NewValid(x => x.SecondaryMajorityElections.Clear());
         yield return NewValid(x => x.ProportionalElections.Clear());
         yield return NewValid(x => x.Votes.Clear());
     }

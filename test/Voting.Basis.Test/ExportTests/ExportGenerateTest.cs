@@ -23,8 +23,10 @@ using Voting.Lib.Ech.Ech0159_4_0.Schemas;
 using Voting.Lib.Testing.Utils;
 using Voting.Lib.VotingExports.Repository.Basis;
 using Xunit;
-using Ech0157SchemasV5 = Voting.Lib.Ech.Ech0157_5_1.Schemas.Ech0157Schemas;
-using Ech0159SchemasV5 = Voting.Lib.Ech.Ech0159_5_1.Schemas.Ech0159Schemas;
+using Ech0157SchemasV5_1 = Voting.Lib.Ech.Ech0157_5_1.Schemas.Ech0157Schemas;
+using Ech0157SchemasV5_2 = Voting.Lib.Ech.Ech0157_5_2.Schemas.Ech0157Schemas;
+using Ech0159SchemasV5_1 = Voting.Lib.Ech.Ech0159_5_1.Schemas.Ech0159Schemas;
+using Ech0159SchemasV5_2 = Voting.Lib.Ech.Ech0159_5_2.Schemas.Ech0159Schemas;
 
 namespace Voting.Basis.Test.ExportTests;
 
@@ -57,7 +59,7 @@ public class ExportGenerateTest : BaseRestTest
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Zip);
 
-        await ZipEntriesShouldMatchSnapshot(response, nameof(TestAsAdminShouldReturnOk), false);
+        await ZipEntriesShouldMatchSnapshot(response, nameof(TestAsAdminShouldReturnOk), Ech0157Schemas.LoadEch0157Schemas(), Ech0159Schemas.LoadEch0159Schemas());
     }
 
     [Fact]
@@ -72,7 +74,7 @@ public class ExportGenerateTest : BaseRestTest
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Zip);
 
-        await ZipEntriesShouldMatchSnapshot(response, nameof(TestAsElectionAdminShouldReturnOk));
+        await ZipEntriesShouldMatchSnapshot(response, nameof(TestAsElectionAdminShouldReturnOk), Ech0157Schemas.LoadEch0157Schemas(), Ech0159Schemas.LoadEch0159Schemas());
     }
 
     [Fact]
@@ -128,7 +130,7 @@ public class ExportGenerateTest : BaseRestTest
     }
 
     [Fact]
-    public async Task TestAsElectionAdminWithEch0157And0159V5ShouldReturnOk()
+    public async Task TestAsElectionAdminWithEch0157And0159V5_1ShouldReturnOk()
     {
         var response = await AssertStatus(
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
@@ -139,13 +141,26 @@ public class ExportGenerateTest : BaseRestTest
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Zip);
 
-        await ZipEntriesShouldMatchSnapshot(response, nameof(TestAsElectionAdminWithEch0157And0159V5ShouldReturnOk), true);
+        await ZipEntriesShouldMatchSnapshot(response, nameof(TestAsElectionAdminWithEch0157And0159V5_1ShouldReturnOk), Ech0157SchemasV5_1.LoadEch0157Schemas(), Ech0159SchemasV5_1.LoadEch0159Schemas());
     }
 
-    [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public async Task TestOnlyEVoting(bool v5)
+    [Fact]
+    public async Task TestAsElectionAdminWithEch0157And0159V5_2ShouldReturnOk()
+    {
+        var response = await AssertStatus(
+            () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(ContestMockedData.IdBundContest),
+                Key = BasisXmlContestTemplates.Ech0157And0159_5_2.Key,
+            }),
+            HttpStatusCode.OK);
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Zip);
+
+        await ZipEntriesShouldMatchSnapshot(response, nameof(TestAsElectionAdminWithEch0157And0159V5_2ShouldReturnOk), Ech0157SchemasV5_2.LoadEch0157Schemas(), Ech0159SchemasV5_2.LoadEch0159Schemas());
+    }
+
+    [Fact]
+    public async Task TestOnlyEVotingV4_0()
     {
         await RunOnDb(async db =>
         {
@@ -171,20 +186,88 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = ContestMockedData.BundContest.Id,
-                Key = v5 ? BasisXmlContestTemplates.Ech0157And0159_5_1_EVotingOnly.Key : BasisXmlContestTemplates.Ech0157And0159_4_0_EVotingOnly.Key,
+                Key = BasisXmlContestTemplates.Ech0157And0159_4_0_EVotingOnly.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Zip);
 
-        await ZipEntriesShouldMatchSnapshot(response, nameof(TestOnlyEVoting), v5);
+        await ZipEntriesShouldMatchSnapshot(response, nameof(TestOnlyEVotingV4_0), Ech0157Schemas.LoadEch0157Schemas(), Ech0159Schemas.LoadEch0159Schemas());
+    }
+
+    [Fact]
+    public async Task TestOnlyEVotingV5_1()
+    {
+        await RunOnDb(async db =>
+        {
+            var contest = await db.Contests
+                .AsSplitQuery()
+                .AsTracking()
+                .SingleAsync(c => c.Id == ContestMockedData.BundContest.Id);
+            contest.EVoting = true;
+            contest.EVotingFrom = new DateTime(2020, 1, 1, 10, 0, 0, DateTimeKind.Utc);
+            contest.EVotingTo = new DateTime(2020, 1, 2, 10, 0, 0, DateTimeKind.Utc);
+
+            var vote = await db.Votes.AsTracking().SingleAsync(x => x.Id == Guid.Parse(VoteMockedData.IdBundVoteInContestBund));
+            var pe = await db.ProportionalElections.AsTracking().SingleAsync(x => x.Id == Guid.Parse(ProportionalElectionMockedData.IdStGallenProportionalElectionInContestBund));
+            var me = await db.MajorityElections.AsTracking().SingleAsync(x => x.Id == Guid.Parse(MajorityElectionMockedData.IdGossauMajorityElectionInContestBund));
+
+            vote.EVotingApproved = false;
+            pe.EVotingApproved = false;
+            me.EVotingApproved = false;
+            await db.SaveChangesAsync();
+        });
+
+        var response = await AssertStatus(
+            () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = ContestMockedData.BundContest.Id,
+                Key = BasisXmlContestTemplates.Ech0157And0159_5_1_EVotingOnly.Key,
+            }),
+            HttpStatusCode.OK);
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Zip);
+
+        await ZipEntriesShouldMatchSnapshot(response, nameof(TestOnlyEVotingV5_1), Ech0157SchemasV5_1.LoadEch0157Schemas(), Ech0159SchemasV5_1.LoadEch0159Schemas());
+    }
+
+    [Fact]
+    public async Task TestOnlyEVotingV5_2()
+    {
+        await RunOnDb(async db =>
+        {
+            var contest = await db.Contests
+                .AsSplitQuery()
+                .AsTracking()
+                .SingleAsync(c => c.Id == ContestMockedData.BundContest.Id);
+            contest.EVoting = true;
+            contest.EVotingFrom = new DateTime(2020, 1, 1, 10, 0, 0, DateTimeKind.Utc);
+            contest.EVotingTo = new DateTime(2020, 1, 2, 10, 0, 0, DateTimeKind.Utc);
+
+            var vote = await db.Votes.AsTracking().SingleAsync(x => x.Id == Guid.Parse(VoteMockedData.IdBundVoteInContestBund));
+            var pe = await db.ProportionalElections.AsTracking().SingleAsync(x => x.Id == Guid.Parse(ProportionalElectionMockedData.IdStGallenProportionalElectionInContestBund));
+            var me = await db.MajorityElections.AsTracking().SingleAsync(x => x.Id == Guid.Parse(MajorityElectionMockedData.IdGossauMajorityElectionInContestBund));
+
+            vote.EVotingApproved = false;
+            pe.EVotingApproved = false;
+            me.EVotingApproved = false;
+            await db.SaveChangesAsync();
+        });
+
+        var response = await AssertStatus(
+            () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = ContestMockedData.BundContest.Id,
+                Key = BasisXmlContestTemplates.Ech0157And0159_5_2_EVotingOnly.Key,
+            }),
+            HttpStatusCode.OK);
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Zip);
+
+        await ZipEntriesShouldMatchSnapshot(response, nameof(TestOnlyEVotingV5_2), Ech0157SchemasV5_2.LoadEch0157Schemas(), Ech0159SchemasV5_2.LoadEch0159Schemas());
     }
 
     [Theory]
-    [InlineData(false, false)]
-    [InlineData(true, false)]
-    [InlineData(false, true)]
-    [InlineData(true, true)]
-    public async Task TestVoteEch0159(bool eVoting, bool v5)
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task TestVoteEch0159V4_0(bool eVoting)
     {
         if (eVoting)
         {
@@ -195,7 +278,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(VoteMockedData.IdGossauVoteInContestGossau),
-                Key = v5 ? BasisXmlVoteTemplates.Ech0159_5_1.Key : BasisXmlVoteTemplates.Ech0159_4_0.Key,
+                Key = BasisXmlVoteTemplates.Ech0159_4_0.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
@@ -203,8 +286,60 @@ public class ExportGenerateTest : BaseRestTest
         var xml = await response.Content.ReadAsStringAsync();
         VerifyXml(
             xml,
-            BuildTestFilename(nameof(TestVoteEch0159), eVoting, v5),
-            v5 ? Ech0159SchemasV5.LoadEch0159Schemas() : Ech0159Schemas.LoadEch0159Schemas());
+            BuildTestFilename(nameof(TestVoteEch0159V4_0), eVoting),
+            Ech0159Schemas.LoadEch0159Schemas());
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task TestVoteEch0159V5_1(bool eVoting)
+    {
+        if (eVoting)
+        {
+            await SetEVotingContest(ContestMockedData.IdGossau);
+        }
+
+        var response = await AssertStatus(
+            () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(VoteMockedData.IdGossauVoteInContestGossau),
+                Key = BasisXmlVoteTemplates.Ech0159_5_1.Key,
+            }),
+            HttpStatusCode.OK);
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
+
+        var xml = await response.Content.ReadAsStringAsync();
+        VerifyXml(
+            xml,
+            BuildTestFilename(nameof(TestVoteEch0159V5_1), eVoting),
+            Ech0159SchemasV5_1.LoadEch0159Schemas());
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task TestVoteEch0159V5_2(bool eVoting)
+    {
+        if (eVoting)
+        {
+            await SetEVotingContest(ContestMockedData.IdGossau);
+        }
+
+        var response = await AssertStatus(
+            () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(VoteMockedData.IdGossauVoteInContestGossau),
+                Key = BasisXmlVoteTemplates.Ech0159_5_2.Key,
+            }),
+            HttpStatusCode.OK);
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
+
+        var xml = await response.Content.ReadAsStringAsync();
+        VerifyXml(
+            xml,
+            BuildTestFilename(nameof(TestVoteEch0159V5_2), eVoting),
+            Ech0159SchemasV5_2.LoadEch0159Schemas());
     }
 
     [Fact]
@@ -234,11 +369,9 @@ public class ExportGenerateTest : BaseRestTest
     }
 
     [Theory]
-    [InlineData(false, false)]
-    [InlineData(true, false)]
-    [InlineData(false, true)]
-    [InlineData(true, true)]
-    public async Task TestVoteEch0159VariantQuestionsOnMultipleBallots(bool eVoting, bool v5)
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task TestVoteEch0159V4_0VariantQuestionsOnMultipleBallots(bool eVoting)
     {
         if (eVoting)
         {
@@ -249,7 +382,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ZurichCantonAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(VoteMockedData.IdZurichVoteInContestZurich),
-                Key = v5 ? BasisXmlVoteTemplates.Ech0159_5_1.Key : BasisXmlVoteTemplates.Ech0159_4_0.Key,
+                Key = BasisXmlVoteTemplates.Ech0159_4_0.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
@@ -257,16 +390,66 @@ public class ExportGenerateTest : BaseRestTest
         var xml = await response.Content.ReadAsStringAsync();
         VerifyXml(
             xml,
-            BuildTestFilename(nameof(TestVoteEch0159VariantQuestionsOnMultipleBallots), eVoting, v5),
-            v5 ? Ech0159SchemasV5.LoadEch0159Schemas() : Ech0159Schemas.LoadEch0159Schemas());
+            BuildTestFilename(nameof(TestVoteEch0159V4_0VariantQuestionsOnMultipleBallots), eVoting),
+            Ech0159Schemas.LoadEch0159Schemas());
     }
 
     [Theory]
-    [InlineData(false, false)]
-    [InlineData(true, false)]
-    [InlineData(false, true)]
-    [InlineData(true, true)]
-    public async Task TestMajorityElectionEch0157(bool eVoting, bool v5)
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task TestVoteEch0159V5_1VariantQuestionsOnMultipleBallots(bool eVoting)
+    {
+        if (eVoting)
+        {
+            await SetEVotingContest(ContestMockedData.IdZurichContest);
+        }
+
+        var response = await AssertStatus(
+            () => ZurichCantonAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(VoteMockedData.IdZurichVoteInContestZurich),
+                Key = BasisXmlVoteTemplates.Ech0159_5_1.Key,
+            }),
+            HttpStatusCode.OK);
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
+
+        var xml = await response.Content.ReadAsStringAsync();
+        VerifyXml(
+            xml,
+            BuildTestFilename(nameof(TestVoteEch0159V5_1VariantQuestionsOnMultipleBallots), eVoting),
+            Ech0159SchemasV5_1.LoadEch0159Schemas());
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task TestVoteEch0159V5_2VariantQuestionsOnMultipleBallots(bool eVoting)
+    {
+        if (eVoting)
+        {
+            await SetEVotingContest(ContestMockedData.IdZurichContest);
+        }
+
+        var response = await AssertStatus(
+            () => ZurichCantonAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(VoteMockedData.IdZurichVoteInContestZurich),
+                Key = BasisXmlVoteTemplates.Ech0159_5_2.Key,
+            }),
+            HttpStatusCode.OK);
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
+
+        var xml = await response.Content.ReadAsStringAsync();
+        VerifyXml(
+            xml,
+            BuildTestFilename(nameof(TestVoteEch0159V5_2VariantQuestionsOnMultipleBallots), eVoting),
+            Ech0159SchemasV5_2.LoadEch0159Schemas());
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task TestMajorityElectionEch0157V4_0(bool eVoting)
     {
         if (eVoting)
         {
@@ -284,7 +467,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(MajorityElectionMockedData.IdGossauMajorityElectionInContestGossau),
-                Key = v5 ? BasisXmlMajorityElectionTemplates.Ech0157_5_1.Key : BasisXmlMajorityElectionTemplates.Ech0157_4_0.Key,
+                Key = BasisXmlMajorityElectionTemplates.Ech0157_4_0.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
@@ -292,8 +475,74 @@ public class ExportGenerateTest : BaseRestTest
         var xml = await response.Content.ReadAsStringAsync();
         VerifyXml(
             xml,
-            BuildTestFilename(nameof(TestMajorityElectionEch0157), eVoting, v5),
-            v5 ? Ech0157SchemasV5.LoadEch0157Schemas() : Ech0157Schemas.LoadEch0157Schemas());
+            BuildTestFilename(nameof(TestMajorityElectionEch0157V4_0), eVoting),
+            Ech0157Schemas.LoadEch0157Schemas());
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task TestMajorityElectionEch0157V5_1(bool eVoting)
+    {
+        if (eVoting)
+        {
+            await SetEVotingContest(ContestMockedData.IdGossau);
+        }
+
+        await RunOnDb(async db =>
+        {
+            var doi = await db.DomainOfInfluences.AsTracking().SingleAsync(c => c.Id == DomainOfInfluenceMockedData.GuidGossau);
+            doi.CantonDefaults.Canton = DomainOfInfluenceCanton.Tg;
+            await db.SaveChangesAsync();
+        });
+
+        var response = await AssertStatus(
+            () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(MajorityElectionMockedData.IdGossauMajorityElectionInContestGossau),
+                Key = BasisXmlMajorityElectionTemplates.Ech0157_5_1.Key,
+            }),
+            HttpStatusCode.OK);
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
+
+        var xml = await response.Content.ReadAsStringAsync();
+        VerifyXml(
+            xml,
+            BuildTestFilename(nameof(TestMajorityElectionEch0157V5_1), eVoting),
+            Ech0157SchemasV5_1.LoadEch0157Schemas());
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task TestMajorityElectionEch0157V5_2(bool eVoting)
+    {
+        if (eVoting)
+        {
+            await SetEVotingContest(ContestMockedData.IdGossau);
+        }
+
+        await RunOnDb(async db =>
+        {
+            var doi = await db.DomainOfInfluences.AsTracking().SingleAsync(c => c.Id == DomainOfInfluenceMockedData.GuidGossau);
+            doi.CantonDefaults.Canton = DomainOfInfluenceCanton.Tg;
+            await db.SaveChangesAsync();
+        });
+
+        var response = await AssertStatus(
+            () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(MajorityElectionMockedData.IdGossauMajorityElectionInContestGossau),
+                Key = BasisXmlMajorityElectionTemplates.Ech0157_5_2.Key,
+            }),
+            HttpStatusCode.OK);
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
+
+        var xml = await response.Content.ReadAsStringAsync();
+        VerifyXml(
+            xml,
+            BuildTestFilename(nameof(TestMajorityElectionEch0157V5_2), eVoting),
+            Ech0157SchemasV5_2.LoadEch0157Schemas());
     }
 
     [Fact]
@@ -327,11 +576,9 @@ public class ExportGenerateTest : BaseRestTest
     }
 
     [Theory]
-    [InlineData(false, false)]
-    [InlineData(true, false)]
-    [InlineData(false, true)]
-    [InlineData(true, true)]
-    public async Task TestProportionalElectionEch0157(bool eVoting, bool v5)
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task TestProportionalElectionEch0157V4_0(bool eVoting)
     {
         if (eVoting)
         {
@@ -342,7 +589,7 @@ public class ExportGenerateTest : BaseRestTest
             () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
             {
                 EntityId = Guid.Parse(ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund),
-                Key = v5 ? BasisXmlProportionalElectionTemplates.Ech0157_5_1.Key : BasisXmlProportionalElectionTemplates.Ech0157_4_0.Key,
+                Key = BasisXmlProportionalElectionTemplates.Ech0157_4_0.Key,
             }),
             HttpStatusCode.OK);
         response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
@@ -350,8 +597,60 @@ public class ExportGenerateTest : BaseRestTest
         var xml = await response.Content.ReadAsStringAsync();
         VerifyXml(
             xml,
-            BuildTestFilename(nameof(TestProportionalElectionEch0157), eVoting, v5),
-            v5 ? Ech0157SchemasV5.LoadEch0157Schemas() : Ech0157Schemas.LoadEch0157Schemas());
+            BuildTestFilename(nameof(TestProportionalElectionEch0157V4_0), eVoting),
+            Ech0157Schemas.LoadEch0157Schemas());
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task TestProportionalElectionEch0157V5_1(bool eVoting)
+    {
+        if (eVoting)
+        {
+            await SetEVotingContest(ContestMockedData.IdBundContest);
+        }
+
+        var response = await AssertStatus(
+            () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund),
+                Key = BasisXmlProportionalElectionTemplates.Ech0157_5_1.Key,
+            }),
+            HttpStatusCode.OK);
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
+
+        var xml = await response.Content.ReadAsStringAsync();
+        VerifyXml(
+            xml,
+            BuildTestFilename(nameof(TestProportionalElectionEch0157V5_1), eVoting),
+            Ech0157SchemasV5_1.LoadEch0157Schemas());
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task TestProportionalElectionEch0157V5_2(bool eVoting)
+    {
+        if (eVoting)
+        {
+            await SetEVotingContest(ContestMockedData.IdBundContest);
+        }
+
+        var response = await AssertStatus(
+            () => ElectionAdminClient.PostAsJsonAsync("api/exports", new GenerateExportRequest
+            {
+                EntityId = Guid.Parse(ProportionalElectionMockedData.IdGossauProportionalElectionInContestBund),
+                Key = BasisXmlProportionalElectionTemplates.Ech0157_5_2.Key,
+            }),
+            HttpStatusCode.OK);
+        response.Content.Headers.ContentType!.MediaType.Should().Be(MediaTypeNames.Application.Xml);
+
+        var xml = await response.Content.ReadAsStringAsync();
+        VerifyXml(
+            xml,
+            BuildTestFilename(nameof(TestProportionalElectionEch0157V5_2), eVoting),
+            Ech0157SchemasV5_2.LoadEch0157Schemas());
     }
 
     [Fact]
@@ -507,14 +806,10 @@ public class ExportGenerateTest : BaseRestTest
         yield return Roles.ElectionSupporter;
     }
 
-    private async Task ZipEntriesShouldMatchSnapshot(HttpResponseMessage response, string testName, bool v5 = false)
+    private async Task ZipEntriesShouldMatchSnapshot(HttpResponseMessage response, string testName, XmlSchemaSet ech0157SchemaSet, XmlSchemaSet ech0159SchemaSet)
     {
         await using var zipStream = await response.Content.ReadAsStreamAsync();
         using var zipArchive = new ZipArchive(zipStream);
-
-        var ech0157Schemas = v5 ? Ech0157SchemasV5.LoadEch0157Schemas() : Ech0157Schemas.LoadEch0157Schemas();
-        var ech0159Schemas = v5 ? Ech0159SchemasV5.LoadEch0159Schemas() : Ech0159Schemas.LoadEch0159Schemas();
-        var versionSuffix = v5 ? "_v5" : string.Empty;
 
         zipArchive.Entries.Count.Should().Be(3);
 
@@ -525,15 +820,15 @@ public class ExportGenerateTest : BaseRestTest
 
             if (entry.Name.Contains("_votes"))
             {
-                VerifyXml(content, $"{testName}_votes{versionSuffix}", ech0159Schemas);
+                VerifyXml(content, $"{testName}_votes", ech0159SchemaSet);
             }
             else if (entry.Name.Contains("_proportional_elections"))
             {
-                VerifyXml(content, $"{testName}_proportional_elections{versionSuffix}", ech0157Schemas);
+                VerifyXml(content, $"{testName}_proportional_elections", ech0157SchemaSet);
             }
             else if (entry.Name.Contains("_majority_elections"))
             {
-                VerifyXml(content, $"{testName}_majority_elections{versionSuffix}", ech0157Schemas);
+                VerifyXml(content, $"{testName}_majority_elections", ech0157SchemaSet);
             }
             else
             {
@@ -561,6 +856,6 @@ public class ExportGenerateTest : BaseRestTest
         xml.MatchRawTextSnapshot("ExportTests", "_snapshots", fileName + ".xml");
     }
 
-    private string BuildTestFilename(string testName, bool eVoting, bool eCounting)
-        => $"{testName}{(eCounting ? "_v5" : string.Empty)}{(eVoting ? "_EVoting" : string.Empty)}";
+    private string BuildTestFilename(string testName, bool eVoting)
+        => $"{testName}{(eVoting ? "_EVoting" : string.Empty)}";
 }

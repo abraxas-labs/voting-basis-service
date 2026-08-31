@@ -119,7 +119,7 @@ public class MajorityElectionCandidateDeleteTest : PoliticalBusinessAuthorizatio
         await AssertStatus(
             async () => await CantonAdminClient.DeleteCandidateAsync(new DeleteMajorityElectionCandidateRequest
             {
-                Id = MajorityElectionMockedData.CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen,
+                Id = MajorityElectionMockedData.CandidateId1GossauMajorityElectionEVotingApprovedInContestStGallen,
             }),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingEverApprovedException));
@@ -137,7 +137,7 @@ public class MajorityElectionCandidateDeleteTest : PoliticalBusinessAuthorizatio
         await AssertStatus(
             async () => await CantonAdminClient.DeleteCandidateAsync(new DeleteMajorityElectionCandidateRequest
             {
-                Id = MajorityElectionMockedData.CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen,
+                Id = MajorityElectionMockedData.CandidateId1GossauMajorityElectionEVotingApprovedInContestStGallen,
             }),
             StatusCode.FailedPrecondition,
             nameof(PoliticalBusinessEVotingEverApprovedException));

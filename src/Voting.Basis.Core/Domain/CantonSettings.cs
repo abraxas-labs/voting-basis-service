@@ -88,4 +88,8 @@ public class CantonSettings
     public bool HideOccupationTitle { get; set; }
 
     public bool EnableAdditionalCandidateFields { get; set; }
+
+    public bool MonitoringAutoShowPoliticalBusinesses { get; set; }
+
+    public bool MonitoringUseImprovedUi { get; set; }
 }

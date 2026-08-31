@@ -28,6 +28,7 @@
     "EVotingApproved": false
   },
   "MajorityElections": [],
+  "SecondaryMajorityElections": [],
   "ProportionalElections": [],
   "Votes": [
     {

@@ -53,6 +53,15 @@ public class CantonSettingsService : ServiceBase
         return ProtobufEmpty.Instance;
     }
 
+    [AuthorizePermission(Permissions.CantonSettings.UpdateAll)]
+    public override async Task<CertificateChain> SetECountingCertificateChain(
+        SetCantonSettingsECountingCertificateChainRequest request,
+        ServerCallContext context)
+    {
+        var data = await _cantonSettingsWriter.SetECountingCertificateChain(GuidParser.Parse(request.Id), request.RawPem);
+        return _mapper.Map<CertificateChain>(data);
+    }
+
     [AuthorizeAnyPermission(Permissions.CantonSettings.ReadSameTenant, Permissions.CantonSettings.ReadAll)]
     public override async Task<CantonSettingsList> List(
         ListCantonSettingsRequest request,

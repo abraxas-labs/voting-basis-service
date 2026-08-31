@@ -13,26 +13,28 @@ using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Converters;
 using Voting.Lib.Database.Repositories;
+using Voting.Lib.VotingExports.Models;
 
 namespace Voting.Basis.Core.Export.Generators.Xml;
 
-public abstract class VoteEchExportGeneratorBase
+public abstract class VoteEchExportGeneratorBase : IExportGenerator
 {
     private readonly IDbRepository<DataContext, Vote> _voteRepo;
-    private readonly EchSerializerProvider _echSerializerProvider;
     private readonly PermissionService _permissionService;
 
     public VoteEchExportGeneratorBase(
         IDbRepository<DataContext, Vote> voteRepo,
-        EchSerializerProvider echSerializerProvider,
         PermissionService permissionService)
     {
         _voteRepo = voteRepo;
-        _echSerializerProvider = echSerializerProvider;
         _permissionService = permissionService;
     }
 
-    public async Task<ExportFile> GenerateExport(Guid entityId, bool v5)
+    public abstract TemplateModel Template { get; }
+
+    protected abstract IEch0159Serializer Ech0159Serializer { get; }
+
+    public async Task<ExportFile> GenerateExport(Guid entityId)
     {
         var vote = await _voteRepo.Query()
             .AsSplitQuery()
@@ -47,15 +49,13 @@ public abstract class VoteEchExportGeneratorBase
             ?? throw new EntityNotFoundException(entityId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(vote.DomainOfInfluenceId, true);
-        var ech0159Serializer = _echSerializerProvider.GetEch0159Serializer(v5);
 
-        var xmlBytes = await ech0159Serializer.ToEventInitialDelivery(vote.Contest, vote);
+        var xmlBytes = await Ech0159Serializer.ToEventInitialDelivery(vote.Contest, vote);
 
         var voteDescription = LanguageUtil.GetInCurrentLanguage(vote.ShortDescription);
 
         var fileName = FileNameUtil.GetXmlFileName(
-            ech0159Serializer.EchNumber,
-            ech0159Serializer.EchVersion,
+            Template.Filename,
             vote.DomainOfInfluence!.Canton,
             vote.Contest.Date,
             voteDescription);

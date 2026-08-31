@@ -779,6 +779,11 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
             data.Id = Guid.NewGuid();
         }
 
+        if (Candidates.All(c => c.Id != data.CandidateId))
+        {
+            throw new ValidationException("Candidate does not belong to primary majority election");
+        }
+
         var sme = GetSecondaryMajorityElection(data.SecondaryMajorityElectionId);
         if (sme.CandidateReferences.Any(cr => cr.CandidateId == data.CandidateId))
         {
@@ -1005,6 +1010,7 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
         }
 
         EnsureBallotGroupCandidateEntriesAreOk(data);
+        EnsureCandidatesBelongToElection(data);
         EnsureSelectedCandidatesAreSelectedInPrimaryElection(data);
 
         var ballotGroupCandidatesEventData = _mapper.Map<MajorityElectionBallotGroupCandidatesEventData>(data);
@@ -1745,6 +1751,23 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
     }
 
     private bool AnyElectionIsActive() => Active || SecondaryMajorityElections.Any(m => m.Active);
+
+    private void EnsureCandidatesBelongToElection(MajorityElectionBallotGroupCandidates data)
+    {
+        var selectedCandidateIds = data.EntryCandidates
+            .SelectMany(e => e.CandidateIds)
+            .ToHashSet();
+        var candidateIdsInThisElection = Candidates
+            .Select(c => c.Id)
+            .Concat(SecondaryMajorityElections.SelectMany(se => se.Candidates.Select(c => c.Id)))
+            .Concat(SecondaryMajorityElections.SelectMany(se => se.CandidateReferences.Select(c => c.Id)))
+            .ToHashSet();
+
+        if (!selectedCandidateIds.IsSubsetOf(candidateIdsInThisElection))
+        {
+            throw new ValidationException("Some candidate IDs do not belong to this election");
+        }
+    }
 
     private void EnsureSelectedCandidatesAreSelectedInPrimaryElection(MajorityElectionBallotGroupCandidates data)
     {

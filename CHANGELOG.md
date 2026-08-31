@@ -1,4 +1,4 @@
-# ✨ Changelog (`v2.79.0`)
+# ✨ Changelog (`v2.85.0`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,81 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v2.79.0
-Previous version ---- v2.78.0
+This version -------- v2.85.0
+Previous version ---- v2.79.0
 Initial version ----- v1.27.15
-Total commits ------- 14
+Total commits ------- 11
 ```
+
+## [v2.85.0] - 2026-08-12
+
+### 🆕 Added
+
+- add monitoring canton settings
+
+## [v2.84.0] - 2026-08-11
+
+### 🆕 Added
+
+- add eCH 0157/0159 V4.3
+
+## [v2.83.1] - 2026-07-29
+
+### 🔄 Changed
+
+- check whether candidate belongs to the specified majority election
+
+## [v2.83.0] - 2026-07-29
+
+### 🆕 Added
+
+- add counting circles to admin management service response
+
+## [v2.82.0] - 2026-07-29
+
+### 🆕 Added
+
+- add e-counting flag to domain of influence
+
+## [v2.81.3] - 2026-07-08
+
+### 🔄 Changed
+
+- rename certificate chain table to canton settings e-counting certificate chain
+
+## [v2.81.2] - 2026-07-03
+
+### :arrows_counterclockwise: Changed
+
+- ProportionalElectonListAndCondidateImportService: chunking of events per list for candidate list import.
+
+## [v2.81.1] - 2026-07-02
+
+### 🔄 Changed
+
+- ensure valid political business import data
+
+## [v2.81.0] - 2026-07-01
+
+### 🆕 Added
+
+- add canton settings e-counting certificate upload
+
+## [v2.80.0] - 2026-06-30
+
+### 🆕 Added
+
+- support secondary majority election imports
+
+## [v2.79.1] - 2026-06-18
+
+### 🆕 Added
+
+- add AutoMapper license management
+
+### 🔄 Changed
+
+- bump AutoMapper version to v15.1.3
 
 ## [v2.79.0] - 2026-06-16
 

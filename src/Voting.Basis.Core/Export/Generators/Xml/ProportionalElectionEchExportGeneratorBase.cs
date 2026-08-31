@@ -13,26 +13,28 @@ using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Ech.Converters;
 using Voting.Lib.Database.Repositories;
+using Voting.Lib.VotingExports.Models;
 
 namespace Voting.Basis.Core.Export.Generators.Xml;
 
-public class ProportionalElectionEchExportGeneratorBase
+public abstract class ProportionalElectionEchExportGeneratorBase : IExportGenerator
 {
     private readonly IDbRepository<DataContext, ProportionalElection> _electionRepo;
-    private readonly EchSerializerProvider _echSerializerProvider;
     private readonly PermissionService _permissionService;
 
     public ProportionalElectionEchExportGeneratorBase(
         IDbRepository<DataContext, ProportionalElection> electionRepo,
-        EchSerializerProvider echSerializerProvider,
         PermissionService permissionService)
     {
         _electionRepo = electionRepo;
-        _echSerializerProvider = echSerializerProvider;
         _permissionService = permissionService;
     }
 
-    public async Task<ExportFile> GenerateExport(Guid entityId, bool v5)
+    public abstract TemplateModel Template { get; }
+
+    protected abstract IEch0157Serializer Ech0157Serializer { get; }
+
+    public async Task<ExportFile> GenerateExport(Guid entityId)
     {
         var proportionalElection = await _electionRepo.Query()
             .AsSplitQuery()
@@ -49,15 +51,13 @@ public class ProportionalElectionEchExportGeneratorBase
             ?? throw new EntityNotFoundException(entityId);
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(proportionalElection.DomainOfInfluenceId, true);
-        var ech0157Serializer = _echSerializerProvider.GetEch0157Serializer(v5);
 
-        var xmlBytes = await ech0157Serializer.ToDelivery(proportionalElection.Contest, proportionalElection);
+        var xmlBytes = await Ech0157Serializer.ToDelivery(proportionalElection.Contest, proportionalElection);
 
         var electionDescription = LanguageUtil.GetInCurrentLanguage(proportionalElection.ShortDescription);
 
         var fileName = FileNameUtil.GetXmlFileName(
-            ech0157Serializer.EchNumber,
-            ech0157Serializer.EchVersion,
+            Template.Filename,
             proportionalElection.Contest.DomainOfInfluence.Canton,
             proportionalElection.Contest.Date,
             electionDescription);

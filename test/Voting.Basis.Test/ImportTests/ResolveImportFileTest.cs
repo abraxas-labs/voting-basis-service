@@ -167,6 +167,18 @@ public class ResolveImportFileTest : BaseRestTest
             }
         }
 
+        foreach (var secondaryMajorityElection in contestImport.SecondaryMajorityElections)
+        {
+            secondaryMajorityElection.Election.Id = string.Empty;
+            secondaryMajorityElection.Election.PrimaryMajorityElectionId = string.Empty;
+
+            foreach (var candidate in secondaryMajorityElection.Candidates)
+            {
+                candidate.Id = string.Empty;
+                candidate.MajorityElectionId = string.Empty;
+            }
+        }
+
         foreach (var proportionalElection in contestImport.ProportionalElections)
         {
             proportionalElection.Election.Id = string.Empty;

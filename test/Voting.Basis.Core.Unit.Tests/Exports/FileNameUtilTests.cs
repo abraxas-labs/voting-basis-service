@@ -5,6 +5,7 @@ using System;
 using FluentAssertions;
 using Voting.Basis.Core.Export;
 using Voting.Basis.Data.Models;
+using Voting.Lib.VotingExports.Repository.Basis;
 
 namespace Voting.Basis.Core.Unit.Tests.Exports;
 public class FileNameUtilTests
@@ -13,8 +14,7 @@ public class FileNameUtilTests
     public void GetXmlFileName()
     {
         var result = FileNameUtil.GetXmlFileName(
-            "0157",
-            "4_0",
+            BasisXmlMajorityElectionTemplates.Ech0157_4_0.Filename,
             DomainOfInfluenceCanton.Sg,
             new DateTime(2024, 04, 14),
             "test");

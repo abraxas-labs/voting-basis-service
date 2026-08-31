@@ -117,6 +117,7 @@ public class SecondaryMajorityElectionCandidateReferenceCreateTest : PoliticalBu
         await CantonAdminClient.CreateMajorityElectionCandidateReferenceAsync(NewValidRequest(x =>
         {
             x.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen;
+            x.CandidateId = MajorityElectionMockedData.CandidateId2GossauMajorityElectionEVotingApprovedInContestStGallen;
             x.ReportingType = SharedProto.MajorityElectionCandidateReportingType.CountToIndividual;
         }));
         EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateReferenceCreated>().Should().NotBeNull();
@@ -157,6 +158,16 @@ public class SecondaryMajorityElectionCandidateReferenceCreateTest : PoliticalBu
             async () => await CantonAdminClient.CreateMajorityElectionCandidateReferenceAsync(NewValidRequest(o => o.Number = "number1")),
             StatusCode.AlreadyExists,
             "NonUniqueCandidateNumber");
+    }
+
+    [Fact]
+    public async Task CandidateFromOtherElectionShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.CreateMajorityElectionCandidateReferenceAsync(NewValidRequest(
+                o => o.CandidateId = MajorityElectionMockedData.CandidateId1BundMajorityElectionInContestStGallen)),
+            StatusCode.InvalidArgument,
+            "ValidationException: Candidate does not belong to primary majority election");
     }
 
     [Fact]

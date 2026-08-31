@@ -63,6 +63,7 @@
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": false,
         "StistatExportEaiMessageType": "",
         "ECollectingImportRoot": false
@@ -126,6 +127,7 @@
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": false,
         "StistatExportEaiMessageType": "",
         "ECollectingImportRoot": false
@@ -196,6 +198,7 @@
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": false,
         "StistatExportEaiMessageType": "",
         "ECollectingImportRoot": false
@@ -259,6 +262,7 @@
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": false,
         "StistatExportEaiMessageType": "",
         "ECollectingImportRoot": false
@@ -329,6 +333,7 @@
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": false,
         "StistatExportEaiMessageType": "",
         "ECollectingImportRoot": false
@@ -392,6 +397,7 @@
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": false,
         "StistatExportEaiMessageType": "",
         "ECollectingImportRoot": false

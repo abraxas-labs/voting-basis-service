@@ -8,6 +8,7 @@ using AutoMapper;
 using Grpc.Core;
 using Microsoft.AspNetCore.Http;
 using Voting.Basis.Core.Exceptions;
+using Voting.Lib.Cryptography.Exceptions;
 using Voting.Lib.Eventing.Exceptions;
 using Voting.Lib.Iam.Exceptions;
 
@@ -82,6 +83,7 @@ internal readonly struct ExceptionMapping
             MajorityElectionActiveBallotGroupCreateException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
             SecondaryMajorityElectionCandidateNotSelectedInPrimaryElectionException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
             PoliticalBusinessNotCompleteException => new(StatusCode.FailedPrecondition, StatusCodes.Status412PreconditionFailed, true),
+            X509ChainBuilderException => new(StatusCode.InvalidArgument, StatusCodes.Status400BadRequest, true),
             _ => new(StatusCode.Internal, StatusCodes.Status500InternalServerError),
         };
 }

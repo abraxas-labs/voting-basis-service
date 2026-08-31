@@ -153,6 +153,7 @@
             "IsMainVotingCardsDomainOfInfluence": false,
             "HasEmptyVotingCards": false,
             "EVoting": null,
+            "ECounting": null,
             "StistatExportEnabled": false,
             "StistatExportEaiMessageType": "",
             "ECollectingImportRoot": false
@@ -242,6 +243,7 @@
                 "IsMainVotingCardsDomainOfInfluence": true,
                 "HasEmptyVotingCards": true,
                 "EVoting": true,
+                "ECounting": true,
                 "StistatExportEnabled": false,
                 "StistatExportEaiMessageType": "",
                 "ECollectingImportRoot": false
@@ -305,6 +307,7 @@
                 "IsMainVotingCardsDomainOfInfluence": false,
                 "HasEmptyVotingCards": false,
                 "EVoting": false,
+                "ECounting": false,
                 "StistatExportEnabled": false,
                 "StistatExportEaiMessageType": "",
                 "ECollectingImportRoot": false
@@ -360,6 +363,7 @@
             "IsMainVotingCardsDomainOfInfluence": false,
             "HasEmptyVotingCards": false,
             "EVoting": true,
+            "ECounting": true,
             "StistatExportEnabled": false,
             "StistatExportEaiMessageType": "",
             "ECollectingImportRoot": false
@@ -423,6 +427,7 @@
             "IsMainVotingCardsDomainOfInfluence": false,
             "HasEmptyVotingCards": false,
             "EVoting": null,
+            "ECounting": null,
             "StistatExportEnabled": false,
             "StistatExportEaiMessageType": "",
             "ECollectingImportRoot": false
@@ -478,6 +483,7 @@
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "EVoting": true,
+        "ECounting": true,
         "StistatExportEnabled": true,
         "StistatExportEaiMessageType": "5577812",
         "ECollectingImportRoot": false
@@ -550,6 +556,7 @@
             "IsMainVotingCardsDomainOfInfluence": false,
             "HasEmptyVotingCards": false,
             "EVoting": false,
+            "ECounting": false,
             "StistatExportEnabled": false,
             "StistatExportEaiMessageType": "",
             "ECollectingImportRoot": false
@@ -605,6 +612,7 @@
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "EVoting": false,
+        "ECounting": false,
         "StistatExportEnabled": false,
         "StistatExportEaiMessageType": "",
         "ECollectingImportRoot": false
@@ -668,6 +676,7 @@
         "IsMainVotingCardsDomainOfInfluence": false,
         "HasEmptyVotingCards": false,
         "EVoting": null,
+        "ECounting": null,
         "StistatExportEnabled": false,
         "StistatExportEaiMessageType": "",
         "ECollectingImportRoot": false

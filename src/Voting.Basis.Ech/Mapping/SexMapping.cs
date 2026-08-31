@@ -37,4 +37,9 @@ internal static class SexMapping
             _ => throw new ArgumentException($"Sex type {sex} is not valid."),
         };
     }
+
+    internal static DataModels.SexType ToBasisSexType(this SexType? sex)
+    {
+        return sex?.ToBasisSexType() ?? DataModels.SexType.Unspecified;
+    }
 }

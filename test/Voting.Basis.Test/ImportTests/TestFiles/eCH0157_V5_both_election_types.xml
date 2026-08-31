@@ -51,6 +51,10 @@
                         </electionDescriptionInfo>
                     </electionDescription>
                     <numberOfMandates xmlns="http://www.ech.ch/xmlns/eCH-0155/5">2</numberOfMandates>
+                    <referencedElection xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+                        <referencedElection>e4961473-5494-4d55-a092-7126761ea461</referencedElection>
+                        <electionRelation>2</electionRelation>
+                    </referencedElection>
                 </election>
                 <candidate>
                     <candidateIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
@@ -175,6 +179,117 @@
                             <language>de</language>
                             <partyAffiliationShort>FDP</partyAffiliationShort>
                             <partyAffiliationLong>FDP</partyAffiliationLong>
+                        </partyAffiliationInfo>
+                    </partyAffiliation>
+                </candidate>
+            </electionInformation>
+            <electionInformation>
+                <election>
+                    <electionIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+                        e4961473-5494-4d55-a092-7126761ea461
+                    </electionIdentification>
+                    <typeOfElection xmlns="http://www.ech.ch/xmlns/eCH-0155/5">2</typeOfElection>
+                    <electionPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/5">2</electionPosition>
+                    <electionDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+                        <electionDescriptionInfo>
+                            <language>de</language>
+                            <electionDescriptionShort>Nebenwahl</electionDescriptionShort>
+                            <electionDescription>Nebenwahl</electionDescription>
+                        </electionDescriptionInfo>
+                    </electionDescription>
+                    <numberOfMandates xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1</numberOfMandates>
+                    <referencedElection xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+                        <referencedElection>d4ed9fed-7af0-441e-a7b6-c77a34808dc9</referencedElection>
+                        <electionRelation>1</electionRelation>
+                    </referencedElection>
+                </election>
+                <candidate>
+                    <candidateIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+                        12d1f48b-a8be-4dd6-9aaa-40c1a40bf027
+                    </candidateIdentification>
+                    <familyName xmlns="http://www.ech.ch/xmlns/eCH-0155/5">Niederer</familyName>
+                    <firstName xmlns="http://www.ech.ch/xmlns/eCH-0155/5">Urs</firstName>
+                    <callName xmlns="http://www.ech.ch/xmlns/eCH-0155/5">Urs</callName>
+                    <candidateText xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+                        <candidateTextInfo>
+                            <language>de</language>
+                            <candidateText>1993, locality, SP</candidateText>
+                        </candidateTextInfo>
+                    </candidateText>
+                    <dateOfBirth xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1993-09-11</dateOfBirth>
+                    <sex xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1</sex>
+                    <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+                        <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">street</street>
+                        <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">1a</houseNumber>
+                        <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">locality</town>
+                        <swissZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">4200</swissZipCode>
+                        <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
+                            <countryId>8100</countryId>
+                            <countryIdISO2>CH</countryIdISO2>
+                            <countryNameShort>Schweiz</countryNameShort>
+                        </country>
+                    </dwellingAddress>
+                    <swiss xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+                        <origin>Heimatort</origin>
+                    </swiss>
+                    <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/5">2</mrMrs>
+                    <title xmlns="http://www.ech.ch/xmlns/eCH-0155/5"/>
+                    <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/5">de</languageOfCorrespondence>
+                    <incumbentYesNo xmlns="http://www.ech.ch/xmlns/eCH-0155/5">false</incumbentYesNo>
+                    <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/5">01</candidateReference>
+                    <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+                        <partyAffiliationInfo>
+                            <language>de</language>
+                            <partyAffiliationShort>SP</partyAffiliationShort>
+                            <partyAffiliationLong>SP</partyAffiliationLong>
+                        </partyAffiliationInfo>
+                    </partyAffiliation>
+                </candidate>
+                <candidate>
+                    <candidateIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+                        29f95bc6-9f67-4a19-8833-dfb61c65287c
+                    </candidateIdentification>
+                    <familyName xmlns="http://www.ech.ch/xmlns/eCH-0155/5">Muster</familyName>
+                    <firstName xmlns="http://www.ech.ch/xmlns/eCH-0155/5">Petra</firstName>
+                    <callName xmlns="http://www.ech.ch/xmlns/eCH-0155/5">Petra</callName>
+                    <candidateText xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+                        <candidateTextInfo>
+                            <language>de</language>
+                            <candidateText>2001, St. Gallen, parteilos</candidateText>
+                        </candidateTextInfo>
+                    </candidateText>
+                    <dateOfBirth xmlns="http://www.ech.ch/xmlns/eCH-0155/5">2001-02-08</dateOfBirth>
+                    <sex xmlns="http://www.ech.ch/xmlns/eCH-0155/5">2</sex>
+                    <occupationalTitle xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+                        <occupationalTitleInfo>
+                            <language>de</language>
+                            <occupationalTitle>Testerin</occupationalTitle>
+                        </occupationalTitleInfo>
+                    </occupationalTitle>
+                    <dwellingAddress xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+                        <street xmlns="http://www.ech.ch/xmlns/eCH-0010/6">Teststrasse</street>
+                        <houseNumber xmlns="http://www.ech.ch/xmlns/eCH-0010/6">21</houseNumber>
+                        <town xmlns="http://www.ech.ch/xmlns/eCH-0010/6">St. Gallen</town>
+                        <swissZipCode xmlns="http://www.ech.ch/xmlns/eCH-0010/6">9000</swissZipCode>
+                        <country xmlns="http://www.ech.ch/xmlns/eCH-0010/6">
+                            <countryId>8100</countryId>
+                            <countryIdISO2>CH</countryIdISO2>
+                            <countryNameShort>Schweiz</countryNameShort>
+                        </country>
+                    </dwellingAddress>
+                    <swiss xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+                        <origin>Buchs SG</origin>
+                    </swiss>
+                    <mrMrs xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1</mrMrs>
+                    <title xmlns="http://www.ech.ch/xmlns/eCH-0155/5">Dr.</title>
+                    <languageOfCorrespondence xmlns="http://www.ech.ch/xmlns/eCH-0155/5">de</languageOfCorrespondence>
+                    <incumbentYesNo xmlns="http://www.ech.ch/xmlns/eCH-0155/5">false</incumbentYesNo>
+                    <candidateReference xmlns="http://www.ech.ch/xmlns/eCH-0155/5">02</candidateReference>
+                    <partyAffiliation xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+                        <partyAffiliationInfo>
+                            <language>de</language>
+                            <partyAffiliationShort>parteilos</partyAffiliationShort>
+                            <partyAffiliationLong>Parteilos</partyAffiliationLong>
                         </partyAffiliationInfo>
                     </partyAffiliation>
                 </candidate>

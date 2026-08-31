@@ -84,4 +84,9 @@ public class AppConfig
     /// Gets or sets the preconfigured contest dates ("Blankotermine").
     /// </summary>
     public List<DateOnly> PreconfiguredContestDates { get; set; } = [];
+
+    /// <summary>
+    /// Gets or sets the automapper configuration.
+    /// </summary>
+    public AutoMapperConfig AutoMapper { get; set; } = new();
 }

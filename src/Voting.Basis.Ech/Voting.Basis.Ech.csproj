@@ -5,8 +5,10 @@
     <PackageReference Include="Voting.Lib.Ech" Version="$(VotingLibVersion)" />
     <PackageReference Include="Voting.Lib.Ech.Ech0157_4_0" Version="$(VotingLibVersion)" />
     <PackageReference Include="Voting.Lib.Ech.Ech0157_5_1" Version="$(VotingLibVersion)" />
+    <PackageReference Include="Voting.Lib.Ech.Ech0157_5_2" Version="$(VotingLibVersion)" />
     <PackageReference Include="Voting.Lib.Ech.Ech0159_4_0" Version="$(VotingLibVersion)" />
     <PackageReference Include="Voting.Lib.Ech.Ech0159_5_1" Version="$(VotingLibVersion)" />
+    <PackageReference Include="Voting.Lib.Ech.Ech0159_5_2" Version="$(VotingLibVersion)" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +29,7 @@
 
   <ItemGroup>
     <SonarQubeSetting Include="sonar.cpd.exclusions">
-      <Value>Mapping/V4/*Mapping.cs,Mapping/V5/*Mapping.cs,Converters/V4/*Deserializer.cs,Converters/V4/*Serializer.cs,Converters/V5/*Deserializer.cs,Converters/V5/*Serializer.cs</Value>
+      <Value>Mapping/**/*Mapping.cs,Converters/**/*Deserializer.cs,Converters/**/*Serializer.cs</Value>
     </SonarQubeSetting>
   </ItemGroup>
 </Project>

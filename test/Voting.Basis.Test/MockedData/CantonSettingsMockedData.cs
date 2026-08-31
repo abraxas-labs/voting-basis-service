@@ -12,6 +12,7 @@ using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Repositories;
 using Voting.Basis.Data.Utils;
 using Voting.Basis.Test.MockedData.Mapping;
+using Voting.Basis.Test.MockedData.TestFiles;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
 using Voting.Lib.Eventing.Testing.Mocks;
@@ -178,9 +179,15 @@ public static class CantonSettingsMockedData
         {
             var cantonSettingsRepo = sp.GetRequiredService<CantonSettingsRepo>();
             var doiCantonDefaultsBuilder = sp.GetRequiredService<DomainOfInfluenceCantonDefaultsBuilder>();
+            var certificateChainByCantonSettingsId = GetCertificateChainByCantonSettingsId();
 
             foreach (var cantonSettings in All)
             {
+                if (certificateChainByCantonSettingsId.TryGetValue(cantonSettings.Id, out var certChain))
+                {
+                    cantonSettings.ECountingCertificateChain = certChain;
+                }
+
                 await cantonSettingsRepo.Create(cantonSettings);
                 await doiCantonDefaultsBuilder.RebuildForCanton(cantonSettings);
             }
@@ -212,5 +219,21 @@ public static class CantonSettingsMockedData
         var data = mapper.Map<Core.Domain.CantonSettings>(cantonSettings);
         aggregate.CreateFrom(data);
         return aggregate;
+    }
+
+    private static Dictionary<Guid, CantonSettingsECountingCertificateChain> GetCertificateChainByCantonSettingsId()
+    {
+        var timestamp = new DateTime(2020, 1, 1, 1, 1, 1, DateTimeKind.Utc);
+
+        var sgCertificate = CertificateChainBuilder.Build<CantonSettingsECountingCertificateChain, CantonSettingsECountingCertificateInfo>(
+            CertificateTestFiles.FourLevelChainRawPem,
+            new User { FirstName = "Tester", LastName = "Muster", SecureConnectId = "secure-connect-id" },
+            timestamp);
+        sgCertificate.Id = Guid.Parse("c0e6359c-bb4a-4039-91da-32f15aebcf73");
+
+        return new()
+        {
+            { GuidStGallen, sgCertificate },
+        };
     }
 }

@@ -6,20 +6,18 @@ using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Data;
 using Voting.Basis.Data.Models;
-using Voting.Basis.Ech.Converters;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Iam.Store;
 
 namespace Voting.Basis.Core.Export.Generators.Xml;
 
-public class ContestEchOnlyEVotingExportsGeneratorBase : ContestEchExportsGeneratorBase
+public abstract class ContestEchOnlyEVotingExportsGeneratorBase : ContestEchExportsGeneratorBase
 {
     public ContestEchOnlyEVotingExportsGeneratorBase(
         IAuth auth,
         IDbRepository<DataContext, Contest> contestRepo,
-        EchSerializerProvider echSerializerProvider,
         PermissionService permissionService)
-        : base(auth, contestRepo, echSerializerProvider, permissionService)
+        : base(auth, contestRepo, permissionService)
     {
     }
 

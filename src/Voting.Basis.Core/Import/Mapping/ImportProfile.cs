@@ -12,13 +12,20 @@ public class ImportProfile : Profile
     public ImportProfile()
     {
         CreateMap<Contest, ContestImport>()
-            .ForMember(dst => dst.Contest, opts => opts.MapFrom(x => x));
+            .ForMember(dst => dst.Contest, opts => opts.MapFrom(x => x))
+            .ForMember(
+                dst => dst.SecondaryMajorityElections,
+                opts => opts.MapFrom(x => x.MajorityElections.SelectMany(y => y.SecondaryMajorityElections)));
         CreateMap<Contest, Domain.Contest>();
         CreateMap<MajorityElection, MajorityElectionImport>()
             .ForMember(dst => dst.Election, opts => opts.MapFrom(x => x))
             .ForMember(dst => dst.Candidates, opts => opts.MapFrom(x => x.MajorityElectionCandidates));
+        CreateMap<SecondaryMajorityElection, SecondaryMajorityElectionImport>()
+            .ForMember(dst => dst.Election, opts => opts.MapFrom(x => x));
         CreateMap<MajorityElection, Domain.MajorityElection>();
         CreateMap<MajorityElectionCandidate, Domain.MajorityElectionCandidate>();
+        CreateMap<SecondaryMajorityElection, Domain.SecondaryMajorityElection>();
+        CreateMap<SecondaryMajorityElectionCandidate, Domain.MajorityElectionCandidate>();
         CreateMap<ProportionalElection, ProportionalElectionImport>()
             .ForMember(dst => dst.Election, opts => opts.MapFrom(x => x))
             .ForMember(dst => dst.Lists, opts => opts.MapFrom(x => x.ProportionalElectionLists))

@@ -321,7 +321,7 @@ public class MajorityElectionCandidateUpdateTest : PoliticalBusinessAuthorizatio
     {
         var request = NewValidRequest(x =>
         {
-            x.Id = MajorityElectionMockedData.CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen;
+            x.Id = MajorityElectionMockedData.CandidateId1GossauMajorityElectionEVotingApprovedInContestStGallen;
             x.MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionEVotingApprovedInContestStGallen;
         });
 

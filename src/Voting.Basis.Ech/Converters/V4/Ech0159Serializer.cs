@@ -27,8 +27,6 @@ public class Ech0159Serializer : IEch0159Serializer
         _echSerializer = echSerializer;
     }
 
-    string IEch0159Serializer.EchVersion => "4_0";
-
     /// <summary>
     /// Serialize to eCH-0159.
     /// </summary>

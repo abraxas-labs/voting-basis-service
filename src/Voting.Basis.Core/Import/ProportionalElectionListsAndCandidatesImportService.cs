@@ -59,9 +59,7 @@ public class ProportionalElectionListsAndCandidatesImportService
 
         var idVerifier = new IdVerifier();
         await ImportLists(listImports, proportionalElection, partyIds, idVerifier);
-        ImportListUnions(listUnions, proportionalElection, idVerifier);
-
-        await _aggregateRepository.Save(proportionalElection);
+        await ImportListUnions(listUnions, proportionalElection, idVerifier);
     }
 
     private void DeleteLists(ProportionalElectionAggregate proportionalElection, IEnumerable<Guid> listIds)
@@ -103,6 +101,7 @@ public class ProportionalElectionListsAndCandidatesImportService
             proportionalElection.CreateListFrom(list);
             idVerifier.EnsureUnique(list.Id);
             ImportCandidates(listImport.Candidates, proportionalElection, list, doi, partyIds, idVerifier);
+            await _aggregateRepository.Save(proportionalElection);
         }
     }
 
@@ -129,7 +128,7 @@ public class ProportionalElectionListsAndCandidatesImportService
         }
     }
 
-    private void ImportListUnions(IEnumerable<ProportionalElectionListUnion> listUnions, ProportionalElectionAggregate proportionalElection, IdVerifier idVerifier)
+    private async Task ImportListUnions(IEnumerable<ProportionalElectionListUnion> listUnions, ProportionalElectionAggregate proportionalElection, IdVerifier idVerifier)
     {
         var currentListUnionPosition = proportionalElection.ListUnions.MaxOrDefault(l => l.Position);
 
@@ -155,5 +154,7 @@ public class ProportionalElectionListsAndCandidatesImportService
             entries.ProportionalElectionListIds.AddRange(listUnion.ProportionalElectionListIds);
             proportionalElection.UpdateListUnionEntriesFrom(entries);
         }
+
+        await _aggregateRepository.Save(proportionalElection);
     }
 }

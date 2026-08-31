@@ -32,6 +32,12 @@ public class CantonSettingsModelBuilder :
             .HasMany(x => x.CountingCircleResultStateDescriptions)
             .WithOne(x => x.CantonSettings)
             .HasForeignKey(x => x.CantonSettingsId);
+
+        builder
+            .HasOne(x => x.ECountingCertificateChain)
+            .WithOne(x => x.CantonSettings)
+            .HasForeignKey<CantonSettingsECountingCertificateChain>(x => x.CantonSettingsId)
+            .IsRequired();
     }
 
     public void Configure(EntityTypeBuilder<CantonSettingsVotingCardChannel> builder)

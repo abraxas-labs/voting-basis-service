@@ -18,7 +18,8 @@
           "ECollectingEnabled": false,
           "SortNumber": 0,
           "NameForProtocol": "Kanton Genf",
-          "ECollectingImportRoot": false
+          "ECollectingImportRoot": false,
+          "AssignedCountingCircles": []
         },
         {
           "Id": "0e9ae002-dfa1-4eb6-920b-5d837a33ff79",
@@ -46,7 +47,13 @@
               "ECollectingEnabled": true,
               "SortNumber": 1,
               "NameForProtocol": "Stadt Gossau",
-              "ECollectingImportRoot": false
+              "ECollectingImportRoot": false,
+              "AssignedCountingCircles": [
+                {
+                  "Id": "0bb8d89c-d387-40d0-83cf-84e118a8d524",
+                  "Name": "Gossau"
+                }
+              ]
             },
             {
               "Id": "d9f5e161-37f8-4c76-921d-c0237c54dc5b",
@@ -62,7 +69,13 @@
               "ECollectingEnabled": false,
               "SortNumber": 0,
               "NameForProtocol": "Stadt Uzwil",
-              "ECollectingImportRoot": false
+              "ECollectingImportRoot": false,
+              "AssignedCountingCircles": [
+                {
+                  "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e",
+                  "Name": "Uzwil"
+                }
+              ]
             }
           ],
           "Name": "St. Gallen",
@@ -75,7 +88,25 @@
           "ECollectingEnabled": false,
           "SortNumber": 0,
           "NameForProtocol": "Kanton St. Gallen",
-          "ECollectingImportRoot": false
+          "ECollectingImportRoot": false,
+          "AssignedCountingCircles": [
+            {
+              "Id": "0bb8d89c-d387-40d0-83cf-84e118a8d524",
+              "Name": "Gossau"
+            },
+            {
+              "Id": "2a3a799a-2437-47da-86fe-06decf70a267",
+              "Name": "Rapperswil"
+            },
+            {
+              "Id": "1e2e062e-288d-4347-9f22-224e69b95bed",
+              "Name": "St. Gallen"
+            },
+            {
+              "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a3e",
+              "Name": "Uzwil"
+            }
+          ]
         },
         {
           "Id": "6bb6e372-ffa2-45fd-9329-6c6a0bc8a752",
@@ -91,7 +122,8 @@
           "ECollectingEnabled": false,
           "SortNumber": 0,
           "NameForProtocol": "Kanton Thurgau",
-          "ECollectingImportRoot": false
+          "ECollectingImportRoot": false,
+          "AssignedCountingCircles": []
         }
       ],
       "Name": "Bund",
@@ -104,7 +136,13 @@
       "ECollectingEnabled": false,
       "SortNumber": 0,
       "NameForProtocol": "",
-      "ECollectingImportRoot": true
+      "ECollectingImportRoot": true,
+      "AssignedCountingCircles": [
+        {
+          "Id": "eea024ee-7f93-4a58-9e7d-6e6b0c11b723",
+          "Name": "Bund"
+        }
+      ]
     },
     {
       "Id": "22949a1e-fb09-47ec-9e9f-d26675676565",
@@ -124,7 +162,13 @@
           "ECollectingEnabled": false,
           "SortNumber": 0,
           "NameForProtocol": "Oberuzwil Kirche andere",
-          "ECollectingImportRoot": false
+          "ECollectingImportRoot": false,
+          "AssignedCountingCircles": [
+            {
+              "Id": "c375f97a-0ba2-4a93-8c76-08a0661d9962",
+              "Name": "Kirche Uzwil Andere"
+            }
+          ]
         }
       ],
       "Name": "Kirchgemeinde Oberuzwil",
@@ -137,7 +181,13 @@
       "ECollectingEnabled": false,
       "SortNumber": 0,
       "NameForProtocol": "",
-      "ECollectingImportRoot": false
+      "ECollectingImportRoot": false,
+      "AssignedCountingCircles": [
+        {
+          "Id": "ca7be031-d4ce-4bb6-9538-b5e5d19e5a4e",
+          "Name": "Kirche Uzwil"
+        }
+      ]
     },
     {
       "Id": "8af17c9d-6bae-45bf-a85b-b77239f2eefb",
@@ -153,7 +203,8 @@
       "ECollectingEnabled": false,
       "SortNumber": 0,
       "NameForProtocol": "Kanton Zürich",
-      "ECollectingImportRoot": false
+      "ECollectingImportRoot": false,
+      "AssignedCountingCircles": []
     }
   ]
 }

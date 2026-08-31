@@ -89,6 +89,12 @@ public class CantonSettingsAggregate : BaseEventSourcingAggregate
 
     public bool EnableAdditionalCandidateFields { get; set; }
 
+    public string? ECountingCertificateChainRawPem { get; private set; }
+
+    public bool MonitoringAutoShowPoliticalBusinesses { get; private set; }
+
+    public bool MonitoringUseImprovedUi { get; private set; }
+
     public void CreateFrom(CantonSettings cantonSettings)
     {
         cantonSettings.Id = BasisUuidV5.BuildCantonSettings(cantonSettings.Canton);
@@ -119,6 +125,18 @@ public class CantonSettingsAggregate : BaseEventSourcingAggregate
         RaiseEvent(ev);
     }
 
+    public void SetECountingCertificateChain(string rawPem)
+    {
+        var ev = new SetCantonSettingsECountingCertificateChain
+        {
+            Id = Id.ToString(),
+            EventInfo = _eventInfoProvider.NewEventInfo(),
+            RawPem = rawPem,
+        };
+
+        RaiseEvent(ev);
+    }
+
     protected override void Apply(IMessage eventData)
     {
         switch (eventData)
@@ -128,6 +146,9 @@ public class CantonSettingsAggregate : BaseEventSourcingAggregate
                 break;
             case CantonSettingsUpdated e:
                 Apply(e);
+                break;
+            case SetCantonSettingsECountingCertificateChain e:
+                ECountingCertificateChainRawPem = e.RawPem;
                 break;
             default: throw new EventNotAppliedException(eventData?.GetType());
         }

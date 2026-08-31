@@ -16,8 +16,11 @@ public class ImportProfile : Profile
         CreateMap<ProtoModels.ContestImport, ContestImport>().ReverseMap();
         CreateMap<ProtoModels.Contest, Contest>().ReverseMap();
         CreateMap<ProtoModels.MajorityElectionImport, MajorityElectionImport>().ReverseMap();
+        CreateMap<ProtoModels.SecondaryMajorityElectionImport, SecondaryMajorityElectionImport>().ReverseMap();
         CreateMap<ProtoModels.MajorityElection, MajorityElection>().ReverseMap();
+        CreateMap<ProtoModels.SecondaryMajorityElection, SecondaryMajorityElection>().ReverseMap();
         CreateMap<ProtoModels.MajorityElectionCandidate, MajorityElectionCandidate>().ReverseMap();
+        CreateMap<ProtoModels.SecondaryMajorityElectionCandidate, MajorityElectionCandidate>().ReverseMap();
         CreateMap<ProtoModels.MajorityElectionCandidateReference, MajorityElectionCandidateReference>().ReverseMap();
         CreateMap<ProtoModels.Ballot, Ballot>().ReverseMap();
         CreateMap<ProtoModels.BallotQuestion, BallotQuestion>().ReverseMap();

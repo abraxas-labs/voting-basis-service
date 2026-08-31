@@ -33,7 +33,8 @@ public class DomainOfInfluenceProfile : Profile
             .ForMember(dst => dst.Children, opts => opts.Ignore());
         CreateMap<Data.Models.DomainOfInfluence, ProtoModels.DomainOfInfluence>()
             .ForMember(dst => dst.Info, opts => opts.MapFrom(src => src))
-            .ForMember(dst => dst.EVoting, opts => opts.MapFrom(src => src.CountingCircles.Count > 0 ? (bool?)src.CountingCircles.Any(doiCc => doiCc.CountingCircle.EVoting) : null));
+            .ForMember(dst => dst.EVoting, opts => opts.MapFrom(src => src.CountingCircles.Count > 0 ? (bool?)src.CountingCircles.Any(doiCc => doiCc.CountingCircle.EVoting) : null))
+            .ForMember(dst => dst.ECounting, opts => opts.MapFrom(src => src.CountingCircles.Count > 0 ? (bool?)src.CountingCircles.Any(doiCc => doiCc.CountingCircle.ECounting) : null));
 
         CreateMap<Data.Models.DomainOfInfluenceCantonDefaults, ProtoModels.DomainOfInfluenceCantonDefaults>();
         CreateMap<Data.Models.DomainOfInfluenceVotingCardPrintData, ProtoModels.DomainOfInfluenceVotingCardPrintData>();

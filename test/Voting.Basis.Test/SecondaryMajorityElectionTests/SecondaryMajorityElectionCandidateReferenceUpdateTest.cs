@@ -135,7 +135,7 @@ public class SecondaryMajorityElectionCandidateReferenceUpdateTest : PoliticalBu
 
         await CantonAdminClient.UpdateMajorityElectionCandidateReferenceAsync(NewValidRequest(x =>
         {
-            x.CandidateId = MajorityElectionMockedData.CandidateIdGossauMajorityElectionEVotingApprovedInContestStGallen;
+            x.CandidateId = MajorityElectionMockedData.CandidateId1GossauMajorityElectionEVotingApprovedInContestStGallen;
             x.Id = MajorityElectionMockedData.SecondaryElectionCandidateId1GossauMajorityElectionEVotingApprovedInContestStGallen;
             x.SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdGossauMajorityElectionEVotingApprovedInContestStGallen;
             x.Number = "number1";

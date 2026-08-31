@@ -55,7 +55,77 @@
       "DomainOfInfluencePublishResultsOptionEnabled": true,
       "SecondaryMajorityElectionOnSeparateBallot": false,
       "HideOccupationTitle": false,
-      "EnableAdditionalCandidateFields": false
+      "EnableAdditionalCandidateFields": false,
+      "ECountingCertificateChain": {
+        "Infos": [
+          {
+            "Subject": "CN=Local Root CA",
+            "Issuer": "CN=Local Root CA",
+            "Thumbprint": "3F4C9E9DDD1275D14FB22B37CA67C06A406B00CBA8BE79E1E06C0BBE1D1E376A",
+            "NotBefore": {
+              "Seconds": 1782760607,
+              "Nanos": 0
+            },
+            "NotAfter": {
+              "Seconds": 4945000607,
+              "Nanos": 0
+            },
+            "CaThumbprint": ""
+          },
+          {
+            "Subject": "CN=localhost",
+            "Issuer": "CN=Local Intermediate CA 2",
+            "Thumbprint": "B2CEEEE65C583CB4713EFE2660C54DD0476973E383AD9AFF8F3BB50F4F0CB8F1",
+            "NotBefore": {
+              "Seconds": 1782760608,
+              "Nanos": 0
+            },
+            "NotAfter": {
+              "Seconds": 4945000608,
+              "Nanos": 0
+            },
+            "CaThumbprint": "62B77DE40E8F1A1D371F6F59A9AEC628639D13D00A36A13BD856442736209564"
+          },
+          {
+            "Subject": "CN=Local Intermediate CA 1",
+            "Issuer": "CN=Local Root CA",
+            "Thumbprint": "A50901CC03044C182F63D2564C600C96153E24F5F68B1769A704A422B11526A1",
+            "NotBefore": {
+              "Seconds": 1782760608,
+              "Nanos": 0
+            },
+            "NotAfter": {
+              "Seconds": 4945000608,
+              "Nanos": 0
+            },
+            "CaThumbprint": "3F4C9E9DDD1275D14FB22B37CA67C06A406B00CBA8BE79E1E06C0BBE1D1E376A"
+          },
+          {
+            "Subject": "CN=Local Intermediate CA 2",
+            "Issuer": "CN=Local Intermediate CA 1",
+            "Thumbprint": "62B77DE40E8F1A1D371F6F59A9AEC628639D13D00A36A13BD856442736209564",
+            "NotBefore": {
+              "Seconds": 1782760608,
+              "Nanos": 0
+            },
+            "NotAfter": {
+              "Seconds": 4945000608,
+              "Nanos": 0
+            },
+            "CaThumbprint": "A50901CC03044C182F63D2564C600C96153E24F5F68B1769A704A422B11526A1"
+          }
+        ],
+        "ImportedBy": {
+          "SecureConnectId": "secure-connect-id",
+          "FullName": "Tester Muster"
+        },
+        "ImportedAt": {
+          "Seconds": 1577840461,
+          "Nanos": 0
+        }
+      },
+      "MonitoringAutoShowPoliticalBusinesses": false,
+      "MonitoringUseImprovedUi": false
     }
   ]
 }

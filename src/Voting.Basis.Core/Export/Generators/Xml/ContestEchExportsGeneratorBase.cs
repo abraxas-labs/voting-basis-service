@@ -17,29 +17,33 @@ using Voting.Basis.Ech.Converters;
 using Voting.Lib.Database.Repositories;
 using Voting.Lib.Iam.Exceptions;
 using Voting.Lib.Iam.Store;
+using Voting.Lib.VotingExports.Models;
 
 namespace Voting.Basis.Core.Export.Generators.Xml;
 
-public abstract class ContestEchExportsGeneratorBase
+public abstract class ContestEchExportsGeneratorBase : IExportsGenerator
 {
     private readonly IAuth _auth;
     private readonly IDbRepository<DataContext, Contest> _contestRepo;
-    private readonly EchSerializerProvider _echSerializerProvider;
     private readonly PermissionService _permissionService;
 
     protected ContestEchExportsGeneratorBase(
         IAuth auth,
         IDbRepository<DataContext, Contest> contestRepo,
-        EchSerializerProvider echSerializerProvider,
         PermissionService permissionService)
     {
         _auth = auth;
         _contestRepo = contestRepo;
-        _echSerializerProvider = echSerializerProvider;
         _permissionService = permissionService;
     }
 
-    public async IAsyncEnumerable<ExportFile> GenerateExports(Guid entityId, bool v5)
+    public abstract TemplateModel Template { get; }
+
+    protected abstract IEch0157Serializer Ech0157Serializer { get; }
+
+    protected abstract IEch0159Serializer Ech0159Serializer { get; }
+
+    public async IAsyncEnumerable<ExportFile> GenerateExports(Guid entityId)
     {
         var contest = await FetchContestData(entityId);
 
@@ -59,18 +63,14 @@ public abstract class ContestEchExportsGeneratorBase
                 .ToList();
         }
 
-        var ech0157Serializer = _echSerializerProvider.GetEch0157Serializer(v5);
-        var ech0159Serializer = _echSerializerProvider.GetEch0159Serializer(v5);
-
         if (contest.Votes.Count > 0)
         {
-            var xmlBytes = await ech0159Serializer.ToEventInitialDelivery(contest, contest.Votes);
+            var xmlBytes = await Ech0159Serializer.ToEventInitialDelivery(contest, contest.Votes);
 
             yield return new ExportFile(
                 xmlBytes,
                 FileNameUtil.GetXmlFileName(
-                    ech0159Serializer.EchNumber,
-                    ech0159Serializer.EchVersion,
+                    Template.Filename,
                     contest.DomainOfInfluence.Canton,
                     contest.Date,
                     "votes"),
@@ -79,13 +79,12 @@ public abstract class ContestEchExportsGeneratorBase
 
         if (contest.ProportionalElections.Count > 0)
         {
-            var xmlBytes = await ech0157Serializer.ToDelivery(contest, contest.ProportionalElections);
+            var xmlBytes = await Ech0157Serializer.ToDelivery(contest, contest.ProportionalElections);
 
             yield return new ExportFile(
                 xmlBytes,
                 FileNameUtil.GetXmlFileName(
-                    ech0157Serializer.EchNumber,
-                    ech0157Serializer.EchVersion,
+                    Template.Filename,
                     contest.DomainOfInfluence.Canton,
                     contest.Date,
                     "proportional_elections"),
@@ -94,13 +93,12 @@ public abstract class ContestEchExportsGeneratorBase
 
         if (contest.MajorityElections.Count > 0)
         {
-            var xmlBytes = await ech0157Serializer.ToDelivery(contest, contest.MajorityElections);
+            var xmlBytes = await Ech0157Serializer.ToDelivery(contest, contest.MajorityElections);
 
             yield return new ExportFile(
                 xmlBytes,
                 FileNameUtil.GetXmlFileName(
-                    ech0157Serializer.EchNumber,
-                    ech0157Serializer.EchVersion,
+                    Template.Filename,
                     contest.DomainOfInfluence.Canton,
                     contest.Date,
                     "majority_elections"),

@@ -1,0 +1,87 @@
+<delivery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.ech.ch/xmlns/eCH-0159/5">
+  <deliveryHeader>
+    <senderId xmlns="http://www.ech.ch/xmlns/eCH-0058/5">ABX-VOTING</senderId>
+    <messageId xmlns="http://www.ech.ch/xmlns/eCH-0058/5">mock-id</messageId>
+    <messageType xmlns="http://www.ech.ch/xmlns/eCH-0058/5">1710967</messageType>
+    <sendingApplication xmlns="http://www.ech.ch/xmlns/eCH-0058/5">
+      <manufacturer>Abraxas Informatik AG</manufacturer>
+      <product>Voting.Basis</product>
+      <productVersion>0.0.0.1</productVersion>
+    </sendingApplication>
+    <messageDate xmlns="http://www.ech.ch/xmlns/eCH-0058/5">2020-01-10T13:12:10.2Z</messageDate>
+    <action xmlns="http://www.ech.ch/xmlns/eCH-0058/5">1</action>
+    <testDeliveryFlag xmlns="http://www.ech.ch/xmlns/eCH-0058/5">true</testDeliveryFlag>
+  </deliveryHeader>
+  <initialDelivery>
+    <contest>
+      <contestIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">bfd88d88-77f2-4172-a73d-56b1ca5442b3</contestIdentification>
+      <contestDate xmlns="http://www.ech.ch/xmlns/eCH-0155/5">2020-02-29</contestDate>
+      <contestDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+        <contestDescriptionInfo>
+          <language>de</language>
+          <contestDescription>Gossau Urnengang de</contestDescription>
+        </contestDescriptionInfo>
+      </contestDescription>
+    </contest>
+    <voteInformation>
+      <vote>
+        <voteIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">8fbba43a-cd73-407a-b490-df13c41cc5ee</voteIdentification>
+        <domainOfInfluence xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+          <domainOfInfluenceType>SK</domainOfInfluenceType>
+          <domainOfInfluenceIdentification>a18b1c6a-6b66-43e4-a7d2-a440a7025dbd</domainOfInfluenceIdentification>
+          <domainOfInfluenceName>Gossau</domainOfInfluenceName>
+          <domainOfInfluenceShortname>GOS</domainOfInfluenceShortname>
+        </domainOfInfluence>
+        <voteDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+          <voteDescriptionInfo>
+            <language>de</language>
+            <voteDescription>Gemeinde-Volksabstimmung vom 29.02.2020</voteDescription>
+          </voteDescriptionInfo>
+        </voteDescription>
+      </vote>
+      <electronicBallot>
+        <electronicBallotIdentification xmlns="http://www.ech.ch/xmlns/eCH-0155/5">a2aa6f61-752b-446f-94b4-002a95111c7a</electronicBallotIdentification>
+        <electronicBallotPosition xmlns="http://www.ech.ch/xmlns/eCH-0155/5">1</electronicBallotPosition>
+        <electronicBallotDescription xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+          <electronicBallotDescriptionInfo>
+            <language>de</language>
+            <electronicBallotDescriptionLong>Abstimmung Gossau de</electronicBallotDescriptionLong>
+            <electronicBallotDescriptionShort>Abstimmung Gossau de</electronicBallotDescriptionShort>
+          </electronicBallotDescriptionInfo>
+        </electronicBallotDescription>
+        <standardElectronicBallot xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+          <questionIdentification>a2aa6f61-752b-446f-94b4-002a95111c7a_n_1</questionIdentification>
+          <electronicBallotQuestionNumber>1</electronicBallotQuestionNumber>
+          <answerInformation>
+            <answerType>2</answerType>
+          </answerInformation>
+          <electronicBallotQuestion>
+            <electronicBallotQuestionInfo>
+              <language>de</language>
+              <electronicBallotQuestion>Frage 1 Gossau de</electronicBallotQuestion>
+            </electronicBallotQuestionInfo>
+          </electronicBallotQuestion>
+        </standardElectronicBallot>
+        <extension xmlns="http://www.ech.ch/xmlns/eCH-0155/5">
+          <BallotExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
+            <voteId>8fbba43a-cd73-407a-b490-df13c41cc5ee</voteId>
+            <voteType>QuestionsOnSingleBallot</voteType>
+            <voteOfficialDescription>
+              <Key>de</Key>
+              <Value>Abstimmung Gossau de</Value>
+            </voteOfficialDescription>
+            <voteShortDescription>
+              <Key>de</Key>
+              <Value>Abstimmung Gossau de</Value>
+            </voteShortDescription>
+            <voteResultEntry>FinalResults</voteResultEntry>
+            <voteResultAlgorithm>PopularMajority</voteResultAlgorithm>
+            <voteReviewProcedure>Electronically</voteReviewProcedure>
+            <voteEnforceResultEntryForCountingCircles>true</voteEnforceResultEntryForCountingCircles>
+            <ballotSubType>Unspecified</ballotSubType>
+          </BallotExtension>
+        </extension>
+      </electronicBallot>
+    </voteInformation>
+  </initialDelivery>
+</delivery>

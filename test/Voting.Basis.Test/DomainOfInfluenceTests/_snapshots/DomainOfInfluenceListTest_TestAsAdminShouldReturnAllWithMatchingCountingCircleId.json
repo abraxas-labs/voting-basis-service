@@ -59,6 +59,7 @@
       "IsMainVotingCardsDomainOfInfluence": false,
       "HasEmptyVotingCards": false,
       "EVoting": null,
+      "ECounting": null,
       "StistatExportEnabled": true,
       "StistatExportEaiMessageType": "5577812",
       "ECollectingImportRoot": true
@@ -122,6 +123,7 @@
       "IsMainVotingCardsDomainOfInfluence": false,
       "HasEmptyVotingCards": false,
       "EVoting": null,
+      "ECounting": null,
       "StistatExportEnabled": false,
       "StistatExportEaiMessageType": "",
       "ECollectingImportRoot": false

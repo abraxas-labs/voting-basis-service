@@ -13,9 +13,11 @@ using Voting.Basis.Core.Domain;
 using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.EventSignature;
 using Voting.Basis.Core.Exceptions;
+using Voting.Basis.Core.Extensions;
 using Voting.Basis.Core.Models;
 using Voting.Basis.Core.Services.Permission;
 using Voting.Basis.Core.Services.Read;
+using Voting.Basis.Core.Services.Validation;
 using Voting.Basis.Core.Services.Write;
 using Voting.Basis.Core.Utils;
 using Voting.Basis.Ech.Converters;
@@ -23,6 +25,7 @@ using Voting.Lib.Common;
 using Voting.Lib.Eventing.Domain;
 using Voting.Lib.Eventing.Persistence;
 using Voting.Lib.MalwareScanner.Services;
+using PoliticalBusinessType = Voting.Basis.Data.Models.PoliticalBusinessType;
 using VoteResultEntry = Voting.Basis.Data.Models.VoteResultEntry;
 
 namespace Voting.Basis.Core.Import;
@@ -43,6 +46,8 @@ public class ImportService
     private readonly IMalwareScannerService _malwareScannerService;
     private readonly EchDeserializerProvider _echDeserializerProvider;
     private readonly PoliticalBusinessEVotingApprovalInitializer _politicalBusinessEVotingApprovalInitializer;
+    private readonly MajorityElectionWriter _majorityElectionWriter;
+    private readonly PoliticalBusinessValidationService _politicalBusinessValidationService;
 
     public ImportService(
         IMapper mapper,
@@ -58,7 +63,9 @@ public class ImportService
         DomainOfInfluenceReader domainOfInfluenceReader,
         IMalwareScannerService malwareScannerService,
         EchDeserializerProvider echDeserializerProvider,
-        PoliticalBusinessEVotingApprovalInitializer politicalBusinessEVotingApprovalInitializer)
+        PoliticalBusinessEVotingApprovalInitializer politicalBusinessEVotingApprovalInitializer,
+        MajorityElectionWriter majorityElectionWriter,
+        PoliticalBusinessValidationService politicalBusinessValidationService)
     {
         _mapper = mapper;
         _permissionService = permissionService;
@@ -74,6 +81,8 @@ public class ImportService
         _malwareScannerService = malwareScannerService;
         _echDeserializerProvider = echDeserializerProvider;
         _politicalBusinessEVotingApprovalInitializer = politicalBusinessEVotingApprovalInitializer;
+        _majorityElectionWriter = majorityElectionWriter;
+        _politicalBusinessValidationService = politicalBusinessValidationService;
     }
 
     public async Task Import(ContestImport contestImport)
@@ -84,10 +93,13 @@ public class ImportService
             MapToPoliticalBusinesses(contestImport.MajorityElections, contestImport.ProportionalElections, contestImport.Votes),
             contestImport.Contest.EVoting);
 
+        EnsureUniquePoliticalBusinessNumbersInImportData(contestImport.MajorityElections, contestImport.SecondaryMajorityElections, contestImport.ProportionalElections, contestImport.Votes);
+
         var aggregateImport = await CreateValidatedAggregates(
             contestImport.Contest.Id,
             contestImport.Contest.DomainOfInfluenceId,
             contestImport.MajorityElections,
+            contestImport.SecondaryMajorityElections,
             contestImport.ProportionalElections,
             contestImport.Votes);
 
@@ -99,9 +111,10 @@ public class ImportService
 
     public async Task Import(
         Guid contestId,
-        IEnumerable<MajorityElectionImport> majorityElections,
-        IEnumerable<ProportionalElectionImport> proportionalElections,
-        IEnumerable<VoteImport> votes)
+        List<MajorityElectionImport> majorityElections,
+        List<SecondaryMajorityElectionImport> secondaryMajorityElections,
+        List<ProportionalElectionImport> proportionalElections,
+        List<VoteImport> votes)
     {
         var contest = await _contestReader.Get(contestId);
         if (contest.TestingPhaseEnded)
@@ -110,13 +123,14 @@ public class ImportService
         }
 
         await EnsureActiveEventSignature(contestId);
+        EnsureUniquePoliticalBusinessNumbersInImportData(majorityElections, secondaryMajorityElections, proportionalElections, votes);
 
         // The contest id is set when the aggregates are created, thats why we pass it explicitly here.
         await _politicalBusinessEVotingApprovalInitializer.Initialize(
             MapToPoliticalBusinesses(majorityElections, proportionalElections, votes),
             contestId);
 
-        var aggregateImport = await CreateValidatedAggregates(contestId, contest.DomainOfInfluenceId, majorityElections, proportionalElections, votes);
+        var aggregateImport = await CreateValidatedAggregates(contestId, contest.DomainOfInfluenceId, majorityElections, secondaryMajorityElections, proportionalElections, votes);
         await _contestWriter.StartPoliticalBusinessImport(contest.Id);
         await Import(aggregateImport);
     }
@@ -134,21 +148,77 @@ public class ImportService
         };
     }
 
+    private static void EnsureUniquePoliticalBusinessNumbersInImportData(
+        List<MajorityElectionImport> majorityElections,
+        List<SecondaryMajorityElectionImport> secondaryMajorityElections,
+        List<ProportionalElectionImport> proportionalElections,
+        List<VoteImport> votes)
+    {
+        var majorityElectionsById = majorityElections.ToDictionary(x => x.Election.Id);
+        var combinedMajorityElections = majorityElections
+            .Select(x => new { x.Election.DomainOfInfluenceId, x.Election.PoliticalBusinessNumber })
+            .Concat(secondaryMajorityElections.Select(x =>
+            {
+                var domainOfInfluenceId = majorityElectionsById[x.Election.PrimaryMajorityElectionId].Election.DomainOfInfluenceId;
+                return new { DomainOfInfluenceId = domainOfInfluenceId, x.Election.PoliticalBusinessNumber };
+            }))
+            .ToList();
+
+        var duplicateMajorityElection = combinedMajorityElections
+            .GroupBy(x => new { x.DomainOfInfluenceId, x.PoliticalBusinessNumber })
+            .FirstOrDefault(x => x.Count() > 1);
+        if (duplicateMajorityElection != null)
+        {
+            throw new DuplicatedPoliticalBusinessNumberException(duplicateMajorityElection.Key.PoliticalBusinessNumber);
+        }
+
+        var duplicateProportionalElection = proportionalElections
+            .GroupBy(x => new { x.Election.DomainOfInfluenceId, x.Election.PoliticalBusinessNumber })
+            .FirstOrDefault(x => x.Count() > 1);
+        if (duplicateProportionalElection != null)
+        {
+            throw new DuplicatedPoliticalBusinessNumberException(duplicateProportionalElection.Key.PoliticalBusinessNumber);
+        }
+
+        var duplicateVote = votes
+            .GroupBy(x => new { x.Vote.DomainOfInfluenceId, x.Vote.PoliticalBusinessNumber })
+            .FirstOrDefault(x => x.Count() > 1);
+        if (duplicateVote != null)
+        {
+            throw new DuplicatedPoliticalBusinessNumberException(duplicateVote.Key.PoliticalBusinessNumber);
+        }
+    }
+
     private async Task<AggregateImport> CreateValidatedAggregates(
         Guid contestId,
         Guid contestDomainOfInfluenceId,
-        IEnumerable<MajorityElectionImport> majorityElections,
-        IEnumerable<ProportionalElectionImport> proportionalElections,
-        IEnumerable<VoteImport> votes)
+        List<MajorityElectionImport> majorityElections,
+        List<SecondaryMajorityElectionImport> secondaryMajorityElections,
+        List<ProportionalElectionImport> proportionalElections,
+        List<VoteImport> votes)
     {
         var politicalBusinessDomainOfInfluenceIds = new HashSet<Guid>();
         var result = new AggregateImport();
         var idVerifier = new IdVerifier();
 
+        var secondaryMajorityElectionsByPrimaryElectionId = secondaryMajorityElections
+            .GroupBy(x => x.Election.PrimaryMajorityElectionId)
+            .ToDictionary(x => x.Key, x => x.ToList());
+
         foreach (var majorityElection in majorityElections)
         {
+            await _politicalBusinessValidationService.EnsureValidImportData(
+                majorityElection.Election.Id,
+                contestId,
+                contestDomainOfInfluenceId,
+                majorityElection.Election.DomainOfInfluenceId,
+                majorityElection.Election.PoliticalBusinessNumber,
+                PoliticalBusinessType.MajorityElection,
+                majorityElection.Election.ReportDomainOfInfluenceLevel);
+
             majorityElection.Election.ContestId = contestId;
-            var aggregate = await CreateMajorityElectionAggregate(majorityElection, idVerifier);
+            secondaryMajorityElectionsByPrimaryElectionId.TryGetValue(majorityElection.Election.Id, out var secondaryMajorityElectionsForPrimaryElection);
+            var aggregate = await CreateMajorityElectionAggregate(majorityElection, idVerifier, secondaryMajorityElectionsForPrimaryElection);
             result.MajorityElectionAggregates.Add(aggregate);
             politicalBusinessDomainOfInfluenceIds.Add(majorityElection.Election.DomainOfInfluenceId);
         }
@@ -159,6 +229,15 @@ public class ImportService
             await _proportionalElectionWriter.EnsureValidProportionalElectionMandateAlgorithm(
                 proportionalElection.Election.MandateAlgorithm,
                 proportionalElection.Election.DomainOfInfluenceId);
+
+            await _politicalBusinessValidationService.EnsureValidImportData(
+                proportionalElection.Election.Id,
+                contestId,
+                contestDomainOfInfluenceId,
+                proportionalElection.Election.DomainOfInfluenceId,
+                proportionalElection.Election.PoliticalBusinessNumber,
+                PoliticalBusinessType.ProportionalElection,
+                proportionalElection.Election.ReportDomainOfInfluenceLevel);
 
             proportionalElection.Election.ContestId = contestId;
             var aggregate = await CreateProportionalElectionAggregate(proportionalElection, idVerifier);
@@ -171,6 +250,15 @@ public class ImportService
             await _voteWriter.EnsureValidVoteResultAlgorithm(
                 vote.Vote.ResultAlgorithm,
                 vote.Vote.DomainOfInfluenceId);
+
+            await _politicalBusinessValidationService.EnsureValidImportData(
+                vote.Vote.Id,
+                contestId,
+                contestDomainOfInfluenceId,
+                vote.Vote.DomainOfInfluenceId,
+                vote.Vote.PoliticalBusinessNumber,
+                PoliticalBusinessType.Vote,
+                vote.Vote.ReportDomainOfInfluenceLevel);
 
             vote.Vote.ContestId = contestId;
             var aggregate = CreateVoteAggregate(vote, idVerifier);
@@ -205,7 +293,7 @@ public class ImportService
         }
     }
 
-    private async Task<MajorityElectionAggregate> CreateMajorityElectionAggregate(MajorityElectionImport electionImport, IdVerifier idVerifier)
+    private async Task<MajorityElectionAggregate> CreateMajorityElectionAggregate(MajorityElectionImport electionImport, IdVerifier idVerifier, List<SecondaryMajorityElectionImport>? secondaryMajorityElections)
     {
         var majorityElection = _aggregateFactory.New<MajorityElectionAggregate>();
         majorityElection.CreateFrom(electionImport.Election);
@@ -223,7 +311,77 @@ public class ImportService
             idVerifier.EnsureUnique(candidate.Id);
         }
 
+        if (secondaryMajorityElections == null || secondaryMajorityElections.Count == 0)
+        {
+            return majorityElection;
+        }
+
+        await CreateSecondaryMajorityElections(majorityElection, secondaryMajorityElections, idVerifier, candidateValidationParams, electionImport.Candidates);
         return majorityElection;
+    }
+
+    private async Task CreateSecondaryMajorityElections(MajorityElectionAggregate majorityElection, List<SecondaryMajorityElectionImport> secondaryMajorityElections, IdVerifier idVerifier, CandidateValidationParams candidateValidationParams, IReadOnlyCollection<MajorityElectionCandidate> primaryElectionCandidates)
+    {
+        await _majorityElectionWriter.CreateElectionGroup(majorityElection);
+
+        var isOnSeparateBallot = await _majorityElectionWriter.AreSecondaryElectionsOnSeparateBallots(majorityElection.DomainOfInfluenceId);
+        foreach (var secondaryMajorityElection in secondaryMajorityElections)
+        {
+            await _politicalBusinessValidationService.EnsureUniquePoliticalBusinessNumber(
+                secondaryMajorityElection.Election.Id,
+                majorityElection.ContestId,
+                majorityElection.DomainOfInfluenceId,
+                secondaryMajorityElection.Election.PoliticalBusinessNumber,
+                PoliticalBusinessType.SecondaryMajorityElection);
+
+            secondaryMajorityElection.Election.IsOnSeparateBallot = isOnSeparateBallot;
+            majorityElection.CreateSecondaryMajorityElectionFrom(secondaryMajorityElection.Election);
+
+            foreach (var candidate in secondaryMajorityElection.Candidates)
+            {
+                var primaryElectionCandidate = FindPrimaryElectionCandidate(primaryElectionCandidates, candidate);
+                if (primaryElectionCandidate != null)
+                {
+                    majorityElection.CreateCandidateReferenceFrom(new MajorityElectionCandidateReference
+                    {
+                        Incumbent = primaryElectionCandidate.Incumbent,
+                        CandidateId = primaryElectionCandidate.Id,
+                        Position = candidate.Position,
+                        Number = candidate.Number,
+                        SecondaryMajorityElectionId = secondaryMajorityElection.Election.Id,
+                    });
+                }
+                else
+                {
+                    candidate.MajorityElectionId = secondaryMajorityElection.Election.Id;
+                    majorityElection.CreateSecondaryMajorityElectionCandidateFrom(candidate, candidateValidationParams);
+                    idVerifier.EnsureUnique(candidate.Id);
+                }
+            }
+        }
+    }
+
+    private MajorityElectionCandidate? FindPrimaryElectionCandidate(IReadOnlyCollection<MajorityElectionCandidate> candidates, MajorityElectionCandidate secondaryElectionCandidate)
+    {
+        // compare secondary election candidate with primary election candidates and check for all attributes except the id, number and position
+        return candidates.FirstOrDefault(x =>
+            x.FirstName.Equals(secondaryElectionCandidate.FirstName, StringComparison.Ordinal) &&
+            x.LastName.Equals(secondaryElectionCandidate.LastName, StringComparison.Ordinal) &&
+            x.PoliticalFirstName.Equals(secondaryElectionCandidate.PoliticalFirstName, StringComparison.Ordinal) &&
+            x.PoliticalLastName.Equals(secondaryElectionCandidate.PoliticalLastName, StringComparison.Ordinal) &&
+            x.DateOfBirth == secondaryElectionCandidate.DateOfBirth &&
+            x.Sex == secondaryElectionCandidate.Sex &&
+            x.Occupation.KeysAndValuesEqual(secondaryElectionCandidate.Occupation) &&
+            x.OccupationTitle.KeysAndValuesEqual(secondaryElectionCandidate.OccupationTitle) &&
+            x.PartyShortDescription.KeysAndValuesEqual(secondaryElectionCandidate.PartyShortDescription) &&
+            x.PartyLongDescription.KeysAndValuesEqual(secondaryElectionCandidate.PartyLongDescription) &&
+            x.Incumbent == secondaryElectionCandidate.Incumbent &&
+            x.ZipCode.Equals(secondaryElectionCandidate.ZipCode, StringComparison.Ordinal) &&
+            x.Locality.Equals(secondaryElectionCandidate.Locality, StringComparison.Ordinal) &&
+            x.Origin.Equals(secondaryElectionCandidate.Origin, StringComparison.Ordinal) &&
+            x.Country.Equals(secondaryElectionCandidate.Country, StringComparison.Ordinal) &&
+            x.Street.Equals(secondaryElectionCandidate.Street, StringComparison.Ordinal) &&
+            x.HouseNumber.Equals(secondaryElectionCandidate.HouseNumber, StringComparison.Ordinal));
     }
 
     private async Task<ProportionalElectionAggregate> CreateProportionalElectionAggregate(ProportionalElectionImport electionImport, IdVerifier idVerifier)
