@@ -2,10 +2,12 @@
 // For license information see LICENSE file
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Abraxas.Voting.Basis.Events.V1;
 using AutoMapper;
 using Google.Protobuf;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Voting.Basis.Core.Exceptions;
 using Voting.Basis.Core.Utils;
@@ -67,6 +69,13 @@ public class ContestProcessor :
         try
         {
             var existing = await GetContest(id);
+
+            // DeleteByKey uses ExecuteDeleteAsync, which bypasses EF's ClientSetNull behavior, so contests
+            // referencing this contest as their previous contest would otherwise violate the FK constraint.
+            await _repo.Query()
+                .Where(c => c.PreviousContestId == id)
+                .ExecuteUpdateAsync(s => s.SetProperty(c => c.PreviousContestId, (Guid?)null));
+
             await _repo.DeleteByKey(id);
             await _eventLogger.LogContestEvent(eventData, existing);
         }

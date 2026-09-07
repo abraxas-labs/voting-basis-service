@@ -1,4 +1,4 @@
-# ✨ Changelog (`v2.85.0`)
+# ✨ Changelog (`v2.85.1`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v2.85.0
-Previous version ---- v2.79.0
+This version -------- v2.85.1
+Previous version ---- v2.85.0
 Initial version ----- v1.27.15
-Total commits ------- 11
+Total commits ------- 1
 ```
+
+## [v2.85.1] - 2026-09-07
+
+### :arrows_counterclockwise: Changed
+
+- `ContestProcessor.Process(ContestDeleted)` now clears any dangling `PreviousContestId` references pointing to the contest being deleted before deleting it
 
 ## [v2.85.0] - 2026-08-12
 
