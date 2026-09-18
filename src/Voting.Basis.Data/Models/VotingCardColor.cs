@@ -8,8 +8,8 @@ public enum VotingCardColor
     Unspecified = 0,
     Blue = 1,
     Yellow = 3,
-    Grey = 5,
     Pink = 6,
-    Red = 7,
     Green = 8,
+    Orange = 9,
+    Purple = 10,
 }

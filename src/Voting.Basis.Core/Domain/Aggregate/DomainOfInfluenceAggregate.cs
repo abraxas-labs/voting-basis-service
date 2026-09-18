@@ -646,6 +646,8 @@ public sealed class DomainOfInfluenceAggregate : BaseDeletableAggregate
     {
         switch (eventData.VotingCardColor)
         {
+            case SharedProto.VotingCardColor.Grey: eventData.VotingCardColor = SharedProto.VotingCardColor.Purple; break;
+            case SharedProto.VotingCardColor.Red: eventData.VotingCardColor = SharedProto.VotingCardColor.Orange; break;
             case SharedProto.VotingCardColor.Chamois:
             case SharedProto.VotingCardColor.Gold:
                 eventData.VotingCardColor = SharedProto.VotingCardColor.Unspecified;

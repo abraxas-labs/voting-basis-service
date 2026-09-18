@@ -65,6 +65,8 @@ public class EnumProfile : Profile
         CreateMap<SharedProto.VotingCardColor, VotingCardColor>()
             .ConvertUsingEnumMapping(opt => opt
                 .MapByValue()
+                .MapValue(SharedProto.VotingCardColor.Grey, VotingCardColor.Purple)
+                .MapValue(SharedProto.VotingCardColor.Red, VotingCardColor.Orange)
                 .MapValue(SharedProto.VotingCardColor.Chamois, VotingCardColor.Unspecified)
                 .MapValue(SharedProto.VotingCardColor.Gold, VotingCardColor.Unspecified))
             .ReverseMap();

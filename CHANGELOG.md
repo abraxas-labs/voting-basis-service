@@ -1,4 +1,4 @@
-# ✨ Changelog (`v2.85.1`)
+# ✨ Changelog (`v2.86.0`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v2.85.1
-Previous version ---- v2.85.0
+This version -------- v2.86.0
+Previous version ---- v2.85.1
 Initial version ----- v1.27.15
-Total commits ------- 1
+Total commits ------- 2
 ```
+
+## [v2.86.0] - 2026-09-16
+
+### :arrows_counterclockwise: Changed
+
+- ProtoVersion of Basis for new Colors
+- DomainOfInfluenceAgregate, EnumProfile: migrate Colors red and grey to orange and purple
+- VotingCardColor: added Orange and Purple. deleted Grey and Red.
+
+## [v2.85.2] - 2026-09-16
+
+### :new: Added
+
+- Regression tests for per-entry ballot group candidates validation (aggregate + event processor).
+
+### :arrows_counterclockwise: Changed
+
+- `MajorityElectionAggregate.EnsureCandidatesBelongToElection` now validates candidate ids per ballot group entry against the associated (primary/secondary) election instead of only checking global membership.
+- `MajorityElectionBallotGroupProcessor` now defensively skips candidate ids that don't belong to the entry's election (with a log warning) instead of throwing a `DbUpdateException`.
 
 ## [v2.85.1] - 2026-09-07
 

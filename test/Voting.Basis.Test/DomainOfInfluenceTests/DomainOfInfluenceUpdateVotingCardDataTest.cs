@@ -50,15 +50,17 @@ public class DomainOfInfluenceUpdateVotingCardDataTest : BaseTest
     }
 
     [Theory]
-    [InlineData(SharedProto.VotingCardColor.Chamois)]
-    [InlineData(SharedProto.VotingCardColor.Gold)]
-    public async Task TestProcessorDeprecatedColors(SharedProto.VotingCardColor color)
+    [InlineData(SharedProto.VotingCardColor.Chamois, SharedProto.VotingCardColor.Unspecified)]
+    [InlineData(SharedProto.VotingCardColor.Gold, SharedProto.VotingCardColor.Unspecified)]
+    [InlineData(SharedProto.VotingCardColor.Grey, SharedProto.VotingCardColor.Purple)]
+    [InlineData(SharedProto.VotingCardColor.Red, SharedProto.VotingCardColor.Orange)]
+    public async Task TestProcessorDeprecatedColors(SharedProto.VotingCardColor color, SharedProto.VotingCardColor finalColor)
     {
         await TestEventPublisher.Publish(NewValidEvent(x => x.VotingCardColor = color));
 
         var doi = await GetDbEntity<DomainOfInfluence>(x => x.Id == DomainOfInfluenceMockedData.GuidGossau);
         var protoDoi = RunScoped<TestMapper, ProtoModels.DomainOfInfluence>(mapper => mapper.Map<ProtoModels.DomainOfInfluence>(doi));
-        protoDoi.VotingCardColor.Should().Be(SharedProto.VotingCardColor.Unspecified);
+        protoDoi.VotingCardColor.Should().Be(finalColor);
     }
 
     [Fact]

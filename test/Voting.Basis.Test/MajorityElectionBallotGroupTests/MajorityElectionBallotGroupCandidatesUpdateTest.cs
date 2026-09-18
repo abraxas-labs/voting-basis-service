@@ -413,7 +413,27 @@ public class MajorityElectionBallotGroupCandidatesUpdateTest : PoliticalBusiness
                 entry.CandidateIds.Add(MajorityElectionMockedData.CandidateId1BundMajorityElectionInContestStGallen);
             })),
             StatusCode.InvalidArgument,
-            "ValidationException: Some candidate IDs do not belong to this election");
+            "ValidationException: Some candidate IDs do not belong to the election associated with this ballot group entry");
+    }
+
+    /// <summary>
+    /// A candidate id that belongs to the primary election of this ballot group is submitted for a secondary
+    /// ballot group entry. Such a candidate id is a valid id "in this election" in general, but not for the
+    /// secondary election referenced by this entry.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    [Fact]
+    public async Task PrimaryCandidateUsedForSecondaryEntryShouldThrow()
+    {
+        await AssertStatus(
+            async () => await ElectionAdminClient.UpdateBallotGroupCandidatesAsync(NewValidRequest(o =>
+            {
+                var entry = o.EntryCandidates[1];
+                entry.CandidateIds.Clear();
+                entry.CandidateIds.Add(MajorityElectionMockedData.CandidateId2StGallenMajorityElectionInContestBund);
+            })),
+            StatusCode.InvalidArgument,
+            "ValidationException: Some candidate IDs do not belong to the election associated with this ballot group entry");
     }
 
     protected override IEnumerable<string> AuthorizedRoles()

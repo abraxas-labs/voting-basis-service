@@ -1754,18 +1754,31 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
 
     private void EnsureCandidatesBelongToElection(MajorityElectionBallotGroupCandidates data)
     {
-        var selectedCandidateIds = data.EntryCandidates
-            .SelectMany(e => e.CandidateIds)
-            .ToHashSet();
-        var candidateIdsInThisElection = Candidates
-            .Select(c => c.Id)
-            .Concat(SecondaryMajorityElections.SelectMany(se => se.Candidates.Select(c => c.Id)))
-            .Concat(SecondaryMajorityElections.SelectMany(se => se.CandidateReferences.Select(c => c.Id)))
-            .ToHashSet();
+        var ballotGroup = GetBallotGroup(data.BallotGroupId);
+        var primaryCandidateIds = Candidates.Select(c => c.Id).ToHashSet();
 
-        if (!selectedCandidateIds.IsSubsetOf(candidateIdsInThisElection))
+        foreach (var entryCandidates in data.EntryCandidates)
         {
-            throw new ValidationException("Some candidate IDs do not belong to this election");
+            var ballotGroupEntry = ballotGroup.Entries.SingleOrDefault(e => e.Id == entryCandidates.BallotGroupEntryId)
+                ?? throw new ValidationException($"Ballot group entry {entryCandidates.BallotGroupEntryId} does not exist");
+            HashSet<Guid> validCandidateIds;
+
+            if (ballotGroupEntry.ElectionId == Id)
+            {
+                validCandidateIds = primaryCandidateIds;
+            }
+            else
+            {
+                var secondaryElection = GetSecondaryMajorityElection(ballotGroupEntry.ElectionId);
+                validCandidateIds = secondaryElection.Candidates.Select(c => c.Id)
+                    .Concat(secondaryElection.CandidateReferences.Select(c => c.Id))
+                    .ToHashSet();
+            }
+
+            if (!entryCandidates.CandidateIds.All(validCandidateIds.Contains))
+            {
+                throw new ValidationException("Some candidate IDs do not belong to the election associated with this ballot group entry");
+            }
         }
     }
 
