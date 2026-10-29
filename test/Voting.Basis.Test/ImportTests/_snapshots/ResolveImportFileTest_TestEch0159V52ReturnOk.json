@@ -1,0 +1,100 @@
+{
+  "Contest": {
+    "Id": "",
+    "Date": {
+      "Seconds": 1582934400,
+      "Nanos": 0
+    },
+    "Description": {
+      "de": "Gossau Urnengang de",
+      "fr": "Gossau Urnengang fr",
+      "it": "Gossau Urnengang it",
+      "rm": "Gossau Urnengang rm"
+    },
+    "EndOfTestingPhase": {
+      "Seconds": 0,
+      "Nanos": 0
+    },
+    "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+    "DomainOfInfluence": null,
+    "EVoting": true,
+    "EVotingFrom": {
+      "Seconds": 1577876400,
+      "Nanos": 0
+    },
+    "EVotingTo": {
+      "Seconds": 1577962800,
+      "Nanos": 0
+    },
+    "PoliticalBusinesses": [],
+    "PoliticalBusinessUnions": [],
+    "State": 1,
+    "PreviousContestId": "",
+    "EVotingApprovalDueDate": null,
+    "EVotingApproved": false
+  },
+  "MajorityElections": [],
+  "SecondaryMajorityElections": [],
+  "ProportionalElections": [],
+  "Votes": [
+    {
+      "Vote": {
+        "Id": "",
+        "PoliticalBusinessNumber": "",
+        "OfficialDescription": {
+          "de": "Abstimmung Gossau de",
+          "fr": "Abstimmung Gossau fr",
+          "it": "Abstimmung Gossau it",
+          "rm": "Abstimmung Gossau rm"
+        },
+        "ShortDescription": {
+          "de": "Abstimmung Gossau de",
+          "fr": "Abstimmung Gossau fr",
+          "it": "Abstimmung Gossau it",
+          "rm": "Abstimmung Gossau rm"
+        },
+        "InternalDescription": "",
+        "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+        "ContestId": "00000000-0000-0000-0000-000000000000",
+        "Active": false,
+        "Ballots": [
+          {
+            "Id": "",
+            "Position": 1,
+            "BallotType": 1,
+            "BallotQuestions": [
+              {
+                "Number": 1,
+                "Question": {
+                  "de": "Frage 1 Gossau de",
+                  "fr": "Frage 1 Gossau fr",
+                  "it": "Frage 1 Gossau it",
+                  "rm": "Frage 1 Gossau rm"
+                },
+                "Type": 1,
+                "FederalIdentification": ""
+              }
+            ],
+            "VoteId": "",
+            "HasTieBreakQuestions": false,
+            "TieBreakQuestions": [],
+            "SubType": 0,
+            "OfficialDescription": {},
+            "ShortDescription": {}
+          }
+        ],
+        "ReportDomainOfInfluenceLevel": 0,
+        "ResultAlgorithm": 1,
+        "ResultEntry": 1,
+        "BallotBundleSampleSizePercent": 0,
+        "AutomaticBallotBundleNumberGeneration": false,
+        "AutomaticBallotNumberGeneration": false,
+        "EnforceResultEntryForCountingCircles": true,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": false,
+        "Type": 1,
+        "EVotingApproved": null
+      }
+    }
+  ]
+}

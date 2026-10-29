@@ -10,6 +10,9 @@ public class ExportConfigurationProfile : Profile
 {
     public ExportConfigurationProfile()
     {
-        CreateMap<Domain.ExportConfiguration, ExportConfigurationEventData>().ReverseMap();
+        CreateMap<Domain.ExportConfiguration, ExportConfigurationEventData>()
+            .ReverseMap();
+        CreateMap<Domain.ExportSedexConfiguration, SedexConfigurationEventData>()
+            .ReverseMap();
     }
 }

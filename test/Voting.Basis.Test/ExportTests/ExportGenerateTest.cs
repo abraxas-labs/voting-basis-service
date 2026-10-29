@@ -820,14 +820,17 @@ public class ExportGenerateTest : BaseRestTest
 
             if (entry.Name.Contains("_votes"))
             {
+                entry.Name.Should().StartWith("eCH-0159");
                 VerifyXml(content, $"{testName}_votes", ech0159SchemaSet);
             }
             else if (entry.Name.Contains("_proportional_elections"))
             {
+                entry.Name.Should().StartWith("eCH-0157");
                 VerifyXml(content, $"{testName}_proportional_elections", ech0157SchemaSet);
             }
             else if (entry.Name.Contains("_majority_elections"))
             {
+                entry.Name.Should().StartWith("eCH-0157");
                 VerifyXml(content, $"{testName}_majority_elections", ech0157SchemaSet);
             }
             else

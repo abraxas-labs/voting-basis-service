@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 using Abraxas.Voting.Basis.Shared.V1;
 using AutoMapper;
 using Voting.Basis.Core.Domain;
@@ -307,6 +308,12 @@ public class ImportService
         foreach (var candidate in electionImport.Candidates)
         {
             candidate.MajorityElectionId = electionId;
+
+            if (candidateValidationParams.IsCandidateNumberDisabled)
+            {
+                candidate.Number = candidate.Position.ToString();
+            }
+
             majorityElection.CreateCandidateFrom(candidate, candidateValidationParams);
             idVerifier.EnsureUnique(candidate.Id);
         }
@@ -347,13 +354,19 @@ public class ImportService
                         Incumbent = primaryElectionCandidate.Incumbent,
                         CandidateId = primaryElectionCandidate.Id,
                         Position = candidate.Position,
-                        Number = candidate.Number,
+                        Number = candidateValidationParams.IsCandidateNumberDisabled ? candidate.Position.ToString() : candidate.Number,
                         SecondaryMajorityElectionId = secondaryMajorityElection.Election.Id,
                     });
                 }
                 else
                 {
                     candidate.MajorityElectionId = secondaryMajorityElection.Election.Id;
+
+                    if (candidateValidationParams.IsCandidateNumberDisabled)
+                    {
+                        candidate.Number = candidate.Position.ToString();
+                    }
+
                     majorityElection.CreateSecondaryMajorityElectionCandidateFrom(candidate, candidateValidationParams);
                     idVerifier.EnsureUnique(candidate.Id);
                 }
@@ -483,13 +496,37 @@ public class ImportService
 
     private ContestImport DeserializeEch157(Stream stream)
     {
-        var contest = _echDeserializerProvider.GetEch0157Deserializer(stream).DeserializeXml(stream);
-        return _mapper.Map<ContestImport>(contest);
+        var deserializers = _echDeserializerProvider.GetEch0157Deserializers(stream);
+        return DeserializeEch(stream, deserializers);
     }
 
     private ContestImport DeserializeEch159(Stream stream)
     {
-        var contest = _echDeserializerProvider.GetEch0159Deserializer(stream).DeserializeXml(stream);
+        var deserializers = _echDeserializerProvider.GetEch0159Deserializers(stream);
+        return DeserializeEch(stream, deserializers);
+    }
+
+    private ContestImport DeserializeEch(Stream stream, IReadOnlyList<IEchDeserializer> deserializers)
+    {
+        for (var i = 0; i < deserializers.Count; i++)
+        {
+            try
+            {
+                return DeserializeEch(stream, deserializers[i]);
+            }
+            catch (XmlSchemaException) when (i < deserializers.Count - 1)
+            {
+                // Try the next deserializer
+                stream.Seek(0, SeekOrigin.Begin);
+            }
+        }
+
+        throw new InvalidOperationException("Should never get here, the last eCH deserializer should always throw or return");
+    }
+
+    private ContestImport DeserializeEch(Stream stream, IEchDeserializer deserializer)
+    {
+        var contest = deserializer.DeserializeXml(stream);
         return _mapper.Map<ContestImport>(contest);
     }
 

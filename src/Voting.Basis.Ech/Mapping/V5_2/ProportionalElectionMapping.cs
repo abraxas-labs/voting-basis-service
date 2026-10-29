@@ -1,14 +1,18 @@
 ﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Ech0155_5_2;
 using Ech0157_5_2;
 using Voting.Basis.Data.Models;
 using Voting.Basis.Data.Utils;
+using Voting.Basis.Ech.Models;
 using Voting.Basis.Ech.Utils;
 using Voting.Lib.Common;
+using Voting.Lib.Ech.Ech0157_5_2.Models;
 
 namespace Voting.Basis.Ech.Mapping.V5_2;
 
@@ -35,6 +39,61 @@ internal static class ProportionalElectionMapping
         };
 
         return electionGroupBallot;
+    }
+
+    internal static ProportionalElection ToBasisProportionalElection(this EventInitialDeliveryElectionGroupElectionInformation election, IdLookup idLookup)
+    {
+        var electionIdentification = election.Election.ElectionIdentification;
+        var id = idLookup.GuidForId(electionIdentification);
+
+        var shortDescriptionInfos = election
+            .Election
+            .ElectionDescription;
+        var shortDescriptions = shortDescriptionInfos.ToLanguageDictionary(
+            x => x.Language,
+            x => x.ElectionDescriptionShort ?? UnknownMapping.UnknownValue,
+            UnknownMapping.UnknownValue);
+
+        var descriptionInfos = election
+            .Election
+            .ElectionDescription;
+        var descriptions = descriptionInfos.ToLanguageDictionary(
+            x => x.Language,
+            x => x.ElectionDescription ?? UnknownMapping.UnknownValue,
+            UnknownMapping.UnknownValue);
+
+        var alreadyTakenListPositions = election.List
+            .Where(x => !string.IsNullOrEmpty(x.ListOrderOfPrecedence))
+            .Select(x => int.Parse(x.ListOrderOfPrecedence))
+            .ToList();
+
+        var electionInformationExtension = ElectionMapping.GetExtension(election.Extension?.Any);
+
+        var lists = election.List
+            ?.Where(l => !l.IsEmptyList)
+            .Select((l, i) => l.ToBasisList(id, idLookup, election.Candidate.ToArray(), electionInformationExtension?.Candidates, i + 1, alreadyTakenListPositions))
+            .OrderBy(x => x.Position)
+            .ToList()
+            ?? new List<ProportionalElectionList>();
+
+        var listUnions = election.ListUnion
+            ?.Select((lu, i) => lu.ToBasisListUnion(id, idLookup, i + 1))
+            .ToList()
+            ?? new List<ProportionalElectionListUnion>();
+
+        return new ProportionalElection
+        {
+            Id = id,
+            OfficialDescription = descriptions,
+            ShortDescription = shortDescriptions,
+            PoliticalBusinessNumber = election.Election.ElectionPosition,
+            NumberOfMandates = int.Parse(election.Election.NumberOfMandates),
+            ProportionalElectionLists = lists,
+            ProportionalElectionListUnions = listUnions,
+            MandateAlgorithm = ProportionalElectionMandateAlgorithm.HagenbachBischoff,
+            BallotNumberGeneration = BallotNumberGeneration.RestartForEachBundle,
+            ReviewProcedure = ProportionalElectionReviewProcedure.Electronically,
+        };
     }
 
     private static EventInitialDeliveryElectionGroupElectionInformation ToEchElectionInformation(this ProportionalElection proportionalElection, bool eVoting)
@@ -120,6 +179,48 @@ internal static class ProportionalElectionMapping
         };
     }
 
+    private static ProportionalElectionList ToBasisList(
+        this ListType list,
+        Guid electionId,
+        IdLookup idLookup,
+        CandidateType[] electionCandidates,
+        List<ElectionInformationExtensionCandidate>? candidateExtensions,
+        int position,
+        ICollection<int> alreadyTakenListPositions)
+    {
+        var listId = idLookup.GuidForId(list.ListIdentification);
+
+        var descriptionInfos = list.ListDescription;
+        var descriptions = descriptionInfos.ToLanguageDictionary(x => x.Language, x => x.ListDescription, UnknownMapping.UnknownValue);
+        var shortDescriptionInfos = list.ListDescription;
+        var shortDescriptions = shortDescriptionInfos.ToLanguageDictionary(
+            x => x.Language,
+            x => x.ListDescriptionShort ?? UnknownMapping.UnknownValue,
+            UnknownMapping.UnknownValue);
+
+        // The unknown value would be rejected by the input validation, while a single whitespace is allowed
+        var orderNumber = list.ListIndentureNumber == UnknownMapping.UnknownValue
+            ? " "
+            : list.ListIndentureNumber;
+
+        var candidates = list.CandidatePosition
+            .ToBasisCandidates(listId, idLookup, electionCandidates, candidateExtensions)
+            .OfType<ProportionalElectionCandidate>()
+            .ToList();
+
+        return new ProportionalElectionList
+        {
+            Id = listId,
+            ProportionalElectionId = electionId,
+            ProportionalElectionCandidates = candidates,
+            BlankRowCount = string.IsNullOrEmpty(list.EmptyListPositions) ? 0 : int.Parse(list.EmptyListPositions),
+            OrderNumber = orderNumber,
+            Position = GetListPosition(list.ListOrderOfPrecedence, position, alreadyTakenListPositions),
+            Description = descriptions,
+            ShortDescription = shortDescriptions,
+        };
+    }
+
     private static ListType CreateEmptyListType(ProportionalElection proportionalElection, bool eVoting)
     {
         var descriptionInfos = LanguageMapping.GetEchExportLanguages(eVoting)
@@ -172,6 +273,43 @@ internal static class ProportionalElectionMapping
         };
     }
 
+    private static ProportionalElectionListUnion ToBasisListUnion(
+        this ListUnionType listUnion,
+        Guid electionId,
+        IdLookup idLookup,
+        int position)
+    {
+        var listUnionId = idLookup.GuidForId(listUnion.ListUnionIdentification);
+        var descriptionInfos = listUnion.ListUnionDescription;
+        var description = descriptionInfos.ToLanguageDictionary(x => x.Language, x => x.ListUnionDescription, UnknownMapping.UnknownValue);
+
+        Guid? rootListUnionId = null;
+        if (listUnion.ListUnionTypeProperty == ListRelationType.Item2)
+        {
+            if (string.IsNullOrEmpty(listUnion.ReferencedListUnion))
+            {
+                throw new ValidationException("Sub list union does not contain a referencedListUnion");
+            }
+
+            rootListUnionId = idLookup.GuidForId(listUnion.ReferencedListUnion);
+        }
+
+        return new ProportionalElectionListUnion
+        {
+            Id = listUnionId,
+            ProportionalElectionId = electionId,
+            Description = description,
+            ProportionalElectionRootListUnionId = rootListUnionId,
+            ProportionalElectionListUnionEntries = listUnion.ReferencedList
+                .ConvertAll(listId => new ProportionalElectionListUnionEntry
+                {
+                    ProportionalElectionListUnionId = listUnionId,
+                    ProportionalElectionListId = idLookup.GuidForId(listId),
+                }),
+            Position = position,
+        };
+    }
+
     private static CandidateType ToEchProportionalCandidateType(this ProportionalElectionCandidate candidate, DomainOfInfluenceCanton canton, bool eVoting)
     {
         var candidateType = candidate.ToEchCandidateType(candidate.Party?.ShortDescription, candidate.Party?.Name, canton, eVoting, PoliticalBusinessType.ProportionalElection);
@@ -190,5 +328,62 @@ internal static class ProportionalElectionMapping
             CandidateIdentification = candidate.Id.ToString(),
             CandidateTextOnPosition = text?.CandidateTextInfo,
         };
+    }
+
+    private static IEnumerable<ProportionalElectionImportCandidate> ToBasisCandidates(
+        this IReadOnlyCollection<CandidatePositionInformationType> candidatePositions,
+        Guid listId,
+        IdLookup idLookup,
+        CandidateType[] electionCandidates,
+        List<ElectionInformationExtensionCandidate>? candidateExtensions)
+    {
+        var candidates = electionCandidates
+            .Where(c => candidatePositions.Any(p => p.CandidateIdentification == c.CandidateIdentification))
+            .Select(c => c.ToBasisProportionalElectionCandidate(idLookup, candidateExtensions?.FirstOrDefault(e => e.CandidateIdentification == c.CandidateIdentification)))
+            .ToDictionary(c => c.Id);
+
+        foreach (var posGroup in candidatePositions.GroupBy(p => p.CandidateIdentification))
+        {
+            var candidate = candidates[idLookup.GuidForId(posGroup.Key)];
+            candidate.ProportionalElectionListId = listId;
+            candidate.Position = posGroup.Min(x => int.Parse(x.PositionOnList));
+
+            if (posGroup.Count() > 1)
+            {
+                candidate.Accumulated = true;
+                candidate.AccumulatedPosition = posGroup.Max(x => int.Parse(x.PositionOnList));
+            }
+        }
+
+        return candidates.Values.OrderBy(x => x.Position);
+    }
+
+    private static int GetNextFreeListPosition(ICollection<int> alreadyTakenListPositions)
+    {
+        return Enumerable.Range(1, alreadyTakenListPositions.Count + 1).Except(alreadyTakenListPositions).First();
+    }
+
+    private static int GetListPosition(string listOrderOfPrecedence, int position, ICollection<int> alreadyTakenListPositions)
+    {
+        if (!string.IsNullOrEmpty(listOrderOfPrecedence))
+        {
+            return int.Parse(listOrderOfPrecedence);
+        }
+
+        var listPosition = alreadyTakenListPositions.Contains(position)
+            ? GetNextFreeListPosition(alreadyTakenListPositions)
+            : position;
+        alreadyTakenListPositions.Add(listPosition);
+        return listPosition;
+    }
+
+    private static ProportionalElectionImportCandidate ToBasisProportionalElectionCandidate(this CandidateType candidate, IdLookup idLookup, ElectionInformationExtensionCandidate? candidateExtension)
+    {
+        var basisCandidate = candidate.ToBasisCandidate<ProportionalElectionImportCandidate>(idLookup, candidateExtension);
+
+        var partyInfo = candidate.PartyAffiliation;
+        basisCandidate.SourcePartyShort = partyInfo?.ToOptionalLanguageDictionary(x => x.Language, x => x.PartyAffiliationShort);
+        basisCandidate.SourceParty = partyInfo?.ToOptionalLanguageDictionary(x => x.Language, x => x.PartyAffiliationLong);
+        return basisCandidate;
     }
 }

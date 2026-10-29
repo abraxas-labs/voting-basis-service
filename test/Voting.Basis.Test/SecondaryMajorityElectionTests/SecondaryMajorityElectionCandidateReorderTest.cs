@@ -76,6 +76,26 @@ public class SecondaryMajorityElectionCandidateReorderTest : PoliticalBusinessAu
     }
 
     [Fact]
+    public async Task CandidateNumbersShouldNotBeUpdatedWhenDisabled()
+    {
+        await ModifyDbEntities<Data.Models.DomainOfInfluence>(
+            _ => true,
+            doi => doi.CantonDefaults.MajorityElectionCandidateNumberDisabled = true);
+
+        await CantonAdminClient.ReorderSecondaryMajorityElectionCandidatesAsync(NewValidRequest());
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidatesReordered>();
+        eventData.UpdateCandidateNumbers.Should().BeTrue();
+
+        await RunEvents<SecondaryMajorityElectionCandidatesReordered>();
+
+        var candidates = await CantonAdminClient.ListSecondaryMajorityElectionCandidatesAsync(new ListSecondaryMajorityElectionCandidatesRequest
+        {
+            SecondaryMajorityElectionId = MajorityElectionMockedData.SecondaryElectionIdStGallenMajorityElectionInContestBund,
+        });
+        candidates.MatchSnapshot();
+    }
+
+    [Fact]
     public async Task ModificationWithEVotingApprovedShouldThrow()
     {
         await AssertStatus(

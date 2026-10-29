@@ -11,6 +11,16 @@ public class ExportProfile : Profile
 {
     public ExportProfile()
     {
-        CreateMap<ExportConfigurationEventData, ExportConfiguration>();
+        CreateMap<ExportConfigurationEventData, ExportConfiguration>()
+            .ForMember(dst => dst.SedexSenderId, opts =>
+            {
+                opts.PreCondition(src => src.SedexConfiguration != null);
+                opts.MapFrom(src => src.SedexConfiguration!.SenderId);
+            })
+            .ForMember(dst => dst.SedexRecipientIds, opts =>
+            {
+                opts.PreCondition(src => src.SedexConfiguration != null);
+                opts.MapFrom(src => src.SedexConfiguration!.RecipientIds);
+            });
     }
 }

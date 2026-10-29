@@ -78,7 +78,9 @@
       "HideOccupationTitle": false,
       "EnableAdditionalCandidateFields": false,
       "MonitoringAutoShowPoliticalBusinesses": false,
-      "MonitoringUseImprovedUi": false
+      "MonitoringUseImprovedUi": false,
+      "MajorityElectionBundlesWithBallotGroupEnabled": false,
+      "MajorityElectionCandidateNumberDisabled": false
     }
   }
 }

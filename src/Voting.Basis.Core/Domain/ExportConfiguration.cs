@@ -22,6 +22,8 @@ public sealed class ExportConfiguration
 
     public ExportProvider Provider { get; set; }
 
+    public ExportSedexConfiguration? SedexConfiguration { get; set; }
+
     public override bool Equals(object? obj)
     {
         if (obj == null)
@@ -49,7 +51,8 @@ public sealed class ExportConfiguration
             Description,
             EaiMessageType,
             ExportKeys.GetSequenceHashCode(),
-            Provider);
+            Provider,
+            SedexConfiguration?.GetHashCode());
     }
 
     private bool Equals(ExportConfiguration other)
@@ -58,6 +61,7 @@ public sealed class ExportConfiguration
            && Description.Equals(other.Description, StringComparison.Ordinal)
            && EaiMessageType == other.EaiMessageType
            && ExportKeys.SequenceEqual(other.ExportKeys)
-           && Provider == other.Provider;
+           && Provider == other.Provider
+           && Equals(SedexConfiguration, other.SedexConfiguration);
     }
 }

@@ -162,6 +162,7 @@ public static class CantonSettingsMockedData
             CandidateOriginRequired = true,
             HideOccupationTitle = true,
             EnableAdditionalCandidateFields = true,
+            MajorityElectionBundlesWithBallotGroupEnabled = true,
         };
 
     public static IEnumerable<CantonSettings> All

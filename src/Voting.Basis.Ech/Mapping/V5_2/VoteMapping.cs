@@ -1,8 +1,10 @@
 ﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Xml;
@@ -69,6 +71,170 @@ internal static class VoteMapping
             Vote = voteType,
             ElectronicBallot = ballotTypes,
         }, firstVote.DomainOfInfluence!.Type);
+    }
+
+    internal static IEnumerable<DataModels.Vote> ToBasisVotes(this EventInitialDeliveryVoteInformation vote, IdLookup idLookup)
+    {
+        var voteGroups = vote.ElectronicBallot
+            .Select(x => new
+            {
+                Ballot = x,
+                Extension = TryDeserializeFromXmlElement<BallotExtension>(x.Extension?.Any.FirstOrDefault(), out var extension) ? extension : null,
+            })
+            .GroupBy(x => x.Extension?.VoteId ?? Guid.NewGuid());
+
+        foreach (var group in voteGroups)
+        {
+            var voteId = Guid.NewGuid();
+            var echBallots = group.ToList();
+            var voteExtension = echBallots[0].Extension;
+
+            var ballots = echBallots
+                .OrderBy(x => int.Parse(x.Ballot.ElectronicBallotPosition))
+                .Select((x, i) => x.Ballot.ToBasisBallot(voteId, x.Extension?.BallotSubType ?? DataModels.BallotSubType.Unspecified, idLookup, i + 1))
+                .ToList();
+
+            yield return new DataModels.Vote
+            {
+                Id = voteId,
+                OfficialDescription = voteExtension?.VoteOfficicalDescription.ToDictionary(x => x.Key, x => x.Value)
+                    ?? echBallots[0].Ballot.ElectronicBallotDescription.ToLanguageDictionary(x => x.Language, x => x.ElectronicBallotDescriptionLong, voteId.ToString()),
+                ShortDescription = voteExtension?.VoteShortDescription.ToDictionary(x => x.Key, x => x.Value)
+                    ?? echBallots[0].Ballot.ElectronicBallotDescription.ToLanguageDictionary(x => x.Language, x => x.ElectronicBallotDescriptionShort, voteId.ToString()),
+                Ballots = ballots,
+                ResultEntry = voteExtension?.VoteResultEntry ?? DataModels.VoteResultEntry.FinalResults,
+                ResultAlgorithm = voteExtension?.VoteResultAlgorithm ?? DataModels.VoteResultAlgorithm.PopularMajority,
+                ReviewProcedure = voteExtension?.VoteReviewProcedure ?? DataModels.VoteReviewProcedure.Electronically,
+                Type = voteExtension?.VoteType ?? DataModels.VoteType.QuestionsOnSingleBallot,
+                EnforceResultEntryForCountingCircles = voteExtension?.VoteEnforceResultEntryForCountingCircles
+                    ?? ballots.Count > 1 || ballots[0].BallotType == DataModels.BallotType.StandardBallot,
+            };
+        }
+    }
+
+    private static DataModels.Ballot ToBasisBallot(this ElectronicBallotType ballot, Guid voteId, DataModels.BallotSubType subType, IdLookup idLookup, int position)
+    {
+        var ballotId = idLookup.GuidForId(ballot.ElectronicBallotIdentification);
+        var ballotType = DataModels.BallotType.StandardBallot;
+        var questions = new List<DataModels.BallotQuestion>();
+        var tieBreakQuestions = new List<DataModels.TieBreakQuestion>();
+
+        if (ballot.StandardElectronicBallot != null)
+        {
+            questions.Add(ballot.StandardElectronicBallot.ToBasisQuestion(ballotId, idLookup));
+        }
+        else if (ballot.VariantElectronicBallot != null)
+        {
+            ballotType = DataModels.BallotType.VariantsBallot;
+            questions.AddRange(ballot.VariantElectronicBallot.QuestionInformation.Select((x, i) => x.ToBasisQuestion(ballotId, idLookup, i)));
+
+            if (ballot.VariantElectronicBallot.TieBreakInformation?.Count > 0)
+            {
+                tieBreakQuestions.AddRange(ballot.VariantElectronicBallot.TieBreakInformation.Select((x, i) => x.ToBasisTieBreakQuestion(ballotId, idLookup, i, questions)));
+            }
+        }
+
+        var shortDescription = subType == DataModels.BallotSubType.Unspecified
+            ? new Dictionary<string, string>()
+            : ballot.ElectronicBallotDescription.ToLanguageDictionary(x => x.Language, x => x.ElectronicBallotDescriptionShort, ballotId.ToString());
+        var officialDescription = subType == DataModels.BallotSubType.Unspecified
+            ? new Dictionary<string, string>()
+            : ballot.ElectronicBallotDescription.ToLanguageDictionary(x => x.Language, x => x.ElectronicBallotDescriptionLong, ballotId.ToString());
+
+        return new DataModels.Ballot
+        {
+            Id = ballotId,
+            VoteId = voteId,
+            Position = position,
+            BallotType = ballotType,
+            SubType = subType,
+            BallotQuestions = questions,
+            TieBreakQuestions = tieBreakQuestions,
+            HasTieBreakQuestions = tieBreakQuestions.Count > 0,
+            ShortDescription = shortDescription,
+            OfficialDescription = officialDescription,
+        };
+    }
+
+    private static DataModels.BallotQuestion ToBasisQuestion(this ElectronicBallotTypeStandardElectronicBallot ballot, Guid ballotId, IdLookup idLookup)
+    {
+        var questionInfos = ballot.ElectronicBallotQuestion;
+        var question = questionInfos.ToLanguageDictionary(x => x.Language, x => x.ElectronicBallotQuestion, ballot.QuestionIdentification);
+
+        return new DataModels.BallotQuestion
+        {
+            Id = idLookup.GuidForId(ballot.QuestionIdentification),
+            BallotId = ballotId,
+            Number = 1,
+            Question = question,
+            Type = DataModels.BallotQuestionType.MainBallot,
+        };
+    }
+
+    private static DataModels.BallotQuestion ToBasisQuestion(this ElectronicBallotTypeVariantElectronicBallotQuestionInformation questionType, Guid ballotId, IdLookup idLookup, int position)
+    {
+        var questionInfos = questionType.ElectronicBallotQuestion;
+        var question = questionInfos.ToLanguageDictionary(x => x.Language, x => x.ElectronicBallotQuestion, questionType.QuestionIdentification);
+        var number = position + 1;
+
+        return new DataModels.BallotQuestion
+        {
+            Id = idLookup.GuidForId(questionType.QuestionIdentification),
+            BallotId = ballotId,
+            Number = number,
+            Question = question,
+            Type = number == 1 ? DataModels.BallotQuestionType.MainBallot : DataModels.BallotQuestionType.CounterProposal,
+        };
+    }
+
+    private static DataModels.TieBreakQuestion ToBasisTieBreakQuestion(
+        this ElectronicBallotTypeVariantElectronicBallotTieBreakInformation tieBreak,
+        Guid ballotId,
+        IdLookup idLookup,
+        int position,
+        List<DataModels.BallotQuestion> ballotQuestions)
+    {
+        var questionInfos = tieBreak.TieBreakQuestion;
+        var question = questionInfos.ToLanguageDictionary(x => x.Language, x => x.TieBreakQuestion, tieBreak.TieBreakQuestionNumber);
+
+        return new DataModels.TieBreakQuestion
+        {
+            Id = idLookup.GuidForId(tieBreak.QuestionIdentification),
+            Number = position + 1,
+            Question = question,
+            BallotId = ballotId,
+            Question1Number = FindQuestionNumber(tieBreak.ReferencedQuestion1, idLookup, ballotQuestions),
+            Question2Number = FindQuestionNumber(tieBreak.ReferencedQuestion2, idLookup, ballotQuestions),
+        };
+    }
+
+    private static int FindQuestionNumber(string questionId, IdLookup idLookup, List<DataModels.BallotQuestion> ballotQuestions)
+    {
+        var mappedQuestionId = idLookup.GuidForId(questionId);
+        var question = ballotQuestions.First(q => q.Id == mappedQuestionId);
+        return question.Number;
+    }
+
+    private static bool TryDeserializeFromXmlElement<T>(XmlElement? element, [NotNullWhen(true)] out T? value)
+    {
+        value = default;
+
+        if (element == null)
+        {
+            return false;
+        }
+
+        var serializer = new XmlSerializer(typeof(T));
+
+        try
+        {
+            value = (T)serializer.Deserialize(new XmlNodeReader(element))!;
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     private static ElectronicBallotType ToEchBallot(this DataModels.Ballot ballot, int positionOffset, bool eVoting)

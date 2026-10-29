@@ -1,6 +1,7 @@
 ﻿// (c) Copyright by Abraxas Informatik AG
 // For license information see LICENSE file
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ech0010_6_0;
@@ -8,6 +9,7 @@ using Ech0155_5_2;
 using Voting.Basis.Ech.Resources;
 using Voting.Basis.Ech.Utils;
 using Voting.Lib.Common;
+using Voting.Lib.Ech.Ech0157_5_2.Models;
 using DataModels = Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Ech.Mapping.V5_2;
@@ -81,6 +83,45 @@ internal static class CandidateMapping
             LanguageOfCorrespondence = Languages.German,
             PartyAffiliation = partyInfos?.Count == 0 ? null : partyInfos,
             Role = null,
+        };
+    }
+
+    internal static T ToBasisCandidate<T>(this CandidateType candidate, IdLookup idLookup, ElectionInformationExtensionCandidate? candidateExtension)
+        where T : DataModels.ElectionCandidate, new()
+    {
+        var occupation = candidate
+            .OccupationalTitle
+            ?.ToLanguageDictionary(x => x.Language, x => x.OccupationalTitle, string.Empty, true)
+            ?? new Dictionary<string, string>();
+
+        Dictionary<string, string> titleAndOccupation = new();
+        if (!string.IsNullOrEmpty(candidateExtension?.TitleAndOccupation))
+        {
+            titleAndOccupation.Add(Languages.German, candidateExtension.TitleAndOccupation);
+            LanguageMapping.FillAllLanguages(titleAndOccupation, candidateExtension.TitleAndOccupation);
+        }
+
+        return new T
+        {
+            Id = idLookup.GuidForId(candidate.CandidateIdentification),
+            LastName = candidate.FamilyName,
+            FirstName = candidate.FirstName,
+            PoliticalFirstName = candidate.CallName,
+            PoliticalLastName = candidate.FamilyName,
+            Title = candidate.Title ?? string.Empty,
+            Number = candidate.CandidateReference.Split('.').Last(), // May contain the list number, e.g. 02.05
+            DateOfBirth = candidate.DateOfBirth.HasValue ? DateTime.SpecifyKind(candidate.DateOfBirth.Value, DateTimeKind.Utc) : candidate.DateOfBirth,
+            Incumbent = candidate.IncumbentYesNo ?? false,
+            Sex = candidate.Sex.ToBasisSexType(),
+            Occupation = occupation,
+            OccupationTitle = titleAndOccupation,
+            Locality = UnknownMapping.MapUnknownValue(candidate.DwellingAddress?.Town),
+            ZipCode = candidate.DwellingAddress?.SwissZipCode?.ToString()
+                      ?? candidate.DwellingAddress?.ForeignZipCode ?? string.Empty,
+            Origin = candidate.SwissSpecified ? UnknownMapping.MapUnknownValue(candidate.Swiss[0]) : string.Empty,
+            Street = candidate.DwellingAddress?.Street ?? string.Empty,
+            HouseNumber = candidate.DwellingAddress?.HouseNumber ?? string.Empty,
+            Country = candidate.DwellingAddress?.Country.CountryIdIso2 ?? CountryUtils.SwissCountryIso,
         };
     }
 

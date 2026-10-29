@@ -2,12 +2,15 @@
 // For license information see LICENSE file
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Voting.Lib.Ech;
 using Ech0157DeserializerV4 = Voting.Basis.Ech.Converters.V4.Ech0157Deserializer;
-using Ech0157DeserializerV5 = Voting.Basis.Ech.Converters.V5_1.Ech0157Deserializer;
+using Ech0157DeserializerV51 = Voting.Basis.Ech.Converters.V5_1.Ech0157Deserializer;
+using Ech0157DeserializerV52 = Voting.Basis.Ech.Converters.V5_2.Ech0157Deserializer;
 using Ech0159DeserializerV4 = Voting.Basis.Ech.Converters.V4.Ech0159Deserializer;
-using Ech0159DeserializerV5 = Voting.Basis.Ech.Converters.V5_1.Ech0159Deserializer;
+using Ech0159DeserializerV51 = Voting.Basis.Ech.Converters.V5_1.Ech0159Deserializer;
+using Ech0159DeserializerV52 = Voting.Basis.Ech.Converters.V5_2.Ech0159Deserializer;
 
 namespace Voting.Basis.Ech.Converters;
 
@@ -18,34 +21,46 @@ public class EchDeserializerProvider
     private const string Ech0159V4 = "eCH-0159/4";
     private const string Ech0159V5 = "eCH-0159/5";
 
-    private readonly Ech0157DeserializerV4 _ech0157DeserializerV4;
-    private readonly Ech0157DeserializerV5 _ech0157DeserializerV5;
-    private readonly Ech0159DeserializerV4 _ech0159DeserializerV4;
-    private readonly Ech0159DeserializerV5 _ech0159DeserializerV5;
+    private readonly Dictionary<string, IReadOnlyList<IEchDeserializer>> _eCh0157DeserializersByVersion;
+    private readonly Dictionary<string, IReadOnlyList<IEchDeserializer>> _eCh0159DeserializersByVersion;
 
     public EchDeserializerProvider(
         Ech0157DeserializerV4 ech0157DeserializerV4,
-        Ech0157DeserializerV5 ech0157DeserializerV5,
+        Ech0157DeserializerV51 ech0157DeserializerV51,
+        Ech0157DeserializerV52 ech0157DeserializerV52,
         Ech0159DeserializerV4 ech0159DeserializerV4,
-        Ech0159DeserializerV5 ech0159DeserializerV5)
+        Ech0159DeserializerV51 ech0159DeserializerV51,
+        Ech0159DeserializerV52 ech0159DeserializerV52)
     {
-        _ech0157DeserializerV4 = ech0157DeserializerV4;
-        _ech0157DeserializerV5 = ech0157DeserializerV5;
-        _ech0159DeserializerV4 = ech0159DeserializerV4;
-        _ech0159DeserializerV5 = ech0159DeserializerV5;
+        _eCh0157DeserializersByVersion = new Dictionary<string, IReadOnlyList<IEchDeserializer>>
+        {
+            [Ech0157V4] = [ech0157DeserializerV4],
+            [Ech0157V5] = [ech0157DeserializerV52, ech0157DeserializerV51],
+        };
+        _eCh0159DeserializersByVersion = new Dictionary<string, IReadOnlyList<IEchDeserializer>>
+        {
+            [Ech0159V4] = [ech0159DeserializerV4],
+            [Ech0159V5] = [ech0159DeserializerV52, ech0159DeserializerV51],
+        };
     }
 
-    public IEch0157Deserializer GetEch0157Deserializer(Stream stream)
+    public IReadOnlyList<IEchDeserializer> GetEch0157Deserializers(Stream stream)
     {
-        return GetSchema(stream, [Ech0157V4, Ech0157V5]) == Ech0157V5 ? _ech0157DeserializerV5 : _ech0157DeserializerV4;
+        return GetEchDeserializers(stream, _eCh0157DeserializersByVersion);
     }
 
-    public IEch0159Deserializer GetEch0159Deserializer(Stream stream)
+    public IReadOnlyList<IEchDeserializer> GetEch0159Deserializers(Stream stream)
     {
-        return GetSchema(stream, [Ech0159V4, Ech0159V5]) == Ech0159V5 ? _ech0159DeserializerV5 : _ech0159DeserializerV4;
+        return GetEchDeserializers(stream, _eCh0159DeserializersByVersion);
     }
 
-    private static string GetSchema(Stream stream, string[] versions)
+    private static IReadOnlyList<IEchDeserializer> GetEchDeserializers(Stream stream, Dictionary<string, IReadOnlyList<IEchDeserializer>> serializersByVersion)
+    {
+        var schemaVersion = GetSchema(stream, serializersByVersion.Keys);
+        return serializersByVersion[schemaVersion];
+    }
+
+    private static string GetSchema(Stream stream, IReadOnlyCollection<string> versions)
     {
         return EchSchemaFinder.GetSchema(stream, versions)
                ?? throw new InvalidOperationException("Cannot determine version");

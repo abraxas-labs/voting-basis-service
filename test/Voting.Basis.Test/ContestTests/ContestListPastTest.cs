@@ -10,6 +10,7 @@ using FluentAssertions;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Data.Models;
 using Voting.Basis.Test.MockedData;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -51,6 +52,17 @@ public class ContestListPastTest : BaseGrpcTest<ContestService.ContestServiceCli
     {
         var result = await AdminClient.ListPastAsync(NewValidRequest(x => x.Date = new DateTime(2018, 10, 2, 1, 0, 0, DateTimeKind.Utc).ToTimestamp()));
         result.Contests_.Should().HaveCount(0);
+    }
+
+    [Fact]
+    public async Task TestShouldReturnPastLockedOrArchivedContests()
+    {
+        await ModifyDbEntities<Contest>(
+            c => c.Id == Guid.Parse(ContestMockedData.IdGossau),
+            c => c.State = ContestState.Archived);
+
+        var result = await AdminClient.ListPastAsync(NewValidRequest());
+        result.MatchSnapshot();
     }
 
     [Fact]

@@ -65,6 +65,12 @@ public class MajorityElectionCandidatesImportService
                 matchingCandidate.MajorityElectionId = existingCandidate.MajorityElectionId;
                 matchingCandidate.Position = existingCandidate.Position;
                 EnsureUniqueCandidateNumber(matchingCandidate, majorityElection);
+
+                if (candidateValidationParams.IsCandidateNumberDisabled)
+                {
+                    matchingCandidate.Number = existingCandidate.Number;
+                }
+
                 majorityElection.UpdateCandidateFrom(matchingCandidate, candidateValidationParams);
 
                 candidatesToImport.Remove(matchingCandidate);
@@ -76,6 +82,12 @@ public class MajorityElectionCandidatesImportService
             candidate.MajorityElectionId = majorityElectionId;
             candidate.Position = majorityElection.Candidates.Count + 1;
             EnsureUniqueCandidateNumber(candidate, majorityElection);
+
+            if (candidateValidationParams.IsCandidateNumberDisabled)
+            {
+                candidate.Number = candidate.Position.ToString();
+            }
+
             majorityElection.CreateCandidateFrom(candidate, candidateValidationParams);
 
             idVerifier.EnsureUnique(candidate.Id);

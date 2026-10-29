@@ -23,6 +23,19 @@ public class FileNameUtilTests
     }
 
     [Fact]
+    public void GetXmlEVotingFileName()
+    {
+        var result = FileNameUtil.GetXmlFileName(
+            BasisXmlContestTemplates.Ech0157And0159_5_2_EVotingOnly.Filename,
+            DomainOfInfluenceCanton.Sg,
+            new DateTime(2024, 04, 14),
+            "majority_elections",
+            "-0157");
+
+        result.Should().Be("eCH-0157_v4_3_SG_20240414_majority_elections_e_voting.xml");
+    }
+
+    [Fact]
     public void GetZipFileName()
     {
         var result = FileNameUtil.GetZipFileName(

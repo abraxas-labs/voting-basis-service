@@ -35,5 +35,7 @@
   "IndividualCandidatesDisabled": false,
   "FederalIdentification": "",
   "EVotingApproved": false,
-  "EVotingEverApproved": false
+  "EVotingEverApproved": false,
+  "BundlesWithBallotGroupEnabled": false,
+  "EnforceBundlesWithBallotGroupEnabledForCountingCircles": false
 }

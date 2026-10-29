@@ -71,7 +71,8 @@
         "vote_ech_0110",
         "proportional_election_candidate_results_with_vote_sources"
       ],
-      "Provider": 1
+      "Provider": 1,
+      "SedexConfiguration": null
     }
   },
   "exportConfigUpdated": {
@@ -100,7 +101,14 @@
         "vote_ech_0110",
         "proportional_election_candidate_results_with_vote_sources"
       ],
-      "Provider": 2
+      "Provider": 3,
+      "SedexConfiguration": {
+        "SenderId": "1-ABX-1",
+        "RecipientIds": [
+          "2-ABX-2",
+          "3-ABX-3"
+        ]
+      }
     }
   }
 }

@@ -222,7 +222,9 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
         await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
-        majorityElection.ReorderCandidates(orders);
+        var doi = await _domainOfInfluenceRepo.GetByKey(majorityElection.DomainOfInfluenceId)
+            ?? throw new EntityNotFoundException(majorityElection.DomainOfInfluenceId);
+        majorityElection.ReorderCandidates(orders, doi.CantonDefaults.MajorityElectionCandidateNumberDisabled);
         await _aggregateRepository.Save(majorityElection);
     }
 
@@ -236,7 +238,10 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
         await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
-        majorityElection.DeleteCandidate(candidateId);
+        var doi = await _domainOfInfluenceRepo.GetByKey(majorityElection.DomainOfInfluenceId)
+            ?? throw new EntityNotFoundException(majorityElection.DomainOfInfluenceId);
+
+        majorityElection.DeleteCandidate(candidateId, doi.CantonDefaults.MajorityElectionCandidateNumberDisabled);
         await _aggregateRepository.Save(majorityElection);
     }
 
@@ -382,7 +387,10 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
         await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
-        majorityElection.DeleteSecondaryMajorityElectionCandidate(secondaryMajorityElection.Id, candidateId);
+        var doi = await _domainOfInfluenceRepo.GetByKey(majorityElection.DomainOfInfluenceId)
+            ?? throw new EntityNotFoundException(majorityElection.DomainOfInfluenceId);
+
+        majorityElection.DeleteSecondaryMajorityElectionCandidate(secondaryMajorityElection.Id, candidateId, doi.CantonDefaults.MajorityElectionCandidateNumberDisabled);
         await _aggregateRepository.Save(majorityElection);
     }
 
@@ -418,7 +426,10 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
         await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
-        majorityElection.DeleteCandidateReference(secondaryMajorityElection.Id, candidateId);
+        var doi = await _domainOfInfluenceRepo.GetByKey(majorityElection.DomainOfInfluenceId)
+            ?? throw new EntityNotFoundException(majorityElection.DomainOfInfluenceId);
+
+        majorityElection.DeleteCandidateReference(secondaryMajorityElection.Id, candidateId, doi.CantonDefaults.MajorityElectionCandidateNumberDisabled);
         await _aggregateRepository.Save(majorityElection);
     }
 
@@ -428,7 +439,9 @@ public class MajorityElectionWriter : PoliticalBusinessWriter
         await _permissionService.EnsureIsOwnerOfDomainOfInfluenceOrHasCantonAdminPermissions(majorityElection.DomainOfInfluenceId, false);
         await _contestValidationService.EnsureInTestingPhaseAndContestStateSynced(majorityElection);
 
-        majorityElection.ReorderSecondaryMajorityElectionCandidates(secondaryMajorityElectionId, orders);
+        var doi = await _domainOfInfluenceRepo.GetByKey(majorityElection.DomainOfInfluenceId)
+            ?? throw new EntityNotFoundException(majorityElection.DomainOfInfluenceId);
+        majorityElection.ReorderSecondaryMajorityElectionCandidates(secondaryMajorityElectionId, orders, doi.CantonDefaults.MajorityElectionCandidateNumberDisabled);
         await _aggregateRepository.Save(majorityElection);
     }
 

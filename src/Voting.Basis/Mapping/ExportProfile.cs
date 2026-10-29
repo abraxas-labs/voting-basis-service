@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using AutoMapper;
+using Voting.Basis.Data.Models;
 using Voting.Lib.VotingExports.Models;
 using ProtoModels = Abraxas.Voting.Basis.Services.V1.Models;
 
@@ -18,6 +19,14 @@ public class ExportProfile : Profile
 
         CreateMap<TemplateModel, ProtoModels.ExportTemplate>();
 
-        CreateMap<Data.Models.ExportConfiguration, ProtoModels.ExportConfiguration>();
+        CreateMap<ExportConfiguration, ProtoModels.ExportConfiguration>()
+            .ForMember(dst => dst.SedexConfiguration, opts =>
+            {
+                opts.PreCondition(x => x.SedexSenderId != null && x.SedexRecipientIds != null);
+                opts.MapFrom(src => src);
+            });
+        CreateMap<ExportConfiguration, ProtoModels.ExportSedexConfiguration>()
+            .ForMember(dst => dst.SenderId, opts => opts.MapFrom(src => src.SedexSenderId))
+            .ForMember(dst => dst.RecipientIds, opts => opts.MapFrom(src => src.SedexRecipientIds));
     }
 }

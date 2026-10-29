@@ -39,6 +39,16 @@ public class ExportConfigurationTest : ProtoValidatorBaseTest<ExportConfiguratio
         yield return NewValid(x => x.ExportKeys.Clear());
         yield return NewValid(x => x.ExportKeys.Add(RandomStringUtil.GenerateComplexSingleLineText(1)));
         yield return NewValid(x => x.ExportKeys.Add(RandomStringUtil.GenerateComplexSingleLineText(200)));
+        yield return NewValid(x => x.SedexConfiguration = new ExportSedexConfiguration
+        {
+            SenderId = "1-ABX-1",
+            RecipientIds = { "2-ABX-2" },
+        });
+        yield return NewValid(x => x.SedexConfiguration = new ExportSedexConfiguration
+        {
+            SenderId = "1-ABX-1",
+            RecipientIds = { "2-ABX-2", "3-ABX-3" },
+        });
     }
 
     protected override IEnumerable<ExportConfiguration> NotOkMessages()
@@ -54,5 +64,16 @@ public class ExportConfigurationTest : ProtoValidatorBaseTest<ExportConfiguratio
         yield return NewValid(x => x.ExportKeys.Add(string.Empty));
         yield return NewValid(x => x.ExportKeys.Add(RandomStringUtil.GenerateComplexSingleLineText(201)));
         yield return NewValid(x => x.ExportKeys.Add("vote_\nech_0110"));
+        yield return NewValid(x => x.SedexConfiguration = new ExportSedexConfiguration());
+        yield return NewValid(x => x.SedexConfiguration = new ExportSedexConfiguration
+        {
+            SenderId = "test",
+            RecipientIds = { "2-ABX-2" },
+        });
+        yield return NewValid(x => x.SedexConfiguration = new ExportSedexConfiguration
+        {
+            SenderId = "1-ABX-1",
+            RecipientIds = { "wrong" },
+        });
     }
 }

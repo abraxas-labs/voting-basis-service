@@ -6,7 +6,7 @@ using Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Ech.Converters;
 
-public interface IEch0159Deserializer
+public interface IEchDeserializer
 {
     Contest DeserializeXml(Stream stream);
 }

@@ -217,6 +217,11 @@ public class MajorityElectionProcessor :
         foreach (var candidate in majorityElection.MajorityElectionCandidates)
         {
             candidate.Position = grouped[candidate.Id];
+
+            if (eventData.UpdateCandidateNumbers)
+            {
+                candidate.Number = candidate.Position.ToString();
+            }
         }
 
         await _candidateRepo.UpdateRange(majorityElection.MajorityElectionCandidates);
@@ -238,6 +243,11 @@ public class MajorityElectionProcessor :
             foreach (var candidate in candidatesToUpdate)
             {
                 candidate.Position--;
+
+                if (eventData.UpdateCandidateNumbers)
+                {
+                    candidate.Number = candidate.Position.ToString();
+                }
             }
 
             await _candidateRepo.UpdateRange(candidatesToUpdate);

@@ -71,6 +71,8 @@ public class DomainOfInfluenceCantonDefaultsBuilder
             SecondaryMajorityElectionOnSeparateBallot = cantonSettings.SecondaryMajorityElectionOnSeparateBallot,
             HideOccupationTitle = cantonSettings.HideOccupationTitle,
             EnableAdditionalCandidateFields = cantonSettings.EnableAdditionalCandidateFields,
+            MajorityElectionBundlesWithBallotGroupEnabled = cantonSettings.MajorityElectionBundlesWithBallotGroupEnabled,
+            MajorityElectionCandidateNumberDisabled = cantonSettings.MajorityElectionCandidateNumberDisabled,
         };
     }
 

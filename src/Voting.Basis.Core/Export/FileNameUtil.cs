@@ -7,12 +7,12 @@ using Voting.Basis.Data.Models;
 namespace Voting.Basis.Core.Export;
 public static class FileNameUtil
 {
-    public static string GetXmlFileName(string filename, DomainOfInfluenceCanton canton, DateTime date, string description)
+    public static string GetXmlFileName(string filename, DomainOfInfluenceCanton canton, DateTime date, string description, string versionArgument = "")
     {
         var cantonFormatted = FormatCanton(canton);
         var dateFormatted = FormatDate(date);
 
-        return string.Format(filename, $"{cantonFormatted}_{dateFormatted}_{description}{FileExtensions.Xml}");
+        return string.Format(filename, $"{cantonFormatted}_{dateFormatted}_{description}", versionArgument) + FileExtensions.Xml;
     }
 
     public static string GetZipFileName(DomainOfInfluenceCanton canton, DateTime date, string description)

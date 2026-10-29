@@ -88,6 +88,30 @@ public class SecondaryMajorityElectionCandidateReferenceDeleteTest : PoliticalBu
     }
 
     [Fact]
+    public async Task CandidateNumbersShouldBeUpdated()
+    {
+        await ModifyDbEntities<DomainOfInfluence>(
+            _ => true,
+            doi => doi.CantonDefaults.MajorityElectionCandidateNumberDisabled = true);
+
+        await CantonAdminClient.DeleteMajorityElectionCandidateReferenceAsync(new DeleteMajorityElectionCandidateReferenceRequest
+        {
+            Id = MajorityElectionMockedData.SecondaryElectionCandidateId1GossauMajorityElectionInContestStGallen,
+        });
+
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<SecondaryMajorityElectionCandidateReferenceDeleted>();
+        eventData.UpdateCandidateNumbers.Should().BeTrue();
+
+        await RunEvents<SecondaryMajorityElectionCandidateReferenceDeleted>();
+
+        var candidate = await RunOnDb(db => db.SecondaryMajorityElectionCandidates
+            .FirstAsync(c => c.Id == Guid.Parse(MajorityElectionMockedData.SecondaryElectionCandidateId2GossauMajorityElectionInContestStGallen)));
+
+        candidate.Position.Should().Be(1);
+        candidate.Number.Should().Be("1");
+    }
+
+    [Fact]
     public async Task CandidateInBallotGroupShouldThrow()
     {
         var candidateId = MajorityElectionMockedData.SecondaryElectionCandidateId1GossauMajorityElectionInContestBund;

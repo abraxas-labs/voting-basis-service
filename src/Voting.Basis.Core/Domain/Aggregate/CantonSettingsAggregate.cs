@@ -95,6 +95,10 @@ public class CantonSettingsAggregate : BaseEventSourcingAggregate
 
     public bool MonitoringUseImprovedUi { get; private set; }
 
+    public bool MajorityElectionBundlesWithBallotGroupEnabled { get; private set; }
+
+    public bool MajorityElectionCandidateNumberDisabled { get; set; }
+
     public void CreateFrom(CantonSettings cantonSettings)
     {
         cantonSettings.Id = BasisUuidV5.BuildCantonSettings(cantonSettings.Canton);

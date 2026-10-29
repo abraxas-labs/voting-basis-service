@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
 using Voting.Basis.Core.Exceptions;
+using Voting.Basis.Core.Models;
 
 namespace Voting.Basis.Core.Domain;
 
@@ -105,12 +106,17 @@ public class SecondaryMajorityElection
         }
     }
 
-    internal void EnsureUniqueCandidateNumber(MajorityElectionCandidate candidate, List<MajorityElectionCandidateReference> referencedCandidates)
+    internal void EnsureValidCandidateNumber(MajorityElectionCandidate candidate, List<MajorityElectionCandidateReference> referencedCandidates, CandidateValidationParams candidateValidationParams)
     {
         if (Candidates.Any(c => c.Id != candidate.Id && c.Number == candidate.Number)
             || referencedCandidates.Any(r => r.Number == candidate.Number))
         {
             throw new NonUniqueCandidateNumberException();
+        }
+
+        if (candidateValidationParams.IsCandidateNumberDisabled && candidate.Position.ToString() != candidate.Number)
+        {
+            throw new ValidationException("Updating candidate number is disabled");
         }
     }
 
@@ -126,7 +132,7 @@ public class SecondaryMajorityElection
         }
     }
 
-    internal void RemoveCandidateReferenceForCandidate(Guid candidateId)
+    internal void RemoveCandidateReferenceForCandidate(Guid candidateId, bool updateNumbers)
     {
         var toDelete = CandidateReferences.Find(cr => cr.CandidateId == candidateId);
 
@@ -136,19 +142,29 @@ public class SecondaryMajorityElection
         }
 
         CandidateReferences.Remove(toDelete);
-        ReorderCandidatesAfterDeletion(toDelete.Position);
+        ReorderCandidatesAfterDeletion(toDelete.Position, updateNumbers);
     }
 
-    internal void ReorderCandidatesAfterDeletion(int deletedPosition)
+    internal void ReorderCandidatesAfterDeletion(int deletedPosition, bool updateNumbers)
     {
         foreach (var candidate in Candidates.Where(c => c.Position > deletedPosition))
         {
             candidate.Position--;
+
+            if (updateNumbers)
+            {
+                candidate.Number = candidate.Position.ToString();
+            }
         }
 
         foreach (var candidateReference in CandidateReferences.Where(c => c.Position > deletedPosition))
         {
             candidateReference.Position--;
+
+            if (updateNumbers)
+            {
+                candidateReference.Number = candidateReference.Position.ToString();
+            }
         }
     }
 }

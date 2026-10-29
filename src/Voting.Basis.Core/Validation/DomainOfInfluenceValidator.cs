@@ -4,6 +4,7 @@
 using FluentValidation;
 using DomainOfInfluence = Voting.Basis.Core.Domain.DomainOfInfluence;
 using DomainOfInfluenceVotingCardPrintData = Voting.Basis.Core.Domain.DomainOfInfluenceVotingCardPrintData;
+using ExportConfiguration = Voting.Basis.Core.Domain.ExportConfiguration;
 using PlausibilisationConfiguration = Voting.Basis.Core.Domain.PlausibilisationConfiguration;
 
 namespace Voting.Basis.Core.Validation;
@@ -12,7 +13,8 @@ public class DomainOfInfluenceValidator : AbstractValidator<DomainOfInfluence>
 {
     public DomainOfInfluenceValidator(
         IValidator<DomainOfInfluenceVotingCardPrintData> printDataValidator,
-        IValidator<PlausibilisationConfiguration> plausibilisationConfigurationValidator)
+        IValidator<PlausibilisationConfiguration> plausibilisationConfigurationValidator,
+        IValidator<ExportConfiguration> exportConfigurationValidator)
     {
         RuleFor(v => v.ReturnAddress).Null().When(v => !v.ResponsibleForVotingCards);
         RuleFor(v => v.ReturnAddress!).NotNull().When(v => v.ResponsibleForVotingCards);
@@ -22,5 +24,6 @@ public class DomainOfInfluenceValidator : AbstractValidator<DomainOfInfluence>
         RuleFor(v => v.SwissPostData!).NotNull().When(v => v.ResponsibleForVotingCards);
 
         RuleFor(v => v.PlausibilisationConfiguration!).SetValidator(plausibilisationConfigurationValidator);
+        RuleForEach(v => v.ExportConfigurations).SetValidator(exportConfigurationValidator);
     }
 }

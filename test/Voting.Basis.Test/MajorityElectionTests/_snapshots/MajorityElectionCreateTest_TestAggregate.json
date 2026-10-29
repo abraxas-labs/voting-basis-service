@@ -36,7 +36,9 @@
     "IndividualCandidatesDisabled": true,
     "FederalIdentification": "92834984",
     "EVotingApproved": null,
-    "EVotingEverApproved": false
+    "EVotingEverApproved": false,
+    "BundlesWithBallotGroupEnabled": true,
+    "EnforceBundlesWithBallotGroupEnabledForCountingCircles": true
   },
   "2": {
     "Id": "a60c5616-c576-47d4-8ef4-4aa9b347ee60",
@@ -75,6 +77,8 @@
     "IndividualCandidatesDisabled": false,
     "FederalIdentification": "",
     "EVotingApproved": null,
-    "EVotingEverApproved": false
+    "EVotingEverApproved": false,
+    "BundlesWithBallotGroupEnabled": false,
+    "EnforceBundlesWithBallotGroupEnabledForCountingCircles": false
   }
 }

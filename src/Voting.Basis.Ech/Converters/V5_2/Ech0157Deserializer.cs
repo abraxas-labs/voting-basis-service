@@ -1,0 +1,61 @@
+// (c) Copyright by Abraxas Informatik AG
+// For license information see LICENSE file
+
+using System.IO;
+using System.Linq;
+using Ech0155_5_2;
+using Ech0157_5_2;
+using Voting.Basis.Data.Models;
+using Voting.Basis.Ech.Mapping;
+using Voting.Basis.Ech.Mapping.V5_2;
+using Voting.Lib.Ech;
+using Voting.Lib.Ech.Ech0157_5_2.Schemas;
+
+namespace Voting.Basis.Ech.Converters.V5_2;
+
+public class Ech0157Deserializer : IEchDeserializer
+{
+    private readonly EchDeserializer _deserializer;
+
+    public Ech0157Deserializer(EchDeserializer deserializer)
+    {
+        _deserializer = deserializer;
+    }
+
+    /// <summary>
+    /// Deserialize from eCH-0157.
+    /// </summary>
+    /// <param name="stream">The input stream.</param>
+    /// <returns>The deserialized eCH-0157 contest.</returns>
+    public Contest DeserializeXml(Stream stream)
+    {
+        var schemaSet = Ech0157Schemas.LoadEch0157Schemas();
+        var delivery = _deserializer.DeserializeXml<Delivery>(stream, schemaSet);
+        return FromEventInitialDelivery(delivery);
+    }
+
+    private Contest FromEventInitialDelivery(Delivery delivery)
+    {
+        var idLookup = new IdLookup();
+        var contest = delivery.InitialDelivery.Contest.ToBasisContest(idLookup);
+
+        contest.ProportionalElections = delivery.InitialDelivery.ElectionGroup
+            .SelectMany(x => x.ElectionInformation)
+            .Where(x => x.Election.TypeOfElection == TypeOfElectionType.Item1)
+            .Select(x => x.ToBasisProportionalElection(idLookup))
+            .ToList();
+
+        var secondaryElectionsById = delivery.InitialDelivery.ElectionGroup
+            .SelectMany(x => x.ElectionInformation)
+            .Where(x => x.Election.TypeOfElection == TypeOfElectionType.Item2 && x.Election.ReferencedElection?.Any(y => y.ElectionRelation == ElectionRelationType.Item1) == true)
+            .ToDictionary(x => x.Election.ElectionIdentification, x => x);
+
+        contest.MajorityElections = delivery.InitialDelivery.ElectionGroup
+            .SelectMany(x => x.ElectionInformation)
+            .Where(x => x.Election.TypeOfElection == TypeOfElectionType.Item2 && x.Election.ReferencedElection?.All(y => y.ElectionRelation == ElectionRelationType.Item2) != false)
+            .Select(x => x.ToBasisMajorityElection(idLookup, secondaryElectionsById))
+            .ToList();
+
+        return contest;
+    }
+}

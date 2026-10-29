@@ -937,7 +937,12 @@ public class DomainOfInfluenceUpdateForAdminTest : BaseGrpcTest<DomainOfInfluenc
                                 AusmittlungCsvProportionalElectionTemplates.CandidateCountingCircleResultsWithVoteSources.Key,
                             },
                             EaiMessageType = "1234567",
-                            Provider = SharedProto.ExportProvider.Seantis,
+                            Provider = SharedProto.ExportProvider.Sedex,
+                            SedexConfiguration = new ProtoModels.ExportSedexConfiguration
+                            {
+                                SenderId = "1-ABX-1",
+                                RecipientIds = { "2-ABX-2", "3-ABX-3" },
+                            },
                         },
                         new ProtoModels.ExportConfiguration
                         {

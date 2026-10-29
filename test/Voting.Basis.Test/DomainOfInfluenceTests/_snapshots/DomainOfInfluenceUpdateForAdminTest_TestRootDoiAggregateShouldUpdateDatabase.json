@@ -30,7 +30,9 @@
       "DomainOfInfluencePublishResultsOptionEnabled": false,
       "SecondaryMajorityElectionOnSeparateBallot": false,
       "HideOccupationTitle": false,
-      "EnableAdditionalCandidateFields": false
+      "EnableAdditionalCandidateFields": false,
+      "MajorityElectionBundlesWithBallotGroupEnabled": false,
+      "MajorityElectionCandidateNumberDisabled": false
     },
     "LogoRef": null,
     "HasLogo": false,

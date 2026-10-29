@@ -37,7 +37,9 @@
       "IndividualCandidatesDisabled": false,
       "FederalIdentification": "",
       "EVotingApproved": false,
-      "EVotingEverApproved": false
+      "EVotingEverApproved": false,
+      "BundlesWithBallotGroupEnabled": false,
+      "EnforceBundlesWithBallotGroupEnabledForCountingCircles": false
     },
     {
       "Id": "50415df8-6ee9-4eb4-9e31-68c0d3021e76",
@@ -76,7 +78,9 @@
       "IndividualCandidatesDisabled": false,
       "FederalIdentification": "",
       "EVotingApproved": false,
-      "EVotingEverApproved": false
+      "EVotingEverApproved": false,
+      "BundlesWithBallotGroupEnabled": false,
+      "EnforceBundlesWithBallotGroupEnabledForCountingCircles": false
     },
     {
       "Id": "a6ab97b9-ce86-4973-876e-a128ff279bf7",
@@ -115,7 +119,9 @@
       "IndividualCandidatesDisabled": false,
       "FederalIdentification": "",
       "EVotingApproved": false,
-      "EVotingEverApproved": false
+      "EVotingEverApproved": false,
+      "BundlesWithBallotGroupEnabled": false,
+      "EnforceBundlesWithBallotGroupEnabledForCountingCircles": false
     },
     {
       "Id": "72addd15-0e86-4109-bc35-92a71c9a9adf",
@@ -154,7 +160,9 @@
       "IndividualCandidatesDisabled": false,
       "FederalIdentification": "",
       "EVotingApproved": true,
-      "EVotingEverApproved": true
+      "EVotingEverApproved": true,
+      "BundlesWithBallotGroupEnabled": false,
+      "EnforceBundlesWithBallotGroupEnabledForCountingCircles": false
     }
   ]
 }

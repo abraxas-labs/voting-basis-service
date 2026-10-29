@@ -126,7 +126,9 @@
           }
         },
         "MonitoringAutoShowPoliticalBusinesses": false,
-        "MonitoringUseImprovedUi": false
+        "MonitoringUseImprovedUi": false,
+        "MajorityElectionBundlesWithBallotGroupEnabled": true,
+        "MajorityElectionCandidateNumberDisabled": false
       },
       {
         "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -191,7 +193,9 @@
         "EnableAdditionalCandidateFields": true,
         "ECountingCertificateChain": null,
         "MonitoringAutoShowPoliticalBusinesses": false,
-        "MonitoringUseImprovedUi": false
+        "MonitoringUseImprovedUi": false,
+        "MajorityElectionBundlesWithBallotGroupEnabled": true,
+        "MajorityElectionCandidateNumberDisabled": false
       }
     ]
   },
@@ -233,7 +237,9 @@
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
           "HideOccupationTitle": true,
-          "EnableAdditionalCandidateFields": true
+          "EnableAdditionalCandidateFields": true,
+          "MajorityElectionBundlesWithBallotGroupEnabled": true,
+          "MajorityElectionCandidateNumberDisabled": false
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -322,7 +328,9 @@
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
           "HideOccupationTitle": true,
-          "EnableAdditionalCandidateFields": true
+          "EnableAdditionalCandidateFields": true,
+          "MajorityElectionBundlesWithBallotGroupEnabled": true,
+          "MajorityElectionCandidateNumberDisabled": false
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -411,7 +419,9 @@
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
           "HideOccupationTitle": true,
-          "EnableAdditionalCandidateFields": true
+          "EnableAdditionalCandidateFields": true,
+          "MajorityElectionBundlesWithBallotGroupEnabled": true,
+          "MajorityElectionCandidateNumberDisabled": false
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -500,7 +510,9 @@
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
           "HideOccupationTitle": true,
-          "EnableAdditionalCandidateFields": true
+          "EnableAdditionalCandidateFields": true,
+          "MajorityElectionBundlesWithBallotGroupEnabled": true,
+          "MajorityElectionCandidateNumberDisabled": false
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -589,7 +601,9 @@
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
           "HideOccupationTitle": true,
-          "EnableAdditionalCandidateFields": true
+          "EnableAdditionalCandidateFields": true,
+          "MajorityElectionBundlesWithBallotGroupEnabled": true,
+          "MajorityElectionCandidateNumberDisabled": false
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -695,7 +709,9 @@
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
           "HideOccupationTitle": true,
-          "EnableAdditionalCandidateFields": true
+          "EnableAdditionalCandidateFields": true,
+          "MajorityElectionBundlesWithBallotGroupEnabled": true,
+          "MajorityElectionCandidateNumberDisabled": false
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -784,7 +800,9 @@
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
           "HideOccupationTitle": true,
-          "EnableAdditionalCandidateFields": true
+          "EnableAdditionalCandidateFields": true,
+          "MajorityElectionBundlesWithBallotGroupEnabled": true,
+          "MajorityElectionCandidateNumberDisabled": false
         },
         "LogoRef": null,
         "HasLogo": false,
@@ -873,7 +891,9 @@
           "DomainOfInfluencePublishResultsOptionEnabled": true,
           "SecondaryMajorityElectionOnSeparateBallot": true,
           "HideOccupationTitle": true,
-          "EnableAdditionalCandidateFields": true
+          "EnableAdditionalCandidateFields": true,
+          "MajorityElectionBundlesWithBallotGroupEnabled": true,
+          "MajorityElectionCandidateNumberDisabled": false
         },
         "LogoRef": null,
         "HasLogo": false,

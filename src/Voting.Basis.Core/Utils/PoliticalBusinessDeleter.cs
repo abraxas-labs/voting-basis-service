@@ -35,7 +35,7 @@ public class PoliticalBusinessDeleter
                 x.BusinessType,
             })
             .GroupBy(x => x.BusinessType)
-            .ToDictionaryAsync(x => x.Key, x => x.Select(y => y.Id).ToList());
+            .ToDictionaryAsync(x => x.Key, x => x.Select(y => y.Id).Order().ToList());
         await DeletePoliticalBusinesses(toDeleteByType);
     }
 

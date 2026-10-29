@@ -61,5 +61,7 @@
   "EnableAdditionalCandidateFields": true,
   "ECountingCertificateChain": null,
   "MonitoringAutoShowPoliticalBusinesses": false,
-  "MonitoringUseImprovedUi": false
+  "MonitoringUseImprovedUi": false,
+  "MajorityElectionBundlesWithBallotGroupEnabled": true,
+  "MajorityElectionCandidateNumberDisabled": false
 }

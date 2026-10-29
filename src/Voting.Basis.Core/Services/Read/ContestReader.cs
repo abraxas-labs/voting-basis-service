@@ -165,12 +165,22 @@ public class ContestReader
             .ToListAsync();
     }
 
+    /// <summary>
+    /// Lists contests which are eligible to be selected as the "previous contest" of a contest of the provided
+    /// domain of influence taking place on the provided date (used for internal plausibilisation).
+    /// Only past locked or archived contests make sense as a previous contest, ordered by date descending.
+    /// </summary>
+    /// <param name="date">The date of the contest for which past contests should be listed.</param>
+    /// <param name="doiId">The domain of influence id of the contest for which past contests should be listed.</param>
+    /// <returns>The past locked or archived contests before the provided date, ordered by date descending.</returns>
     public async Task<IEnumerable<Contest>> ListPast(DateTime date, Guid doiId)
     {
         return await _repo.Query()
             .IgnoreQueryFilters() // Contests with a deleted DOI should still show
             .Where(c => c.Date < date.Date && c.DomainOfInfluence.Id == doiId &&
-                        c.DomainOfInfluence.SecureConnectId == _auth.Tenant.Id)
+                        c.DomainOfInfluence.SecureConnectId == _auth.Tenant.Id &&
+                        (c.State == ContestState.PastLocked || c.State == ContestState.Archived))
+            .OrderByDescending(c => c.Date)
             .ToListAsync();
     }
 

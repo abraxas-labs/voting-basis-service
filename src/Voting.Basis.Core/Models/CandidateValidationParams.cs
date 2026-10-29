@@ -13,5 +13,7 @@ public class CandidateValidationParams(DomainOfInfluence doi, bool? onlyNamesAnd
 
     public bool IsOriginRequired { get; } = doi.CantonDefaults.CandidateOriginRequired && !onlyNamesAndNumberRequired.GetValueOrDefault();
 
+    public bool IsCandidateNumberDisabled { get; } = doi.CantonDefaults.MajorityElectionCandidateNumberDisabled;
+
     public bool? OnlyNamesAndNumberRequired { get; } = onlyNamesAndNumberRequired;
 }

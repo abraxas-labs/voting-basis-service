@@ -99,6 +99,37 @@ public class MajorityElectionCandidateDeleteTest : PoliticalBusinessAuthorizatio
     }
 
     [Fact]
+    public async Task CandidateNumbersShouldBeUpdated()
+    {
+        await ModifyDbEntities<DomainOfInfluence>(
+            _ => true,
+            doi => doi.CantonDefaults.MajorityElectionCandidateNumberDisabled = true);
+
+        await CantonAdminClient.DeleteCandidateAsync(new DeleteMajorityElectionCandidateRequest
+        {
+            Id = MajorityElectionMockedData.CandidateId1GossauMajorityElectionInContestStGallen,
+        });
+
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionCandidateDeleted>();
+        eventData.UpdateCandidateNumbers.Should().BeTrue();
+
+        await RunEvents<SecondaryMajorityElectionCandidateReferenceDeleted>(false);
+        await RunEvents<MajorityElectionCandidateDeleted>();
+
+        var updatedCandidate = await RunOnDb(db => db.MajorityElectionCandidates
+            .FirstAsync(c => c.Id == Guid.Parse(MajorityElectionMockedData.CandidateId2GossauMajorityElectionInContestStGallen)));
+
+        updatedCandidate.Position.Should().Be(1);
+        updatedCandidate.Number.Should().Be("1");
+
+        var updatedSecondaryCandidate = await RunOnDb(db => db.SecondaryMajorityElectionCandidates
+            .FirstAsync(c => c.Id == Guid.Parse(MajorityElectionMockedData.SecondaryElectionCandidateId2GossauMajorityElectionInContestStGallen)));
+
+        updatedSecondaryCandidate.Position.Should().Be(1);
+        updatedSecondaryCandidate.Number.Should().Be("1");
+    }
+
+    [Fact]
     public async Task CandidateInContestWithEndedTestingPhaseShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);

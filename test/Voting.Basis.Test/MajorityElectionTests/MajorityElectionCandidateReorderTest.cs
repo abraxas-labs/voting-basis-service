@@ -78,6 +78,26 @@ public class MajorityElectionCandidateReorderTest : PoliticalBusinessAuthorizati
     }
 
     [Fact]
+    public async Task CandidateNumbersShouldBeUpdated()
+    {
+        await ModifyDbEntities<DomainOfInfluence>(
+            _ => true,
+            doi => doi.CantonDefaults.MajorityElectionCandidateNumberDisabled = true);
+
+        await ElectionAdminClient.ReorderCandidatesAsync(NewValidRequest());
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<MajorityElectionCandidatesReordered>();
+        eventData.UpdateCandidateNumbers.Should().BeTrue();
+
+        await RunEvents<MajorityElectionCandidatesReordered>();
+
+        var candidates = await ElectionAdminClient.ListCandidatesAsync(new ListMajorityElectionCandidatesRequest
+        {
+            MajorityElectionId = MajorityElectionMockedData.IdGossauMajorityElectionInContestStGallen,
+        });
+        candidates.MatchSnapshot();
+    }
+
+    [Fact]
     public async Task MajorityElectionInContestWithEndedTestingPhaseShouldThrow()
     {
         await SetContestState(ContestMockedData.IdBundContest, ContestState.PastUnlocked);

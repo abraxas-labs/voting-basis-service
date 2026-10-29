@@ -16,5 +16,6 @@
     }
   },
   "MajorityElectionCandidateId": "1228f95d-8b39-44b1-8cc3-84a93f5e3bbc",
-  "MajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e"
+  "MajorityElectionId": "cd464c26-24d4-4cfc-95d9-e7c930b1784e",
+  "UpdateCandidateNumbers": false
 }

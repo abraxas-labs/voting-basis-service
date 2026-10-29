@@ -73,7 +73,8 @@ public abstract class ContestEchExportsGeneratorBase : IExportsGenerator
                     Template.Filename,
                     contest.DomainOfInfluence.Canton,
                     contest.Date,
-                    "votes"),
+                    "votes",
+                    "-0159"),
                 MediaTypeNames.Application.Xml);
         }
 
@@ -87,7 +88,8 @@ public abstract class ContestEchExportsGeneratorBase : IExportsGenerator
                     Template.Filename,
                     contest.DomainOfInfluence.Canton,
                     contest.Date,
-                    "proportional_elections"),
+                    "proportional_elections",
+                    "-0157"),
                 MediaTypeNames.Application.Xml);
         }
 
@@ -101,7 +103,8 @@ public abstract class ContestEchExportsGeneratorBase : IExportsGenerator
                     Template.Filename,
                     contest.DomainOfInfluence.Canton,
                     contest.Date,
-                    "majority_elections"),
+                    "majority_elections",
+                    "-0157"),
                 MediaTypeNames.Application.Xml);
         }
     }

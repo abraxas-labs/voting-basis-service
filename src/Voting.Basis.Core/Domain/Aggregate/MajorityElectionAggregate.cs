@@ -124,6 +124,10 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
 
     public bool EVotingEverApproved { get; private set; }
 
+    public bool BundlesWithBallotGroupEnabled { get; private set; }
+
+    public bool EnforceBundlesWithBallotGroupEnabledForCountingCircles { get; private set; }
+
     public void CreateFrom(MajorityElection majorityElection)
     {
         if (majorityElection.Id == default)
@@ -195,6 +199,8 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
         ValidationUtils.EnsureNotModified(EnforceCandidateCheckDigitForCountingCircles, majorityElection.EnforceCandidateCheckDigitForCountingCircles);
         ValidationUtils.EnsureNotModified(IndividualCandidatesDisabled, majorityElection.IndividualCandidatesDisabled);
         ValidationUtils.EnsureNotModified(FederalIdentification, majorityElection.FederalIdentification);
+        ValidationUtils.EnsureNotModified(BundlesWithBallotGroupEnabled, majorityElection.BundlesWithBallotGroupEnabled);
+        ValidationUtils.EnsureNotModified(EnforceBundlesWithBallotGroupEnabledForCountingCircles, majorityElection.EnforceBundlesWithBallotGroupEnabledForCountingCircles);
 
         var ev = new MajorityElectionAfterTestingPhaseUpdated
         {
@@ -325,7 +331,7 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
 
         EnsureCandidateIsValid(candidate, null, candidateValidationParams, IndividualCandidatesDisabled);
         EnsureUniqueCandidatePosition(candidate);
-        EnsureUniqueCandidateNumber(candidate);
+        EnsureUniqueCandidateNumber(candidate, candidateValidationParams);
 
         candidate.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(candidate.Number);
 
@@ -352,7 +358,7 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
 
         EnsureCandidateIsValid(candidate, existingCandidate, candidateValidationParams, IndividualCandidatesDisabled);
         EnsureUniqueCandidatePosition(candidate);
-        EnsureUniqueCandidateNumber(candidate);
+        EnsureUniqueCandidateNumber(candidate, candidateValidationParams);
 
         candidate.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(candidate.Number);
 
@@ -410,7 +416,7 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
         RaiseEvent(ev);
     }
 
-    public void ReorderCandidates(IReadOnlyCollection<EntityOrder> orders)
+    public void ReorderCandidates(IReadOnlyCollection<EntityOrder> orders, bool updateCandidateNumbers)
     {
         EnsureNotDeleted();
         EnsureEVotingNotApproved();
@@ -432,12 +438,13 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
             MajorityElectionId = Id.ToString(),
             CandidateOrders = _mapper.Map<EntityOrdersEventData>(orders),
             EventInfo = _eventInfoProvider.NewEventInfo(),
+            UpdateCandidateNumbers = updateCandidateNumbers,
         };
 
         RaiseEvent(ev);
     }
 
-    public void DeleteCandidate(Guid candidateId)
+    public void DeleteCandidate(Guid candidateId, bool updateCandidateNumbers)
     {
         EnsureNotDeleted();
         EnsureEVotingNeverApproved();
@@ -458,6 +465,7 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
                 SecondaryMajorityElectionId = secondaryMajorityElection.Id.ToString(),
                 PrimaryMajorityElectionId = Id.ToString(),
                 EventInfo = _eventInfoProvider.NewEventInfo(),
+                UpdateCandidateNumbers = updateCandidateNumbers,
             };
 
             RaiseEvent(deleteReferenceEvent);
@@ -468,6 +476,7 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
             MajorityElectionCandidateId = candidateId.ToString(),
             MajorityElectionId = Id.ToString(),
             EventInfo = _eventInfoProvider.NewEventInfo(),
+            UpdateCandidateNumbers = updateCandidateNumbers,
         };
 
         RaiseEvent(ev);
@@ -657,7 +666,7 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
         _candidateValidator.ValidateAndThrow(data);
 
         sme.EnsureValidCandidatePosition(data, true);
-        sme.EnsureUniqueCandidateNumber(data, sme.CandidateReferences);
+        sme.EnsureValidCandidateNumber(data, sme.CandidateReferences, candidateValidationParams);
 
         data.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
 
@@ -683,7 +692,7 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
 
         EnsureCandidateIsValid(data, existingSmeCandidate, candidateValidationParams, sme.IndividualCandidatesDisabled);
         sme.EnsureValidCandidatePosition(data, false);
-        sme.EnsureUniqueCandidateNumber(data, sme.CandidateReferences);
+        sme.EnsureValidCandidateNumber(data, sme.CandidateReferences, candidateValidationParams);
 
         data.CheckDigit = ElectionCandidateCheckDigitUtils.CalculateCheckDigit(data.Number);
 
@@ -745,7 +754,7 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
         RaiseEvent(ev);
     }
 
-    public void DeleteSecondaryMajorityElectionCandidate(Guid secondaryMajorityElectionId, Guid candidateId)
+    public void DeleteSecondaryMajorityElectionCandidate(Guid secondaryMajorityElectionId, Guid candidateId, bool updateCandidateNumbers)
     {
         EnsureNotDeleted();
         EnsureEVotingNeverApproved(secondaryMajorityElectionId);
@@ -764,6 +773,7 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
             PrimaryMajorityElectionId = Id.ToString(),
             IsOnSeparateBallot = sme.IsOnSeparateBallot,
             EventInfo = _eventInfoProvider.NewEventInfo(),
+            UpdateCandidateNumbers = updateCandidateNumbers,
         };
 
         RaiseEvent(ev);
@@ -844,7 +854,7 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
         RaiseEvent(ev);
     }
 
-    public void DeleteCandidateReference(Guid secondaryMajorityElectionId, Guid candidateId)
+    public void DeleteCandidateReference(Guid secondaryMajorityElectionId, Guid candidateId, bool updateCandidateNumbers)
     {
         EnsureNotDeleted();
         EnsureEVotingNeverApproved(secondaryMajorityElectionId);
@@ -860,12 +870,13 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
             SecondaryMajorityElectionId = sme.Id.ToString(),
             IsOnSeparateBallot = sme.IsOnSeparateBallot,
             EventInfo = _eventInfoProvider.NewEventInfo(),
+            UpdateCandidateNumbers = updateCandidateNumbers,
         };
 
         RaiseEvent(ev);
     }
 
-    public void ReorderSecondaryMajorityElectionCandidates(Guid secondaryMajorityElectionId, IReadOnlyCollection<EntityOrder> orders)
+    public void ReorderSecondaryMajorityElectionCandidates(Guid secondaryMajorityElectionId, IReadOnlyCollection<EntityOrder> orders, bool updateCandidateNumbers)
     {
         EnsureNotDeleted();
         EnsureEVotingNotApproved(secondaryMajorityElectionId);
@@ -891,6 +902,7 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
             IsOnSeparateBallot = sme.IsOnSeparateBallot,
             CandidateOrders = _mapper.Map<EntityOrdersEventData>(orders),
             EventInfo = _eventInfoProvider.NewEventInfo(),
+            UpdateCandidateNumbers = updateCandidateNumbers,
         };
 
         RaiseEvent(ev);
@@ -1277,6 +1289,11 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
         {
             var candidate = FindCandidate(GuidParser.Parse(order.Id));
             candidate.Position = order.Position;
+
+            if (ev.UpdateCandidateNumbers)
+            {
+                candidate.Number = candidate.Position.ToString();
+            }
         }
     }
 
@@ -1288,11 +1305,16 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
         foreach (var candidate in Candidates.Where(c => c.Position > existingCandidate.Position))
         {
             candidate.Position--;
+
+            if (ev.UpdateCandidateNumbers)
+            {
+                candidate.Number = candidate.Position.ToString();
+            }
         }
 
         foreach (var sme in SecondaryMajorityElections)
         {
-            sme.RemoveCandidateReferenceForCandidate(GuidParser.Parse(ev.MajorityElectionCandidateId));
+            sme.RemoveCandidateReferenceForCandidate(GuidParser.Parse(ev.MajorityElectionCandidateId), ev.UpdateCandidateNumbers);
         }
     }
 
@@ -1442,7 +1464,7 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
         var sme = SecondaryMajorityElections.First(sme => sme.Candidates.Any(c => c.Id == candidateId));
         var candidate = sme.GetCandidate(candidateId);
         sme.Candidates.Remove(candidate);
-        sme.ReorderCandidatesAfterDeletion(candidate.Position);
+        sme.ReorderCandidatesAfterDeletion(candidate.Position, ev.UpdateCandidateNumbers);
     }
 
     private void Apply(SecondaryMajorityElectionCandidatesReordered ev)
@@ -1456,6 +1478,11 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
             if (candidate != null)
             {
                 candidate.Position = order.Position;
+
+                if (ev.UpdateCandidateNumbers)
+                {
+                    candidate.Number = candidate.Position.ToString();
+                }
             }
             else
             {
@@ -1463,6 +1490,11 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
                 if (candidateReference != null)
                 {
                     candidateReference.Position = order.Position;
+
+                    if (ev.UpdateCandidateNumbers)
+                    {
+                        candidateReference.Number = candidateReference.Position.ToString();
+                    }
                 }
             }
         }
@@ -1488,7 +1520,7 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
         var sme = SecondaryMajorityElections.First(sme => sme.CandidateReferences.Any(c => c.Id == referenceId));
         var reference = sme.GetCandidateReference(referenceId);
         sme.CandidateReferences.Remove(reference);
-        sme.ReorderCandidatesAfterDeletion(reference.Position);
+        sme.ReorderCandidatesAfterDeletion(reference.Position, ev.UpdateCandidateNumbers);
     }
 
     private MajorityElectionCandidate FindCandidate(Guid candidateId)
@@ -1515,11 +1547,16 @@ public class MajorityElectionAggregate : PoliticalBusinessAggregate
         }
     }
 
-    private void EnsureUniqueCandidateNumber(MajorityElectionCandidate candidate)
+    private void EnsureUniqueCandidateNumber(MajorityElectionCandidate candidate, CandidateValidationParams candidateValidationParams)
     {
         if (Candidates.Any(c => c.Id != candidate.Id && c.Number == candidate.Number))
         {
             throw new NonUniqueCandidateNumberException();
+        }
+
+        if (candidateValidationParams.IsCandidateNumberDisabled && candidate.Position.ToString() != candidate.Number)
+        {
+            throw new ValidationException("Updating candidate number is disabled");
         }
     }
 

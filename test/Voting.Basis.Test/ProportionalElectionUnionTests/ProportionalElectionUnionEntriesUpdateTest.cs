@@ -164,6 +164,15 @@ public class ProportionalElectionUnionEntriesUpdateTest : PoliticalBusinessUnion
     }
 
     [Fact]
+    public async Task NonExistingElectionIdShouldThrow()
+    {
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateEntriesAsync(NewValidRequest(x => x.ProportionalElectionIds.Add(Guid.NewGuid().ToString()))),
+            StatusCode.InvalidArgument,
+            "cannot assign a non-existing political business to a political business union");
+    }
+
+    [Fact]
     public async Task ContestWithEndedTestingPhaseShouldThrow()
     {
         await SetContestState(ContestMockedData.IdStGallenEvoting, ContestState.PastUnlocked);

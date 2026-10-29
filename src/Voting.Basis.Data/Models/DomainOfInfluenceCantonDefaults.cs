@@ -42,4 +42,8 @@ public class DomainOfInfluenceCantonDefaults
     public bool HideOccupationTitle { get; set; }
 
     public bool EnableAdditionalCandidateFields { get; set; }
+
+    public bool MajorityElectionBundlesWithBallotGroupEnabled { get; set; }
+
+    public bool MajorityElectionCandidateNumberDisabled { get; set; }
 }

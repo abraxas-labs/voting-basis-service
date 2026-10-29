@@ -58,4 +58,8 @@ public class MajorityElection : PoliticalBusiness
     public bool IndividualCandidatesDisabled { get; set; }
 
     public string FederalIdentification { get; set; } = string.Empty;
+
+    public bool BundlesWithBallotGroupEnabled { get; set; }
+
+    public bool EnforceBundlesWithBallotGroupEnabledForCountingCircles { get; set; }
 }

@@ -39,4 +39,22 @@ internal static class ContestMapping
 
         return contestType;
     }
+
+    internal static Contest ToBasisContest(this ContestType contest, IdLookup idLookup)
+    {
+        var descriptionInfos = contest.ContestDescription;
+        var description = descriptionInfos.ToLanguageDictionary(x => x.Language, x => x.ContestDescription, contest.ContestIdentification);
+
+        var contestDate = contest.ContestDate.MapToUtcDateTime();
+        return new Contest
+        {
+            Id = idLookup.GuidForId(contest.ContestIdentification),
+            Date = contestDate,
+            EVoting = contest.EVotingPeriod != null,
+            EVotingFrom = contest.EVotingPeriod?.EVotingPeriodFrom.MapToUtcDateTime(),
+            EVotingTo = contest.EVotingPeriod?.EVotingPeriodTill.MapToUtcDateTime(),
+            Description = description,
+            EndOfTestingPhase = DateTime.UtcNow, // required, otherwise we have error because the DateTime is not in UTC
+        };
+    }
 }

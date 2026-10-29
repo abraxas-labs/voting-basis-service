@@ -123,5 +123,7 @@
     }
   },
   "MonitoringAutoShowPoliticalBusinesses": false,
-  "MonitoringUseImprovedUi": false
+  "MonitoringUseImprovedUi": false,
+  "MajorityElectionBundlesWithBallotGroupEnabled": false,
+  "MajorityElectionCandidateNumberDisabled": false
 }

@@ -63,6 +63,24 @@ public class ResolveImportFileTest : BaseRestTest
     }
 
     [Fact]
+    public async Task TestEch0157V52ReturnOk()
+    {
+        var request = new ResolveImportFileRequest
+        {
+            ImportType = SharedProto.ImportType.Ech157,
+        };
+
+        var httpResponse = await HttpUtil.RequestWithFileAndData(
+            EchTestFiles.GetTestFilePath(EchTestFiles.Ech0157V52FileName),
+            request,
+            async content => await CantonAdminClient.PostAsync(Url, content));
+
+        var response = await DeserializeHttpResponse(httpResponse);
+        IgnoreGeneratedFields(response);
+        response.MatchSnapshot(x => x.Contest.Id, x => x.Contest.EndOfTestingPhase);
+    }
+
+    [Fact]
     public async Task TestEch0159ReturnOk()
     {
         var request = new ResolveImportFileRequest
@@ -90,6 +108,24 @@ public class ResolveImportFileTest : BaseRestTest
 
         var httpResponse = await HttpUtil.RequestWithFileAndData(
             EchTestFiles.GetTestFilePath(EchTestFiles.Ech0159V5FileName),
+            request,
+            async content => await CantonAdminClient.PostAsync(Url, content));
+
+        var response = await DeserializeHttpResponse(httpResponse);
+        IgnoreGeneratedFields(response);
+        response.MatchSnapshot(x => x.Contest.Id, x => x.Contest.EndOfTestingPhase);
+    }
+
+    [Fact]
+    public async Task TestEch0159V52ReturnOk()
+    {
+        var request = new ResolveImportFileRequest
+        {
+            ImportType = SharedProto.ImportType.Ech159,
+        };
+
+        var httpResponse = await HttpUtil.RequestWithFileAndData(
+            EchTestFiles.GetTestFilePath(EchTestFiles.Ech0159V52FileName),
             request,
             async content => await CantonAdminClient.PostAsync(Url, content));
 

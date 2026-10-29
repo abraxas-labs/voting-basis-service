@@ -2,7 +2,13 @@
 // For license information see LICENSE file
 
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml;
+using System.Xml.Serialization;
 using Ech0155_5_2;
+using Voting.Lib.Ech.Ech0157_5_2.Models;
 using DataModels = Voting.Basis.Data.Models;
 
 namespace Voting.Basis.Ech.Mapping.V5_2;
@@ -30,5 +36,25 @@ internal static class ElectionMapping
         }
 
         return descriptionInfos;
+    }
+
+    internal static ElectionInformationExtension? GetExtension(IEnumerable<XmlElement>? extension)
+    {
+        var extensionNode = extension?.FirstOrDefault();
+        if (extensionNode == null)
+        {
+            return null;
+        }
+
+        using var reader = new StringReader(extensionNode.OuterXml);
+        var electionInformationExtension = DeserializeXmlNode<ElectionInformationExtension>(reader);
+
+        return electionInformationExtension;
+    }
+
+    private static T? DeserializeXmlNode<T>(TextReader reader)
+    {
+        var serializer = new XmlSerializer(typeof(T));
+        return (T?)serializer.Deserialize(reader);
     }
 }

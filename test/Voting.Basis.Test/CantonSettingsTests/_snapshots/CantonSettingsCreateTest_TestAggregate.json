@@ -126,7 +126,9 @@
           }
         },
         "MonitoringAutoShowPoliticalBusinesses": false,
-        "MonitoringUseImprovedUi": false
+        "MonitoringUseImprovedUi": false,
+        "MajorityElectionBundlesWithBallotGroupEnabled": false,
+        "MajorityElectionCandidateNumberDisabled": false
       },
       {
         "Id": "2d203a3c-40ba-4b53-a57e-38909d71390c",
@@ -182,7 +184,9 @@
         "EnableAdditionalCandidateFields": false,
         "ECountingCertificateChain": null,
         "MonitoringAutoShowPoliticalBusinesses": false,
-        "MonitoringUseImprovedUi": false
+        "MonitoringUseImprovedUi": false,
+        "MajorityElectionBundlesWithBallotGroupEnabled": false,
+        "MajorityElectionCandidateNumberDisabled": false
       },
       {
         "Id": "ac0b262a-7410-5422-9482-c521daa51e7e",
@@ -247,7 +251,9 @@
         "EnableAdditionalCandidateFields": true,
         "ECountingCertificateChain": null,
         "MonitoringAutoShowPoliticalBusinesses": false,
-        "MonitoringUseImprovedUi": false
+        "MonitoringUseImprovedUi": false,
+        "MajorityElectionBundlesWithBallotGroupEnabled": true,
+        "MajorityElectionCandidateNumberDisabled": false
       }
     ]
   },
@@ -288,7 +294,9 @@
           "DomainOfInfluencePublishResultsOptionEnabled": false,
           "SecondaryMajorityElectionOnSeparateBallot": false,
           "HideOccupationTitle": false,
-          "EnableAdditionalCandidateFields": false
+          "EnableAdditionalCandidateFields": false,
+          "MajorityElectionBundlesWithBallotGroupEnabled": false,
+          "MajorityElectionCandidateNumberDisabled": false
         },
         "LogoRef": null,
         "HasLogo": false,

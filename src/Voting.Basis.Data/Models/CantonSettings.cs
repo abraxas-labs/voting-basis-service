@@ -80,4 +80,8 @@ public class CantonSettings : BaseEntity
     public bool MonitoringAutoShowPoliticalBusinesses { get; set; }
 
     public bool MonitoringUseImprovedUi { get; set; }
+
+    public bool MajorityElectionBundlesWithBallotGroupEnabled { get; set; }
+
+    public bool MajorityElectionCandidateNumberDisabled { get; set; }
 }

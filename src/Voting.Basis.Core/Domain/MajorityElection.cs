@@ -31,4 +31,11 @@ public class MajorityElection : Election
     public bool IndividualCandidatesDisabled { get; set; }
 
     public string FederalIdentification { get; set; } = string.Empty;
+
+    public bool BundlesWithBallotGroupEnabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether counting circles can override the <see cref="BundlesWithBallotGroupEnabled"/> setting.
+    /// </summary>
+    public bool EnforceBundlesWithBallotGroupEnabledForCountingCircles { get; set; }
 }

@@ -56,7 +56,9 @@
       "IndividualCandidatesDisabled": true,
       "FederalIdentification": null,
       "EVotingApproved": false,
-      "FederalIdentificationString": ""
+      "FederalIdentificationString": "",
+      "BundlesWithBallotGroupEnabled": true,
+      "EnforceBundlesWithBallotGroupEnabledForCountingCircles": true
     }
   }
 }

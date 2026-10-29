@@ -425,6 +425,8 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
             EnforceCandidateCheckDigitForCountingCircles = true,
             IndividualCandidatesDisabled = true,
             FederalIdentification = "92834984",
+            BundlesWithBallotGroupEnabled = true,
+            EnforceBundlesWithBallotGroupEnabledForCountingCircles = true,
         };
 
         customizer?.Invoke(request);
@@ -461,6 +463,8 @@ public class MajorityElectionUpdateTest : PoliticalBusinessAuthorizationGrpcBase
                 EnforceCandidateCheckDigitForCountingCircles = true,
                 IndividualCandidatesDisabled = true,
                 FederalIdentificationString = "92834984",
+                BundlesWithBallotGroupEnabled = true,
+                EnforceBundlesWithBallotGroupEnabledForCountingCircles = true,
             },
         };
 

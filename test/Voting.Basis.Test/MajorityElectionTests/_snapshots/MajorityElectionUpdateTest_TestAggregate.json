@@ -36,6 +36,8 @@
     "IndividualCandidatesDisabled": true,
     "FederalIdentification": "92834984",
     "EVotingApproved": null,
-    "EVotingEverApproved": false
+    "EVotingEverApproved": false,
+    "BundlesWithBallotGroupEnabled": true,
+    "EnforceBundlesWithBallotGroupEnabledForCountingCircles": true
   }
 }

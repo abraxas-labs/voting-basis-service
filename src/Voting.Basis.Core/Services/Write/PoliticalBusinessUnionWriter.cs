@@ -135,10 +135,18 @@ public abstract class PoliticalBusinessUnionWriter<TPoliticalBusiness, TPolitica
             throw new ValidationException("duplicate political business id");
         }
 
-        var anyPbFromDifferentTenantOrDifferentContest = await PoliticalBusinessRepo.Query()
+        var matchingPoliticalBusinesses = await PoliticalBusinessRepo.Query()
             .Include(pb => pb.DomainOfInfluence)
             .Where(pb => politicalBusinessIds.Contains(pb.Id))
-            .AnyAsync(pb => pb.DomainOfInfluence!.SecureConnectId != unionSecureConnectId || pb.ContestId != contestId);
+            .ToListAsync();
+
+        if (matchingPoliticalBusinesses.Count != politicalBusinessIds.Count)
+        {
+            throw new ValidationException("cannot assign a non-existing political business to a political business union");
+        }
+
+        var anyPbFromDifferentTenantOrDifferentContest = matchingPoliticalBusinesses
+            .Any(pb => pb.DomainOfInfluence!.SecureConnectId != unionSecureConnectId || pb.ContestId != contestId);
 
         if (anyPbFromDifferentTenantOrDifferentContest)
         {

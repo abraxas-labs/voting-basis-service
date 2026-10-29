@@ -19,6 +19,8 @@ public static class ServiceCollectionExtensions
             .AddSingleton<Ech0159Deserializer>()
             .AddSingleton<v5_1.Ech0157Deserializer>()
             .AddSingleton<v5_1.Ech0159Deserializer>()
+            .AddSingleton<v5_2.Ech0157Deserializer>()
+            .AddSingleton<v5_2.Ech0159Deserializer>()
             .AddSingleton<Ech0157Serializer>()
             .AddSingleton<Ech0159Serializer>()
             .AddSingleton<v5_1.Ech0157Serializer>()

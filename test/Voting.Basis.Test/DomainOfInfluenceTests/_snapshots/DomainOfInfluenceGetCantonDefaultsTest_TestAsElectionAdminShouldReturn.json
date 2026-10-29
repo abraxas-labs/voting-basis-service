@@ -18,5 +18,7 @@
   "DomainOfInfluencePublishResultsOptionEnabled": true,
   "SecondaryMajorityElectionOnSeparateBallot": false,
   "HideOccupationTitle": false,
-  "EnableAdditionalCandidateFields": false
+  "EnableAdditionalCandidateFields": false,
+  "MajorityElectionBundlesWithBallotGroupEnabled": false,
+  "MajorityElectionCandidateNumberDisabled": false
 }

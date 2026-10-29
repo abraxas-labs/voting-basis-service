@@ -80,7 +80,10 @@ public class DomainOfInfluenceService : ServiceBase
     public override async Task<DomainOfInfluence> Get(
         GetDomainOfInfluenceRequest request,
         ServerCallContext context)
-        => _mapper.Map<DomainOfInfluence>(await _domainOfInfluenceReader.Get(GuidParser.Parse(request.Id)));
+    {
+        var doi = await _domainOfInfluenceReader.Get(GuidParser.Parse(request.Id));
+        return _mapper.Map<DomainOfInfluence>(doi);
+    }
 
     [AuthorizeAnyPermission(Permissions.DomainOfInfluence.ReadSameTenant, Permissions.DomainOfInfluence.ReadSameCanton, Permissions.DomainOfInfluence.ReadAll)]
     public override async Task<DomainOfInfluences> List(
@@ -135,7 +138,9 @@ public class DomainOfInfluenceService : ServiceBase
         GetDomainOfInfluenceCantonDefaultsRequest request,
         ServerCallContext context)
     {
-        return _mapper.Map<DomainOfInfluenceCantonDefaults>(await _domainOfInfluenceReader.GetCantonDefaults(GuidParser.Parse(request.DomainOfInfluenceId)));
+        var cantonDefaults = await _domainOfInfluenceReader.GetCantonDefaults(GuidParser.Parse(request.DomainOfInfluenceId));
+        var response = _mapper.Map<DomainOfInfluenceCantonDefaults>(cantonDefaults);
+        return response;
     }
 
     [AuthorizePermission(Permissions.DomainOfInfluenceLogo.Read)]

@@ -14,7 +14,10 @@ public class ExportConfigurationProfile : Profile
     public ExportConfigurationProfile()
     {
         CreateMap<ProtoModels.ExportConfiguration, ExportConfiguration>()
-        .ForMember(dst => dst.Id, opts => opts.MapFrom(x => GuidParser.ParseNullable(x.Id) ?? Guid.NewGuid()))
-        .ReverseMap();
+            .ForMember(dst => dst.Id, opts => opts.MapFrom(x => GuidParser.ParseNullable(x.Id) ?? Guid.NewGuid()))
+            .ReverseMap();
+
+        CreateMap<ProtoModels.ExportSedexConfiguration, ExportSedexConfiguration>()
+            .ReverseMap();
     }
 }

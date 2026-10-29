@@ -107,6 +107,7 @@ public class CantonSettingsUpdateTest : BaseGrpcTest<CantonSettingsService.Canto
                     SecondaryMajorityElectionOnSeparateBallot = true,
                     HideOccupationTitle = true,
                     EnableAdditionalCandidateFields = true,
+                    MajorityElectionBundlesWithBallotGroupEnabled = true,
                 },
                 EventInfo = GetMockedEventInfo(),
             });

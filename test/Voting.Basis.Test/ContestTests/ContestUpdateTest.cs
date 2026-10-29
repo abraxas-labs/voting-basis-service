@@ -85,6 +85,29 @@ public class ContestUpdateTest : BaseGrpcTest<ContestService.ContestServiceClien
     }
 
     [Fact]
+    public async Task PreviousContestNotPastLockedOrArchivedShouldThrow()
+    {
+        // GossauContest is not past locked or archived (defaults to testing phase).
+        await AssertStatus(
+            async () => await CantonAdminClient.UpdateAsync(NewValidRequest(x => x.PreviousContestId = ContestMockedData.IdGossau)),
+            StatusCode.InvalidArgument,
+            "invalid previous contest id");
+    }
+
+    [Fact]
+    public async Task TestWithArchivedPreviousContestShouldWork()
+    {
+        await ModifyDbEntities<Contest>(
+            c => c.Id == Guid.Parse(ContestMockedData.IdGossau),
+            c => c.State = ContestState.Archived);
+
+        await CantonAdminClient.UpdateAsync(NewValidRequest(x => x.PreviousContestId = ContestMockedData.IdGossau));
+
+        var eventData = EventPublisherMock.GetSinglePublishedEvent<ContestUpdated>();
+        eventData.Contest.PreviousContestId.Should().Be(ContestMockedData.IdGossau);
+    }
+
+    [Fact]
     public async Task TestAggregate()
     {
         var id = Guid.Parse(ContestMockedData.IdGossau);

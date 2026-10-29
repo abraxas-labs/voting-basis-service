@@ -1,4 +1,4 @@
-# ✨ Changelog (`v2.86.0`)
+# ✨ Changelog (`v2.88.1`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v2.86.0
-Previous version ---- v2.85.1
+This version -------- v2.88.1
+Previous version ---- v2.86.0
 Initial version ----- v1.27.15
-Total commits ------- 2
+Total commits ------- 12
 ```
+
+## [v2.88.1] - 2026-10-21
+
+### 🔄 Changed
+
+- improve eCH majority election filename
+
+## [v2.88.0] - 2026-10-16
+
+### 🆕 Added
+
+- add sedex export provider
+
+## [v2.87.1] - 2026-10-16
+
+### 🔄 Changed
+
+- handle union entries update referencing non-existing elections
+
+## [v2.87.0] - 2026-10-02
+
+### 🆕 Added
+
+- allow imports of eCH 0157/0159 v4.3
+
+### 🔄 Changed
+
+- set correct eCH file names
+
+### 🔄 Changed
+
+- correctly set candidate number during majority election candidate import
+
+### 🆕 Added
+
+- option to disable majority election candidate number
+
+### 🆕 Added
+
+- add bundles with ballot group enabled option
+
+### :arrows_counterclockwise: Changed
+
+- `ContestReader.ListPast` now only returns contests in state `PastLocked` or `Archived`, ordered by date descending, since only those make sense as a "previous contest" for internal plausibilisation. This also makes `ContestWriter.EnsureValidPreviousContest` reject a `previousContestId` that isn't past locked or archived.
+
+### 🆕 Added
+
+- add prefix for message consumer
 
 ## [v2.86.0] - 2026-09-16
 

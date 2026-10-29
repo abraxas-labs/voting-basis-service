@@ -210,7 +210,7 @@ public class SecondaryMajorityElectionProcessor :
 
     public async Task Process(SecondaryMajorityElectionCandidateDeleted eventData)
     {
-        await DeleteCandidate(eventData, eventData.SecondaryMajorityElectionCandidateId);
+        await DeleteCandidate(eventData, eventData.SecondaryMajorityElectionCandidateId, eventData.UpdateCandidateNumbers);
     }
 
     public async Task Process(SecondaryMajorityElectionCandidatesReordered eventData)
@@ -229,6 +229,11 @@ public class SecondaryMajorityElectionProcessor :
         foreach (var candidate in secondaryMajorityElection.Candidates)
         {
             candidate.Position = grouped[candidate.Id];
+
+            if (eventData.UpdateCandidateNumbers)
+            {
+                candidate.Number = candidate.Position.ToString();
+            }
         }
 
         await _candidateRepo.UpdateRange(secondaryMajorityElection.Candidates);
@@ -262,10 +267,10 @@ public class SecondaryMajorityElectionProcessor :
 
     public async Task Process(SecondaryMajorityElectionCandidateReferenceDeleted eventData)
     {
-        await DeleteCandidate(eventData, eventData.SecondaryMajorityElectionCandidateReferenceId);
+        await DeleteCandidate(eventData, eventData.SecondaryMajorityElectionCandidateReferenceId, eventData.UpdateCandidateNumbers);
     }
 
-    private async Task DeleteCandidate<T>(T eventData, string candidateId)
+    private async Task DeleteCandidate<T>(T eventData, string candidateId, bool updateNumbers)
         where T : IMessage<T>
     {
         var id = GuidParser.Parse(candidateId);
@@ -280,6 +285,11 @@ public class SecondaryMajorityElectionProcessor :
         foreach (var candidate in candidatesToUpdate)
         {
             candidate.Position--;
+
+            if (updateNumbers)
+            {
+                candidate.Number = candidate.Position.ToString();
+            }
         }
 
         await _candidateRepo.UpdateRange(candidatesToUpdate);

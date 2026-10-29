@@ -1,0 +1,1125 @@
+{
+  "Contest": {
+    "Id": "",
+    "Date": {
+      "Seconds": 1865548800,
+      "Nanos": 0
+    },
+    "Description": {
+      "de": "Nationalratswahlen in der Zukunft de",
+      "fr": "Nationalratswahlen in der Zukunft de",
+      "it": "Nationalratswahlen in der Zukunft de",
+      "rm": "Nationalratswahlen in der Zukunft de"
+    },
+    "EndOfTestingPhase": {
+      "Seconds": 0,
+      "Nanos": 0
+    },
+    "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+    "DomainOfInfluence": null,
+    "EVoting": false,
+    "EVotingFrom": null,
+    "EVotingTo": null,
+    "PoliticalBusinesses": [],
+    "PoliticalBusinessUnions": [],
+    "State": 1,
+    "PreviousContestId": "",
+    "EVotingApprovalDueDate": null,
+    "EVotingApproved": false
+  },
+  "MajorityElections": [
+    {
+      "Election": {
+        "Id": "",
+        "PoliticalBusinessNumber": "1",
+        "OfficialDescription": {
+          "de": "Proporzwahl Bund de",
+          "fr": "Proporzwahl Bund de",
+          "it": "Proporzwahl Bund de",
+          "rm": "Proporzwahl Bund de"
+        },
+        "ShortDescription": {
+          "de": "Proporzwahl Bund de",
+          "fr": "Proporzwahl Bund de",
+          "it": "Proporzwahl Bund de",
+          "rm": "Proporzwahl Bund de"
+        },
+        "NumberOfMandates": 5,
+        "MandateAlgorithm": 1,
+        "CandidateCheckDigit": false,
+        "BallotBundleSize": 0,
+        "BallotBundleSampleSize": 0,
+        "AutomaticBallotBundleNumberGeneration": false,
+        "AutomaticBallotNumberGeneration": false,
+        "BallotNumberGeneration": 1,
+        "AutomaticEmptyVoteCounting": false,
+        "EnforceEmptyVoteCountingForCountingCircles": false,
+        "ResultEntry": 2,
+        "EnforceResultEntryForCountingCircles": false,
+        "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+        "ContestId": "00000000-0000-0000-0000-000000000000",
+        "Active": false,
+        "ReportDomainOfInfluenceLevel": 0,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": false,
+        "EnforceCandidateCheckDigitForCountingCircles": false,
+        "IndividualCandidatesDisabled": false,
+        "FederalIdentification": "",
+        "EVotingApproved": null,
+        "EVotingEverApproved": false,
+        "BundlesWithBallotGroupEnabled": false,
+        "EnforceBundlesWithBallotGroupEnabledForCountingCircles": false
+      },
+      "Candidates": [
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "number1",
+          "FirstName": "firstName",
+          "LastName": "lastName",
+          "PoliticalFirstName": "pol first name",
+          "PoliticalLastName": "lastName",
+          "DateOfBirth": {
+            "Seconds": -314582400,
+            "Nanos": 0
+          },
+          "Sex": 2,
+          "Occupation": {
+            "de": "occupation de",
+            "fr": "occupation de",
+            "it": "occupation de",
+            "rm": "occupation de"
+          },
+          "Title": "title",
+          "OccupationTitle": {},
+          "PartyShortDescription": {
+            "de": "CVP de",
+            "fr": "CVP de",
+            "it": "CVP de",
+            "rm": "CVP de"
+          },
+          "PartyLongDescription": {
+            "de": "CVP long desc de",
+            "fr": "CVP long desc de",
+            "it": "CVP long desc de",
+            "rm": "CVP long desc de"
+          },
+          "Incumbent": true,
+          "ZipCode": "8000",
+          "Locality": "locality",
+          "Position": 1,
+          "Origin": "origin",
+          "CheckDigit": 0,
+          "Country": "CH",
+          "Street": "street",
+          "HouseNumber": "1a",
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
+        }
+      ]
+    },
+    {
+      "Election": {
+        "Id": "",
+        "PoliticalBusinessNumber": "1",
+        "OfficialDescription": {
+          "de": "Majorzwahl St. Gallen de",
+          "fr": "Majorzwahl St. Gallen de",
+          "it": "Majorzwahl St. Gallen de",
+          "rm": "Majorzwahl St. Gallen de"
+        },
+        "ShortDescription": {
+          "de": "Majorzwahl SG de",
+          "fr": "Majorzwahl SG de",
+          "it": "Majorzwahl SG de",
+          "rm": "Majorzwahl SG de"
+        },
+        "NumberOfMandates": 1,
+        "MandateAlgorithm": 1,
+        "CandidateCheckDigit": false,
+        "BallotBundleSize": 0,
+        "BallotBundleSampleSize": 0,
+        "AutomaticBallotBundleNumberGeneration": false,
+        "AutomaticBallotNumberGeneration": false,
+        "BallotNumberGeneration": 1,
+        "AutomaticEmptyVoteCounting": false,
+        "EnforceEmptyVoteCountingForCountingCircles": false,
+        "ResultEntry": 2,
+        "EnforceResultEntryForCountingCircles": false,
+        "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+        "ContestId": "00000000-0000-0000-0000-000000000000",
+        "Active": false,
+        "ReportDomainOfInfluenceLevel": 0,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": false,
+        "EnforceCandidateCheckDigitForCountingCircles": false,
+        "IndividualCandidatesDisabled": false,
+        "FederalIdentification": "",
+        "EVotingApproved": null,
+        "EVotingEverApproved": false,
+        "BundlesWithBallotGroupEnabled": false,
+        "EnforceBundlesWithBallotGroupEnabledForCountingCircles": false
+      },
+      "Candidates": [
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "number1",
+          "FirstName": "firstName",
+          "LastName": "lastName",
+          "PoliticalFirstName": "pol first name",
+          "PoliticalLastName": "lastName",
+          "DateOfBirth": {
+            "Seconds": -314582400,
+            "Nanos": 0
+          },
+          "Sex": 2,
+          "Occupation": {
+            "de": "occupation de",
+            "fr": "occupation de",
+            "it": "occupation de",
+            "rm": "occupation de"
+          },
+          "Title": "title",
+          "OccupationTitle": {},
+          "PartyShortDescription": {
+            "de": "Test de",
+            "fr": "Test de",
+            "it": "Test de",
+            "rm": "Test de"
+          },
+          "PartyLongDescription": {
+            "de": "Test long descscription de",
+            "fr": "Test long descscription de",
+            "it": "Test long descscription de",
+            "rm": "Test long descscription de"
+          },
+          "Incumbent": true,
+          "ZipCode": "8000",
+          "Locality": "locality",
+          "Position": 1,
+          "Origin": "origin",
+          "CheckDigit": 0,
+          "Country": "CH",
+          "Street": "street",
+          "HouseNumber": "1a",
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
+        },
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "number5",
+          "FirstName": "firstName2",
+          "LastName": "lastName2",
+          "PoliticalFirstName": "pol first name",
+          "PoliticalLastName": "lastName2",
+          "DateOfBirth": {
+            "Seconds": -314582400,
+            "Nanos": 0
+          },
+          "Sex": 1,
+          "Occupation": {
+            "de": "occupation2 de",
+            "fr": "occupation2 de",
+            "it": "occupation2 de",
+            "rm": "occupation2 de"
+          },
+          "Title": "title",
+          "OccupationTitle": {},
+          "PartyShortDescription": {
+            "de": "Test de",
+            "fr": "Test de",
+            "it": "Test de",
+            "rm": "Test de"
+          },
+          "PartyLongDescription": {
+            "de": "Test long descscription de",
+            "fr": "Test long descscription de",
+            "it": "Test long descscription de",
+            "rm": "Test long descscription de"
+          },
+          "Incumbent": false,
+          "ZipCode": "8000",
+          "Locality": "locality",
+          "Position": 2,
+          "Origin": "origin",
+          "CheckDigit": 0,
+          "Country": "CH",
+          "Street": "street",
+          "HouseNumber": "1a",
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
+        }
+      ]
+    },
+    {
+      "Election": {
+        "Id": "",
+        "PoliticalBusinessNumber": "1",
+        "OfficialDescription": {
+          "de": "Majorzwahl Gossau de",
+          "fr": "Majorzwahl Gossau de",
+          "it": "Majorzwahl Gossau de",
+          "rm": "Majorzwahl Gossau de"
+        },
+        "ShortDescription": {
+          "de": "Majorzwahl Gossau de",
+          "fr": "Majorzwahl Gossau de",
+          "it": "Majorzwahl Gossau de",
+          "rm": "Majorzwahl Gossau de"
+        },
+        "NumberOfMandates": 1,
+        "MandateAlgorithm": 1,
+        "CandidateCheckDigit": false,
+        "BallotBundleSize": 0,
+        "BallotBundleSampleSize": 0,
+        "AutomaticBallotBundleNumberGeneration": false,
+        "AutomaticBallotNumberGeneration": false,
+        "BallotNumberGeneration": 1,
+        "AutomaticEmptyVoteCounting": false,
+        "EnforceEmptyVoteCountingForCountingCircles": false,
+        "ResultEntry": 2,
+        "EnforceResultEntryForCountingCircles": false,
+        "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+        "ContestId": "00000000-0000-0000-0000-000000000000",
+        "Active": false,
+        "ReportDomainOfInfluenceLevel": 0,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": false,
+        "EnforceCandidateCheckDigitForCountingCircles": false,
+        "IndividualCandidatesDisabled": false,
+        "FederalIdentification": "",
+        "EVotingApproved": null,
+        "EVotingEverApproved": false,
+        "BundlesWithBallotGroupEnabled": false,
+        "EnforceBundlesWithBallotGroupEnabledForCountingCircles": false
+      },
+      "Candidates": [
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "number1",
+          "FirstName": "firstName",
+          "LastName": "lastName",
+          "PoliticalFirstName": "pol first name",
+          "PoliticalLastName": "lastName",
+          "DateOfBirth": {
+            "Seconds": -314582400,
+            "Nanos": 0
+          },
+          "Sex": 2,
+          "Occupation": {
+            "de": "occupation de",
+            "fr": "occupation de",
+            "it": "occupation de",
+            "rm": "occupation de"
+          },
+          "Title": "title",
+          "OccupationTitle": {},
+          "PartyShortDescription": {
+            "de": "Test de",
+            "fr": "Test de",
+            "it": "Test de",
+            "rm": "Test de"
+          },
+          "PartyLongDescription": {
+            "de": "Test long descscription de",
+            "fr": "Test long descscription de",
+            "it": "Test long descscription de",
+            "rm": "Test long descscription de"
+          },
+          "Incumbent": true,
+          "ZipCode": "8000",
+          "Locality": "locality",
+          "Position": 1,
+          "Origin": "origin",
+          "CheckDigit": 0,
+          "Country": "CH",
+          "Street": "street",
+          "HouseNumber": "1a",
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
+        },
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "number5",
+          "FirstName": "firstName2",
+          "LastName": "lastName2",
+          "PoliticalFirstName": "pol first name",
+          "PoliticalLastName": "lastName2",
+          "DateOfBirth": {
+            "Seconds": -314582400,
+            "Nanos": 0
+          },
+          "Sex": 1,
+          "Occupation": {
+            "de": "occupation2 de",
+            "fr": "occupation2 de",
+            "it": "occupation2 de",
+            "rm": "occupation2 de"
+          },
+          "Title": "title",
+          "OccupationTitle": {},
+          "PartyShortDescription": {
+            "de": "Test de",
+            "fr": "Test de",
+            "it": "Test de",
+            "rm": "Test de"
+          },
+          "PartyLongDescription": {
+            "de": "Test long descscription de",
+            "fr": "Test long descscription de",
+            "it": "Test long descscription de",
+            "rm": "Test long descscription de"
+          },
+          "Incumbent": false,
+          "ZipCode": "8000",
+          "Locality": "locality",
+          "Position": 2,
+          "Origin": "origin",
+          "CheckDigit": 0,
+          "Country": "CH",
+          "Street": "street",
+          "HouseNumber": "1a",
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
+        }
+      ]
+    },
+    {
+      "Election": {
+        "Id": "",
+        "PoliticalBusinessNumber": "1",
+        "OfficialDescription": {
+          "de": "Proporzwahl Uzwil de",
+          "fr": "Proporzwahl Uzwil de",
+          "it": "Proporzwahl Uzwil de",
+          "rm": "Proporzwahl Uzwil de"
+        },
+        "ShortDescription": {
+          "de": "Proporzwahl Uzwil de",
+          "fr": "Proporzwahl Uzwil de",
+          "it": "Proporzwahl Uzwil de",
+          "rm": "Proporzwahl Uzwil de"
+        },
+        "NumberOfMandates": 5,
+        "MandateAlgorithm": 1,
+        "CandidateCheckDigit": false,
+        "BallotBundleSize": 0,
+        "BallotBundleSampleSize": 0,
+        "AutomaticBallotBundleNumberGeneration": false,
+        "AutomaticBallotNumberGeneration": false,
+        "BallotNumberGeneration": 1,
+        "AutomaticEmptyVoteCounting": false,
+        "EnforceEmptyVoteCountingForCountingCircles": false,
+        "ResultEntry": 2,
+        "EnforceResultEntryForCountingCircles": false,
+        "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+        "ContestId": "00000000-0000-0000-0000-000000000000",
+        "Active": false,
+        "ReportDomainOfInfluenceLevel": 0,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": false,
+        "EnforceCandidateCheckDigitForCountingCircles": false,
+        "IndividualCandidatesDisabled": false,
+        "FederalIdentification": "",
+        "EVotingApproved": null,
+        "EVotingEverApproved": false,
+        "BundlesWithBallotGroupEnabled": false,
+        "EnforceBundlesWithBallotGroupEnabledForCountingCircles": false
+      },
+      "Candidates": []
+    }
+  ],
+  "SecondaryMajorityElections": [
+    {
+      "Election": {
+        "Id": "",
+        "PoliticalBusinessNumber": "2",
+        "OfficialDescription": {
+          "de": "Nebenwahl St. Gallen de",
+          "fr": "Nebenwahl St. Gallen de",
+          "it": "Nebenwahl St. Gallen de",
+          "rm": "Nebenwahl St. Gallen de"
+        },
+        "ShortDescription": {
+          "de": "Nebenwahl SG de",
+          "fr": "Nebenwahl SG de",
+          "it": "Nebenwahl SG de",
+          "rm": "Nebenwahl SG de"
+        },
+        "NumberOfMandates": 3,
+        "PrimaryMajorityElectionId": "",
+        "Active": false,
+        "IndividualCandidatesDisabled": false,
+        "IsOnSeparateBallot": false,
+        "EVotingApproved": null,
+        "EVotingEverApproved": false
+      },
+      "Candidates": [
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "number1",
+          "FirstName": "firstName",
+          "LastName": "lastName",
+          "PoliticalFirstName": "pol first name",
+          "PoliticalLastName": "lastName",
+          "DateOfBirth": {
+            "Seconds": -314582400,
+            "Nanos": 0
+          },
+          "Sex": 2,
+          "Occupation": {
+            "de": "occupation de",
+            "fr": "occupation de",
+            "it": "occupation de",
+            "rm": "occupation de"
+          },
+          "Title": "title",
+          "OccupationTitle": {},
+          "PartyShortDescription": {
+            "de": "Test de",
+            "fr": "Test de",
+            "it": "Test de",
+            "rm": "Test de"
+          },
+          "PartyLongDescription": {
+            "de": "Test long descscription de",
+            "fr": "Test long descscription de",
+            "it": "Test long descscription de",
+            "rm": "Test long descscription de"
+          },
+          "Incumbent": true,
+          "ZipCode": "8000",
+          "Locality": "locality",
+          "Position": 1,
+          "Origin": "origin",
+          "CheckDigit": 0,
+          "Country": "CH",
+          "Street": "street",
+          "HouseNumber": "1a",
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
+        },
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "number2",
+          "FirstName": "Peter",
+          "LastName": "Lustig",
+          "PoliticalFirstName": "Pete",
+          "PoliticalLastName": "Lustig",
+          "DateOfBirth": {
+            "Seconds": 410140800,
+            "Nanos": 0
+          },
+          "Sex": 1,
+          "Occupation": {
+            "de": "Beruf de",
+            "fr": "Beruf de",
+            "it": "Beruf de",
+            "rm": "Beruf de"
+          },
+          "Title": "title",
+          "OccupationTitle": {},
+          "PartyShortDescription": {
+            "de": "CVP de",
+            "fr": "CVP de",
+            "it": "CVP de",
+            "rm": "CVP de"
+          },
+          "PartyLongDescription": {
+            "de": "Christian Swiss party de",
+            "fr": "Christian Swiss party de",
+            "it": "Christian Swiss party de",
+            "rm": "Christian Swiss party de"
+          },
+          "Incumbent": false,
+          "ZipCode": "8000",
+          "Locality": "locality",
+          "Position": 2,
+          "Origin": "origin",
+          "CheckDigit": 0,
+          "Country": "CH",
+          "Street": "street",
+          "HouseNumber": "1a",
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
+        }
+      ]
+    },
+    {
+      "Election": {
+        "Id": "",
+        "PoliticalBusinessNumber": "3",
+        "OfficialDescription": {
+          "de": "Nebenwahl on separate ballot St. Gallen de",
+          "fr": "Nebenwahl on separate ballot St. Gallen de",
+          "it": "Nebenwahl on separate ballot St. Gallen de",
+          "rm": "Nebenwahl on separate ballot St. Gallen de"
+        },
+        "ShortDescription": {
+          "de": "Nebenwahl on separate ballot SG de",
+          "fr": "Nebenwahl on separate ballot SG de",
+          "it": "Nebenwahl on separate ballot SG de",
+          "rm": "Nebenwahl on separate ballot SG de"
+        },
+        "NumberOfMandates": 1,
+        "PrimaryMajorityElectionId": "",
+        "Active": false,
+        "IndividualCandidatesDisabled": false,
+        "IsOnSeparateBallot": false,
+        "EVotingApproved": null,
+        "EVotingEverApproved": false
+      },
+      "Candidates": [
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "number1",
+          "FirstName": "firstName",
+          "LastName": "lastName",
+          "PoliticalFirstName": "pol first name",
+          "PoliticalLastName": "lastName",
+          "DateOfBirth": {
+            "Seconds": -314582400,
+            "Nanos": 0
+          },
+          "Sex": 2,
+          "Occupation": {
+            "de": "occupation de",
+            "fr": "occupation de",
+            "it": "occupation de",
+            "rm": "occupation de"
+          },
+          "Title": "title",
+          "OccupationTitle": {},
+          "PartyShortDescription": {
+            "de": "Test de",
+            "fr": "Test de",
+            "it": "Test de",
+            "rm": "Test de"
+          },
+          "PartyLongDescription": {
+            "de": "Test long descscription de",
+            "fr": "Test long descscription de",
+            "it": "Test long descscription de",
+            "rm": "Test long descscription de"
+          },
+          "Incumbent": true,
+          "ZipCode": "non-swiss",
+          "Locality": "locality",
+          "Position": 1,
+          "Origin": "origin",
+          "CheckDigit": 0,
+          "Country": "IT",
+          "Street": "street",
+          "HouseNumber": "1a",
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
+        },
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "number2",
+          "FirstName": "Peter",
+          "LastName": "Lustig",
+          "PoliticalFirstName": "Pete",
+          "PoliticalLastName": "Lustig",
+          "DateOfBirth": {
+            "Seconds": 410140800,
+            "Nanos": 0
+          },
+          "Sex": 1,
+          "Occupation": {
+            "de": "Beruf de",
+            "fr": "Beruf de",
+            "it": "Beruf de",
+            "rm": "Beruf de"
+          },
+          "Title": "title",
+          "OccupationTitle": {},
+          "PartyShortDescription": {
+            "de": "CVP de",
+            "fr": "CVP de",
+            "it": "CVP de",
+            "rm": "CVP de"
+          },
+          "PartyLongDescription": {
+            "de": "Christian Swiss party de",
+            "fr": "Christian Swiss party de",
+            "it": "Christian Swiss party de",
+            "rm": "Christian Swiss party de"
+          },
+          "Incumbent": false,
+          "ZipCode": "8000",
+          "Locality": "locality",
+          "Position": 2,
+          "Origin": "origin",
+          "CheckDigit": 0,
+          "Country": "CH",
+          "Street": "street",
+          "HouseNumber": "1a",
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
+        }
+      ]
+    },
+    {
+      "Election": {
+        "Id": "",
+        "PoliticalBusinessNumber": "2",
+        "OfficialDescription": {
+          "de": "official de",
+          "fr": "official de",
+          "it": "official de",
+          "rm": "official de"
+        },
+        "ShortDescription": {
+          "de": "short de",
+          "fr": "short de",
+          "it": "short de",
+          "rm": "short de"
+        },
+        "NumberOfMandates": 3,
+        "PrimaryMajorityElectionId": "",
+        "Active": false,
+        "IndividualCandidatesDisabled": false,
+        "IsOnSeparateBallot": false,
+        "EVotingApproved": null,
+        "EVotingEverApproved": false
+      },
+      "Candidates": [
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "number1",
+          "FirstName": "firstName",
+          "LastName": "lastName",
+          "PoliticalFirstName": "pol first name",
+          "PoliticalLastName": "lastName",
+          "DateOfBirth": {
+            "Seconds": -314582400,
+            "Nanos": 0
+          },
+          "Sex": 2,
+          "Occupation": {
+            "de": "occupation de",
+            "fr": "occupation de",
+            "it": "occupation de",
+            "rm": "occupation de"
+          },
+          "Title": "title",
+          "OccupationTitle": {},
+          "PartyShortDescription": {
+            "de": "Test de",
+            "fr": "Test de",
+            "it": "Test de",
+            "rm": "Test de"
+          },
+          "PartyLongDescription": {
+            "de": "Test long descscription de",
+            "fr": "Test long descscription de",
+            "it": "Test long descscription de",
+            "rm": "Test long descscription de"
+          },
+          "Incumbent": true,
+          "ZipCode": "8000",
+          "Locality": "locality",
+          "Position": 1,
+          "Origin": "origin",
+          "CheckDigit": 0,
+          "Country": "CH",
+          "Street": "street",
+          "HouseNumber": "1a",
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
+        },
+        {
+          "Id": "",
+          "MajorityElectionId": "",
+          "Number": "number2",
+          "FirstName": "Peter",
+          "LastName": "Lustig",
+          "PoliticalFirstName": "Pete",
+          "PoliticalLastName": "Lustig",
+          "DateOfBirth": {
+            "Seconds": 410140800,
+            "Nanos": 0
+          },
+          "Sex": 1,
+          "Occupation": {
+            "de": "Beruf de",
+            "fr": "Beruf de",
+            "it": "Beruf de",
+            "rm": "Beruf de"
+          },
+          "Title": "title",
+          "OccupationTitle": {},
+          "PartyShortDescription": {
+            "de": "CVP de",
+            "fr": "CVP de",
+            "it": "CVP de",
+            "rm": "CVP de"
+          },
+          "PartyLongDescription": {
+            "de": "Christian Swiss party de",
+            "fr": "Christian Swiss party de",
+            "it": "Christian Swiss party de",
+            "rm": "Christian Swiss party de"
+          },
+          "Incumbent": false,
+          "ZipCode": "8000",
+          "Locality": "locality",
+          "Position": 2,
+          "Origin": "origin",
+          "CheckDigit": 0,
+          "Country": "CH",
+          "Street": "street",
+          "HouseNumber": "1a",
+          "ReportingType": 0,
+          "Comment": "",
+          "WahlvorschlagDescription": "",
+          "Audited": false
+        }
+      ]
+    }
+  ],
+  "ProportionalElections": [
+    {
+      "Election": {
+        "Id": "",
+        "PoliticalBusinessNumber": "1",
+        "OfficialDescription": {
+          "de": "Proporzwahl Gossau de",
+          "fr": "Proporzwahl Gossau fr",
+          "it": "Proporzwahl Gossau it",
+          "rm": "Proporzwahl Gossau rm"
+        },
+        "ShortDescription": {
+          "de": "Proporzwahl Gossau de",
+          "fr": "Proporzwahl Gossau fr",
+          "it": "Proporzwahl Gossau it",
+          "rm": "Proporzwahl Gossau rm"
+        },
+        "NumberOfMandates": 3,
+        "MandateAlgorithm": 1,
+        "CandidateCheckDigit": false,
+        "BallotBundleSize": 0,
+        "AutomaticBallotBundleNumberGeneration": false,
+        "AutomaticBallotNumberGeneration": false,
+        "BallotNumberGeneration": 1,
+        "AutomaticEmptyVoteCounting": false,
+        "EnforceEmptyVoteCountingForCountingCircles": false,
+        "DomainOfInfluenceId": "00000000-0000-0000-0000-000000000000",
+        "ContestId": "00000000-0000-0000-0000-000000000000",
+        "Active": false,
+        "BallotBundleSampleSize": 0,
+        "ReviewProcedure": 1,
+        "EnforceReviewProcedureForCountingCircles": false,
+        "EnforceCandidateCheckDigitForCountingCircles": false,
+        "FederalIdentification": "",
+        "EVotingApproved": null,
+        "EVotingEverApproved": false
+      },
+      "Lists": [
+        {
+          "List": {
+            "Id": "",
+            "ProportionalElectionId": "",
+            "OrderNumber": "1a",
+            "ShortDescription": {
+              "de": "Liste 1 de",
+              "fr": "Liste 1 fr",
+              "it": "Liste 1 it",
+              "rm": "Liste 1 rm"
+            },
+            "BlankRowCount": 0,
+            "Position": 1,
+            "Description": {
+              "de": "Liste 1 de",
+              "fr": "Liste 1 fr",
+              "it": "Liste 1 it",
+              "rm": "Liste 1 rm"
+            },
+            "CountOfCandidates": 0,
+            "CandidateCountOk": false,
+            "ListUnionDescription": "",
+            "SubListUnionDescription": "",
+            "Party": {
+              "Id": "",
+              "DomainOfInfluenceId": "",
+              "Name": {},
+              "ShortDescription": {}
+            }
+          },
+          "Candidates": [
+            {
+              "Candidate": {
+                "Id": "",
+                "ProportionalElectionListId": "",
+                "Number": "num1",
+                "FirstName": "firstName",
+                "LastName": "lastName",
+                "PoliticalFirstName": "pol first name",
+                "PoliticalLastName": "lastName",
+                "DateOfBirth": {
+                  "Seconds": -314582400,
+                  "Nanos": 0
+                },
+                "Sex": 2,
+                "Occupation": {
+                  "de": "occupation de",
+                  "fr": "occupation fr",
+                  "it": "occupation it",
+                  "rm": "occupation rm"
+                },
+                "Title": "title",
+                "OccupationTitle": {},
+                "Incumbent": true,
+                "ZipCode": "7000",
+                "Locality": "locality",
+                "Position": 1,
+                "Accumulated": true,
+                "AccumulatedPosition": 2,
+                "Party": {
+                  "Id": "",
+                  "DomainOfInfluenceId": "",
+                  "Name": {},
+                  "ShortDescription": {}
+                },
+                "Origin": "origin",
+                "CheckDigit": 0,
+                "Country": "CH",
+                "Street": "street",
+                "HouseNumber": "1a",
+                "Comment": "",
+                "WahlvorschlagDescription": "",
+                "Audited": false
+              },
+              "SourcePartyShort": {
+                "de": "AN de",
+                "fr": "AN fr",
+                "it": "AN it",
+                "rm": "AN rm"
+              },
+              "SourceParty": {
+                "de": "Andere de",
+                "fr": "Andere fr",
+                "it": "Andere it",
+                "rm": "Andere rm"
+              }
+            },
+            {
+              "Candidate": {
+                "Id": "",
+                "ProportionalElectionListId": "",
+                "Number": "num2",
+                "FirstName": "candidate",
+                "LastName": "number 2",
+                "PoliticalFirstName": "pol first name 2",
+                "PoliticalLastName": "number 2",
+                "DateOfBirth": {
+                  "Seconds": -945734400,
+                  "Nanos": 0
+                },
+                "Sex": 2,
+                "Occupation": {
+                  "de": "occupation 2 de",
+                  "fr": "occupation 2 fr",
+                  "it": "occupation 2 it",
+                  "rm": "occupation 2 rm"
+                },
+                "Title": "title 2",
+                "OccupationTitle": {},
+                "Incumbent": false,
+                "ZipCode": "",
+                "Locality": "locality 2",
+                "Position": 3,
+                "Accumulated": false,
+                "AccumulatedPosition": 0,
+                "Party": {
+                  "Id": "",
+                  "DomainOfInfluenceId": "",
+                  "Name": {},
+                  "ShortDescription": {}
+                },
+                "Origin": "origin 2",
+                "CheckDigit": 0,
+                "Country": "CH",
+                "Street": "street",
+                "HouseNumber": "1a",
+                "Comment": "",
+                "WahlvorschlagDescription": "",
+                "Audited": false
+              },
+              "SourcePartyShort": {
+                "de": "SVP de",
+                "fr": "SVP fr",
+                "it": "SVP it",
+                "rm": "SVP rm"
+              },
+              "SourceParty": {
+                "de": "Schweizerische Volkspartei de",
+                "fr": "Schweizerische Volkspartei fr",
+                "it": "Schweizerische Volkspartei it",
+                "rm": "Schweizerische Volkspartei rm"
+              }
+            }
+          ]
+        },
+        {
+          "List": {
+            "Id": "",
+            "ProportionalElectionId": "",
+            "OrderNumber": "2",
+            "ShortDescription": {
+              "de": "Liste 2 de",
+              "fr": "Liste 2 fr",
+              "it": "Liste 2 it",
+              "rm": "Liste 2 rm"
+            },
+            "BlankRowCount": 0,
+            "Position": 2,
+            "Description": {
+              "de": "Liste 2 de",
+              "fr": "Liste 2 fr",
+              "it": "Liste 2 it",
+              "rm": "Liste 2 rm"
+            },
+            "CountOfCandidates": 0,
+            "CandidateCountOk": false,
+            "ListUnionDescription": "",
+            "SubListUnionDescription": "",
+            "Party": {
+              "Id": "",
+              "DomainOfInfluenceId": "",
+              "Name": {},
+              "ShortDescription": {}
+            }
+          },
+          "Candidates": [
+            {
+              "Candidate": {
+                "Id": "",
+                "ProportionalElectionListId": "",
+                "Number": "num2",
+                "FirstName": "candidate",
+                "LastName": "number 3",
+                "PoliticalFirstName": "pol first name 3",
+                "PoliticalLastName": "number 3",
+                "DateOfBirth": {
+                  "Seconds": -945734400,
+                  "Nanos": 0
+                },
+                "Sex": 2,
+                "Occupation": {
+                  "de": "occupation 3 de",
+                  "fr": "occupation 3 fr",
+                  "it": "occupation 3 it",
+                  "rm": "occupation 3 rm"
+                },
+                "Title": "title 3",
+                "OccupationTitle": {},
+                "Incumbent": false,
+                "ZipCode": "",
+                "Locality": "locality 3",
+                "Position": 1,
+                "Accumulated": false,
+                "AccumulatedPosition": 0,
+                "Party": {
+                  "Id": "",
+                  "DomainOfInfluenceId": "",
+                  "Name": {},
+                  "ShortDescription": {}
+                },
+                "Origin": "origin 3",
+                "CheckDigit": 0,
+                "Country": "CH",
+                "Street": "street",
+                "HouseNumber": "1a",
+                "Comment": "",
+                "WahlvorschlagDescription": "",
+                "Audited": false
+              },
+              "SourcePartyShort": {
+                "de": "SVP de",
+                "fr": "SVP fr",
+                "it": "SVP it",
+                "rm": "SVP rm"
+              },
+              "SourceParty": {
+                "de": "Schweizerische Volkspartei de",
+                "fr": "Schweizerische Volkspartei fr",
+                "it": "Schweizerische Volkspartei it",
+                "rm": "Schweizerische Volkspartei rm"
+              }
+            }
+          ]
+        }
+      ],
+      "ListUnions": [
+        {
+          "Id": "",
+          "ProportionalElectionId": "",
+          "Description": {
+            "de": "Unterlistenverbindung 1.1 de",
+            "fr": "Unterlistenverbindung 1.1 fr",
+            "it": "Unterlistenverbindung 1.1 it",
+            "rm": "Unterlistenverbindung 1.1 rm"
+          },
+          "Position": 1,
+          "ProportionalElectionRootListUnionId": "",
+          "ProportionalElectionSubListUnions": [],
+          "ProportionalElectionListIds": [
+            "",
+            ""
+          ],
+          "ProportionalElectionMainListId": ""
+        },
+        {
+          "Id": "",
+          "ProportionalElectionId": "",
+          "Description": {
+            "de": "Listenverbindung 1 de",
+            "fr": "Listenverbindung 1 fr",
+            "it": "Listenverbindung 1 it",
+            "rm": "Listenverbindung 1 rm"
+          },
+          "Position": 2,
+          "ProportionalElectionRootListUnionId": "",
+          "ProportionalElectionSubListUnions": [],
+          "ProportionalElectionListIds": [
+            "",
+            ""
+          ],
+          "ProportionalElectionMainListId": ""
+        }
+      ]
+    }
+  ],
+  "Votes": []
+}

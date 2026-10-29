@@ -23,4 +23,12 @@ public class ExportConfiguration : BaseEntity
     public string[] ExportKeys { get; set; } = Array.Empty<string>();
 
     public ExportProvider Provider { get; set; }
+
+    public string? SedexSenderId { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Performance",
+        "CA1819:Properties should not return arrays.",
+        Justification = "Simplifies the postgres mapping. Also this value is not really used by Voting.Basis.")]
+    public string[]? SedexRecipientIds { get; set; }
 }

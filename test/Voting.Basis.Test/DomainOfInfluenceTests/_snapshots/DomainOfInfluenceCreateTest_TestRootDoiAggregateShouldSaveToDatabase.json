@@ -687,6 +687,8 @@
     "DomainOfInfluencePublishResultsOptionEnabled": false,
     "SecondaryMajorityElectionOnSeparateBallot": false,
     "HideOccupationTitle": true,
-    "EnableAdditionalCandidateFields": true
+    "EnableAdditionalCandidateFields": true,
+    "MajorityElectionBundlesWithBallotGroupEnabled": true,
+    "MajorityElectionCandidateNumberDisabled": false
   }
 }
