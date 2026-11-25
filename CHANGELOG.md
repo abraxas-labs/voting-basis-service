@@ -1,4 +1,4 @@
-# ✨ Changelog (`v2.88.1`)
+# ✨ Changelog (`v2.88.2`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v2.88.1
-Previous version ---- v2.86.0
+This version -------- v2.88.2
+Previous version ---- v2.88.1
 Initial version ----- v1.27.15
-Total commits ------- 12
+Total commits ------- 1
 ```
+
+## [v2.88.2] - 2026-11-20
+
+### 🔄 Changed
+
+- check if contest can be deleted before deleting related entities
 
 ## [v2.88.1] - 2026-10-21
 

@@ -127,8 +127,7 @@ public sealed class ContestAggregate : BaseDeletableAggregate
 
     public void Delete()
     {
-        EnsureNotDeleted();
-        EnsureModificationsAllowed();
+        EnsureCanDelete();
         var ev = new ContestDeleted
         {
             ContestId = Id.ToString(),
@@ -328,6 +327,12 @@ public sealed class ContestAggregate : BaseDeletableAggregate
         };
 
         RaiseEvent(ev);
+    }
+
+    internal void EnsureCanDelete()
+    {
+        EnsureNotDeleted();
+        EnsureModificationsAllowed();
     }
 
     protected override void Apply(IMessage eventData)

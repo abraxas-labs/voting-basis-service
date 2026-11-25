@@ -146,6 +146,7 @@ public class ContestWriter
     public async Task Delete(Guid contestId)
     {
         var contest = await _aggregateRepository.GetById<ContestAggregate>(contestId);
+        contest.EnsureCanDelete();
 
         await _permissionService.EnsureIsOwnerOfDomainOfInfluence(contest.DomainOfInfluenceId);
         await _contestValidationService.EnsureContestNotSetAsPreviousContest(contestId);

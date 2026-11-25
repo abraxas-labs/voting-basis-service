@@ -16,12 +16,16 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 using Voting.Basis.Core.Auth;
+using Voting.Basis.Core.Domain.Aggregate;
 using Voting.Basis.Core.EventSignature;
 using Voting.Basis.Data.Models;
 using Voting.Basis.EventSignature;
 using Voting.Basis.Test.MockedData;
+using Voting.Basis.Test.Mocks;
 using Voting.Lib.Cryptography.Asymmetric;
+using Voting.Lib.Eventing.Persistence;
 using Voting.Lib.Eventing.Testing.Mocks;
+using Voting.Lib.Iam.Store;
 using Voting.Lib.Testing.Mocks;
 using Voting.Lib.Testing.Utils;
 using Xunit;
@@ -150,13 +154,34 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
     [Fact]
     public async Task ContestWithEndedTestingPhaseShouldThrow()
     {
+        await ProportionalElectionMockedData.Seed(RunScoped, false);
+        await ProportionalElectionUnionMockedData.Seed(RunScoped);
+        await MajorityElectionMockedData.Seed(RunScoped, false);
+        await MajorityElectionUnionMockedData.Seed(RunScoped);
+
+        var authStore = GetService<IAuthStore>();
+        authStore.SetValues(string.Empty, "test", "test", []);
+        var aggregateRepo = GetService<IAggregateRepository>();
+        var contestAggregate = await aggregateRepo.GetById<ContestAggregate>(ContestMockedData.BundContest.Id);
+        AdjustableMockedClock.OverrideUtcNow = contestAggregate.EndOfTestingPhase;
+        contestAggregate.TryEndTestingPhase();
+        await aggregateRepo.Save(contestAggregate);
+
+        AdjustableMockedClock.OverrideUtcNow = null;
+        EventPublisherMock.Clear();
+
+        var client = CreateAuthorizedClient(DomainOfInfluenceMockedData.Bund.SecureConnectId, Roles.CantonAdmin);
         await AssertStatus(
-            async () => await CantonAdminClient.DeleteAsync(new DeleteContestRequest
+            async () => await client.DeleteAsync(new DeleteContestRequest
             {
-                Id = ContestMockedData.IdPastLockedContestNoPoliticalBusinesses,
+                Id = ContestMockedData.IdBundContest,
             }),
             StatusCode.FailedPrecondition,
             "Testing phase ended, cannot modify the contest");
+
+        // Nothing should have happened, e.g. no political business should have been deleted.
+        var publishedEvents = EventPublisherMock.AllPublishedEvents.ToArray();
+        publishedEvents.Should().BeEmpty();
     }
 
     [Fact]
@@ -164,12 +189,12 @@ public class ContestDeleteTest : BaseGrpcTest<ContestService.ContestServiceClien
     {
         await ModifyDbEntities<Contest>(
             c => c.Id == ContestMockedData.BundContest.Id,
-            c => c.PreviousContestId = ContestMockedData.PastLockedContestNoPoliticalBusinesses.Id);
+            c => c.PreviousContestId = ContestMockedData.ThurgauNoPoliticalBusinessesContest.Id);
 
         await AssertStatus(
             async () => await CantonAdminClient.DeleteAsync(new DeleteContestRequest
             {
-                Id = ContestMockedData.IdPastLockedContestNoPoliticalBusinesses,
+                Id = ContestMockedData.IdThurgauNoPoliticalBusinesses,
             }),
             StatusCode.FailedPrecondition,
             "previous contest");
